@@ -46,7 +46,12 @@
             ],
             "tsConfig": "projects/app-landing/tsconfig.app.json",
             "assets": [
-              "projects/app-landing/src/assets"
+              "projects/app-landing/src/assets",
+              {
+                  "glob": "**/*",
+                  "input": "./projects/lib-core/assets",
+                  "output": "/core-assets/"
+              }
             ],
             "styles": [
               "projects/app-landing/src/assets/styles.css"
@@ -88,6 +93,29 @@
             }
           },
           "defaultConfiguration": "development"
+        }
+      }
+    },
+    "lib-core": {
+      "projectType": "library",
+      "root": "projects/lib-core",
+      "sourceRoot": "projects/lib-core/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/lib-core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/lib-core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/lib-core/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
