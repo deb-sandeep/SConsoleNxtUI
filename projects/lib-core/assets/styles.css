@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/core-assets/fonts/quicksand-v9-latin-regular.eot');
+  src: local('Quicksand Regular'), local('Quicksand-Regular'),
+  url('/core-assets/fonts/quicksand-v9-latin-regular.eot?#iefix') format('embedded-opentype'),
+  url('/core-assets/fonts/quicksand-v9-latin-regular.woff2') format('woff2'),
+  url('/core-assets/fonts/quicksand-v9-latin-regular.woff') format('woff'),
+  url('/core-assets/fonts/quicksand-v9-latin-regular.ttf') format('truetype'),
+  url('/core-assets/fonts/quicksand-v9-latin-regular.svg#Quicksand') format('svg');
+}
+
+body {
+  font-family: Quicksand, serif;
+  font-size: 14px;
+  background-color: #333333;
+  color:white;
+}
+
+
