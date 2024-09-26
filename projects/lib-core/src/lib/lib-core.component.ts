@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-lib-core',
+  selector: 'lib-core',
   standalone: true,
   imports: [],
   template: `
