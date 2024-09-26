@@ -3,4 +3,4 @@
  */
 
 export * from './lib/lib-core.service';
-export * from './lib/lib-core.component';
+export * from './lib/page-header/page-header.component';
