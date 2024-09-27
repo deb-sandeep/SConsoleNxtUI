@@ -1,0 +1,13 @@
+.accordion-body {
+    padding: 5px;
+}
+
+.accordion-button {
+    padding: 5px;
+    font-size: 20px;
+    background-color: darkgray;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: lightgrey;
+}

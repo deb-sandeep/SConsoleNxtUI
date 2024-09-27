@@ -1,0 +1,48 @@
+.landing-page-body {
+    padding: 10px;
+}
+
+.tile {
+    display: inline-block;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin:1%;
+    overflow:hidden;
+    border-radius: 20px;
+    box-shadow: 7px 7px 10px #9b9b9b;
+}
+
+.tile:hover {
+    box-shadow: 2px 2px 5px #9b9b9b;
+}
+
+.tilecontent {
+    position:absolute;
+    height:100%;
+    width:100%;
+    text-align: center;
+}
+
+.tiletable{
+    display:table;
+    height:100%;
+    width:100%;
+}
+
+.tiletable-cell{
+    display:table-cell;
+    vertical-align:middle;
+    height:100%;
+    width:100%;
+}
+
+.tile-icon {
+    font-size: 45px;
+    display: block;
+}
+
+.tile-name {
+    font-size:18px;
+}
+
