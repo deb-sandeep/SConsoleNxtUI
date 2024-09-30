@@ -14,13 +14,15 @@
                              [style.background-color]="m.bgcolor ?? '#acf4ff'">
                             <div class="tilecontent">
                                 <div class="tiletable">
-                                    <div class="tiletable-cell">
+                                    <div class="tiletable-cell"
+                                         (click)="goToPage(m.target)">
                                         <i *ngIf="m.icon"
                                            [style.color]="m.iconcolor ?? 'black'"
                                            class="bi {{m.icon}} tile-icon"></i>
                                         <span *ngIf="m.name"
                                               [style.color]="m.fgcolor ?? 'black'"
-                                              class="tile-name">{{m.name}}</span>
+                                              class="tile-name"
+                                              [innerHTML]="m.name"></span>
                                     </div>
                                 </div>
                             </div>
@@ -31,3 +33,4 @@
         </div>
     </div>
 </div>
+

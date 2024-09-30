@@ -8,6 +8,7 @@ type SectionMeta = {
   collapsed?:boolean     // Sets accordion item to collapsed. Default false
   modules:{              // A section can contain many module meta definitions
     name?:string         // The name of the module. Default empty string
+    target:string        // The target page that click of this button should navigate to
     icon?:string         // The name of bootstrap icon to be displayed. e.g. bi-alarm. Default no icon
     iconcolor?:string    // A HTML color code. Default black
     fgcolor?:string      // Foreground color. Default black
@@ -27,24 +28,19 @@ export class AppComponent {
   title: string = 'Home' ;
   sections: SectionMeta[] = [
     {
-      name : "Section-1",
+      name : "Memory Gym",
       modules : [
-        { name : "Module A", bgcolor: "red" },
-        { name : "Module B", icon : "bi-alarm", iconcolor : "blue" },
-        { name : "Bigger Module Name", fgcolor : "green" },
-      ]
-    },{
-      name : "Section-2",
-      modules : [
-        { name : "Module D" },
-      ]
-    },{
-      name : "Section-3",
-      collapsed : true,
-      modules : [
-        { icon : "bi-exclamation-triangle" },
-        { name : "Module F" },
+        {
+          name : "Speed<br>Arithmetic",
+          icon : "bi-calculator",
+          bgcolor : "#b9d2fc",
+          target : '/memory-gym/speed-arithmetic/index.html'
+        },
       ]
     }
   ] ;
+
+  goToPage( pagePath : string ) {
+    window.location.href = pagePath ;
+  }
 }
