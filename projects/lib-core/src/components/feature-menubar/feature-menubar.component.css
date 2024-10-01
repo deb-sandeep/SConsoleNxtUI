@@ -1,0 +1,26 @@
+
+.feature-menu-bar {
+    position:relative;
+    width: var(--feature-menubar-width) ;
+    height: calc( 100vh - var(--page-header-height) ) ;
+    border-style:hidden;
+    background-color: var(--page-header-bgcolor) ;
+    overflow-y: auto;
+}
+
+.feature-menu-bar a {
+    display: block;
+    text-align: center;
+    padding: 5px 5px 5px 5px ;
+    transition: all 0.3s ease;
+    font-size: 2rem;
+    color: wheat;
+}
+
+.feature-menu-bar a:hover {
+    background-color: #000;
+}
+
+.feature-menu-bar .active {
+    background-color: #04AA6D;
+}

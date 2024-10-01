@@ -1,3 +1,14 @@
+:root {
+  --page-header-bgcolor   : #757474;
+  --page-header-height    : 42px ;
+  --page-toolbar-height   : 30px ;
+  --feature-menubar-width : 50px ;
+  --body-background       : #e7e7e7 ;
+  --body-foreground       : #1f1f1f ;
+  --page-toolbar-bgcolor  : #8a8989 ;
+  --page-toolbar-fgcolor  : white ;
+}
+
 * {
   -webkit-font-smoothing: antialiased;
 }
@@ -22,4 +33,15 @@ body {
   color: #333131;
 }
 
-
+.feature-page-body {
+  position : absolute ;
+  left: var(--feature-menubar-width) ;
+  top: var(--page-header-height) ;
+  width: calc(100vw - var(--feature-menubar-width)) ;
+  height: calc(100vh - var(--page-header-height)) ;
+  overflow-y: auto ;
+  font-size: 14px ;
+  padding: 0 0 0 0 ;
+  color: var(--body-foreground) ;
+  background-color: var(--body-background) ;
+}

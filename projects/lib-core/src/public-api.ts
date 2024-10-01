@@ -1,6 +1,3 @@
-/*
- * Public API Surface of lib-core
- */
-
-export * from './lib/lib-core.service';
-export * from './lib/page-header/page-header.component';
+export * from './components/page-header/page-header.component';
+export * from './components/feature-menubar/feature-menubar.component';
+export * from './components/page-toolbar/page-toolbar.component';

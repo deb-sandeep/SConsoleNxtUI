@@ -1,0 +1,79 @@
+<div id="welcome">
+    <h2>Arithmetic Game</h2>
+    <p>The Arithmetic Game is a fast-paced speed drill where you are given two minutes to solve as many arithmetic problems as you can.</p>
+    <form class="game-options">
+        <dl>
+            <dt>
+                <label>
+                    <input type="checkbox"
+                           name="additionEnabled"
+                           [(ngModel)]="config.addition.enabled">
+                    Addition
+                </label>
+            </dt>
+            <dd>Range:
+                (<input type="number" name="add_left_min"  [(ngModel)]="config.addition.lhsMin"> to
+                 <input type="number" name="add_left_max"  [(ngModel)]="config.addition.lhsMax">) +
+                (<input type="number" name="add_right_min" [(ngModel)]="config.addition.rhsMin"> to
+                 <input type="number" name="add_right_max" [(ngModel)]="config.addition.rhsMax">)
+            </dd>
+            <dt>
+                <label>
+                    <input type="checkbox"
+                           name="subtractionEnabled"
+                           [(ngModel)]="config.subtraction.enabled">
+                    Subtraction
+                </label>
+            </dt>
+            <dd>Addition problems in reverse.</dd>
+            <dt>
+                <label>
+                    <input type="checkbox"
+                           name="multiplicationEnabled"
+                           [(ngModel)]="config.multiplication.enabled">
+                    Multiplication
+                </label>
+            </dt>
+            <dd>Range:
+                (<input type="number" name="mul_left_min"  min="2" max="100" [(ngModel)]="config.multiplication.lhsMin"> to
+                 <input type="number" name="mul_left_max"  min="2" max="100" [(ngModel)]="config.multiplication.lhsMax">) ×
+                (<input type="number" name="mul_right_min" min="2" max="100" [(ngModel)]="config.multiplication.rhsMin"> to
+                 <input type="number" name="mul_right_max" min="2" max="100" [(ngModel)]="config.multiplication.rhsMax">)
+            </dd>
+            <dt>
+                <label>
+                    <input type="checkbox"
+                           name="divisionEnabled"
+                           [(ngModel)]="config.division.enabled">
+                    Division
+                </label>
+            </dt>
+            <dd>Multiplication problems in reverse.</dd>
+        </dl>
+        <p>
+            Duration:
+            <select name="duration" [(ngModel)]="config.duration">
+                <option value="30">30 seconds</option>
+                <option value="60">60 seconds</option>
+                <option selected="" value="120">120 seconds</option>
+                <option value="300">300 seconds</option>
+                <option value="600">600 seconds</option>
+            </select>
+        </p>
+        <input type="submit" value="Start" (click)="startGameBtnClicked( content )">
+    </form>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Configuration Error</h4>
+        <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <ul class="error-messages">
+        @for ( message of configErrorMessages; track $index ) {
+            <li>{{message}}</li>
+        }
+        </ul>
+    </div>
+</ng-template>

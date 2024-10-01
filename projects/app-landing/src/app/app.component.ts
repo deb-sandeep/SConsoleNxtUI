@@ -32,7 +32,7 @@ export class AppComponent {
       modules : [
         {
           name : "Speed<br>Arithmetic",
-          icon : "bi-calculator",
+          icon : "calculator",
           bgcolor : "#b9d2fc",
           target : '/memory-gym/speed-arithmetic/index.html'
         },

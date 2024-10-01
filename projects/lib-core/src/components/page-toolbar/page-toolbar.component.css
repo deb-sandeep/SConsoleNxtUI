@@ -1,0 +1,31 @@
+.page-toolbar {
+    display: block;
+    width: calc(100vw - var(--feature-menubar-width));
+    height: var(--page-toolbar-height);
+    background-color: var(--page-toolbar-bgcolor);
+    color: var(--page-toolbar-fgcolor) ;
+    font-size: 18px;
+    padding-left: 10px;
+}
+
+.action-btns {
+    float:right ;
+    padding-left: 10px ;
+    padding-right: 10px ;
+}
+
+.action-btn {
+    padding : 2px 7px 2px 7px ;
+    margin : 0 3px 0 3px ;
+    font-size: 12px ;
+}
+
+.checkbox-name {
+    font-size: 12px ;
+    vertical-align: middle;
+    margin-left: 5px ;
+}
+
+.spacer {
+    padding: 0 10px 0 10px ;
+}

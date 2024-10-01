@@ -1,0 +1,7 @@
+<page-toolbar [title]="title"
+              [meta]="toolbarBtnCfgs">
+</page-toolbar>
+<test-setup *ngIf="mode === 'setup'"
+            [config]="gameCfg"
+            (startGameEvent)="handleStartGameEvent($event)">
+</test-setup>

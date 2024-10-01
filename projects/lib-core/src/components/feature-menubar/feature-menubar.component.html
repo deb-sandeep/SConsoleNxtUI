@@ -1,0 +1,7 @@
+<div class="feature-menu-bar">
+    <a *ngFor="let meta of menuitemMetaList"
+       class="bi-{{meta.iconName}}"
+       routerLink="{{meta.routePath}}"
+       [class.active]="meta.selected"
+       (click)="featureIconClicked(meta)"></a>
+</div>
