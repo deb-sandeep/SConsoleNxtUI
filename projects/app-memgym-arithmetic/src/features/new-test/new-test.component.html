@@ -3,5 +3,8 @@
 </page-toolbar>
 <test-setup *ngIf="mode === 'setup'"
             [config]="gameCfg"
-            (startGameEvent)="handleStartGameEvent($event)">
+            (startGameEventEmitter)="handleStartGameEvent($event)">
 </test-setup>
+<test-play *ngIf="mode === 'play'"
+           [startGameEvent]="startGameEventEmitter.asObservable()">
+</test-play>

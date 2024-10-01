@@ -20,7 +20,7 @@ export class TestSetupComponent {
   config:any = {} ;
 
   @Output()
-  startGameEvent = new EventEmitter<any>() ;
+  startGameEventEmitter = new EventEmitter<any>() ;
 
   startGameBtnClicked( content:TemplateRef<any> ):void {
     this.validateGameConfiguration() ;
@@ -28,7 +28,7 @@ export class TestSetupComponent {
       this.modalService.open( content, { ariaLabelledBy: 'modal-basic-title' }) ;
     }
     else {
-      this.startGameEvent.emit( this.config ) ;
+      this.startGameEventEmitter.emit( this.config ) ;
     }
   }
 

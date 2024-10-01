@@ -1,12 +1,20 @@
 import { Component } from '@angular/core' ;
 import { CommonModule } from '@angular/common' ;
+import { Subject } from 'rxjs' ;
+
 import { PageToolbarComponent, PageToolbarActionItemMeta } from "lib-core" ;
+
 import { TestSetupComponent } from "./components/test-setup/test-setup.component";
+import { TestPlayComponent } from "./components/test-play/test-play.component";
 
 @Component({
   selector: 'feature-new-test',
   standalone: true,
-  imports: [ CommonModule, PageToolbarComponent, TestSetupComponent ],
+  imports: [
+      CommonModule,
+      PageToolbarComponent,
+      TestSetupComponent, TestPlayComponent
+  ],
   templateUrl: './new-test.component.html',
   styleUrl: './new-test.component.css'
 })
@@ -40,7 +48,12 @@ export class NewTestComponent {
     }
   }
 
-  handleStartGameEvent(config:any ) {
-    console.log( "Starting new game." ) ;
+  startGameEventEmitter:Subject<any> = new Subject<any>() ;
+
+  handleStartGameEvent( config:any ) {
+    this.mode = 'play' ;
+    setTimeout( () => {
+      this.startGameEventEmitter.next( config ) ;
+    }, 100 ) ;
   }
 }
