@@ -1,14 +1,16 @@
 import { Component } from '@angular/core' ;
-import { AfterViewInit, ViewChild } from '@angular/core' ;
+import { ViewChild } from '@angular/core' ;
 import { CommonModule } from '@angular/common' ;
 
-import { PageToolbarComponent, PageToolbarActionItemMeta } from "lib-core" ;
+import { PageToolbarComponent } from "lib-core" ;
+import { LocalStorageService } from "lib-core" ;
 
 import { TestSetupComponent } from "./components/test-setup/test-setup.component";
 import { TestPlayComponent } from "./components/test-play/test-play.component";
 import { GameConfig } from "./new-test.config";
 import { TestResultComponent } from "./components/test-result/test-result.component";
 import { Question } from "./question";
+import {QuestionGenerator} from "./components/test-play/question-generator";
 
 @Component({
   selector: 'feature-new-test',
@@ -23,6 +25,8 @@ import { Question } from "./question";
 })
 export class NewTestComponent {
 
+  private readonly LS_CFG_KEY:string = 'sc-memgym-arithmetic-cfg' ;
+
   title:string = "New Test" ;
 
   state: 'setup' | 'focus' | 'play' | 'results' = 'setup' ;
@@ -31,6 +35,7 @@ export class NewTestComponent {
 
   gameCfg:GameConfig = {
     duration: 120,
+    focusDuration: 0,
     addition: {
       enabled: true,
       lhsMin: 5,
@@ -59,6 +64,17 @@ export class NewTestComponent {
   @ViewChild( TestResultComponent )
   private resultComponent!: TestResultComponent ;
 
+  private debugFlag:boolean = true ;
+
+  constructor( private localStorageSvc: LocalStorageService ) {}
+
+  ngOnInit() {
+    const cfgStr = localStorage.getItem( this.LS_CFG_KEY ) ;
+    if( cfgStr != null ) {
+      this.gameCfg = JSON.parse( cfgStr ) ;
+    }
+  }
+
   // This method is called when the user clicks 'Ok' on the test-result page.
   handleSetupTestEvent() {
     this.state = 'setup' ;
@@ -67,12 +83,28 @@ export class NewTestComponent {
   // This method is called upon when the user submits the test configuration
   // in the test-setup component.
   handleStartTestEvent(config:any ) {
-    this.state = 'focus' ;
-    this.focusTimeLeft = 5 ;
-    setTimeout( ()=>{ this.focus() ; }, 1000 ) ;
+
+    if( this.debugFlag ) {
+      this.localStorageSvc.setItem( this.LS_CFG_KEY, JSON.stringify( this.gameCfg ) ) ;
+      this.handleEndTestEvent( this.generateTestRestults() ) ;
+      return ;
+    }
+
+    this.localStorageSvc.setItem( this.LS_CFG_KEY, JSON.stringify( this.gameCfg ) ) ;
+
+    if( this.gameCfg.focusDuration <= 0 ) {
+      this.state = 'play' ;
+      this.playComponent.startGame( this.gameCfg ) ;
+    }
+    else {
+      this.state = 'focus' ;
+      this.focusTimeLeft = this.gameCfg.focusDuration ;
+      setTimeout( ()=>{ this.focus() ; }, 1000 ) ;
+    }
   }
 
   focus(){
+
     this.focusTimeLeft-- ;
     if( this.focusTimeLeft > 0 ) {
       setTimeout( ()=>{ this.focus() ; }, 1000 ) ;
@@ -88,5 +120,18 @@ export class NewTestComponent {
   handleEndTestEvent( testResults:Question[] ):void {
     this.state = 'results' ;
     this.resultComponent.showResults( this.gameCfg, testResults ) ;
+  }
+
+  private generateTestRestults():Question[] {
+    const questions:Question[] = [] ;
+    const qGen:QuestionGenerator = new QuestionGenerator( this.gameCfg ) ;
+    for( let i=0; i<50; i++ ) {
+      let q = qGen.getNextQuestion() ;
+      if( q !== undefined ) {
+        q.timeTakenMillis = Math.floor( Math.random()*1200 + 300 ) ;
+        questions.push( q ) ;
+      }
+    }
+    return questions ;
   }
 }
