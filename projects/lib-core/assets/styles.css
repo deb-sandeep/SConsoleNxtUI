@@ -45,3 +45,7 @@ body {
   color: var(--body-foreground) ;
   background-color: var(--body-background) ;
 }
+
+.page-content {
+  padding-left: 10px ;
+}

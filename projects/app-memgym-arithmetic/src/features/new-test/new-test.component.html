@@ -1,10 +1,12 @@
-<page-toolbar [title]="title"
-              [meta]="toolbarBtnCfgs">
-</page-toolbar>
-<test-setup *ngIf="mode === 'setup'"
-            [config]="gameCfg"
-            (startGameEventEmitter)="handleStartGameEvent($event)">
-</test-setup>
-<test-play *ngIf="mode === 'play'"
-           [startGameEvent]="startGameEventEmitter.asObservable()">
-</test-play>
+<div class="page-content">
+    <test-setup [hidden]="state !== 'setup'"
+                [config]="gameCfg"
+                (startGameEvent)="handleStartTestEvent( $event )">
+    </test-setup>
+    <test-play [hidden]="state !== 'play'"
+               (endTestEvent)="handleEndTestEvent( $event )">
+    </test-play>
+    <test-result [hidden]="state !== 'results'"
+                 (setupTestEvent)="handleSetupTestEvent()">
+    </test-result>
+</div>

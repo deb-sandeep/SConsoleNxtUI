@@ -1,7 +1,6 @@
 import { Component } from '@angular/core' ;
 import { FormsModule } from '@angular/forms' ;
-import { Input, Output, EventEmitter } from '@angular/core' ;
-import { Observable, Subscription } from 'rxjs' ;
+import { Output, EventEmitter } from '@angular/core' ;
 
 @Component({
   selector: 'test-play',
@@ -12,25 +11,23 @@ import { Observable, Subscription } from 'rxjs' ;
 })
 export class TestPlayComponent {
 
-  private startGameEventSubscription: Subscription ;
-
-  @Input()
-  startGameEvent:Observable<any> ;
-
   @Output()
   endTestEvent = new EventEmitter<any>() ;
 
-  ngOnInit() {
-    console.log( "ngOnInitCalled" ) ;
-    this.startGameEventSubscription = this.startGameEvent.subscribe( (gameCfg) => this.startGame(gameCfg) ) ;
+  timeLeft:number = 0 ;
+
+  startGame( cfg : any ) {
+    this.timeLeft = cfg.duration ;
+    setTimeout( ()=>{ this.decrementTimeLeft() ; }, 500 ) ;
   }
 
-  ngOnDestroy() {
-    this.startGameEventSubscription.unsubscribe() ;
-  }
-
-  private startGame( cfg : any ) {
-    console.log( "Test play component received start game event." ) ;
-    console.log( cfg ) ;
+  decrementTimeLeft() {
+    this.timeLeft-- ;
+    if( this.timeLeft > 0 ) {
+      setTimeout( ()=>{ this.decrementTimeLeft() }, 500 ) ;
+    }
+    else {
+      this.endTestEvent.emit( "Test over" ) ;
+    }
   }
 }
