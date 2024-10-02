@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common' ;
 import { Routes } from '@angular/router';
 import { provideRouter } from '@angular/router';
-import { ApplicationConfig } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
@@ -28,10 +27,6 @@ const routes: Routes = [
     }
 ] ;
 
-const appConfig: ApplicationConfig = {
-    providers: [provideRouter(routes)]
-} ;
-
 @Component({
     selector: 'app-root',
     standalone: true,
@@ -56,5 +51,6 @@ class AppComponent {
     ] ;
 }
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err)) ;
+bootstrapApplication( AppComponent, {
+    providers: [provideRouter(routes)]
+}).catch((err) => console.error(err)) ;
