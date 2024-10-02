@@ -1,2 +1,19 @@
-<h2>Test Play</h2>
-<h2>{{timeLeft}} seconds left</h2>
+<div id="game">
+    <span class="left">Seconds left: {{timeLeft}}</span>
+    <span class="correct">Score: {{numCorrect}}</span>
+    <div class="banner">
+        <span class="problem">
+            {{ currentQuestion?.stringifyQuestion() }}
+        </span>
+        <span class="equals">
+            =
+            </span>
+        <div class="answer">
+            <input #answerTextField
+                   type="number"
+                   [ngModel]="typedAnswer"
+                   (ngModelChange)="answerTyped($event)">
+            {{ answerTextField.focus() }}
+        </div>
+    </div>
+</div>

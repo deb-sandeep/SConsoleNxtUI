@@ -3,6 +3,10 @@
                 [config]="gameCfg"
                 (startGameEvent)="handleStartTestEvent( $event )">
     </test-setup>
+    <div [hidden]="state !== 'focus'"
+         class="focus-page">
+        {{ focusTimeLeft }}
+    </div>
     <test-play [hidden]="state !== 'play'"
                (endTestEvent)="handleEndTestEvent( $event )">
     </test-play>
