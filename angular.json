@@ -3,7 +3,30 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "app-landing": {
+    "lib-core": {
+      "projectType": "library",
+      "root": "projects/lib-core",
+      "sourceRoot": "projects/lib-core/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/lib-core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/lib-core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/lib-core/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    },
+    "app-home": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
@@ -31,22 +54,26 @@
           "skipTests": true
         }
       },
-      "root": "projects/app-landing",
-      "sourceRoot": "projects/app-landing/src",
+      "root": "projects/app-home",
+      "sourceRoot": "projects/app-home/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/app-landing",
-            "index": "projects/app-landing/src/index.html",
-            "browser": "projects/app-landing/src/main.ts",
+            "baseHref": "/",
+            "outputPath": {
+              "base" : "dist/webroot",
+              "browser": ""
+            },
+            "index": "projects/app-home/src/index.html",
+            "browser": "projects/app-home/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "projects/app-landing/tsconfig.app.json",
+            "tsConfig": "projects/app-home/tsconfig.app.json",
             "assets": [
-              "projects/app-landing/src/assets",
+              "projects/app-home/src/assets",
               {
                   "glob": "**/*",
                   "input": "./projects/lib-core/assets",
@@ -58,7 +85,7 @@
               "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
               "projects/lib-core/assets/bootstrap-overrides.css",
               "projects/lib-core/assets/styles.css",
-              "projects/app-landing/src/assets/styles.css"
+              "projects/app-home/src/assets/styles.css"
             ],
             "scripts": []
           },
@@ -84,42 +111,19 @@
               "sourceMap": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "app-landing:build:production"
+              "buildTarget": "app-home:build:production"
             },
             "development": {
-              "buildTarget": "app-landing:build:development"
+              "buildTarget": "app-home:build:development"
             }
           },
           "defaultConfiguration": "development"
-        }
-      }
-    },
-    "lib-core": {
-      "projectType": "library",
-      "root": "projects/lib-core",
-      "sourceRoot": "projects/lib-core/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/lib-core/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/lib-core/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/lib-core/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
         }
       }
     },
@@ -158,7 +162,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/app-memgym-arithmetic",
+            "baseHref": "/apps/memgym/arithmetic/",
+            "outputPath": {
+              "base": "dist/webroot/apps/memgym/arithmetic",
+              "browser": ""
+            },
             "index": "projects/app-memgym-arithmetic/src/index.html",
             "browser": "projects/app-memgym-arithmetic/src/main.ts",
             "polyfills": [

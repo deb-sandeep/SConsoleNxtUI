@@ -34,7 +34,7 @@ export class AppComponent {
           name : "Speed<br>Arithmetic",
           icon : "calculator",
           bgcolor : "#b9d2fc",
-          target : '/memory-gym/speed-arithmetic/index.html'
+          target : '/apps/memgym/arithmetic/index.html'
         },
       ]
     }
