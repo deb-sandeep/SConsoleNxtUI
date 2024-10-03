@@ -10,10 +10,48 @@
             </span>
         <div class="answer">
             <input #answerTextField
+                   [disabled]="useVirtualNumpad"
                    type="number"
                    [ngModel]="typedAnswer"
                    (ngModelChange)="answerTyped($event)">
             {{ answerTextField.focus() }}
         </div>
     </div>
+</div>
+<div id="virtual-numpad"
+     [hidden]="!useVirtualNumpad">
+    <table>
+        <tr>
+            <td [ngClass]="getVKClass('7')"
+                (click)="vkPressed('7')">7</td>
+            <td [ngClass]="getVKClass('8')"
+                (click)="vkPressed('8')">8</td>
+            <td [ngClass]="getVKClass('9')"
+                (click)="vkPressed('9')">9</td>
+        </tr>
+        <tr>
+            <td [ngClass]="getVKClass('4')"
+                (click)="vkPressed('4')">4</td>
+            <td [ngClass]="getVKClass('5')"
+                (click)="vkPressed('5')">5</td>
+            <td [ngClass]="getVKClass('6')"
+                (click)="vkPressed('6')">6</td>
+        </tr>
+        <tr>
+            <td [ngClass]="getVKClass('1')"
+                (click)="vkPressed('1')">1</td>
+            <td [ngClass]="getVKClass('2')"
+                (click)="vkPressed('2')">2</td>
+            <td [ngClass]="getVKClass('3')"
+                (click)="vkPressed('3')">3</td>
+        </tr>
+        <tr>
+            <td [ngClass]="getVKClass('0')"
+                (click)="vkPressed('0')">0</td>
+            <td [ngClass]="getVKClass('-')"
+                (click)="vkPressed('-')">-</td>
+            <td [ngClass]="getVKClass('<')"
+                (click)="vkPressed('<')">&#8592;</td>
+        </tr>
+    </table>
 </div>

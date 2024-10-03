@@ -36,6 +36,7 @@ export class NewTestComponent {
 
   gameCfg:GameConfig = {
     duration: 120,
+    useVirtualNumpad: true,
     addition: {
       enabled: true,
       lhsMin: 5,
@@ -82,7 +83,7 @@ export class NewTestComponent {
 
   // This method is called upon when the user submits the test configuration
   // in the test-setup component.
-  handleStartTestEvent(config:any ) {
+  handleStartTestEvent( config:any ) {
 
     if( this.debugFlag ) {
       this.localStorageSvc.setItem( this.LS_CFG_KEY, JSON.stringify( this.gameCfg ) ) ;

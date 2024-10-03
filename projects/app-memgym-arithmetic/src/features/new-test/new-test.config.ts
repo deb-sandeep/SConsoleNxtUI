@@ -1,5 +1,6 @@
 export type GameConfig = {
     duration: number,
+    useVirtualNumpad: boolean,
     addition: {
         enabled: boolean,
         lhsMin: number,

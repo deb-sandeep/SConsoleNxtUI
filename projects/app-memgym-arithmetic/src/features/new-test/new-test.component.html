@@ -1,16 +1,17 @@
-<div class="page-content">
-    <test-setup [hidden]="state !== 'setup'"
-                [config]="gameCfg"
-                (startGameEvent)="handleStartTestEvent( $event )">
-    </test-setup>
-    <div [hidden]="state !== 'focus'"
-         class="focus-page">
-        {{ focusTimeLeft }}
-    </div>
-    <test-play [hidden]="state !== 'play'"
-               (endTestEvent)="handleEndTestEvent( $event )">
-    </test-play>
-    <test-result [hidden]="state !== 'results'"
-                 (setupTestEvent)="handleSetupTestEvent()">
-    </test-result>
+<test-setup [hidden]="state !== 'setup'"
+            [config]="gameCfg"
+            (startGameEvent)="handleStartTestEvent( $event )"
+            class="page-content">
+</test-setup>
+<div [hidden]="state !== 'focus'"
+     class="page-content focus-page">
+    {{ focusTimeLeft }}
 </div>
+<test-play [hidden]="state !== 'play'"
+           (endTestEvent)="handleEndTestEvent( $event )"
+           class="page-content">
+</test-play>
+<test-result [hidden]="state !== 'results'"
+             (setupTestEvent)="handleSetupTestEvent()"
+             class="page-content">
+</test-result>

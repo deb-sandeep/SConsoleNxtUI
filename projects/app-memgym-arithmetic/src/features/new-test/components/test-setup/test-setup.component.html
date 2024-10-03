@@ -61,6 +61,14 @@
                 <option value="600">600 seconds</option>
             </select>
         </p>
+        <p>
+            <label>
+                <input type="checkbox"
+                       name="useVirtualNumpad"
+                       [(ngModel)]="config.useVirtualNumpad">
+                Use virtual keyboard
+            </label>
+        </p>
         <input type="submit" value="Start" (click)="startGameBtnClicked( content )">
     </form>
 </div>
