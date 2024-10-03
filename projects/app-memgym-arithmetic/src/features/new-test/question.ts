@@ -8,7 +8,8 @@ export class Question {
 
     public timeTakenMillis:number = 0 ;
 
-    constructor( num1:number, num2:number, private op:Op ) {
+    constructor( public seqNo:number,
+                 num1:number, num2:number, private op:Op ) {
         switch( op ) {
             case Op.ADD:
                 this.lhs = num1 ;

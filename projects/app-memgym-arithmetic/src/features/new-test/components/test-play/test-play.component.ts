@@ -54,6 +54,7 @@ export class TestPlayComponent {
       }
 
       this.currentQuestion = this.qGen.getNextQuestion() ;
+      this.curQDisplayStartTime = Date.now() ;
     }
   }
 

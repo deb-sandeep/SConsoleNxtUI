@@ -4,6 +4,7 @@ import { Question, Op } from "../../question";
 export class QuestionGenerator {
 
     private opQGens:OpQGen[] = [] ;
+    private nextSequenceNum = 1 ;
 
     constructor( private cfg:GameConfig ) {
         if( cfg.addition.enabled ) {
@@ -30,7 +31,11 @@ export class QuestionGenerator {
 
     getNextQuestion():Question|undefined {
         const randomOpIndex = Math.floor(Math.random() * this.opQGens.length ) ;
-        return this.opQGens[randomOpIndex].getNextQuestion() ;
+        const nextQ = this.opQGens[randomOpIndex].getNextQuestion() ;
+        if( nextQ !== undefined ) {
+            nextQ.seqNo = this.nextSequenceNum++ ;
+        }
+        return nextQ ;
     }
 }
 
@@ -56,7 +61,7 @@ class OpQGen {
             if( this.generatedQuestions.indexOf( key ) == -1 ) {
                 this.generatedQuestions.push( key ) ;
                 successfullyGenerated = true ;
-                return new Question( lhs, rhs, this.op ) ;
+                return new Question( 0, lhs, rhs, this.op ) ;
             }
             iterNo++ ;
         }

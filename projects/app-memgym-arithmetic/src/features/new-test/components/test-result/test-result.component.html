@@ -1,5 +1,23 @@
-<h2>Test Results</h2>
-{{answeredQuestions.length}} questions answered in {{gameCfg?.duration}} seconds.
+<h2><b>{{answeredQuestions.length}}</b> questions answered in <b>{{gameCfg?.duration}}</b> seconds.</h2>
+<table class="table table-sm">
+    <thead>
+        <th style="width: 40px" (click)="sortBy('index')">#</th>
+        <th style="width: 100px">Question</th>
+        <th style="width: 70px">Answer</th>
+        <th style="width: 70px" (click)="sortBy('time')">Time</th>
+    </thead>
+    <tbody>
+        @for (q of answeredQuestions; track $index) {
+            <tr [ngClass]="getRowClass(q)">
+                <td>{{q.seqNo}}</td>
+                <td>{{q.stringifyQuestion()}}</td>
+                <td>{{q.getAnswer()}}</td>
+                <td>{{q.timeTakenMillis}}</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p></p>
 <button type="button"
         class="btn btn-lg btn-primary"
         (click)="setupTestEvent.emit()">

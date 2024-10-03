@@ -26,6 +26,7 @@ import {QuestionGenerator} from "./components/test-play/question-generator";
 export class NewTestComponent {
 
   private readonly LS_CFG_KEY:string = 'sc-memgym-arithmetic-cfg' ;
+  private readonly FOCUS_DURATION:number = 5 ;
 
   title:string = "New Test" ;
 
@@ -35,7 +36,6 @@ export class NewTestComponent {
 
   gameCfg:GameConfig = {
     duration: 120,
-    focusDuration: 0,
     addition: {
       enabled: true,
       lhsMin: 5,
@@ -64,7 +64,7 @@ export class NewTestComponent {
   @ViewChild( TestResultComponent )
   private resultComponent!: TestResultComponent ;
 
-  private debugFlag:boolean = true ;
+  private debugFlag:boolean = false ;
 
   constructor( private localStorageSvc: LocalStorageService ) {}
 
@@ -92,13 +92,13 @@ export class NewTestComponent {
 
     this.localStorageSvc.setItem( this.LS_CFG_KEY, JSON.stringify( this.gameCfg ) ) ;
 
-    if( this.gameCfg.focusDuration <= 0 ) {
+    if( this.FOCUS_DURATION <= 0 ) {
       this.state = 'play' ;
       this.playComponent.startGame( this.gameCfg ) ;
     }
     else {
       this.state = 'focus' ;
-      this.focusTimeLeft = this.gameCfg.focusDuration ;
+      this.focusTimeLeft = this.FOCUS_DURATION ;
       setTimeout( ()=>{ this.focus() ; }, 1000 ) ;
     }
   }

@@ -1,6 +1,5 @@
 export type GameConfig = {
     duration: number,
-    focusDuration: number,
     addition: {
         enabled: boolean,
         lhsMin: number,
