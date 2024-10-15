@@ -174,12 +174,7 @@
             ],
             "tsConfig": "projects/app-memgym-arithmetic/tsconfig.app.json",
             "assets": [
-              "projects/app-memgym-arithmetic/src/assets",
-              {
-                "glob": "**/*",
-                "input": "./projects/lib-core/assets",
-                "output": "/core-assets/"
-              }
+              "projects/app-memgym-arithmetic/src/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -209,7 +204,14 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "./projects/lib-core/assets",
+                  "output": "/core-assets/"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
