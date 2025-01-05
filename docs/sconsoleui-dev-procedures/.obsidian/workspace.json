@@ -1,0 +1,171 @@
+{
+  "main": {
+    "id": "c669f8e97828e042",
+    "type": "split",
+    "children": [
+      {
+        "id": "0c678bb098eaace6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "760c3de4fe6b5679",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Iterative development on an app.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Iterative development on an app"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8bcd71f8edc91411",
+    "type": "split",
+    "children": [
+      {
+        "id": "922a5803dab9698c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8765df8d1b1bfa5b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "b0eaeae2ca90544f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "95fb3ce4d9e84b8b",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "7a8358f453021500",
+    "type": "split",
+    "children": [
+      {
+        "id": "9f2427372a1a8622",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b1e9169e7fc6107d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Iterative development on an app.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Iterative development on an app"
+            }
+          },
+          {
+            "id": "1fa0ec4609283d84",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Iterative development on an app.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Iterative development on an app"
+            }
+          },
+          {
+            "id": "cfdc7221a46cca26",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "524dcfc91feec7be",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Iterative development on an app.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Iterative development on an app"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "760c3de4fe6b5679",
+  "lastOpenFiles": [
+    "Creating a new application.md",
+    "Common Commands.md",
+    "Iterative development on an app.md"
+  ]
+}

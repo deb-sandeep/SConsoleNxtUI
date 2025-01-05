@@ -37,7 +37,18 @@ export class AppComponent {
           target : '/apps/memgym/arithmetic/index.html'
         },
       ]
-    }
+    },
+    {
+      name : "JEE Preparation",
+      modules : [
+        {
+          name : "Master Data<br>Management",
+          icon : "database-fill-gear",
+          bgcolor : "#fcffd0",
+          target : '/apps/jee/mdm/index.html'
+        },
+      ]
+    },
   ] ;
 
   goToPage( pagePath : string ) {
