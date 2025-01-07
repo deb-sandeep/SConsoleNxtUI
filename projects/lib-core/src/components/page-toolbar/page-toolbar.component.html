@@ -19,6 +19,14 @@
 
             <span *ngIf="isCheckbox( meta )"
                   class="checkbox-name">{{meta.name}}</span>
+
+            <button *ngIf="isFileUpload( meta )"
+                    type="button"
+                    class="btn btn-sm btn-{{meta.style??'secondary'}} action-btn"
+                    (click)="fileUploadClicked( meta )">
+                <i class="bi bi-upload">&nbsp;</i>
+                <span>{{meta.name??'File upload'}}</span>
+            </button>
         }
     </div>
 </div>

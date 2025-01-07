@@ -12,21 +12,10 @@ export class ManageBooksComponent {
 
   title:string = 'Book summary' ;
   pageMenuItems:PageToolbarActionItemMeta[] = [
-    { type: 'button', iconName: 'upload', name:'File upload', style:'secondary', action:this.fileUpload },
+    { type: 'upload', action:this.fileUpload, data: { accept:'*.yaml'} },
   ]
 
-  fileToUpload:File | null = null ;
-
   fileUpload() {
-    console.log( 'Uploading file.' ) ;
-    const input:HTMLInputElement = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.txt'
-    input.addEventListener( 'change', function(e:Event){
-      console.log( "Got the click event" ) ;
-      console.log( (e.target as HTMLInputElement).files ) ;
-    } ) ;
-    input.click();
+    console.log( 'Uploading file result received.' ) ;
   }
-
 }
