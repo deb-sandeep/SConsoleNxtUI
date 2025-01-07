@@ -42,7 +42,6 @@ export class PageToolbarComponent {
 
   buttonClicked( actionMeta:PageToolbarActionItemMeta ) {
     if( actionMeta.action != undefined ) {
-      console.log( "Btn clicked" ) ;
       // @ts-ignore
       actionMeta.action() ;
     }
