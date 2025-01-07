@@ -12,7 +12,7 @@
 
 ## <font color='yellow'>Generation of base app folder and files</font>
 
-```
+``` sh
 # Command is run in the SConsoleNxtUI home directory
 
 ng generate app \
@@ -35,7 +35,7 @@ All these changes are relative to the `projects > app-jee-mdm` json node. Replac
 
 * Add `"baseHref": "/apps/jee/mdm/",`
 * Change `outputPath` to:
-```
+``` json
   "outputPath": {  
 	  "base" : "dist/webroot/apps/jee/mdm",  
 	  "browser": ""  
@@ -43,18 +43,28 @@ All these changes are relative to the `projects > app-jee-mdm` json node. Replac
 ```
 - Remove `favicon.ico` from `assets` section
 - Add the following to the `styles` section before the generated line.
-```
+``` json
 "node_modules/bootstrap/dist/css/bootstrap.min.css",  
 "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",  
 "projects/lib-core/assets/bootstrap-overrides.css",  
 "projects/lib-core/assets/styles.css",
+```
+- Change the generated style line to refer to the `styles.css` in the assets folder.
+``` json
+"styles": [  
+  "node_modules/bootstrap/dist/css/bootstrap.min.css",  
+  "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",  
+  "projects/lib-core/assets/bootstrap-overrides.css",  
+  "projects/lib-core/assets/styles.css",  
+  "projects/app-jee-mdm/src/assets/styles.css"
+],
 ```
 
 ### `configurations > development` node
 
 Add the following.
 
-```
+``` json
 "assets": [  
   {  
     "glob": "**/*",  
