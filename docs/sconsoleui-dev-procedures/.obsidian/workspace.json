@@ -145,12 +145,12 @@
               "title": "Outline of App design"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 368.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -162,7 +162,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3ab19c1cf0da79b1",
+  "active": "8765df8d1b1bfa5b",
   "lastOpenFiles": [
     "Creating a new application.md",
     "App code patterns/App design.md",

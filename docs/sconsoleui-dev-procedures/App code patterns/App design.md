@@ -18,7 +18,7 @@ An application registers itself with the `app-home` application for it to be nav
 
 A framework construct is used to provide a uniform approach to building applications without too much restriction and  impositions. This enables common and reusable application components to be hosted in the `lib-core` library.
 
-An application has a `PageHeader` which displays the section and title of the application and provides navigability back to the `app-home` SPA.
+An application has a `PageHeader` which displays the section and title of the application and provides navigability back to the `app-home` SPA. 
 
 An application is logically divided into multiple `features`. A _feature_ is structurally an angular component which can be enabled in the body (router outlet) of the application page. A feature is free to structure its UI and transitions without any need of framework conformance. All features of an application can be made navigable through the `FeatureMenubar` library component. A feature component is free to use the `PageToolbar` library component to drive feature specific actions in an uniform way.
 
