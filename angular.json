@@ -69,7 +69,8 @@
             "index": "projects/app-home/src/index.html",
             "browser": "projects/app-home/src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "projects/app-home/tsconfig.app.json",
             "assets": [
@@ -170,7 +171,8 @@
             "index": "projects/app-memgym-arithmetic/src/index.html",
             "browser": "projects/app-memgym-arithmetic/src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "projects/app-memgym-arithmetic/tsconfig.app.json",
             "assets": [
@@ -273,7 +275,8 @@
             "index": "projects/app-jee-mdm/src/index.html",
             "browser": "projects/app-jee-mdm/src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "projects/app-jee-mdm/tsconfig.app.json",
             "assets": [
