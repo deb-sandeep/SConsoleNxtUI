@@ -1,2 +1,7 @@
-<page-toolbar [title]="title" [meta]="pageMenuItems"></page-toolbar>
+<page-toolbar [title]="title">
+    <toolbar-action type='button'
+                    name='File upload'
+                    icon="upload"
+                    (click)="validateFile()"></toolbar-action>
+</page-toolbar>
 <p>manage-books works</p>

@@ -1,24 +1,6 @@
 <div class="page-toolbar">
     {{title}}
     <div class="action-btns">
-        @for( meta of itemsMeta; track $index ) {
-
-            <span *ngIf="isSpacer( meta )" class='spacer'>|</span>
-
-            <button *ngIf="isButton( meta )"
-                    type="button"
-                    class="btn btn-sm btn-{{meta.style??'primary'}} action-btn"
-                    (click)="buttonClicked( meta )">
-                <i *ngIf="meta.iconName" class="bi bi-{{meta.iconName}}">&nbsp;</i>
-                <span *ngIf="meta.name">{{meta.name}}</span>
-            </button>
-
-            <input *ngIf="isCheckbox( meta )"
-                   type="checkbox"
-                   (change)="checkboxClicked( meta, $event )" />
-
-            <span *ngIf="isCheckbox( meta )"
-                  class="checkbox-name">{{meta.name}}</span>
-        }
+        <ng-content></ng-content>
     </div>
 </div>

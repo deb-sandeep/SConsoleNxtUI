@@ -1,0 +1,16 @@
+<span *ngIf="isSpacer()" class='spacer'>|</span>
+
+<button *ngIf="isButton()"
+        type="button"
+        class="btn btn-sm btn-{{style??'primary'}} action-btn"
+        (click)="buttonClicked()">
+    <i *ngIf="icon" class="bi bi-{{icon}}">&nbsp;</i>
+    <span *ngIf="name">{{name}}</span>
+</button>
+
+<input *ngIf="isCheckbox()"
+       type="checkbox"
+       (change)="checkboxClicked( $event )" />
+
+<span *ngIf="isCheckbox()"
+      class="checkbox-name">{{name}}</span>

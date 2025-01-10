@@ -1,0 +1,15 @@
+.action-btn {
+    padding : 2px 7px 2px 7px ;
+    margin : 0 3px 0 3px ;
+    font-size: 12px ;
+}
+
+.checkbox-name {
+    font-size: 12px ;
+    vertical-align: middle;
+    margin-left: 5px ;
+}
+
+.spacer {
+    padding: 0 10px 0 10px ;
+}

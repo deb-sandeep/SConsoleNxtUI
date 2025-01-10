@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PageToolbarActionItemMeta, PageToolbarComponent } from "lib-core";
+import { PageToolbarComponent, ToolbarActionComponent } from "lib-core";
 import { environment } from "projects/environments/environment";
 import { APIResponse } from "lib-core";
 import { HttpClient } from "@angular/common/http";
@@ -8,22 +8,19 @@ import { HttpClient } from "@angular/common/http";
 @Component({
   selector: 'app-manage-books',
   standalone: true,
-  imports: [PageToolbarComponent],
+  imports: [PageToolbarComponent, ToolbarActionComponent],
   templateUrl: './manage-books.component.html',
   styleUrl: './manage-books.component.css'
 })
 export class ManageBooksComponent {
 
   title:string = 'Book summary' ;
-  pageMenuItems:PageToolbarActionItemMeta[] = [
-    { type: 'button', iconName: 'upload', name: 'File upload', style: 'secondary', targetObj: this, action:this.fileSelectedForValidation },
-  ] ;
 
   constructor( private http:HttpClient ) {
     console.log( "Injected with http " + http ) ;
   }
 
-  fileSelectedForValidation() {
+  validateFile() {
 
     const uploadUrl:string = `${environment.apiRoot}/Master/Book/ValidateMetaFile` ;
 
