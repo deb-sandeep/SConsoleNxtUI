@@ -109,7 +109,13 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/environments/environment.ts",
+                  "with": "projects/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "development"
@@ -207,6 +213,12 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/environments/environment.ts",
+                  "with": "projects/environments/environment.development.ts"
+                }
+              ],
               "assets": [
                 {
                   "glob": "**/*",
@@ -311,6 +323,12 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/environments/environment.ts",
+                  "with": "projects/environments/environment.development.ts"
+                }
+              ],
               "assets": [
                 {
                   "glob": "**/*",

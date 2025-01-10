@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common' ;
 import { Routes } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { bootstrapApplication } from '@angular/platform-browser';
+import { provideHttpClient, withFetch } from '@angular/common/http'
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { PageHeaderComponent, FeatureMenubarComponent, FeatureMenuItemMeta } from 'lib-core';
@@ -45,5 +46,8 @@ class AppComponent {
 }
 
 bootstrapApplication( AppComponent, {
-    providers: [provideRouter(routes)]
+    providers: [
+        provideRouter(routes),
+        provideHttpClient( withFetch() )
+    ]
 }).catch((err) => console.error(err)) ;
