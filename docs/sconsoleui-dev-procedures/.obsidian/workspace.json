@@ -146,7 +146,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -162,7 +162,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "8765df8d1b1bfa5b",
+  "active": "524dcfc91feec7be",
   "lastOpenFiles": [
     "Creating a new application.md",
     "App code patterns/App design.md",

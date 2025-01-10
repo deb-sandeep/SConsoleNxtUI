@@ -1,8 +1,8 @@
-#### Contents
-
-[[#Introduction]]
-[[#Logical structure of a feature application]]
-[[#Folder structure of an application]]
+---
+tags:
+  - module
+  - features
+---
 
 ### Introduction
 

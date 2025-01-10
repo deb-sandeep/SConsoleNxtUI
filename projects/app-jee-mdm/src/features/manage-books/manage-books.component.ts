@@ -12,7 +12,7 @@ export class ManageBooksComponent {
 
   title:string = 'Book summary' ;
   pageMenuItems:PageToolbarActionItemMeta[] = [
-    { type: 'upload', action:this.fileUpload, data: { accept:'*.yaml'} },
+    { type: 'upload', action:this.fileUpload, data: { accept:'*.yaml', multiple:false } },
   ]
 
   fileUpload() {
