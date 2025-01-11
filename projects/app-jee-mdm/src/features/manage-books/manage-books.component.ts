@@ -23,6 +23,7 @@ export class ManageBooksComponent {
   validateFile() {
 
     const uploadUrl:string = `${environment.apiRoot}/Master/Book/ValidateMetaFile` ;
+    const httpClient:HttpClient = this.http ;
 
     console.log( 'Uploading file to ' + uploadUrl ) ;
     console.log( 'This = ' + this ) ;
@@ -38,13 +39,11 @@ export class ManageBooksComponent {
       formData.append( 'file', files!.item(0) as File ) ;
 
       console.log( "Posting to server." ) ;
-      /*
-      http.post<APIResponse>( uploadUrl, formData )
+      httpClient.post<APIResponse>( uploadUrl, formData )
           .subscribe( {
-            next: res => {},
+            next: res => { console.log( res ) },
             error: err => {}
-          } ) ;*/
-
+          } ) ;
     } ) ;
     input.click() ;
   }
