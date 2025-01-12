@@ -10,7 +10,7 @@ import { TestPlayComponent } from "./components/test-play/test-play.component";
 import { GameConfig } from "./new-test.config";
 import { TestResultComponent } from "./components/test-result/test-result.component";
 import { Question } from "./question";
-import {QuestionGenerator} from "./components/test-play/question-generator";
+import { QuestionGenerator } from "./components/test-play/question-generator";
 
 @Component({
   selector: 'feature-new-test',

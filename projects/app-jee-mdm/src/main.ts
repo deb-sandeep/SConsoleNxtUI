@@ -1,27 +1,13 @@
 import { CommonModule } from '@angular/common' ;
-import { Routes } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http'
 import { Component } from '@angular/core';
+import { NgbAlertConfig, NgbAlertModule } from "@ng-bootstrap/ng-bootstrap";
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { PageHeaderComponent, FeatureMenubarComponent, FeatureMenuItemMeta } from 'lib-core';
 
-import { ManageBooksComponent } from "./features/manage-books/manage-books.component";
-import { NgbAlertConfig, NgbAlertModule } from "@ng-bootstrap/ng-bootstrap";
-
-const routes: Routes = [
-    {
-        path: '',
-        title: 'Manage Books',
-        component: ManageBooksComponent
-    },
-    {
-        path: 'manage-books',
-        title: 'Manage Books',
-        component: ManageBooksComponent
-    },
-] ;
+import { routes } from "./routes" ;
 
 @Component({
     selector: 'app-root',
