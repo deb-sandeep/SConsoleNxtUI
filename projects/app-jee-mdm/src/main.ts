@@ -8,6 +8,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { PageHeaderComponent, FeatureMenubarComponent, FeatureMenuItemMeta } from 'lib-core';
 
 import { ManageBooksComponent } from "./features/manage-books/manage-books.component";
+import { NgbAlertConfig, NgbAlertModule } from "@ng-bootstrap/ng-bootstrap";
 
 const routes: Routes = [
     {
@@ -28,7 +29,8 @@ const routes: Routes = [
     imports: [
         CommonModule,
         RouterOutlet, RouterLink, RouterLinkActive,
-        PageHeaderComponent, FeatureMenubarComponent
+        PageHeaderComponent, FeatureMenubarComponent,
+        NgbAlertModule,
     ],
     template: `
         <page-header [title]="title"></page-header>
@@ -43,6 +45,10 @@ class AppComponent {
     menubarMeta : FeatureMenuItemMeta[] = [
         { iconName:'journals',  routePath:'/manage-books', selected:true },
     ] ;
+
+    constructor( alertConfig:NgbAlertConfig ) {
+        alertConfig.type = 'danger' ;
+    }
 }
 
 bootstrapApplication( AppComponent, {

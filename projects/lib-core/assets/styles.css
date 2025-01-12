@@ -9,6 +9,16 @@
   --page-toolbar-fgcolor  : white ;
 }
 
+.alert {
+  --bs-alert-padding-x    : 5px ;
+  --bs-alert-padding-y    : 3px ;
+  --bs-alert-margin-bottom: 5px ;
+}
+
+.alert-dismissible .btn-close {
+  padding : 6px;
+}
+
 * {
   -webkit-font-smoothing: antialiased;
 }

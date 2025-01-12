@@ -1,32 +1,31 @@
-import { Component } from '@angular/core';
-import { PageToolbarComponent, ToolbarActionComponent } from "lib-core";
+import {Component, Host} from '@angular/core';
+import { Alert, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent } from "lib-core";
 import { environment } from "projects/environments/environment";
-import { APIResponse } from "lib-core";
+import { APIResponse} from "lib-core";
 import { HttpClient } from "@angular/common/http";
 
+import AlertService = Alert.AlertService;
 
 @Component({
   selector: 'app-manage-books',
   standalone: true,
-  imports: [PageToolbarComponent, ToolbarActionComponent],
+  imports: [PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent ],
   templateUrl: './manage-books.component.html',
-  styleUrl: './manage-books.component.css'
+  styleUrl: './manage-books.component.css',
+  providers:[ AlertService ]
 })
 export class ManageBooksComponent {
 
   title:string = 'Book summary' ;
 
-  constructor( private http:HttpClient ) {
-    console.log( "Injected with http " + http ) ;
-  }
+  constructor( private http:HttpClient,
+               @Host() private alertSvc:AlertService ) {}
 
   validateFile() {
 
     const uploadUrl:string = `${environment.apiRoot}/Master/Book/ValidateMetaFile` ;
     const httpClient:HttpClient = this.http ;
-
-    console.log( 'Uploading file to ' + uploadUrl ) ;
-    console.log( 'This = ' + this ) ;
+    const alertSvc:AlertService = this.alertSvc ;
 
     const input:HTMLInputElement = document.createElement('input') ;
     input.type = 'file';
@@ -38,11 +37,15 @@ export class ManageBooksComponent {
       const formData = new FormData() ;
       formData.append( 'file', files!.item(0) as File ) ;
 
-      console.log( "Posting to server." ) ;
       httpClient.post<APIResponse>( uploadUrl, formData )
           .subscribe( {
-            next: res => { console.log( res ) },
-            error: err => {}
+            next: res => {
+              alertSvc.success( 'File successfully uploaded.' ) ;
+              console.log( res )
+            },
+            error: err => {
+              alertSvc.error( 'File upload failure' ) ;
+            }
           } ) ;
     } ) ;
     input.click() ;
