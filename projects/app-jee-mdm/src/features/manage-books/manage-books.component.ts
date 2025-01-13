@@ -13,7 +13,7 @@ import AlertService = Alert.AlertService;
   imports: [ RouterOutlet, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent ],
   providers:[ AlertService ],
   template:`
-    <page-toolbar [title]="title">
+    <page-toolbar>
       <toolbar-action name='File upload'
                       icon="upload"
                       (click)="uploadFileBtnClicked()"></toolbar-action>
@@ -25,8 +25,6 @@ import AlertService = Alert.AlertService;
   `
 })
 export class ManageBooksComponent {
-
-  title:string = '' ;
 
   constructor( private http:HttpClient,
                @Host() private alertSvc:AlertService ) {}
@@ -55,7 +53,7 @@ export class ManageBooksComponent {
                   this.alertSvc.success( 'File successfully uploaded.' ) ;
                   console.log( res )
                 },
-                error: err => {
+                error: () => {
                   this.alertSvc.error( 'File upload failure' ) ;
                 }
              } ) ;
