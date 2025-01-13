@@ -4,7 +4,9 @@ import { BookListComponent } from "./features/manage-books/components/book-list/
 import { BookUploadReviewComponent } from "./features/manage-books/components/book-upload-review/book-upload-review.component";
 import { BookUploadResultComponent } from "./features/manage-books/components/book-upload-result/book-upload-result.component";
 
-export const routes: Routes = [
+import { manageBooksRoutes } from "./features/manage-books/routes" ;
+
+export const featureRoutes: Routes = [
     {
         path: '',
         redirectTo: 'manage-books',
@@ -14,27 +16,6 @@ export const routes: Routes = [
         path: 'manage-books',
         title: 'Manage Books',
         component: ManageBooksComponent,
-        children: [
-            {
-                path: '',
-                redirectTo: 'book-list',
-                pathMatch: 'full'
-            },
-            {
-                path: 'upload-review',
-                title: 'Upload Review',
-                component: BookUploadReviewComponent
-            },
-            {
-                path: 'upload-result',
-                title: 'Upload Results',
-                component: BookUploadResultComponent
-            },
-            {
-                path: 'book-list',
-                title: 'Book List',
-                component: BookListComponent
-            }
-        ]
+        children: manageBooksRoutes
     },
 ] ;

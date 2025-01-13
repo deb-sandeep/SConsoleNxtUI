@@ -7,7 +7,7 @@ import { NgbAlertConfig, NgbAlertModule } from "@ng-bootstrap/ng-bootstrap";
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { PageHeaderComponent, FeatureMenubarComponent, FeatureMenuItemMeta } from 'lib-core';
 
-import { routes } from "./routes" ;
+import { featureRoutes } from "./routes" ;
 
 @Component({
     selector: 'app-root',
@@ -39,7 +39,7 @@ class AppComponent {
 
 bootstrapApplication( AppComponent, {
     providers: [
-        provideRouter(routes),
+        provideRouter( featureRoutes ),
         provideHttpClient( withFetch() )
     ]
 }).catch((err) => console.error(err)) ;
