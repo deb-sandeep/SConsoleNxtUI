@@ -1,5 +1,6 @@
-import {Component, SkipSelf} from '@angular/core';
+import { Component, SkipSelf } from '@angular/core';
 import { ManageBookService } from "../../services/manage-book.service";
+import { BookValidationResult } from "../../types/book-validation-result.type";
 
 @Component({
   selector: 'book-upload-review',
@@ -10,6 +11,8 @@ import { ManageBookService } from "../../services/manage-book.service";
 })
 export class BookUploadReviewComponent {
 
-  constructor( @SkipSelf() private manageBookSvc: ManageBookService ) {
-  }
+  result:BookValidationResult | null = null ;
+
+  constructor( @SkipSelf() private manageBookSvc: ManageBookService ) {}
+
 }

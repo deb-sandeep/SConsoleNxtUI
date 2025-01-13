@@ -46,7 +46,7 @@ export class ManageBooksComponent {
 
     const files:FileList|null = (e.target as HTMLInputElement).files ;
 
-    this.manageBookSvc.uploadFileForVerification( files!.item(0) as File )
+    this.manageBookSvc.validateFileOnServer( files!.item(0) as File )
         .then( () => {
           this.router.navigateByUrl( '/manage-books/upload-review' ) ;
         } )

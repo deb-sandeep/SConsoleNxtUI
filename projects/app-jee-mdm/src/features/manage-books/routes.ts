@@ -6,7 +6,7 @@ import { BookUploadResultComponent } from "./components/book-upload-result/book-
 export const manageBooksRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'book-list',
+        redirectTo: 'upload-review',
         pathMatch: 'full'
     },
     {
