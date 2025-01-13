@@ -11,8 +11,11 @@ import { BookValidationResult } from "../../types/book-validation-result.type";
 })
 export class BookUploadReviewComponent {
 
-  result:BookValidationResult | null = null ;
+  validationResult:BookValidationResult | null = null ;
 
-  constructor( @SkipSelf() private manageBookSvc: ManageBookService ) {}
-
+  constructor( @SkipSelf() private manageBookSvc: ManageBookService ) {
+    this.manageBookSvc.validationResult$.subscribe( result => {
+      this.validationResult = result ;
+    } ) ;
+  }
 }

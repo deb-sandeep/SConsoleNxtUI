@@ -47,11 +47,9 @@ export class ToolbarActionComponent implements OnInit {
 
   buttonClicked() {
     this.clickEmitter.emit() ;
-    this.clickEmitter.complete() ;
   }
 
   checkboxClicked( event:any ) {
     this.changeEmitter.emit( event.currentTarget.checked ) ;
-    this.changeEmitter.complete() ;
   }
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from "rxjs";
 import { APIResponse } from "lib-core";
 import { HttpClient } from "@angular/common/http";
+
 import { environment } from "../../../../../environments/environment";
 import { BookValidationResult } from "../types/book-validation-result.type";
 import { testResponse } from "../test-data/test-validation-response" ;
@@ -8,7 +10,12 @@ import { testResponse } from "../test-data/test-validation-response" ;
 @Injectable()
 export class ManageBookService {
 
-  constructor( private http:HttpClient ) { }
+  private validationResultSubject:BehaviorSubject<BookValidationResult|null> = new BehaviorSubject<BookValidationResult|null>( null ) ;
+  validationResult$ = this.validationResultSubject.asObservable() ;
+
+  constructor( private http:HttpClient ) {
+      this.validationResultSubject.next( testResponse.data ) ;
+  }
 
   validateFileOnServer( file:File ) : Promise<void> {
 
@@ -20,18 +27,16 @@ export class ManageBookService {
       this.http.post<APIResponse>( uploadUrl, formData )
           .subscribe( {
             next: res => {
-              console.log( 'File successfully uploaded.' ) ;
+              console.log( 'File successfully validated. Validation results:' ) ;
               console.log( res ) ;
+              this.validationResultSubject.next( res.data ) ;
               resolve() ;
             },
             error: () => {
+              this.validationResultSubject.next( null ) ;
               reject() ;
             }
           } ) ;
     } ) ;
-  }
-
-  getBookMetadataValidationResult() : BookValidationResult {
-    return testResponse.data ;
   }
 }

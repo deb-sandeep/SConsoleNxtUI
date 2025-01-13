@@ -5,7 +5,7 @@ export const testResponse:APIResponse = {
         "subject": "Physics",
         "series": "Cengage",
         "name": "Mechanics - I",
-        "author": "BM Sharma",
+        "author": "Test Sharma",
         "shortName": "Cengage - Mech I",
         "chapters": [
             {
