@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, SkipSelf} from '@angular/core';
+import { ManageBookService } from "../../services/manage-book.service";
 
 @Component({
   selector: 'book-upload-review',
@@ -9,4 +10,6 @@ import { Component } from '@angular/core';
 })
 export class BookUploadReviewComponent {
 
+  constructor( @SkipSelf() private manageBookSvc: ManageBookService ) {
+  }
 }

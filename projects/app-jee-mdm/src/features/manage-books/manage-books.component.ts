@@ -3,7 +3,8 @@ import { Alert, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayCompo
 import { environment } from "projects/environments/environment";
 import { APIResponse} from "lib-core";
 import { HttpClient } from "@angular/common/http";
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { ManageBookService } from "./services/manage-book.service";
 
 import AlertService = Alert.AlertService;
 
@@ -11,7 +12,7 @@ import AlertService = Alert.AlertService;
   selector: 'app-manage-books',
   standalone: true,
   imports: [ RouterOutlet, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent ],
-  providers:[ AlertService ],
+  providers:[ AlertService, ManageBookService ],
   template:`
     <page-toolbar>
       <toolbar-action name='File upload'
@@ -27,7 +28,9 @@ import AlertService = Alert.AlertService;
 export class ManageBooksComponent {
 
   constructor( private http:HttpClient,
-               @Host() private alertSvc:AlertService ) {}
+               @Host() private alertSvc:AlertService,
+               @Host() private manageBookSvc:ManageBookService,
+               private router:Router ) {}
 
   uploadFileBtnClicked() {
 
@@ -41,21 +44,14 @@ export class ManageBooksComponent {
 
   private uploadFileSelected( e:Event ) {
 
-    const uploadUrl:string = `${environment.apiRoot}/Master/Book/ValidateMetaFile` ;
     const files:FileList|null = (e.target as HTMLInputElement).files ;
 
-    const formData = new FormData() ;
-    formData.append( 'file', files!.item(0) as File ) ;
-
-    this.http.post<APIResponse>( uploadUrl, formData )
-             .subscribe( {
-                next: res => {
-                  this.alertSvc.success( 'File successfully uploaded.' ) ;
-                  console.log( res )
-                },
-                error: () => {
-                  this.alertSvc.error( 'File upload failure' ) ;
-                }
-             } ) ;
+    this.manageBookSvc.uploadFileForVerification( files!.item(0) as File )
+        .then( () => {
+          this.router.navigateByUrl( '/manage-books/upload-review' ) ;
+        } )
+        .catch( () => {
+          this.alertSvc.error( 'File upload failure' ) ;
+        } ) ;
   }
 }

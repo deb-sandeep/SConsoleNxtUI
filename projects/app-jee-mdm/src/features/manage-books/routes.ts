@@ -15,7 +15,7 @@ export const manageBooksRoutes: Routes = [
         component: BookUploadReviewComponent
     },
     {
-        path: 'upload-result',
+        path: 'upload-results',
         title: 'Upload Results',
         component: BookUploadResultComponent
     },
