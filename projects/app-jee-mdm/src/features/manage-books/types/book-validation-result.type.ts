@@ -1,30 +1,3 @@
-export type ValidationMsg = {
-    type : 'INFO' | 'WARNING' | 'ERROR',
-    field : string,
-    value : string,
-    msg : string
-}
-
-export type MsgCount = {
-    numError : number,
-    numWarning : number,
-    numInfo : number
-}
-
-export type ExerciseValidationResult = {
-    name : string,
-    problems: string[],
-    validationMsgs : ValidationMsg[],
-    msgCount : MsgCount
-}
-
-export type ChapterValidationResult = {
-    title : string,
-    exercises : ExerciseValidationResult[],
-    validationMsgs : ValidationMsg[],
-    msgCount : MsgCount
-}
-
 export type BookValidationResult = {
     subject : string,
     series : string,
@@ -32,8 +5,35 @@ export type BookValidationResult = {
     author : string,
     shortName : string,
     chapters : ChapterValidationResult[],
-    validationMsgs : ValidationMsg[],
-    msgCount : MsgCount,
+    validationMessages : ValidationMessages,
     totalMsgCount : MsgCount
+}
+
+export type ChapterValidationResult = {
+    title : string,
+    exercises : ExerciseValidationResult[],
+    validationMessages : ValidationMessages,
+}
+
+export type ExerciseValidationResult = {
+    name : string,
+    problems: string[],
+    validationMessages : ValidationMessages,
+}
+
+export type ValidationMessages = {
+    messages : Record<string, ValidationMsg[]>,
+    msgCount : MsgCount
+}
+
+export type ValidationMsg = {
+    type : 'INFO' | 'WARNING' | 'ERROR',
+    msg : string
+}
+
+export type MsgCount = {
+    numError : number,
+    numWarning : number,
+    numInfo : number
 }
 

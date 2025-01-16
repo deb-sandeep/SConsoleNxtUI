@@ -50,7 +50,7 @@ body {
   width: calc(100vw - var(--feature-menubar-width)) ;
   height: calc(100vh - var(--page-header-height)) ;
   overflow-y: auto ;
-  font-size: 14px ;
+  font-size: 13px ;
   padding: 0 0 0 0 ;
   color: var(--body-foreground) ;
   background-color: var(--body-background) ;

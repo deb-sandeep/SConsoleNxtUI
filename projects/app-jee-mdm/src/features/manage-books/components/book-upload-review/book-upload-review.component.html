@@ -1,3 +1,47 @@
-<p>book-upload-review works!</p>
-
-{{validationResult?.author}}
+@if( result != null && hasMessages() ) {
+  <ul class="validation-summary">
+    <li>{{result!.totalMsgCount.numError}} errors</li>
+    <li>{{result!.totalMsgCount.numWarning}} warnings</li>
+    <li>{{result!.totalMsgCount.numInfo}} information messages</li>
+  </ul>
+}
+@if( hasErrors() ) {
+  <div style="color:red">There are errors. Please correct and re-upload for validation.</div>
+}
+@else if( hasWarnings() ) {
+  <div style="color:brown">There are warnings. Please review and save.</div>
+}
+@else if( hasInfo() ) {
+  <div style="color:blue">There are messages. Please review and save.</div>
+}
+@else {
+  <div style="color:green">No errors, warnings or messages. You can save the book.</div>
+}
+<p>
+<table class="table table-sm">
+  <thead>
+  <th style="width: 100px">Field</th>
+  <th style="width: 10px"></th>
+  <th style="width: 350px">Value</th>
+  <th>Message</th>
+  </thead>
+  <tbody book-render [book]="result"></tbody>
+  @for( chapter of result?.chapters; track chapter.title ) {
+    <tbody chapter-render
+           [chapter]="chapter"></tbody>
+    @for( exercise of chapter?.exercises; track exercise.name ) {
+      <tbody exercise-render
+             [exercise]="exercise"></tbody>
+    }
+  }
+</table>
+<div class="float-start" *ngIf="hasErrors()">
+  <div style="color:red">There are errors. Please correct and re-upload for validation.</div>
+</div>
+<div class="float-end button-bar" >
+  <button class="btn btn-secondary" (click)="backToBookList()">Back to book listing</button>
+  @if( !hasErrors() ) {
+    &nbsp;&nbsp;
+    <button class="btn btn-primary"   (click)="saveBook()">Save</button>
+  }
+</div>

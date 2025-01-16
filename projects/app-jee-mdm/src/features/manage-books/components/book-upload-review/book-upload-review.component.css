@@ -1,0 +1,42 @@
+.validation-summary {
+    font-size: 14px;
+    color: blue;
+}
+
+.chapter-hdr-row td {
+    background-color: #e5e5e5;
+}
+
+.chapter-hdr-row td:first-child {
+    font-weight: bold;
+}
+
+.exercise-hdr-row td {
+    background-color: #f5f5f5;
+}
+
+.exercise-hdr-row td:first-child {
+    padding-left: 15px;
+}
+
+.problem-cluster-row td:nth-child(3) {
+    font-size: 12px;
+    padding-left: 25px;
+}
+
+.msg-error {
+    background-color: #f8d7da;
+}
+
+.msg-warning {
+    background-color: #fff3cd;
+}
+
+.msg-info {
+    background-color: rgb(227, 247, 255);
+}
+
+.button-bar {
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
