@@ -1,24 +1,25 @@
 import { Component, SkipSelf } from '@angular/core';
 import { ManageBookService } from "../../services/manage-book.service";
-import { BookValidationResult } from "../../types/book-validation-result.type";
+import {BookValidationResult, ChapterValidationResult} from "../../types/book-validation-result.type";
 import {BookRenderComponent, ChapterRenderComponent, ExerciseRenderComponent} from "./book-render.component";
 import {NgIf} from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'book-upload-review',
   standalone: true,
-  imports: [BookRenderComponent, ChapterRenderComponent, ExerciseRenderComponent, NgIf],
+  imports: [BookRenderComponent, ChapterRenderComponent, ExerciseRenderComponent, NgIf, FormsModule],
   templateUrl: './book-upload-review.component.html',
   styleUrl: './book-upload-review.component.css'
 })
 export class BookUploadReviewComponent {
 
   result:BookValidationResult | null = null ;
+  showAll:boolean = false ;
 
   constructor( @SkipSelf() private manageBookSvc: ManageBookService ) {
     this.manageBookSvc.validationResult$.subscribe( result => {
       this.result = result ;
-      console.log( 'BookUploadReviewComponent: received result', result ) ;
     } ) ;
   }
 

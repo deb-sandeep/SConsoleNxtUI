@@ -171,20 +171,23 @@ export class ChapterRenderComponent extends BaseRenderer implements OnInit {
       </td>
     </tr>
     @for( problem of exercise.problems; track $index ) {
-      <tr class="problem-cluster-row">
-        <td></td>
-        <td></td>
-        <td [ngClass]="msgClass(problem)">{{problem}}</td>
-        <td>
-          <msg-render [msgs]="msgs" [key]="problem"></msg-render>
-        </td>
-      </tr>
+      @if( showAll || hasMsgsForProblemCluster( problem ) ) {
+        <tr class="problem-cluster-row">
+          <td></td>
+          <td></td>
+          <td [ngClass]="msgClass(problem)">{{problem}}</td>
+          <td>
+            <msg-render [msgs]="msgs" [key]="problem"></msg-render>
+          </td>
+        </tr>
+      }
     }
   `
 })
 export class ExerciseRenderComponent extends BaseRenderer implements OnInit {
 
   @Input() exercise: ExerciseValidationResult ;
+  @Input() showAll: boolean = false ;
 
   constructor() {
     super();
@@ -192,6 +195,10 @@ export class ExerciseRenderComponent extends BaseRenderer implements OnInit {
 
   ngOnInit() {
     this.msgs = this.exercise!.validationMessages ;
+  }
+
+  hasMsgsForProblemCluster( problem: string ) {
+    return this.msgs != null && this.msgs.messages[problem] != null ;
   }
 }
 

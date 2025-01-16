@@ -21,7 +21,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -35,7 +36,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -49,7 +51,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -63,7 +66,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -88,7 +92,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -110,7 +115,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 1,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 1
                             }
                         }
                     }
@@ -120,8 +126,15 @@ export const testResponse:APIResponse = {
                     "msgCount": {
                         "numError": 0,
                         "numWarning": 0,
-                        "numInfo": 0
+                        "numInfo": 0,
+                        "total": 0
                     }
+                },
+                "totalMsgCount": {
+                    "numError": 0,
+                    "numWarning": 1,
+                    "numInfo": 0,
+                    "total": 1
                 }
             },
             {
@@ -137,7 +150,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -151,7 +165,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -165,7 +180,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -179,7 +195,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -193,7 +210,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -226,7 +244,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -242,7 +261,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     }
@@ -252,8 +272,15 @@ export const testResponse:APIResponse = {
                     "msgCount": {
                         "numError": 0,
                         "numWarning": 0,
-                        "numInfo": 0
+                        "numInfo": 0,
+                        "total": 0
                     }
+                },
+                "totalMsgCount": {
+                    "numError": 0,
+                    "numWarning": 0,
+                    "numInfo": 0,
+                    "total": 0
                 }
             },
             {
@@ -269,7 +296,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -283,7 +311,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -297,7 +326,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -311,7 +341,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -325,7 +356,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -339,7 +371,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -366,7 +399,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -390,7 +424,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 1,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 1
                             }
                         }
                     }
@@ -400,8 +435,15 @@ export const testResponse:APIResponse = {
                     "msgCount": {
                         "numError": 0,
                         "numWarning": 0,
-                        "numInfo": 0
+                        "numInfo": 0,
+                        "total": 0
                     }
+                },
+                "totalMsgCount": {
+                    "numError": 1,
+                    "numWarning": 0,
+                    "numInfo": 0,
+                    "total": 1
                 }
             },
             {
@@ -417,7 +459,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -431,7 +474,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -445,7 +489,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -459,7 +504,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -473,7 +519,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -487,7 +534,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -501,7 +549,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -533,7 +582,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -558,7 +608,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 1,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 1
                             }
                         }
                     }
@@ -568,8 +619,15 @@ export const testResponse:APIResponse = {
                     "msgCount": {
                         "numError": 0,
                         "numWarning": 0,
-                        "numInfo": 0
+                        "numInfo": 0,
+                        "total": 0
                     }
+                },
+                "totalMsgCount": {
+                    "numError": 0,
+                    "numWarning": 1,
+                    "numInfo": 0,
+                    "total": 1
                 }
             },
             {
@@ -585,7 +643,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -599,7 +658,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -613,7 +673,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -627,7 +688,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -641,7 +703,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -666,7 +729,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -690,7 +754,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 1,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 1
                             }
                         }
                     }
@@ -700,8 +765,15 @@ export const testResponse:APIResponse = {
                     "msgCount": {
                         "numError": 0,
                         "numWarning": 0,
-                        "numInfo": 0
+                        "numInfo": 0,
+                        "total": 0
                     }
+                },
+                "totalMsgCount": {
+                    "numError": 0,
+                    "numWarning": 1,
+                    "numInfo": 0,
+                    "total": 1
                 }
             },
             {
@@ -717,7 +789,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -731,7 +804,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -745,7 +819,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -759,7 +834,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -773,7 +849,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -803,7 +880,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -834,7 +912,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 2,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 2
                             }
                         }
                     }
@@ -844,8 +923,15 @@ export const testResponse:APIResponse = {
                     "msgCount": {
                         "numError": 0,
                         "numWarning": 0,
-                        "numInfo": 0
+                        "numInfo": 0,
+                        "total": 0
                     }
+                },
+                "totalMsgCount": {
+                    "numError": 0,
+                    "numWarning": 2,
+                    "numInfo": 0,
+                    "total": 2
                 }
             },
             {
@@ -861,7 +947,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -875,7 +962,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -889,7 +977,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -903,7 +992,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -917,7 +1007,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -942,7 +1033,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -964,7 +1056,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 1,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 1
                             }
                         }
                     }
@@ -974,8 +1067,15 @@ export const testResponse:APIResponse = {
                     "msgCount": {
                         "numError": 0,
                         "numWarning": 0,
-                        "numInfo": 0
+                        "numInfo": 0,
+                        "total": 0
                     }
+                },
+                "totalMsgCount": {
+                    "numError": 0,
+                    "numWarning": 1,
+                    "numInfo": 0,
+                    "total": 1
                 }
             },
             {
@@ -991,7 +1091,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -1005,7 +1106,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -1019,7 +1121,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -1033,7 +1136,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -1047,7 +1151,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -1070,7 +1175,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     },
@@ -1087,7 +1193,8 @@ export const testResponse:APIResponse = {
                             "msgCount": {
                                 "numError": 0,
                                 "numWarning": 0,
-                                "numInfo": 0
+                                "numInfo": 0,
+                                "total": 0
                             }
                         }
                     }
@@ -1097,8 +1204,15 @@ export const testResponse:APIResponse = {
                     "msgCount": {
                         "numError": 0,
                         "numWarning": 0,
-                        "numInfo": 0
+                        "numInfo": 0,
+                        "total": 0
                     }
+                },
+                "totalMsgCount": {
+                    "numError": 0,
+                    "numWarning": 0,
+                    "numInfo": 0,
+                    "total": 0
                 }
             }
         ],
@@ -1114,13 +1228,15 @@ export const testResponse:APIResponse = {
             "msgCount": {
                 "numError": 0,
                 "numWarning": 0,
-                "numInfo": 1
+                "numInfo": 1,
+                "total": 1
             }
         },
         "totalMsgCount": {
             "numError": 1,
             "numWarning": 6,
-            "numInfo": 1
+            "numInfo": 1,
+            "total": 8
         }
     },
     "executionResult": {

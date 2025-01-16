@@ -13,12 +13,14 @@ export type ChapterValidationResult = {
     title : string,
     exercises : ExerciseValidationResult[],
     validationMessages : ValidationMessages,
+    totalMsgCount : MsgCount
 }
 
 export type ExerciseValidationResult = {
     name : string,
     problems: string[],
     validationMessages : ValidationMessages,
+    totalMsgCount : MsgCount
 }
 
 export type ValidationMessages = {
@@ -34,6 +36,7 @@ export type ValidationMsg = {
 export type MsgCount = {
     numError : number,
     numWarning : number,
-    numInfo : number
+    numInfo : number,
+    total : number
 }
 

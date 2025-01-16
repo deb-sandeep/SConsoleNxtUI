@@ -27,6 +27,8 @@ import AlertService = Alert.AlertService;
 })
 export class ManageBooksComponent {
 
+  showAllRows:boolean = false ;
+
   constructor( private http:HttpClient,
                @Host() private alertSvc:AlertService,
                @Host() private manageBookSvc:ManageBookService,
