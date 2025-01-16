@@ -1,9 +1,12 @@
 import { Component, SkipSelf } from '@angular/core';
-import { ManageBookService } from "../../services/manage-book.service";
-import {BookValidationResult, ChapterValidationResult} from "../../types/book-validation-result.type";
-import {BookRenderComponent, ChapterRenderComponent, ExerciseRenderComponent} from "./book-render.component";
-import {NgIf} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import { ManageBookService } from "../../manage-book.service";
+import { BookValidationResult } from "./book-validation-result.type";
+import { NgIf } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { BookRenderComponent } from "./renderers/book-render.component";
+import { ChapterRenderComponent } from "./renderers/chapter-render.component";
+import { ExerciseRenderComponent } from "./renderers/exercise-render.component";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'book-upload-review',
@@ -17,7 +20,8 @@ export class BookUploadReviewComponent {
   result:BookValidationResult | null = null ;
   showAll:boolean = false ;
 
-  constructor( @SkipSelf() private manageBookSvc: ManageBookService ) {
+  constructor( @SkipSelf() private manageBookSvc: ManageBookService,
+               private router:Router ) {
     this.manageBookSvc.validationResult$.subscribe( result => {
       this.result = result ;
     } ) ;
@@ -51,5 +55,6 @@ export class BookUploadReviewComponent {
   }
 
   backToBookList(): void {
+    this.router.navigateByUrl( '/manage-books/book-list' ) ;
   }
 }

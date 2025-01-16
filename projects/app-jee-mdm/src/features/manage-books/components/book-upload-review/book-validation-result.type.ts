@@ -5,6 +5,7 @@ export type BookValidationResult = {
     author : string,
     shortName : string,
     chapters : ChapterValidationResult[],
+    serverFileName : string,
     validationMessages : ValidationMessages,
     totalMsgCount : MsgCount
 }

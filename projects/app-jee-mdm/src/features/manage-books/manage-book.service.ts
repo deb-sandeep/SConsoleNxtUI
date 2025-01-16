@@ -3,9 +3,9 @@ import { BehaviorSubject } from "rxjs";
 import { APIResponse } from "lib-core";
 import { HttpClient } from "@angular/common/http";
 
-import { environment } from "../../../../../environments/environment";
-import { BookValidationResult } from "../types/book-validation-result.type";
-import { testResponse } from "../test-data/test-validation-response" ;
+import { environment } from "../../../../environments/environment";
+import { BookValidationResult } from "./components/book-upload-review/book-validation-result.type";
+import { testResponse } from "./components/book-upload-review/test-validation-response" ;
 
 @Injectable()
 export class ManageBookService {

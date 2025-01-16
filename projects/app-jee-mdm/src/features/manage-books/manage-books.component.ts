@@ -4,7 +4,7 @@ import { environment } from "projects/environments/environment";
 import { APIResponse} from "lib-core";
 import { HttpClient } from "@angular/common/http";
 import { Router, RouterOutlet } from '@angular/router';
-import { ManageBookService } from "./services/manage-book.service";
+import { ManageBookService } from "./manage-book.service";
 
 import AlertService = Alert.AlertService;
 
