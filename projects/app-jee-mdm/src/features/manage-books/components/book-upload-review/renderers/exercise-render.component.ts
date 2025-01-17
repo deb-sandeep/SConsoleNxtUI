@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from "@angular/core";
 import { NgClass } from "@angular/common";
-import { ExerciseValidationResult } from "../book-validation-result.type";
+import { ExerciseValidationResult } from "../../../manage-books.type";
 import { BaseRenderer } from "./base-render.component";
 import { MsgRenderComponent } from "./message-render.component";
 

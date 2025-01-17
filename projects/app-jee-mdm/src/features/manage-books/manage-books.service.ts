@@ -4,11 +4,11 @@ import { APIResponse } from "lib-core";
 import { HttpClient } from "@angular/common/http";
 
 import { environment } from "../../../../environments/environment";
-import { BookValidationResult } from "./components/book-upload-review/book-validation-result.type";
+import { BookValidationResult, SaveBookMetaRes } from "./manage-books.type";
 import { testResponse } from "./components/book-upload-review/test-validation-response" ;
 
 @Injectable()
-export class ManageBookService {
+export class ManageBooksService {
 
   private validationResultSubject:BehaviorSubject<BookValidationResult|null> = new BehaviorSubject<BookValidationResult|null>( null ) ;
   validationResult$ = this.validationResultSubject.asObservable() ;
@@ -56,7 +56,13 @@ export class ManageBookService {
           next: ( res) => {
             console.log( 'saveBook returned normally. Response:' ) ;
             if( res.executionResult.status == 'OK' ) {
-              resolve("Book uploaded successfully");
+              let status:SaveBookMetaRes = res.data ;
+              let statusMsg = `
+              Created ${status.numChaptersCreated} chapters, 
+              ${status.numExercisesCreated} exercises and 
+              ${status.numProblemsCreated} problems.` ;
+
+              resolve(`Book uploaded successfully. ${statusMsg}` ) ;
             }
             else {
               reject( "Error saving book: " + res.executionResult.message ) ;

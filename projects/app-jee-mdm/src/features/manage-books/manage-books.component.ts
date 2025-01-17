@@ -4,7 +4,7 @@ import { environment } from "projects/environments/environment";
 import { APIResponse} from "lib-core";
 import { HttpClient } from "@angular/common/http";
 import { Router, RouterOutlet } from '@angular/router';
-import { ManageBookService } from "./manage-book.service";
+import { ManageBooksService } from "./manage-books.service";
 
 import AlertService = Alert.AlertService;
 
@@ -12,7 +12,7 @@ import AlertService = Alert.AlertService;
   selector: 'app-manage-books',
   standalone: true,
   imports: [ RouterOutlet, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent ],
-  providers:[ AlertService, ManageBookService ],
+  providers:[ AlertService, ManageBooksService ],
   template:`
     <page-toolbar>
       <toolbar-action name='File upload'
@@ -31,7 +31,7 @@ export class ManageBooksComponent {
 
   constructor( private http:HttpClient,
                @Host() private alertSvc:AlertService,
-               @Host() private manageBookSvc:ManageBookService,
+               @Host() private manageBookSvc:ManageBooksService,
                private router:Router ) {}
 
   uploadFileBtnClicked() {

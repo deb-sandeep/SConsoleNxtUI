@@ -1,6 +1,6 @@
 import { Component, SkipSelf } from '@angular/core';
-import { ManageBookService } from "../../manage-book.service";
-import { BookValidationResult } from "./book-validation-result.type";
+import { ManageBooksService } from "../../manage-books.service";
+import { BookValidationResult } from "../../manage-books.type";
 import { NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { BookRenderComponent } from "./renderers/book-render.component";
@@ -24,7 +24,7 @@ export class BookUploadReviewComponent {
   result:BookValidationResult | null = null ;
   showAll:boolean = true ;
 
-  constructor( @SkipSelf() private manageBookSvc: ManageBookService,
+  constructor( @SkipSelf() private manageBookSvc: ManageBooksService,
                @SkipSelf() private alertSvc:AlertService,
                private router:Router ) {
     this.manageBookSvc.validationResult$.subscribe( result => {

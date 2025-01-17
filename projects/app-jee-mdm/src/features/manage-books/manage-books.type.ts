@@ -41,3 +41,9 @@ export type MsgCount = {
     total : number
 }
 
+export type SaveBookMetaRes = {
+    numChaptersCreated : number,
+    numExercisesCreated : number,
+    numProblemsCreated : number
+}
+

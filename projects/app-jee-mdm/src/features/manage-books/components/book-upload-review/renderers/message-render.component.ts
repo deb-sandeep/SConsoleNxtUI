@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ValidationMessages } from "../book-validation-result.type";
+import { ValidationMessages } from "../../../manage-books.type";
 
 @Component({
   selector: 'msg-render',

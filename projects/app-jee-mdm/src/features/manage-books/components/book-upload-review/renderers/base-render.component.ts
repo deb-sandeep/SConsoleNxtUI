@@ -1,4 +1,4 @@
-import { ValidationMessages } from "../book-validation-result.type";
+import { ValidationMessages } from "../../../manage-books.type";
 
 export class BaseRenderer {
 
