@@ -30,7 +30,24 @@ export class BookListComponent {
                @SkipSelf() private alertService:AlertService ) {
 
     this.manageBookSvc.getBookListing()
-      .then( (value) => this.bookSummaries = value )
+      .then( (value) => this.enrichAndStoreBookSummaries( value ) )
       .catch( () => this.alertService.error( "Could not fetch book list" ) ) ;
+  }
+
+  private enrichAndStoreBookSummaries( summaries:BookSummary[] ) {
+    summaries.forEach( s => {
+      s.isBeingEdited = false ;
+      s.editedBookShortName = s.bookShortName ;
+
+      this.bookSummaries.push( s ) ;
+    }) ;
+  }
+
+  saveBookEdit( book:BookSummary ) {
+    console.log( 'Saving book edit' ) ;
+  }
+
+  cancelBookEdit( book:BookSummary ) {
+    console.log( 'Cancelling book edit' ) ;
   }
 }

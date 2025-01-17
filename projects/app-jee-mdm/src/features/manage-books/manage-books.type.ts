@@ -56,4 +56,7 @@ export type BookSummary = {
     bookShortName : string,
     numChapters : number,
     numProblems : number,
+
+    isBeingEdited : boolean,
+    editedBookShortName : string,
 }
