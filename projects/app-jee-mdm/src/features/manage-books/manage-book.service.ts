@@ -39,4 +39,34 @@ export class ManageBookService {
           } ) ;
     } ) ;
   }
+
+  saveBook( serverFileName:string | undefined ) : Promise<string> {
+
+    const saveUrl = `${environment.apiRoot}/Master/Book/SaveMeta` ;
+
+    return new Promise( ( resolve, reject ) => {
+
+      if( serverFileName == undefined ) {
+        reject( "No server file name provided" ) ;
+      }
+      else {
+        this.http.post<APIResponse>( saveUrl, {
+          "uploadedFileName": serverFileName
+        }).subscribe( {
+          next: ( res) => {
+            console.log( 'saveBook returned normally. Response:' ) ;
+            if( res.executionResult.status == 'OK' ) {
+              resolve("Book uploaded successfully");
+            }
+            else {
+              reject( "Error saving book: " + res.executionResult.message ) ;
+            }
+          },
+          error: () => {
+            reject( "System error saving book. Check logs for details." ) ;
+          }
+        } ) ;
+      }
+    } ) ;
+  }
 }

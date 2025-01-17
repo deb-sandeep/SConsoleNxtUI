@@ -7,20 +7,25 @@ import { BookRenderComponent } from "./renderers/book-render.component";
 import { ChapterRenderComponent } from "./renderers/chapter-render.component";
 import { ExerciseRenderComponent } from "./renderers/exercise-render.component";
 import { Router } from "@angular/router";
+import { Alert } from "lib-core";
+
+import AlertService = Alert.AlertService;
 
 @Component({
   selector: 'book-upload-review',
   standalone: true,
   imports: [BookRenderComponent, ChapterRenderComponent, ExerciseRenderComponent, NgIf, FormsModule],
+  providers: [AlertService],
   templateUrl: './book-upload-review.component.html',
   styleUrl: './book-upload-review.component.css'
 })
 export class BookUploadReviewComponent {
 
   result:BookValidationResult | null = null ;
-  showAll:boolean = false ;
+  showAll:boolean = true ;
 
   constructor( @SkipSelf() private manageBookSvc: ManageBookService,
+               @SkipSelf() private alertSvc:AlertService,
                private router:Router ) {
     this.manageBookSvc.validationResult$.subscribe( result => {
       this.result = result ;
@@ -52,6 +57,14 @@ export class BookUploadReviewComponent {
   }
 
   saveBook():void {
+    this.manageBookSvc.saveBook( this.result?.serverFileName )
+      .then( (msg:string) => {
+        this.alertSvc.success( msg ) ;
+      } )
+      .catch( (err:string) => {
+        this.alertSvc.error( err ) ;
+      } ) ;
+    this.router.navigateByUrl( '/manage-books/book-list' ) ;
   }
 
   backToBookList(): void {
