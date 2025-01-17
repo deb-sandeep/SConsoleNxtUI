@@ -5,17 +5,14 @@ import { HttpClient } from "@angular/common/http";
 
 import { environment } from "../../../../environments/environment";
 import { BookValidationResult, SaveBookMetaRes } from "./manage-books.type";
-import { testResponse } from "./components/book-upload-review/test-validation-response" ;
 
 @Injectable()
 export class ManageBooksService {
 
-  private validationResultSubject:BehaviorSubject<BookValidationResult|null> = new BehaviorSubject<BookValidationResult|null>( null ) ;
-  validationResult$ = this.validationResultSubject.asObservable() ;
+  private validationResultSub:BehaviorSubject<BookValidationResult|null> = new BehaviorSubject<BookValidationResult|null>( null ) ;
+  validationResult$ = this.validationResultSub.asObservable() ;
 
-  constructor( private http:HttpClient ) {
-      this.validationResultSubject.next( testResponse.data ) ;
-  }
+  constructor( private http:HttpClient ) {}
 
   validateFileOnServer( file:File ) : Promise<void> {
 
@@ -27,13 +24,11 @@ export class ManageBooksService {
       this.http.post<APIResponse>( uploadUrl, formData )
           .subscribe( {
             next: res => {
-              console.log( 'File successfully validated. Validation results:' ) ;
-              console.log( res ) ;
-              this.validationResultSubject.next( res.data ) ;
+              this.validationResultSub.next( res.data ) ;
               resolve() ;
             },
             error: () => {
-              this.validationResultSubject.next( null ) ;
+              this.validationResultSub.next( null ) ;
               reject() ;
             }
           } ) ;
@@ -50,28 +45,32 @@ export class ManageBooksService {
         reject( "No server file name provided" ) ;
       }
       else {
-        this.http.post<APIResponse>( saveUrl, {
-          "uploadedFileName": serverFileName
-        }).subscribe( {
-          next: ( res) => {
-            console.log( 'saveBook returned normally. Response:' ) ;
-            if( res.executionResult.status == 'OK' ) {
-              let status:SaveBookMetaRes = res.data ;
-              let statusMsg = `
-              Created ${status.numChaptersCreated} chapters, 
-              ${status.numExercisesCreated} exercises and 
-              ${status.numProblemsCreated} problems.` ;
 
-              resolve(`Book uploaded successfully. ${statusMsg}` ) ;
-            }
-            else {
-              reject( "Error saving book: " + res.executionResult.message ) ;
-            }
-          },
-          error: () => {
-            reject( "System error saving book. Check logs for details." ) ;
-          }
-        } ) ;
+        const postBody = {
+          "uploadedFileName": serverFileName
+        }
+
+        this.http.post<APIResponse>( saveUrl, postBody )
+            .subscribe( {
+              next: ( res) => {
+
+                if( res.executionResult.status == 'OK' ) {
+                  let status:SaveBookMetaRes = res.data ;
+                  let statusMsg = `Created ${status.numChaptersCreated} chapters, 
+                                          ${status.numExercisesCreated} exercises and 
+                                          ${status.numProblemsCreated} problems.` ;
+
+                  resolve(`Book uploaded successfully. ${statusMsg}` ) ;
+                }
+                else {
+                  reject( "Error saving book: " + res.executionResult.message ) ;
+                }
+              },
+              error: () => {
+
+                reject( "System error saving book. Check logs for details." ) ;
+              }
+            }) ;
       }
     } ) ;
   }

@@ -1,7 +1,5 @@
 import { Component, Host } from '@angular/core';
 import { Alert, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent } from "lib-core";
-import { environment } from "projects/environments/environment";
-import { APIResponse} from "lib-core";
 import { HttpClient } from "@angular/common/http";
 import { Router, RouterOutlet } from '@angular/router';
 import { ManageBooksService } from "./manage-books.service";
@@ -27,8 +25,6 @@ import AlertService = Alert.AlertService;
 })
 export class ManageBooksComponent {
 
-  showAllRows:boolean = false ;
-
   constructor( private http:HttpClient,
                @Host() private alertSvc:AlertService,
                @Host() private manageBookSvc:ManageBooksService,
@@ -50,7 +46,7 @@ export class ManageBooksComponent {
 
     this.manageBookSvc.validateFileOnServer( files!.item(0) as File )
         .then( () => {
-          this.router.navigateByUrl( '/manage-books/upload-review' ) ;
+          this.router.navigateByUrl('/manage-books/upload-review')  ;
         } )
         .catch( () => {
           this.alertSvc.error( 'File upload failure' ) ;

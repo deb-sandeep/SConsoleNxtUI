@@ -37,9 +37,7 @@ export class ExerciseRenderComponent extends BaseRenderer implements OnChanges {
   @Input() exercise: ExerciseValidationResult ;
   @Input() showAll: boolean = false ;
 
-  constructor() {
-    super();
-  }
+  constructor() {super();}
 
   ngOnChanges() {
     this.msgs = this.exercise?.validationMessages ;

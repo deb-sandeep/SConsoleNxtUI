@@ -5,6 +5,7 @@ export class BaseRenderer {
   public msgs: ValidationMessages | null ;
 
   msgClass( key: string ): string {
+
     let hasErrors = false ;
     let hasWarnings = false ;
     let hasInfo = false ;

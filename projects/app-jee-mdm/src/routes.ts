@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { ManageBooksComponent } from "./features/manage-books/manage-books.component";
 
-import { manageBooksRoutes } from "./features/manage-books/routes" ;
+import { manageBooksRoutes } from "./features/manage-books/manage-books.route" ;
 
 export const featureRoutes: Routes = [
     {

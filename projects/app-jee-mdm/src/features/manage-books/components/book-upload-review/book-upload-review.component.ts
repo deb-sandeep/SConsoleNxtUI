@@ -22,11 +22,14 @@ import AlertService = Alert.AlertService;
 export class BookUploadReviewComponent {
 
   result:BookValidationResult | null = null ;
+
+  // This is set by the 'Show All' checkbox.
   showAll:boolean = true ;
 
   constructor( @SkipSelf() private manageBookSvc: ManageBooksService,
                @SkipSelf() private alertSvc:AlertService,
                private router:Router ) {
+
     this.manageBookSvc.validationResult$.subscribe( result => {
       this.result = result ;
     } ) ;
@@ -63,8 +66,10 @@ export class BookUploadReviewComponent {
       } )
       .catch( (err:string) => {
         this.alertSvc.error( err ) ;
-      } ) ;
-    this.router.navigateByUrl( '/manage-books/book-list' ) ;
+      })
+      .finally(()=>{
+        this.router.navigateByUrl( '/manage-books/book-list' ) ;
+      }) ;
   }
 
   backToBookList(): void {

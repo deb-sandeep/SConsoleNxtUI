@@ -24,9 +24,7 @@ export class ChapterRenderComponent extends BaseRenderer implements OnChanges {
 
   @Input() chapter: ChapterValidationResult ;
 
-  constructor() {
-    super();
-  }
+  constructor() {super();}
 
   ngOnChanges() {
     this.msgs = this.chapter!.validationMessages ;

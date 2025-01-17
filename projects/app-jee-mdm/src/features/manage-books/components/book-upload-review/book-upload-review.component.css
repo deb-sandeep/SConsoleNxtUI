@@ -1,4 +1,8 @@
-.validation-summary {
+tr>td:nth-child(3) {
+    font-family: "Courier", serif;
+}
+
+.validation-msgs-summary {
     font-size: 14px;
     color: blue;
     margin-bottom: 5px;

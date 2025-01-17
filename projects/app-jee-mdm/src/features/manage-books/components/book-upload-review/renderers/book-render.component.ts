@@ -56,9 +56,7 @@ export class BookRenderComponent extends BaseRenderer implements OnChanges {
 
   @Input() book: BookValidationResult | null ;
 
-  constructor() {
-    super();
-  }
+  constructor() {super();}
 
   ngOnChanges() {
     this.msgs = this.book!.validationMessages ;
