@@ -1,4 +1,4 @@
-<div class="alert alert-dark" role="alert">
+<div class="alert alert-dark" role="alert" style="font-size: 15px;">
   @if (hasErrors()) {
     <div style="color:red">
       There are errors. Please correct and re-upload for validation.
@@ -14,12 +14,13 @@
       There are messages. Please review and save.
     </div>
   }
-  @else {
+  @else if( !hasMessages() ) {
     <div style="color:green">
       No errors, warnings or messages. You can save the book.
     </div>
   }
-  @if (result != null && hasMessages()) {
+
+  @if( result != null && hasMessages()) {
     <ul class="validation-msgs-summary">
       <li>{{ result!.totalMsgCount.numError }} errors</li>
       <li>{{ result!.totalMsgCount.numWarning }} warnings</li>
@@ -30,38 +31,36 @@
 
 <p>
 
-<table class="table table-sm">
-  <thead>
+@if( result != null ) {
+  <table class="table table-sm">
+    <thead>
     <th style="width: 100px">
       <input type="checkbox" [(ngModel)]="showAll">&nbsp;Field
     </th>
     <th style="width: 10px"></th>
     <th style="width: 350px">Value</th>
     <th>Message</th>
-  </thead>
-  <tbody book-render [book]="result"></tbody>
-  @for( chapter of result?.chapters; track $index ) {
+    </thead>
+    <tbody book-render [book]="result"></tbody>
+    @for( chapter of result?.chapters; track $index ) {
 
-    @if( showAll || chapter.totalMsgCount.total > 0 ) {
-      <tbody chapter-render
-             [chapter]="chapter"></tbody>
+      @if( showAll || chapter.totalMsgCount.total > 0 ) {
+        <tbody chapter-render
+               [chapter]="chapter"></tbody>
 
-      @for( exercise of chapter?.exercises; track $index ) {
-        @if( showAll || exercise.validationMessages.msgCount.total > 0 ) {
+        @for( exercise of chapter?.exercises; track $index ) {
+          @if( showAll || exercise.validationMessages.msgCount.total > 0 ) {
 
-          <tbody exercise-render
-                 [exercise]="exercise"
-                 [showAll]="showAll"></tbody>
+            <tbody exercise-render
+                   [exercise]="exercise"
+                   [showAll]="showAll"></tbody>
 
+          }
         }
       }
     }
-  }
-</table>
-
-<div class="float-start" *ngIf="hasErrors()">
-  <div style="color:red">There are errors. Please correct and re-upload for validation.</div>
-</div>
+  </table>
+}
 
 <div class="float-end button-bar">
   <button class="btn btn-secondary" (click)="backToBookList()">Back to book listing</button>

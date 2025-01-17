@@ -47,3 +47,13 @@ export type SaveBookMetaRes = {
     numProblemsCreated : number
 }
 
+export type BookSummary = {
+    id : number,
+    subjectName : string,
+    seriesName : string,
+    bookName : string,
+    author : string,
+    bookShortName : string,
+    numChapters : number,
+    numProblems : number,
+}

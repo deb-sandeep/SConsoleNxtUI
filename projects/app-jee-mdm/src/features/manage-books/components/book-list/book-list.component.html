@@ -1,1 +1,24 @@
-<p>book-list works!</p>
+<table class="table table-sm" style="margin: 0 auto;">
+  <thead>
+  <th style="width:100px">Subject</th>
+  <th style="width:150px">Series</th>
+  <th>Short Name</th>
+  <th>Book Name</th>
+  <th style="width:200px">Author</th>
+  <th style="width:100px"># Chapters</th>
+  <th style="width:100px"># Problems</th>
+  </thead>
+  <tbody>
+    @for( book of bookSummaries; track book.id ) {
+      <tr>
+        <td>{{book.subjectName}}</td>
+        <td>{{book.seriesName}}</td>
+        <td>{{book.bookShortName}}</td>
+        <td>{{book.bookName}}</td>
+        <td>{{book.author}}</td>
+        <td>{{book.numChapters}}</td>
+        <td>{{book.numProblems}}</td>
+      </tr>
+    }
+  </tbody>
+</table>

@@ -48,8 +48,8 @@ export class ManageBooksComponent {
         .then( () => {
           this.router.navigateByUrl('/manage-books/upload-review')  ;
         } )
-        .catch( () => {
-          this.alertSvc.error( 'File upload failure' ) ;
+        .catch( ( msg ) => {
+          this.alertSvc.error( 'File upload failure. ' + msg ) ;
         } ) ;
   }
 }
