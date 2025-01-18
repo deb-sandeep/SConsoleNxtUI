@@ -42,7 +42,7 @@
     <th>Message</th>
     </thead>
     <tbody book-render [book]="result"></tbody>
-    @for( chapter of result?.chapters; track $index ) {
+    @for( chapter of result.chapters; track $index ) {
 
       @if( showAll || chapter.totalMsgCount.total > 0 ) {
         <tbody chapter-render

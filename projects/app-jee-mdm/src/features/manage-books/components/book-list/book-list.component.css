@@ -1,0 +1,6 @@
+input[type="text"] {
+    width: 100%;
+    background-color: rgba(173, 206, 255, 0.33);
+    border-width: 1px;
+    border-color: rgba(173, 206, 255);
+}

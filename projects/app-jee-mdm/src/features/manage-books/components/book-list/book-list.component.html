@@ -12,18 +12,22 @@
     @for( book of bookSummaries; track book.id ) {
       <tr>
         <td>{{book.subjectName}}</td>
-        <td>{{book.seriesName}}</td>
         <td>
-          @if( book.isBeingEdited ) {
-            <input type="text" [(ngModel)]="book.editedBookShortName" style="width: 100%;"
-                   (keyup.enter)="saveBookEdit(book)" (keyup.escape)="cancelBookEdit(book)">
-          }
-          @else {
-            <span (dblclick)="book.isBeingEdited = true">{{book.bookShortName}}</span>
-          }
+          <editable-input [target]="book" attribute="seriesName"
+                          (save)="attributeChanged( $event )"/>
         </td>
-        <td>{{book.editedBookShortName}}</td>
-        <td>{{book.author}}</td>
+        <td>
+          <editable-input [target]="book" attribute="bookShortName"
+                          (save)="attributeChanged( $event )"/>
+        </td>
+        <td>
+          <editable-input [target]="book" attribute="bookName"
+                          (save)="attributeChanged( $event )"/>
+        </td>
+        <td>
+          <editable-input [target]="book" attribute="author"
+                          (save)="attributeChanged( $event )"/>
+        </td>
         <td>{{book.numChapters}}</td>
         <td>{{book.numProblems}}</td>
       </tr>

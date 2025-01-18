@@ -1,22 +1,17 @@
 import {Component, SkipSelf } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
 import { BookSummary } from "../../manage-books.type";
-import { Alert } from "lib-core";
+import { FormsModule } from "@angular/forms";
+import { Alert, EditableAttributeSaveEvent, EditableInput } from "lib-core";
 
 import AlertService = Alert.AlertService;
-import {BookRenderComponent} from "../book-upload-review/renderers/book-render.component";
-import {ChapterRenderComponent} from "../book-upload-review/renderers/chapter-render.component";
-import {ExerciseRenderComponent} from "../book-upload-review/renderers/exercise-render.component";
-import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'book-list',
   standalone: true,
   imports: [
-    BookRenderComponent,
-    ChapterRenderComponent,
-    ExerciseRenderComponent,
-    FormsModule
+    FormsModule,
+    EditableInput
   ],
   providers: [ ManageBooksService, AlertService ],
   templateUrl: './book-list.component.html',
@@ -36,18 +31,15 @@ export class BookListComponent {
 
   private enrichAndStoreBookSummaries( summaries:BookSummary[] ) {
     summaries.forEach( s => {
-      s.isBeingEdited = false ;
-      s.editedBookShortName = s.bookShortName ;
-
       this.bookSummaries.push( s ) ;
     }) ;
   }
 
-  saveBookEdit( book:BookSummary ) {
-    console.log( 'Saving book edit' ) ;
-  }
-
-  cancelBookEdit( book:BookSummary ) {
-    console.log( 'Cancelling book edit' ) ;
+  attributeChanged( $evt: EditableAttributeSaveEvent ) {
+    this.manageBookSvc
+        .updateBookAttribute( $evt.target as BookSummary,
+                              $evt.attributeName, $evt.attributeValue )
+        .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
+        .catch( msg => this.alertService.error( msg ) ) ;
   }
 }

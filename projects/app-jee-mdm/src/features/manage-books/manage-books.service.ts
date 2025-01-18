@@ -94,4 +94,33 @@ export class ManageBooksService {
       }
     } ) ;
   }
+
+  updateBookAttribute( book:BookSummary, attribute:string, value:string ) : Promise<string> {
+
+    const url = `${environment.apiRoot}/Master/Book/UpdateAttribute` ;
+
+    return new Promise( ( resolve, reject ) => {
+
+      const postBody = {
+        "id": book.id,
+        "attribute": attribute,
+        "value": value
+      } ;
+
+      this.http.post<APIResponse>( url, postBody )
+        .subscribe( {
+          next: ( res) => {
+            if( res.executionResult.status == 'OK' ) {
+              resolve( 'Updated successfully' ) ;
+            }
+            else {
+              reject( "Error updating attribute: " + res.executionResult.message ) ;
+            }
+          },
+          error: () => {
+            reject( "System error. Check logs for details." ) ;
+          }
+        }) ;
+    } ) ;
+  }
 }
