@@ -45,7 +45,7 @@ export class BookUploadReviewComponent {
   }
 
   hasErrors() {
-    return this.result == null ||
+    return this.result != null &&
            this.result.totalMsgCount.numError > 0 ;
   }
 

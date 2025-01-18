@@ -36,10 +36,6 @@ export namespace Alert {
       return this.alerts.length > 0 ;
     }
 
-    numAlerts():number {
-      return this.alerts.length ;
-    }
-
     removeAlert(index:number) {
       this.alerts.splice( index, 1 ) ;
     }

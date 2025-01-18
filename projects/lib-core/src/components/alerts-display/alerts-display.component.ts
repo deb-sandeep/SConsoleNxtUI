@@ -28,10 +28,5 @@ import { NgbAlert } from "@ng-bootstrap/ng-bootstrap";
   `
 })
 export class AlertsDisplayComponent {
-
   constructor( @SkipSelf() public alertService:Alert.AlertService ) {}
-
-  removeAlert( index:number ) {
-    this.alertService.removeAlert( index ) ;
-  }
 }

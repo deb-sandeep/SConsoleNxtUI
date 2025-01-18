@@ -46,6 +46,7 @@ export class ManageBooksComponent {
 
     this.manageBookSvc.validateFileOnServer( files!.item(0) as File )
         .then( () => {
+          this.alertSvc.success( 'File successfully validated.' ) ;
           this.router.navigateByUrl('/manage-books/upload-review')  ;
         } )
         .catch( ( msg ) => {

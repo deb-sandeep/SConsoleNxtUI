@@ -1,22 +1,22 @@
 <div class="alert alert-dark" role="alert" style="font-size: 15px;">
-  @if (hasErrors()) {
+  @if( hasErrors() ) {
     <div style="color:red">
       There are errors. Please correct and re-upload for validation.
     </div>
   }
-  @else if (hasWarnings()) {
+  @else if( hasWarnings() ) {
     <div style="color:brown">
       There are warnings. Please review and save.
     </div>
   }
-  @else if (hasInfo()) {
+  @else if( hasInfo() ) {
     <div style="color:blue">
       There are messages. Please review and save.
     </div>
   }
   @else if( !hasMessages() ) {
     <div style="color:green">
-      No errors, warnings or messages. You can save the book.
+      No errors, warnings or messages.
     </div>
   }
 
@@ -64,7 +64,7 @@
 
 <div class="float-end button-bar">
   <button class="btn btn-secondary" (click)="backToBookList()">Back to book listing</button>
-  @if (!hasErrors()) {
+  @if( result != null && !hasErrors()) {
     &nbsp;
     <button class="btn btn-primary" (click)="saveBook()">Save</button>
   }

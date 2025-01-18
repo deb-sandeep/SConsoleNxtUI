@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from "rxjs";
-import { APIResponse } from "lib-core";
+import { APIResponse, ModalWaitService } from "lib-core";
 import { HttpClient } from "@angular/common/http";
 
 import { environment } from "../../../../environments/environment";
@@ -12,7 +12,8 @@ export class ManageBooksService {
   private validationResultSub:BehaviorSubject<BookValidationResult|null> = new BehaviorSubject<BookValidationResult|null>( null ) ;
   validationResult$ = this.validationResultSub.asObservable() ;
 
-  constructor( private http:HttpClient ) {}
+  constructor( private http:HttpClient,
+               private modalWaitSvc:ModalWaitService ) {}
 
   getBookListing() : Promise<BookSummary[]> {
 
@@ -36,7 +37,10 @@ export class ManageBooksService {
     const formData = new FormData() ;
     formData.append( 'file', file ) ;
 
+    this.validationResultSub.next( null ) ;
+
     return new Promise( ( resolve, reject ) => {
+      this.modalWaitSvc.showWaitDialog = true ;
       this.http.post<APIResponse>( uploadUrl, formData )
           .subscribe( {
             next: res => {
@@ -47,10 +51,12 @@ export class ManageBooksService {
               else {
                 reject( res.executionResult.message ) ;
               }
+              this.modalWaitSvc.showWaitDialog = false ;
             },
             error: ( err ) => {
               this.validationResultSub.next( null ) ;
               reject( "Server error." ) ;
+              this.modalWaitSvc.showWaitDialog = false ;
             }
           } ) ;
     } ) ;

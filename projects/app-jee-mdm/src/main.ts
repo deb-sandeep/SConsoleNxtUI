@@ -5,7 +5,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http'
 import { Component } from '@angular/core';
 import { NgbAlertConfig, NgbAlertModule } from "@ng-bootstrap/ng-bootstrap";
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { PageHeaderComponent, FeatureMenubarComponent, FeatureMenuItemMeta } from 'lib-core';
+import {PageHeaderComponent, FeatureMenubarComponent, FeatureMenuItemMeta, ModalWaitComponent} from 'lib-core';
 
 import { featureRoutes } from "./routes" ;
 
@@ -16,9 +16,10 @@ import { featureRoutes } from "./routes" ;
         CommonModule,
         RouterOutlet, RouterLink, RouterLinkActive,
         PageHeaderComponent, FeatureMenubarComponent,
-        NgbAlertModule,
+        NgbAlertModule, ModalWaitComponent,
     ],
     template: `
+        <modal-wait></modal-wait>
         <page-header [title]="title"></page-header>
         <feature-menubar [meta]="menubarMeta"></feature-menubar>
         <div class="feature-page-body">
