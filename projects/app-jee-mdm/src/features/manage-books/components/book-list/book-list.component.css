@@ -4,3 +4,8 @@ input[type="text"] {
     border-width: 1px;
     border-color: rgba(173, 206, 255);
 }
+
+.number {
+    font-family: "Courier", serif;
+    text-align: right;
+}

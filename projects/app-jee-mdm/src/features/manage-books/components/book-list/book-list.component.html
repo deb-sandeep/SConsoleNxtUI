@@ -2,11 +2,11 @@
   <thead>
   <th style="width:100px">Subject</th>
   <th style="width:250px">Series</th>
-  <th style="width:300px">Short Name</th>
+  <th style="width:250px">Short Name</th>
   <th>Book Name</th>
   <th style="width:200px">Author</th>
-  <th style="width:100px"># Chapters</th>
-  <th style="width:100px"># Problems</th>
+  <th style="width:75px;text-align: center"># Ch</th>
+  <th style="width:75px;text-align: center"># Pr</th>
   </thead>
   <tbody>
     @for( book of bookSummaries; track book.id ) {
@@ -28,8 +28,8 @@
           <editable-input [target]="book" attribute="author"
                           (save)="attributeChanged( $event )"/>
         </td>
-        <td>{{book.numChapters}}</td>
-        <td>{{book.numProblems}}</td>
+        <td class="number">{{book.numChapters}}</td>
+        <td class="number">{{book.numProblems}}</td>
       </tr>
     }
   </tbody>
