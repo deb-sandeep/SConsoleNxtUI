@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { BookListComponent } from "./components/book-list/book-list.component";
 import { BookUploadReviewComponent } from "./components/book-upload-review/book-upload-review.component";
+import { BookDetailComponent } from "./components/book-detail/book-detail.component";
 
 export const manageBooksRoutes: Routes = [
     {
@@ -17,5 +18,10 @@ export const manageBooksRoutes: Routes = [
         path: 'book-list',
         title: 'Book List',
         component: BookListComponent
-    }
+    },
+    {
+        path: 'book-detail/:bookId',
+        title: 'Book Detail',
+        component: BookDetailComponent
+    },
 ] ;

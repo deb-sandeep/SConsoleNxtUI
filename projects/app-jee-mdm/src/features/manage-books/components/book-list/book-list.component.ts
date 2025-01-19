@@ -1,17 +1,19 @@
-import {Component, SkipSelf } from '@angular/core';
+import { Component, SkipSelf } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
 import { BookSummary } from "../../manage-books.type";
 import { FormsModule } from "@angular/forms";
 import { Alert, EditableAttributeSaveEvent, EditableInput } from "lib-core";
 
 import AlertService = Alert.AlertService;
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'book-list',
   standalone: true,
   imports: [
     FormsModule,
-    EditableInput
+    EditableInput,
+    RouterLink
   ],
   providers: [ ManageBooksService, AlertService ],
   templateUrl: './book-list.component.html',
@@ -25,17 +27,11 @@ export class BookListComponent {
                @SkipSelf() private alertService:AlertService ) {
 
     this.manageBookSvc.getBookListing()
-      .then( (value) => this.enrichAndStoreBookSummaries( value ) )
+      .then( (value) => this.bookSummaries = value )
       .catch( () => this.alertService.error( "Could not fetch book list" ) ) ;
   }
 
-  private enrichAndStoreBookSummaries( summaries:BookSummary[] ) {
-    summaries.forEach( s => {
-      this.bookSummaries.push( s ) ;
-    }) ;
-  }
-
-  attributeChanged( $evt: EditableAttributeSaveEvent ) {
+  saveChangedAttribute($evt: EditableAttributeSaveEvent ) {
     this.manageBookSvc
         .updateBookAttribute( $evt.target as BookSummary,
                               $evt.attributeName, $evt.attributeValue )

@@ -6,7 +6,8 @@
   <th>Book Name</th>
   <th style="width:200px">Author</th>
   <th style="width:75px;text-align: center"># Ch</th>
-  <th style="width:75px;text-align: center"># Pr</th>
+  <th style="width:75px;text-align: center;"># Pr</th>
+  <th style="width: 50px;"></th>
   </thead>
   <tbody>
     @for( book of bookSummaries; track book.id ) {
@@ -14,22 +15,27 @@
         <td>{{book.subjectName}}</td>
         <td>
           <editable-input [target]="book" attribute="seriesName"
-                          (save)="attributeChanged( $event )"/>
+                          (save)="saveChangedAttribute( $event )"/>
         </td>
         <td>
           <editable-input [target]="book" attribute="bookShortName"
-                          (save)="attributeChanged( $event )"/>
+                          (save)="saveChangedAttribute( $event )"/>
         </td>
         <td>
           <editable-input [target]="book" attribute="bookName"
-                          (save)="attributeChanged( $event )"/>
+                          (save)="saveChangedAttribute( $event )"/>
         </td>
         <td>
           <editable-input [target]="book" attribute="author"
-                          (save)="attributeChanged( $event )"/>
+                          (save)="saveChangedAttribute( $event )"/>
         </td>
         <td class="number">{{book.numChapters}}</td>
         <td class="number">{{book.numProblems}}</td>
+        <td class="book-detail-icon">
+          <a [routerLink]="['../book-detail',book.id]">
+            <span class="bi-list-columns"></span>
+          </a>
+        </td>
       </tr>
     }
   </tbody>
