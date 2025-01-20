@@ -1,5 +1,5 @@
 import { Component, SkipSelf } from '@angular/core';
-import { ModalWaitService } from "../../services/modal-wait.service";
+import { ModalWaitService } from "./modal-wait.service";
 
 @Component({
   selector: 'modal-wait',

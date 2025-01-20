@@ -9,8 +9,9 @@ export * from './components/modal-wait/modal-wait.component' ;
 
 // Services
 export * from './services/local-storage.service' ;
-export * from './services/alert.service' ;
-export * from './services/modal-wait.service' ;
+export * from './components/alerts-display/alert.service' ;
+export * from './components/modal-wait/modal-wait.service' ;
+export * from './components/page-toolbar/toolbar-title.service' ;
 
 // Types
 export * from './types/api-response' ;

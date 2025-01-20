@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {ToolbarTitleService} from "./toolbar-title.service";
 
 @Component({
   selector: 'page-toolbar',
@@ -11,13 +12,24 @@ import { ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 })
 export class PageToolbarComponent {
 
-  title:string = "" ;
+  pageTitle:string = "" ;
+  additionalTitle:string = "" ;
 
-  constructor( private router: Router, private activatedRoute: ActivatedRoute ) {
+  constructor( private router: Router,
+               private activatedRoute: ActivatedRoute,
+               private toolbarTitleSvc: ToolbarTitleService ) {
+
     router.events.subscribe( e => {
-      if( e instanceof NavigationEnd ) {
-        this.title = activatedRoute.snapshot.firstChild?.title || "" ;
+      if( e instanceof NavigationStart ) {
+        this.additionalTitle = "" ;
+      }
+      else if( e instanceof NavigationEnd ) {
+        this.pageTitle = activatedRoute.snapshot.firstChild?.title || "" ;
       }
     } ) ;
+
+    toolbarTitleSvc.title$.subscribe( title => {
+      this.additionalTitle = ( title === "" ) ? "" : ` > ${title}` ;
+    }) ;
   }
 }

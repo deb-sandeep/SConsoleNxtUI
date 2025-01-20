@@ -1,5 +1,5 @@
 import { Component, SkipSelf } from '@angular/core';
-import { Alert } from "../../services/alert.service";
+import { Alert } from "./alert.service";
 import { NgIf } from "@angular/common";
 import { NgbAlert } from "@ng-bootstrap/ng-bootstrap";
 

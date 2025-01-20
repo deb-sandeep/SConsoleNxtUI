@@ -1,7 +1,8 @@
 import { Component, SkipSelf } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
-import { BookSummary } from "../../manage-books.type";
-import { Alert, EditableAttributeSaveEvent, EditableInput } from "lib-core";
+import { Alert, EditableInput } from "lib-core";
+import { ActivatedRoute } from "@angular/router";
+import { ToolbarTitleService } from "lib-core";
 
 import AlertService = Alert.AlertService;
 
@@ -17,7 +18,13 @@ import AlertService = Alert.AlertService;
 })
 export class BookDetailComponent {
 
+  bookId:number = 0 ;
+
   constructor( @SkipSelf() private manageBookSvc:ManageBooksService,
-               @SkipSelf() private alertService:AlertService ) {
+               @SkipSelf() private alertService:AlertService,
+               private activeRoute:ActivatedRoute,
+               private titleSvc:ToolbarTitleService ) {
+    this.bookId = Number( activeRoute.snapshot.params['bookId'] ) ;
+    this.titleSvc.setTitle( String( this.bookId ) ) ;
   }
 }
