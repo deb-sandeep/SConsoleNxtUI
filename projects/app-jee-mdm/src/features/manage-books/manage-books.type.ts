@@ -56,7 +56,26 @@ export type BookSummary = {
     bookShortName : string,
     numChapters : number,
     numProblems : number,
+}
 
-    isBeingEdited : boolean,
-    editedBookShortName : string,
+export type BookProblemSummary = {
+    id : number,
+    subjectName : string,
+    seriesName : string,
+    bookName : string,
+    author : string,
+    bookShortName : string,
+    chapterProblemSummaries: ChapterProblemSummary[]
+}
+
+export type ChapterProblemSummary = {
+    chapterNum : number,
+    chapterName : string,
+    exerciseProblemSummaries : ExerciseProblemSummary[]
+}
+
+export type ExerciseProblemSummary = {
+    exerciseNum : number,
+    exerciseName : string,
+    problemTypeCount : Record<string, number>
 }

@@ -1,34 +1,27 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from "rxjs";
-import { APIResponse, ModalWaitService } from "lib-core";
-import { HttpClient } from "@angular/common/http";
+import { APIResponse, RemoteService } from "lib-core";
 
 import { environment } from "../../../../environments/environment";
-import {BookSummary, BookValidationResult, SaveBookMetaRes} from "./manage-books.type";
+import { BookProblemSummary, BookSummary, BookValidationResult, SaveBookMetaRes } from "./manage-books.type";
+
 
 @Injectable()
-export class ManageBooksService {
+export class ManageBooksService extends RemoteService {
 
   private validationResultSub:BehaviorSubject<BookValidationResult|null> = new BehaviorSubject<BookValidationResult|null>( null ) ;
   validationResult$ = this.validationResultSub.asObservable() ;
 
-  constructor( private http:HttpClient,
-               private modalWaitSvc:ModalWaitService ) {}
-
   getBookListing() : Promise<BookSummary[]> {
 
     const url:string = `${environment.apiRoot}/Master/Book/Listing` ;
-    return new Promise( ( resolve, reject ) => {
-      this.http.get<APIResponse>( url )
-        .subscribe( {
-          next: res => {
-            resolve( res.data ) ;
-          },
-          error: () => {
-            reject( null ) ;
-          }
-        } ) ;
-    } ) ;
+    return this.getPromise<BookSummary[]>( url ) ;
+  }
+
+  getBookProblemSummary( bookId:number ) : Promise<BookProblemSummary> {
+
+    const url:string = `${environment.apiRoot}/Master/Book/${bookId}/ProblemSummary` ;
+    return this.getPromise( url, true ) ;
   }
 
   validateFileOnServer( file:File ) : Promise<string> {
@@ -53,7 +46,7 @@ export class ManageBooksService {
               }
               this.modalWaitSvc.showWaitDialog = false ;
             },
-            error: ( err ) => {
+            error: () => {
               this.validationResultSub.next( null ) ;
               reject( "Server error." ) ;
               this.modalWaitSvc.showWaitDialog = false ;
@@ -73,6 +66,7 @@ export class ManageBooksService {
       }
       else {
 
+        this.modalWaitSvc.showWaitDialog = true ;
         const postBody = {
           "uploadedFileName": serverFileName
         }
@@ -92,9 +86,11 @@ export class ManageBooksService {
                 else {
                   reject( "Error saving book: " + res.executionResult.message ) ;
                 }
+                this.modalWaitSvc.showWaitDialog = false ;
               },
               error: () => {
                 reject( "System error saving book. Check logs for details." ) ;
+                this.modalWaitSvc.showWaitDialog = false ;
               }
             }) ;
       }
@@ -103,30 +99,19 @@ export class ManageBooksService {
 
   updateBookAttribute( book:BookSummary, attribute:string, value:string ) : Promise<string> {
 
-    const url = `${environment.apiRoot}/Master/Book/UpdateAttribute` ;
+    const url = `${environment.apiRoot}/Master/Book/${book.id}/UpdateAttribute` ;
+    return this.postPromise<string>( url, {
+      "attribute": attribute,
+      "value": value
+    }) ;
+  }
 
-    return new Promise( ( resolve, reject ) => {
+  updateChapterName( bookId:number, chapterNum:number, name:string ) : Promise<string> {
 
-      const postBody = {
-        "id": book.id,
-        "attribute": attribute,
-        "value": value
-      } ;
-
-      this.http.post<APIResponse>( url, postBody )
-        .subscribe( {
-          next: ( res) => {
-            if( res.executionResult.status == 'OK' ) {
-              resolve( 'Updated successfully' ) ;
-            }
-            else {
-              reject( "Error updating attribute: " + res.executionResult.message ) ;
-            }
-          },
-          error: () => {
-            reject( "System error. Check logs for details." ) ;
-          }
-        }) ;
-    } ) ;
+    const url = `${environment.apiRoot}/Master/Book/${bookId}/${chapterNum}/UpdateChapterName` ;
+    return this.postPromise<string>( url, {
+      "attribute": "title",
+      "value": name
+    }) ;
   }
 }

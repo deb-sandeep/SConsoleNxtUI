@@ -1,0 +1,45 @@
+td {
+    padding: 2px;
+}
+
+.problem-type-col {
+    width: 50px;
+    text-align: center;
+}
+
+.chapter-row {
+    font-size: 14px;
+}
+
+.chapter-row td {
+    background-color: rgb(210, 244, 253);
+}
+
+.chapter-row td:last-child {
+    background-color: #cbe0e0;
+}
+
+.exercise-row {
+    font-size: 12px ;
+}
+
+.exercise-row td:nth-child(2) {
+    padding-left: 20px;
+}
+
+.exercise-row td:nth-child(3) {
+    padding-left: 30px;
+}
+
+.number {
+    text-align: right;
+    font-family: "Courier", serif;
+    border-color: #eaeaea;
+    border-width: 1px;
+    font-size: 13px;
+    padding-right: 5px;
+}
+
+.total {
+    background-color: #f1f0f0;
+}
