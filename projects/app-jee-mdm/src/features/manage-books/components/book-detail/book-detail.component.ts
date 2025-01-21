@@ -24,6 +24,7 @@ export class BookDetailComponent {
   bookId:number = 0 ;
   summary:BookProblemSummary ;
   expandedState:Record<number, boolean> = {} ;
+  fullyExpanded:boolean = false ;
 
   constructor( @SkipSelf() private manageBookSvc:ManageBooksService,
                @SkipSelf() private alertService:AlertService,
@@ -51,6 +52,13 @@ export class BookDetailComponent {
   toggleChapterExpandedState( ch:ChapterProblemSummary ) {
     let currentExpandedState = this.isExpanded( ch ) ;
     this.expandedState[ch.chapterNum] = !currentExpandedState ;
+  }
+
+  toggleFullExpansion() {
+    this.fullyExpanded = !this.fullyExpanded ;
+    this.summary.chapterProblemSummaries.forEach( ch => {
+      this.expandedState[ch.chapterNum] = this.fullyExpanded ;
+    }) ;
   }
 
   getChapterProblemTypeCount( ch:ChapterProblemSummary, problemType:string ):number {

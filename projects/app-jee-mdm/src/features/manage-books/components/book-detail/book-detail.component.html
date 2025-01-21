@@ -1,6 +1,10 @@
 <table class="table table-sm" style="margin: 0 auto; width: 900px;">
   <thead>
-    <th style="width: 30px"></th>
+    <th style="width: 30px">
+        <span ngClass="bi-{{fullyExpanded?'arrows-collapse':'arrows-expand'}}"
+              style="background: transparent;"
+              (click)="toggleFullExpansion()"></span>
+    </th>
     <th style="width: 40px;">#</th>
     <th>Name</th>
     <th class="problem-type-col">SCA</th>

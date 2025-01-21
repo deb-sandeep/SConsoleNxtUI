@@ -13,6 +13,7 @@ td {
 
 .chapter-row td {
     background-color: rgb(210, 244, 253);
+    padding: 5px;
 }
 
 .chapter-row td:last-child {
