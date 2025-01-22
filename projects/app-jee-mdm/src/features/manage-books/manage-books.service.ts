@@ -15,7 +15,7 @@ export class ManageBooksService extends RemoteService {
   getBookListing() : Promise<BookSummary[]> {
 
     const url:string = `${environment.apiRoot}/Master/Book/Listing` ;
-    return this.getPromise<BookSummary[]>( url ) ;
+    return this.getPromise<BookSummary[]>( url, true ) ;
   }
 
   getBookProblemSummary( bookId:number ) : Promise<BookProblemSummary> {

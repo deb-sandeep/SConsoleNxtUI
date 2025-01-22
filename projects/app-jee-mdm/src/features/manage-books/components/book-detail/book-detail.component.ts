@@ -1,12 +1,12 @@
-import { Component, SkipSelf } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
-import {Alert, EditableAttributeSaveEvent, EditableInput} from "lib-core";
-import { ActivatedRoute } from "@angular/router";
+import { Alert, EditableAttributeSaveEvent, EditableInput} from "lib-core";
 import { ToolbarTitleService } from "lib-core";
-import {BookProblemSummary, ChapterProblemSummary, ExerciseProblemSummary } from "../../manage-books.type";
+import { BookProblemSummary, ChapterProblemSummary, ExerciseProblemSummary } from "../../manage-books.type";
+import { NgClass } from "@angular/common";
+import { ActivatedRoute } from "@angular/router";
 
 import AlertService = Alert.AlertService;
-import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'book-detail',
@@ -21,17 +21,19 @@ import {NgClass} from "@angular/common";
 })
 export class BookDetailComponent {
 
+  private manageBookSvc = inject( ManageBooksService ) ;
+  private alertSvc = inject( AlertService ) ;
+  private titleSvc = inject( ToolbarTitleService ) ;
+  private activeRoute = inject( ActivatedRoute ) ;
+
   bookId:number = 0 ;
-  summary:BookProblemSummary ;
+  summary:BookProblemSummary | null ;
   expandedState:Record<number, boolean> = {} ;
   fullyExpanded:boolean = false ;
 
-  constructor( @SkipSelf() private manageBookSvc:ManageBooksService,
-               @SkipSelf() private alertService:AlertService,
-               private activeRoute:ActivatedRoute,
-               private titleSvc:ToolbarTitleService ) {
+  constructor() {
 
-    this.bookId = Number( activeRoute.snapshot.params['bookId'] ) ;
+    this.bookId = Number( this.activeRoute.snapshot.params['bookId'] ) ;
     this.titleSvc.setTitle( String( this.bookId ) ) ;
 
     this.manageBookSvc.getBookProblemSummary( this.bookId )
@@ -44,12 +46,12 @@ export class BookDetailComponent {
         this.linkParent() ;
         this.toggleFullExpansion() ;
       } )
-      .catch( () => this.alertService.error( "Could not fetch book problem summary" ) ) ;
+      .catch( () => this.alertSvc.error( "Could not fetch book problem summary" ) ) ;
   }
 
   private linkParent() {
-    this.summary.chapterProblemSummaries.forEach( ch => {
-      ch.parent = this.summary ;
+    this.summary?.chapterProblemSummaries.forEach( ch => {
+      ch.parent = this.summary as BookProblemSummary ;
       ch.exerciseProblemSummaries.forEach( ex => {
         ex.parent = ch ;
       }) ;
@@ -67,7 +69,7 @@ export class BookDetailComponent {
 
   toggleFullExpansion() {
     this.fullyExpanded = !this.fullyExpanded ;
-    this.summary.chapterProblemSummaries.forEach( ch => {
+    this.summary?.chapterProblemSummaries.forEach( ch => {
       this.expandedState[ch.chapterNum] = this.fullyExpanded ;
     }) ;
   }
@@ -107,7 +109,7 @@ export class BookDetailComponent {
                             ch.chapterNum,
                             $evt.attributeValue )
         .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
-        .catch( msg => this.alertService.error( msg ) ) ;
+        .catch( msg => this.alertSvc.error( msg ) ) ;
   }
 
   saveUpdatedExerciseName( $evt: EditableAttributeSaveEvent ) {
@@ -118,6 +120,6 @@ export class BookDetailComponent {
                              ex.exerciseNum,
                              $evt.attributeValue )
         .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
-        .catch( msg => this.alertService.error( msg ) ) ;
+        .catch( msg => this.alertSvc.error( msg ) ) ;
   }
 }

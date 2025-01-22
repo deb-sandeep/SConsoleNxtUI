@@ -1,11 +1,11 @@
-import { Component, SkipSelf } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
 import { BookSummary } from "../../manage-books.type";
 import { FormsModule } from "@angular/forms";
 import { Alert, EditableAttributeSaveEvent, EditableInput } from "lib-core";
+import { RouterLink } from "@angular/router";
 
 import AlertService = Alert.AlertService;
-import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'book-list',
@@ -15,20 +15,21 @@ import {RouterLink} from "@angular/router";
     EditableInput,
     RouterLink
   ],
-  providers: [ ManageBooksService, AlertService ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
 })
 export class BookListComponent {
 
+  private manageBookSvc = inject( ManageBooksService ) ;
+  private alertSvc = inject( AlertService ) ;
+
   bookSummaries:BookSummary[] = [] ;
 
-  constructor( @SkipSelf() private manageBookSvc:ManageBooksService,
-               @SkipSelf() private alertService:AlertService ) {
+  constructor() {
 
     this.manageBookSvc.getBookListing()
       .then( (value) => this.bookSummaries = value )
-      .catch( () => this.alertService.error( "Could not fetch book list" ) ) ;
+      .catch( () => this.alertSvc.error( "Could not fetch book list" ) ) ;
   }
 
   saveChangedAttribute($evt: EditableAttributeSaveEvent ) {
@@ -36,6 +37,6 @@ export class BookListComponent {
         .updateBookAttribute( $evt.target as BookSummary,
                               $evt.attributeName, $evt.attributeValue )
         .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
-        .catch( msg => this.alertService.error( msg ) ) ;
+        .catch( msg => this.alertSvc.error( msg ) ) ;
   }
 }

@@ -1,6 +1,5 @@
-import { Component, Host } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { Alert, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent } from "lib-core";
-import { HttpClient } from "@angular/common/http";
 import { Router, RouterOutlet } from '@angular/router';
 import { ManageBooksService } from "./manage-books.service";
 
@@ -10,7 +9,6 @@ import AlertService = Alert.AlertService;
   selector: 'app-manage-books',
   standalone: true,
   imports: [ RouterOutlet, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent ],
-  providers:[ AlertService, ManageBooksService ],
   template:`
     <page-toolbar>
       <toolbar-action name='File upload'
@@ -25,10 +23,9 @@ import AlertService = Alert.AlertService;
 })
 export class ManageBooksComponent {
 
-  constructor( private http:HttpClient,
-               @Host() private alertSvc:AlertService,
-               @Host() private manageBookSvc:ManageBooksService,
-               private router:Router ) {}
+  private alertSvc = inject( AlertService ) ;
+  private manageBookSvc = inject( ManageBooksService ) ;
+  private router = inject( Router ) ;
 
   uploadFileBtnClicked() {
 
@@ -47,7 +44,7 @@ export class ManageBooksComponent {
     this.manageBookSvc.validateFileOnServer( files!.item(0) as File )
         .then( () => {
           this.alertSvc.success( 'File successfully validated.' ) ;
-          this.router.navigateByUrl('/manage-books/upload-review')  ;
+          this.router.navigateByUrl('/manage-books/upload-review').then()  ;
         } )
         .catch( ( msg ) => {
           this.alertSvc.error( 'File upload failure. ' + msg ) ;

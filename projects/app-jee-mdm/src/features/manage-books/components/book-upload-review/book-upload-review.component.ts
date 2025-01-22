@@ -1,4 +1,4 @@
-import { Component, SkipSelf } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
 import { BookValidationResult } from "../../manage-books.type";
 import { NgIf } from "@angular/common";
@@ -15,21 +15,21 @@ import AlertService = Alert.AlertService;
   selector: 'book-upload-review',
   standalone: true,
   imports: [BookRenderComponent, ChapterRenderComponent, ExerciseRenderComponent, NgIf, FormsModule],
-  providers: [AlertService],
   templateUrl: './book-upload-review.component.html',
   styleUrl: './book-upload-review.component.css'
 })
 export class BookUploadReviewComponent {
+
+  private manageBookSvc = inject( ManageBooksService ) ;
+  private alertSvc = inject( AlertService ) ;
+  private router = inject( Router ) ;
 
   result:BookValidationResult | null = null ;
 
   // This is set by the 'Show All' checkbox.
   showAll:boolean = true ;
 
-  constructor( @SkipSelf() private manageBookSvc: ManageBooksService,
-               @SkipSelf() private alertSvc:AlertService,
-               private router:Router ) {
-
+  constructor() {
     this.manageBookSvc.validationResult$.subscribe( result => {
       this.result = result ;
     } ) ;
@@ -68,11 +68,11 @@ export class BookUploadReviewComponent {
         this.alertSvc.error( err ) ;
       })
       .finally(()=>{
-        this.router.navigateByUrl( '/manage-books/book-list' ) ;
+        this.router.navigateByUrl( '/manage-books/book-list' ).then() ;
       }) ;
   }
 
   backToBookList(): void {
-    this.router.navigateByUrl( '/manage-books/book-list' ) ;
+    this.router.navigateByUrl( '/manage-books/book-list' ).then() ;
   }
 }
