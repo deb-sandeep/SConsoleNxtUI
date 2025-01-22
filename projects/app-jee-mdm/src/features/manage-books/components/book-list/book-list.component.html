@@ -1,7 +1,8 @@
 <table class="table table-sm table-striped" style="margin: 0 auto;">
   <thead>
   <th style="width: 40px;"></th>
-  <th style="width:100px">Subject</th>
+  <th style="width:75px">Subject</th>
+  <th style="width:100px">Syllabus</th>
   <th style="width:250px">Short Name</th>
   <th style="width:250px">Series</th>
   <th>Book Name</th>
@@ -18,6 +19,7 @@
           </a>
         </td>
         <td>{{book.subjectName}}</td>
+        <td>{{book.syllabusName || "---" }}</td>
         <td>
           <editable-input [target]="book" attribute="bookShortName"
                           (save)="saveChangedAttribute( $event )"/>

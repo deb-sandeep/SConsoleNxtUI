@@ -37,10 +37,10 @@ export class BookDetailComponent {
     this.manageBookSvc.getBookProblemSummary( this.bookId )
       .then( data => {
         this.summary = data ;
-        this.titleSvc.setTitle( `${data.subjectName} > 
+        this.titleSvc.setTitle( `[${data.syllabusName}] >
                                  ${data.seriesName} > 
-                                 ${data.bookName} > 
-                                 ${data.author}` ) ;
+                                 ${data.author} >
+                                 ${data.bookName}` ) ;
         this.linkParent() ;
         this.toggleFullExpansion() ;
       } )

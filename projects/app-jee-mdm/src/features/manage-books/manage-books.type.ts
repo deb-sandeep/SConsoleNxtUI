@@ -50,6 +50,7 @@ export type SaveBookMetaRes = {
 export type BookSummary = {
     id : number,
     subjectName : string,
+    syllabusName : string,
     seriesName : string,
     bookName : string,
     author : string,
@@ -60,6 +61,7 @@ export type BookSummary = {
 
 export type BookProblemSummary = {
     id : number,
+    syllabusName : string,
     subjectName : string,
     seriesName : string,
     bookName : string,
