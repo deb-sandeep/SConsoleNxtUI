@@ -18,7 +18,7 @@
     <th>Total</th>
   </thead>
   <tbody>
-    @for( ch of summary.chapterProblemSummaries; track ch.chapterNum ) {
+    @for( ch of summary?.chapterProblemSummaries; track ch.chapterNum ) {
       <tr class="chapter-row">
         <td>
           <span ngClass="bi-{{isExpanded(ch)?'caret-down':'caret-right'}}"
@@ -45,7 +45,10 @@
           <tr class="exercise-row">
             <td></td>
             <td>{{ex.exerciseNum}}</td>
-            <td>{{ex.exerciseName}}</td>
+            <td>
+              <editable-input [target]="ex" attribute="exerciseName"
+                              (save)="saveUpdatedExerciseName( $event )"/>
+            </td>
             <td class="number">{{ex.problemTypeCount['SCA']}}</td>
             <td class="number">{{ex.problemTypeCount['MCA']}}</td>
             <td class="number">{{ex.problemTypeCount['ART']}}</td>

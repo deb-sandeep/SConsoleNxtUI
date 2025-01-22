@@ -41,8 +41,19 @@ export class BookDetailComponent {
                                  ${data.seriesName} > 
                                  ${data.bookName} > 
                                  ${data.author}` ) ;
+        this.linkParent() ;
+        this.toggleFullExpansion() ;
       } )
       .catch( () => this.alertService.error( "Could not fetch book problem summary" ) ) ;
+  }
+
+  private linkParent() {
+    this.summary.chapterProblemSummaries.forEach( ch => {
+      ch.parent = this.summary ;
+      ch.exerciseProblemSummaries.forEach( ex => {
+        ex.parent = ch ;
+      }) ;
+    })
   }
 
   isExpanded( ch:ChapterProblemSummary ):boolean {
@@ -90,11 +101,23 @@ export class BookDetailComponent {
   }
 
   saveUpdatedChapterName($evt: EditableAttributeSaveEvent ) {
+    let ch = $evt.target as ChapterProblemSummary ;
     this.manageBookSvc
-      .updateChapterName( this.summary.id,
-                          ($evt.target as ChapterProblemSummary).chapterNum,
-                          $evt.attributeValue )
-      .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
-      .catch( msg => this.alertService.error( msg ) ) ;
+        .updateChapterName( ch.parent.id,
+                            ch.chapterNum,
+                            $evt.attributeValue )
+        .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
+        .catch( msg => this.alertService.error( msg ) ) ;
+  }
+
+  saveUpdatedExerciseName( $evt: EditableAttributeSaveEvent ) {
+    let ex = $evt.target as ExerciseProblemSummary ;
+    this.manageBookSvc
+        .updateExerciseName( ex.parent.parent.id,
+                             ex.parent.chapterNum,
+                             ex.exerciseNum,
+                             $evt.attributeValue )
+        .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
+        .catch( msg => this.alertService.error( msg ) ) ;
   }
 }

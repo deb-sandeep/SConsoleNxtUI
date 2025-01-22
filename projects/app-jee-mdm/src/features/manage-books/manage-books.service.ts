@@ -109,9 +109,12 @@ export class ManageBooksService extends RemoteService {
   updateChapterName( bookId:number, chapterNum:number, name:string ) : Promise<string> {
 
     const url = `${environment.apiRoot}/Master/Book/${bookId}/${chapterNum}/UpdateChapterName` ;
-    return this.postPromise<string>( url, {
-      "attribute": "title",
-      "value": name
-    }) ;
+    return this.postPromise<string>( url, {"value": name}) ;
+  }
+
+  updateExerciseName( bookId:number, chapterNum:number, exerciseNum:number, name:string ) : Promise<string> {
+
+    const url = `${environment.apiRoot}/Master/Book/${bookId}/${chapterNum}/${exerciseNum}/UpdateExerciseName` ;
+    return this.postPromise<string>( url, {"value": name}) ;
   }
 }

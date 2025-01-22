@@ -1,24 +1,29 @@
 <table class="table table-sm table-striped" style="margin: 0 auto;">
   <thead>
+  <th style="width: 40px;"></th>
   <th style="width:100px">Subject</th>
-  <th style="width:250px">Series</th>
   <th style="width:250px">Short Name</th>
+  <th style="width:250px">Series</th>
   <th>Book Name</th>
   <th style="width:200px">Author</th>
   <th style="width:75px;text-align: center"># Ch</th>
   <th style="width:75px;text-align: center;"># Pr</th>
-  <th style="width: 50px;"></th>
   </thead>
   <tbody>
     @for( book of bookSummaries; track book.id ) {
       <tr>
+        <td class="book-detail-icon">
+          <a [routerLink]="['../book-detail',book.id]">
+            <span class="bi-list-columns"></span>
+          </a>
+        </td>
         <td>{{book.subjectName}}</td>
         <td>
-          <editable-input [target]="book" attribute="seriesName"
+          <editable-input [target]="book" attribute="bookShortName"
                           (save)="saveChangedAttribute( $event )"/>
         </td>
         <td>
-          <editable-input [target]="book" attribute="bookShortName"
+          <editable-input [target]="book" attribute="seriesName"
                           (save)="saveChangedAttribute( $event )"/>
         </td>
         <td>
@@ -31,11 +36,6 @@
         </td>
         <td class="number">{{book.numChapters}}</td>
         <td class="number">{{book.numProblems}}</td>
-        <td class="book-detail-icon">
-          <a [routerLink]="['../book-detail',book.id]">
-            <span class="bi-list-columns"></span>
-          </a>
-        </td>
       </tr>
     }
   </tbody>

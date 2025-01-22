@@ -71,11 +71,13 @@ export type BookProblemSummary = {
 export type ChapterProblemSummary = {
     chapterNum : number,
     chapterName : string,
-    exerciseProblemSummaries : ExerciseProblemSummary[]
+    exerciseProblemSummaries : ExerciseProblemSummary[],
+    parent: BookProblemSummary
 }
 
 export type ExerciseProblemSummary = {
     exerciseNum : number,
     exerciseName : string,
-    problemTypeCount : Record<string, number>
+    problemTypeCount : Record<string, number>,
+    parent: ChapterProblemSummary
 }
