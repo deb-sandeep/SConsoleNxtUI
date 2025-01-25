@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
 import { Alert, EditableAttributeSaveEvent, EditableInput} from "lib-core";
-import { ToolbarTitleService } from "lib-core";
+import { PageTitleService } from "lib-core";
 import { BookProblemSummary, ChapterProblemSummary, ExerciseProblemSummary } from "../../manage-books.type";
 import { NgClass } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
@@ -23,7 +23,7 @@ export class BookDetailComponent {
 
   private manageBookSvc = inject( ManageBooksService ) ;
   private alertSvc = inject( AlertService ) ;
-  private titleSvc = inject( ToolbarTitleService ) ;
+  private titleSvc = inject( PageTitleService ) ;
   private activeRoute = inject( ActivatedRoute ) ;
 
   bookId:number = 0 ;

@@ -1,5 +1,10 @@
 import {Component, inject} from '@angular/core';
-import { Alert, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent } from "lib-core";
+import {
+  Alert,
+  ToolbarActionComponent,
+  AlertsDisplayComponent,
+  PageTitleComponent
+} from "lib-core";
 import { Router, RouterOutlet } from '@angular/router';
 import { ManageBooksService } from "./manage-books.service";
 
@@ -8,13 +13,13 @@ import AlertService = Alert.AlertService;
 @Component({
   selector: 'app-manage-books',
   standalone: true,
-  imports: [ RouterOutlet, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent ],
+  imports: [ RouterOutlet, PageTitleComponent, ToolbarActionComponent, AlertsDisplayComponent ],
   template:`
-    <page-toolbar>
+    <page-title>
       <toolbar-action name='File upload'
                       icon="upload"
                       (click)="uploadFileBtnClicked()"></toolbar-action>
-    </page-toolbar>
+    </page-title>
     <alerts-display></alerts-display>
     <div class="page-content">
       <router-outlet></router-outlet>
