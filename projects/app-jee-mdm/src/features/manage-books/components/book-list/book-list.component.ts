@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import {Component, inject } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
 import { BookSummary } from "../../manage-books.type";
 import { FormsModule } from "@angular/forms";
@@ -6,6 +6,7 @@ import { Alert, EditableAttributeSaveEvent, EditableInput } from "lib-core";
 import { RouterLink } from "@angular/router";
 
 import AlertService = Alert.AlertService;
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'book-list',
@@ -13,7 +14,8 @@ import AlertService = Alert.AlertService;
   imports: [
     FormsModule,
     EditableInput,
-    RouterLink
+    RouterLink,
+    NgClass
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
@@ -38,5 +40,20 @@ export class BookListComponent {
                               $evt.attributeName, $evt.attributeValue )
         .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
         .catch( msg => this.alertSvc.error( msg ) ) ;
+  }
+
+  toggleAllRowsSelection( $evt:Event ) {
+    let checked = ($evt.target as HTMLInputElement).checked ;
+    this.bookSummaries
+        .forEach( b => b.selected = checked ) ;
+  }
+
+  isIndeterminateRowSelection():boolean {
+    let numSelectedRows = this.bookSummaries.filter( b => b.selected ).length ;
+    return numSelectedRows > 0 && numSelectedRows < this.bookSummaries.length ;
+  }
+
+  seriesSelected( seriesName:string ) {
+    this.bookSummaries.forEach( b => b.selected = b.seriesName === seriesName ) ;
   }
 }

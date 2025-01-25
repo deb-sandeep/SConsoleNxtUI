@@ -39,10 +39,10 @@ export class BookDetailComponent {
     this.manageBookSvc.getBookProblemSummary( this.bookId )
       .then( data => {
         this.summary = data ;
-        this.titleSvc.setTitle( `[${data.syllabusName}] >
-                                 ${data.seriesName} > 
-                                 ${data.author} >
-                                 ${data.bookName}` ) ;
+        this.titleSvc.setTitle( `[${data.book.syllabusName}] >
+                                 ${data.book.seriesName} > 
+                                 ${data.book.author} >
+                                 ${data.book.bookName}` ) ;
         this.linkParent() ;
         this.toggleFullExpansion() ;
       } )
@@ -105,7 +105,7 @@ export class BookDetailComponent {
   saveUpdatedChapterName($evt: EditableAttributeSaveEvent ) {
     let ch = $evt.target as ChapterProblemSummary ;
     this.manageBookSvc
-        .updateChapterName( ch.parent.id,
+        .updateChapterName( ch.parent.book.id,
                             ch.chapterNum,
                             $evt.attributeValue )
         .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
@@ -115,7 +115,7 @@ export class BookDetailComponent {
   saveUpdatedExerciseName( $evt: EditableAttributeSaveEvent ) {
     let ex = $evt.target as ExerciseProblemSummary ;
     this.manageBookSvc
-        .updateExerciseName( ex.parent.parent.id,
+        .updateExerciseName( ex.parent.parent.book.id,
                              ex.parent.chapterNum,
                              ex.exerciseNum,
                              $evt.attributeValue )

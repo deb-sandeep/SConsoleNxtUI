@@ -55,18 +55,13 @@ export type BookSummary = {
     bookName : string,
     author : string,
     bookShortName : string,
-    numChapters : number,
-    numProblems : number,
+    numChapters? : number,
+    numProblems? : number,
+    selected? : boolean
 }
 
 export type BookProblemSummary = {
-    id : number,
-    syllabusName : string,
-    subjectName : string,
-    seriesName : string,
-    bookName : string,
-    author : string,
-    bookShortName : string,
+    book: BookSummary,
     chapterProblemSummaries: ChapterProblemSummary[]
 }
 
