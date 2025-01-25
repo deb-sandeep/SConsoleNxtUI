@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {PageTitleService} from "./page-title.service";
@@ -8,29 +8,21 @@ import {PageTitleService} from "./page-title.service";
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="page-toolbar">
+    <div class="page-title">
       {{pageTitle}}{{additionalTitle}}
-      <div class="action-btns">
-        <ng-content></ng-content>
-      </div>
     </div>
   `,
   styles: `
-    .page-toolbar {
-        display: block;
-        width: calc(100vw - var(--feature-menubar-width));
-        height: var(--page-toolbar-height);
-        background-color: var(--page-toolbar-bgcolor);
-        color: var(--page-toolbar-fgcolor) ;
-        font-size: 18px;
-        padding-left: 10px;
-    }
-    
-    .action-btns {
-        float:right ;
-        padding-left: 10px ;
-        padding-right: 10px ;
-    }
+      .page-title {
+          display: block;
+          width: calc(100vw - var(--feature-menubar-width));
+          height: var(--page-title-height);
+          background-color: var(--page-title-bgcolor);
+          color: var(--page-title-fgcolor);
+          font-size: 18px;
+          padding-left: 10px;
+          border-top: 1px solid var(--page-toolbar-bgcolor);
+      }
   `
 })
 export class PageTitleComponent {

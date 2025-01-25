@@ -1,52 +1,60 @@
-<table class="table table-sm table-striped" style="margin: 0 auto;">
-  <thead>
-  <th style="width: 20px;text-align: center;">
-    <input type="checkbox"
-           (change)="toggleAllRowsSelection( $event )"
-           [indeterminate]="isIndeterminateRowSelection()">
-  </th>
-  <th style="width: 40px;"></th>
-  <th style="width:80px">Subject</th>
-  <th style="width:120px">Syllabus</th>
-  <th style="width:250px">Short Name</th>
-  <th style="width:250px">Series</th>
-  <th>Book Name</th>
-  <th style="width:200px">Author</th>
-  <th style="width:75px;text-align: right;"># Ch</th>
-  <th style="width:75px;text-align: right;"># Pr</th>
-  </thead>
-  <tbody>
-    @for( book of bookSummaries; track book.id ) {
-      <tr [ngClass]="book.selected?'selected-row':''">
-        <td>
-          <input type="checkbox" [(ngModel)]="book.selected"/>
-        </td>
-        <td class="book-detail-icon">
-          <a [routerLink]="['../book-detail',book.id]">
-            <span class="bi-list-columns"></span>
-          </a>
-        </td>
-        <td>{{book.subjectName}}</td>
-        <td>{{book.syllabusName || "---" }}</td>
-        <td>
-          <editable-input [target]="book" attribute="bookShortName"
-                          (save)="saveChangedAttribute( $event )"/>
-        </td>
-        <td (dblclick)="seriesSelected(book.seriesName)">
-          <editable-input [target]="book" attribute="seriesName"
-                          (save)="saveChangedAttribute( $event )"/>
-        </td>
-        <td>
-          <editable-input [target]="book" attribute="bookName"
-                          (save)="saveChangedAttribute( $event )"/>
-        </td>
-        <td>
-          <editable-input [target]="book" attribute="author"
-                          (save)="saveChangedAttribute( $event )"/>
-        </td>
-        <td class="number">{{book.numChapters}}</td>
-        <td class="number">{{book.numProblems}}</td>
-      </tr>
-    }
-  </tbody>
-</table>
+<page-toolbar>
+  <toolbar-action name='File upload'
+                  icon="upload"
+                  (click)="uploadFileBtnClicked()"></toolbar-action>
+</page-toolbar>
+<div class="page-content">
+  <table class="table table-sm table-striped" style="margin: 0 auto;">
+    <thead>
+    <th style="width: 20px;text-align: center;">
+      <input type="checkbox"
+             (change)="toggleAllRowsSelection( $event )"
+             [indeterminate]="isIndeterminateRowSelection()">
+    </th>
+    <th style="width: 40px;"></th>
+    <th style="width:80px">Subject</th>
+    <th style="width:120px">Syllabus</th>
+    <th style="width:250px">Short Name</th>
+    <th style="width:250px">Series</th>
+    <th>Book Name</th>
+    <th style="width:200px">Author</th>
+    <th style="width:75px;text-align: right;"># Ch</th>
+    <th style="width:75px;text-align: right;"># Pr</th>
+    </thead>
+    <tbody>
+      @for( book of bookSummaries; track book.id ) {
+        <tr [ngClass]="book.selected?'selected-row':''">
+          <td>
+            <input type="checkbox" [(ngModel)]="book.selected"/>
+          </td>
+          <td class="book-detail-icon">
+            <a [routerLink]="['../book-detail',book.id]">
+              <span class="bi-list-columns"></span>
+            </a>
+          </td>
+          <td>{{book.subjectName}}</td>
+          <td>{{book.syllabusName || "---" }}</td>
+          <td>
+            <editable-input [target]="book" attribute="bookShortName"
+                            (save)="saveChangedAttribute( $event )"/>
+          </td>
+          <td (dblclick)="seriesSelected(book.seriesName)">
+            <editable-input [target]="book" attribute="seriesName"
+                            (save)="saveChangedAttribute( $event )"/>
+          </td>
+          <td>
+            <editable-input [target]="book" attribute="bookName"
+                            (save)="saveChangedAttribute( $event )"/>
+          </td>
+          <td>
+            <editable-input [target]="book" attribute="author"
+                            (save)="saveChangedAttribute( $event )"/>
+          </td>
+          <td class="number">{{book.numChapters}}</td>
+          <td class="number">{{book.numProblems}}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+

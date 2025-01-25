@@ -1,11 +1,14 @@
 :root {
   --page-header-bgcolor   : #757474;
   --page-header-height    : 42px ;
-  --page-toolbar-height   : 30px ;
   --feature-menubar-width : 50px ;
   --body-background       : #e7e7e7 ;
   --body-foreground       : #1f1f1f ;
-  --page-toolbar-bgcolor  : #8a8989 ;
+  --page-title-height     : 30px ;
+  --page-title-bgcolor    : var( --page-header-bgcolor );
+  --page-title-fgcolor    : white ;
+  --page-toolbar-height   : 33px ;
+  --page-toolbar-bgcolor  : #9d9d9d;
   --page-toolbar-fgcolor  : white ;
 }
 

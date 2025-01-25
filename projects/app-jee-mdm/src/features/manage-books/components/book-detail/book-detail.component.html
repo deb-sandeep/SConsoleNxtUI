@@ -1,5 +1,6 @@
-<table class="table table-sm" style="margin: 0 auto; width: 900px;">
-  <thead>
+<div class="page-content">
+  <table class="table table-sm" style="margin: 0 auto; width: 900px;">
+    <thead>
     <th style="width: 30px">
         <span ngClass="bi-{{fullyExpanded?'arrows-collapse':'arrows-expand'}}"
               style="background: transparent;"
@@ -15,52 +16,53 @@
     <th class="problem-type-col">MMT</th>
     <th class="problem-type-col">CMT</th>
     <th class="problem-type-col">SUB</th>
-    <th>Total</th>
-  </thead>
-  <tbody>
-    @for( ch of summary?.chapterProblemSummaries; track ch.chapterNum ) {
-      <tr class="chapter-row">
-        <td>
+    <th style="width: 50px;">Total</th>
+    </thead>
+    <tbody>
+      @for (ch of summary?.chapterProblemSummaries; track ch.chapterNum) {
+        <tr class="chapter-row">
+          <td>
           <span ngClass="bi-{{isExpanded(ch)?'caret-down':'caret-right'}}"
                 style="color: gray;"
                 (click)="toggleChapterExpandedState( ch )"></span>
-        </td>
-        <td>{{ch.chapterNum}}</td>
-        <td>
-          <editable-input [target]="ch" attribute="chapterName"
-                          (save)="saveUpdatedChapterName( $event )"/>
-        </td>
-        <td class="number">{{getChapterProblemTypeCount( ch, 'SCA' )}}</td>
-        <td class="number">{{getChapterProblemTypeCount( ch, 'MCA' )}}</td>
-        <td class="number">{{getChapterProblemTypeCount( ch, 'ART' )}}</td>
-        <td class="number">{{getChapterProblemTypeCount( ch, 'NVT' )}}</td>
-        <td class="number">{{getChapterProblemTypeCount( ch, 'LCT' )}}</td>
-        <td class="number">{{getChapterProblemTypeCount( ch, 'MMT' )}}</td>
-        <td class="number">{{getChapterProblemTypeCount( ch, 'CMT' )}}</td>
-        <td class="number">{{getChapterProblemTypeCount( ch, 'SUB' )}}</td>
-        <td class="number total">{{getTotalProblemCountForChapter( ch )}}</td>
-      </tr>
-      @if( isExpanded( ch ) ) {
-        @for( ex of ch.exerciseProblemSummaries; track ex.exerciseNum ) {
-          <tr class="exercise-row">
-            <td></td>
-            <td>{{ex.exerciseNum}}</td>
-            <td>
-              <editable-input [target]="ex" attribute="exerciseName"
-                              (save)="saveUpdatedExerciseName( $event )"/>
-            </td>
-            <td class="number">{{ex.problemTypeCount['SCA']}}</td>
-            <td class="number">{{ex.problemTypeCount['MCA']}}</td>
-            <td class="number">{{ex.problemTypeCount['ART']}}</td>
-            <td class="number">{{ex.problemTypeCount['NVT']}}</td>
-            <td class="number">{{ex.problemTypeCount['LCT']}}</td>
-            <td class="number">{{ex.problemTypeCount['MMT']}}</td>
-            <td class="number">{{ex.problemTypeCount['CMT']}}</td>
-            <td class="number">{{ex.problemTypeCount['SUB']}}</td>
-            <td class="number total">{{getTotalProblemCountForExercise( ex ) }}</td>
-          </tr>
+          </td>
+          <td>{{ ch.chapterNum }}</td>
+          <td>
+            <editable-input [target]="ch" attribute="chapterName"
+                            (save)="saveUpdatedChapterName( $event )"/>
+          </td>
+          <td class="number">{{ getChapterProblemTypeCount(ch, 'SCA') }}</td>
+          <td class="number">{{ getChapterProblemTypeCount(ch, 'MCA') }}</td>
+          <td class="number">{{ getChapterProblemTypeCount(ch, 'ART') }}</td>
+          <td class="number">{{ getChapterProblemTypeCount(ch, 'NVT') }}</td>
+          <td class="number">{{ getChapterProblemTypeCount(ch, 'LCT') }}</td>
+          <td class="number">{{ getChapterProblemTypeCount(ch, 'MMT') }}</td>
+          <td class="number">{{ getChapterProblemTypeCount(ch, 'CMT') }}</td>
+          <td class="number">{{ getChapterProblemTypeCount(ch, 'SUB') }}</td>
+          <td class="number total">{{ getTotalProblemCountForChapter(ch) }}</td>
+        </tr>
+        @if (isExpanded(ch)) {
+          @for (ex of ch.exerciseProblemSummaries; track ex.exerciseNum) {
+            <tr class="exercise-row">
+              <td></td>
+              <td>{{ ex.exerciseNum }}</td>
+              <td>
+                <editable-input [target]="ex" attribute="exerciseName"
+                                (save)="saveUpdatedExerciseName( $event )"/>
+              </td>
+              <td class="number">{{ ex.problemTypeCount['SCA'] }}</td>
+              <td class="number">{{ ex.problemTypeCount['MCA'] }}</td>
+              <td class="number">{{ ex.problemTypeCount['ART'] }}</td>
+              <td class="number">{{ ex.problemTypeCount['NVT'] }}</td>
+              <td class="number">{{ ex.problemTypeCount['LCT'] }}</td>
+              <td class="number">{{ ex.problemTypeCount['MMT'] }}</td>
+              <td class="number">{{ ex.problemTypeCount['CMT'] }}</td>
+              <td class="number">{{ ex.problemTypeCount['SUB'] }}</td>
+              <td class="number total">{{ getTotalProblemCountForExercise(ex) }}</td>
+            </tr>
+          }
         }
       }
-    }
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>

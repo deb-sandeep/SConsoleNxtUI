@@ -2,8 +2,15 @@ import {Component, inject } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
 import { BookSummary } from "../../manage-books.type";
 import { FormsModule } from "@angular/forms";
-import { Alert, EditableAttributeSaveEvent, EditableInput } from "lib-core";
-import { RouterLink } from "@angular/router";
+import {
+  Alert,
+  EditableAttributeSaveEvent,
+  EditableInput,
+  PageTitleComponent,
+  PageToolbarComponent,
+  ToolbarActionComponent
+} from "lib-core";
+import {Router, RouterLink} from "@angular/router";
 
 import AlertService = Alert.AlertService;
 import {NgClass} from "@angular/common";
@@ -15,7 +22,9 @@ import {NgClass} from "@angular/common";
     FormsModule,
     EditableInput,
     RouterLink,
-    NgClass
+    NgClass,
+    PageToolbarComponent,
+    ToolbarActionComponent
   ],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
@@ -24,6 +33,7 @@ export class BookListComponent {
 
   private manageBookSvc = inject( ManageBooksService ) ;
   private alertSvc = inject( AlertService ) ;
+  private router = inject( Router ) ;
 
   bookSummaries:BookSummary[] = [] ;
 
@@ -32,6 +42,30 @@ export class BookListComponent {
     this.manageBookSvc.getBookListing()
       .then( (value) => this.bookSummaries = value )
       .catch( () => this.alertSvc.error( "Could not fetch book list" ) ) ;
+  }
+
+  uploadFileBtnClicked() {
+
+    const input:HTMLInputElement = document.createElement('input') ;
+    input.type = 'file';
+    input.multiple = false ;
+    input.accept = '.yaml' ;
+    input.addEventListener( 'change', (e:Event) => this.uploadFileSelected(e) ) ;
+    input.click() ;
+  }
+
+  private uploadFileSelected( e:Event ) {
+
+    const files:FileList|null = (e.target as HTMLInputElement).files ;
+
+    this.manageBookSvc.validateFileOnServer( files!.item(0) as File )
+      .then( () => {
+        this.alertSvc.success( 'File successfully validated.' ) ;
+        this.router.navigateByUrl('/manage-books/upload-review').then()  ;
+      } )
+      .catch( ( msg ) => {
+        this.alertSvc.error( 'File upload failure. ' + msg ) ;
+      } ) ;
   }
 
   saveChangedAttribute($evt: EditableAttributeSaveEvent ) {
