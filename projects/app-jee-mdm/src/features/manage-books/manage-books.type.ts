@@ -78,3 +78,33 @@ export type ExerciseProblemSummary = {
     problemTypeCount : Record<string, number>,
     parent: ChapterProblemSummary
 }
+
+export type TopicMapping = {
+    mappingId : number,
+    topicId : number
+}
+
+export type ChapterTopicMapping = {
+    chapterNum : number,
+    chapterName : string,
+    topics : TopicMapping[]
+}
+
+export type BookTopicMapping = {
+    book : BookSummary,
+    chapterTopicMappings : ChapterTopicMapping[]
+}
+
+export type Topic = {
+    topicId : number,
+    syllabusName : string,
+    sectionName : string,
+    topicName : string
+}
+
+export type BookTopicMappingRes = {
+    syllabusName : string,
+    topicMap : Record<number, Topic>,
+    bookTopicMappingList : BookTopicMapping[]
+}
+

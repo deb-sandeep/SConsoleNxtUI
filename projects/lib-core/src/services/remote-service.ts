@@ -26,7 +26,7 @@ export class RemoteService {
               }
             }
             else {
-              reject( "Error invoking API : " + res.executionResult.message ) ;
+              reject( res.executionResult.message ) ;
               if( modalWait ) {
                 this.modalWaitSvc.showWaitDialog = false ;
               }
@@ -34,6 +34,9 @@ export class RemoteService {
           },
           error: () => {
             reject( "System error. Check logs for details." ) ;
+            if( modalWait ) {
+              this.modalWaitSvc.showWaitDialog = false ;
+            }
           }
         }) ;
     } ) ;
@@ -57,7 +60,7 @@ export class RemoteService {
               }
             }
             else {
-              reject( "Error invoking API : " + res.executionResult.message ) ;
+              reject( res.executionResult.message ) ;
               if( modalWait ) {
                 this.modalWaitSvc.showWaitDialog = false ;
               }
@@ -65,6 +68,9 @@ export class RemoteService {
           },
           error: () => {
             reject( "System error. Check logs for details." ) ;
+            if( modalWait ) {
+              this.modalWaitSvc.showWaitDialog = false ;
+            }
           }
         }) ;
     } ) ;

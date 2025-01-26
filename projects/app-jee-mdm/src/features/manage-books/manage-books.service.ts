@@ -3,7 +3,13 @@ import { BehaviorSubject } from "rxjs";
 import { APIResponse, RemoteService } from "lib-core";
 
 import { environment } from "../../../../environments/environment";
-import { BookProblemSummary, BookSummary, BookValidationResult, SaveBookMetaRes } from "./manage-books.type";
+import {
+  BookProblemSummary,
+  BookSummary,
+  BookTopicMappingRes,
+  BookValidationResult,
+  SaveBookMetaRes
+} from "./manage-books.type";
 
 
 @Injectable()
@@ -19,7 +25,6 @@ export class ManageBooksService extends RemoteService {
   }
 
   getBookListing() : Promise<BookSummary[]> {
-
     const url:string = `${environment.apiRoot}/Master/Book/Listing` ;
     return this.getPromise<BookSummary[]>( url, true ) ;
   }
@@ -27,6 +32,14 @@ export class ManageBooksService extends RemoteService {
   getBookProblemSummary( bookId:number ) : Promise<BookProblemSummary> {
 
     const url:string = `${environment.apiRoot}/Master/Book/${bookId}/ProblemSummary` ;
+    return this.getPromise( url, true ) ;
+  }
+
+  getBookTopicMappings() : Promise<BookTopicMappingRes> {
+    // The selectedBooks is set into the service by the book listing component before
+    // being routed to the topic mapping component.
+    let bookIds = this.selectedBooks.map( b => b.id ) ;
+    const url:string = `${environment.apiRoot}/Master/Book/TopicMappings?bookIds=${bookIds}` ;
     return this.getPromise( url, true ) ;
   }
 
