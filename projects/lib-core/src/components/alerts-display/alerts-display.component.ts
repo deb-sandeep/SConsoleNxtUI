@@ -12,7 +12,8 @@ import { NgbAlert } from "@ng-bootstrap/ng-bootstrap";
   providers: [Alert.AlertService],
   styles: `
     .alerts-container {
-        margin: 5px;
+        background-color: var( --page-title-bgcolor ) ;
+        padding: 3px;
     }
   `,
   template: `
