@@ -1,5 +1,0 @@
-TODO Render floating topic list
-TODO Selection tracking of rows (dblClick)
-TODO Highlight topics in topic list on chapter selection
-TODO Topic association with selected topic (dblClick)
-TODO Topic dissociation on close button

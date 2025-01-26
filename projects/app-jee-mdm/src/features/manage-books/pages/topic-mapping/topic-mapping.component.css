@@ -29,3 +29,34 @@
     width: 350px;
     display: inline-block;
 }
+
+.selected-chapter td {
+    background-color: #fcfca5;
+}
+
+.topic-container {
+    position: fixed;
+    top: calc( var(--page-header-height) + var(--page-title-height) + 5px );
+    right:15px;
+    width: calc(30% - 35px);
+    height: 300px;
+}
+
+.topic-table-header {
+    font-weight: bold;
+    font-size: 17px;
+    background-color: var(--page-title-bgcolor);
+    color:lightgrey;
+}
+
+.topic-row {
+    font-size: 15px;
+}
+
+.topic-row td:first-child {
+    padding-left: 15px;
+}
+
+.selected-topic td {
+    background-color: #fcfca5;
+}

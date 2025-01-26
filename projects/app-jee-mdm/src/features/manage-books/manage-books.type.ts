@@ -87,7 +87,9 @@ export type TopicMapping = {
 export type ChapterTopicMapping = {
     chapterNum : number,
     chapterName : string,
-    topics : TopicMapping[]
+    topics : TopicMapping[],
+
+    selected :boolean, // Transactional field
 }
 
 export type BookTopicMapping = {
@@ -99,7 +101,9 @@ export type Topic = {
     topicId : number,
     syllabusName : string,
     sectionName : string,
-    topicName : string
+    topicName : string,
+
+    isMappedToSelectedChapter:boolean, // Transactional field
 }
 
 export type BookTopicMappingRes = {
