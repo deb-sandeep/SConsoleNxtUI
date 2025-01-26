@@ -1,0 +1,31 @@
+.book-topics-table {
+    width: 70%;
+}
+
+.book-row {
+    font-size: 17px;
+}
+
+.book-row td {
+    background-color: #838386;
+    color: lightgrey;
+}
+
+.chapter-row {
+}
+
+.chapter-row td {
+    padding-left: 30px;
+}
+
+.book-name {
+    color: #fff69d;
+    font-weight: bold;
+}
+
+.chapter-name {
+    color: blue;
+    font-size: 15px;
+    width: 350px;
+    display: inline-block;
+}

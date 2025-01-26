@@ -38,7 +38,8 @@ export class ManageBooksService extends RemoteService {
   getBookTopicMappings() : Promise<BookTopicMappingRes> {
     // The selectedBooks is set into the service by the book listing component before
     // being routed to the topic mapping component.
-    let bookIds = this.selectedBooks.map( b => b.id ) ;
+    //let bookIds = this.selectedBooks.map( b => b.id ) ;
+    let bookIds = [1,2,3,4,5,6] ;
     const url:string = `${environment.apiRoot}/Master/Book/TopicMappings?bookIds=${bookIds}` ;
     return this.getPromise( url, true ) ;
   }

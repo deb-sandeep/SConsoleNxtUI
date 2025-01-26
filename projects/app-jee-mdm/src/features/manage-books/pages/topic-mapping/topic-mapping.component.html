@@ -1,3 +1,26 @@
 <div class="page-content">
-  {{ syllabusName }}
+  <table class="table table-sm table-striped book-topics-table">
+    <tbody>
+      @for( btm of bookTopicMappingList; track btm.book.id ) {
+          <tr class="book-row">
+            <td>
+              {{btm.book.seriesName}} -
+              {{btm.book.author}} -
+              <span class="book-name">{{btm.book.bookName}}</span>
+            </td>
+          </tr>
+        @for( ctm of btm.chapterTopicMappings; track ctm.chapterNum ) {
+          <tr class="chapter-row">
+            <td>
+              <div class="chapter-name">{{ctm.chapterNum + ' - ' + ctm.chapterName}}</div>
+              @for( tm of ctm.topics; track tm.topicId ) {
+                <closeable-badge text="{{topicMap[tm.topicId].topicName}}"
+                                 (close)="topicDisassociated(tm.mappingId)"/>
+              }
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
 </div>
