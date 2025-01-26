@@ -90,4 +90,9 @@ export class BookListComponent {
   seriesSelected( seriesName:string ) {
     this.bookSummaries.forEach( b => b.selected = b.seriesName === seriesName ) ;
   }
+
+  showMapTopicsPage() {
+    console.log( 'Showing map topics page' ) ;
+    this.alertSvc.success( 'Showing map topics page' ) ;
+  }
 }

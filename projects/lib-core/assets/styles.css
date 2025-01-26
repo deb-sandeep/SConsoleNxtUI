@@ -16,10 +16,12 @@
   --bs-alert-padding-x    : 5px ;
   --bs-alert-padding-y    : 3px ;
   --bs-alert-margin-bottom: 5px ;
+  padding-left: 35px;
 }
 
 .alert-dismissible .btn-close {
   padding : 6px;
+  left: 0;
 }
 
 * {
