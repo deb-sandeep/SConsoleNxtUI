@@ -36,7 +36,9 @@
             </a>
           </td>
           <td>{{book.subjectName}}</td>
-          <td>{{book.syllabusName || "---" }}</td>
+          <td (dblclick)="syllabusSelected(book.syllabusName)">
+            {{book.syllabusName || "---" }}
+          </td>
           <td>
             <editable-input [target]="book" attribute="bookShortName"
                             (save)="saveChangedAttribute( $event )"/>

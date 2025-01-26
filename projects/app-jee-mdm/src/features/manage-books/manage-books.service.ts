@@ -12,6 +12,12 @@ export class ManageBooksService extends RemoteService {
   private validationResultSub:BehaviorSubject<BookValidationResult|null> = new BehaviorSubject<BookValidationResult|null>( null ) ;
   validationResult$ = this.validationResultSub.asObservable() ;
 
+  selectedBooks:BookSummary[] = [] ;
+
+  setSelectedBooks( books:BookSummary[] ) {
+    this.selectedBooks = books ;
+  }
+
   getBookListing() : Promise<BookSummary[]> {
 
     const url:string = `${environment.apiRoot}/Master/Book/Listing` ;
@@ -117,4 +123,6 @@ export class ManageBooksService extends RemoteService {
     const url = `${environment.apiRoot}/Master/Book/${bookId}/${chapterNum}/${exerciseNum}/UpdateExerciseName` ;
     return this.postPromise<string>( url, {"value": name}) ;
   }
+
+
 }

@@ -13,7 +13,7 @@ export class EditableAttributeSaveEvent {
   imports: [
     FormsModule
   ],
-  styleUrl: '../../../../app-jee-mdm/src/features/manage-books/components/book-list/book-list.component.css',
+  styleUrl: '../../../../app-jee-mdm/src/features/manage-books/pages/book-list/book-list.component.css',
   template: `
     @if( isBeingEdited ) {
       <input type="text" [(ngModel)]="editedValue"
