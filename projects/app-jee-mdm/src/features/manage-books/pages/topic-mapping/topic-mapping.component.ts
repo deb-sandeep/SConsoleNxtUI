@@ -55,7 +55,7 @@ export class TopicMappingComponent {
         } );
   }
 
-  bookTopicMappingDoneFlagChanged( book:BookSummary, $evt:Event ) {
+  bookTopicMappingDoneFlagChanged( book:BookSummary ) {
     this.manageBookSvc.updateBookAttribute( book, "topicMappingDone", String(book.topicMappingDone) ).then() ;
   }
 

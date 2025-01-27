@@ -5,7 +5,7 @@
           <tr class="book-row">
             <td>
               <input type="checkbox" [(ngModel)]="btm.book.topicMappingDone"
-                     (ngModelChange)="bookTopicMappingDoneFlagChanged( btm.book, $event)"/>&nbsp;
+                     (ngModelChange)="bookTopicMappingDoneFlagChanged( btm.book )"/>&nbsp;
               {{btm.book.seriesName}} -
               {{btm.book.author}} -
               <span class="book-name">{{btm.book.bookName}}</span>
