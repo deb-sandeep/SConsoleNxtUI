@@ -17,6 +17,7 @@
     <th style="width: 40px;"></th>
     <th style="width:80px">Subject</th>
     <th style="width:120px">Syllabus</th>
+    <th style="width: 20px;"></th>
     <th style="width:250px">Short Name</th>
     <th style="width:250px">Series</th>
     <th>Book Name</th>
@@ -38,6 +39,11 @@
           <td>{{book.subjectName}}</td>
           <td (dblclick)="syllabusSelected(book.syllabusName)">
             {{book.syllabusName || "---" }}
+          </td>
+          <td>
+            <span class="bi-check-circle"
+                  style="color: green"
+                  *ngIf="book.topicMappingDone"></span>
           </td>
           <td>
             <editable-input [target]="book" attribute="bookShortName"

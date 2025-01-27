@@ -55,6 +55,7 @@ export type BookSummary = {
     bookName : string,
     author : string,
     bookShortName : string,
+    topicMappingDone : boolean,
     numChapters? : number,
     numProblems? : number,
     selected? : boolean

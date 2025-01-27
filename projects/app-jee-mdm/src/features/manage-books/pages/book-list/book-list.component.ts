@@ -12,7 +12,7 @@ import {
 import { Router, RouterLink } from "@angular/router";
 
 import AlertService = Alert.AlertService;
-import { NgClass } from "@angular/common";
+import { NgClass, NgIf } from "@angular/common";
 
 @Component( {
     selector: 'book-list',
@@ -23,7 +23,8 @@ import { NgClass } from "@angular/common";
       RouterLink,
       NgClass,
       PageToolbarComponent,
-      ToolbarActionComponent
+      ToolbarActionComponent,
+      NgIf
     ],
     templateUrl: './book-list.component.html',
     styleUrl: './book-list.component.css'

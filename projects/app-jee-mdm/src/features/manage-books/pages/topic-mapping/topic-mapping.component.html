@@ -4,6 +4,8 @@
       @for( btm of bookTopicMappingList; track btm.book.id ) {
           <tr class="book-row">
             <td>
+              <input type="checkbox" [(ngModel)]="btm.book.topicMappingDone"
+                     (ngModelChange)="bookTopicMappingDoneFlagChanged( btm.book, $event)"/>&nbsp;
               {{btm.book.seriesName}} -
               {{btm.book.author}} -
               <span class="book-name">{{btm.book.bookName}}</span>
@@ -17,7 +19,7 @@
               <div class="chapter-name">{{ctm.chapterNum + ' - ' + ctm.chapterName}}</div>
               @for( tm of ctm.topics; track tm.topicId ) {
                 <closeable-badge text="{{topicMap[tm.topicId].topicName}}"
-                                 (close)="topicDisassociated(tm.mappingId)"/>
+                                 (close)="topicDisassociated(tm)"/>
               }
             </td>
           </tr>
@@ -27,21 +29,23 @@
   </table>
 </div>
 
-<div class="topic-container">
-  <table class="table table-sm table-striped">
-    <thead class="topic-table-header">
+@if( Object.keys( topicMap ).length > 0 ) {
+  <div class="topic-container">
+    <table class="table table-sm table-striped">
+      <thead class="topic-table-header">
       <th style="width: 60%">Topic Name</th>
       <th style="width: 40%">Section</th>
-    </thead>
-    <tbody>
-      @for( t of Object.values( topicMap ); track t.topicId ) {
-        <tr class="topic-row"
-            [class.selected-topic]="t.isMappedToSelectedChapter"
-            (dblclick)="associateTopicWithSelectedChapter(t)">
-          <td>{{t.topicName}}</td>
-          <td>{{t.sectionName}}</td>
-        </tr>
-      }
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        @for( t of Object.values( topicMap ); track t.topicId ) {
+          <tr class="topic-row"
+              [class.selected-topic]="t.isMappedToSelectedChapter"
+              (dblclick)="associateTopicWithSelectedChapter(t)">
+            <td>{{t.topicName}}</td>
+            <td>{{t.sectionName}}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

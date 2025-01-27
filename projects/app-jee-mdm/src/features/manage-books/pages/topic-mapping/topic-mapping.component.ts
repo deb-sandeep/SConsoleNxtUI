@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
 import { Alert, EditableInput, PageTitleService } from "lib-core";
-import { BookTopicMapping, ChapterTopicMapping, Topic } from "../../manage-books.type";
+import { BookSummary, BookTopicMapping, ChapterTopicMapping, Topic, TopicMapping } from "../../manage-books.type";
 import { Router } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { CloseableBadgeComponent } from "./closeable-badge.component";
@@ -33,13 +33,14 @@ export class TopicMappingComponent {
   bookTopicMappingList:BookTopicMapping[] = [] ;
 
   selectedChapter:ChapterTopicMapping | null = null ;
+  selectedBook:BookSummary | null = null ;
 
   constructor() {
 
-    // if( this.manageBookSvc.selectedBooks.length == 0 ) {
-    //   this.router.navigateByUrl( '/manage-books/book-list' ).then() ;
-    //   return ;
-    // }
+    if( this.manageBookSvc.selectedBooks.length == 0 ) {
+      this.router.navigateByUrl( '/manage-books/book-list' ).then() ;
+      return ;
+    }
 
     this.manageBookSvc.getBookTopicMappings()
         .then( res => {
@@ -54,8 +55,25 @@ export class TopicMappingComponent {
         } );
   }
 
-  topicDisassociated( topicMappingId:number ) {
-    console.log( 'Tag closed ' + topicMappingId ) ;
+  bookTopicMappingDoneFlagChanged( book:BookSummary, $evt:Event ) {
+    this.manageBookSvc.updateBookAttribute( book, "topicMappingDone", String(book.topicMappingDone) ).then() ;
+  }
+
+  topicDisassociated( topicMapping:TopicMapping ) {
+    this.manageBookSvc.deleteChapterTopicMapping( topicMapping.mappingId )
+      .then( ()=> {
+          // If the mapping on the server is successful,
+          // remove the topic mapping from the selected chapter topic mapping
+          // This will remove the local badge
+          this.selectedChapter!.topics = this.selectedChapter!.topics.filter( (tm) => tm.mappingId != topicMapping.mappingId ) ;
+
+          // Set the association flag of the topic to the current
+          // selected chapter topic mapping as false. This will remove the
+          // topic highlight in the right panel
+          let topic = this.topicMap[topicMapping.topicId] ;
+          topic.isMappedToSelectedChapter = false ;
+      })
+      .catch( (msg) => this.alertSvc.error( "Topic disassociation failed. Msg " + msg ) ) ;
   }
 
   chapterSelected( selectedCtm:ChapterTopicMapping ) {
@@ -63,12 +81,12 @@ export class TopicMappingComponent {
     // When a chapter is selected, we do the following:
     // 1. Select the chapter, deselecting any previous selection
     // 2. Select the associated topics, deselecting any prior selections
-
     this.bookTopicMappingList.forEach( btm => {
       btm.chapterTopicMappings.forEach( ctm => {
         ctm.selected = (ctm == selectedCtm) ;
         if( ctm.selected ) {
           this.selectedChapter = ctm ;
+          this.selectedBook = btm.book ;
 
           // Deselect all the topics
           Object.values( this.topicMap )
@@ -84,14 +102,23 @@ export class TopicMappingComponent {
   }
 
   associateTopicWithSelectedChapter( topic: Topic ) {
+
     if( this.selectedChapter != null ) {
       // Only if the selected chapter is not already associated with this topic
       if( this.selectedChapter.topics
               .find( tm => tm.topicId == topic.topicId ) === undefined ) {
 
-        // TODO: Associate on server
-        // TODO: On successful association create a new ctm entry
-        console.log( 'Topic is already associated with chapter' ) ;
+        this.manageBookSvc.createChapterTopicMapping( this.selectedBook!.id,
+                                                      this.selectedChapter!.chapterNum,
+                                                      topic.topicId )
+            .then( ( newMappingId) => {
+              this.selectedChapter?.topics.push( {
+                 topicId:topic.topicId,
+                 mappingId:newMappingId,
+              } ) ;
+              topic.isMappedToSelectedChapter = true ;
+            } )
+            .catch( (msg) => this.alertSvc.error( "Mapping failed. Message : " + msg ) ) ;
       }
     }
   }
