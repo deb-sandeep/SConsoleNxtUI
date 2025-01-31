@@ -8,15 +8,16 @@ import { ActivatedRoute } from "@angular/router";
 
 import AlertService = Alert.AlertService;
 
-@Component({
-    selector: 'book-detail',
-    imports: [
-        EditableInput,
-        NgClass
-    ],
-    providers: [ManageBooksService, AlertService],
-    templateUrl: './book-detail.component.html',
-    styleUrl: './book-detail.component.css'
+@Component( {
+  selector: 'book-detail',
+  imports: [
+    EditableInput,
+    NgClass
+  ],
+  providers: [ ManageBooksService, AlertService ],
+  templateUrl: './book-detail.component.html',
+  standalone: true,
+  styleUrl: './book-detail.component.css'
 })
 export class BookDetailComponent {
 

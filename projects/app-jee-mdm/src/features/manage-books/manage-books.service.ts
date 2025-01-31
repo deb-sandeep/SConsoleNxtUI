@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from "rxjs";
+import { Injectable, signal } from '@angular/core';
 import { APIResponse, RemoteService } from "lib-core";
 
 import { environment } from "../../../../environments/environment";
@@ -15,14 +14,9 @@ import {
 @Injectable()
 export class ManageBooksService extends RemoteService {
 
-  private validationResultSub:BehaviorSubject<BookValidationResult|null> = new BehaviorSubject<BookValidationResult|null>( null ) ;
-  validationResult$ = this.validationResultSub.asObservable() ;
+  validationResult = signal<BookValidationResult|null>(null) ;
 
   selectedBooks:BookSummary[] = [] ;
-
-  setSelectedBooks( books:BookSummary[] ) {
-    this.selectedBooks = books ;
-  }
 
   getBookListing() : Promise<BookSummary[]> {
     const url:string = `${environment.apiRoot}/Master/Book/Listing` ;
@@ -49,14 +43,14 @@ export class ManageBooksService extends RemoteService {
     const formData = new FormData() ;
     formData.append( 'file', file ) ;
 
-    this.validationResultSub.next( null ) ;
+    //this.validationResultSub.next( null ) ;
 
     return new Promise( ( resolve, reject ) => {
       this.modalWaitSvc.showWaitDialog = true ;
       this.http.post<APIResponse>( uploadUrl, formData )
           .subscribe( {
             next: res => {
-              this.validationResultSub.next( res.data ) ;
+              this.validationResult.set( res.data ) ;
               if( res.executionResult.status == 'OK' ) {
                 resolve( "Book uploaded successfully." ) ;
               }
@@ -66,7 +60,6 @@ export class ManageBooksService extends RemoteService {
               this.modalWaitSvc.showWaitDialog = false ;
             },
             error: () => {
-              this.validationResultSub.next( null ) ;
               reject( "Server error." ) ;
               this.modalWaitSvc.showWaitDialog = false ;
             }

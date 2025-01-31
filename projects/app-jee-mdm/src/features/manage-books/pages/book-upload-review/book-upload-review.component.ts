@@ -29,9 +29,7 @@ export class BookUploadReviewComponent {
   showAll: boolean = true;
 
   constructor() {
-    this.manageBookSvc.validationResult$.subscribe( result => {
-      this.result = result;
-    } );
+    this.result = this.manageBookSvc.validationResult() ;
   }
 
   hasMessages() {

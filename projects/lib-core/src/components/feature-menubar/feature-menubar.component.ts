@@ -8,11 +8,12 @@ export type FeatureMenuItemMeta = {
   selected : boolean ;
 }
 
-@Component({
-    selector: 'feature-menubar',
-    imports: [CommonModule, RouterLink],
-    templateUrl: './feature-menubar.component.html',
-    styleUrl: './feature-menubar.component.css'
+@Component( {
+  selector: 'feature-menubar',
+  imports: [ CommonModule, RouterLink ],
+  templateUrl: './feature-menubar.component.html',
+  standalone: true,
+  styleUrl: './feature-menubar.component.css'
 })
 export class FeatureMenubarComponent {
 

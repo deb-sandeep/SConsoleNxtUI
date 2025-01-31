@@ -3,15 +3,16 @@ import { CommonModule } from "@angular/common";
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {PageTitleService} from "./page-title.service";
 
-@Component({
-    selector: 'page-title',
-    imports: [CommonModule],
-    template: `
+@Component( {
+  selector: 'page-title',
+  imports: [ CommonModule ],
+  template: `
     <div class="page-title">
-      {{pageTitle}}{{additionalTitle}}
+      {{ pageTitle }}{{ additionalTitle }}
     </div>
   `,
-    styles: `
+  standalone: true,
+  styles: `
       .page-title {
           display: block;
           width: calc(100vw - var(--feature-menubar-width));

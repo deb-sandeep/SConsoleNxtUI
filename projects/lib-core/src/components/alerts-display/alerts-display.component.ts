@@ -3,25 +3,26 @@ import { Alert } from "./alert.service";
 import { NgIf } from "@angular/common";
 import { NgbAlert } from "@ng-bootstrap/ng-bootstrap";
 
-@Component({
-    selector: 'alerts-display',
-    imports: [
-        NgIf, NgbAlert
-    ],
-    providers: [Alert.AlertService],
-    styles: `
-    .alerts-container {
-        background-color: var( --page-title-bgcolor ) ;
-        padding: 3px;
-    }
+@Component( {
+  selector: 'alerts-display',
+  imports: [
+    NgIf, NgbAlert
+  ],
+  providers: [ Alert.AlertService ],
+  styles: `
+      .alerts-container {
+          background-color: var(--page-title-bgcolor);
+          padding: 3px;
+      }
   `,
-    template: `
+  standalone: true,
+  template: `
     <div *ngIf="alertService.hasAlerts()"
          class="alerts-container">
-      @for( alert of alertService.alerts; track alert.id ) {
+      @for (alert of alertService.alerts; track alert.id) {
         <ngb-alert [type]="alert.getNgbType()"
                    (closed)="alertService.removeAlert($index)">
-          {{alert.message}}
+          {{ alert.message }}
         </ngb-alert>
       }
     </div>

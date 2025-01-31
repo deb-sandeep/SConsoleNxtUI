@@ -15,18 +15,19 @@ import AlertService = Alert.AlertService;
 import { NgClass, NgIf } from "@angular/common";
 
 @Component( {
-    selector: 'book-list',
-    imports: [
-        FormsModule,
-        EditableInput,
-        RouterLink,
-        NgClass,
-        PageToolbarComponent,
-        ToolbarActionComponent,
-        NgIf
-    ],
-    templateUrl: './book-list.component.html',
-    styleUrl: './book-list.component.css'
+  selector: 'book-list',
+  imports: [
+    FormsModule,
+    EditableInput,
+    RouterLink,
+    NgClass,
+    PageToolbarComponent,
+    ToolbarActionComponent,
+    NgIf
+  ],
+  templateUrl: './book-list.component.html',
+  standalone: true,
+  styleUrl: './book-list.component.css'
 } )
 export class BookListComponent {
 
@@ -111,7 +112,7 @@ export class BookListComponent {
       this.alertSvc.error( 'Can\'t map books with no syllabus assigned' );
     }
     else {
-      this.manageBookSvc.setSelectedBooks( this.bookSummaries.filter( b => b.selected ) );
+      this.manageBookSvc.selectedBooks = this.bookSummaries.filter( b => b.selected ) ;
       this.router.navigateByUrl( '/manage-books/topic-mapping' ).then();
     }
   }

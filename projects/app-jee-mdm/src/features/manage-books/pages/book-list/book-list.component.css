@@ -19,7 +19,7 @@ input[type="text"] {
     background-color: rgb(255, 245, 220);
 }
 
-.book-listing-table td,th {
+.book-listing-table td, th {
     border-right: 1px solid #e0e0e0;
     padding: 5px 10px 5px 10px;
 }
