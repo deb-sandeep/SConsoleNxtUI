@@ -16,7 +16,7 @@
     <th class="problem-type-col">MMT</th>
     <th class="problem-type-col">CMT</th>
     <th class="problem-type-col">SUB</th>
-    <th style="width: 50px;">Total</th>
+    <th style="width: 50px;" class="number">{{ totalProblems }}</th>
     </thead>
     <tbody>
       @for (ch of summary?.chapterProblemSummaries; track ch.chapterNum) {

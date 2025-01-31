@@ -1,7 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
-import { Alert, EditableInput, PageTitleService } from "lib-core";
-import { BookSummary, BookTopicMapping, ChapterTopicMapping, Topic, TopicMapping } from "../../manage-books.type";
+import { Alert, EditableAttributeSaveEvent, EditableInput, PageTitleService } from "lib-core";
+import {
+  BookSummary,
+  BookTopicMapping,
+  ChapterProblemSummary,
+  ChapterTopicMapping,
+  Topic,
+  TopicMapping
+} from "../../manage-books.type";
 import { Router } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { CloseableBadgeComponent } from "./closeable-badge.component";
@@ -121,5 +128,15 @@ export class TopicMappingComponent {
             .catch( (msg) => this.alertSvc.error( "Mapping failed. Message : " + msg ) ) ;
       }
     }
+  }
+
+  saveUpdatedChapterName( $evt: EditableAttributeSaveEvent ) {
+    let ch = $evt.target as ChapterTopicMapping ;
+    this.manageBookSvc
+        .updateChapterName( this.selectedBook!.id,
+                            ch.chapterNum,
+                            $evt.attributeValue )
+        .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
+        .catch( msg => this.alertSvc.error( msg ) ) ;
   }
 }

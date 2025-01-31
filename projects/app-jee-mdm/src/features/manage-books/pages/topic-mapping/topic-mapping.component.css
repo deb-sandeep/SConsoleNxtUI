@@ -14,8 +14,11 @@
 .chapter-row {
 }
 
-.chapter-row td {
-    padding-left: 30px;
+.chapter-row td:first-child {
+    padding: 5px 5px 3px 30px;
+    width: 20px;
+    font-size: 15px;
+    text-align: right;
 }
 
 .book-name {
@@ -26,8 +29,9 @@
 .chapter-name {
     color: blue;
     font-size: 15px;
-    width: 350px;
+    width: 425px;
     display: inline-block;
+    padding: 1px 5px 1px 10px;
 }
 
 .selected-chapter td {

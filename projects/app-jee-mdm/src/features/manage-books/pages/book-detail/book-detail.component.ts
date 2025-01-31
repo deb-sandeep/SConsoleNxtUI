@@ -28,6 +28,7 @@ export class BookDetailComponent {
 
   bookId:number = 0 ;
   summary:BookProblemSummary | null ;
+  totalProblems:number = 0 ;
   expandedState:Record<number, boolean> = {} ;
   fullyExpanded:boolean = false ;
 
@@ -45,6 +46,7 @@ export class BookDetailComponent {
                                  ${data.book.bookName}` ) ;
         this.linkParent() ;
         this.toggleFullExpansion() ;
+        this.computeTotalNumProblems() ;
       } )
       .catch( () => this.alertSvc.error( "Could not fetch book problem summary" ) ) ;
   }
@@ -55,6 +57,12 @@ export class BookDetailComponent {
       ch.exerciseProblemSummaries.forEach( ex => {
         ex.parent = ch ;
       }) ;
+    })
+  }
+
+  private computeTotalNumProblems() {
+    this.summary?.chapterProblemSummaries.forEach( ch => {
+      this.totalProblems += this.getTotalProblemCountForChapter( ch ) ;
     })
   }
 

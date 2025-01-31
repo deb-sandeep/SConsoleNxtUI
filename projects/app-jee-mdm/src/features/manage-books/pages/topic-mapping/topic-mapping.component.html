@@ -3,7 +3,7 @@
     <tbody>
       @for( btm of bookTopicMappingList; track btm.book.id ) {
           <tr class="book-row">
-            <td>
+            <td colspan="2">
               <input type="checkbox" [(ngModel)]="btm.book.topicMappingDone"
                      (ngModelChange)="bookTopicMappingDoneFlagChanged( btm.book )"/>&nbsp;
               {{btm.book.seriesName}} -
@@ -15,8 +15,12 @@
           <tr class="chapter-row"
               [class.selected-chapter]="ctm.selected"
               (click)="chapterSelected(ctm)">
+            <td>{{ctm.chapterNum}}.</td>
             <td>
-              <div class="chapter-name">{{ctm.chapterNum + ' - ' + ctm.chapterName}}</div>
+              <div class="chapter-name">
+                <editable-input [target]="ctm" attribute="chapterName"
+                                (save)="saveUpdatedChapterName( $event )"/>
+              </div>
               @for( tm of ctm.topics; track tm.topicId ) {
                 <closeable-badge text="{{topicMap[tm.topicId].topicName}}"
                                  (close)="topicDisassociated(tm)"/>

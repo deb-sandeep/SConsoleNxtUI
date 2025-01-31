@@ -7,7 +7,7 @@
                   (click)="showMapTopicsPage()"></toolbar-action>
 </page-toolbar>
 <div class="page-content">
-  <table class="table table-sm table-striped" style="margin: 0 auto;">
+  <table class="table table-sm table-striped book-listing-table">
     <thead>
     <th style="width: 20px;text-align: center;">
       <input type="checkbox"
@@ -19,11 +19,11 @@
     <th style="width:120px">Syllabus</th>
     <th style="width: 20px;"></th>
     <th style="width:250px">Short Name</th>
-    <th style="width:250px">Series</th>
+    <th style="width:50px;text-align: right;"># Ch</th>
+    <th style="width:75px;text-align: center;"># Pr</th>
+    <th style="width:200px">Series</th>
+    <th style="width:125px">Author</th>
     <th>Book Name</th>
-    <th style="width:200px">Author</th>
-    <th style="width:75px;text-align: right;"># Ch</th>
-    <th style="width:75px;text-align: right;"># Pr</th>
     </thead>
     <tbody>
       @for( book of bookSummaries; track book.id ) {
@@ -45,24 +45,24 @@
                   style="color: green"
                   *ngIf="book.topicMappingDone"></span>
           </td>
-          <td>
+          <td (dblclick)="book.selected = !book.selected">
             <editable-input [target]="book" attribute="bookShortName"
                             (save)="saveChangedAttribute( $event )"/>
           </td>
+          <td class="number">{{book.numChapters}}</td>
+          <td class="number">{{book.numProblems}}</td>
           <td (dblclick)="seriesSelected(book.seriesName)">
             <editable-input [target]="book" attribute="seriesName"
-                            (save)="saveChangedAttribute( $event )"/>
-          </td>
-          <td>
-            <editable-input [target]="book" attribute="bookName"
                             (save)="saveChangedAttribute( $event )"/>
           </td>
           <td>
             <editable-input [target]="book" attribute="author"
                             (save)="saveChangedAttribute( $event )"/>
           </td>
-          <td class="number">{{book.numChapters}}</td>
-          <td class="number">{{book.numProblems}}</td>
+          <td>
+          <editable-input [target]="book" attribute="bookName"
+                            (save)="saveChangedAttribute( $event )"/>
+          </td>
         </tr>
       }
     </tbody>
