@@ -1,17 +1,24 @@
 import { Component, inject } from '@angular/core';
-import { ManageBooksService } from "../../manage-books.service";
-import { Alert, EditableAttributeSaveEvent, EditableInput, PageTitleService } from "lib-core";
+import { Router } from "@angular/router";
+import { FormsModule } from "@angular/forms";
+
+import {
+  Alert,
+  EditableAttributeSaveEvent,
+  EditableInput,
+  PageTitleService,
+  CloseableBadgeComponent
+} from "lib-core";
+
 import {
   BookSummary,
   BookTopicMapping,
-  ChapterProblemSummary,
   ChapterTopicMapping,
   Topic,
   TopicMapping
 } from "../../manage-books.type";
-import { Router } from "@angular/router";
-import { FormsModule } from "@angular/forms";
-import { CloseableBadgeComponent } from "./closeable-badge.component";
+
+import { ManageBooksService } from "../../manage-books.service";
 
 import AlertService = Alert.AlertService;
 

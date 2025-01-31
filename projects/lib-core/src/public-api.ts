@@ -7,6 +7,7 @@ export * from './components/toolbar-action/toolbar-action.component' ;
 export * from './components/alerts-display/alerts-display.component' ;
 export * from './components/editable-input/editable-input.component' ;
 export * from './components/modal-wait/modal-wait.component' ;
+export * from './components/closeable-badge/closeable-badge.component' ;
 
 // Services
 export * from './services/local-storage.service' ;

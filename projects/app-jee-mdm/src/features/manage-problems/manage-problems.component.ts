@@ -8,7 +8,7 @@ import {
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-manage-books',
+  selector: 'app-manage-problems',
   standalone: true,
   imports: [ RouterOutlet, PageTitleComponent, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent ],
   template:`
@@ -19,5 +19,5 @@ import { RouterOutlet } from '@angular/router';
     </div>
   `
 })
-export class ManageBooksComponent {
+export class ManageProblemsComponent {
 }

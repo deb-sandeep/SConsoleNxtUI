@@ -1,11 +1,15 @@
 import { Routes } from "@angular/router";
-import { ManageBooksComponent } from "./features/manage-books/manage-books.component";
-
-import { ManageBooksService } from "./features/manage-books/manage-books.service";
 import { Alert } from "lib-core";
 
 import AlertService = Alert.AlertService;
+
+import { ManageBooksComponent } from "./features/manage-books/manage-books.component";
+import { ManageBooksService } from "./features/manage-books/manage-books.service";
 import { manageBooksRoutes } from "./features/manage-books/manage-books.route" ;
+
+import { ManageProblemsComponent } from "./features/manage-problems/manage-problems.component";
+import { ManageProblemsService } from "./features/manage-problems/manage-problems.service";
+import { manageProblemsRoutes } from "./features/manage-problems/manage-problems.route";
 
 export const featureRoutes: Routes = [
     {
@@ -19,5 +23,12 @@ export const featureRoutes: Routes = [
         component: ManageBooksComponent,
         children: manageBooksRoutes,
         providers: [ManageBooksService, AlertService]
+    },
+    {
+        path: 'manage-problems',
+        title: 'Manage Problems',
+        component: ManageProblemsComponent,
+        children: manageProblemsRoutes,
+        providers: [ManageProblemsService, AlertService]
     },
 ] ;
