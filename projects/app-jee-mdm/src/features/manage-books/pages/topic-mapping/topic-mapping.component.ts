@@ -23,15 +23,14 @@ import { ManageBooksService } from "../../manage-books.service";
 import AlertService = Alert.AlertService;
 
 @Component( {
-  selector: 'topic-mapping',
-  standalone: true,
-  imports: [
-    EditableInput,
-    FormsModule,
-    CloseableBadgeComponent
-  ],
-  templateUrl: './topic-mapping.component.html',
-  styleUrl: './topic-mapping.component.css'
+    selector: 'topic-mapping',
+    imports: [
+        EditableInput,
+        FormsModule,
+        CloseableBadgeComponent
+    ],
+    templateUrl: './topic-mapping.component.html',
+    styleUrl: './topic-mapping.component.css'
 } )
 export class TopicMappingComponent {
 

@@ -4,20 +4,20 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http'
 import { Component } from '@angular/core';
 import { NgbAlertConfig, NgbAlertModule } from "@ng-bootstrap/ng-bootstrap";
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import {PageHeaderComponent, FeatureMenubarComponent, FeatureMenuItemMeta, ModalWaitComponent} from 'lib-core';
 
 import { featureRoutes } from "./routes" ;
 
-@Component({
+@Component( {
     selector: 'app-root',
-    standalone: true,
     imports: [
         CommonModule,
-        RouterOutlet, RouterLink, RouterLinkActive,
+        RouterOutlet,
         PageHeaderComponent, FeatureMenubarComponent,
         NgbAlertModule, ModalWaitComponent,
     ],
+    standalone: true,
     template: `
         <modal-wait></modal-wait>
         <page-header [title]="title"></page-header>

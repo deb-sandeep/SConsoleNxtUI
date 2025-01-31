@@ -4,11 +4,10 @@ import { Output, EventEmitter } from '@angular/core' ;
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'test-setup',
-  standalone: true,
-  imports: [ FormsModule ],
-  templateUrl: './test-setup.component.html',
-  styleUrl: './test-setup.component.css'
+    selector: 'test-setup',
+    imports: [FormsModule],
+    templateUrl: './test-setup.component.html',
+    styleUrl: './test-setup.component.css'
 })
 export class TestSetupComponent {
 

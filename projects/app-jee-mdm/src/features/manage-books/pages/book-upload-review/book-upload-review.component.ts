@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
 import { BookValidationResult } from "../../manage-books.type";
-import { NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { BookRenderComponent } from "./renderers/book-render.component";
 import { ChapterRenderComponent } from "./renderers/chapter-render.component";
@@ -11,68 +10,68 @@ import { Alert } from "lib-core";
 
 import AlertService = Alert.AlertService;
 
-@Component({
+@Component( {
   selector: 'book-upload-review',
-  standalone: true,
-  imports: [BookRenderComponent, ChapterRenderComponent, ExerciseRenderComponent, NgIf, FormsModule],
+  imports: [ BookRenderComponent, ChapterRenderComponent, ExerciseRenderComponent, FormsModule ],
   templateUrl: './book-upload-review.component.html',
+  standalone: true,
   styleUrl: './book-upload-review.component.css'
-})
+} )
 export class BookUploadReviewComponent {
 
-  private manageBookSvc = inject( ManageBooksService ) ;
-  private alertSvc = inject( AlertService ) ;
-  private router = inject( Router ) ;
+  private manageBookSvc = inject( ManageBooksService );
+  private alertSvc = inject( AlertService );
+  private router = inject( Router );
 
-  result:BookValidationResult | null = null ;
+  result: BookValidationResult | null = null;
 
   // This is set by the 'Show All' checkbox.
-  showAll:boolean = true ;
+  showAll: boolean = true;
 
   constructor() {
     this.manageBookSvc.validationResult$.subscribe( result => {
-      this.result = result ;
-    } ) ;
+      this.result = result;
+    } );
   }
 
   hasMessages() {
     return this.result != null &&
-           (
-             this.result.totalMsgCount.numError > 0 ||
-             this.result.totalMsgCount.numWarning > 0 ||
-             this.result.totalMsgCount.numInfo > 0
-           ) ;
+      (
+        this.result.totalMsgCount.numError > 0 ||
+        this.result.totalMsgCount.numWarning > 0 ||
+        this.result.totalMsgCount.numInfo > 0
+      );
   }
 
   hasErrors() {
     return this.result != null &&
-           this.result.totalMsgCount.numError > 0 ;
+      this.result.totalMsgCount.numError > 0;
   }
 
   hasWarnings() {
     return this.result != null &&
-           this.result.totalMsgCount.numWarning > 0 ;
+      this.result.totalMsgCount.numWarning > 0;
   }
 
   hasInfo() {
     return this.result != null &&
-           this.result.totalMsgCount.numInfo > 0 ;
+      this.result.totalMsgCount.numInfo > 0;
   }
 
-  saveBook():void {
+  saveBook(): void {
     this.manageBookSvc.saveBook( this.result?.serverFileName )
-      .then( (msg:string) => {
-        this.alertSvc.success( msg ) ;
-      } )
-      .catch( (err:string) => {
-        this.alertSvc.error( err ) ;
-      })
-      .finally(()=>{
-        this.router.navigateByUrl( '/manage-books/book-list' ).then() ;
-      }) ;
+        .then( ( msg: string ) => {
+          this.alertSvc.success( msg );
+        } )
+        .catch( ( err: string ) => {
+          this.alertSvc.error( err );
+        } )
+        .finally( () => {
+          this.router.navigateByUrl( '/manage-books/book-list' ).then();
+        } );
   }
 
   backToBookList(): void {
-    this.router.navigateByUrl( '/manage-books/book-list' ).then() ;
+    this.router.navigateByUrl( '/manage-books/book-list' ).then();
   }
 }

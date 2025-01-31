@@ -4,15 +4,14 @@ import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/r
 import {PageTitleService} from "./page-title.service";
 
 @Component({
-  selector: 'page-title',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'page-title',
+    imports: [CommonModule],
+    template: `
     <div class="page-title">
       {{pageTitle}}{{additionalTitle}}
     </div>
   `,
-  styles: `
+    styles: `
       .page-title {
           display: block;
           width: calc(100vw - var(--feature-menubar-width));

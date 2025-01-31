@@ -1,23 +1,21 @@
 import { Component } from '@angular/core';
 import {
-  ToolbarActionComponent,
   AlertsDisplayComponent,
   PageTitleComponent,
-  PageToolbarComponent
 } from "lib-core";
 import { RouterOutlet } from '@angular/router';
 
-@Component({
+@Component( {
   selector: 'app-manage-books',
+  imports: [ RouterOutlet, PageTitleComponent, AlertsDisplayComponent ],
   standalone: true,
-  imports: [ RouterOutlet, PageTitleComponent, PageToolbarComponent, ToolbarActionComponent, AlertsDisplayComponent ],
-  template:`
+  template: `
     <page-title></page-title>
     <alerts-display></alerts-display>
     <div>
       <router-outlet></router-outlet>
     </div>
   `
-})
+} )
 export class ManageBooksComponent {
 }

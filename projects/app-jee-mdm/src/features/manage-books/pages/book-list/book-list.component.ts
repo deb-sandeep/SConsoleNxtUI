@@ -16,15 +16,14 @@ import { NgClass, NgIf } from "@angular/common";
 
 @Component( {
     selector: 'book-list',
-    standalone: true,
     imports: [
-      FormsModule,
-      EditableInput,
-      RouterLink,
-      NgClass,
-      PageToolbarComponent,
-      ToolbarActionComponent,
-      NgIf
+        FormsModule,
+        EditableInput,
+        RouterLink,
+        NgClass,
+        PageToolbarComponent,
+        ToolbarActionComponent,
+        NgIf
     ],
     templateUrl: './book-list.component.html',
     styleUrl: './book-list.component.css'

@@ -13,15 +13,14 @@ import { Question } from "./question";
 import { QuestionGenerator } from "./components/test-play/question-generator";
 
 @Component({
-  selector: 'feature-new-test',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PageToolbarComponent,
-    TestSetupComponent, TestPlayComponent, TestResultComponent
-  ],
-  templateUrl: './new-test.component.html',
-  styleUrl: './new-test.component.css'
+    selector: 'feature-new-test',
+    imports: [
+        CommonModule,
+        PageToolbarComponent,
+        TestSetupComponent, TestPlayComponent, TestResultComponent
+    ],
+    templateUrl: './new-test.component.html',
+    styleUrl: './new-test.component.css'
 })
 export class NewTestComponent {
 

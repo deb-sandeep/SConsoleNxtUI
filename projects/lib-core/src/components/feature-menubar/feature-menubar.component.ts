@@ -9,11 +9,10 @@ export type FeatureMenuItemMeta = {
 }
 
 @Component({
-  selector: 'feature-menubar',
-  standalone: true,
-  imports: [ CommonModule, RouterLink ],
-  templateUrl: './feature-menubar.component.html',
-  styleUrl: './feature-menubar.component.css'
+    selector: 'feature-menubar',
+    imports: [CommonModule, RouterLink],
+    templateUrl: './feature-menubar.component.html',
+    styleUrl: './feature-menubar.component.css'
 })
 export class FeatureMenubarComponent {
 

@@ -2,15 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: 'page-toolbar',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'page-toolbar',
+    imports: [CommonModule],
+    template: `
     <div class="page-toolbar">
         <ng-content></ng-content>
     </div>
   `,
-  styles: `
+    styles: `
     .page-toolbar {
         display: block;
         width: calc(100vw - var(--feature-menubar-width));

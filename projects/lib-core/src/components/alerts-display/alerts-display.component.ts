@@ -4,19 +4,18 @@ import { NgIf } from "@angular/common";
 import { NgbAlert } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-  selector: 'alerts-display',
-  standalone: true,
-  imports: [
-    NgIf, NgbAlert
-  ],
-  providers: [Alert.AlertService],
-  styles: `
+    selector: 'alerts-display',
+    imports: [
+        NgIf, NgbAlert
+    ],
+    providers: [Alert.AlertService],
+    styles: `
     .alerts-container {
         background-color: var( --page-title-bgcolor ) ;
         padding: 3px;
     }
   `,
-  template: `
+    template: `
     <div *ngIf="alertService.hasAlerts()"
          class="alerts-container">
       @for( alert of alertService.alerts; track alert.id ) {

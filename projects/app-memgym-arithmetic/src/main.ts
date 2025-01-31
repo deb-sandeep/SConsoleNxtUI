@@ -29,7 +29,6 @@ const routes: Routes = [
 
 @Component({
     selector: 'app-root',
-    standalone: true,
     imports: [
         CommonModule,
         RouterOutlet, RouterLink, RouterLinkActive,

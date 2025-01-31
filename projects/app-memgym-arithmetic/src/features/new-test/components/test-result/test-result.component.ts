@@ -6,11 +6,10 @@ import { Question } from "../../question";
 import { GameConfig } from "../../new-test.config";
 
 @Component({
-  selector: 'test-result',
-  standalone: true,
-  imports: [ CommonModule, FormsModule ],
-  templateUrl: './test-result.component.html',
-  styleUrl: './test-result.component.css'
+    selector: 'test-result',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './test-result.component.html',
+    styleUrl: './test-result.component.css'
 })
 export class TestResultComponent {
 

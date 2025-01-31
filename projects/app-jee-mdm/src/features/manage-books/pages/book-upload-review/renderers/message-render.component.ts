@@ -2,11 +2,10 @@ import { Component, Input } from '@angular/core';
 import { ValidationMessages } from "../../../manage-books.type";
 
 @Component({
-  selector: 'msg-render',
-  standalone: true,
-  imports: [],
-  styleUrl: '../book-upload-review.component.css',
-  template: `
+    selector: 'msg-render',
+    imports: [],
+    styleUrl: '../book-upload-review.component.css',
+    template: `
     @if (msgs != null && msgs.messages[key] != null) {
       @for (msg of msgs.messages[key]; track $index) {
         @if (msg.type === 'ERROR') {

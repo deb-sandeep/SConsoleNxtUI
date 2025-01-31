@@ -8,13 +8,12 @@ export class EditableAttributeSaveEvent {
 }
 
 @Component({
-  selector: 'editable-input',
-  standalone: true,
-  imports: [
-    FormsModule
-  ],
-  styleUrl: '../../../../app-jee-mdm/src/features/manage-books/pages/book-list/book-list.component.css',
-  template: `
+    selector: 'editable-input',
+    imports: [
+        FormsModule
+    ],
+    styleUrl: '../../../../app-jee-mdm/src/features/manage-books/pages/book-list/book-list.component.css',
+    template: `
     @if( isBeingEdited ) {
       <input type="text" [(ngModel)]="editedValue"
              (keyup.enter)="saveEdit()"

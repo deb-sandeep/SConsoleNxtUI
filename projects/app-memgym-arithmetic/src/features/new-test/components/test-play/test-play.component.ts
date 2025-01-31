@@ -8,11 +8,10 @@ import { QuestionGenerator } from "./question-generator";
 import { GameConfig } from "../../new-test.config";
 
 @Component({
-  selector: 'test-play',
-  standalone: true,
-  imports: [ CommonModule, FormsModule ],
-  templateUrl: './test-play.component.html',
-  styleUrl: './test-play.component.css'
+    selector: 'test-play',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './test-play.component.html',
+    styleUrl: './test-play.component.css'
 })
 export class TestPlayComponent {
 

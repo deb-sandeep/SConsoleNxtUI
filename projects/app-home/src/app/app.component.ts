@@ -17,11 +17,10 @@ type SectionMeta = {
 }
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [ CommonModule,NgbAccordionModule,PageHeaderComponent ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [CommonModule, NgbAccordionModule, PageHeaderComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent {
 

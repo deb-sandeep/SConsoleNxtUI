@@ -1,17 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'closeable-badge',
-  standalone: true,
-  imports: [],
-  template: `
+    selector: 'closeable-badge',
+    imports: [],
+    template: `
     <div class="closeable-badge">
       {{text}}
       <button type="button" class="btn-close btn-close close-btn"
               (click)="closeBtnClicked()"></button>
     </div>
   `,
-  styles: `
+    styles: `
       .closeable-badge {
           display: inline-block;
           background-color: #d3e0fd;

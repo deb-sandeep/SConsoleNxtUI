@@ -2,11 +2,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: 'toolbar-action',
-  standalone: true,
-  imports: [ CommonModule ],
-  templateUrl: './toolbar-action.component.html',
-  styleUrl: './toolbar-action.component.css'
+    selector: 'toolbar-action',
+    imports: [CommonModule],
+    templateUrl: './toolbar-action.component.html',
+    styleUrl: './toolbar-action.component.css'
 })
 export class ToolbarActionComponent implements OnInit {
 
