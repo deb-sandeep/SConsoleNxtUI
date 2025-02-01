@@ -9,21 +9,23 @@
 <div class="page-content">
   <table class="table table-sm table-striped book-listing-table">
     <thead>
-    <th style="width: 20px;text-align: center;">
-      <input type="checkbox"
-             (change)="toggleAllRowsSelection( $event )"
-             [indeterminate]="isIndeterminateRowSelection()">
-    </th>
-    <th style="width: 40px;"></th>
-    <th style="width:80px">Subject</th>
-    <th style="width:120px">Syllabus</th>
-    <th style="width: 20px;"></th>
-    <th style="width:250px">Short Name</th>
-    <th style="width:50px;text-align: right;"># Ch</th>
-    <th style="width:75px;text-align: center;"># Pr</th>
-    <th style="width:200px">Series</th>
-    <th style="width:125px">Author</th>
-    <th>Book Name</th>
+    <tr>
+      <th style="width: 20px;text-align: center;">
+        <input type="checkbox"
+               (change)="toggleAllRowsSelection( $event )"
+               [indeterminate]="isIndeterminateRowSelection()">
+      </th>
+      <th style="width: 40px;"></th>
+      <th style="width:80px">Subject</th>
+      <th style="width:120px">Syllabus</th>
+      <th style="width: 20px;"></th>
+      <th style="width:250px">Short Name</th>
+      <th style="width:50px;text-align: right;"># Ch</th>
+      <th style="width:75px;text-align: center;"># Pr</th>
+      <th style="width:200px">Series</th>
+      <th style="width:125px">Author</th>
+      <th>Book Name</th>
+    </tr>
     </thead>
     <tbody>
       @for( book of bookSummaries; track book.id ) {

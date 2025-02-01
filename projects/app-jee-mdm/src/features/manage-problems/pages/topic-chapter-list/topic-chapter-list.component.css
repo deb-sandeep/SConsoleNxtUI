@@ -1,0 +1,21 @@
+#topic-chapter-mapping-table thead th {
+    background-color: lightgrey;
+}
+
+.topic-row td {
+    background-color: rgb(211, 240, 252);
+    padding: 5px;
+    font-weight: bold;
+}
+
+.book-name {
+    padding-left:20px;
+}
+
+.chapter-selected td {
+    background-color: yellow;
+}
+
+.icon-col {
+    width: 20px;
+}

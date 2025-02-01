@@ -9,5 +9,6 @@ export type TopicChapterMapping = {
     bookShortName:string,
     chapterNum:number,
     chapterName:string,
+    selected?:boolean
   }[],
 }

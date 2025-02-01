@@ -1,22 +1,24 @@
 <div class="page-content">
   <table class="table table-sm" style="margin: 0 auto; width: 900px;">
     <thead>
-    <th style="width: 30px">
+      <tr>
+        <th style="width: 30px">
         <span ngClass="bi-{{fullyExpanded?'arrows-collapse':'arrows-expand'}}"
               style="background: transparent;"
               (click)="toggleFullExpansion()"></span>
-    </th>
-    <th style="width: 40px;">#</th>
-    <th>Name</th>
-    <th class="problem-type-col">SCA</th>
-    <th class="problem-type-col">MCA</th>
-    <th class="problem-type-col">ART</th>
-    <th class="problem-type-col">NVT</th>
-    <th class="problem-type-col">LCT</th>
-    <th class="problem-type-col">MMT</th>
-    <th class="problem-type-col">CMT</th>
-    <th class="problem-type-col">SUB</th>
-    <th style="width: 50px;" class="number">{{ totalProblems }}</th>
+        </th>
+        <th style="width: 40px;">#</th>
+        <th>Name</th>
+        <th class="problem-type-col">SCA</th>
+        <th class="problem-type-col">MCA</th>
+        <th class="problem-type-col">ART</th>
+        <th class="problem-type-col">NVT</th>
+        <th class="problem-type-col">LCT</th>
+        <th class="problem-type-col">MMT</th>
+        <th class="problem-type-col">CMT</th>
+        <th class="problem-type-col">SUB</th>
+        <th style="width: 50px;" class="number">{{ totalProblems }}</th>
+      </tr>
     </thead>
     <tbody>
       @for (ch of summary?.chapterProblemSummaries; track ch.chapterNum) {

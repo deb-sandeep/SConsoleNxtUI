@@ -37,8 +37,10 @@
   <div class="topic-container">
     <table class="table table-sm table-striped">
       <thead class="topic-table-header">
-      <th style="width: 60%">Topic Name</th>
-      <th style="width: 40%">Section</th>
+        <tr>
+          <th style="width: 60%">Topic Name</th>
+          <th style="width: 40%">Section</th>
+        </tr>
       </thead>
       <tbody>
         @for( t of Object.values( topicMap ); track t.topicId ) {

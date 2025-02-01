@@ -10,6 +10,40 @@
                   (click)="changeSyllabus( 'IIT Maths' )"></toolbar-action>
 </page-toolbar>
 <div class="page-content">
-  Topic chapter list works!
+  <table class="table table-sm" id="topic-chapter-mapping-table">
+    <thead>
+      <tr>
+        <th class="icon-col"></th>
+        <th class="icon-col"></th>
+        <th style="width:250px" class="book-name">Book Name</th>
+        <th style="width:400px">Chapter Name</th>
+        <th class="icon-col" style="width: auto;"></th>
+      </tr>
+    </thead>
+    <tbody>
+    @for( tcm of topicChapterMappings(); track tcm.topicId ) {
+      <tr class="topic-row">
+        <td colspan="5">{{tcm.topicName}}</td>
+      </tr>
+      @for( ch of tcm.chapters; track ch.mappingId ) {
+        <tr class="chapter-row"
+            (dblclick)="selectChapter(ch.mappingId)"
+            [class.chapter-selected]="ch.selected">
+          <td>
+            <span class="bi-arrow-up" *ngIf="$index>0"
+                  (click)="moveChapter( tcm, $index, 'up' )"></span>
+          </td>
+          <td>
+            <span class="bi-arrow-down" *ngIf="$index<$count-1"
+                  (click)="moveChapter( tcm, $index, 'down')"></span>
+          </td>
+          <td class="book-name">{{ ch.bookShortName }}</td>
+          <td>{{ ch.chapterNum }} - {{ ch.chapterName }}</td>
+          <td><span class="bi-list-check"></span></td>
+        </tr>
+      }
+    }
+    </tbody>
+  </table>
 </div>
 
