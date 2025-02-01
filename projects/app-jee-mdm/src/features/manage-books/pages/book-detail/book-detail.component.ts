@@ -16,7 +16,6 @@ import AlertService = Alert.AlertService;
   ],
   providers: [ ManageBooksService, AlertService ],
   templateUrl: './book-detail.component.html',
-  standalone: true,
   styleUrl: './book-detail.component.css'
 })
 export class BookDetailComponent {

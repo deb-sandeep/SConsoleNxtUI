@@ -5,21 +5,20 @@ import { BaseRenderer } from "./base-render.component";
 import { MsgRenderComponent } from "./message-render.component";
 
 @Component( {
-              selector: '[chapter-render]',
-              imports: [ MsgRenderComponent, NgClass ],
-              styleUrl: '../book-upload-review.component.css',
-              standalone: true,
-              template: `
-                <tr class="chapter-hdr-row">
-                  <td>Chapter</td>
-                  <td> :</td>
-                  <td [ngClass]="msgClass('title')">{{ chapter.title }}</td>
-                  <td>
-                    <msg-render [msgs]="msgs" key="title"></msg-render>
-                  </td>
-                </tr>
-              `
-            })
+  selector: '[chapter-render]',
+  imports: [ MsgRenderComponent, NgClass ],
+  styleUrl: '../book-upload-review.component.css',
+  template: `
+    <tr class="chapter-hdr-row">
+      <td>Chapter</td>
+      <td> :</td>
+      <td [ngClass]="msgClass('title')">{{ chapter.title }}</td>
+      <td>
+        <msg-render [msgs]="msgs" key="title"></msg-render>
+      </td>
+    </tr>
+  `
+})
 export class ChapterRenderComponent extends BaseRenderer implements OnChanges {
 
   @Input() chapter: ChapterValidationResult ;

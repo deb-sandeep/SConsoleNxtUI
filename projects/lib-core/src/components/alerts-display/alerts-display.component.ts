@@ -10,12 +10,11 @@ import { NgbAlert } from "@ng-bootstrap/ng-bootstrap";
   ],
   providers: [ Alert.AlertService ],
   styles: `
-      .alerts-container {
-          background-color: var(--page-title-bgcolor);
-          padding: 3px;
-      }
+    .alerts-container {
+        background-color: var(--page-title-bgcolor);
+        padding: 3px;
+    }
   `,
-  standalone: true,
   template: `
     <div *ngIf="alertService.hasAlerts()"
          class="alerts-container">

@@ -12,8 +12,14 @@ export class EditableAttributeSaveEvent {
   imports: [
     FormsModule
   ],
-  styleUrl: '../../../../app-jee-mdm/src/features/manage-books/pages/book-list/book-list.component.css',
-  standalone: true,
+  styles: `
+      input[type="text"] {
+          width: 100%;
+          background-color: rgba(173, 206, 255, 0.33);
+          border-width: 1px;
+          border-color: rgba(173, 206, 255);
+      }
+  `,
   template: `
     @if (isBeingEdited) {
       <input type="text" [(ngModel)]="editedValue"
@@ -42,6 +48,7 @@ export class EditableInput implements OnInit {
 
   initiateEdit() {
     this.isBeingEdited = true ;
+    this.editedValue = this.target[this.attribute] ;
   }
 
   saveEdit() {

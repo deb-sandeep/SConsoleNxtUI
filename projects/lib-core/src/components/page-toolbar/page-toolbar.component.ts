@@ -9,17 +9,16 @@ import { CommonModule } from "@angular/common";
       <ng-content></ng-content>
     </div>
   `,
-  standalone: true,
   styles: `
-      .page-toolbar {
-          display: block;
-          width: calc(100vw - var(--feature-menubar-width));
-          height: var(--page-toolbar-height);
-          background-color: var(--page-toolbar-bgcolor);
-          color: var(--page-toolbar-fgcolor);
-          font-size: 18px;
-          padding-left: 10px;
-      }
+    .page-toolbar {
+        display: block;
+        width: calc(100vw - var(--feature-menubar-width));
+        height: var(--page-toolbar-height);
+        background-color: var(--page-toolbar-bgcolor);
+        color: var(--page-toolbar-fgcolor);
+        font-size: 18px;
+        padding-left: 10px;
+    }
   `
 })
 export class PageToolbarComponent {

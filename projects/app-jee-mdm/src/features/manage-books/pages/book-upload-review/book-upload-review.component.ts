@@ -14,7 +14,6 @@ import AlertService = Alert.AlertService;
   selector: 'book-upload-review',
   imports: [ BookRenderComponent, ChapterRenderComponent, ExerciseRenderComponent, FormsModule ],
   templateUrl: './book-upload-review.component.html',
-  standalone: true,
   styleUrl: './book-upload-review.component.css'
 } )
 export class BookUploadReviewComponent {
@@ -56,17 +55,18 @@ export class BookUploadReviewComponent {
       this.result.totalMsgCount.numInfo > 0;
   }
 
-  saveBook(): void {
-    this.manageBookSvc.saveBook( this.result?.serverFileName )
-        .then( ( msg: string ) => {
-          this.alertSvc.success( msg );
-        } )
-        .catch( ( err: string ) => {
-          this.alertSvc.error( err );
-        } )
-        .finally( () => {
-          this.router.navigateByUrl( '/manage-books/book-list' ).then();
-        } );
+  async saveBook() {
+
+    try {
+      const msg = await this.manageBookSvc.saveBook( this.result?.serverFileName ) ;
+      this.alertSvc.success( msg ) ;
+    }
+    catch( err ) {
+      this.alertSvc.error( err as string ) ;
+    }
+    finally {
+      await this.router.navigateByUrl( '/manage-books/book-list' ) ;
+    }
   }
 
   backToBookList(): void {

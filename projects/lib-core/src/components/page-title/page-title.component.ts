@@ -11,18 +11,17 @@ import {PageTitleService} from "./page-title.service";
       {{ pageTitle }}{{ additionalTitle }}
     </div>
   `,
-  standalone: true,
   styles: `
-      .page-title {
-          display: block;
-          width: calc(100vw - var(--feature-menubar-width));
-          height: var(--page-title-height);
-          background-color: var(--page-title-bgcolor);
-          color: var(--page-title-fgcolor);
-          font-size: 18px;
-          padding-left: 10px;
-          border-top: 1px solid var(--page-toolbar-bgcolor);
-      }
+    .page-title {
+        display: block;
+        width: calc(100vw - var(--feature-menubar-width));
+        height: var(--page-title-height);
+        background-color: var(--page-title-bgcolor);
+        color: var(--page-title-fgcolor);
+        font-size: 18px;
+        padding-left: 10px;
+        border-top: 1px solid var(--page-toolbar-bgcolor);
+    }
   `
 })
 export class PageTitleComponent {

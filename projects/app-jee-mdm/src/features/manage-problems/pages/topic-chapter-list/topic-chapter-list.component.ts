@@ -18,7 +18,6 @@ import AlertService = Alert.AlertService;
     ToolbarActionComponent,
   ],
   templateUrl: './topic-chapter-list.component.html',
-  standalone: true,
   styleUrl: './topic-chapter-list.component.css'
 } )
 export class TopicChapterListComponent {

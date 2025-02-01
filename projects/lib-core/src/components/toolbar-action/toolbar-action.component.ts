@@ -5,7 +5,6 @@ import { CommonModule } from "@angular/common";
   selector: 'toolbar-action',
   imports: [ CommonModule ],
   templateUrl: './toolbar-action.component.html',
-  standalone: true,
   styleUrl: './toolbar-action.component.css'
 })
 export class ToolbarActionComponent implements OnInit {

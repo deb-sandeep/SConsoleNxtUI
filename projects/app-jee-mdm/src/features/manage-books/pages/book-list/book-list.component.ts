@@ -26,7 +26,6 @@ import { NgClass, NgIf } from "@angular/common";
     NgIf
   ],
   templateUrl: './book-list.component.html',
-  standalone: true,
   styleUrl: './book-list.component.css'
 } )
 export class BookListComponent {
@@ -54,27 +53,31 @@ export class BookListComponent {
     input.click();
   }
 
-  private uploadFileSelected( e: Event ) {
+  private async uploadFileSelected( e: Event ) {
 
-    const files: FileList | null = ( e.target as HTMLInputElement ).files;
+    try {
+      const files: FileList | null = ( e.target as HTMLInputElement ).files;
 
-    this.manageBookSvc.validateFileOnServer( files!.item( 0 ) as File )
-        .then( () => {
-          this.alertSvc.success( 'File successfully validated.' );
-          this.router.navigateByUrl( '/manage-books/upload-review' ).then();
-        } )
-        .catch( ( msg ) => {
-          this.alertSvc.error( 'File upload failure. ' + msg );
-        } );
+      await this.manageBookSvc.validateFileOnServer( files!.item(0) as File ) ;
+      this.alertSvc.success( 'File successfully validated.' );
+      await this.router.navigateByUrl( '/manage-books/upload-review' ) ;
+    }
+    catch( err ) {
+      this.alertSvc.error( 'File upload failure. ' + err );
+    }
   }
 
-  saveChangedAttribute( $evt: EditableAttributeSaveEvent ) {
-    this.manageBookSvc
-        .updateBookAttribute( $evt.target as BookSummary,
-                              $evt.attributeName,
-                              $evt.attributeValue )
-        .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
-        .catch( msg => this.alertSvc.error( msg ) );
+  async saveChangedAttribute( $evt: EditableAttributeSaveEvent ) {
+
+    try {
+      await this.manageBookSvc.updateBookAttribute( $evt.target as BookSummary,
+                                                    $evt.attributeName,
+                                                    $evt.attributeValue ) ;
+      $evt.target[$evt.attributeName] = $evt.attributeValue ;
+    }
+    catch( err ) {
+      this.alertSvc.error( err as string ) ;
+    }
   }
 
   toggleAllRowsSelection( $evt: Event ) {

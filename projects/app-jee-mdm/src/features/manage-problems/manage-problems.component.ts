@@ -8,7 +8,6 @@ import { RouterOutlet } from '@angular/router';
 @Component( {
   selector: 'app-manage-problems',
   imports: [ RouterOutlet, PageTitleComponent, AlertsDisplayComponent ],
-  standalone: true,
   template: `
     <page-title></page-title>
     <alerts-display></alerts-display>

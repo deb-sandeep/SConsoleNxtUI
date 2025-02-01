@@ -114,25 +114,29 @@ export class TopicMappingComponent {
     }) ;
   }
 
-  associateTopicWithSelectedChapter( topic: Topic ) {
+  async associateTopicWithSelectedChapter( topic: Topic ) {
 
-    if( this.selectedChapter != null ) {
-      // Only if the selected chapter is not already associated with this topic
-      if( this.selectedChapter.topics
-              .find( tm => tm.topicId == topic.topicId ) === undefined ) {
+    try {
+      if( this.selectedChapter != null ) {
 
-        this.manageBookSvc.createChapterTopicMapping( this.selectedBook!.id,
-                                                      this.selectedChapter!.chapterNum,
-                                                      topic.topicId )
-            .then( ( newMappingId) => {
-              this.selectedChapter?.topics.push( {
-                 topicId:topic.topicId,
-                 mappingId:newMappingId,
-              } ) ;
-              topic.isMappedToSelectedChapter = true ;
-            } )
-            .catch( (msg) => this.alertSvc.error( "Mapping failed. Message : " + msg ) ) ;
+        // Only if the selected chapter is not already associated with this topic
+        if( this.selectedChapter.topics
+                .find( tm => tm.topicId == topic.topicId ) === undefined ) {
+
+          const newMappingId = await this.manageBookSvc.createChapterTopicMapping(
+                                                                    this.selectedBook!.id,
+                                                                    this.selectedChapter!.chapterNum,
+                                                                    topic.topicId ) ;
+          this.selectedChapter?.topics.push( {
+            topicId:topic.topicId,
+            mappingId:newMappingId,
+          } ) ;
+          topic.isMappedToSelectedChapter = true ;
+        }
       }
+    }
+    catch( err ) {
+      this.alertSvc.error( "Mapping failed. Message : " + err ) ;
     }
   }
 
