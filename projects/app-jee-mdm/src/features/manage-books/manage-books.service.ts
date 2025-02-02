@@ -43,8 +43,6 @@ export class ManageBooksService extends RemoteService {
     const formData = new FormData() ;
     formData.append( 'file', file ) ;
 
-    //this.validationResultSub.next( null ) ;
-
     return new Promise( ( resolve, reject ) => {
       this.modalWaitSvc.showWaitDialog = true ;
       this.http.post<APIResponse>( uploadUrl, formData )
@@ -132,17 +130,17 @@ export class ManageBooksService extends RemoteService {
 
   createChapterTopicMapping( bookId:number, chapterNum:number, topicId:number ) : Promise<number> {
 
-    const url = `${environment.apiRoot}/Master/Book/ChapterTopicMapping` ;
+    const url = `${environment.apiRoot}/Master/ChapterTopicMapping` ;
     return this.postPromise<number>( url, {
       "bookId" : bookId,
       "chapterNum" : chapterNum,
       "topicId" : topicId
-    }) ;
+    }, true ) ;
   }
 
   deleteChapterTopicMapping( mappingId:number ) : Promise<void> {
 
-    const url = `${environment.apiRoot}/Master/Book/ChapterTopicMapping/${mappingId}` ;
+    const url = `${environment.apiRoot}/Master/ChapterTopicMapping/${mappingId}` ;
     return this.deletePromise( url, false ) ;
   }
 }

@@ -17,8 +17,6 @@ import { ChapterProblemTopicMapping } from "../../manage-problems.type";
   selector: 'topic-chapter-problem-list',
   imports: [
     FormsModule,
-    PageToolbarComponent,
-    ToolbarActionComponent,
     CommonModule
   ],
   templateUrl: './topic-chapter-problem-list.component.html',

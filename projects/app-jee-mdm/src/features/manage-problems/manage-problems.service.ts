@@ -12,11 +12,6 @@ export class ManageProblemsService extends RemoteService {
     return this.getPromise( url, true ) ;
   }
 
-  getChapterProblemTopicMappings( bookId:number, chapterNum:number ):Promise<ChapterProblemTopicMapping> {
-    const url:string = `${environment.apiRoot}/Master/Book/${bookId}/${chapterNum}/ProblemTopicMappings` ;
-    return this.getPromise( url, true ) ;
-  }
-
   swapAttemptSequence( mappingId1:number, mappingId2:number ): Promise<string> {
     const url:string = `${environment.apiRoot}/Master/Topic/ChapterMapping/SwapAttemptSequence/${mappingId1}/${mappingId2}` ;
     return this.postPromise( url ) ;
@@ -25,5 +20,10 @@ export class ManageProblemsService extends RemoteService {
   toggleProblemMapping( mappingId:number ) {
     const url:string = `${environment.apiRoot}/Master/Topic/ChapterMapping/${mappingId}/ToggleProblemMappingDone` ;
     return this.postPromise( url ) ;
+  }
+
+  getChapterProblemTopicMappings( bookId:number, chapterNum:number ):Promise<ChapterProblemTopicMapping> {
+    const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/${bookId}/${chapterNum}` ;
+    return this.getPromise( url, true ) ;
   }
 }
