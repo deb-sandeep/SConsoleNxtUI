@@ -29,12 +29,12 @@
         <tr class="chapter-row"
             (dblclick)="selectChapter(ch.mappingId)"
             [class.chapter-selected]="ch.selected">
-          <td>
-            <span class="bi-arrow-up" *ngIf="$index>0"
+          <td class="icon-col">
+            <span class="bi-arrow-up-circle" *ngIf="$index>0"
                   (click)="moveChapter( tcm, $index, 'up' )"></span>
           </td>
-          <td>
-            <span class="bi-arrow-down" *ngIf="$index<$count-1"
+          <td class="icon-col">
+            <span class="bi-arrow-down-circle" *ngIf="$index<$count-1"
                   (click)="moveChapter( tcm, $index, 'down')"></span>
           </td>
           <td class="book-name">{{ ch.bookShortName }}</td>
