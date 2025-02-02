@@ -43,7 +43,8 @@
             <input type="checkbox" class="row-checkbox"
                    [(ngModel)]="ch.problemMappingDone"
                    (ngModelChange)="toggleProblemMappingDone( ch )"/>
-            <span class="bi-list-check"></span>
+            <span class="bi-list-check"
+                  routerLink="../topic-chapter-problem-list/{{ch.bookId}}/{{ch.chapterNum}}"></span>
           </td>
         </tr>
       }

@@ -1,0 +1,18 @@
+#ch-problem-topic-map-table thead th {
+    background-color: lightgrey;
+}
+
+.exercise-row td {
+    background-color: rgb(211, 240, 252);
+    padding: 5px;
+    font-weight: bold;
+}
+
+.problem-row td {
+    font-size: 12px;
+    padding: 3px 5px 3px 5px;
+}
+
+.problem-row td:first-child {
+    padding-left: 30px;
+}

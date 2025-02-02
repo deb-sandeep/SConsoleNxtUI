@@ -6,7 +6,7 @@ import {
   PageToolbarComponent,
   ToolbarActionComponent
 } from "lib-core";
-import { Router } from "@angular/router";
+import { RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
 
 import AlertService = Alert.AlertService;
@@ -19,7 +19,8 @@ import { TopicChapterMapping } from "../../manage-problems.type";
     FormsModule,
     PageToolbarComponent,
     ToolbarActionComponent,
-    CommonModule
+    CommonModule,
+    RouterLink
   ],
   templateUrl: './topic-chapter-list.component.html',
   styleUrl: './topic-chapter-list.component.css'
@@ -27,7 +28,6 @@ import { TopicChapterMapping } from "../../manage-problems.type";
 export class TopicChapterListComponent {
 
   private alertSvc = inject( AlertService );
-  private router = inject( Router );
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
   private manageProblemsSvc:ManageProblemsService = inject( ManageProblemsService ) ;
 

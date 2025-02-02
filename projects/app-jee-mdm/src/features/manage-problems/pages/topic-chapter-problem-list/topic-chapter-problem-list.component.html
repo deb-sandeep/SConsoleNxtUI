@@ -1,0 +1,26 @@
+<div class="page-content">
+  <table class="table table-sm" id="ch-problem-topic-map-table">
+    <thead>
+      <tr>
+        <th style="padding-left: 30px;width: 75px;">Type</th>
+        <th>Problem Key</th>
+        <th>Topic</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for( ex of data?.exercises; track ex.exerciseNum ) {
+        <tr class="exercise-row">
+          <td colspan="3">{{ex.exerciseNum}} - {{ex.exerciseName}}</td>
+        </tr>
+        @for( p of ex.problems; track p.problemId ) {
+          <tr class="problem-row">
+            <td>{{p.problemType}}</td>
+            <td>{{p.problemKey}}</td>
+            <td>{{p.topic?.topicName}}</td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
+
