@@ -9,6 +9,7 @@ export type TopicChapterMapping = {
     bookShortName:string,
     chapterNum:number,
     chapterName:string,
+    problemMappingDone:boolean,
     selected?:boolean
   }[],
 }

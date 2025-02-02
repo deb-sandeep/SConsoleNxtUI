@@ -50,16 +50,31 @@ export class TopicChapterListComponent {
     })
   }
 
-  moveChapter( tcm:TopicChapterMapping, index:number, dir:'up'|'down' ) {
+  async moveChapter( tcm:TopicChapterMapping, index:number, dir:'up'|'down' ) {
 
     this.selectChapter( tcm.chapters[index].mappingId, false ) ;
 
-    // TODO: Swap on chapter and on success, update the UI, else show error
-
     let targetIndex = dir=='up'?index-1:index+1 ;
-    let temp = tcm.chapters[targetIndex] ;
+    let thisCm = tcm.chapters[index] ;
+    let targetCm = tcm.chapters[targetIndex] ;
 
-    tcm.chapters[targetIndex] = tcm.chapters[index] ;
-    tcm.chapters[index] = temp ;
+    try {
+      await this.manageProblemsSvc.swapAttemptSequence( thisCm.mappingId, targetCm.mappingId ) ;
+      tcm.chapters[targetIndex] = thisCm ;
+      tcm.chapters[index] = targetCm ;
+    }
+    catch( err ) {
+      this.alertSvc.error( "Error : " + err ) ;
+    }
+  }
+
+  async toggleProblemMappingDone( cm:any ) {
+
+    try {
+      await this.manageProblemsSvc.toggleProblemMapping( cm.mappingId ) ;
+    }
+    catch( err ) {
+      this.alertSvc.error( "Error : " + err ) ;
+    }
   }
 }

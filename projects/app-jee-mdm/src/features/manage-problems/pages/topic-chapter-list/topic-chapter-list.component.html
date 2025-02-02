@@ -39,7 +39,12 @@
           </td>
           <td class="book-name">{{ ch.bookShortName }}</td>
           <td>{{ ch.chapterNum }} - {{ ch.chapterName }}</td>
-          <td><span class="bi-list-check"></span></td>
+          <td>
+            <input type="checkbox" class="row-checkbox"
+                   [(ngModel)]="ch.problemMappingDone"
+                   (ngModelChange)="toggleProblemMappingDone( ch )"/>
+            <span class="bi-list-check"></span>
+          </td>
         </tr>
       }
     }

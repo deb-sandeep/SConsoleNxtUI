@@ -11,4 +11,14 @@ export class ManageProblemsService extends RemoteService {
     const url:string = `${environment.apiRoot}/Master/Topic/ChapterMappings?syllabusName=${syllabusName}` ;
     return this.getPromise( url, true ) ;
   }
+
+  swapAttemptSequence( mappingId1:number, mappingId2:number ): Promise<string> {
+    const url:string = `${environment.apiRoot}/Master/Topic/ChapterMapping/SwapAttemptSequence/${mappingId1}/${mappingId2}` ;
+    return this.postPromise( url ) ;
+  }
+
+  toggleProblemMapping( mappingId:number ) {
+    const url:string = `${environment.apiRoot}/Master/Topic/ChapterMapping/${mappingId}/ToggleProblemMappingDone` ;
+    return this.postPromise( url ) ;
+  }
 }

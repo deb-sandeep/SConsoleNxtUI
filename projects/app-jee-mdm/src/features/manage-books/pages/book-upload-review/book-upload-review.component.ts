@@ -12,7 +12,12 @@ import AlertService = Alert.AlertService;
 
 @Component( {
   selector: 'book-upload-review',
-  imports: [ BookRenderComponent, ChapterRenderComponent, ExerciseRenderComponent, FormsModule ],
+  imports: [
+    BookRenderComponent,
+    ChapterRenderComponent,
+    ExerciseRenderComponent,
+    FormsModule
+  ],
   templateUrl: './book-upload-review.component.html',
   styleUrl: './book-upload-review.component.css'
 } )

@@ -8,7 +8,7 @@ export class RemoteService {
   protected http:HttpClient = inject( HttpClient ) ;
   protected modalWaitSvc:ModalWaitService = inject( ModalWaitService ) ;
 
-  protected postPromise<T>( url:string, body:any, modalWait:boolean = false ) : Promise<T> {
+  protected postPromise<T>( url:string, body:any={}, modalWait:boolean = false ) : Promise<T> {
 
     return new Promise<T>( ( resolve, reject ) => {
 
