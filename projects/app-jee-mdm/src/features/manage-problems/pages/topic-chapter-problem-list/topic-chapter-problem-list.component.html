@@ -97,75 +97,30 @@
       <table class="table table-sm">
         <thead>
         <tr>
-          <th style="width: 75px;"></th>
-          <th style="width: 50px;text-align: right;">Linked</th>
-          <th style="width: 50px;text-align: right;">Detached</th>
-          <th style="width: 50px;text-align: right;">Total</th>
+          <th style="width: 50px;"></th>
+          <th style="width: 50px;text-align: right;"><span class="bi-link"></span></th>
+          <th style="width: 50px;text-align: right;"><span class="bi-heart"></span></th>
+          <th style="width: 50px;text-align: right;"><span class="bi-ban"></span></th>
+          <th style="width: 50px;text-align: right;"><span class="bi-fonts"></span></th>
           <th></th>
         </tr>
         </thead>
         <tbody>
-          <!-- TODO: Loop it -->
-          <tr>
-            <td>SCA</td>
-            <td class="number">{{getProblemCount('SCA', ProblemGroup.ATTACHED)}}</td>
-            <td class="number">{{getProblemCount('SCA', ProblemGroup.DETACHED)}}</td>
-            <td class="number">{{getProblemCount('SCA')}}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>MCA</td>
-            <td class="number">{{getProblemCount( 'MCA', ProblemGroup.ATTACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'MCA', ProblemGroup.DETACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'MCA' ) }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>LCT</td>
-            <td class="number">{{getProblemCount( 'LCT', ProblemGroup.ATTACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'LCT', ProblemGroup.DETACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'LCT' ) }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>ART</td>
-            <td class="number">{{getProblemCount( 'ART', ProblemGroup.ATTACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'ART', ProblemGroup.DETACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'ART' ) }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>CMT</td>
-            <td class="number">{{getProblemCount( 'CMT', ProblemGroup.ATTACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'CMT', ProblemGroup.DETACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'CMT' ) }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>MMT</td>
-            <td class="number">{{getProblemCount( 'MMT', ProblemGroup.ATTACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'MMT', ProblemGroup.DETACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'MMT' ) }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>NVT</td>
-            <td class="number">{{getProblemCount( 'NVT', ProblemGroup.ATTACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'NVT', ProblemGroup.DETACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'NVT' ) }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>SUB</td>
-            <td class="number">{{getProblemCount( 'SUB', ProblemGroup.ATTACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'SUB', ProblemGroup.DETACHED ) }}</td>
-            <td class="number">{{getProblemCount( 'SUB' ) }}</td>
-            <td></td>
-          </tr>
-          <tr>
+          @for( problemType of PROBLEM_TYPES; track $index ) {
+            <tr>
+              <td>{{ problemType }}</td>
+              <td class="number">{{getProblemCount( problemType, ProblemGroup.ATTACHED)}}</td>
+              <td class="number">{{getProblemCount( problemType, ProblemGroup.DETACHED)}}</td>
+              <td class="number">{{getProblemCount( problemType, ProblemGroup.NOT_AVAILABLE)}}</td>
+              <td class="number total-col">{{getProblemCount( problemType)}}</td>
+              <td></td>
+            </tr>
+          }
+          <tr class="total-row">
             <td>Total</td>
             <td class="number">{{getTotalProblemCount( ProblemGroup.ATTACHED )}}</td>
             <td class="number">{{getTotalProblemCount( ProblemGroup.DETACHED )}}</td>
+            <td class="number">{{getTotalProblemCount( ProblemGroup.NOT_AVAILABLE )}}</td>
             <td class="number">{{getTotalProblemCount()}}</td>
             <td></td>
           </tr>

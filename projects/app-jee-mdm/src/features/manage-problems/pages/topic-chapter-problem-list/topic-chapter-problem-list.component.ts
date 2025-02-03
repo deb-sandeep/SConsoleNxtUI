@@ -45,6 +45,8 @@ export class TopicChapterProblemListComponent {
 
   protected readonly ProblemGroup = ProblemGroup ;
 
+  readonly PROBLEM_TYPES = [ 'SCA', 'MCA', 'LCT', 'ART', 'CMT', 'MMT', 'NVT', 'SUB' ] ;
+
   data:ChapterProblemTopicMapping | null = null ;
   selTopic:Topic | null = null ;
 
