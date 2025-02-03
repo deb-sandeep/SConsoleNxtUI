@@ -4,14 +4,22 @@
       Actions for selected problems
     </button>
     <div ngbDropdownMenu aria-labelledby="action-dropdown-items">
-      <button ngbDropdownItem>Associate</button>
-      <button ngbDropdownItem>Disassociate</button>
-      <button ngbDropdownItem>Force Associate</button>
+      <button ngbDropdownItem
+              [disabled]="!hasSelectedProblems()"
+              (click)="attachSelectedProblems()">Attach</button>
+      <button ngbDropdownItem
+              [disabled]="!hasSelectedProblems()"
+              (click)="detachSelectedProblems()">Detach</button>
+      <button ngbDropdownItem
+              [disabled]="!hasSelectedProblems()"
+              (click)="forceAttachSelectedProblems()">Force Attach</button>
     </div>
   </div>
 </page-toolbar>
 <div class="page-content">
-  <div class="topic-name">{{selTopic?.syllabusName}} - {{selTopic?.topicName}}</div>
+  <div class="topic-name">
+    {{selTopic?.syllabusName}} - {{selTopic?.topicName}}
+  </div>
   <table class="table table-sm" id="ch-problem-topic-map-table">
     <thead>
       <tr>
@@ -46,7 +54,18 @@
               <td></td>
               <td (dblclick)="toggleSelectionOfAllProblemsOfType( ex, p.problemType )">{{p.problemType}}</td>
               <td (dblclick)="p.selected = !p.selected">{{p.problemKey}}</td>
-              <td>{{p.topic?.topicName}}</td>
+              <td>
+                @if( p.topic == null ) {
+                  <button type="button"
+                          class="btn btn-sm btn-outline-success row-btn"
+                          (click)="attachProblem( p )">Attach</button>
+                }
+                @else if ( p.topic?.topicId == selTopic?.topicId ) {
+                  <button type="button"
+                          class="btn btn-sm btn-outline-danger row-btn"
+                          (click)="detachProblem( p )">Detach</button>
+                }
+              </td>
             </tr>
           }
         }

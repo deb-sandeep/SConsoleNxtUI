@@ -36,3 +36,9 @@
     background-color: #6b6b6b;
     color: white;
 }
+
+.row-btn {
+    padding: 0 5px 0 5px;
+    font-size: 11px;
+    width: 60px;
+}

@@ -8,6 +8,7 @@ import {
 } from "lib-core";
 import { ActivatedRoute } from "@angular/router";
 import { CommonModule } from "@angular/common";
+import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 
 import AlertService = Alert.AlertService;
 import { ManageProblemsService } from "../../manage-problems.service";
@@ -15,10 +16,8 @@ import {
   ChapterProblemTopicMapping,
   ExerciseProblems,
   ProblemTopicMapping,
-  SelectedTopic
 } from "../../manage-problems.type";
-import { ChapterProblemSummary } from "../../../manage-books/manage-books.type";
-import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { Topic } from "../../../manage-books/manage-books.type";
 
 @Component( {
   selector: 'topic-chapter-problem-list',
@@ -40,7 +39,7 @@ export class TopicChapterProblemListComponent {
   private manageProblemsSvc:ManageProblemsService = inject( ManageProblemsService ) ;
 
   data:ChapterProblemTopicMapping | null = null ;
-  selTopic:SelectedTopic | null = null ;
+  selTopic:Topic | null = null ;
 
   expandedState:Record<number, boolean> = {} ;
   fullyExpanded:boolean = false ;
@@ -48,13 +47,13 @@ export class TopicChapterProblemListComponent {
   constructor() {
     const bookId = this.route.snapshot.params['bookId'] ;
     const chapterNum = this.route.snapshot.params['chapterNum'] ;
-
-    this.selTopic = this.manageProblemsSvc.selectedTopic ;
+    const selTopicId = this.route.snapshot.params['selTopicId'] ;
 
     this.manageProblemsSvc
-        .getChapterProblemTopicMappings( bookId, chapterNum )
+        .getChapterProblemTopicMappings( bookId, chapterNum, selTopicId )
         .then( res => {
           this.data = res ;
+          this.selTopic = res.selTopic ;
           this.titleSvc.setTitle( `${res.book.bookShortName} : ${res.chapterNum} - ${res.chapterName}` ) ;
           this.toggleFullExpansion() ;
         } )
@@ -86,5 +85,37 @@ export class TopicChapterProblemListComponent {
     ex.problems.forEach( p =>
       p.selected = p.problemType === type ? !p.selected : p.selected
     ) ;
+  }
+
+  attachProblem( p:ProblemTopicMapping ) {
+
+  }
+
+  detachProblem( p:ProblemTopicMapping ) {
+
+  }
+
+  attachSelectedProblems() {
+
+  }
+
+  detachSelectedProblems() {
+
+  }
+
+  forceAttachSelectedProblems() {
+
+  }
+
+  hasSelectedProblems():boolean  {
+    try {
+      this.data!.exercises.forEach( ex => {
+        ex.problems.forEach( p => {
+          if( p.selected ) { throw true ; }
+        }) ;
+      }) ;
+    }
+    catch( e ) { return true ; }
+    return false ;
   }
 }

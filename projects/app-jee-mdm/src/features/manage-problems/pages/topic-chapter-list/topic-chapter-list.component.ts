@@ -81,14 +81,10 @@ export class TopicChapterListComponent {
   }
 
   showProblemsForChapter( tcm:TopicChapterMapping, bookId:number, chapterNum:number ) {
-    this.manageProblemsSvc.selectedTopic = {
-      topicId: tcm.topicId,
-      topicName: tcm.topicName,
-      topicSection: tcm.topicSection,
-      syllabusName: this.currentSyllabus
-    } ;
     this.router
-        .navigate( ['../topic-chapter-problem-list', bookId, chapterNum], {relativeTo: this.route} )
-        .then() ;
+        .navigate(
+          ['../topic-chapter-problem-list', bookId, chapterNum, tcm.topicId],
+          {relativeTo: this.route}
+        ).then() ;
   }
 }

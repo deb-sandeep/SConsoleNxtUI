@@ -35,12 +35,6 @@ export type ChapterProblemTopicMapping = {
   chapterNum: number,
   chapterName: string,
   book: BookSummary,
+  selTopic: Topic,
   exercises: ExerciseProblems[]
-}
-
-export type SelectedTopic = {
-  topicId: number,
-  topicName: string,
-  topicSection: string,
-  syllabusName:string
 }
