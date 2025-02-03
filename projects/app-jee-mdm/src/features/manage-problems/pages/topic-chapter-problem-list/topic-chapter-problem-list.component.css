@@ -42,3 +42,11 @@
     font-size: 11px;
     width: 60px;
 }
+
+.problem-summary {
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    width: 400px;
+    height: 400px;
+}

@@ -28,7 +28,8 @@ export type ProblemTopicMapping = {
 export type ExerciseProblems = {
   exerciseNum: number,
   exerciseName: string,
-  problems: ProblemTopicMapping[]
+  problems: ProblemTopicMapping[],
+  selected?:boolean
 }
 
 export type ChapterProblemTopicMapping = {

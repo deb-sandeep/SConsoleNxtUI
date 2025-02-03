@@ -1,5 +1,17 @@
 <page-toolbar>
   <div ngbDropdown class="d-inline-block action-dropdown">
+    <button type="button" class="btn" id="selection-dropdown-items" ngbDropdownToggle>
+      Select problems
+    </button>
+    <div ngbDropdownMenu aria-labelledby="selection-dropdown-items">
+      <button ngbDropdownItem
+              (click)="selectAllDetachedProblems()">All detached</button>
+      <button ngbDropdownItem
+              (click)="deselectAll()">Deselect all</button>
+    </div>
+  </div>
+  &nbsp;
+  <div ngbDropdown class="d-inline-block action-dropdown">
     <button type="button" class="btn" id="action-dropdown-items" ngbDropdownToggle>
       Actions for selected problems
     </button>
@@ -16,6 +28,7 @@
     </div>
   </div>
 </page-toolbar>
+
 <div class="page-content">
   <div class="topic-name">
     {{selTopic?.syllabusName}} - {{selTopic?.topicName}}
@@ -42,6 +55,8 @@
                   (click)="toggleChapterExpandedState( ex.exerciseNum )"></span>
           </td>
           <td colspan="3">
+            <input type="checkbox" [(ngModel)]="ex.selected"/>
+            &nbsp;
             <span (dblclick)="toggleSelectionAllProblemsForExercise( ex )">
               {{ex.exerciseNum}} - {{ex.exerciseName}}
             </span>
@@ -60,7 +75,7 @@
                           class="btn btn-sm btn-outline-success row-btn"
                           (click)="attachProblem( p )">Attach</button>
                 }
-                @else if ( p.topic?.topicId == selTopic?.topicId ) {
+                @else if ( p.topic.topicId == selTopic?.topicId ) {
                   <button type="button"
                           class="btn btn-sm btn-outline-danger row-btn"
                           (click)="detachProblem( p )">Detach</button>
@@ -74,3 +89,87 @@
   </table>
 </div>
 
+@if( data != null ) {
+  <div class="card problem-summary">
+    <h6 class="card-header">{{data!.book.bookShortName}}</h6>
+    <div class="card-body">
+      <h6 class="card-title">Chapter {{ data!.chapterNum }} - {{ data!.chapterName }}</h6>
+      <table class="table table-sm">
+        <thead>
+        <tr>
+          <th style="width: 75px;"></th>
+          <th style="width: 50px;text-align: right;">Linked</th>
+          <th style="width: 50px;text-align: right;">Detached</th>
+          <th style="width: 50px;text-align: right;">Total</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+          <!-- TODO: Loop it -->
+          <tr>
+            <td>SCA</td>
+            <td class="number">{{getProblemCount('SCA', ProblemGroup.ATTACHED)}}</td>
+            <td class="number">{{getProblemCount('SCA', ProblemGroup.DETACHED)}}</td>
+            <td class="number">{{getProblemCount('SCA')}}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>MCA</td>
+            <td class="number">{{getProblemCount( 'MCA', ProblemGroup.ATTACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'MCA', ProblemGroup.DETACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'MCA' ) }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>LCT</td>
+            <td class="number">{{getProblemCount( 'LCT', ProblemGroup.ATTACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'LCT', ProblemGroup.DETACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'LCT' ) }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>ART</td>
+            <td class="number">{{getProblemCount( 'ART', ProblemGroup.ATTACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'ART', ProblemGroup.DETACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'ART' ) }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>CMT</td>
+            <td class="number">{{getProblemCount( 'CMT', ProblemGroup.ATTACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'CMT', ProblemGroup.DETACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'CMT' ) }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>MMT</td>
+            <td class="number">{{getProblemCount( 'MMT', ProblemGroup.ATTACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'MMT', ProblemGroup.DETACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'MMT' ) }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>NVT</td>
+            <td class="number">{{getProblemCount( 'NVT', ProblemGroup.ATTACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'NVT', ProblemGroup.DETACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'NVT' ) }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>SUB</td>
+            <td class="number">{{getProblemCount( 'SUB', ProblemGroup.ATTACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'SUB', ProblemGroup.DETACHED ) }}</td>
+            <td class="number">{{getProblemCount( 'SUB' ) }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td class="number">{{getTotalProblemCount( ProblemGroup.ATTACHED )}}</td>
+            <td class="number">{{getTotalProblemCount( ProblemGroup.DETACHED )}}</td>
+            <td class="number">{{getTotalProblemCount()}}</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>}

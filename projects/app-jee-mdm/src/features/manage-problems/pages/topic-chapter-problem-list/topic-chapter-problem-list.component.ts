@@ -4,7 +4,6 @@ import {
   Alert,
   PageTitleService,
   PageToolbarComponent,
-  ToolbarActionComponent
 } from "lib-core";
 import { ActivatedRoute } from "@angular/router";
 import { CommonModule } from "@angular/common";
@@ -19,13 +18,19 @@ import {
 } from "../../manage-problems.type";
 import { Topic } from "../../../manage-books/manage-books.type";
 
+export enum ProblemGroup {
+  ATTACHED,
+  DETACHED,
+  NOT_AVAILABLE,
+  TOTAL
+}
+
 @Component( {
   selector: 'topic-chapter-problem-list',
   imports: [
     FormsModule,
     CommonModule,
     PageToolbarComponent,
-    ToolbarActionComponent,
     NgbDropdownModule
   ],
   templateUrl: './topic-chapter-problem-list.component.html',
@@ -37,6 +42,8 @@ export class TopicChapterProblemListComponent {
   private route = inject( ActivatedRoute ) ;
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
   private manageProblemsSvc:ManageProblemsService = inject( ManageProblemsService ) ;
+
+  protected readonly ProblemGroup = ProblemGroup ;
 
   data:ChapterProblemTopicMapping | null = null ;
   selTopic:Topic | null = null ;
@@ -117,5 +124,91 @@ export class TopicChapterProblemListComponent {
     }
     catch( e ) { return true ; }
     return false ;
+  }
+
+  hasSelectedExercises():boolean {
+    try {
+      this.data!.exercises.forEach( ex => {
+        if( ex.selected ) { throw true ; }
+      }) ;
+    }
+    catch( e ) { return true ; }
+    return false ;
+  }
+
+  selectAllDetachedProblems() {
+    let limitToSelectedExercises = this.hasSelectedExercises() ;
+    this.data!.exercises.forEach( ex => {
+      if( limitToSelectedExercises ) {
+        if( ex.selected ) {
+          ex.problems.forEach( p => {
+            if( p.topic == null ) { p.selected = true ; }
+          }) ;
+        }
+      }
+      else {
+        ex.problems.forEach( p => {
+          if( p.topic == null ) { p.selected = true ; }
+        }) ;
+      }
+    }) ;
+  }
+
+  deselectAll() {
+    let limitToSelectedExercises = this.hasSelectedExercises() ;
+    this.data!.exercises.forEach( ex => {
+      if( limitToSelectedExercises ) {
+        if( ex.selected ) {
+          ex.problems.forEach( p => p.selected = false ) ;
+        }
+      }
+      else {
+        ex.problems.forEach( p => p.selected = false ) ;
+      }
+    }) ;
+  }
+
+  getProblemCount( problemType:string, group:ProblemGroup = ProblemGroup.TOTAL ):number {
+    let count = 0 ;
+    this.data!.exercises.forEach( ex => {
+      ex.problems.forEach( p => {
+        if( p.problemType === problemType ) {
+          if( group === ProblemGroup.ATTACHED ) {
+            if( p.topic != null && p.topic.topicId === this.selTopic!.topicId ) count++ ;
+          }
+          else if( group === ProblemGroup.NOT_AVAILABLE ) {
+            if( p.topic != null && p.topic.topicId != this.selTopic!.topicId ) count++ ;
+          }
+          else if( group === ProblemGroup.DETACHED ) {
+            if( p.topic == null ) count++ ;
+          }
+          else if( group === ProblemGroup.TOTAL ) {
+            count++ ;
+          }
+        }
+      }) ;
+    }) ;
+    return count ;
+  }
+
+  getTotalProblemCount( group:ProblemGroup = ProblemGroup.TOTAL ):number {
+    let count = 0 ;
+    this.data!.exercises.forEach( ex => {
+      ex.problems.forEach( p => {
+        if( group === ProblemGroup.ATTACHED ) {
+          if( p.topic != null && p.topic.topicId === this.selTopic!.topicId ) count++ ;
+        }
+        else if( group === ProblemGroup.NOT_AVAILABLE ) {
+          if( p.topic != null && p.topic.topicId != this.selTopic!.topicId ) count++ ;
+        }
+        else if( group === ProblemGroup.DETACHED ) {
+          if( p.topic == null ) count++ ;
+        }
+        else if( group === ProblemGroup.TOTAL ) {
+          count++ ;
+        }
+      }) ;
+    }) ;
+    return count ;
   }
 }

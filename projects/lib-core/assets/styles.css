@@ -64,3 +64,8 @@ body {
 .page-content {
   padding: 5px 5px 5px 5px;
 }
+
+.number {
+  font-family: "Courier", serif;
+  text-align: right;
+}
