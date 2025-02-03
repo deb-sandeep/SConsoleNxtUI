@@ -1,23 +1,54 @@
+<page-toolbar>
+  <div ngbDropdown class="d-inline-block action-dropdown">
+    <button type="button" class="btn" id="action-dropdown-items" ngbDropdownToggle>
+      Actions for selected problems
+    </button>
+    <div ngbDropdownMenu aria-labelledby="action-dropdown-items">
+      <button ngbDropdownItem>Associate</button>
+      <button ngbDropdownItem>Disassociate</button>
+      <button ngbDropdownItem>Force Associate</button>
+    </div>
+  </div>
+</page-toolbar>
 <div class="page-content">
+  <div class="topic-name">{{selTopic?.syllabusName}} - {{selTopic?.topicName}}</div>
   <table class="table table-sm" id="ch-problem-topic-map-table">
     <thead>
       <tr>
-        <th style="padding-left: 30px;width: 75px;">Type</th>
-        <th>Problem Key</th>
+        <th style="width: 30px">
+        <span ngClass="bi-{{fullyExpanded?'arrows-collapse':'arrows-expand'}}"
+              style="background: transparent;"
+              (click)="toggleFullExpansion()"></span>
+        </th>
+        <th style="width: 75px;">Type</th>
+        <th style="width: 150px;">Problem Key</th>
         <th>Topic</th>
       </tr>
     </thead>
     <tbody>
       @for( ex of data?.exercises; track ex.exerciseNum ) {
         <tr class="exercise-row">
-          <td colspan="3">{{ex.exerciseNum}} - {{ex.exerciseName}}</td>
+          <td>
+            <span ngClass="bi-{{isExpanded( ex.exerciseNum )?'caret-down':'caret-right'}}"
+                  style="color: gray;"
+                  (click)="toggleChapterExpandedState( ex.exerciseNum )"></span>
+          </td>
+          <td colspan="3">
+            <span (dblclick)="toggleSelectionAllProblemsForExercise( ex )">
+              {{ex.exerciseNum}} - {{ex.exerciseName}}
+            </span>
+          </td>
         </tr>
-        @for( p of ex.problems; track p.problemId ) {
-          <tr class="problem-row">
-            <td>{{p.problemType}}</td>
-            <td>{{p.problemKey}}</td>
-            <td>{{p.topic.topicName}}</td>
-          </tr>
+        @if( isExpanded( ex.exerciseNum ) ) {
+          @for( p of ex.problems; track p.problemId ) {
+            <tr class="problem-row"
+                [class.problem-row-selected]="p.selected">
+              <td></td>
+              <td (dblclick)="toggleSelectionOfAllProblemsOfType( ex, p.problemType )">{{p.problemType}}</td>
+              <td (dblclick)="p.selected = !p.selected">{{p.problemKey}}</td>
+              <td>{{p.topic?.topicName}}</td>
+            </tr>
+          }
         }
       }
     </tbody>

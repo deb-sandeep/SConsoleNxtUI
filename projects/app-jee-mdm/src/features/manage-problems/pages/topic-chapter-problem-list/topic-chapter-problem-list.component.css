@@ -5,7 +5,6 @@
 .exercise-row td {
     background-color: rgb(211, 240, 252);
     padding: 5px;
-    font-weight: bold;
 }
 
 .problem-row td {
@@ -13,6 +12,27 @@
     padding: 3px 5px 3px 5px;
 }
 
-.problem-row td:first-child {
-    padding-left: 30px;
+.problem-row-selected td {
+    background-color: #f8f8bd;
+}
+
+.topic-name {
+    background-color: #bacbe6;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.action-dropdown > button {
+    padding: 2px 5px 2px 5px;
+}
+
+.action-dropdown button:hover {
+    background-color: #818181;
+}
+
+.action-dropdown * {
+    font-size: 13px;
+    background-color: #6b6b6b;
+    color: white;
 }

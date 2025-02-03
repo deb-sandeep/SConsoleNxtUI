@@ -16,19 +16,31 @@ export type TopicChapterMapping = {
   }[],
 }
 
+export type ProblemTopicMapping = {
+  problemId: number,
+  problemType: string,
+  problemKey: string,
+  mappingId: number,
+  topic: Topic,
+  selected?: boolean
+}
+
+export type ExerciseProblems = {
+  exerciseNum: number,
+  exerciseName: string,
+  problems: ProblemTopicMapping[]
+}
+
 export type ChapterProblemTopicMapping = {
   chapterNum: number,
   chapterName: string,
   book: BookSummary,
-  exercises: {
-    exerciseNum: number,
-    exerciseName: string,
-    problems: {
-      problemId: number,
-      problemType: string,
-      problemKey: string,
-      mappingId: number,
-      topic: Topic
-    }[]
-  }[]
+  exercises: ExerciseProblems[]
+}
+
+export type SelectedTopic = {
+  topicId: number,
+  topicName: string,
+  topicSection: string,
+  syllabusName:string
 }

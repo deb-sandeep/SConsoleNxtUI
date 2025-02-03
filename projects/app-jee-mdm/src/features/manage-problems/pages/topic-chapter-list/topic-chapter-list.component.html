@@ -44,7 +44,7 @@
                    [(ngModel)]="ch.problemMappingDone"
                    (ngModelChange)="toggleProblemMappingDone( ch )"/>
             <span class="bi-list-check"
-                  routerLink="../topic-chapter-problem-list/{{ch.bookId}}/{{ch.chapterNum}}"></span>
+                  (click)="showProblemsForChapter( tcm, ch.bookId, ch.chapterNum )"></span>
           </td>
         </tr>
       }

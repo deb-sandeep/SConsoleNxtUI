@@ -6,7 +6,7 @@ import {
   PageToolbarComponent,
   ToolbarActionComponent
 } from "lib-core";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 
 import AlertService = Alert.AlertService;
@@ -20,24 +20,27 @@ import { TopicChapterMapping } from "../../manage-problems.type";
     PageToolbarComponent,
     ToolbarActionComponent,
     CommonModule,
-    RouterLink
   ],
   templateUrl: './topic-chapter-list.component.html',
   styleUrl: './topic-chapter-list.component.css'
 } )
 export class TopicChapterListComponent {
 
-  private alertSvc = inject( AlertService );
+  private alertSvc = inject( AlertService ) ;
+  private router = inject( Router ) ;
+  private route = inject( ActivatedRoute ) ;
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
   private manageProblemsSvc:ManageProblemsService = inject( ManageProblemsService ) ;
 
   topicChapterMappings = signal<TopicChapterMapping[]>( [] ) ;
+  currentSyllabus:string = '' ;
 
   constructor() {
     this.changeSyllabus( 'IIT Physics' ).then() ;
   }
 
   async changeSyllabus( syllabusName:string ) {
+    this.currentSyllabus = syllabusName ;
     this.titleSvc.setTitle( syllabusName ) ;
     this.topicChapterMappings.set( await this.manageProblemsSvc.getTopicChapterMappings( syllabusName ) ) ;
   }
@@ -69,12 +72,23 @@ export class TopicChapterListComponent {
   }
 
   async toggleProblemMappingDone( cm:any ) {
-
     try {
       await this.manageProblemsSvc.toggleProblemMapping( cm.mappingId ) ;
     }
     catch( err ) {
       this.alertSvc.error( "Error : " + err ) ;
     }
+  }
+
+  showProblemsForChapter( tcm:TopicChapterMapping, bookId:number, chapterNum:number ) {
+    this.manageProblemsSvc.selectedTopic = {
+      topicId: tcm.topicId,
+      topicName: tcm.topicName,
+      topicSection: tcm.topicSection,
+      syllabusName: this.currentSyllabus
+    } ;
+    this.router
+        .navigate( ['../topic-chapter-problem-list', bookId, chapterNum], {relativeTo: this.route} )
+        .then() ;
   }
 }
