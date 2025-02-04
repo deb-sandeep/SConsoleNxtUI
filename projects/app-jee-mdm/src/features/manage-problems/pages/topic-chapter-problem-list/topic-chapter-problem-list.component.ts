@@ -46,6 +46,7 @@ export class TopicChapterProblemListComponent {
   protected readonly ProblemGroup = ProblemGroup ;
   protected readonly PROBLEM_TYPES = PROBLEM_TYPES;
 
+  topicChapterMappingId:number = 0 ;
   data:ChapterProblemTopicMapping | null = null ;
   selTopic:Topic | null = null ;
 
@@ -53,12 +54,10 @@ export class TopicChapterProblemListComponent {
   fullyExpanded:boolean = false ;
 
   constructor() {
-    const bookId = this.route.snapshot.params['bookId'] ;
-    const chapterNum = this.route.snapshot.params['chapterNum'] ;
-    const selTopicId = this.route.snapshot.params['selTopicId'] ;
 
+    this.topicChapterMappingId = this.route.snapshot.params['topicChapterMappingId'] ;
     this.manageProblemsSvc
-        .getChapterProblemTopicMappings( bookId, chapterNum, selTopicId )
+        .getChapterProblemTopicMappings( this.topicChapterMappingId )
         .then( res => {
           this.data = res ;
           this.selTopic = res.selTopic ;
@@ -96,23 +95,18 @@ export class TopicChapterProblemListComponent {
   }
 
   attachProblem( p:ProblemTopicMapping ) {
-
   }
 
   detachProblem( p:ProblemTopicMapping ) {
-
   }
 
   attachSelectedProblems() {
-
   }
 
   detachSelectedProblems() {
-
   }
 
   forceAttachSelectedProblems() {
-
   }
 
   hasSelectedProblems():boolean  {
@@ -142,14 +136,14 @@ export class TopicChapterProblemListComponent {
     this.data!.exercises.forEach( ex => {
       if( limitToSelectedExercises ) {
         if( ex.selected ) {
-          ex.problems.forEach( p => {
-            if( p.topic == null ) { p.selected = true ; }
+          ex.problems.forEach( ptm => {
+            if( ptm.topic == null ) { ptm.selected = true ; }
           }) ;
         }
       }
       else {
-        ex.problems.forEach( p => {
-          if( p.topic == null ) { p.selected = true ; }
+        ex.problems.forEach( ptm => {
+          if( ptm.topic == null ) { ptm.selected = true ; }
         }) ;
       }
     }) ;
@@ -160,11 +154,11 @@ export class TopicChapterProblemListComponent {
     this.data!.exercises.forEach( ex => {
       if( limitToSelectedExercises ) {
         if( ex.selected ) {
-          ex.problems.forEach( p => p.selected = false ) ;
+          ex.problems.forEach( ptm => ptm.selected = false ) ;
         }
       }
       else {
-        ex.problems.forEach( p => p.selected = false ) ;
+        ex.problems.forEach( ptm => ptm.selected = false ) ;
       }
     }) ;
   }
@@ -172,20 +166,9 @@ export class TopicChapterProblemListComponent {
   getProblemCount( problemType:string, group:ProblemGroup = ProblemGroup.TOTAL ):number {
     let count = 0 ;
     this.data!.exercises.forEach( ex => {
-      ex.problems.forEach( p => {
-        if( p.problemType === problemType ) {
-          if( group === ProblemGroup.ATTACHED ) {
-            if( p.topic != null && p.topic.topicId === this.selTopic!.topicId ) count++ ;
-          }
-          else if( group === ProblemGroup.NOT_AVAILABLE ) {
-            if( p.topic != null && p.topic.topicId != this.selTopic!.topicId ) count++ ;
-          }
-          else if( group === ProblemGroup.DETACHED ) {
-            if( p.topic == null ) count++ ;
-          }
-          else if( group === ProblemGroup.TOTAL ) {
-            count++ ;
-          }
+      ex.problems.forEach( ptm => {
+        if( ptm.problemType === problemType ) {
+          if( this.isEligibleForCount( ptm, group ) ) count++ ;
         }
       }) ;
     }) ;
@@ -195,22 +178,28 @@ export class TopicChapterProblemListComponent {
   getTotalProblemCount( group:ProblemGroup = ProblemGroup.TOTAL ):number {
     let count = 0 ;
     this.data!.exercises.forEach( ex => {
-      ex.problems.forEach( p => {
-        if( group === ProblemGroup.ATTACHED ) {
-          if( p.topic != null && p.topic.topicId === this.selTopic!.topicId ) count++ ;
-        }
-        else if( group === ProblemGroup.NOT_AVAILABLE ) {
-          if( p.topic != null && p.topic.topicId != this.selTopic!.topicId ) count++ ;
-        }
-        else if( group === ProblemGroup.DETACHED ) {
-          if( p.topic == null ) count++ ;
-        }
-        else if( group === ProblemGroup.TOTAL ) {
-          count++ ;
-        }
+      ex.problems.forEach( ptm => {
+        if( this.isEligibleForCount( ptm, group ) ) count++ ;
       }) ;
     }) ;
     return count ;
+  }
+
+  private isEligibleForCount( ptm:ProblemTopicMapping, group:ProblemGroup ):boolean {
+
+    if( group === ProblemGroup.ATTACHED ) {
+      if( ptm.topic != null && ptm.topic.topicId === this.selTopic!.topicId ) return true ;
+    }
+    else if( group === ProblemGroup.NOT_AVAILABLE ) {
+      if( ptm.topic != null && ptm.topic.topicId != this.selTopic!.topicId ) return true ;
+    }
+    else if( group === ProblemGroup.DETACHED ) {
+      if( ptm.topic == null ) return true ;
+    }
+    else if( group === ProblemGroup.TOTAL ) {
+      return true ;
+    }
+    return false ;
   }
 
 }

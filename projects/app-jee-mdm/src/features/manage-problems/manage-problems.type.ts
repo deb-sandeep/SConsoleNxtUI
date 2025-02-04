@@ -27,7 +27,7 @@ export type ProblemTopicMapping = {
   problemType: string,
   problemKey: string,
   mappingId: number,
-  topic: Topic,
+  topic: Topic|null,
   selected?: boolean
 }
 

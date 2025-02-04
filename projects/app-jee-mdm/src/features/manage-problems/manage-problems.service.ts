@@ -22,8 +22,8 @@ export class ManageProblemsService extends RemoteService {
     return this.postPromise( url ) ;
   }
 
-  getChapterProblemTopicMappings( bookId:number, chapterNum:number, selTopicId:number ):Promise<ChapterProblemTopicMapping> {
-    const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/${bookId}/${chapterNum}/${selTopicId}` ;
+  getChapterProblemTopicMappings( topicChapterMappingId:number ):Promise<ChapterProblemTopicMapping> {
+    const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/${topicChapterMappingId}` ;
     return this.getPromise( url, true ) ;
   }
 }

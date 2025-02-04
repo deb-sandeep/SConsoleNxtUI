@@ -88,10 +88,10 @@ export class TopicChapterListComponent {
     }
   }
 
-  showProblemsForChapter( tcm:TopicChapterMapping, bookId:number, chapterNum:number ) {
+  showProblemsForChapter( topicChapterMappingId:number ) {
     this.router
         .navigate(
-          ['../topic-chapter-problem-list', bookId, chapterNum, tcm.topicId],
+          ['../topic-chapter-problem-list', topicChapterMappingId ],
           {relativeTo: this.route}
         ).then() ;
   }

@@ -16,7 +16,7 @@ export const manageProblemsRoutes: Routes = [
         component: TopicChapterListComponent
     },
     {
-        path: 'topic-chapter-problem-list/:bookId/:chapterNum/:selTopicId',
+        path: 'topic-chapter-problem-list/:topicChapterMappingId',
         title: 'Problem Topic Mapping',
         component: TopicChapterProblemListComponent
     },
