@@ -1,9 +1,13 @@
 import { BookSummary, Topic } from "../manage-books/manage-books.type";
 
+export const PROBLEM_TYPES = [ 'SCA', 'MCA', 'LCT', 'ART', 'CMT', 'MMT', 'NVT', 'SUB' ] ;
+
 export type TopicChapterMapping = {
   topicId: number,
   topicName: string,
   topicSection: string,
+  problemTypeCountMap: Record<string, number>,
+  problemCount:number,
   chapters: {
     mappingId: number,
     attemptSeq: number,
@@ -12,7 +16,9 @@ export type TopicChapterMapping = {
     chapterNum: number,
     chapterName: string,
     problemMappingDone: boolean,
-    selected?: boolean
+    problemTypeCountMap: Record<string, number>,
+    problemCount:number,
+    selected?: boolean,
   }[],
 }
 

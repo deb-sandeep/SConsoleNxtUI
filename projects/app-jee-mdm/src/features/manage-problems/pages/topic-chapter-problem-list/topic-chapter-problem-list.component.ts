@@ -13,7 +13,7 @@ import AlertService = Alert.AlertService;
 import { ManageProblemsService } from "../../manage-problems.service";
 import {
   ChapterProblemTopicMapping,
-  ExerciseProblems,
+  ExerciseProblems, PROBLEM_TYPES,
   ProblemTopicMapping,
 } from "../../manage-problems.type";
 import { Topic } from "../../../manage-books/manage-books.type";
@@ -44,8 +44,7 @@ export class TopicChapterProblemListComponent {
   private manageProblemsSvc:ManageProblemsService = inject( ManageProblemsService ) ;
 
   protected readonly ProblemGroup = ProblemGroup ;
-
-  readonly PROBLEM_TYPES = [ 'SCA', 'MCA', 'LCT', 'ART', 'CMT', 'MMT', 'NVT', 'SUB' ] ;
+  protected readonly PROBLEM_TYPES = PROBLEM_TYPES;
 
   data:ChapterProblemTopicMapping | null = null ;
   selTopic:Topic | null = null ;
@@ -213,4 +212,5 @@ export class TopicChapterProblemListComponent {
     }) ;
     return count ;
   }
+
 }

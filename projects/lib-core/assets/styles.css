@@ -69,3 +69,12 @@ body {
   font-family: "Courier", serif;
   text-align: right;
 }
+
+.total-row td {
+  background-color: #f6f5f5 !important;
+  color:blue!important;
+}
+
+.total-col {
+  color:blue!important;
+}

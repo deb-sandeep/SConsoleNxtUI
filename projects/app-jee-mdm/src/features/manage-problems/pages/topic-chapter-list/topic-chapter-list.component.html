@@ -17,13 +17,25 @@
         <th class="icon-col"></th>
         <th style="width:250px" class="book-name">Book Name</th>
         <th style="width:400px">Chapter Name</th>
-        <th class="icon-col" style="width: auto;"></th>
+        <th class="icon-col" style="width: 50px;"></th>
+        @for( problemType of PROBLEM_TYPES; track $index ) {
+          <th style="width: 40px;text-align: right;">{{problemType}}</th>
+        }
+        <th style="width: 40px;text-align: right;"><span class="bi-plus-circle"></span></th>
+        <th class="width:*"></th>
       </tr>
     </thead>
     <tbody>
     @for( tcm of topicChapterMappings(); track tcm.topicId ) {
       <tr class="topic-row">
-        <td colspan="5">{{tcm.topicName}}</td>
+        <td [attr.colspan]="5">{{tcm.topicName}}</td>
+        @for( problemType of PROBLEM_TYPES; track $index ) {
+          <td class="number bordered">
+            {{tcm.problemTypeCountMap[problemType]}}
+          </td>
+        }
+        <td class="number bordered total-col">{{tcm.problemCount}}</td>
+        <td></td>
       </tr>
       @for( ch of tcm.chapters; track ch.mappingId ) {
         <tr class="chapter-row"
@@ -46,6 +58,13 @@
             <span class="bi-list-check"
                   (click)="showProblemsForChapter( tcm, ch.bookId, ch.chapterNum )"></span>
           </td>
+          @for( problemType of PROBLEM_TYPES; track $index ) {
+          <td class="number bordered">
+            {{ch.problemTypeCountMap[problemType]}}
+          </td>
+          }
+          <td class="number bordered total-col">{{ch.problemCount}}</td>
+          <td></td>
         </tr>
       }
     }

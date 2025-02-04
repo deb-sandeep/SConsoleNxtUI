@@ -11,7 +11,10 @@ import { CommonModule } from "@angular/common";
 
 import AlertService = Alert.AlertService;
 import { ManageProblemsService } from "../../manage-problems.service";
-import { TopicChapterMapping } from "../../manage-problems.type";
+import { TopicChapterMapping, PROBLEM_TYPES } from "../../manage-problems.type";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
 @Component( {
   selector: 'topic-chapter-list',
@@ -20,6 +23,7 @@ import { TopicChapterMapping } from "../../manage-problems.type";
     PageToolbarComponent,
     ToolbarActionComponent,
     CommonModule,
+    FontAwesomeModule
   ],
   templateUrl: './topic-chapter-list.component.html',
   styleUrl: './topic-chapter-list.component.css'
@@ -32,8 +36,12 @@ export class TopicChapterListComponent {
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
   private manageProblemsSvc:ManageProblemsService = inject( ManageProblemsService ) ;
 
+  protected readonly PROBLEM_TYPES = PROBLEM_TYPES;
+
   topicChapterMappings = signal<TopicChapterMapping[]>( [] ) ;
   currentSyllabus:string = '' ;
+
+  faCoffee = faCoffee ;
 
   constructor() {
     this.changeSyllabus( 'IIT Physics' ).then() ;
