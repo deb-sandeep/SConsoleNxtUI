@@ -56,7 +56,7 @@
                    [(ngModel)]="ch.problemMappingDone"
                    (ngModelChange)="toggleProblemMappingDone( ch )"/>
             <span class="bi-list-check"
-                  (click)="showProblemsForChapter( ch.mappingId )"></span>
+                  (click)="showChapterProblemsForTopicLinkage( ch.mappingId, tcm.topicId, ch.bookId, ch.chapterNum )"></span>
           </td>
           @for( problemType of PROBLEM_TYPES; track $index ) {
           <td class="number bordered">

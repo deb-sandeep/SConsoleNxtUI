@@ -47,6 +47,10 @@ export class TopicChapterProblemListComponent {
   protected readonly PROBLEM_TYPES = PROBLEM_TYPES;
 
   topicChapterMappingId:number = 0 ;
+  bookId:number = 0 ;
+  chapterNum:number = 0 ;
+  topicId:number = 0 ;
+
   data:ChapterProblemTopicMapping | null = null ;
   selTopic:Topic | null = null ;
 
@@ -56,15 +60,23 @@ export class TopicChapterProblemListComponent {
   constructor() {
 
     this.topicChapterMappingId = this.route.snapshot.params['topicChapterMappingId'] ;
-    this.manageProblemsSvc
-        .getChapterProblemTopicMappings( this.topicChapterMappingId )
-        .then( res => {
-          this.data = res ;
-          this.selTopic = res.selTopic ;
-          this.titleSvc.setTitle( `${res.book.bookShortName} : ${res.chapterNum} - ${res.chapterName}` ) ;
-          this.toggleFullExpansion() ;
-        } )
-        .catch( (err) => this.alertSvc.error( "Error : " + err ) ) ;
+    this.topicId = this.route.snapshot.params['topicId'] ;
+    this.bookId = this.route.snapshot.params['bookId'] ;
+    this.chapterNum = this.route.snapshot.params['chapterNum'] ;
+
+    this.fetchDataFromServer().then() ;
+  }
+
+  private async fetchDataFromServer(){
+    try {
+      this.data = await this.manageProblemsSvc.getProblemTopicMappingsForChapter( this.bookId, this.chapterNum ) ;
+      this.selTopic = await this.manageProblemsSvc.getTopic( this.topicId ) ;
+      this.titleSvc.setTitle( `${this.data.book.bookShortName} : ${this.data.chapterNum} - ${this.data.chapterName}` ) ;
+      this.toggleFullExpansion() ;
+    }
+    catch( err ) {
+      this.alertSvc.error( "Error : " + err ) ;
+    }
   }
 
   toggleFullExpansion() {
@@ -188,10 +200,10 @@ export class TopicChapterProblemListComponent {
   private isEligibleForCount( ptm:ProblemTopicMapping, group:ProblemGroup ):boolean {
 
     if( group === ProblemGroup.ATTACHED ) {
-      if( ptm.topic != null && ptm.topic.topicId === this.selTopic!.topicId ) return true ;
+      if( ptm.topic != null && ptm.topic.topicId === this.selTopic?.topicId ) return true ;
     }
     else if( group === ProblemGroup.NOT_AVAILABLE ) {
-      if( ptm.topic != null && ptm.topic.topicId != this.selTopic!.topicId ) return true ;
+      if( ptm.topic != null && ptm.topic.topicId != this.selTopic?.topicId ) return true ;
     }
     else if( group === ProblemGroup.DETACHED ) {
       if( ptm.topic == null ) return true ;

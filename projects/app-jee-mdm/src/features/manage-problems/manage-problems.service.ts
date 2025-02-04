@@ -3,6 +3,7 @@ import { RemoteService } from "lib-core";
 
 import { environment } from "../../../../environments/environment";
 import { ChapterProblemTopicMapping, TopicChapterMapping } from "./manage-problems.type";
+import { Topic } from "../manage-books/manage-books.type";
 
 @Injectable()
 export class ManageProblemsService extends RemoteService {
@@ -22,8 +23,13 @@ export class ManageProblemsService extends RemoteService {
     return this.postPromise( url ) ;
   }
 
-  getChapterProblemTopicMappings( topicChapterMappingId:number ):Promise<ChapterProblemTopicMapping> {
-    const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/${topicChapterMappingId}` ;
+  getProblemTopicMappingsForChapter( bookId:number, chapterNum:number ):Promise<ChapterProblemTopicMapping> {
+    const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/Book/${bookId}/Chapter/${chapterNum}` ;
     return this.getPromise( url, true ) ;
+  }
+
+  getTopic( topicId:number ):Promise<Topic> {
+    const url:string = `${environment.apiRoot}/Master/Topic/${topicId}` ;
+    return this.getPromise( url, false ) ;
   }
 }

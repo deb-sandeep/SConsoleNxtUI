@@ -88,10 +88,10 @@ export class TopicChapterListComponent {
     }
   }
 
-  showProblemsForChapter( topicChapterMappingId:number ) {
+  showChapterProblemsForTopicLinkage( topicChapterMappingId:number, topicId:number, bookId:number, chapterNum:number ) {
     this.router
         .navigate(
-          ['../topic-chapter-problem-list', topicChapterMappingId ],
+          ['../topic-chapter-problem-list', topicChapterMappingId, topicId, bookId, chapterNum ],
           {relativeTo: this.route}
         ).then() ;
   }
