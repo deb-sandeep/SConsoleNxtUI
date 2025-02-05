@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { PageHeaderComponent, FeatureMenubarComponent, FeatureMenuItemMeta } from 'lib-core';
 
 import { NewTestComponent } from "./features/new-test/new-test.component" ;
@@ -31,7 +31,7 @@ const routes: Routes = [
     selector: 'app-root',
     imports: [
         CommonModule,
-        RouterOutlet, RouterLink, RouterLinkActive,
+        RouterOutlet,
         PageHeaderComponent, FeatureMenubarComponent
     ],
     template: `

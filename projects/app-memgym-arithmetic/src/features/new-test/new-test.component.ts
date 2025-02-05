@@ -2,7 +2,6 @@ import { Component } from '@angular/core' ;
 import { ViewChild } from '@angular/core' ;
 import { CommonModule } from '@angular/common' ;
 
-import { PageToolbarComponent } from "lib-core" ;
 import { LocalStorageService } from "lib-core" ;
 
 import { TestSetupComponent } from "./components/test-setup/test-setup.component";
@@ -16,7 +15,6 @@ import { QuestionGenerator } from "./components/test-play/question-generator";
     selector: 'feature-new-test',
     imports: [
         CommonModule,
-        PageToolbarComponent,
         TestSetupComponent, TestPlayComponent, TestResultComponent
     ],
     templateUrl: './new-test.component.html',

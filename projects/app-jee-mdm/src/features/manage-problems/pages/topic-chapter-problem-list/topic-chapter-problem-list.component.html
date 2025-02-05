@@ -79,6 +79,9 @@
                           class="btn btn-sm btn-outline-danger row-btn"
                           (click)="detachProblem( p )">Detach</button>
                 }
+                @else {
+                  <span class="bi-ban" style="color: red;"></span>&nbsp;<span class="bi-arrow-right"></span>&nbsp;{{p.topic.topicName}}
+                }
               </td>
             </tr>
           }
