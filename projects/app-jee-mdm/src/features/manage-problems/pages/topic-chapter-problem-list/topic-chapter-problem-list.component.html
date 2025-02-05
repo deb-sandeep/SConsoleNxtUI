@@ -7,6 +7,8 @@
       <button ngbDropdownItem
               (click)="selectAllDetachedProblems()">All detached</button>
       <button ngbDropdownItem
+              (click)="selectAll()">Select all</button>
+      <button ngbDropdownItem
               (click)="deselectAll()">Deselect all</button>
     </div>
   </div>
@@ -22,9 +24,6 @@
       <button ngbDropdownItem
               [disabled]="!hasSelectedProblems()"
               (click)="detachSelectedProblems()">Detach</button>
-      <button ngbDropdownItem
-              [disabled]="!hasSelectedProblems()"
-              (click)="forceAttachSelectedProblems()">Force Attach</button>
     </div>
   </div>
 </page-toolbar>

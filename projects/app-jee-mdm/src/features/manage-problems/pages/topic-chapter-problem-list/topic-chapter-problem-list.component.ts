@@ -107,18 +107,36 @@ export class TopicChapterProblemListComponent {
   }
 
   attachProblem( p:ProblemTopicMapping ) {
+    this.manageProblemsSvc
+        .attachProblems( this.topicChapterMappingId, [p], this.selTopic ) ;
   }
 
   detachProblem( p:ProblemTopicMapping ) {
+    this.manageProblemsSvc
+        .detachProblems( [p] ) ;
   }
 
   attachSelectedProblems() {
+    this.manageProblemsSvc
+        .attachProblems( this.topicChapterMappingId,
+                         this.getSelectedProblems(),
+                         this.selTopic ) ;
   }
 
   detachSelectedProblems() {
+    this.manageProblemsSvc
+        .detachProblems( this.getSelectedProblems() ) ;
   }
 
-  forceAttachSelectedProblems() {
+  private getSelectedProblems():ProblemTopicMapping[] {
+
+    let selectedProblems:ProblemTopicMapping[] = [] ;
+    this.data!.exercises.forEach( ex => {
+      ex.problems.forEach( p => {
+        if( p.selected ) selectedProblems.push( p ) ;
+      }) ;
+    }) ;
+    return selectedProblems ;
   }
 
   hasSelectedProblems():boolean  {
@@ -157,6 +175,20 @@ export class TopicChapterProblemListComponent {
         ex.problems.forEach( ptm => {
           if( ptm.topic == null ) { ptm.selected = true ; }
         }) ;
+      }
+    }) ;
+  }
+
+  selectAll() {
+    let limitToSelectedExercises = this.hasSelectedExercises() ;
+    this.data!.exercises.forEach( ex => {
+      if( limitToSelectedExercises ) {
+        if( ex.selected ) {
+          ex.problems.forEach( ptm => ptm.selected = true ) ;
+        }
+      }
+      else {
+        ex.problems.forEach( ptm => ptm.selected = true ) ;
       }
     }) ;
   }

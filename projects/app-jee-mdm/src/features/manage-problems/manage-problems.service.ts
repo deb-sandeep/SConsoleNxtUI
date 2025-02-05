@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RemoteService } from "lib-core";
 
 import { environment } from "../../../../environments/environment";
-import { ChapterProblemTopicMapping, TopicChapterMapping } from "./manage-problems.type";
+import { ChapterProblemTopicMapping, ProblemTopicMapping, TopicChapterMapping } from "./manage-problems.type";
 import { Topic } from "../manage-books/manage-books.type";
 
 @Injectable()
@@ -31,5 +31,32 @@ export class ManageProblemsService extends RemoteService {
   getTopic( topicId:number ):Promise<Topic> {
     const url:string = `${environment.apiRoot}/Master/Topic/${topicId}` ;
     return this.getPromise( url, false ) ;
+  }
+
+  attachProblems( topicChapterMappingId:number, problems:ProblemTopicMapping[], selTopic:Topic|null ) {
+    const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/AttachProblems/${topicChapterMappingId}` ;
+
+    let problemIds:number[] = problems.map( p => p.problemId ) ;
+    this.postPromise<Record<number, number>>( url, problemIds )
+        .then( res => {
+          problems.forEach( p => {
+            p.mappingId = res[p.problemId] ;
+            p.topic = selTopic ;
+          } )
+        } ) ;
+  }
+
+  detachProblems( problems:ProblemTopicMapping[] ) {
+
+    const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/DetachProblems` ;
+
+    let problemIds:number[] = problems.map( p => p.problemId ) ;
+    this.postPromise( url, problemIds )
+        .then( () => {
+          problems.forEach( p => {
+            p.mappingId = -1 ;
+            p.topic = null ;
+          } )
+        } ) ;
   }
 }
