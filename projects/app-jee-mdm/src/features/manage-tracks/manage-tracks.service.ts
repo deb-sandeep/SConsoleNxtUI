@@ -3,6 +3,7 @@ import { PageTitleService, RemoteService } from "lib-core";
 
 import { environment } from "../../../../environments/environment";
 import { Syllabus, Topic, Track } from "../../base-types" ;
+import Color from "colorjs.io"
 
 @Injectable()
 export class ManageTracksService extends RemoteService {
@@ -11,6 +12,8 @@ export class ManageTracksService extends RemoteService {
   public trackList:Track[] = [] ;
   public syllabusTopics:Record<string, Topic[]> = {} ;
   public syllabusTracks:Record<string, Track[]> = {} ;
+  public syllabusColors:Record<string, Color> = {} ;
+  public trackColors:Record<string, Color> = {} ;
 
   private titleSvc:PageTitleService = inject(PageTitleService) ;
 
@@ -23,13 +26,21 @@ export class ManageTracksService extends RemoteService {
 
   public postProcessInitializationData() {
     this.selectedSyllabus.set( this.syllabusList[0]?.syllabusName ) ;
-    this.syllabusList.forEach( syllabus => this.syllabusTopics[ syllabus.syllabusName ] = syllabus.topics ) ;
-    this.trackList.forEach( track => {
-      if( !(track.syllabusName in this.syllabusTracks) ) {
-        this.syllabusTracks[track.syllabusName] = [] ;
+
+    this.syllabusList.forEach( s => {
+      this.syllabusColors[ s.syllabusName ] = new Color( s.color ) ;
+      this.syllabusTopics[ s.syllabusName ] = s.topics
+    } ) ;
+
+    this.trackList.forEach( t => {
+      this.trackColors[ t.id ] = new Color( t.color ) ;
+      if( !(t.syllabusName in this.syllabusTracks) ) {
+        this.syllabusTracks[t.syllabusName] = [] ;
       }
-      this.syllabusTracks[track.syllabusName].push(track) ;
+      this.syllabusTracks[t.syllabusName].push(t) ;
     }) ;
+    console.log( this.syllabusColors ) ;
+
   }
 
   private syllabusSelectionChanged( selectedSyllabusName:string ) {

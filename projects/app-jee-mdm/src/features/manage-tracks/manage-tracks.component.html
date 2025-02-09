@@ -6,7 +6,8 @@
       <div class="track"
            [style.background-color]="track.color"
            [style.width]="getTrackWidth()">
-        <div class="track-title">{{ track.trackName }}</div>
+        <div class="track-title"
+             [style.background-color]="svc.trackColors[track.id]">{{ track.trackName }}</div>
         <div class="topic-list">
         </div>
       </div>
