@@ -61,7 +61,7 @@ export class TopicMappingComponent {
           this.topicMap = res.topicMap ;
           this.bookTopicMappingList = res.bookTopicMappingList ;
 
-          this.titleSvc.setTitle( this.syllabusName ) ;
+          this.titleSvc.setTitle( ' > ' + this.syllabusName ) ;
         } )
         .catch( ( msg ) => {
           this.alertSvc.error( `Getting topic mapping failed. Message : ${msg}` ) ;

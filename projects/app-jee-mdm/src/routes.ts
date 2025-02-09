@@ -10,6 +10,8 @@ import { manageBooksRoutes } from "./features/manage-books/manage-books.route" ;
 import { ManageProblemsComponent } from "./features/manage-problems/manage-problems.component";
 import { ManageProblemsService } from "./features/manage-problems/manage-problems.service";
 import { manageProblemsRoutes } from "./features/manage-problems/manage-problems.route";
+import { ManageTracksComponent } from "./features/manage-tracks/manage-tracks.component";
+import { ManageTracksService } from "./features/manage-tracks/manage-tracks.service";
 
 export const featureRoutes: Routes = [
     {
@@ -30,5 +32,11 @@ export const featureRoutes: Routes = [
         component: ManageProblemsComponent,
         children: manageProblemsRoutes,
         providers: [ManageProblemsService, AlertService]
+    },
+    {
+        path: 'manage-tracks',
+        title: 'Manage Tracks',
+        component: ManageTracksComponent,
+        providers: [ManageTracksService, AlertService]
     },
 ] ;

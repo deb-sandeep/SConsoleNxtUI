@@ -1,0 +1,81 @@
+.page-content {
+    --pad-xs: 3px;
+    --pad-sm: 5px;
+    --track-title-height: 1.5rem;
+    --track-title-font-size: 1rem;
+    --min-topic-height:100px;
+    --topic-title-height: 23px;
+    --topic-title-font-size: 15px;
+    --border-radius:5px;
+}
+
+#track-pane {
+    position: absolute;
+    top: calc(var(--page-title-height));
+    left: 0;
+    height: calc(100% - var(--page-title-height));
+    width: 85%;
+}
+
+#property-pane {
+    background-color: #fff3c6;
+    position: absolute;
+    top: calc(var(--page-title-height));
+    right: 0;
+    height: calc(100% - var(--page-title-height));
+    width: 15%;
+    padding: var(--pad-xs);
+}
+
+.track {
+    position: relative;
+    width: calc(100%/6);
+    height: calc(100%);
+    display: inline-block;
+    padding-left: var(--pad-sm);
+    padding-right: var(--pad-sm);
+    border-right: 1px dashed #689fff;
+}
+
+.track-title {
+    background-color: #0dcaf0;
+    width: calc(100%);
+    height: var(--track-title-height);
+    font-size: var(--track-title-font-size);
+    padding-left: var(--pad-sm) ;
+}
+
+.topic-list {
+    width:100%;
+    height: calc(100% - var(--track-title-height) - var(--pad-sm));
+    overflow: auto;
+}
+
+.topic {
+    width: calc(100%);
+    min-height: var(--min-topic-height);
+    border-radius: var(--border-radius);
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: 1px solid #cacaca;
+}
+
+.topic-title {
+    width: 100%;
+    height: var(--topic-title-height);
+    background-color: #649ffb;
+    font-size: var(--topic-title-font-size);
+    padding-left: var(--pad-sm) ;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+.topic-body {
+    width: 100%;
+    height: calc( var(--min-topic-height) - var(--topic-title-height) );
+    display: block;
+    padding-left: var(--pad-sm) ;
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    background-color: #dcecff;
+}

@@ -34,12 +34,12 @@ export class BookDetailComponent {
   constructor() {
 
     this.bookId = Number( this.activeRoute.snapshot.params['bookId'] ) ;
-    this.titleSvc.setTitle( String( this.bookId ) ) ;
+    this.titleSvc.setTitle( ' > ' + String( this.bookId ) ) ;
 
     this.manageBookSvc.getBookProblemSummary( this.bookId )
       .then( data => {
         this.summary = data ;
-        this.titleSvc.setTitle( `[${data.book.syllabusName}] >
+        this.titleSvc.setTitle( ` > [${data.book.syllabusName}] >
                                  ${data.book.seriesName} > 
                                  ${data.book.author} >
                                  ${data.book.bookName}` ) ;

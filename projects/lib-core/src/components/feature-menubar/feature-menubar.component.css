@@ -2,7 +2,7 @@
 .feature-menu-bar {
     position:relative;
     width: var(--feature-menubar-width) ;
-    height: calc( 100vh - var(--page-header-height) ) ;
+    height: calc( 100vh - var(--page-header-height)) ;
     border-style:hidden;
     background-color: var(--page-header-bgcolor) ;
     overflow-y: auto;

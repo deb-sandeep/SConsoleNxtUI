@@ -43,7 +43,7 @@ export class PageTitleComponent {
     } ) ;
 
     toolbarTitleSvc.title$.subscribe( title => {
-      this.additionalTitle = ( title === "" ) ? "" : ` > ${title}` ;
+      this.additionalTitle = ( title === "" ) ? "" : `${title}` ;
     }) ;
   }
 }

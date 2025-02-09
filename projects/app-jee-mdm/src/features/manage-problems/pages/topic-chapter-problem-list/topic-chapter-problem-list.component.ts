@@ -71,7 +71,7 @@ export class TopicChapterProblemListComponent {
     try {
       this.data = await this.manageProblemsSvc.getProblemTopicMappingsForChapter( this.bookId, this.chapterNum ) ;
       this.selTopic = await this.manageProblemsSvc.getTopic( this.topicId ) ;
-      this.titleSvc.setTitle( `${this.data.book.bookShortName} : ${this.data.chapterNum} - ${this.data.chapterName}` ) ;
+      this.titleSvc.setTitle( ` > ${this.data.book.bookShortName} : ${this.data.chapterNum} - ${this.data.chapterName}` ) ;
       this.toggleFullExpansion() ;
     }
     catch( err ) {

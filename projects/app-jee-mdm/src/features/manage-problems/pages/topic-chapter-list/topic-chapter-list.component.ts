@@ -49,7 +49,7 @@ export class TopicChapterListComponent {
 
   async changeSyllabus( syllabusName:string ) {
     this.currentSyllabus = syllabusName ;
-    this.titleSvc.setTitle( syllabusName ) ;
+    this.titleSvc.setTitle( ' > ' + syllabusName ) ;
     this.topicChapterMappings.set( await this.manageProblemsSvc.getTopicChapterMappings( syllabusName ) ) ;
   }
 

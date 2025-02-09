@@ -32,6 +32,7 @@ class AppComponent {
     menubarMeta : FeatureMenuItemMeta[] = [
         { routePath:'/manage-books', iconName:'journals', selected:true },
         { routePath:'/manage-problems', iconName:'p-square', selected:false },
+        { routePath:'/manage-tracks', iconName:'bar-chart-steps', selected:false },
     ] ;
 
     constructor( alertConfig:NgbAlertConfig ) {
