@@ -99,6 +99,10 @@ export class BookListComponent {
     this.bookSummaries.forEach( b => b.selected = b.syllabusName === syllabusName );
   }
 
+  subjectSelected( subjectName: string ) {
+    this.bookSummaries.forEach( b => b.selected = b.subjectName === subjectName );
+  }
+
   showMapTopicsPage() {
     let syllabusSet: Set<string> = new Set<string>(
       this.bookSummaries

@@ -6,7 +6,8 @@ export type Topic = {
 
 export type Syllabus = {
   syllabusName: string,
-  subject: { subjectName:string },
+  subjectName: string,
+  color: string,
   topics:Topic[]
 }
 
