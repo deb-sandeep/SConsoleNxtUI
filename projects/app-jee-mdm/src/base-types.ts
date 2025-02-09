@@ -11,3 +11,10 @@ export type Syllabus = {
   topics:Topic[]
 }
 
+export type Track = {
+  id: number,
+  trackName: string,
+  color: string,
+  syllabusName: string,
+  assignedTopics: Topic[]
+}

@@ -1,0 +1,32 @@
+<div ngbAccordion>
+  <div ngbAccordionItem [collapsed]="false" >
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton>Syllabus</button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <ng-template>
+          <select class="form-select" [(ngModel)]="svc.selectedSyllabus">
+            @for( syllabus of svc.syllabusList; track syllabus.syllabusName ) {
+              <option [value]="syllabus.syllabusName">{{syllabus.syllabusName}}</option>
+            }
+          </select>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div ngbAccordionItem [collapsed]="false" >
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton>Unassigned Topics</button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <ng-template>
+          @for( topic of svc.syllabusTopics[ svc.selectedSyllabus() ]; track topic.id ) {
+            <div class="unassigned-topic">{{topic.topicName}}</div>
+          }
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

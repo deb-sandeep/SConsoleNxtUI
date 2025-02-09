@@ -2,134 +2,18 @@
 <alerts-display></alerts-display>
 <div class="page-content">
   <div id="track-pane">
-    <div class="track" [style.background-color]="'#0dcaf0'">
-      <div class="track-title">Physics - A</div>
-      <div class="topic-list">
-        <div class="topic">
-          <div class="topic-title">Measurements</div>
-          <div class="topic-body">
-            XXX
-          </div>
+    @for( track of svc.syllabusTracks[svc.selectedSyllabus()]; track track.id ) {
+      <div class="track"
+           [style.background-color]="track.color"
+           [style.width]="getTrackWidth()">
+        <div class="track-title">{{ track.trackName }}</div>
+        <div class="topic-list">
         </div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
       </div>
-    </div>
-    <div class="track">
-      <div class="track-title">Physics - B</div>
-      <div class="topic-list">
-        <div class="topic">
-          <div class="topic-title">Measurements</div>
-          <div class="topic-body">
-            XXX
-          </div>
-        </div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-      </div>
-    </div>
-    <div class="track">
-      <div class="track-title">Physics - B</div>
-      <div class="topic-list">
-        <div class="topic">
-          <div class="topic-title">Measurements</div>
-          <div class="topic-body">
-            XXX
-          </div>
-        </div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-      </div>
-    </div>
-    <div class="track">
-      <div class="track-title">Physics - B</div>
-      <div class="topic-list">
-        <div class="topic">
-          <div class="topic-title">Measurements</div>
-          <div class="topic-body">
-            XXX
-          </div>
-        </div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-      </div>
-    </div>
-    <div class="track">
-      <div class="track-title">Physics - B</div>
-      <div class="topic-list">
-        <div class="topic">
-          <div class="topic-title">Measurements</div>
-          <div class="topic-body">
-            XXX
-          </div>
-        </div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-      </div>
-    </div>
-    <div class="track">
-      <div class="track-title">Physics - B</div>
-      <div class="topic-list">
-        <div class="topic">
-          <div class="topic-title">Measurements</div>
-          <div class="topic-body">
-            XXX
-          </div>
-        </div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-        <div class="topic"></div>
-      </div>
-    </div>
+    }
   </div>
   <div id="property-pane">
+    <config-pane></config-pane>
   </div>
 </div>
 

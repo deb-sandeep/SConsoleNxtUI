@@ -42,7 +42,9 @@
     width: calc(100%);
     height: var(--track-title-height);
     font-size: var(--track-title-font-size);
+    font-weight: bold;
     padding-left: var(--pad-sm) ;
+    text-align: center;
 }
 
 .topic-list {

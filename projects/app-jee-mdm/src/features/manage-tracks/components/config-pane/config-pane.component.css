@@ -1,0 +1,16 @@
+.accordion-item {
+    margin-bottom: 10px;
+}
+
+.accordion-button {
+    font-size: 16px;
+}
+
+.unassigned-topic {
+    margin:5px;
+    background-color: #e5f0fa;
+    border: 1px solid #add3fa;
+    font-size: 14px;
+    padding: 2px 5px 2px 5px;
+    border-radius: 5px;
+}
