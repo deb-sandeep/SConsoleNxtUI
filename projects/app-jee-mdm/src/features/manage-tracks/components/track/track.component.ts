@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { ManageTracksService } from "../../manage-tracks.service";
 import { DndDropEvent, DndModule } from "ngx-drag-drop";
 
-import { Track } from "../../../../base-types";
+import { Topic, Track } from "../../../../base-types";
 import { Colors } from "../../util/colors";
 
 @Component({
@@ -45,5 +45,6 @@ export class TrackComponent {
 
   public topicDropped( event:DndDropEvent ):void {
     console.log( `[Track - ${this.track().trackName}] Topic dropped`, event ) ;
+    this.track().assignedTopics.push( event.data as Topic ) ;
   }
 }

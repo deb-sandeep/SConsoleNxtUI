@@ -27,15 +27,18 @@
           @if( svc.selectedSyllabus() ) {
             @let topics = svc.syllabusTopics[ svc.selectedSyllabus() ];
             @let titleBgColor = svc.syllabusColors[ svc.selectedSyllabus() ].titleBackground ;
+
             <div class="unassigned-topic-list">
               @for( topic of topics; track topic.id ) {
-                <div class="unassigned-topic"
-                     [style.background-color]="titleBgColor"
-                     [dndDraggable]="topic"
-                     [dndEffectAllowed]="'move'"
-                     (dndMoved)="topicMoved( topic )">
-                  {{topic.topicName}}
-                </div>
+                @if( !isTopicAssigned( topic ) ) {
+                  <div class="unassigned-topic"
+                       [style.background-color]="titleBgColor"
+                       [dndDraggable]="topic"
+                       [dndEffectAllowed]="'move'"
+                       (dndMoved)="topicMoved( topic )">
+                    {{topic.topicName}}
+                  </div>
+                }
               }
             </div>
           }

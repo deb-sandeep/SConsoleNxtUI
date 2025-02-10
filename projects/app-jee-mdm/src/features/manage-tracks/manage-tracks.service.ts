@@ -66,4 +66,8 @@ export class ManageTracksService extends RemoteService {
     const url:string = `${environment.apiRoot}/Master/Topic/ProblemTypeCounts` ;
     return this.getPromise( url, true ) ;
   }
+
+  public getActiveTracks():Track[] {
+    return this.syllabusTracks[ this.selectedSyllabus() ] ;
+  }
 }
