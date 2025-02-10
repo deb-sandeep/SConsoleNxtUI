@@ -3,14 +3,7 @@
 <div class="page-content">
   <div id="track-pane">
     @for( track of svc.syllabusTracks[svc.selectedSyllabus()]; track track.id ) {
-      <div class="track"
-           [style.background-color]="svc.trackColors[track.id].bodyBackground"
-           [style.width]="getTrackWidth()">
-        <div class="track-title"
-             [style.background-color]="svc.trackColors[track.id].titleBackground">{{ track.trackName }}</div>
-        <div class="topic-list">
-        </div>
-      </div>
+      <study-track [track]="track"></study-track>
     }
   </div>
   <div id="property-pane">

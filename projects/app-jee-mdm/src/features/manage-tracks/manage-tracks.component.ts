@@ -5,13 +5,15 @@ import AlertService = Alert.AlertService;
 
 import { ManageTracksService } from "./manage-tracks.service";
 import { ConfigPaneComponent } from "./components/config-pane/config-pane.component";
+import { TrackComponent } from "./components/track/track.component";
 
 @Component({
-  selector: 'app-manage-tracks',
+  selector: 'manage-tracks',
   imports: [
     PageTitleComponent,
     AlertsDisplayComponent,
-    ConfigPaneComponent
+    ConfigPaneComponent,
+    TrackComponent
   ],
   templateUrl: './manage-tracks.component.html',
   styleUrl: './manage-tracks.component.css'
@@ -31,10 +33,5 @@ export class ManageTracksComponent {
         .then( tracks => this.svc.trackList = tracks )
         .then( () => this.svc.postProcessInitializationData() )
         .catch( err => this.alertSvc.error( 'Error : ' + err) ) ;
-  }
-
-  public getTrackWidth():string {
-    let numTracks = this.svc.syllabusTracks[this.svc.selectedSyllabus()].length ;
-    return `calc(100%/${numTracks})` ;
   }
 }

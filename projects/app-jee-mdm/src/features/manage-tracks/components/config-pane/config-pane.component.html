@@ -15,19 +15,26 @@
       </div>
     </div>
   </div>
-  <div ngbAccordionItem [collapsed]="true" >
+  <div ngbAccordionItem [collapsed]="false" >
     <h2 ngbAccordionHeader>
       <button ngbAccordionButton>Unassigned Topics</button>
     </h2>
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
         <ng-template>
-          @for( topic of svc.syllabusTopics[ svc.selectedSyllabus() ]; track topic.id ) {
-            <div class="unassigned-topic"
-                 [style.background-color]="svc.syllabusColors[svc.selectedSyllabus()].titleBackground">
-              {{topic.topicName}}
-            </div>
-          }
+          <div class="unassigned-topic-list">
+            @for( topic of svc.syllabusTopics[ svc.selectedSyllabus() ]; track topic.id ) {
+              <div class="unassigned-topic"
+                   [style.background-color]="svc.syllabusColors[svc.selectedSyllabus()].titleBackground"
+                   [dndDraggable]="topic"
+                   [dndEffectAllowed]="'move'"
+                   (dndStart)="topicDragStarted( $event )"
+                   (dndEnd)="topicDragEnded( $event )"
+                   (dndMoved)="topicMoved( $event )">
+                {{topic.topicName}}
+              </div>
+            }
+          </div>
         </ng-template>
       </div>
     </div>

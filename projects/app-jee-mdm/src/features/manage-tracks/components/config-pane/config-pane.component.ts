@@ -7,6 +7,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { ManageTracksService } from "../../manage-tracks.service";
 import { FormsModule } from "@angular/forms";
+import { DndModule } from "ngx-drag-drop";
 
 @Component({
   selector: 'config-pane',
@@ -17,7 +18,8 @@ import { FormsModule } from "@angular/forms";
     NgbAccordionDirective,
     NgbAccordionHeader,
     NgbAccordionItem,
-    FormsModule
+    FormsModule,
+    DndModule
   ],
   templateUrl: './config-pane.component.html',
   styleUrl: './config-pane.component.css'
@@ -25,4 +27,16 @@ import { FormsModule } from "@angular/forms";
 export class ConfigPaneComponent {
 
   svc:ManageTracksService = inject( ManageTracksService ) ;
+
+  topicDragStarted( event:DragEvent ) {
+    console.log( 'Topic drag started', event ) ;
+  }
+
+  topicDragEnded( event:DragEvent ) {
+    console.log( 'Topic drag ended', event ) ;
+  }
+
+  topicMoved( event:DragEvent ) {
+    console.log( 'Topic moved', event ) ;
+  }
 }

@@ -13,4 +13,10 @@
     font-size: 14px;
     padding: 2px 5px 2px 5px;
     border-radius: 5px;
+    cursor: move;
+}
+
+.unassigned-topic-list {
+    height: 400px;
+    overflow-y: auto;
 }

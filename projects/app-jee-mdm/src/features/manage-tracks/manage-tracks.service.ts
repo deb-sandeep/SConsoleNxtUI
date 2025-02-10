@@ -35,7 +35,6 @@ export class ManageTracksService extends RemoteService {
 
     this.trackList.forEach( t => {
       this.trackColors[ t.id ] = new Colors( t.color ) ;
-      console.log( t.color ) ;
       if( !(t.syllabusName in this.syllabusTracks) ) {
         this.syllabusTracks[t.syllabusName] = [] ;
       }
