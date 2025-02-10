@@ -44,6 +44,6 @@ export class TrackComponent {
   }
 
   public topicDropped( event:DndDropEvent ):void {
-    console.log( 'Topic dropped', event ) ;
+    console.log( `[Track - ${this.track().trackName}] Topic dropped`, event ) ;
   }
 }

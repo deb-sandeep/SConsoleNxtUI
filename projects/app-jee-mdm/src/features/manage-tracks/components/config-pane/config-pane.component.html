@@ -24,21 +24,21 @@
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
         <ng-template>
-          @let topics = svc.syllabusTopics[ svc.selectedSyllabus() ];
-          @let titleBgColor = svc.syllabusColors[svc.selectedSyllabus()].titleBackground ;
-          <div class="unassigned-topic-list">
-            @for( topic of topics; track topic.id ) {
-              <div class="unassigned-topic"
-                   [style.background-color]="titleBgColor"
-                   [dndDraggable]="topic"
-                   [dndEffectAllowed]="'move'"
-                   (dndStart)="topicDragStarted( $event )"
-                   (dndEnd)="topicDragEnded( $event )"
-                   (dndMoved)="topicMoved( $event )">
-                {{topic.topicName}}
-              </div>
-            }
-          </div>
+          @if( svc.selectedSyllabus() ) {
+            @let topics = svc.syllabusTopics[ svc.selectedSyllabus() ];
+            @let titleBgColor = svc.syllabusColors[ svc.selectedSyllabus() ].titleBackground ;
+            <div class="unassigned-topic-list">
+              @for( topic of topics; track topic.id ) {
+                <div class="unassigned-topic"
+                     [style.background-color]="titleBgColor"
+                     [dndDraggable]="topic"
+                     [dndEffectAllowed]="'move'"
+                     (dndMoved)="topicMoved( topic )">
+                  {{topic.topicName}}
+                </div>
+              }
+            </div>
+          }
         </ng-template>
       </div>
     </div>

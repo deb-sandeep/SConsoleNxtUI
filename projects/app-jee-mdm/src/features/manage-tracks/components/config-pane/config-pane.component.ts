@@ -8,6 +8,7 @@ import {
 import { ManageTracksService } from "../../manage-tracks.service";
 import { FormsModule } from "@angular/forms";
 import { DndModule } from "ngx-drag-drop";
+import { Topic } from "../../../../base-types";
 
 @Component({
   selector: 'config-pane',
@@ -28,15 +29,7 @@ export class ConfigPaneComponent {
 
   svc:ManageTracksService = inject( ManageTracksService ) ;
 
-  topicDragStarted( event:DragEvent ) {
-    console.log( 'Topic drag started', event ) ;
-  }
-
-  topicDragEnded( event:DragEvent ) {
-    console.log( 'Topic drag ended', event ) ;
-  }
-
-  topicMoved( event:DragEvent ) {
-    console.log( 'Topic moved', event ) ;
+  topicMoved( topic:Topic ) {
+    console.log( '[Config Panel] Topic moved', topic ) ;
   }
 }
