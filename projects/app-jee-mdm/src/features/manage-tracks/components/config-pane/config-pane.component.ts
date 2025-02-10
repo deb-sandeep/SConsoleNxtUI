@@ -8,7 +8,7 @@ import {
 import { ManageTracksService } from "../../manage-tracks.service";
 import { FormsModule } from "@angular/forms";
 import { DndModule } from "ngx-drag-drop";
-import { Topic, Track } from "../../../../base-types";
+import { Topic } from "../../../../base-types";
 
 @Component({
   selector: 'config-pane',
@@ -28,20 +28,4 @@ import { Topic, Track } from "../../../../base-types";
 export class ConfigPaneComponent {
 
   svc:ManageTracksService = inject( ManageTracksService ) ;
-
-  topicMoved( topic:Topic ) {
-    console.log( '[Config Panel] Topic moved', topic ) ;
-  }
-
-  isTopicAssigned( topic:Topic ) {
-    const tracks = this.svc.getActiveTracks() ;
-    for( const track of tracks ) {
-      for( const assignedTopic of track.assignedTopics ) {
-        if( assignedTopic.id == topic.id ) {
-          return true ;
-        }
-      }
-    }
-    return false ;
-  }
 }

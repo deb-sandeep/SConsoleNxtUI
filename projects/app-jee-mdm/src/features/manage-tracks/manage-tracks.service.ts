@@ -1,10 +1,12 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
-import { PageTitleService, RemoteService } from "lib-core";
+import { Alert, PageTitleService, RemoteService } from "lib-core";
 
 import { environment } from "../../../../environments/environment";
 import { Syllabus, Topic, Track } from "../../base-types" ;
 import { Colors } from "./util/colors";
 import { TopicProblemCounts } from "./manage-tracks.types";
+
+import AlertService = Alert.AlertService;
 
 @Injectable()
 export class ManageTracksService extends RemoteService {
@@ -21,13 +23,25 @@ export class ManageTracksService extends RemoteService {
   public syllabusColors:Record<string, Colors> = {} ;
   public trackColors:Record<number, Colors> = {} ;
 
-  private titleSvc:PageTitleService = inject(PageTitleService) ;
+  private titleSvc:PageTitleService = inject( PageTitleService ) ;
+  private alertSvc:AlertService = inject( AlertService ) ;
 
   public selectedSyllabus = signal('') ;
 
   constructor() {
     super();
     effect( () => this.syllabusSelectionChanged( this.selectedSyllabus() ) ) ;
+  }
+
+  public fetchInitializationData() {
+    this.getAllSyllabus()
+        .then( syllabusList => this.syllabusList = syllabusList )
+        .then( () => this.getAllTracks() )
+        .then( tracks => this.trackList = tracks )
+        .then( () => this.getTopicProblemCounts() )
+        .then( problemCounts => this.topicProblemCounts = problemCounts )
+        .then( () => this.postProcessInitializationData() )
+        .catch( err => this.alertSvc.error( 'Error : ' + err) ) ;
   }
 
   public postProcessInitializationData() {
@@ -70,4 +84,17 @@ export class ManageTracksService extends RemoteService {
   public getActiveTracks():Track[] {
     return this.syllabusTracks[ this.selectedSyllabus() ] ;
   }
+
+  isTopicAssigned( topic:Topic ) {
+    const tracks = this.getActiveTracks() ;
+    for( const track of tracks ) {
+      for( const topicAssignment of track.assignedTopics ) {
+        if( topicAssignment.topicId == topic.id ) {
+          return true ;
+        }
+      }
+    }
+    return false ;
+  }
+
 }

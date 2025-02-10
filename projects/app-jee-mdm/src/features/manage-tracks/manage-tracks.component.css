@@ -17,8 +17,8 @@
     width: 80%;
 }
 
-#property-pane {
-    background-color: #fff3c6;
+#config-pane {
+    background-color: var( --page-title-bgcolor );
     position: absolute;
     top: calc(var(--page-title-height));
     right: 0;

@@ -30,12 +30,12 @@
 
             <div class="unassigned-topic-list">
               @for( topic of topics; track topic.id ) {
-                @if( !isTopicAssigned( topic ) ) {
+                @if( !svc.isTopicAssigned( topic ) ) {
                   <div class="unassigned-topic"
                        [style.background-color]="titleBgColor"
                        [dndDraggable]="topic"
                        [dndEffectAllowed]="'move'"
-                       (dndMoved)="topicMoved( topic )">
+                       [dndType]="'topic'">
                     {{topic.topicName}}
                   </div>
                 }
