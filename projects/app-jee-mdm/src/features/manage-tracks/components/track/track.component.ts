@@ -9,19 +9,24 @@ import { Colors } from "../../util/colors";
   selector: 'study-track',
   imports: [DndModule],
   template: `
-    <div class="track"
-         [style.background-color]="colors().bodyBackground"
-         [style.width]="getTrackWidth()"
-         dndDropzone
-         (dndDrop)="topicDropped( $event )"
-         dndDragoverClass="drag-over">
-      <div class="track-title"
-           [style.background-color]="colors().titleBackground">
-        {{ track().trackName }}
+    @if( track() ) {
+      @let trackBgColor = colors().bodyBackground ;
+      @let titleBgColor = colors().titleBackground ;
+      
+      <div class="track"
+           [style.background-color]="trackBgColor"
+           [style.width]="getTrackWidth()"
+           dndDropzone
+           (dndDrop)="topicDropped( $event )"
+           dndDragoverClass="drag-over">
+        <div class="track-title"
+             [style.background-color]="titleBgColor">
+          {{ track().trackName }}
+        </div>
+        <div class="topic-list">
+        </div>
       </div>
-      <div class="topic-list">
-      </div>
-    </div>
+    }
   `,
   styleUrl: './track.component.css'
 })

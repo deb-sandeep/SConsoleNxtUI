@@ -2,7 +2,8 @@
 <alerts-display></alerts-display>
 <div class="page-content">
   <div id="track-pane">
-    @for( track of svc.syllabusTracks[svc.selectedSyllabus()]; track track.id ) {
+    @let tracks = svc.syllabusTracks[svc.selectedSyllabus()] ;
+    @for( track of tracks ; track track.id ) {
       <study-track [track]="track"></study-track>
     }
   </div>
