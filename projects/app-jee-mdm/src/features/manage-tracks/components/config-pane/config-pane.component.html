@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-  <div ngbAccordionItem [collapsed]="false" >
+  <div ngbAccordionItem [collapsed]="true" >
     <h2 ngbAccordionHeader>
       <button ngbAccordionButton>Unassigned Topics</button>
     </h2>
@@ -23,7 +23,10 @@
       <div ngbAccordionBody>
         <ng-template>
           @for( topic of svc.syllabusTopics[ svc.selectedSyllabus() ]; track topic.id ) {
-            <div class="unassigned-topic">{{topic.topicName}}</div>
+            <div class="unassigned-topic"
+                 [style.background-color]="svc.syllabusColors[svc.selectedSyllabus()].titleBackground">
+              {{topic.topicName}}
+            </div>
           }
         </ng-template>
       </div>
