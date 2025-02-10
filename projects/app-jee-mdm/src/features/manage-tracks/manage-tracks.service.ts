@@ -4,12 +4,17 @@ import { PageTitleService, RemoteService } from "lib-core";
 import { environment } from "../../../../environments/environment";
 import { Syllabus, Topic, Track } from "../../base-types" ;
 import { Colors } from "./util/colors";
+import { TopicProblemCounts } from "./manage-tracks.types";
 
 @Injectable()
 export class ManageTracksService extends RemoteService {
 
+  // These are fetched from the server during initialization of this feature.
   public syllabusList:Syllabus[] = [] ;
   public trackList:Track[] = [] ;
+  public topicProblemCounts:TopicProblemCounts[] = [] ;
+
+  // These are derived data, initialized once the server data is fetched made available.
   public syllabusTopics:Record<string, Topic[]> = {} ;
   public syllabusTracks:Record<string, Track[]> = {} ;
 
@@ -26,6 +31,7 @@ export class ManageTracksService extends RemoteService {
   }
 
   public postProcessInitializationData() {
+
     this.selectedSyllabus.set( this.syllabusList[0]?.syllabusName ) ;
 
     this.syllabusList.forEach( s => {
@@ -53,6 +59,11 @@ export class ManageTracksService extends RemoteService {
 
   public getAllTracks():Promise<Track[]> {
     const url:string = `${environment.apiRoot}/Master/Track/All` ;
+    return this.getPromise( url, true ) ;
+  }
+
+  public getTopicProblemCounts():Promise<TopicProblemCounts[]> {
+    const url:string = `${environment.apiRoot}/Master/Topic/ProblemTypeCounts` ;
     return this.getPromise( url, true ) ;
   }
 }

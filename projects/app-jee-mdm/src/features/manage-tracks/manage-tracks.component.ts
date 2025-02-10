@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { Alert, AlertsDisplayComponent, PageTitleComponent, PageTitleService } from "lib-core";
 import AlertService = Alert.AlertService;
@@ -31,6 +31,8 @@ export class ManageTracksComponent {
         .then( syllabusList => this.svc.syllabusList = syllabusList )
         .then( () => this.svc.getAllTracks() )
         .then( tracks => this.svc.trackList = tracks )
+        .then( () => this.svc.getTopicProblemCounts() )
+        .then( problemCounts => this.svc.topicProblemCounts = problemCounts )
         .then( () => this.svc.postProcessInitializationData() )
         .catch( err => this.alertSvc.error( 'Error : ' + err) ) ;
   }
