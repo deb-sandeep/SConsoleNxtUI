@@ -21,6 +21,8 @@
     width:100%;
     height: calc(100% - var(--track-title-height) - var(--pad-sm));
     overflow: auto;
+    padding-left:5px;
+    padding-right:5px;
 }
 
 .drag-over {

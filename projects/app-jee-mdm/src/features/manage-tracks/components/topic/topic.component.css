@@ -2,9 +2,9 @@
     width: calc(100%);
     min-height: var(--min-topic-height);
     border-radius: var(--border-radius);
-    margin-top: 4px;
-    margin-bottom: 4px;
     border: 1px solid #cacaca;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .topic-title {
@@ -12,6 +12,7 @@
     height: var(--topic-title-height);
     background-color: #649ffb;
     font-size: var(--topic-title-font-size);
+    font-weight:bold ;
     padding-left: var(--pad-sm) ;
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);

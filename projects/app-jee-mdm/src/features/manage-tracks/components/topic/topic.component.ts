@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
+import { TopicTrackAssignmentSO } from "../../../../base-types";
+import { ManageTracksService } from "../../manage-tracks.service";
 
 @Component({
   selector: 'topic',
@@ -8,4 +10,10 @@ import { Component } from '@angular/core';
 })
 export class TopicComponent {
 
+  svc = inject( ManageTracksService ) ;
+
+  assignedTopic = input.required<TopicTrackAssignmentSO>() ;
+  topic = computed( ()=> this.svc.topicMap[this.assignedTopic().topicId] ) ;
+
+  colors = this.svc.getSelectedSyllabusColors() ;
 }

@@ -8,7 +8,7 @@ import {
 import { ManageTracksService } from "../../manage-tracks.service";
 import { FormsModule } from "@angular/forms";
 import { DndModule } from "ngx-drag-drop";
-import { Topic } from "../../../../base-types";
+import { TopicSO } from "../../../../base-types";
 
 @Component({
   selector: 'config-pane',

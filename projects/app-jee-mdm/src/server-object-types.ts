@@ -1,18 +1,18 @@
-export type Topic = {
+export type TopicSO = {
   id: number,
   sectionName: string,
   topicName: string,
 }
 
-export type Syllabus = {
+export type SyllabusSO = {
   syllabusName: string,
   subjectName: string,
   color: string,
-  topics:Topic[]
+  topics:TopicSO[]
 }
 
-export type TopicTrackAssignment = {
-  id:number,
+export type TopicTrackAssignmentSO = {
+  id?:number,
   trackId:number,
   sequence:number,
   topicId:number,
@@ -23,10 +23,11 @@ export type TopicTrackAssignment = {
   endDate:Date,
 }
 
-export type Track = {
+export type TrackSO = {
   id: number,
   trackName: string,
   color: string,
   syllabusName: string,
-  assignedTopics: TopicTrackAssignment[],
+  assignedTopics: TopicTrackAssignmentSO[],
+  startDate:Date,
 }

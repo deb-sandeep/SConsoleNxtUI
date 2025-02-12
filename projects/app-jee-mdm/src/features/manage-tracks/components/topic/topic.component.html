@@ -1,1 +1,10 @@
-<p>topic works!</p>
+<div class="topic">
+  <div class="topic-title"
+       [style.background-color]="colors.titleBackground"
+       [style.color]="colors.titleForeground">
+    {{ topic().topicName }}
+  </div>
+  <div class="topic-body"
+       [style.background-color]="colors.bodyBackground">
+  </div>
+</div>
