@@ -8,7 +8,6 @@ import {
 import { ManageTracksService } from "../../manage-tracks.service";
 import { FormsModule } from "@angular/forms";
 import { DndModule } from "ngx-drag-drop";
-import { TopicSO } from "../../../../base-types";
 
 @Component({
   selector: 'config-pane',
@@ -28,4 +27,5 @@ import { TopicSO } from "../../../../base-types";
 export class ConfigPaneComponent {
 
   svc:ManageTracksService = inject( ManageTracksService ) ;
+  protected readonly Object = Object;
 }

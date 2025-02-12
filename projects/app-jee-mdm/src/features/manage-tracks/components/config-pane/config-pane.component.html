@@ -7,8 +7,9 @@
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
         <ng-template>
-          <select class="form-select" [(ngModel)]="svc.selectedSyllabus">
-            @for( syllabus of svc.syllabusList; track syllabus.syllabusName ) {
+          <select class="form-select" [(ngModel)]="svc.selectedSyllabusName">
+            @let syllabusList = Object.values( svc.syllabusMap ) ;
+            @for( syllabus of syllabusList; track syllabus.syllabusName ) {
               <option [value]="syllabus.syllabusName">{{syllabus.syllabusName}}</option>
             }
           </select>
@@ -25,15 +26,15 @@
       <div ngbAccordionBody>
         <ng-template>
           @if( svc.selectedSyllabus() ) {
-            @let topics = svc.syllabusTopics[ svc.selectedSyllabus() ];
-            @let titleBgColor = svc.syllabusColors[ svc.selectedSyllabus() ].titleBackground ;
+            @let topics = Object.values( svc.selectedSyllabus().topicMap ) ;
+            @let titleBgColor = svc.selectedSyllabus().colors.titleBackground ;
 
             <div class="unassigned-topic-list">
               @for( topic of topics; track topic.id ) {
-                @if( !svc.isTopicAssigned( topic ) ) {
+                @if( !svc.selectedSyllabus().isTopicScheduled( topic ) ) {
                   <div class="unassigned-topic"
                        [style.background-color]="titleBgColor"
-                       [dndDraggable]="topic"
+                       [dndDraggable]="topic.id"
                        [dndEffectAllowed]="'move'"
                        [dndType]="'topic'">
                     {{topic.topicName}}

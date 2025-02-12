@@ -3,6 +3,7 @@ import { TopicSchedule } from "./topic-schedule";
 import { Syllabus } from "./syllabus";
 import { Topic } from "./topic";
 import { Colors } from "../util/colors";
+import dayjs from "dayjs";
 
 export class Track {
 
@@ -11,6 +12,7 @@ export class Track {
   public colors: Colors ;
   public syllabusName: string ;
   public startDate: Date ;
+  public syllabus: Syllabus ;
 
   public scheduledTopicListHead:TopicSchedule | null = null ;
   public scheduledTopicListTail:TopicSchedule | null = null ;
@@ -18,12 +20,14 @@ export class Track {
   public previousTrack:Track | null = null ;
   public nextTrack:Track | null = null ;
 
-  public constructor( public vo:TrackSO, public syllabus:Syllabus ) {
+  public constructor( vo:TrackSO, syllabus:Syllabus ) {
+
     this.id = vo.id ;
     this.trackName = vo.trackName ;
     this.colors = new Colors( vo.color ) ;
     this.syllabusName = vo.syllabusName ;
     this.startDate = vo.startDate ;
+    this.syllabus = syllabus ;
 
     vo.assignedTopics.forEach( vo => {
       this.addTopicSchedule( new TopicSchedule( vo, this, syllabus.getTopic( vo.topicId ) ) ) ;
@@ -59,6 +63,25 @@ export class Track {
       this.scheduledTopicListTail.next = ts ;
       this.scheduledTopicListTail = ts ;
     }
+  }
+
+  public getNumTopicsScheduled(): number {
+    let numTopics = 0 ;
+    let scheduledTopic = this.scheduledTopicListHead ;
+    while( scheduledTopic != null ) {
+      numTopics++ ;
+      scheduledTopic = scheduledTopic.next ;
+    }
+    return numTopics ;
+  }
+
+  public getNextStartDate():Date {
+
+    let startDate = this.startDate ;
+    if( this.scheduledTopicListTail != null ) {
+      startDate = dayjs( this.scheduledTopicListTail.endDate ).add( 1, 'day' ).toDate() ;
+    }
+    return startDate ;
   }
 
   [Symbol.iterator](): Iterator<TopicSchedule> {

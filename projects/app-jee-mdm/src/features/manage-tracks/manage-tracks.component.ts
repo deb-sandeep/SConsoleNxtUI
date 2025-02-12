@@ -25,6 +25,6 @@ export class ManageTracksComponent {
 
   constructor() {
     this.titleSvc.setTitle( "Manage Tracks" ) ;
-    this.svc.fetchInitializationData() ;
+    this.svc.fetchInitializationData().then() ;
   }
 }

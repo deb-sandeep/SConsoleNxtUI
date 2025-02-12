@@ -1,0 +1,11 @@
+<div class="topic"
+     [style.height]="getHeight()+'px'">
+  <div class="topic-title"
+       [style.background-color]="colors().titleBackground"
+       [style.color]="colors().titleForeground">
+    {{ topicSchedule().topic.topicName }}
+  </div>
+  <div class="topic-body"
+       [style.background-color]="colors().bodyBackground">
+  </div>
+</div>

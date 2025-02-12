@@ -8,12 +8,14 @@ export class Topic {
   public sectionName:string ;
   public topicName:string ;
   public problemCounts: TopicProblemCounts ;
+  public syllabus: Syllabus ;
 
-  public constructor( public vo:TopicSO, public syllabus:Syllabus ) {
+  public constructor( vo:TopicSO, syllabus:Syllabus ) {
 
     this.id = vo.id ;
     this.sectionName = vo.sectionName ;
     this.topicName = vo.topicName ;
+    this.syllabus = syllabus ;
   }
 
   public getDefaultDuration() {

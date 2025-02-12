@@ -1,6 +1,6 @@
 .topic {
     width: calc(100%);
-    min-height: var(--min-topic-height);
+    min-height: 75px;
     border-radius: var(--border-radius);
     border: 1px solid #cacaca;
     margin-top: 5px;
@@ -20,7 +20,8 @@
 
 .topic-body {
     width: 100%;
-    height: calc( var(--min-topic-height) - var(--topic-title-height) );
+    /*height: calc( var(--min-topic-height) - var(--topic-title-height) );*/
+    height: calc(100% - var(--topic-title-height));
     display: block;
     padding-left: var(--pad-sm) ;
     border-bottom-left-radius: var(--border-radius);

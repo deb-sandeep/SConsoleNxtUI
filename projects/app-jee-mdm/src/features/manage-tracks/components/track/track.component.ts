@@ -1,20 +1,19 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import dayjs from 'dayjs';
-import { ManageTracksService } from "../../manage-tracks.service";
 import { DndDropEvent, DndModule } from "ngx-drag-drop";
 
-import { TopicSO, TopicTrackAssignmentSO, TrackSO } from "../../../../base-types";
-import { Colors } from "../../util/colors";
-import { TopicComponent } from "../topic/topic.component";
+import { TopicScheduleComponent } from "../topic-schedule/topic-schedule.component";
+import { Track } from "../../entities/track";
+import { TopicSchedule } from "../../entities/topic-schedule";
 
 @Component({
   selector: 'study-track',
-  imports: [ DndModule, TopicComponent ],
+  imports: [ DndModule, TopicScheduleComponent ],
   template: `
     @if( track() ) {
-      @let trackBgColor = colors().bodyBackground ;
-      @let titleBgColor = colors().titleBackground ;
-      @let titleFgColor = colors().titleForeground ;
+      @let trackBgColor = track().colors.bodyBackground ;
+      @let titleBgColor = track().colors.titleBackground ;
+      @let titleFgColor = track().colors.titleForeground ;
       
       <div class="track"
            [style.background-color]="trackBgColor"
@@ -28,8 +27,8 @@ import { TopicComponent } from "../topic/topic.component";
           {{ track().trackName }}
         </div>
         <div class="topic-list">
-          @for( assignedTopic of assignedTopics(); track assignedTopic.topicId ) {
-            <topic [assignedTopic]="assignedTopic"></topic>
+          @for( topicSchedule of track(); track topicSchedule.topic.id ) {
+            <topic-schedule [topicSchedule]="topicSchedule"></topic-schedule>
           }
         </div>
       </div>
@@ -39,49 +38,38 @@ import { TopicComponent } from "../topic/topic.component";
 })
 export class TrackComponent {
 
-  static readonly DEFAULT_TOPIC_BUFFER_LEFT_DAYS = 0 ;
-  static readonly DEFAULT_TOPIC_BUFFER_RIGHT_DAYS = 3 ;
-  static readonly DEFAULT_TOPIC_THEORY_MARGIN_DAYS = 5 ;
-
-  svc:ManageTracksService = inject( ManageTracksService ) ;
-
-  track = input.required<TrackSO>() ;
-  assignedTopics= computed<TopicTrackAssignmentSO[]>( () => this.track().assignedTopics ) ;
-
-  trackId = computed<number>( () => this.track().id ) ;
-  colors   = computed<Colors>( () => this.svc.trackColors[this.trackId()] ) ;
+  track = input.required<Track>() ;
 
   public getTrackWidth():string {
-    let numTracks = this.svc.syllabusTracks[this.svc.selectedSyllabus()].length ;
+    let numTracks = this.track().syllabus.tracks.length ;
     return `calc(100%/${numTracks})` ;
   }
 
   public topicDropped( event:DndDropEvent ):void {
+
     console.log( `[Track - ${this.track().trackName}] Topic dropped`, event ) ;
 
-    const droppedTopic = event.data as TopicSO ;
+    const topicId = event.data ;
+    const droppedTopic = this.track().syllabus.getTopic( topicId ) ;
 
-    let startDate = this.track().startDate ;
-    if( this.assignedTopics().length > 0 ) {
-      let lastAssignedTopic = this.assignedTopics()[this.assignedTopics().length - 1];
-      startDate = dayjs(lastAssignedTopic.endDate).add( 1, 'day' ).toDate() ;
-    }
+    const defaultDurationInDays = droppedTopic.getDefaultDuration() ;
 
-    const defaultDurationInDays = this.svc.getDefaultDurationForTopic( droppedTopic ) ;
+    let startDate = this.track().getNextStartDate() ;
     const endDate = dayjs( startDate ).add( defaultDurationInDays, 'days' )
-                                             .add( TrackComponent.DEFAULT_TOPIC_BUFFER_LEFT_DAYS, 'days' )
-                                             .add( TrackComponent.DEFAULT_TOPIC_BUFFER_RIGHT_DAYS, 'days' )
-                                             .add( TrackComponent.DEFAULT_TOPIC_THEORY_MARGIN_DAYS, 'days' )
+                                             .add( TopicSchedule.DEFAULT_TOPIC_BUFFER_LEFT_DAYS, 'days' )
+                                             .add( TopicSchedule.DEFAULT_TOPIC_BUFFER_RIGHT_DAYS, 'days' )
+                                             .add( TopicSchedule.DEFAULT_TOPIC_THEORY_MARGIN_DAYS, 'days' )
                                              .toDate() ;
-    this.assignedTopics().push( {
-      trackId:this.trackId(),
-      sequence:this.assignedTopics().length+1,
+
+    this.track().addTopicSchedule( new TopicSchedule({
+      trackId:this.track().id,
+      sequence:this.track().getNumTopicsScheduled()+1,
       topicId:droppedTopic.id,
-      bufferLeft:0,
-      bufferRight:3,
-      theoryMargin:5,
+      bufferLeft:TopicSchedule.DEFAULT_TOPIC_BUFFER_LEFT_DAYS,
+      bufferRight:TopicSchedule.DEFAULT_TOPIC_BUFFER_RIGHT_DAYS,
+      theoryMargin:TopicSchedule.DEFAULT_TOPIC_THEORY_MARGIN_DAYS,
       startDate:startDate,
       endDate:endDate,
-    }) ;
+    }, this.track(), droppedTopic )) ;
   }
 }
