@@ -17,7 +17,7 @@ export class Track {
   public scheduleListHead:TopicSchedule | null = null ;
   public scheduleListTail:TopicSchedule | null = null ;
 
-  public previousTrack:Track | null = null ;
+  public prevTrack:Track | null = null ;
   public nextTrack:Track | null = null ;
 
   public constructor( vo:TrackSO, syllabus:Syllabus ) {
@@ -46,19 +46,8 @@ export class Track {
     }
   }
 
-  public addTopicSchedule( ts: TopicSchedule ) {
-    if( this.scheduleListTail == null ) {
-      this.scheduleListTail = this.scheduleListHead = ts ;
-    }
-    else {
-      ts.prev = this.scheduleListTail ;
-      this.scheduleListTail.next = ts ;
-      this.scheduleListTail = ts ;
-    }
-  }
-
   public isFirstTrack() {
-    return this.previousTrack == null ;
+    return this.prevTrack == null ;
   }
 
   public isLastTrack() {
@@ -97,6 +86,18 @@ export class Track {
     return startDate ;
   }
 
+  public addTopicSchedule( ts: TopicSchedule ) {
+    if( this.scheduleListTail == null ) {
+      this.scheduleListTail = this.scheduleListHead = ts ;
+    }
+    else {
+      ts.prev = this.scheduleListTail ;
+      this.scheduleListTail.next = ts ;
+      this.scheduleListTail = ts ;
+    }
+    ts.track = this ;
+  }
+
   private addScheduleBefore( schedule:TopicSchedule, ref:TopicSchedule ) {
     if( ref != null ) {
       let prev = ref.prev ;
@@ -104,6 +105,7 @@ export class Track {
       ref.prev = schedule ;
       schedule.next = ref ;
       schedule.prev = prev ;
+      schedule.track = this ;
 
       if( prev != null ) prev.next = schedule ;
       if( this.scheduleListHead == ref ) this.scheduleListHead = schedule ;
@@ -117,6 +119,7 @@ export class Track {
       ref.next = schedule ;
       schedule.next = next ;
       schedule.prev = ref ;
+      schedule.track = this ;
 
       if( next != null ) next.prev = schedule ;
       if( this.scheduleListTail == ref ) this.scheduleListTail = schedule ;
@@ -134,6 +137,7 @@ export class Track {
     if( this.scheduleListTail == ts ) this.scheduleListTail = prev ;
 
     ts.prev = ts.next = null ;
+    ts.track = null ;
 
     if( recomputeDates ) this.refreshScheduleSequenceAttributes() ;
   }
@@ -154,6 +158,20 @@ export class Track {
       this.addScheduleAfter( ts, next ) ;
       this.refreshScheduleSequenceAttributes() ;
     }
+  }
+
+  public moveScheduleToNextTrack( ts:TopicSchedule ) {
+      this.removeSchedule( ts, false ) ;
+      this.refreshScheduleSequenceAttributes() ;
+      this.nextTrack!.addTopicSchedule( ts ) ;
+      this.nextTrack!.refreshScheduleSequenceAttributes() ;
+  }
+
+  public moveScheduleToPrevTrack( ts:TopicSchedule ) {
+    this.removeSchedule( ts, false ) ;
+    this.refreshScheduleSequenceAttributes() ;
+    this.prevTrack!.addTopicSchedule( ts ) ;
+    this.prevTrack!.refreshScheduleSequenceAttributes() ;
   }
 
   private refreshScheduleSequenceAttributes() {

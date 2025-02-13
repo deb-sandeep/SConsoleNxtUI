@@ -5,30 +5,32 @@
        [style.color]="colors().titleForeground">
     {{ schedule().topic.topicName }}
     <div class="topic-toolbar">
-      @if( !schedule().track.isFirstTrack() ) {
-        <button type="button" class="btn btn-sm action-btn">
+      @if( !schedule().track!.isFirstTrack() ) {
+        <button type="button" class="btn btn-sm action-btn"
+                (click)="schedule().track!.moveScheduleToPrevTrack( schedule() )">
           <span class="bi-arrow-left-short"></span>
         </button>
       }
-      @if( !schedule().track.isLastTrack() ) {
-        <button type="button" class="btn btn-sm action-btn">
+      @if( !schedule().track!.isLastTrack() ) {
+        <button type="button" class="btn btn-sm action-btn"
+                (click)="schedule().track!.moveScheduleToNextTrack( schedule() )">
           <span class="bi-arrow-right-short"></span>
         </button>
       }
       @if( !schedule().isFirst() ) {
         <button type="button" class="btn btn-sm action-btn"
-                (click)="schedule().track.moveScheduleUp( this.schedule() )">
+                (click)="schedule().track!.moveScheduleUp( schedule() )">
           <span class="bi-arrow-up-short"></span>
         </button>
       }
       @if( !schedule().isLast() ) {
         <button type="button" class="btn btn-sm action-btn"
-                (click)="schedule().track.moveScheduleDown( this.schedule() )">
+                (click)="schedule().track!.moveScheduleDown( schedule() )">
           <span class="bi-arrow-down-short"></span>
         </button>
       }
       <button type="button" class="btn btn-sm action-btn"
-              (click)="schedule().track.removeSchedule( this.schedule() )">
+              (click)="schedule().track!.removeSchedule( schedule() )">
         <span class="bi-x" style="color:red;"></span>
       </button>
     </div>

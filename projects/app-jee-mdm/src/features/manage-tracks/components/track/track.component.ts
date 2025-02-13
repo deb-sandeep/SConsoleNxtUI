@@ -47,8 +47,6 @@ export class TrackComponent {
 
   public topicDropped( event:DndDropEvent ):void {
 
-    console.log( `[Track - ${this.track().trackName}] Topic dropped`, event ) ;
-
     const topicId = event.data ;
     const droppedTopic = this.track().syllabus.getTopic( topicId ) ;
 

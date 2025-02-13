@@ -12,7 +12,7 @@ export class TopicSchedule {
   public prev:TopicSchedule|null = null ;
   public next:TopicSchedule|null = null ;
 
-  public track:Track;
+  public track:Track|null = null ;
   public topic:Topic;
 
   public id?:number ;

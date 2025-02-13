@@ -26,7 +26,7 @@ export class Syllabus {
     const newTrack = new Track( tso, this ) ;
     if( this.tracks.length != 0 ) {
       const lastTrack = this.tracks[ this.tracks.length - 1 ] ;
-      newTrack.previousTrack = lastTrack ;
+      newTrack.prevTrack = lastTrack ;
       lastTrack.nextTrack = newTrack ;
     }
     this.tracks.push( newTrack ) ;
