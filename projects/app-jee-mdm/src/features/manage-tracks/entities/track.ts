@@ -34,6 +34,17 @@ export class Track {
     } ) ;
   }
 
+  public addTopicSchedule( ts: TopicSchedule ) {
+    if( this.scheduledTopicListTail == null ) {
+      this.scheduledTopicListTail = this.scheduledTopicListHead = ts ;
+    }
+    else {
+      ts.prev = this.scheduledTopicListTail ;
+      this.scheduledTopicListTail.next = ts ;
+      this.scheduledTopicListTail = ts ;
+    }
+  }
+
   public isFirstTrack() {
     return this.previousTrack == null ;
   }
@@ -53,16 +64,6 @@ export class Track {
       }
     }
     return false ;
-  }
-
-  public addTopicSchedule( ts: TopicSchedule ) {
-    if( this.scheduledTopicListTail == null ) {
-      this.scheduledTopicListTail = this.scheduledTopicListHead = ts ;
-    }
-    else {
-      this.scheduledTopicListTail.next = ts ;
-      this.scheduledTopicListTail = ts ;
-    }
   }
 
   public getNumTopicsScheduled(): number {

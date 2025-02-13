@@ -29,7 +29,7 @@ export class Syllabus {
       newTrack.previousTrack = lastTrack ;
       lastTrack.nextTrack = newTrack ;
     }
-    this.tracks.push( new Track( tso, this ) ) ;
+    this.tracks.push( newTrack ) ;
   }
 
   public getTopic( topicId:number ) : Topic {

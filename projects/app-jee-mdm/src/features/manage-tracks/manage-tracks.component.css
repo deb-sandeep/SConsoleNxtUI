@@ -1,11 +1,6 @@
 .page-content {
     --pad-xs: 3px;
     --pad-sm: 5px;
-    --track-title-height: 1.8rem;
-    --track-title-font-size: 1rem;
-    --min-topic-height:100px;
-    --topic-title-height: 23px;
-    --topic-title-font-size: 15px;
     --border-radius:5px;
 }
 

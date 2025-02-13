@@ -1,11 +1,69 @@
-<div class="topic"
-     [style.height]="getHeight()+'px'">
+<div class="topic">
   <div class="topic-title"
        [style.background-color]="colors().titleBackground"
        [style.color]="colors().titleForeground">
-    {{ topicSchedule().topic.topicName }}
+    {{ schedule().topic.topicName }}
+    <div class="topic-toolbar">
+      @if( !schedule().track.isFirstTrack() ) {
+        <button type="button" class="btn btn-sm action-btn"><span class="bi-arrow-left-short"></span></button>
+      }
+      @if( !schedule().track.isLastTrack() ) {
+        <button type="button" class="btn btn-sm action-btn"><span class="bi-arrow-right-short"></span></button>
+      }
+      @if( !schedule().isFirst() ) {
+        <button type="button" class="btn btn-sm action-btn"><span class="bi-arrow-up-short"></span></button>
+      }
+      @if( !schedule().isLast() ) {
+        <button type="button" class="btn btn-sm action-btn"><span class="bi-arrow-down-short"></span></button>
+      }
+      <button type="button" class="btn btn-sm action-btn"><span class="bi-x" style="color:red;"></span></button>
+    </div>
   </div>
   <div class="topic-body"
        [style.background-color]="colors().bodyBackground">
+
+    <div class="date-range">
+      <div class="start-date">{{ schedule().startDate | date}}</div>
+      <div class="num-total-days">{{ schedule().numDays }} days</div>
+      <div class="end-date">{{schedule().endDate | date}}</div>
+    </div>
+
+    <div class="days-breakup">
+      <div><span class="num-days">{{ schedule().bufferLeft        }}d</span> <span class="days-label">Start buffer</span></div>
+      <div><span class="num-days">{{ schedule().theoryMargin      }}d</span> <span class="days-label">Lead theory</span></div>
+      <div><span class="num-days">{{ schedule().getExerciseDays() }}d</span> <span class="days-label">Exercise</span></div>
+      <div><span class="num-days">{{ schedule().bufferRight       }}d</span> <span class="days-label">End buffer</span></div>
+    </div>
+
+    <div class="problem-counts">
+      @let pc = schedule().topic.problemCounts ;
+
+      <div class="total-problems">
+        <div>&Sigma; Problems</div>
+        <div>{{pc.numProblems}}</div>
+        <div></div>
+      </div>
+
+      <div class="problem-type-counts">
+        <div><span class="num-problems">{{ pc.problemTypeCount['SCA'] }}</span> <span class="problem-type">SCA</span></div>
+        <div><span class="num-problems">{{ pc.problemTypeCount['MCA'] }}</span> <span class="problem-type">MCA</span></div>
+        <div><span class="num-problems">{{ pc.problemTypeCount['LCT'] }}</span> <span class="problem-type">LCT</span></div>
+        <div><span class="num-problems">{{ pc.problemTypeCount['ART'] }}</span> <span class="problem-type">ART</span></div>
+      </div>
+
+      <div class="problem-type-counts">
+        <div><span class="num-problems">{{ pc.problemTypeCount['MMT'] }}</span> <span class="problem-type">MMT</span></div>
+        <div><span class="num-problems">{{ pc.problemTypeCount['CRT'] }}</span> <span class="problem-type">CRT</span></div>
+        <div><span class="num-problems">{{ pc.problemTypeCount['NVT'] }}</span> <span class="problem-type">NVT</span></div>
+        <div><span class="num-problems">{{ pc.problemTypeCount['SUB'] }}</span> <span class="problem-type">SUB</span></div>
+      </div>
+    </div>
+
+    <div class="burn-rate">
+      <div>Burn/Day</div>
+      <div>{{(pc.numProblems / schedule().getExerciseDays()) | number:'1.0-0'}}</div>
+      <div></div>
+    </div>
   </div>
+
 </div>

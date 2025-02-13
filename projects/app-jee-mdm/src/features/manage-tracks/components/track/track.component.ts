@@ -28,7 +28,7 @@ import { TopicSchedule } from "../../entities/topic-schedule";
         </div>
         <div class="topic-list">
           @for( topicSchedule of track(); track topicSchedule.topic.id ) {
-            <topic-schedule [topicSchedule]="topicSchedule"></topic-schedule>
+            <topic-schedule [schedule]="topicSchedule"></topic-schedule>
           }
         </div>
       </div>

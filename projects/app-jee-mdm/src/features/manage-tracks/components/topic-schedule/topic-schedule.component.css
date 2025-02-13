@@ -1,18 +1,23 @@
 .topic {
-    width: calc(100%);
-    min-height: 75px;
+    --topic-title-height: 28px;
+    --topic-title-font-size: 15px;
+    --date-height: 25px;
+    --num-days-height: 40px;
+    --body-height: calc( var(--date-height)*2 + var(--num-days-height)) ;
+
+    width: 100%;
     border-radius: var(--border-radius);
     border: 1px solid #cacaca;
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .topic-title {
     width: 100%;
     height: var(--topic-title-height);
-    background-color: #649ffb;
     font-size: var(--topic-title-font-size);
     font-weight:bold ;
+    line-height: var(--topic-title-height);
     padding-left: var(--pad-sm) ;
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
@@ -20,11 +25,174 @@
 
 .topic-body {
     width: 100%;
-    /*height: calc( var(--min-topic-height) - var(--topic-title-height) );*/
-    height: calc(100% - var(--topic-title-height));
     display: block;
     padding-left: var(--pad-sm) ;
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
-    background-color: #dcecff;
 }
+
+/* ------------------------------------------------------------------- */
+/* Topic title bar buttons                                             */
+/* ------------------------------------------------------------------- */
+.topic-toolbar {
+    float:right ;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.action-btn {
+    display: inline-block;
+    border: 1px outset #acacac;
+    padding: 0 3px 0 3px;
+    margin: 0 5px 0 0 ;
+    vertical-align: center;
+    background-color: #e8e8e8;
+}
+
+/* ------------------------------------------------------------------- */
+/* Date range and num days breakup                                     */
+/* ------------------------------------------------------------------- */
+.date-range {
+    width: 120px;
+    display: inline-block;
+}
+
+.start-date, .end-date {
+    width: 100%;
+    height: var(--date-height);
+    line-height: var(--date-height);
+    text-align: center;
+    border-right: 1px solid #dddddd;
+}
+
+.start-date, .end-date {
+    color: blue;
+}
+
+.num-total-days {
+    text-align: center;
+    height: var(--num-days-height);
+    line-height: var(--num-days-height);
+    font-size:18px;
+    background-color: #ededed;
+    border-left: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+}
+
+.days-breakup {
+    width: 115px;
+    height: var(--body-height);
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ededed;
+    border-right: 1px solid #dddddd;
+    margin-right: 5px ;
+}
+
+.days-breakup div {
+    height: calc(var(--body-height) /4);
+    border-bottom: 1px dashed #d3d1d1;
+}
+
+.num-days {
+    width: 30px;
+    text-align: right;
+    font-size:11px;
+    display: inline-block;
+    font-family: monospace;
+}
+
+.days-label {
+    display: inline-block;
+    font-size: 11px;
+    padding-left: 10px;
+}
+
+/* ------------------------------------------------------------------- */
+/* Num problems and breakup per types                                  */
+/* ------------------------------------------------------------------- */
+.problem-counts {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px ;
+}
+
+.total-problems {
+    width: 100px;
+    display: inline-block;
+}
+
+.total-problems div:first-child, .total-problems div:last-child {
+    width: 100%;
+    height: var(--date-height);
+    line-height: var(--date-height);
+    text-align: center;
+    border-right: 1px solid #dddddd;
+}
+
+.total-problems div:nth-child(2) {
+    text-align: center;
+    height: var(--num-days-height);
+    line-height: var(--num-days-height);
+    font-size:18px;
+    background-color: #d9fad4;
+    border-left: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+}
+
+.problem-type-counts {
+    width: 80px;
+    height: var(--body-height);
+    display: inline-block;
+    vertical-align: top;
+    background-color: #d9fad4;
+    border-right: 1px solid #dddddd;
+}
+
+.problem-type-counts div {
+    height: calc(var(--body-height) /4);
+    border-bottom: 1px dashed #d3d1d1;
+}
+
+.num-problems {
+    width: 30px;
+    text-align: right;
+    font-size:11px;
+    display: inline-block;
+    font-family: monospace;
+}
+
+.problem-type {
+    display: inline-block;
+    font-size: 11px;
+    padding-left: 15px;
+}
+
+/* ------------------------------------------------------------------- */
+/* Burn rate                                                           */
+/* ------------------------------------------------------------------- */
+.burn-rate {
+    display: inline-block;
+    width: 80px;
+    vertical-align: top;
+    margin-right: 5px ;
+}
+
+.burn-rate div:first-child, .burn-rate div:last-child {
+    width: 100%;
+    height: var(--date-height);
+    line-height: var(--date-height);
+    text-align: center;
+}
+
+.burn-rate div:nth-child(2) {
+    text-align: center;
+    height: var(--num-days-height);
+    line-height: var(--num-days-height);
+    font-size:25px;
+    background-color: #fde1b7;
+    border: 1px solid #ffc698;
+}
+

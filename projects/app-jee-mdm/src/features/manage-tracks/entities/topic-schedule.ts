@@ -1,6 +1,7 @@
 import { TopicTrackAssignmentSO } from "../../../server-object-types" ;
 import { Track } from "./track";
 import { Topic } from "./topic";
+import dayjs from "dayjs";
 
 export class TopicSchedule {
 
@@ -22,6 +23,8 @@ export class TopicSchedule {
   public startDate:Date ;
   public endDate:Date ;
 
+  public numDays:number ;
+
   public constructor( vo:TopicTrackAssignmentSO,
                       track:Track,
                       topic:Topic ) {
@@ -33,8 +36,22 @@ export class TopicSchedule {
     this.theoryMargin = vo.theoryMargin ;
     this.startDate    = vo.startDate ;
     this.endDate      = vo.endDate ;
+    this.numDays      = dayjs( this.endDate ).diff( this.startDate, 'days' ) ;
 
     this.topic = topic ;
     this.track = track ;
+  }
+
+  public getExerciseDays() {
+    let nonExerciseDays = this.bufferLeft + this.bufferRight + this.theoryMargin ;
+    return this.numDays - nonExerciseDays ;
+  }
+
+  public isFirst() {
+    return this.prev == null ;
+  }
+
+  public isLast() {
+    return this.next == null ;
   }
 }
