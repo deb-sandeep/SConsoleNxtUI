@@ -126,7 +126,7 @@ export class Track {
     }
   }
 
-  public removeSchedule( ts: TopicSchedule, recomputeDates:boolean = true ) {
+  public removeSchedule( ts: TopicSchedule, topicUnassigned:boolean = true ) {
     let prev = ts.prev ;
     let next = ts.next ;
 
@@ -139,7 +139,11 @@ export class Track {
     ts.prev = ts.next = null ;
     ts.track = null ;
 
-    if( recomputeDates ) this.refreshScheduleSequenceAttributes() ;
+    if( topicUnassigned ) {
+      this.refreshScheduleSequenceAttributes() ;
+      ts.selected = false ;
+      this.syllabus.svc.setSelectedTopicSchedule( null ) ;
+    }
   }
 
   public moveScheduleUp( ts: TopicSchedule ) {

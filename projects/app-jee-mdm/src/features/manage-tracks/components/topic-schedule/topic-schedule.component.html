@@ -1,10 +1,14 @@
-<div class="topic">
+<div class="topic-schedule"
+     [class.topic-schedule-selected]="schedule().selected">
 
-  <div class="topic-title"
+  <div class="topic-schedule-title"
        [style.background-color]="colors().titleBackground"
-       [style.color]="colors().titleForeground">
-    {{ schedule().topic.topicName }}
-    <div class="topic-toolbar">
+       [style.color]="colors().titleForeground"
+       (click)="schedule().setSelected()">
+
+    <span>{{ schedule().topic.topicName }}</span>
+
+    <div class="topic-schedule-toolbar">
       @if( !schedule().track!.isFirstTrack() ) {
         <button type="button" class="btn btn-sm action-btn"
                 (click)="schedule().track!.moveScheduleToPrevTrack( schedule() )">
@@ -36,7 +40,7 @@
     </div>
   </div>
 
-  <div class="topic-body"
+  <div class="topic-schedule-body"
        [style.background-color]="colors().bodyBackground">
 
     <div class="date-range">

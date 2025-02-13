@@ -1,7 +1,8 @@
 .page-content {
     --pad-xs: 3px;
     --pad-sm: 5px;
-    --border-radius:5px;
+    --pad-lg: 10px;
+    --border-radius:8px;
 }
 
 #track-pane {

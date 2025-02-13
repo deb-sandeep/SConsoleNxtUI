@@ -1,4 +1,4 @@
-.topic {
+.topic-schedule {
     --topic-title-height: 28px;
     --topic-title-font-size: 15px;
     --date-height: 25px;
@@ -12,18 +12,18 @@
     margin-bottom: 10px;
 }
 
-.topic-title {
+.topic-schedule-title {
     width: 100%;
     height: var(--topic-title-height);
     font-size: var(--topic-title-font-size);
     font-weight:bold ;
     line-height: var(--topic-title-height);
-    padding-left: var(--pad-sm) ;
+    padding-left: var(--pad-lg) ;
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
 }
 
-.topic-body {
+.topic-schedule-body {
     width: 100%;
     display: block;
     padding-left: var(--pad-sm) ;
@@ -31,10 +31,14 @@
     border-bottom-right-radius: var(--border-radius);
 }
 
+.topic-schedule-selected {
+    border: 2px solid #ff7a7a;
+}
+
 /* ------------------------------------------------------------------- */
 /* Topic title bar buttons                                             */
 /* ------------------------------------------------------------------- */
-.topic-toolbar {
+.topic-schedule-toolbar {
     float:right ;
     display: inline-block;
     vertical-align: middle;

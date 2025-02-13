@@ -2,8 +2,11 @@ import { SyllabusSO, TrackSO } from "../../../server-object-types" ;
 import { Topic } from "./topic";
 import { Track } from "./track";
 import { Colors } from "../util/colors";
+import { ManageTracksService } from "../manage-tracks.service";
 
 export class Syllabus {
+
+  public svc:ManageTracksService ;
 
   public syllabusName: string ;
   public subjectName: string ;
@@ -12,7 +15,9 @@ export class Syllabus {
   public topicMap:Record<string, Topic> = {} ;
   public tracks:Track[] = [] ;
 
-  public constructor( vo:SyllabusSO ) {
+  public constructor( vo:SyllabusSO, svc:ManageTracksService ) {
+
+    this.svc = svc ;
 
     this.syllabusName = vo.syllabusName ;
     this.subjectName = vo.subjectName ;

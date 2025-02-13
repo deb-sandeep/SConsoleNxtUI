@@ -22,8 +22,8 @@ export class TopicSchedule {
   public theoryMargin:number ;
   public startDate:Date ;
   public endDate:Date ;
-
   public numDays:number ;
+  public selected:boolean = false ;
 
   public constructor( vo:TopicTrackAssignmentSO,
                       track:Track,
@@ -55,7 +55,12 @@ export class TopicSchedule {
     return this.next == null ;
   }
 
-  recomputeDateBoundaries( startDate: Date ) {
+  public setSelected() {
+    this.selected = true ;
+    this.track!.syllabus.svc.setSelectedTopicSchedule( this ) ;
+  }
+
+  public recomputeDateBoundaries( startDate: Date ) {
     this.startDate = startDate ;
     this.endDate = dayjs( startDate ).add( this.numDays, 'days' ).toDate() ;
   }

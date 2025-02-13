@@ -7,6 +7,7 @@ import { TopicProblemCounts } from "./manage-tracks.types";
 
 import AlertService = Alert.AlertService;
 import { Syllabus } from "./entities/syllabus";
+import { TopicSchedule } from "./entities/topic-schedule";
 
 @Injectable()
 export class ManageTracksService extends RemoteService {
@@ -18,6 +19,8 @@ export class ManageTracksService extends RemoteService {
 
   public selectedSyllabusName = signal('') ;
   public selectedSyllabus = computed<Syllabus>( () => this.syllabusMap[this.selectedSyllabusName()] ) ;
+
+  public selectedTopicSchedule:TopicSchedule|null = null;
 
   constructor() {
     super();
@@ -34,7 +37,7 @@ export class ManageTracksService extends RemoteService {
       this.selectedSyllabusName.set( syllabusSOList[0]?.syllabusName ) ;
 
       syllabusSOList.forEach( so => {
-        this.syllabusMap[so.syllabusName] = new Syllabus( so )
+        this.syllabusMap[so.syllabusName] = new Syllabus( so, this )
       } ) ;
 
       trackSOList.forEach( tso => {
@@ -74,4 +77,15 @@ export class ManageTracksService extends RemoteService {
   }
 
   // ----------------------------------------------------------------------------------
+
+  setSelectedTopicSchedule( ts: TopicSchedule|null ) {
+    this.selectedTopicSchedule = ts ;
+    Object.values( this.syllabusMap ).forEach( s => {
+      s.tracks.forEach( track => {
+        for( let schedule of track ) {
+          schedule.selected = schedule == ts ;
+        }
+      })
+    }) ;
+  }
 }
