@@ -1,4 +1,4 @@
-import { TrackSO } from "../../../server-object-types" ;
+import { TopicTrackAssignmentSO, TrackSO } from "../../../server-object-types" ;
 import { TopicSchedule } from "./topic-schedule";
 import { Syllabus } from "./syllabus";
 import { Topic } from "./topic";
@@ -204,5 +204,26 @@ export class Track {
       if( ts.isDirty() ) return true ;
     }
     return this.dirtyFlag ;
+  }
+
+  public getTopicTrackAssignmentSOs() {
+    const assignments:TopicTrackAssignmentSO[] = [] ;
+
+    let currentSchedule = this.scheduleListHead ;
+    while( currentSchedule != null ) {
+      assignments.push( currentSchedule.getTopicTrackAssignmentSO() ) ;
+      currentSchedule = currentSchedule.next ;
+    }
+    return assignments ;
+  }
+
+  public refreshSavedState( schedules: TopicTrackAssignmentSO[] ) {
+
+    let currentSchedule = this.scheduleListHead ;
+    for( let schedule of schedules ) {
+      currentSchedule!.refreshSavedState( schedule ) ;
+      currentSchedule = currentSchedule!.next ;
+    }
+    this.dirtyFlag = false ;
   }
 }

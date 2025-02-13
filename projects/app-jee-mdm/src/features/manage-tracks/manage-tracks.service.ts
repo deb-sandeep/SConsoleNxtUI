@@ -2,12 +2,13 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Alert, PageTitleService, RemoteService } from "lib-core";
 
 import { environment } from "../../../../environments/environment";
-import { SyllabusSO, TrackSO } from "../../server-object-types" ;
+import { SyllabusSO, TopicTrackAssignmentSO, TrackSO } from "../../server-object-types" ;
 import { TopicProblemCounts } from "./manage-tracks.types";
 
 import AlertService = Alert.AlertService;
 import { Syllabus } from "./entities/syllabus";
 import { TopicSchedule } from "./entities/topic-schedule";
+import { Track } from "./entities/track";
 
 @Injectable()
 export class ManageTracksService extends RemoteService {
@@ -60,6 +61,26 @@ export class ManageTracksService extends RemoteService {
     this.selectedTopicSchedule = null ;
   }
 
+  public setSelectedTopicSchedule( ts: TopicSchedule|null ) {
+    this.selectedTopicSchedule = ts ;
+    Object.values( this.syllabusMap ).forEach( s => {
+      s.tracks.forEach( track => {
+        for( let schedule of track ) {
+          schedule.selected = schedule == ts ;
+        }
+      })
+    }) ;
+  }
+
+  public async saveDirtyTracks() {
+    for( let track of this.selectedSyllabus().tracks ) {
+      if( track.isDirty() ) {
+        const schedules:TopicTrackAssignmentSO[] = await this.saveTopicSchedules( track ) ;
+        track.refreshSavedState( schedules ) ;
+      }
+    }
+  }
+
   // ---------- Server communication methods ------------------------------------------
 
   public getAllSyllabus():Promise<SyllabusSO[]> {
@@ -77,16 +98,11 @@ export class ManageTracksService extends RemoteService {
     return this.getPromise( url, true ) ;
   }
 
-  // ----------------------------------------------------------------------------------
-
-  public setSelectedTopicSchedule( ts: TopicSchedule|null ) {
-    this.selectedTopicSchedule = ts ;
-    Object.values( this.syllabusMap ).forEach( s => {
-      s.tracks.forEach( track => {
-        for( let schedule of track ) {
-          schedule.selected = schedule == ts ;
-        }
-      })
-    }) ;
+  private saveTopicSchedules( track: Track ):Promise<TopicTrackAssignmentSO[]> {
+    const url:string = `${environment.apiRoot}/Master/Track/${track.id}/SaveTopicSchedules` ;
+    const schedules:TopicTrackAssignmentSO[] = track.getTopicTrackAssignmentSOs() ;
+    return this.postPromise( url, schedules ) ;
   }
+
+  // ----------------------------------------------------------------------------------
 }

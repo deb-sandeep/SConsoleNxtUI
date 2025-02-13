@@ -4,7 +4,6 @@ import { Topic } from "./topic";
 import dayjs from "dayjs";
 
 export class TopicSchedule {
-
   static readonly DEFAULT_TOPIC_BUFFER_LEFT_DAYS = 0 ;
   static readonly DEFAULT_TOPIC_BUFFER_RIGHT_DAYS = 3 ;
   static readonly DEFAULT_TOPIC_THEORY_MARGIN_DAYS = 5 ;
@@ -46,6 +45,11 @@ export class TopicSchedule {
     this.track = track ;
   }
 
+  refreshSavedState( schedule: TopicTrackAssignmentSO ) {
+    this.id = schedule.id ;
+    this.dirtyFlag = false ;
+  }
+
   public isFirst() {
     return this.prev == null ;
   }
@@ -74,5 +78,18 @@ export class TopicSchedule {
     this.endDate = dayjs( this.startDate ).add( this.numDays, 'days' ).toDate() ;
     this.dirtyFlag = true ;
     this.track!.refreshScheduleSequenceAttributes() ;
+  }
+
+  public getTopicTrackAssignmentSO(): TopicTrackAssignmentSO {
+    return {
+      trackId: this.track!.id,
+      sequence: this.sequence,
+      topicId: this.topic.id,
+      bufferLeft: this.bufferLeft,
+      bufferRight: this.bufferRight,
+      theoryMargin: this.theoryMargin,
+      startDate: this.startDate,
+      endDate: this.endDate,
+    } as TopicTrackAssignmentSO ;
   }
 }
