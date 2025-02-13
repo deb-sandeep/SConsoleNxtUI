@@ -54,4 +54,9 @@ export class TopicSchedule {
   public isLast() {
     return this.next == null ;
   }
+
+  recomputeDateBoundaries( startDate: Date ) {
+    this.startDate = startDate ;
+    this.endDate = dayjs( startDate ).add( this.numDays, 'days' ).toDate() ;
+  }
 }
