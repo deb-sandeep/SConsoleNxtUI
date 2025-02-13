@@ -47,4 +47,11 @@ export class Syllabus {
     }
     return false ;
   }
+
+  isDirty() {
+    for( let track of this.tracks ) {
+      if( track.isDirty() ) return true ;
+    }
+    return false ;
+  }
 }

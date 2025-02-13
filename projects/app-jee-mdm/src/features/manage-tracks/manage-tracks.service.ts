@@ -57,6 +57,7 @@ export class ManageTracksService extends RemoteService {
 
   private syllabusSelectionChanged( selectedSyllabusName:string ) {
     this.titleSvc.setTitle( `Manage Tracks > ${selectedSyllabusName}` )
+    this.selectedTopicSchedule = null ;
   }
 
   // ---------- Server communication methods ------------------------------------------
@@ -78,7 +79,7 @@ export class ManageTracksService extends RemoteService {
 
   // ----------------------------------------------------------------------------------
 
-  setSelectedTopicSchedule( ts: TopicSchedule|null ) {
+  public setSelectedTopicSchedule( ts: TopicSchedule|null ) {
     this.selectedTopicSchedule = ts ;
     Object.values( this.syllabusMap ).forEach( s => {
       s.tracks.forEach( track => {

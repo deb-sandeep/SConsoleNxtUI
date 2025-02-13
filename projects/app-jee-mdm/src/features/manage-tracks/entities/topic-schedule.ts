@@ -18,12 +18,15 @@ export class TopicSchedule {
   public id?:number ;
   public sequence:number ;
   public bufferLeft:number ;
-  public bufferRight:number ;
   public theoryMargin:number ;
+  public exerciseDays:number ;
+  public bufferRight:number ;
   public startDate:Date ;
   public endDate:Date ;
   public numDays:number ;
   public selected:boolean = false ;
+
+  private dirtyFlag:boolean = false ;
 
   public constructor( vo:TopicTrackAssignmentSO,
                       track:Track,
@@ -37,14 +40,10 @@ export class TopicSchedule {
     this.startDate    = vo.startDate ;
     this.endDate      = vo.endDate ;
     this.numDays      = dayjs( this.endDate ).diff( this.startDate, 'days' ) ;
+    this.exerciseDays = this.numDays - this.bufferLeft - this.bufferRight - this.theoryMargin ;
 
     this.topic = topic ;
     this.track = track ;
-  }
-
-  public getExerciseDays() {
-    let nonExerciseDays = this.bufferLeft + this.bufferRight + this.theoryMargin ;
-    return this.numDays - nonExerciseDays ;
   }
 
   public isFirst() {
@@ -55,13 +54,25 @@ export class TopicSchedule {
     return this.next == null ;
   }
 
+  public isDirty() {
+    return this.dirtyFlag ;
+  }
+
   public setSelected() {
     this.selected = true ;
     this.track!.syllabus.svc.setSelectedTopicSchedule( this ) ;
   }
 
-  public recomputeDateBoundaries( startDate: Date ) {
+  public alignStartDate( startDate: Date ) {
     this.startDate = startDate ;
     this.endDate = dayjs( startDate ).add( this.numDays, 'days' ).toDate() ;
+    this.dirtyFlag = true ;
+  }
+
+  public recomputeEndDate() {
+    this.numDays = this.bufferLeft + this.theoryMargin + this.exerciseDays + this.bufferRight ;
+    this.endDate = dayjs( this.startDate ).add( this.numDays, 'days' ).toDate() ;
+    this.dirtyFlag = true ;
+    this.track!.refreshScheduleSequenceAttributes() ;
   }
 }

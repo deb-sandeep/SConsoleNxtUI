@@ -59,7 +59,7 @@ export class TrackComponent {
                                              .add( TopicSchedule.DEFAULT_TOPIC_THEORY_MARGIN_DAYS, 'days' )
                                              .toDate() ;
 
-    this.track().addTopicSchedule( new TopicSchedule({
+    const schedule = new TopicSchedule({
       trackId:this.track().id,
       sequence:this.track().getNumTopicsScheduled()+1,
       topicId:droppedTopic.id,
@@ -68,6 +68,9 @@ export class TrackComponent {
       theoryMargin:TopicSchedule.DEFAULT_TOPIC_THEORY_MARGIN_DAYS,
       startDate:startDate,
       endDate:endDate,
-    }, this.track(), droppedTopic )) ;
+    }, this.track(), droppedTopic ) ;
+
+    this.track().addTopicSchedule( schedule ) ;
+    this.track().syllabus.svc.setSelectedTopicSchedule( schedule ) ;
   }
 }

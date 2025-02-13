@@ -1,3 +1,9 @@
+@if( svc.selectedSyllabus()?.isDirty() ) {
+  <div class="save-changes">
+    <button type="button" class="btn btn-sm btn-warning">Save changes</button>
+  </div>
+}
+
 <div ngbAccordion>
 
   <div ngbAccordionItem [collapsed]="false" >
@@ -47,5 +53,64 @@
       </div>
     </div>
   </div>
+
+    @if( svc.selectedTopicSchedule != null ) {
+      @let selTs = svc.selectedTopicSchedule ;
+      @let titleBgColor = svc.selectedSyllabus().colors.titleBackground ;
+
+      <div ngbAccordionItem [collapsed]="false" >
+        <h2 ngbAccordionHeader>
+          <button ngbAccordionButton>Selected Schdeule</button>
+        </h2>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <div class="sel-topic-name"
+                   [style.background-color]="titleBgColor">
+                {{selTs.topic.topicName}}
+              </div>
+              <div class="sel-schedule-edit-form">
+                <div class="form-row">
+                  <div class="field-label">Start buffer</div>
+                  <div class="separator"> : </div>
+                  <div class="field-input">
+                    <input type="number"
+                           [(ngModel)]="selTs.bufferLeft"
+                           (ngModelChange)="selTs.recomputeEndDate()"> days
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field-label">Lead theory</div>
+                  <div class="separator"> : </div>
+                  <div class="field-input">
+                    <input type="number"
+                           [(ngModel)]="selTs.theoryMargin"
+                           (ngModelChange)="selTs.recomputeEndDate()"> days
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field-label">Exercise</div>
+                  <div class="separator"> : </div>
+                  <div class="field-input">
+                    <input type="number"
+                           [(ngModel)]="selTs.exerciseDays"
+                           (ngModelChange)="selTs.recomputeEndDate()"> days
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field-label">End buffer</div>
+                  <div class="separator"> : </div>
+                  <div class="field-input">
+                    <input type="number"
+                           [(ngModel)]="selTs.bufferRight"
+                           (ngModelChange)="selTs.recomputeEndDate()"> days
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    }
 
 </div>

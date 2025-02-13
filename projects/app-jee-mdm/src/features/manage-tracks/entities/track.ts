@@ -20,6 +20,8 @@ export class Track {
   public prevTrack:Track | null = null ;
   public nextTrack:Track | null = null ;
 
+  private dirtyFlag:boolean = false ;
+
   public constructor( vo:TrackSO, syllabus:Syllabus ) {
 
     this.id = vo.id ;
@@ -32,6 +34,8 @@ export class Track {
     vo.assignedTopics.forEach( vo => {
       this.addTopicSchedule( new TopicSchedule( vo, this, syllabus.getTopic( vo.topicId ) ) ) ;
     } ) ;
+
+    this.dirtyFlag = false ;
   }
 
   [Symbol.iterator](): Iterator<TopicSchedule> {
@@ -96,6 +100,7 @@ export class Track {
       this.scheduleListTail = ts ;
     }
     ts.track = this ;
+    this.dirtyFlag = true ;
   }
 
   private addScheduleBefore( schedule:TopicSchedule, ref:TopicSchedule ) {
@@ -140,9 +145,10 @@ export class Track {
     ts.track = null ;
 
     if( topicUnassigned ) {
-      this.refreshScheduleSequenceAttributes() ;
       ts.selected = false ;
+      this.refreshScheduleSequenceAttributes() ;
       this.syllabus.svc.setSelectedTopicSchedule( null ) ;
+      this.dirtyFlag = true ;
     }
   }
 
@@ -178,18 +184,25 @@ export class Track {
     this.prevTrack!.refreshScheduleSequenceAttributes() ;
   }
 
-  private refreshScheduleSequenceAttributes() {
+  public refreshScheduleSequenceAttributes() {
     let nextSequenceNumber = 1 ;
     let nextStartDate = this.startDate ;
     let currentSchedule = this.scheduleListHead ;
 
     while( currentSchedule != null ) {
       currentSchedule.sequence = nextSequenceNumber ;
-      currentSchedule.recomputeDateBoundaries( nextStartDate ) ;
+      currentSchedule.alignStartDate( nextStartDate ) ;
       nextStartDate = dayjs( currentSchedule.endDate ).add( 1, 'day' ).toDate() ;
 
       currentSchedule = currentSchedule.next ;
       nextSequenceNumber += 1 ;
     }
+  }
+
+  public isDirty() {
+    for( let ts of this ) {
+      if( ts.isDirty() ) return true ;
+    }
+    return this.dirtyFlag ;
   }
 }
