@@ -47,6 +47,10 @@ export class TopicChapterProblemListComponent {
   protected readonly ProblemGroup = ProblemGroup ;
   protected readonly PROBLEM_TYPES = PROBLEM_TYPES;
 
+  private dragSelection:boolean = false ;
+  private readonly dragSelectIcon:HTMLImageElement ;
+  private readonly dragDeselectIcon:HTMLImageElement ;
+
   topicChapterMappingId:number = 0 ;
   bookId:number = 0 ;
   chapterNum:number = 0 ;
@@ -64,6 +68,12 @@ export class TopicChapterProblemListComponent {
     this.topicId = this.route.snapshot.params['topicId'] ;
     this.bookId = this.route.snapshot.params['bookId'] ;
     this.chapterNum = this.route.snapshot.params['chapterNum'] ;
+
+    this.dragSelectIcon = new Image() ;
+    this.dragSelectIcon.src = '/core-assets/icons/row-select.png' ;
+
+    this.dragDeselectIcon = new Image() ;
+    this.dragDeselectIcon.src = '/core-assets/icons/row-deselect.png' ;
 
     this.fetchDataFromServer().then() ;
   }
@@ -180,6 +190,24 @@ export class TopicChapterProblemListComponent {
     }) ;
   }
 
+  selectAllAttachedProblems() {
+    let limitToSelectedExercises = this.hasSelectedExercises() ;
+    this.data!.exercises.forEach( ex => {
+      if( limitToSelectedExercises ) {
+        if( ex.selected ) {
+          ex.problems.forEach( ptm => {
+            if( ptm.topic != null && ptm.topic!.topicId === this.selTopic?.topicId ) { ptm.selected = true ; }
+          }) ;
+        }
+      }
+      else {
+        ex.problems.forEach( ptm => {
+          if( ptm.topic != null && ptm.topic!.topicId === this.selTopic?.topicId ) { ptm.selected = true ; }
+        }) ;
+      }
+    }) ;
+  }
+
   selectAll() {
     let limitToSelectedExercises = this.hasSelectedExercises() ;
     this.data!.exercises.forEach( ex => {
@@ -247,4 +275,15 @@ export class TopicChapterProblemListComponent {
     return false ;
   }
 
+  problemDragStarted( event:DragEvent, p:ProblemTopicMapping ) {
+    this.dragSelection = !p.selected ;
+    p.selected = this.dragSelection ;
+
+    let img = this.dragSelection ? this.dragSelectIcon : this.dragDeselectIcon ;
+    event.dataTransfer?.setDragImage( img, 0, 0 ) ;
+  }
+
+  problemDragOver( p:ProblemTopicMapping ) {
+    p.selected = this.dragSelection ;
+  }
 }

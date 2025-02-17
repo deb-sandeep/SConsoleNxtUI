@@ -7,6 +7,8 @@
       <button ngbDropdownItem
               (click)="selectAllDetachedProblems()">All detached</button>
       <button ngbDropdownItem
+              (click)="selectAllAttachedProblems()">All attached</button>
+      <button ngbDropdownItem
               (click)="selectAll()">Select all</button>
       <button ngbDropdownItem
               (click)="deselectAll()">Deselect all</button>
@@ -64,7 +66,10 @@
         @if( isExpanded( ex.exerciseNum ) ) {
           @for( p of ex.problems; track p.problemId ) {
             <tr class="problem-row"
-                [class.problem-row-selected]="p.selected">
+                [class.problem-row-selected]="p.selected"
+                draggable="true"
+                (dragstart)="problemDragStarted( $event, p )"
+                (dragover)="problemDragOver( p )">
               <td></td>
               <td (dblclick)="toggleSelectionOfAllProblemsOfType( ex, p.problemType )">{{p.problemType}}</td>
               <td (dblclick)="p.selected = !p.selected">{{p.problemKey}}</td>

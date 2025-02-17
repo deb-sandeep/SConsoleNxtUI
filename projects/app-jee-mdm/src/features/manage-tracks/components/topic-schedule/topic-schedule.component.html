@@ -53,7 +53,12 @@
     <div class="days-breakup">
       <div><span class="num-days">{{ schedule().bufferLeft   }}d</span> <span class="days-label">Start buffer</span></div>
       <div><span class="num-days">{{ schedule().theoryMargin }}d</span> <span class="days-label">Lead theory</span></div>
-      <div><span class="num-days">{{ schedule().exerciseDays }}d</span> <span class="days-label">Exercise</span></div>
+      <div>
+        <span class="num-days">{{ schedule().exerciseDays }}d</span>
+        <span class="days-label">Exercise</span>&nbsp;
+        <span class="bi-arrow-clockwise" style="font-size: 10px;"
+              (click)="recomputeExerciseDays()"></span>
+      </div>
       <div><span class="num-days">{{ schedule().bufferRight  }}d</span> <span class="days-label">End buffer</span></div>
     </div>
 

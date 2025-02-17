@@ -1,7 +1,6 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { TopicSchedule } from "../../entities/topic-schedule";
 import { DatePipe, DecimalPipe } from "@angular/common";
-import { Router } from "@angular/router";
 
 @Component({
   selector: 'topic-schedule',
@@ -17,5 +16,8 @@ export class TopicScheduleComponent {
   schedule = input.required<TopicSchedule>() ;
   colors = computed( () => this.schedule().topic.syllabus.colors ) ;
 
-  router:Router = inject( Router ) ;
+  recomputeExerciseDays() {
+    this.schedule().recomputeExerciseDays() ;
+    this.schedule().track!.recomputeScheduleSequenceAttributes() ;
+  }
 }
