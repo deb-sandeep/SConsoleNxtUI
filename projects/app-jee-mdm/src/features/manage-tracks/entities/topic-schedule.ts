@@ -36,8 +36,8 @@ export class TopicSchedule {
     this.bufferLeft   = vo.bufferLeft ;
     this.bufferRight  = vo.bufferRight ;
     this.theoryMargin = vo.theoryMargin ;
-    this.startDate    = vo.startDate ;
-    this.endDate      = vo.endDate ;
+    this.startDate    = dayjs( vo.startDate ).toDate() ;
+    this.endDate      = dayjs( vo.endDate ).toDate() ;
     this.numDays      = dayjs( this.endDate ).diff( this.startDate, 'days' ) ;
     this.exerciseDays = this.numDays - this.bufferLeft - this.bufferRight - this.theoryMargin ;
 
@@ -68,7 +68,7 @@ export class TopicSchedule {
   }
 
   public alignStartDate( startDate: Date ) {
-    if( startDate != this.startDate ) {
+    if( startDate.getTime() !== this.startDate.getTime() ) {
       this.startDate = startDate ;
       this.dirtyFlag = true ;
     }
@@ -76,20 +76,19 @@ export class TopicSchedule {
   }
 
   public numDaysEdited() {
-    this.recomputeEndDate() ;
     this.track!.recomputeScheduleSequenceAttributes() ;
   }
 
   public recomputeEndDate() {
     let newNumDays = this.bufferLeft + this.theoryMargin + this.exerciseDays + this.bufferRight ;
-    let newEndDate = dayjs( this.startDate ).add( this.numDays, 'days' ).toDate() ;
+    let newEndDate = dayjs( this.startDate ).add( newNumDays, 'days' ).toDate() ;
 
     if( newNumDays !== this.numDays ) {
       this.numDays = newNumDays ;
       this.dirtyFlag = true ;
     }
 
-    if( newEndDate !== this.endDate ) {
+    if( newEndDate.getTime() !== this.endDate.getTime() ) {
       this.endDate = newEndDate ;
       this.dirtyFlag = true ;
     }
@@ -111,8 +110,12 @@ export class TopicSchedule {
       bufferLeft: this.bufferLeft,
       bufferRight: this.bufferRight,
       theoryMargin: this.theoryMargin,
-      startDate: this.startDate,
-      endDate: this.endDate,
+      startDate: this.addUTCOffset( this.startDate ),
+      endDate: this.addUTCOffset( this.endDate ),
     } as TopicTrackAssignmentSO ;
+  }
+
+  private addUTCOffset( date:Date ):Date {
+    return dayjs( date ).add( dayjs().utcOffset(), 'minutes' ).toDate() ;
   }
 }

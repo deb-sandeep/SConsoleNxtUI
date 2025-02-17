@@ -1,12 +1,3 @@
-@if( svc.selectedSyllabus() ) {
-  @if( svc.selectedSyllabus()!.isDirty() ) {
-    <div class="save-changes">
-      <button type="button" class="btn btn-sm btn-warning"
-              (click)="svc.saveDirtyTracks()">Save changes</button>
-    </div>
-  }
-}
-
 <div ngbAccordion>
 
   <div ngbAccordionItem [collapsed]="false" >
@@ -109,7 +100,7 @@
                   <div class="field-label">Start buffer</div>
                   <div class="separator"> : </div>
                   <div class="field-input">
-                    <input type="number"
+                    <input type="number" min="0"
                            [(ngModel)]="selTs.bufferLeft"
                            (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
@@ -118,7 +109,7 @@
                   <div class="field-label">Lead theory</div>
                   <div class="separator"> : </div>
                   <div class="field-input">
-                    <input type="number"
+                    <input type="number" min="0"
                            [(ngModel)]="selTs.theoryMargin"
                            (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
@@ -127,7 +118,7 @@
                   <div class="field-label">Exercise</div>
                   <div class="separator"> : </div>
                   <div class="field-input">
-                    <input type="number"
+                    <input type="number" min="0"
                            [(ngModel)]="selTs.exerciseDays"
                            (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
@@ -136,7 +127,7 @@
                   <div class="field-label">End buffer</div>
                   <div class="separator"> : </div>
                   <div class="field-input">
-                    <input type="number"
+                    <input type="number" min="0"
                            [(ngModel)]="selTs.bufferRight"
                            (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
@@ -149,3 +140,12 @@
     }
 
 </div>
+
+@if( svc.selectedSyllabus() ) {
+  @if( svc.selectedSyllabus()!.isDirty() ) {
+    <div class="save-changes">
+      <button type="button" class="btn btn-sm btn-warning"
+              (click)="svc.saveDirtyTracks()">Save changes</button>
+    </div>
+  }
+}

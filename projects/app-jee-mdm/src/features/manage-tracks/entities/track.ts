@@ -28,7 +28,7 @@ export class Track {
     this.trackName = vo.trackName ;
     this.colors = new Colors( vo.color ) ;
     this.syllabusName = vo.syllabusName ;
-    this.startDate = vo.startDate ;
+    this.startDate = dayjs( vo.startDate ).toDate() ;
     this.syllabus = syllabus ;
 
     vo.assignedTopics.forEach( vo => {
