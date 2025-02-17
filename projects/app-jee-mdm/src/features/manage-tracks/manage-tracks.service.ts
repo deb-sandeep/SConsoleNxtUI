@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Alert, PageTitleService, RemoteService } from "lib-core";
 
 import { environment } from "../../../../environments/environment";
@@ -18,24 +18,21 @@ export class ManageTracksService extends RemoteService {
 
   public syllabusMap:Record<string, Syllabus> = {} ;
 
-  public selectedSyllabusName = signal('') ;
-  public selectedSyllabus = computed<Syllabus>( () => this.syllabusMap[this.selectedSyllabusName()] ) ;
+  public selectedSyllabusName = '' ;
+  public selectedSyllabus = signal<Syllabus>( this.syllabusMap[this.selectedSyllabusName] ) ;
 
   public selectedTopicSchedule:TopicSchedule|null = null;
 
   constructor() {
     super();
-    effect( () => this.syllabusSelectionChanged( this.selectedSyllabusName() ) ) ;
   }
 
-  public async fetchInitializationData() {
+  public async refreshInitializationData() {
 
     try {
       let syllabusSOList = await this.getAllSyllabus() ;
       let trackSOList = await this.getAllTracks() ;
       let topicProblemCounts = await this.getTopicProblemCounts() ;
-
-      this.selectedSyllabusName.set( syllabusSOList[0]?.syllabusName ) ;
 
       syllabusSOList.forEach( so => {
         this.syllabusMap[so.syllabusName] = new Syllabus( so, this )
@@ -56,9 +53,14 @@ export class ManageTracksService extends RemoteService {
     catch (error) { this.alertSvc.error( 'Error : ' + error ) ; }
   }
 
-  private syllabusSelectionChanged( selectedSyllabusName:string ) {
-    this.titleSvc.setTitle( `Manage Tracks > ${selectedSyllabusName}` )
-    this.selectedTopicSchedule = null ;
+  public selectDefaultSyllabus() {
+    this.setSelectedSyllabusName( Object.keys( this.syllabusMap )[0] ) ;
+  }
+
+  public setSelectedSyllabusName( syllabusName : string ) {
+    this.selectedSyllabusName = syllabusName ;
+    this.titleSvc.setTitle( `Manage Tracks > ${syllabusName}` )
+    this.selectedSyllabus.set( this.syllabusMap[this.selectedSyllabusName] ) ;
   }
 
   public setSelectedTopicSchedule( ts: TopicSchedule|null ) {
@@ -70,6 +72,13 @@ export class ManageTracksService extends RemoteService {
         }
       })
     }) ;
+  }
+
+  public async recomputeExerciseDays() {
+    for( let track of this.selectedSyllabus()!.tracks ) {
+      track.recomputeExerciseDays() ;
+      track.recomputeScheduleSequenceAttributes() ;
+    }
   }
 
   public async saveDirtyTracks() {

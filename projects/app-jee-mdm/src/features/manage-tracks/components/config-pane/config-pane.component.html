@@ -16,7 +16,9 @@
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
         <ng-template>
-          <select class="form-select" [(ngModel)]="svc.selectedSyllabusName">
+          <select class="form-select"
+                  [(ngModel)]="svc.selectedSyllabusName"
+                  (ngModelChange)="svc.setSelectedSyllabusName( svc.selectedSyllabusName )">
             @let syllabusList = Object.values( svc.syllabusMap ) ;
             @for( syllabus of syllabusList; track syllabus.syllabusName ) {
               <option [value]="syllabus.syllabusName">{{syllabus.syllabusName}}</option>
@@ -34,14 +36,30 @@
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
         <ng-template>
-          <!-- TODO: Refresh data -->
-          <!-- TODO: Recompute exercise days -->
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-3">
+                <button type="button" class="btn btn-sm btn-info" style="width: 100%"
+                        (click)="refreshInitializationData()">
+                  <span class="bi-arrow-clockwise">&nbsp;</span>
+                  <span class="bi-database"></span>
+                </button>
+              </div>
+              <div class="col-sm-3">
+                <button type="button" class="btn btn-sm btn-success"  style="width: 100%"
+                        (click)="svc.recomputeExerciseDays()">
+                  <span class="bi-arrow-clockwise">&nbsp;</span>
+                  <span class="bi-calendar"></span>
+                </button>
+              </div>
+            </div>
+          </div>
         </ng-template>
       </div>
     </div>
   </div>
 
-  <div ngbAccordionItem [collapsed]="hasAllTopicsScheduled()" >
+  <div ngbAccordionItem [collapsed]="areAllTopicsScheduled()" >
     <h2 ngbAccordionHeader>
       <button ngbAccordionButton>Unassigned Topics</button>
     </h2>
@@ -93,7 +111,7 @@
                   <div class="field-input">
                     <input type="number"
                            [(ngModel)]="selTs.bufferLeft"
-                           (ngModelChange)="selTs.recomputeEndDate()"> days
+                           (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
                 </div>
                 <div class="form-row">
@@ -102,7 +120,7 @@
                   <div class="field-input">
                     <input type="number"
                            [(ngModel)]="selTs.theoryMargin"
-                           (ngModelChange)="selTs.recomputeEndDate()"> days
+                           (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
                 </div>
                 <div class="form-row">
@@ -111,7 +129,7 @@
                   <div class="field-input">
                     <input type="number"
                            [(ngModel)]="selTs.exerciseDays"
-                           (ngModelChange)="selTs.recomputeEndDate()"> days
+                           (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
                 </div>
                 <div class="form-row">
@@ -120,7 +138,7 @@
                   <div class="field-input">
                     <input type="number"
                            [(ngModel)]="selTs.bufferRight"
-                           (ngModelChange)="selTs.recomputeEndDate()"> days
+                           (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
                 </div>
               </div>

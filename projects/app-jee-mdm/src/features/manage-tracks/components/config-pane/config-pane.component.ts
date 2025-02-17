@@ -27,9 +27,10 @@ import { DndModule } from "ngx-drag-drop";
 export class ConfigPaneComponent {
 
   svc:ManageTracksService = inject( ManageTracksService ) ;
+
   protected readonly Object = Object;
 
-  hasAllTopicsScheduled():boolean {
+  areAllTopicsScheduled():boolean {
     if( this.svc.selectedSyllabus() ) {
       let topics = Object.values( this.svc.selectedSyllabus().topicMap ) ;
       for( let topic of topics ) {
@@ -39,5 +40,11 @@ export class ConfigPaneComponent {
       }
     }
     return true ;
+  }
+
+  refreshInitializationData() {
+    let selectedSyllabusName:string = this.svc.selectedSyllabusName ;
+    this.svc.refreshInitializationData()
+        .then( () => this.svc.setSelectedSyllabusName( selectedSyllabusName ) ) ;
   }
 }

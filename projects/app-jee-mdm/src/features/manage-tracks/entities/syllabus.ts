@@ -3,6 +3,7 @@ import { Topic } from "./topic";
 import { Track } from "./track";
 import { Colors } from "../util/colors";
 import { ManageTracksService } from "../manage-tracks.service";
+import dayjs from "dayjs";
 
 export class Syllabus {
 
@@ -53,5 +54,11 @@ export class Syllabus {
       if( track.isDirty() ) return true ;
     }
     return false ;
+  }
+
+  public recomputeExerciseDays() {
+    for( let track of this.tracks ) {
+      track.recomputeExerciseDays() ;
+    }
   }
 }

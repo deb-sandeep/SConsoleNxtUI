@@ -146,7 +146,7 @@ export class Track {
 
     if( topicUnassigned ) {
       ts.selected = false ;
-      this.refreshScheduleSequenceAttributes() ;
+      this.recomputeScheduleSequenceAttributes() ;
       this.syllabus.svc.setSelectedTopicSchedule( null ) ;
       this.dirtyFlag = true ;
     }
@@ -157,7 +157,7 @@ export class Track {
     if( prev != null ) { // A node can be moved up only if its not the head
       this.removeSchedule( ts, false ) ;
       this.addScheduleBefore( ts, prev ) ;
-      this.refreshScheduleSequenceAttributes() ;
+      this.recomputeScheduleSequenceAttributes() ;
     }
   }
 
@@ -166,25 +166,25 @@ export class Track {
     if( next != null ) { // A node can be moved down only if its not the tail
       this.removeSchedule( ts, false ) ;
       this.addScheduleAfter( ts, next ) ;
-      this.refreshScheduleSequenceAttributes() ;
+      this.recomputeScheduleSequenceAttributes() ;
     }
   }
 
   public moveScheduleToNextTrack( ts:TopicSchedule ) {
       this.removeSchedule( ts, false ) ;
-      this.refreshScheduleSequenceAttributes() ;
+      this.recomputeScheduleSequenceAttributes() ;
       this.nextTrack!.addTopicSchedule( ts ) ;
-      this.nextTrack!.refreshScheduleSequenceAttributes() ;
+      this.nextTrack!.recomputeScheduleSequenceAttributes() ;
   }
 
   public moveScheduleToPrevTrack( ts:TopicSchedule ) {
     this.removeSchedule( ts, false ) ;
-    this.refreshScheduleSequenceAttributes() ;
+    this.recomputeScheduleSequenceAttributes() ;
     this.prevTrack!.addTopicSchedule( ts ) ;
-    this.prevTrack!.refreshScheduleSequenceAttributes() ;
+    this.prevTrack!.recomputeScheduleSequenceAttributes() ;
   }
 
-  public refreshScheduleSequenceAttributes() {
+  public recomputeScheduleSequenceAttributes() {
     let nextSequenceNumber = 1 ;
     let nextStartDate = this.startDate ;
     let currentSchedule = this.scheduleListHead ;
@@ -196,6 +196,14 @@ export class Track {
 
       currentSchedule = currentSchedule.next ;
       nextSequenceNumber += 1 ;
+    }
+  }
+
+  public recomputeExerciseDays() {
+    let currentSchedule = this.scheduleListHead ;
+    while( currentSchedule != null ) {
+      currentSchedule.recomputeExerciseDays() ;
+      currentSchedule = currentSchedule.next ;
     }
   }
 

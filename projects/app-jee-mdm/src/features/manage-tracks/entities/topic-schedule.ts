@@ -68,16 +68,39 @@ export class TopicSchedule {
   }
 
   public alignStartDate( startDate: Date ) {
-    this.startDate = startDate ;
-    this.endDate = dayjs( startDate ).add( this.numDays, 'days' ).toDate() ;
-    this.dirtyFlag = true ;
+    if( startDate != this.startDate ) {
+      this.startDate = startDate ;
+      this.dirtyFlag = true ;
+    }
+    this.recomputeEndDate() ;
+  }
+
+  public numDaysEdited() {
+    this.recomputeEndDate() ;
+    this.track!.recomputeScheduleSequenceAttributes() ;
   }
 
   public recomputeEndDate() {
-    this.numDays = this.bufferLeft + this.theoryMargin + this.exerciseDays + this.bufferRight ;
-    this.endDate = dayjs( this.startDate ).add( this.numDays, 'days' ).toDate() ;
-    this.dirtyFlag = true ;
-    this.track!.refreshScheduleSequenceAttributes() ;
+    let newNumDays = this.bufferLeft + this.theoryMargin + this.exerciseDays + this.bufferRight ;
+    let newEndDate = dayjs( this.startDate ).add( this.numDays, 'days' ).toDate() ;
+
+    if( newNumDays !== this.numDays ) {
+      this.numDays = newNumDays ;
+      this.dirtyFlag = true ;
+    }
+
+    if( newEndDate !== this.endDate ) {
+      this.endDate = newEndDate ;
+      this.dirtyFlag = true ;
+    }
+  }
+
+  public recomputeExerciseDays() {
+    let newExerciseDays = this.topic.getDefaultExerciseDuration() ;
+    if( newExerciseDays != this.exerciseDays ) {
+      this.exerciseDays = newExerciseDays ;
+      this.dirtyFlag = true ;
+    }
   }
 
   public getTopicTrackAssignmentSO(): TopicTrackAssignmentSO {
