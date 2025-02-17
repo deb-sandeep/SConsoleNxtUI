@@ -5,10 +5,13 @@ import { DndDropEvent, DndModule } from "ngx-drag-drop";
 import { TopicScheduleComponent } from "../topic-schedule/topic-schedule.component";
 import { Track } from "../../entities/track";
 import { TopicSchedule } from "../../entities/topic-schedule";
+import { DatePipe } from "@angular/common";
+
+import { config } from "../../manage-tracks.config"
 
 @Component({
   selector: 'study-track',
-  imports: [ DndModule, TopicScheduleComponent ],
+  imports: [ DndModule, TopicScheduleComponent, DatePipe ],
   template: `
     @if( track() ) {
       @let trackBgColor = track().colors.bodyBackground ;
@@ -24,7 +27,9 @@ import { TopicSchedule } from "../../entities/topic-schedule";
         <div class="track-title"
              [style.background-color]="titleBgColor"
              [style.color]="titleFgColor">
-          {{ track().trackName }}
+          <div class="track-start-date">{{ track().scheduleListHead?.startDate | date}}</div>
+          <div class="track-name">[ {{ track().trackName }} ]</div>
+          <div class="track-end-date">{{ track().scheduleListTail?.endDate | date}}</div>
         </div>
         <div class="topic-list">
           @for( topicSchedule of track(); track topicSchedule.topic.id ) {
@@ -50,13 +55,15 @@ export class TrackComponent {
     const topicId = event.data ;
     const droppedTopic = this.track().syllabus.getTopic( topicId ) ;
 
-    const defaultDurationInDays = droppedTopic.getDefaultDuration() ;
+    const defaultDurationInDays = droppedTopic.getDefaultExerciseDuration() ;
+
+    let theoryMargin = this.getTheoryMarginNumDays() ;
 
     let startDate = this.track().getNextStartDate() ;
     const endDate = dayjs( startDate ).add( defaultDurationInDays, 'days' )
                                              .add( TopicSchedule.DEFAULT_TOPIC_BUFFER_LEFT_DAYS, 'days' )
                                              .add( TopicSchedule.DEFAULT_TOPIC_BUFFER_RIGHT_DAYS, 'days' )
-                                             .add( TopicSchedule.DEFAULT_TOPIC_THEORY_MARGIN_DAYS, 'days' )
+                                             .add( theoryMargin, 'days' )
                                              .toDate() ;
 
     const schedule = new TopicSchedule({
@@ -65,12 +72,27 @@ export class TrackComponent {
       topicId:droppedTopic.id,
       bufferLeft:TopicSchedule.DEFAULT_TOPIC_BUFFER_LEFT_DAYS,
       bufferRight:TopicSchedule.DEFAULT_TOPIC_BUFFER_RIGHT_DAYS,
-      theoryMargin:TopicSchedule.DEFAULT_TOPIC_THEORY_MARGIN_DAYS,
+      theoryMargin:theoryMargin,
       startDate:startDate,
       endDate:endDate,
     }, this.track(), droppedTopic ) ;
 
     this.track().addTopicSchedule( schedule ) ;
     this.track().syllabus.svc.setSelectedTopicSchedule( schedule ) ;
+  }
+
+  private getTheoryMarginNumDays() {
+
+    let syllabusName = this.track().syllabus.syllabusName ;
+    if( syllabusName.includes( 'Physics' ) ) {
+      return config.leadTheoryDays.physics ;
+    }
+    else if( syllabusName.includes( 'Chemistry' ) ) {
+      return config.leadTheoryDays.chemistry ;
+    }
+    else if( syllabusName.includes( 'Maths' ) ) {
+      return config.leadTheoryDays.maths ;
+    }
+    return TopicSchedule.DEFAULT_TOPIC_THEORY_MARGIN_DAYS ;
   }
 }

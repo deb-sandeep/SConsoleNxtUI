@@ -1,3 +1,5 @@
+export const PROBLEM_TYPES = [ 'SCA', 'MCA', 'LCT', 'ART', 'CMT', 'MMT', 'NVT', 'SUB' ] ;
+
 export type TopicSO = {
   id: number,
   sectionName: string,

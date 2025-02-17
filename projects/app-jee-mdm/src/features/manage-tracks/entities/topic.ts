@@ -1,6 +1,7 @@
-import { TopicSO } from "../../../server-object-types";
+import { PROBLEM_TYPES, TopicSO } from "../../../server-object-types";
 import { Syllabus } from "./syllabus";
 import { TopicProblemCounts } from "../manage-tracks.types";
+import { config } from "../manage-tracks.config"
 
 export class Topic {
 
@@ -18,12 +19,36 @@ export class Topic {
     this.syllabus = syllabus ;
   }
 
-  public getDefaultDuration() {
+  public getDefaultExerciseDuration() {
 
-    const avgTimePerProblemInMin = this.syllabus.syllabusName.includes( 'Chemistry' ) ? 3 : 5 ;
-    const totalTimeInMin = avgTimePerProblemInMin * this.problemCounts.numProblems ;
-    const avgTimePerDayInMin = 90 ;
+    let solutionTimeMatrix = {} ;
 
-    return Math.ceil( totalTimeInMin / avgTimePerDayInMin ) ;
+    const syllabusName = this.syllabus.syllabusName ;
+
+    if( syllabusName.includes( 'Chemistry' ) ) {
+      solutionTimeMatrix = config.avgSolutionTime.chemistry ;
+    }
+    else if( syllabusName.includes( 'Physics' ) ){
+      solutionTimeMatrix = config.avgSolutionTime.physics ;
+    }
+    else if( syllabusName.includes( 'Maths' ) ){
+      solutionTimeMatrix = config.avgSolutionTime.maths ;
+    }
+
+    const totalTimeInMin = this.getProjectedSolutionTime( solutionTimeMatrix ) ;
+
+    return Math.ceil( totalTimeInMin / config.avgTimePerTopicPerDay ) ;
+  }
+
+  private getProjectedSolutionTime( solutionTimeMatrix:any ):number {
+    let totalTime = 0 ;
+    PROBLEM_TYPES.forEach( type => {
+      if( type in this.problemCounts.problemTypeCount ) {
+        let numProblems = this.problemCounts.problemTypeCount[type as string] ;
+        let avgTime = solutionTimeMatrix[type as string] ;
+        totalTime += numProblems * avgTime ;
+      }
+    }) ;
+    return totalTime ;
   }
 }

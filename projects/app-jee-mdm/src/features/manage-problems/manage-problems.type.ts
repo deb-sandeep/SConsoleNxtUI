@@ -1,7 +1,5 @@
 import { BookSummary, Topic } from "../manage-books/manage-books.type";
 
-export const PROBLEM_TYPES = [ 'SCA', 'MCA', 'LCT', 'ART', 'CMT', 'MMT', 'NVT', 'SUB' ] ;
-
 export type TopicChapterMapping = {
   topicId: number,
   topicName: string,

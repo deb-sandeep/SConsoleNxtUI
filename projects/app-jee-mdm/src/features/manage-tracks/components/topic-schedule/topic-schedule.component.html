@@ -9,6 +9,7 @@
     <span>{{ schedule().topic.topicName }}</span>
 
     <div class="topic-schedule-toolbar">
+      <!-- TODO: Go to problem list -->
       @if( !schedule().track!.isFirstTrack() ) {
         <button type="button" class="btn btn-sm action-btn"
                 (click)="schedule().track!.moveScheduleToPrevTrack( schedule() )">
@@ -74,7 +75,7 @@
 
       <div class="problem-type-counts">
         <div><span class="num-problems">{{ pc.problemTypeCount['MMT'] }}</span> <span class="problem-type">MMT</span></div>
-        <div><span class="num-problems">{{ pc.problemTypeCount['CRT'] }}</span> <span class="problem-type">CRT</span></div>
+        <div><span class="num-problems">{{ pc.problemTypeCount['CMT'] }}</span> <span class="problem-type">CMT</span></div>
         <div><span class="num-problems">{{ pc.problemTypeCount['NVT'] }}</span> <span class="problem-type">NVT</span></div>
         <div><span class="num-problems">{{ pc.problemTypeCount['SUB'] }}</span> <span class="problem-type">SUB</span></div>
       </div>

@@ -20,6 +20,32 @@
     vertical-align: center;
 }
 
+.track-title div {
+    display: inline-block;
+}
+
+.track-start-date, .track-end-date {
+    font-family: monospace;
+    line-height: var(--track-title-height);
+    font-size: 14px;
+}
+
+.track-start-date {
+    text-align: left;
+    float: left;
+    padding-left: 20px;
+}
+
+.track-end-date {
+    text-align: right;
+    float: right;
+    padding-right: 20px;
+}
+
+.track-name {
+
+}
+
 .topic-list {
     width:100%;
     height: calc(100% - var(--track-title-height) - var(--pad-sm));

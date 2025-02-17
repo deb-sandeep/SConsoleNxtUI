@@ -1,8 +1,10 @@
-@if( svc.selectedSyllabus()?.isDirty() ) {
-  <div class="save-changes">
-    <button type="button" class="btn btn-sm btn-warning"
-            (click)="svc.saveDirtyTracks()">Save changes</button>
-  </div>
+@if( svc.selectedSyllabus() ) {
+  @if( svc.selectedSyllabus()!.isDirty() ) {
+    <div class="save-changes">
+      <button type="button" class="btn btn-sm btn-warning"
+              (click)="svc.saveDirtyTracks()">Save changes</button>
+    </div>
+  }
 }
 
 <div ngbAccordion>
@@ -26,6 +28,20 @@
   </div>
 
   <div ngbAccordionItem [collapsed]="false" >
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton>Actions</button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <ng-template>
+          <!-- TODO: Refresh data -->
+          <!-- TODO: Recompute exercise days -->
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <div ngbAccordionItem [collapsed]="hasAllTopicsScheduled()" >
     <h2 ngbAccordionHeader>
       <button ngbAccordionButton>Unassigned Topics</button>
     </h2>
@@ -57,7 +73,7 @@
 
     @if( svc.selectedTopicSchedule != null ) {
       @let selTs = svc.selectedTopicSchedule ;
-      @let titleBgColor = svc.selectedSyllabus().colors.titleBackground ;
+      @let titleBgColor = svc.selectedSyllabus()!.colors.titleBackground ;
 
       <div ngbAccordionItem [collapsed]="false" >
         <h2 ngbAccordionHeader>

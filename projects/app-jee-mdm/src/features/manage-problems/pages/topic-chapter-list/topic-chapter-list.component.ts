@@ -11,7 +11,8 @@ import { CommonModule } from "@angular/common";
 
 import AlertService = Alert.AlertService;
 import { ManageProblemsService } from "../../manage-problems.service";
-import { TopicChapterMapping, PROBLEM_TYPES } from "../../manage-problems.type";
+import { TopicChapterMapping } from "../../manage-problems.type";
+import { PROBLEM_TYPES } from "../../../../server-object-types";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'

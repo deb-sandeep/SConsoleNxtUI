@@ -4,37 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "89be3c6d073056bd",
+        "id": "d9740c230acd5764",
         "type": "tabs",
         "children": [
           {
-            "id": "3ab19c1cf0da79b1",
+            "id": "ebe039d00d4df657",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "App code patterns/App design.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "App design"
-            }
-          },
-          {
-            "id": "39e2e49d34e809ae",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.8.4"
-              },
-              "icon": "lucide-book-up",
-              "title": "Release Notes 1.8.4"
+              "title": "New tab"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -178,10 +161,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "39e2e49d34e809ae",
+  "active": "ebe039d00d4df657",
   "lastOpenFiles": [
-    "Creating a new application.md",
     "App code patterns/App design.md",
+    "Creating a new application.md",
     "App code patterns/res/Pasted image 20250107142118.png",
     "App code patterns/res/Pasted image 20250107124905.png",
     "App code patterns/res/Pasted image 20250107140828.png",

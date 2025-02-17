@@ -73,7 +73,7 @@ export class ManageTracksService extends RemoteService {
   }
 
   public async saveDirtyTracks() {
-    for( let track of this.selectedSyllabus().tracks ) {
+    for( let track of this.selectedSyllabus()!.tracks ) {
       if( track.isDirty() ) {
         const schedules:TopicTrackAssignmentSO[] = await this.saveTopicSchedules( track ) ;
         track.refreshSavedState( schedules ) ;

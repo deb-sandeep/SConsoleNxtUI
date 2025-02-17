@@ -3,7 +3,7 @@
 <div class="page-content">
   <div id="track-pane">
     @if( svc.selectedSyllabus() ) {
-      @let tracks = svc.selectedSyllabus().tracks ;
+      @let tracks = svc.selectedSyllabus()!.tracks ;
       @for( track of tracks ; track track.id ) {
         <study-track [track]="track"></study-track>
       }

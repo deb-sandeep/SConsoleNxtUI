@@ -47,6 +47,7 @@
 .action-btn {
     display: inline-block;
     border: 1px outset #acacac;
+    border-radius: 12px;
     padding: 0 3px 0 3px;
     margin: 0 5px 0 0 ;
     vertical-align: center;
@@ -67,10 +68,8 @@
     line-height: var(--date-height);
     text-align: center;
     border-right: 1px solid #dddddd;
-}
-
-.start-date, .end-date {
-    color: blue;
+    color: blue ;
+    font-family: monospace;
 }
 
 .num-total-days {
@@ -158,6 +157,10 @@
 .problem-type-counts div {
     height: calc(var(--body-height) /4);
     border-bottom: 1px dashed #d3d1d1;
+}
+
+.problem-type-counts div:last-child {
+    border-bottom: none;
 }
 
 .num-problems {

@@ -13,9 +13,10 @@ import AlertService = Alert.AlertService;
 import { ManageProblemsService } from "../../manage-problems.service";
 import {
   ChapterProblemTopicMapping,
-  ExerciseProblems, PROBLEM_TYPES,
+  ExerciseProblems,
   ProblemTopicMapping,
 } from "../../manage-problems.type";
+import { PROBLEM_TYPES } from "../../../../server-object-types";
 import { Topic } from "../../../manage-books/manage-books.type";
 
 export enum ProblemGroup {

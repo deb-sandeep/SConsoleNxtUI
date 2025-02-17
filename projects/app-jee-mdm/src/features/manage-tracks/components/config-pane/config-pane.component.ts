@@ -28,4 +28,16 @@ export class ConfigPaneComponent {
 
   svc:ManageTracksService = inject( ManageTracksService ) ;
   protected readonly Object = Object;
+
+  hasAllTopicsScheduled():boolean {
+    if( this.svc.selectedSyllabus() ) {
+      let topics = Object.values( this.svc.selectedSyllabus().topicMap ) ;
+      for( let topic of topics ) {
+        if( !this.svc.selectedSyllabus().isTopicScheduled( topic ) ) {
+          return false ;
+        }
+      }
+    }
+    return true ;
+  }
 }
