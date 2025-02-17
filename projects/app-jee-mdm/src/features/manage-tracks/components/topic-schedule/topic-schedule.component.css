@@ -106,6 +106,10 @@
     font-family: monospace;
 }
 
+.days-breakup div:last-child {
+    border-bottom: none;
+}
+
 .days-label {
     display: inline-block;
     font-size: 11px;

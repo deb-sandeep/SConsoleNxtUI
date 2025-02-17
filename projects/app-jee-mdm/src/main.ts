@@ -5,7 +5,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http'
 import { Component } from '@angular/core';
 import { NgbAlertConfig, NgbAlertModule } from "@ng-bootstrap/ng-bootstrap";
 import { RouterOutlet } from '@angular/router';
-import {PageHeaderComponent, FeatureMenubarComponent, FeatureMenuItemMeta, ModalWaitComponent} from 'lib-core';
+import { PageHeaderComponent, FeatureMenubarComponent, FeatureMenuItemMeta, ModalWaitComponent } from 'lib-core';
 
 import { featureRoutes } from "./routes" ;
 

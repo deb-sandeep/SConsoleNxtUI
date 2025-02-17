@@ -9,7 +9,7 @@
     <span>{{ schedule().topic.topicName }}</span>
 
     <div class="topic-schedule-toolbar">
-      <!-- TODO: Go to problem list -->
+
       @if( !schedule().track!.isFirstTrack() ) {
         <button type="button" class="btn btn-sm action-btn"
                 (click)="schedule().track!.moveScheduleToPrevTrack( schedule() )">
