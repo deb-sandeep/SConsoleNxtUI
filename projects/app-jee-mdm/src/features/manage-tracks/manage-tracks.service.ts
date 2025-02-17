@@ -60,6 +60,7 @@ export class ManageTracksService extends RemoteService {
   public setSelectedSyllabusName( syllabusName : string ) {
     this.selectedSyllabusName = syllabusName ;
     this.titleSvc.setTitle( `Manage Tracks > ${syllabusName}` )
+    this.selectedTopicSchedule = null ;
     this.selectedSyllabus.set( this.syllabusMap[this.selectedSyllabusName] ) ;
   }
 
