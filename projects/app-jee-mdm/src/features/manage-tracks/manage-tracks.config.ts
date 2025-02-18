@@ -19,10 +19,10 @@ export const config = {
     },
     chemistry: {
       SCA: 2,
-      MCA: 3,
+      MCA: 2.5,
       LCT: 2,
       ART: 3,
-      MMT: 4,
+      MMT: 3,
       CMT: 4,
       NVT: 5,
       SUB: 3,

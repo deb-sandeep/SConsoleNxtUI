@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import {
-  Alert,
+  Alert, LocalStorageService,
   PageTitleService,
   PageToolbarComponent,
   ToolbarActionComponent
@@ -35,6 +35,8 @@ export class TopicChapterListComponent {
   private router = inject( Router ) ;
   private route = inject( ActivatedRoute ) ;
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
+  private lsSvc : LocalStorageService = inject( LocalStorageService ) ;
+
   private manageProblemsSvc:ManageProblemsService = inject( ManageProblemsService ) ;
 
   protected readonly PROBLEM_TYPES = PROBLEM_TYPES;
@@ -45,12 +47,17 @@ export class TopicChapterListComponent {
   faCoffee = faCoffee ;
 
   constructor() {
-    this.changeSyllabus( 'IIT Maths' ).then() ;
+    let lastVisitedSyllabus = this.lsSvc.getItem( 'lastVisitedSyllabus' ) ;
+    if( lastVisitedSyllabus == null ) {
+      lastVisitedSyllabus = 'IIT Maths' ;
+    }
+    this.changeSyllabus( lastVisitedSyllabus ).then() ;
   }
 
   async changeSyllabus( syllabusName:string ) {
     this.currentSyllabus = syllabusName ;
     this.titleSvc.setTitle( ' > ' + syllabusName ) ;
+    this.lsSvc.setItem( 'lastVisitedSyllabus' , this.currentSyllabus ) ;
     this.topicChapterMappings.set( await this.manageProblemsSvc.getTopicChapterMappings( syllabusName ) ) ;
   }
 
