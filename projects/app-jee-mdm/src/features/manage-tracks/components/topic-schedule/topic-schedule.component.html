@@ -56,7 +56,9 @@
       <div>
         <span class="num-days">{{ schedule().exerciseDays }}d</span>
         <span class="days-label">Exercise</span>&nbsp;
-        <span class="bi-arrow-clockwise" style="font-size: 10px;"
+        <span class="bi-arrow-clockwise" style="font-size: 11px;"
+              *ngIf="getNumExerciseDays() != getDefaultNumExerciseDays()"
+              [style.color]="getDefaultNumExerciseDays() > getNumExerciseDays() ? 'green':'red'"
               (click)="recomputeExerciseDays()"></span>
       </div>
       <div><span class="num-days">{{ schedule().bufferRight  }}d</span> <span class="days-label">End buffer</span></div>

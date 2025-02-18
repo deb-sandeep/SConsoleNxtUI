@@ -47,7 +47,6 @@ export class ManageProblemsService extends RemoteService {
   }
 
   detachProblems( problems:ProblemTopicMapping[] ) {
-
     const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/DetachProblems` ;
 
     let problemIds:number[] = problems.map( p => p.problemId ) ;

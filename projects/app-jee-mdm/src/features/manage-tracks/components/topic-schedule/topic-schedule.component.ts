@@ -1,12 +1,13 @@
 import { Component, computed, input } from '@angular/core';
 import { TopicSchedule } from "../../entities/topic-schedule";
-import { DatePipe, DecimalPipe } from "@angular/common";
+import { DatePipe, DecimalPipe, NgIf } from "@angular/common";
 
 @Component({
   selector: 'topic-schedule',
   imports: [
     DatePipe,
-    DecimalPipe
+    DecimalPipe,
+    NgIf
   ],
   templateUrl: './topic-schedule.component.html',
   styleUrl: './topic-schedule.component.css'
@@ -19,5 +20,13 @@ export class TopicScheduleComponent {
   recomputeExerciseDays() {
     this.schedule().recomputeExerciseDays() ;
     this.schedule().track!.recomputeScheduleSequenceAttributes() ;
+  }
+
+  getDefaultNumExerciseDays() {
+    return this.schedule().topic.getDefaultExerciseDuration() ;
+  }
+
+  getNumExerciseDays() {
+    return this.schedule().exerciseDays ;
   }
 }

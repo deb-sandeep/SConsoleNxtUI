@@ -139,6 +139,18 @@ export class TopicChapterProblemListComponent {
         .detachProblems( this.getSelectedProblems() ) ;
   }
 
+  attachAllDetached() {
+    this.manageProblemsSvc
+        .attachProblems( this.topicChapterMappingId,
+                         this.getAllDetachedProblems(),
+                         this.selTopic ) ;
+  }
+
+  detachAllAttached() {
+    this.manageProblemsSvc
+        .detachProblems( this.getAllAttachedProblems() ) ;
+  }
+
   private getSelectedProblems():ProblemTopicMapping[] {
 
     let selectedProblems:ProblemTopicMapping[] = [] ;
@@ -170,6 +182,29 @@ export class TopicChapterProblemListComponent {
     }
     catch( e ) { return true ; }
     return false ;
+  }
+
+  getAllDetachedProblems() {
+    const ptMappings:ProblemTopicMapping[] = [] ;
+    this.data!.exercises.forEach( ex => {
+      ex.problems.forEach( ptm => {
+        if( ptm.topic == null ) { ptMappings.push( ptm ) }
+      }) ;
+    }) ;
+    return ptMappings ;
+  }
+
+  getAllAttachedProblems() {
+    const ptMappings:ProblemTopicMapping[] = [] ;
+    this.data!.exercises.forEach( ex => {
+      ex.problems.forEach( ptm => {
+        if( ptm.topic != null &&
+            ptm.topic!.topicId === this.selTopic?.topicId ) {
+          ptMappings.push( ptm )
+        }
+      }) ;
+    }) ;
+    return ptMappings ;
   }
 
   selectAllDetachedProblems() {

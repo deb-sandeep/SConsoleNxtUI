@@ -45,7 +45,7 @@ export class TopicChapterListComponent {
   faCoffee = faCoffee ;
 
   constructor() {
-    this.changeSyllabus( 'IIT Physics' ).then() ;
+    this.changeSyllabus( 'IIT Maths' ).then() ;
   }
 
   async changeSyllabus( syllabusName:string ) {

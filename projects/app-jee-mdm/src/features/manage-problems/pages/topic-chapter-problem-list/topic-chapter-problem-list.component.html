@@ -17,15 +17,19 @@
   &nbsp;
   <div ngbDropdown class="d-inline-block action-dropdown">
     <button type="button" class="btn" id="action-dropdown-items" ngbDropdownToggle>
-      Actions for selected problems
+      Actions
     </button>
     <div ngbDropdownMenu aria-labelledby="action-dropdown-items">
       <button ngbDropdownItem
               [disabled]="!hasSelectedProblems()"
-              (click)="attachSelectedProblems()">Attach</button>
+              (click)="attachSelectedProblems()">Attach selected</button>
       <button ngbDropdownItem
               [disabled]="!hasSelectedProblems()"
-              (click)="detachSelectedProblems()">Detach</button>
+              (click)="detachSelectedProblems()">Detach selected</button>
+      <button ngbDropdownItem
+              (click)="attachAllDetached()">Attach all detached</button>
+      <button ngbDropdownItem
+              (click)="detachAllAttached()">Detach all attached</button>
     </div>
   </div>
 </page-toolbar>
