@@ -18,10 +18,10 @@ export const config = {
       SUB: 5,
     },
     chemistry: {
-      SCA: 2,
-      MCA: 2.5,
+      SCA: 1.5,
+      MCA: 2,
       LCT: 2,
-      ART: 3,
+      ART: 2,
       MMT: 3,
       CMT: 4,
       NVT: 5,

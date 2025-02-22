@@ -13,7 +13,20 @@
 }
 
 .problem-row-selected td {
-    background-color: #f8f8bd;
+    background-color: #f8f8bd!important;
+}
+
+.problem-available td {
+    background-color: #dffff5;
+}
+
+.problem-attached td {
+    background-color: #faebe0;
+}
+
+.problem-unavailable td {
+    background-color: rgb(246, 246, 246);
+    color:grey;
 }
 
 .topic-name {

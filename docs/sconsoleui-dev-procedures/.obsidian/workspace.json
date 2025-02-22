@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "d9740c230acd5764",
+        "id": "fbf95e20268b2c86",
         "type": "tabs",
         "children": [
           {
-            "id": "ebe039d00d4df657",
+            "id": "28a74bb554875a4e",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -161,7 +161,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ebe039d00d4df657",
+  "active": "28a74bb554875a4e",
   "lastOpenFiles": [
     "App code patterns/App design.md",
     "Creating a new application.md",

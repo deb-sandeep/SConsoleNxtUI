@@ -119,36 +119,93 @@ export class TopicChapterProblemListComponent {
 
   attachProblem( p:ProblemTopicMapping ) {
     this.manageProblemsSvc
-        .attachProblems( this.topicChapterMappingId, [p], this.selTopic ) ;
+        .attachProblems( this.topicChapterMappingId, [p], this.selTopic )
+        .then() ;
   }
 
   detachProblem( p:ProblemTopicMapping ) {
     this.manageProblemsSvc
-        .detachProblems( [p] ) ;
+        .detachProblems( [p] )
+        .then() ;
   }
 
   attachSelectedProblems() {
     this.manageProblemsSvc
         .attachProblems( this.topicChapterMappingId,
                          this.getSelectedProblems(),
-                         this.selTopic ) ;
+                         this.selTopic )
+        .then() ;
   }
 
   detachSelectedProblems() {
     this.manageProblemsSvc
-        .detachProblems( this.getSelectedProblems() ) ;
+        .detachProblems( this.getSelectedProblems() )
+        .then() ;
+  }
+
+  async attachOnlyAlternateProblems() {
+
+    const problemsToDetach:ProblemTopicMapping[] = [] ;
+    const problemsToAttach:ProblemTopicMapping[] = [] ;
+
+    const limitToSelectedExercises = this.hasSelectedExercises() ;
+    let counter = 0 ;
+
+    this.data!.exercises.forEach( ex => {
+      let isExerciseOperable = limitToSelectedExercises ? ex.selected : true ;
+      if( isExerciseOperable ) {
+        ex.problems.forEach( ptm => {
+          if( counter % 2 == 0 ) {
+            // This problem needs to be attached. If the problem is:
+            // 1) Attached -> No action
+            // 2) Available -> add it to the problemsToAttach list
+            // 3) Unavailable -> No action
+            if( !this.isPTMUnavailable( ptm ) ) {
+              if( this.isPTMAvailable( ptm ) ) {
+                problemsToAttach.push( ptm ) ;
+              }
+              counter++ ;
+            }
+          }
+          else if( counter % 2 == 1 ) {
+            // This problem needs to be detached. If the problem is:
+            // 1) Attached -> add it to the problemsToDetach list
+            // 2) Available -> No action
+            // 3) Unavailable -> No action
+            if( !this.isPTMUnavailable( ptm ) ) {
+              if( this.isPTMAttached( ptm ) ) {
+                problemsToDetach.push( ptm ) ;
+              }
+              counter++ ;
+            }
+          }
+        }) ;
+      }
+    }) ;
+
+    if( problemsToDetach.length > 0 ) {
+      await this.manageProblemsSvc.detachProblems( problemsToDetach ) ;
+    }
+
+    if( problemsToAttach.length > 0 ) {
+      await this.manageProblemsSvc.attachProblems( this.topicChapterMappingId,
+                                                   problemsToAttach,
+                                                   this.selTopic ) ;
+    }
   }
 
   attachAllDetached() {
     this.manageProblemsSvc
         .attachProblems( this.topicChapterMappingId,
                          this.getAllDetachedProblems(),
-                         this.selTopic ) ;
+                         this.selTopic )
+        .then() ;
   }
 
   detachAllAttached() {
     this.manageProblemsSvc
-        .detachProblems( this.getAllAttachedProblems() ) ;
+        .detachProblems( this.getAllAttachedProblems() )
+        .then() ;
   }
 
   private getSelectedProblems():ProblemTopicMapping[] {
@@ -188,7 +245,7 @@ export class TopicChapterProblemListComponent {
     const ptMappings:ProblemTopicMapping[] = [] ;
     this.data!.exercises.forEach( ex => {
       ex.problems.forEach( ptm => {
-        if( ptm.topic == null ) { ptMappings.push( ptm ) }
+        if( this.isPTMAvailable( ptm ) ) { ptMappings.push( ptm ) }
       }) ;
     }) ;
     return ptMappings ;
@@ -198,8 +255,7 @@ export class TopicChapterProblemListComponent {
     const ptMappings:ProblemTopicMapping[] = [] ;
     this.data!.exercises.forEach( ex => {
       ex.problems.forEach( ptm => {
-        if( ptm.topic != null &&
-            ptm.topic!.topicId === this.selTopic?.topicId ) {
+        if( this.isPTMAttached( ptm ) ) {
           ptMappings.push( ptm )
         }
       }) ;
@@ -210,16 +266,10 @@ export class TopicChapterProblemListComponent {
   selectAllDetachedProblems() {
     let limitToSelectedExercises = this.hasSelectedExercises() ;
     this.data!.exercises.forEach( ex => {
-      if( limitToSelectedExercises ) {
-        if( ex.selected ) {
-          ex.problems.forEach( ptm => {
-            if( ptm.topic == null ) { ptm.selected = true ; }
-          }) ;
-        }
-      }
-      else {
+      let isExerciseOperable = limitToSelectedExercises ? ex.selected : true ;
+      if( isExerciseOperable ) {
         ex.problems.forEach( ptm => {
-          if( ptm.topic == null ) { ptm.selected = true ; }
+          if( this.isPTMAvailable( ptm ) ) { ptm.selected = true ; }
         }) ;
       }
     }) ;
@@ -228,30 +278,32 @@ export class TopicChapterProblemListComponent {
   selectAllAttachedProblems() {
     let limitToSelectedExercises = this.hasSelectedExercises() ;
     this.data!.exercises.forEach( ex => {
-      if( limitToSelectedExercises ) {
-        if( ex.selected ) {
-          ex.problems.forEach( ptm => {
-            if( ptm.topic != null && ptm.topic!.topicId === this.selTopic?.topicId ) { ptm.selected = true ; }
-          }) ;
-        }
-      }
-      else {
+      let isExerciseOperable = limitToSelectedExercises ? ex.selected : true ;
+      if( isExerciseOperable ) {
         ex.problems.forEach( ptm => {
-          if( ptm.topic != null && ptm.topic!.topicId === this.selTopic?.topicId ) { ptm.selected = true ; }
+          if( this.isPTMAttached( ptm ) ) { ptm.selected = true ; }
         }) ;
       }
     }) ;
   }
 
+  protected isPTMAttached( ptm: ProblemTopicMapping ) {
+    return ptm.topic != null && ptm.topic!.topicId === this.selTopic?.topicId ;
+  }
+
+  protected isPTMAvailable( ptm: ProblemTopicMapping ) {
+    return ptm.topic == null ;
+  }
+
+  protected isPTMUnavailable( ptm: ProblemTopicMapping ) {
+    return ptm.topic != null && ptm.topic!.topicId !== this.selTopic?.topicId ;
+  }
+
   selectAll() {
     let limitToSelectedExercises = this.hasSelectedExercises() ;
     this.data!.exercises.forEach( ex => {
-      if( limitToSelectedExercises ) {
-        if( ex.selected ) {
-          ex.problems.forEach( ptm => ptm.selected = true ) ;
-        }
-      }
-      else {
+      let isExerciseOperable = limitToSelectedExercises ? ex.selected : true ;
+      if( isExerciseOperable ) {
         ex.problems.forEach( ptm => ptm.selected = true ) ;
       }
     }) ;
@@ -260,12 +312,8 @@ export class TopicChapterProblemListComponent {
   deselectAll() {
     let limitToSelectedExercises = this.hasSelectedExercises() ;
     this.data!.exercises.forEach( ex => {
-      if( limitToSelectedExercises ) {
-        if( ex.selected ) {
-          ex.problems.forEach( ptm => ptm.selected = false ) ;
-        }
-      }
-      else {
+      let isExerciseOperable = limitToSelectedExercises ? ex.selected : true ;
+      if( isExerciseOperable ) {
         ex.problems.forEach( ptm => ptm.selected = false ) ;
       }
     }) ;

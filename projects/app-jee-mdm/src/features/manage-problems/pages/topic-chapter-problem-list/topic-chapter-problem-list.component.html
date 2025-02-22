@@ -30,6 +30,8 @@
               (click)="attachAllDetached()">Attach all detached</button>
       <button ngbDropdownItem
               (click)="detachAllAttached()">Detach all attached</button>
+      <button ngbDropdownItem
+              (click)="attachOnlyAlternateProblems()">Attach only alternates</button>
     </div>
   </div>
 </page-toolbar>
@@ -71,6 +73,7 @@
           @for( p of ex.problems; track p.problemId ) {
             <tr class="problem-row"
                 [class.problem-row-selected]="p.selected"
+                [class]="{'problem-attached':isPTMAttached(p), 'problem-available':isPTMAvailable(p), 'problem-unavailable':isPTMUnavailable(p)}"
                 draggable="true"
                 (dragstart)="problemDragStarted( $event, p )"
                 (dragover)="problemDragOver( p )">

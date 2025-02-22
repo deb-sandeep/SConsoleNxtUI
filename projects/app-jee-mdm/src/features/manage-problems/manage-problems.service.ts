@@ -33,11 +33,11 @@ export class ManageProblemsService extends RemoteService {
     return this.getPromise( url, false ) ;
   }
 
-  attachProblems( topicChapterMappingId:number, problems:ProblemTopicMapping[], selTopic:Topic|null ) {
+  async attachProblems( topicChapterMappingId:number, problems:ProblemTopicMapping[], selTopic:Topic|null ) {
     const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/AttachProblems/${topicChapterMappingId}` ;
 
     let problemIds:number[] = problems.map( p => p.problemId ) ;
-    this.postPromise<Record<number, number>>( url, problemIds )
+    await this.postPromise<Record<number, number>>( url, problemIds )
         .then( res => {
           problems.forEach( p => {
             p.mappingId = res[p.problemId] ;
@@ -46,11 +46,11 @@ export class ManageProblemsService extends RemoteService {
         } ) ;
   }
 
-  detachProblems( problems:ProblemTopicMapping[] ) {
+  async detachProblems( problems:ProblemTopicMapping[] ) {
     const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/DetachProblems` ;
 
     let problemIds:number[] = problems.map( p => p.problemId ) ;
-    this.postPromise( url, problemIds )
+    await this.postPromise( url, problemIds )
         .then( () => {
           problems.forEach( p => {
             p.mappingId = -1 ;
