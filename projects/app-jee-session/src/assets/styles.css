@@ -1,0 +1,9 @@
+body {
+    background-color: var(--page-title-bgcolor) ;
+    color: white;
+    font-size: 18px;
+}
+
+#page-content {
+    border-top: 1px dashed #838383;
+}

@@ -41,6 +41,12 @@ export class AppComponent {
       name : "JEE Preparation",
       modules : [
         {
+          name : "Study<br>Session",
+          icon : "mortarboard",
+          bgcolor : "#c7f3fd",
+          target : '/apps/jee/session/index.html'
+        },
+        {
           name : "Master Data<br>Management",
           icon : "database-fill-gear",
           bgcolor : "#fcffd0",
