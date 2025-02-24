@@ -9,6 +9,8 @@ import { PageHeaderComponent, ModalWaitComponent, Alert, AlertsDisplayComponent 
 
 import { pageRoutes } from "./routes" ;
 import AlertService = Alert.AlertService;
+import { SessionNetworkService } from "./service/session-network.service";
+import { SessionStateService } from "./service/session-state.service";
 
 @Component( {
   selector: 'app-root',
@@ -40,6 +42,8 @@ bootstrapApplication( AppComponent, {
   providers: [
     provideRouter( pageRoutes ),
     provideHttpClient( withFetch() ),
-    AlertService
+    AlertService,
+    SessionNetworkService,
+    SessionStateService
   ]
 }).catch((err) => console.error(err)) ;

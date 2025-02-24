@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RemoteService } from "lib-core";
 
-import { environment } from "../../../../environments/environment";
+import { environment } from "@env/environment";
 import { ChapterProblemTopicMapping, ProblemTopicMapping, TopicChapterMapping } from "./manage-problems.type";
 import { Topic } from "../manage-books/manage-books.type";
 

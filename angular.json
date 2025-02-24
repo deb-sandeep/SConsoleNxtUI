@@ -402,14 +402,17 @@
             ],
             "tsConfig": "projects/app-jee-session/tsconfig.app.json",
             "assets": [
-              "projects/app-jee-session/src/assets"
+              {
+                "glob": "**/*",
+                "input": "projects/app-jee-session/public"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
               "projects/lib-core/assets/bootstrap-overrides.css",
               "projects/lib-core/assets/styles.css",
-              "projects/app-jee-session/src/assets/styles.css"
+              "projects/app-jee-session/src/styles.css"
             ],
             "scripts": []
           },
@@ -444,6 +447,10 @@
                   "glob": "**/*",
                   "input": "./projects/lib-core/assets",
                   "output": "/core-assets/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "projects/app-jee-session/public"
                 }
               ]
             }

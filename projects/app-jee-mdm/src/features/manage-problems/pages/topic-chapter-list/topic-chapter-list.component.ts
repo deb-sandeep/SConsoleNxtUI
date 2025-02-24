@@ -12,10 +12,11 @@ import { CommonModule } from "@angular/common";
 import AlertService = Alert.AlertService;
 import { ManageProblemsService } from "../../manage-problems.service";
 import { TopicChapterMapping } from "../../manage-problems.type";
-import { PROBLEM_TYPES } from "../../../../server-object-types";
+import { PROBLEM_TYPES } from "@jee-common/master-data-types" ;
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { StorageKey } from "@jee-common/storage-keys";
 
 @Component( {
   selector: 'topic-chapter-list',
@@ -47,7 +48,7 @@ export class TopicChapterListComponent {
   faCoffee = faCoffee ;
 
   constructor() {
-    let lastVisitedSyllabus = this.lsSvc.getItem( 'lastVisitedSyllabus' ) ;
+    let lastVisitedSyllabus = this.lsSvc.getItem( StorageKey.LAST_VISITED_SYLLABUS ) ;
     if( lastVisitedSyllabus == null ) {
       lastVisitedSyllabus = 'IIT Maths' ;
     }
@@ -57,7 +58,7 @@ export class TopicChapterListComponent {
   async changeSyllabus( syllabusName:string ) {
     this.currentSyllabus = syllabusName ;
     this.titleSvc.setTitle( ' > ' + syllabusName ) ;
-    this.lsSvc.setItem( 'lastVisitedSyllabus' , this.currentSyllabus ) ;
+    this.lsSvc.setItem( StorageKey.LAST_VISITED_SYLLABUS , this.currentSyllabus ) ;
     this.topicChapterMappings.set( await this.manageProblemsSvc.getTopicChapterMappings( syllabusName ) ) ;
   }
 

@@ -10,6 +10,7 @@ export type SyllabusSO = {
   syllabusName: string,
   subjectName: string,
   color: string,
+  iconName: string,
   topics:TopicSO[]
 }
 
@@ -32,4 +33,12 @@ export type TrackSO = {
   syllabusName: string,
   assignedTopics: TopicTrackAssignmentSO[],
   startDate:Date,
+}
+
+export type SessionTypeSO = {
+  id: number,
+  sessionType : string;
+  description : string;
+  color : string;
+  iconName : string;
 }

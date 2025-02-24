@@ -1,4 +1,4 @@
-import { TopicTrackAssignmentSO, TrackSO } from "../../../server-object-types" ;
+import { TopicTrackAssignmentSO, TrackSO } from "@jee-common/master-data-types" ;
 import { TopicSchedule } from "./topic-schedule";
 import { Syllabus } from "./syllabus";
 import { Topic } from "./topic";

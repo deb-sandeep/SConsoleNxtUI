@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Alert, PageTitleService, RemoteService } from "lib-core";
 
-import { environment } from "../../../../environments/environment";
-import { SyllabusSO, TopicTrackAssignmentSO, TrackSO } from "../../server-object-types" ;
+import { environment } from "@env/environment";
+import { SyllabusSO, TopicTrackAssignmentSO, TrackSO } from "@jee-common/master-data-types" ;
 import { TopicProblemCounts } from "./manage-tracks.types";
 
 import AlertService = Alert.AlertService;

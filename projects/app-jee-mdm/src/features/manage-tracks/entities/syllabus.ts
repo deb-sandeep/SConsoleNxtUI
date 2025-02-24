@@ -1,9 +1,8 @@
-import { SyllabusSO, TrackSO } from "../../../server-object-types" ;
+import { SyllabusSO, TrackSO } from "@jee-common/master-data-types" ;
 import { Topic } from "./topic";
 import { Track } from "./track";
 import { Colors } from "../util/colors";
 import { ManageTracksService } from "../manage-tracks.service";
-import dayjs from "dayjs";
 
 export class Syllabus {
 

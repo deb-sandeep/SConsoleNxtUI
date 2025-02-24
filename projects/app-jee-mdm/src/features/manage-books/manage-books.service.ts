@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { APIResponse, RemoteService } from "lib-core";
 
-import { environment } from "../../../../environments/environment";
+import { environment } from "@env/environment";
 import {
   BookProblemSummary,
   BookSummary,

@@ -1,1 +1,18 @@
-<p>First screen is up</p>
+<div id="landing-page-content">
+  <div id="session-types-div">
+    @for( st of stateSvc.sessionTypes; track st.id ) {
+      <div class="session-type" [ngStyle]="getSTStyle(st)">
+        <img ngSrc="img/{{st.iconName}}" alt="{{st.sessionType}}" fill priority/>
+      </div>
+    }
+  </div>
+
+  <div id="syllabuses-div">
+    @for( s of stateSvc.syllabuses; track s.syllabusName ) {
+      <div class="syllabus" [ngStyle]="getSyllabusStyle(s)">
+        <img ngSrc="img/{{s.iconName}}" alt="{{s.syllabusName}}" fill priority/>
+      </div>
+    }
+  </div>
+</div>
+

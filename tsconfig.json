@@ -11,9 +11,9 @@
     "noImplicitReturns": true,
     "baseUrl": "./",
     "paths": {
-      "lib-core": [
-        "./dist/lib-core"
-      ]
+      "lib-core": [ "./dist/lib-core" ],
+      "@jee-common/*" : [ "./projects/app-jee-common/src/*" ],
+      "@env/*" : ["./projects/environments/*" ]
     },
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
