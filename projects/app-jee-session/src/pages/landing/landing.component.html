@@ -1,7 +1,9 @@
 <div id="landing-page-content">
   <div id="session-types-div">
     @for( st of stateSvc.sessionTypes; track st.id ) {
-      <div class="session-type" [ngStyle]="getSTStyle(st)">
+      <div class="session-type" [ngStyle]="getSTStyle(st)"
+           [class.selected]="stateSvc.selectedSessionType == st"
+           (click)="stateSvc.sessionTypeSelected( st )">
         <img ngSrc="img/{{st.iconName}}" alt="{{st.sessionType}}" fill priority/>
       </div>
     }
@@ -9,8 +11,41 @@
 
   <div id="syllabuses-div">
     @for( s of stateSvc.syllabuses; track s.syllabusName ) {
-      <div class="syllabus" [ngStyle]="getSyllabusStyle(s)">
+      <div class="syllabus" [ngStyle]="getSyllabusStyle(s)"
+           [class.selected]="stateSvc.selectedSyllabus() == s"
+           (click)="stateSvc.syllabusSelected( s )">
         <img ngSrc="img/{{s.iconName}}" alt="{{s.syllabusName}}" fill priority/>
+      </div>
+    }
+  </div>
+
+  <div id="topics-div">
+    @if( stateSvc.selectedSyllabus() != null ) {
+      @for( activeTopic of stateSvc.activeTopicsMap[stateSvc.selectedSyllabus()!.syllabusName]; track activeTopic.topic.id ) {
+        <div class="active-topic"
+             [ngStyle]="getActiveTopicStyle( activeTopic.syllabus )"
+             [class.selected]="stateSvc.selectedTopic() == activeTopic.topic"
+             (click)="stateSvc.topicSelected( activeTopic.topic )">
+          {{activeTopic.topic.topicName}}
+          <div class="date-bar">
+            <div class="start-date">{{ activeTopic.assignment.startDate | date}}</div>
+            <div class="end-date">{{ activeTopic.assignment.endDate | date}}</div>
+          </div>
+        </div>
+      }
+
+      <div id="inactive-topics-container"
+           [ngStyle]="getInactiveTopicsContainerStyle()">
+        @for( topic of stateSvc.selectedSyllabus()!.topics; track topic.id ) {
+          @if( !stateSvc.isTopicActive( topic ) ) {
+            <div class="inactive-topic"
+                 [style.background-color]="stateSvc.selectedSyllabus()!.color"
+                 [class.inactive-topic-selected]="stateSvc.selectedTopic() == topic"
+                 (click)="stateSvc.topicSelected( topic )">
+              {{topic.topicName}}
+            </div>
+          }
+        }
       </div>
     }
   </div>

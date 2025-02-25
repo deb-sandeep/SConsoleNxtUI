@@ -1,14 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { Alert } from "lib-core";
 import { SessionStateService } from "../../service/session-state.service";
-import { NgOptimizedImage, NgStyle } from "@angular/common";
-import { SessionTypeSO } from "@jee-common/master-data-types";
+import { DatePipe, NgOptimizedImage, NgStyle } from "@angular/common";
+import { SessionTypeSO, SyllabusSO } from "@jee-common/master-data-types";
+import { stat } from "ng-packagr/lib/utils/fs";
 
 @Component({
   selector: 'landing',
   imports: [
     NgOptimizedImage,
-    NgStyle
+    NgStyle,
+    DatePipe
   ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
@@ -22,23 +23,48 @@ export class LandingComponent {
   }
 
   getSTStyle( st:SessionTypeSO ) {
-    const numTypes = this.stateSvc.sessionTypes.length ;
-    const sideLength = `calc( (100dvh - var(--session-type-padding)*${numTypes+1} - var(--page-header-height)) / ${numTypes})` ;
+    const length = this.getCSSHeight( this.stateSvc.sessionTypes.length ) ;
     return {
       'background-color':st.color,
-      'height': sideLength,
-      'width': sideLength,
+      'height': length,
+      'width': length,
     }
   }
 
-  getSyllabusStyle( st: any ) {
-    const numTypes = this.stateSvc.syllabuses.length ;
-    const sideHeight = `calc( (100dvh - var(--session-type-padding)*${numTypes+1} - var(--page-header-height)) / ${numTypes})` ;
-    const sideWidth = `calc( ${sideHeight}*2 )` ;
+  getSyllabusStyle( s:SyllabusSO ) {
+    const height = this.getCSSHeight( this.stateSvc.syllabuses.length ) ;
+    const width = `calc( ${height}*2 )` ;
     return {
-      'background-color':st.color,
-      'height': sideHeight,
-      'width': sideWidth,
+      'background-color':s.color,
+      'height': height,
+      'width': width,
     }
+  }
+
+  getActiveTopicStyle( syllabus:SyllabusSO) {
+    const height = this.getCSSHeight( 3 ) ;
+    const stWidth = this.getCSSHeight( this.stateSvc.sessionTypes.length ) ;
+    const syllabusWidth = `calc( (${this.getCSSHeight( this.stateSvc.syllabuses.length )})*2 )` ;
+    const width = `calc( 100dvw - ${syllabusWidth} - ${stWidth} - calc(var(--tile-padding)*12) )` ;
+    return {
+      'background-color':syllabus.color,
+      'height': height,
+      'width': width
+    }
+  }
+
+  getInactiveTopicsContainerStyle() {
+    const height = this.getCSSHeight( 3 ) ;
+    const stWidth = this.getCSSHeight( this.stateSvc.sessionTypes.length ) ;
+    const syllabusWidth = `calc( (${this.getCSSHeight( this.stateSvc.syllabuses.length )})*2 )` ;
+    const width = `calc( 100dvw - ${syllabusWidth} - ${stWidth} - calc(var(--tile-padding)*12) )` ;
+    return {
+      'height': height,
+      'width': width
+    }
+  }
+
+  private getCSSHeight( numDivisions:number ) {
+    return `calc( (100dvh - var(--tile-padding)*${numDivisions+1} - var(--page-header-height)) / ${numDivisions})` ;
   }
 }

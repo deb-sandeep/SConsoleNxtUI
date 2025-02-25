@@ -8,4 +8,7 @@ export class StorageKey {
 
   // Stores string value -> syllabus_name
   static readonly LAST_VISITED_SYLLABUS = "lastVisitedSyllabus" ;
+
+  // Stores the last selected session type
+  static readonly LAST_SESSION_TYPE = "lastSessionType" ;
 }

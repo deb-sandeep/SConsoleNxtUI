@@ -1,43 +1,119 @@
 img {
     object-fit: contain;
     filter: brightness(1.2);
-    opacity: 0.2;
+    opacity: 0.15;
+    border:30px solid transparent;
 }
 
 #landing-page-content {
+    --tile-padding: 15px;
 }
 
 #session-types-div {
-    --session-type-padding: 15px;
     display: inline-block;
-    padding-right:20px;
+    padding-right: var(--tile-padding);
+    padding-left: var(--tile-padding);
 }
 
 .session-type {
     position: relative;
     background-color: #fff;
-    margin: var(--session-type-padding);
+    margin: var(--tile-padding);
     border-radius: 15px;
     border: 2px outset #afafaf;
-    box-shadow: 7px 7px 10px #515050;
+    box-shadow: 10px 10px 5px #515050;
 }
 
 #syllabuses-div {
     --session-type-padding: 15px;
     display: inline-block;
     vertical-align: top;
-    padding-left:20px;
+    padding-right: var(--tile-padding);
+    padding-left: var(--tile-padding);
 }
 
 .syllabus {
     position: relative;
     background-color: #fff;
-    margin: var(--session-type-padding);
+    margin: var(--tile-padding);
     border-radius: 15px;
     border: 2px outset #afafaf;
-    box-shadow: 7px 7px 10px #515050;
+    box-shadow: 10px 10px 5px #515050;
     text-align: center;
     color: #3e3e3e;
     font-weight: bold;
 }
 
+.selected img {
+    opacity: 0.5;
+}
+
+#topics-div {
+    display: inline-block ;
+    vertical-align: top;
+    padding-left: var(--tile-padding);
+    padding-right: var(--tile-padding);
+}
+
+.active-topic {
+    position: relative;
+    margin: var(--tile-padding);
+    border-radius: 15px;
+    border: 2px outset #afafaf;
+    box-shadow: 10px 10px 5px #515050;
+    text-align: center;
+    color: #3e3e3e;
+    font-size: 25px;
+}
+
+.date-bar {
+    font-size: 16px;
+    line-height: 30px;
+    height: 30px;
+    font-family: monospace;
+    border-top: 1px dashed #b1b0b0;
+    border-bottom: 1px dashed #b1b0b0;
+}
+
+.start-date, .end-date {
+    display: inline-block;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.start-date {
+    float: left ;
+}
+
+.end-date {
+    float: right ;
+}
+
+#inactive-topics-container {
+    position: relative;
+    background-color: #818181;
+    margin: var(--tile-padding);
+    overflow: scroll;
+    border-radius: 10px;
+}
+
+.inactive-topic {
+    width: calc(100% - 20px);
+    height: 45px;
+    background-color: yellow;
+    margin: 10px;
+    color: black;
+    line-height: 45px;
+    padding-left: 10px;
+    border-radius: 10px;
+    filter: opacity(40%);
+}
+
+.inactive-topic-selected {
+    border: 2px solid blue;
+}
+
+.selected {
+    border: 4px solid blue;
+    box-shadow: 1px 1px 1px #515050;
+}
