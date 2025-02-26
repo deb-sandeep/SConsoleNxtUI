@@ -1,9 +1,11 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { LocalStorageService } from "lib-core";
 
 import { SessionNetworkService } from "./session-network.service";
 import { SessionTypeSO, SyllabusSO, TopicSO, TopicTrackAssignmentSO } from "@jee-common/master-data-types";
 import { StorageKey } from "@jee-common/storage-keys" ;
+import dayjs from "dayjs";
+import { Session } from "./session";
 
 @Injectable()
 export class SessionStateService {
@@ -15,16 +17,14 @@ export class SessionStateService {
   sessionTypes: SessionTypeSO[] = [];
   activeTopicsMap: Record<string, { topic:TopicSO, assignment:TopicTrackAssignmentSO, syllabus:SyllabusSO}[]> = {} ;
 
-  selectedSessionType:SessionTypeSO|null = null ;
-  selectedSyllabus = signal<SyllabusSO|null>(null);
-  selectedTopic = signal<TopicSO|null>(null) ;
+  session:Session = new Session() ;
 
   async loadMasterData() {
 
     this.syllabuses = await this._loadMasterData( () => this.networkSvc.getAllSyllabus(), StorageKey.SYLLABUSES ) ;
     this.sessionTypes = await this._loadMasterData( () => this.networkSvc.getSessionTypes(), StorageKey.SESSION_TYPES ) ;
 
-    let currentAssignments = await this.networkSvc.getCurrentTrackAssignments() ;
+    let currentAssignments = await this.networkSvc.getCurrentTrackAssignments( this.getCurrentDate() ) ;
     currentAssignments.forEach( assignment => {
       this.addActiveTopic( assignment ) ;
     })
@@ -58,7 +58,7 @@ export class SessionStateService {
     if( lastSessionType != null ) {
       this.sessionTypes.forEach( st => {
         if( st.sessionType === lastSessionType ) {
-          this.selectedSessionType = st ;
+          this.session.sessionType = st ;
           return ;
         }
       })
@@ -82,22 +82,28 @@ export class SessionStateService {
     return obj ;
   }
 
+  private getCurrentDate() {
+    return dayjs( '2025-04-20' ).toDate() ;
+    // return new Date() ;
+  }
+
   public isTopicActive( topic:TopicSO ) {
-    let activeTopics = this.activeTopicsMap[this.selectedSyllabus()!.syllabusName].map( obj => obj.topic ) ;
-    return activeTopics.includes( topic ) ;
+    return this.activeTopicsMap[this.session.syllabus()!.syllabusName]
+               .map( obj => obj.topic )
+               .includes( topic ) ;
   }
 
   public sessionTypeSelected( st: SessionTypeSO ) {
-    this.selectedSessionType = st ;
+    this.session.sessionType = st ;
     this.storageSvc.setItem( StorageKey.LAST_SESSION_TYPE, st.sessionType ) ;
   }
 
   public syllabusSelected( s: SyllabusSO ) {
-    this.selectedSyllabus.set( s ) ;
-    this.selectedTopic.set( null ) ;
+    this.session.syllabus.set( s ) ;
+    this.session.topic.set( null ) ;
   }
 
   public topicSelected( t: TopicSO ) {
-    this.selectedTopic.set( t ) ;
+    this.session.topic.set( t ) ;
   }
 }
