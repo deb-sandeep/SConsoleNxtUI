@@ -21,9 +21,14 @@ export class Session {
   topic = signal<TopicSO|null>(null) ;
 
   sessionId:number = -1 ; // <=0 => session not started
+  startTime:Date ;
+  endTime:Date ;
   pauses:SessionPause[] = [] ;
 
-  constructor() {}
+  constructor() {
+    this.startTime = new Date() ;
+    this.endTime = new Date() ;
+  }
 
   addPause():SessionPause {
     const pause = new SessionPause() ;

@@ -4,6 +4,7 @@ import { RemoteService } from "lib-core";
 import { environment } from "@env/environment";
 import { SessionTypeSO, SyllabusSO, TopicTrackAssignmentSO } from "@jee-common/master-data-types";
 import dayjs from "dayjs";
+import { Session } from "./session";
 
 @Injectable()
 export class SessionNetworkService extends RemoteService {
@@ -22,5 +23,15 @@ export class SessionNetworkService extends RemoteService {
     const dateStr = dayjs( date ).add( dayjs().utcOffset(), 'minutes' ).format( 'YYYY-MM-DD' ) ;
     const url:string = `${environment.apiRoot}/Master/Track/CurrentTopicAssignments?date=${dateStr}` ;
     return this.getPromise<TopicTrackAssignmentSO[]>( url, true ) ;
+  }
+
+  startNewSession( session: Session ) {
+    const url:string = `${environment.apiRoot}/Master/Session/NewSession` ;
+    return this.postPromise<number>( url, {
+      sessionType: session.sessionType?.sessionType,
+      topicId: session.topic()!.id,
+      syllabusName: session.syllabus()!.syllabusName,
+      startTime: session.startTime
+    } ) ;
   }
 }

@@ -103,7 +103,8 @@ export class SessionStateService {
     this.session.topic.set( null ) ;
   }
 
-  public topicSelected( t: TopicSO ) {
+  public async topicSelected( t: TopicSO ) {
     this.session.topic.set( t ) ;
+    this.session.sessionId = await this.networkSvc.startNewSession( this.session ) ;
   }
 }
