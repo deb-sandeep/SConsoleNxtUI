@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Session } from "../../../service/session";
 import { TimerComponent } from "../widgets/timer/timer.component";
 import { HeaderComponent } from "../widgets/header/header.component";
@@ -45,25 +45,5 @@ export class NonExerciseSessionComponent {
 
   exitSession() {
     this.router.navigate(['../landing']).then() ;
-  }
-
-  private getMockSession() {
-    return {
-      sessionType : {
-        sessionType : 'Coaching',
-        color: '#fdfda6',
-        iconName: 'session-type-coaching.png'
-      },
-      syllabus : signal({
-        syllabusName: 'IIT - Physics',
-        subjectName: 'Physics',
-        color: '#FFC468',
-        iconName: 'syllabus-physics.png'
-      }),
-      topic: signal( {
-        sectionName: 'Mechanics',
-        topicName: 'States of Matter - Gases and Liquids',
-      })
-    } as Session ;
   }
 }
