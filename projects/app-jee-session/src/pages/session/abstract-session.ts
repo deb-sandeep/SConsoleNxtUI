@@ -11,18 +11,20 @@ export class AbstractSession {
 
   session:Session ;
 
-  private sessionTypeImgFilter:string = '' ;
+  private imgFilters:Record<string, string> = {} ;
 
-  getSessionTypeCSSImageFilter() {
-    if( this.sessionTypeImgFilter === '' ) {
+  getCSSImageFilter( targetColor:string ) {
+    if( !(targetColor in this.imgFilters) ) {
       if( this.session != null ) {
-        let cssGen = new ImgColorCSSGen( this.session.sessionType!.color ) ;
+        let cssGen = new ImgColorCSSGen( targetColor ) ;
         let result:any = cssGen.solve() ;
         // Why save it? Because the css generator is non-deterministic
-        this.sessionTypeImgFilter = result.filter + ' opacity(0.1)';
+        this.imgFilters[targetColor] = result.filter + ' opacity(0.15)';
+      }
+      else {
+        return '' ;
       }
     }
-    console.log( `filter = ${this.sessionTypeImgFilter}`) ;
-    return this.sessionTypeImgFilter ;
+    return this.imgFilters[targetColor] ;
   }
 }

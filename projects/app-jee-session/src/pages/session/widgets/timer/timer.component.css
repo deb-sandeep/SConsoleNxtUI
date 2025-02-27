@@ -1,0 +1,44 @@
+#active-timer {
+    text-align: center ;
+    padding-top: 90px;
+    padding-bottom: 50px;
+    font-size: 200px;
+    font-family: "Courier New", "Courier", "ui-monospace";
+    color: #283f6c;
+}
+
+#pause-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    z-index: 1000;
+    background-color: rgba(100, 100, 100, 0.4);
+    margin: 0 auto;
+    text-align: center;
+}
+
+#resume-panel {
+    --panel-height: 150px;
+    --panel-width: 500px;
+    margin: 0 auto;
+    position: absolute;
+    top: calc( 50dvh - var(--panel-height)/2 );
+    left: calc( 50dvw - var(--panel-width)/2 );
+    width: var(--panel-width);
+    height: var(--panel-height);
+    background-color: #757575;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px #101010;
+    font-size: 25px;
+}
+
+#pause-timer {
+    text-align: center ;
+    padding-top: 5px;
+    font-size: 100px;
+    line-height: 100px;
+    font-family: "Courier New", "Courier", "ui-monospace";
+    color: #d3d3d3;
+}

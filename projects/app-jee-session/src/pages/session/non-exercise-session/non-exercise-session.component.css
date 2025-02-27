@@ -1,3 +1,7 @@
+img {
+    object-fit: contain;
+}
+
 #ne-session-container {
     background: #101010;
     position: absolute;
@@ -11,10 +15,28 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 300px;
-    width: 300px;
+    height: 200px;
+    width: 200px;
 }
 
-.session-icon img {
-    object-fit: contain;
+.syllabus-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 200px;
+    width: 200px;
+}
+
+.syllabus-name {
+    text-align: center;
+    font-size: 45px;
+    filter: opacity(0.3);
+    margin-bottom: 20px;
+}
+
+.topic-name {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    filter: opacity(0.15);
 }
