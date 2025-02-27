@@ -2,7 +2,7 @@ img {
     object-fit: contain;
 }
 
-#ne-session-container {
+#header-container {
     background: #101010;
     position: absolute;
     top: 0;

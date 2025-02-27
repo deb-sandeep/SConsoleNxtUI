@@ -1,0 +1,21 @@
+.action-btn {
+    --btn-width:120px;
+    --btn-height:90px;
+    display:inline-block;
+    width: var(--btn-width);
+    height: var(--btn-height);
+    background-color: lightgrey;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px #000000;
+    margin-left: 10px;
+    margin-right: 10px;
+    vertical-align: top;
+    border: 2px outset rgba(18, 18, 18, 0.6);
+}
+
+.btn-txt {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+}

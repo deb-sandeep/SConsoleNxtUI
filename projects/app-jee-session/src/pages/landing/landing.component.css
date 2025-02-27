@@ -5,9 +5,13 @@ img {
     border:30px solid transparent;
 }
 
+.selected img {
+    opacity: 0.8;
+}
+
 #landing-page-content {
     --tile-padding: 15px;
-    --box-shadow-color: #505050;
+    --box-shadow-color: #757474;
     background-color: var(--background-color) ;
 }
 
@@ -22,8 +26,8 @@ img {
     background-color: #fff;
     margin: var(--tile-padding);
     border-radius: 15px;
-    border: 2px outset #afafaf;
-    box-shadow: 10px 10px 10px var(--box-shadow-color) ;
+    border: 3px outset #636363;
+    box-shadow: 5px 5px 10px var(--box-shadow-color);
     filter: opacity(0.5) ;
 }
 
@@ -40,16 +44,12 @@ img {
     background-color: #fff;
     margin: var(--tile-padding);
     border-radius: 15px;
-    border: 2px outset #afafaf;
-    box-shadow: 10px 10px 10px var(--box-shadow-color);
+    border: 3px outset #636363;
+    box-shadow: 5px 5px 10px var(--box-shadow-color);
     text-align: center;
     color: #3e3e3e;
     font-weight: bold;
     filter: opacity(0.5) ;
-}
-
-.selected img {
-    opacity: 0.5;
 }
 
 #topics-div {
@@ -63,8 +63,8 @@ img {
     position: relative;
     margin: var(--tile-padding);
     border-radius: 15px;
-    border: 2px outset #afafaf;
-    box-shadow: 10px 10px 5px #515050;
+    border: 3px outset #636363;
+    box-shadow: 5px 5px 10px var(--box-shadow-color);
     text-align: center;
     color: #3e3e3e;
     font-size: 25px;
@@ -120,6 +120,6 @@ img {
 }
 
 .selected {
-    border: 4px solid blue;
+    border: 7px solid #0078ff;
     box-shadow: 1px 1px 1px #515050;
 }

@@ -1,10 +1,13 @@
 #active-timer {
+    --panel-height: 300px;
     text-align: center ;
-    padding-top: 90px;
-    padding-bottom: 50px;
     font-size: 200px;
     font-family: "Courier New", "Courier", "ui-monospace";
     color: #283f6c;
+    position: absolute;
+    width: 100%;
+    height: var(--panel-height);
+    top: calc( 50vh - var(--panel-height)/2 ) ;
 }
 
 #pause-screen {
@@ -20,7 +23,7 @@
 }
 
 #resume-panel {
-    --panel-height: 150px;
+    --panel-height: 200px;
     --panel-width: 500px;
     margin: 0 auto;
     position: absolute;
@@ -36,7 +39,7 @@
 
 #pause-timer {
     text-align: center ;
-    padding-top: 5px;
+    padding-top: 20px;
     font-size: 100px;
     line-height: 100px;
     font-family: "Courier New", "Courier", "ui-monospace";

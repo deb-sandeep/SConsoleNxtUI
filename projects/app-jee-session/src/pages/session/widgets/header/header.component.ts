@@ -1,17 +1,28 @@
-import { SessionStateService } from "../../service/session-state.service";
-import { inject } from "@angular/core";
-import { Router } from "@angular/router";
-import { Session } from "../../service/session";
+import { Component, inject } from '@angular/core';
+import { NgOptimizedImage } from "@angular/common";
+import { SessionStateService } from "../../../../service/session-state.service";
+import { Session } from "../../../../service/session";
 import { ImgColorCSSGen } from "@jee-common/img-color-cssgen";
 
-export class AbstractSession {
+@Component({
+  selector: 'session-header',
+  imports: [
+    NgOptimizedImage,
+  ],
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.css'
+})
+export class HeaderComponent {
 
   stateSvc:SessionStateService = inject( SessionStateService ) ;
-  router: Router = inject( Router ) ;
 
   session:Session ;
 
   private imgFilters:Record<string, string> = {} ;
+
+  constructor() {
+    this.session = this.stateSvc.session ;
+  }
 
   getCSSImageFilter( targetColor:string ) {
     if( !(targetColor in this.imgFilters) ) {
@@ -19,7 +30,7 @@ export class AbstractSession {
         let cssGen = new ImgColorCSSGen( targetColor ) ;
         let result:any = cssGen.solve() ;
         // Why save it? Because the css generator is non-deterministic
-        this.imgFilters[targetColor] = result.filter + ' opacity(0.15)';
+        this.imgFilters[targetColor] = result.filter + ' opacity(0.2)';
       }
       else {
         return '' ;
