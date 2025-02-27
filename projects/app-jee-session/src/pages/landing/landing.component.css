@@ -7,6 +7,8 @@ img {
 
 #landing-page-content {
     --tile-padding: 15px;
+    --box-shadow-color: #505050;
+    background-color: var(--background-color) ;
 }
 
 #session-types-div {
@@ -21,7 +23,8 @@ img {
     margin: var(--tile-padding);
     border-radius: 15px;
     border: 2px outset #afafaf;
-    box-shadow: 10px 10px 5px #515050;
+    box-shadow: 10px 10px 10px var(--box-shadow-color) ;
+    filter: opacity(0.5) ;
 }
 
 #syllabuses-div {
@@ -38,10 +41,11 @@ img {
     margin: var(--tile-padding);
     border-radius: 15px;
     border: 2px outset #afafaf;
-    box-shadow: 10px 10px 5px #515050;
+    box-shadow: 10px 10px 10px var(--box-shadow-color);
     text-align: center;
     color: #3e3e3e;
     font-weight: bold;
+    filter: opacity(0.5) ;
 }
 
 .selected img {
@@ -64,6 +68,7 @@ img {
     text-align: center;
     color: #3e3e3e;
     font-size: 25px;
+    filter: opacity(0.5) ;
 }
 
 .date-bar {
@@ -95,6 +100,7 @@ img {
     margin: var(--tile-padding);
     overflow: scroll;
     border-radius: 10px;
+    filter: opacity(30%);
 }
 
 .inactive-topic {
@@ -106,7 +112,7 @@ img {
     line-height: 45px;
     padding-left: 10px;
     border-radius: 10px;
-    filter: opacity(40%);
+    filter: opacity(90%);
 }
 
 .inactive-topic-selected {

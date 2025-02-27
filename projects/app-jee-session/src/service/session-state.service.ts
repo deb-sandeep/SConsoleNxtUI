@@ -19,8 +19,14 @@ export class SessionStateService {
 
   session:Session = new Session() ;
 
+  private resetState() {
+    this.activeTopicsMap = {} ;
+    this.session.topic.set( null ) ;
+  }
+
   async loadMasterData() {
 
+    this.resetState() ;
     this.syllabuses = await this._loadMasterData( () => this.networkSvc.getAllSyllabus(), StorageKey.SYLLABUSES ) ;
     this.sessionTypes = await this._loadMasterData( () => this.networkSvc.getSessionTypes(), StorageKey.SESSION_TYPES ) ;
 
@@ -64,7 +70,7 @@ export class SessionStateService {
       })
     }
     else {
-      this.sessionTypeSelected( this.sessionTypes[0] ) ;
+      this.setSelectedSessionType( this.sessionTypes[0] ) ;
     }
   }
 
@@ -88,23 +94,30 @@ export class SessionStateService {
   }
 
   public isTopicActive( topic:TopicSO ) {
-    return this.activeTopicsMap[this.session.syllabus()!.syllabusName]
-               .map( obj => obj.topic )
-               .includes( topic ) ;
+    let selectedSyllabusName = this.session.syllabus()!.syllabusName ;
+    if( selectedSyllabusName in this.activeTopicsMap ) {
+      return this.activeTopicsMap[ selectedSyllabusName ]
+        .map( obj => obj.topic )
+        .includes( topic ) ;
+    }
+    return false ;
   }
 
-  public sessionTypeSelected( st: SessionTypeSO ) {
+  public setSelectedSessionType( st: SessionTypeSO ) {
     this.session.sessionType = st ;
     this.storageSvc.setItem( StorageKey.LAST_SESSION_TYPE, st.sessionType ) ;
   }
 
-  public syllabusSelected( s: SyllabusSO ) {
+  public setSelectedSyllabus( s: SyllabusSO ) {
     this.session.syllabus.set( s ) ;
     this.session.topic.set( null ) ;
   }
 
-  public async topicSelected( t: TopicSO ) {
+  public async setSelectedTopic( t: TopicSO ) {
     this.session.topic.set( t ) ;
+  }
+
+  public async startNewSession() {
     this.session.sessionId = await this.networkSvc.startNewSession( this.session ) ;
   }
 }

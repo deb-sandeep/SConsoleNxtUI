@@ -2,9 +2,8 @@ import { Routes } from "@angular/router";
 
 import { LandingComponent } from "./pages/landing/landing.component";
 import { ProblemSelectionComponent } from "./pages/problem-selection/problem-selection.component";
-import { TheorySessionComponent } from "./pages/theory-session/theory-session.component";
-import { NumericalSessionComponent } from "./pages/numerical-session/numerical-session.component";
-import { CoachingSessionComponent } from "./pages/coaching-session/coaching-session.component";
+import { ExerciseSessionComponent } from "./pages/session/exercise-session/exercise-session.component";
+import { NonExerciseSessionComponent } from "./pages/session/non-exercise-session/non-exercise-session.component";
 
 export const pageRoutes: Routes = [
   {
@@ -18,23 +17,20 @@ export const pageRoutes: Routes = [
     component: LandingComponent,
   },
   {
-    path: 'problem-selection',
-    title: 'Select Problem',
-    component: ProblemSelectionComponent,
+    path: 'exercise-session',
+    title: 'Exercise Session',
+    component: ExerciseSessionComponent,
+    children: [
+      {
+        path: 'problem-selection',
+        title: 'Select Problem',
+        component: ProblemSelectionComponent,
+      },
+    ]
   },
   {
-    path: 'theory-session',
-    title: 'Theory Session',
-    component: TheorySessionComponent,
-  },
-  {
-    path: 'numerical-session',
-    title: 'Numerical Session',
-    component: NumericalSessionComponent,
-  },
-  {
-    path: 'coaching-session',
-    title: 'Coaching Session',
-    component: CoachingSessionComponent,
+    path: 'non-exercise-session',
+    title: 'Study Session',
+    component: NonExerciseSessionComponent,
   },
 ] ;

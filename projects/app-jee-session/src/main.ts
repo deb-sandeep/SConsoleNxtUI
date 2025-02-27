@@ -5,7 +5,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http'
 import { Component } from '@angular/core';
 import { NgbAlertConfig, NgbAlertModule } from "@ng-bootstrap/ng-bootstrap";
 import { RouterOutlet } from '@angular/router';
-import { PageHeaderComponent, ModalWaitComponent, Alert, AlertsDisplayComponent } from 'lib-core';
+import { ModalWaitComponent, Alert, AlertsDisplayComponent } from 'lib-core';
 
 import { pageRoutes } from "./routes" ;
 import AlertService = Alert.AlertService;
@@ -17,13 +17,11 @@ import { SessionStateService } from "./service/session-state.service";
   imports: [
     CommonModule,
     RouterOutlet,
-    PageHeaderComponent,
     NgbAlertModule, ModalWaitComponent, AlertsDisplayComponent,
   ],
   standalone: true,
   template: `
         <modal-wait></modal-wait>
-        <page-header [title]="title"></page-header>
         <alerts-display></alerts-display>
         <div id="page-content">
             <router-outlet></router-outlet>

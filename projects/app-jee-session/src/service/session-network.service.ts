@@ -31,7 +31,7 @@ export class SessionNetworkService extends RemoteService {
       sessionType: session.sessionType?.sessionType,
       topicId: session.topic()!.id,
       syllabusName: session.syllabus()!.syllabusName,
-      startTime: session.startTime
+      startTime: dayjs( session.startTime ).add( dayjs().utcOffset(), 'minutes' ).toDate()
     } ) ;
   }
 }

@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { SessionStateService } from "../../service/session-state.service";
 import { DatePipe, NgOptimizedImage, NgStyle } from "@angular/common";
-import { SessionTypeSO, SyllabusSO } from "@jee-common/master-data-types";
-import { stat } from "ng-packagr/lib/utils/fs";
+import { SessionTypeSO, SyllabusSO, TopicSO } from "@jee-common/master-data-types";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'landing',
@@ -17,6 +17,7 @@ import { stat } from "ng-packagr/lib/utils/fs";
 export class LandingComponent {
 
   stateSvc:SessionStateService = inject( SessionStateService ) ;
+  router: Router = inject( Router ) ;
 
   constructor() {
     this.stateSvc.loadMasterData().then() ;
@@ -33,7 +34,7 @@ export class LandingComponent {
 
   getSyllabusStyle( s:SyllabusSO ) {
     const height = this.getCSSHeight( this.stateSvc.syllabuses.length ) ;
-    const width = `calc( ${height}*2 )` ;
+    const width = `calc( ${height}*1.5 )` ;
     return {
       'background-color':s.color,
       'height': height,
@@ -44,7 +45,7 @@ export class LandingComponent {
   getActiveTopicStyle( syllabus:SyllabusSO) {
     const height = this.getCSSHeight( 3 ) ;
     const stWidth = this.getCSSHeight( this.stateSvc.sessionTypes.length ) ;
-    const syllabusWidth = `calc( (${this.getCSSHeight( this.stateSvc.syllabuses.length )})*2 )` ;
+    const syllabusWidth = `calc( (${this.getCSSHeight( this.stateSvc.syllabuses.length )})*1.5 )` ;
     const width = `calc( 100dvw - ${syllabusWidth} - ${stWidth} - calc(var(--tile-padding)*12) )` ;
     return {
       'background-color':syllabus.color,
@@ -56,7 +57,7 @@ export class LandingComponent {
   getInactiveTopicsContainerStyle() {
     const height = this.getCSSHeight( 3 ) ;
     const stWidth = this.getCSSHeight( this.stateSvc.sessionTypes.length ) ;
-    const syllabusWidth = `calc( (${this.getCSSHeight( this.stateSvc.syllabuses.length )})*2 )` ;
+    const syllabusWidth = `calc( (${this.getCSSHeight( this.stateSvc.syllabuses.length )})*1.5 )` ;
     const width = `calc( 100dvw - ${syllabusWidth} - ${stWidth} - calc(var(--tile-padding)*12) )` ;
     return {
       'height': height,
@@ -64,7 +65,18 @@ export class LandingComponent {
     }
   }
 
+  async topicSelected( t: TopicSO ) {
+    await this.stateSvc.setSelectedTopic( t ) ;
+    let sessionType = this.stateSvc.session.sessionType!.sessionType ;
+    if( sessionType === 'Exercise' ) {
+      await this.router.navigate( [ '../exercise-session' ] ) ;
+    }
+    else if( ['Theory','Coaching'].includes( sessionType ) ) {
+      await this.router.navigate( [ '../non-exercise-session' ] ) ;
+    }
+  }
+
   private getCSSHeight( numDivisions:number ) {
-    return `calc( (100dvh - var(--tile-padding)*${numDivisions+1} - var(--page-header-height)) / ${numDivisions})` ;
+    return `calc( (100dvh - var(--tile-padding)*${numDivisions+1} ) / ${numDivisions})` ;
   }
 }
