@@ -5,7 +5,7 @@
 
 <div id="pause-screen" *ngIf="paused">
   <div id="resume-panel"
-       (click)="resume()">
+       (click)="resumeTimer()">
     <span [style.color]="'lightgrey'">Paused</span>
     <div id="pause-timer">
       {{getPauseDurationDisplay()}}

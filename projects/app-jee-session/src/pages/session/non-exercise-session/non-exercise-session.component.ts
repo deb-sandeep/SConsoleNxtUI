@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { Session } from "../../../service/session";
 import { TimerComponent } from "../widgets/timer/timer.component";
 import { HeaderComponent } from "../widgets/header/header.component";
@@ -16,10 +16,10 @@ import { Router } from "@angular/router";
   template: `
     <div id="ne-session-container">
       <session-header></session-header>
-      <session-timer></session-timer>
+      <session-timer #timer></session-timer>
       <div class="action-btn-panel">
         <action-btn (click)="exitSession()"
-                    [bgColor]="'#3e0000'"
+                    [bgColor]="'#200000'"
                     [color]="'#858585'">
           <span class="bi-box-arrow-right" style="font-size:45px;"></span>
         </action-btn>
@@ -33,17 +33,22 @@ export class NonExerciseSessionComponent {
   stateSvc = inject( SessionStateService ) ;
   session: Session;
 
+  @ViewChild( "timer" ) timer : TimerComponent ;
+
   constructor() {
     if( this.stateSvc.session.topic() == null ) {
       this.router.navigate(['../landing']).then();
     }
     else {
       this.session = this.stateSvc.session ;
-      this.stateSvc.startNewSession().then() ;
+      this.stateSvc.startSession().then() ;
     }
   }
 
   exitSession() {
-    this.router.navigate(['../landing']).then() ;
+    this.timer.stop() ;
+    this.stateSvc.endSession()
+        .then( ()=> this.router.navigate(['../landing']) )
+        .then() ;
   }
 }

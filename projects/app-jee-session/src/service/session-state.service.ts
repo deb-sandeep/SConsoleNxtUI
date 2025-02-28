@@ -2,7 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { LocalStorageService } from "lib-core";
 
 import { SessionNetworkService } from "./session-network.service";
-import { SessionTypeSO, SyllabusSO, TopicSO, TopicTrackAssignmentSO } from "@jee-common/master-data-types";
+import {
+  SessionPauseSO,
+  SessionTypeSO,
+  SyllabusSO,
+  TopicSO,
+  TopicTrackAssignmentSO
+} from "@jee-common/master-data-types";
 import { StorageKey } from "@jee-common/storage-keys" ;
 import dayjs from "dayjs";
 import { Session } from "./session";
@@ -117,7 +123,43 @@ export class SessionStateService {
     this.session.topic.set( t ) ;
   }
 
-  public async startNewSession() {
-    this.session.sessionId = await this.networkSvc.startNewSession( this.session ) ;
+  public async startSession() {
+    this.session.startSession() ;
+    this.session.sessionId = await this.networkSvc.startSession( this.session ) ;
+  }
+
+  public async endSession() {
+    this.session.endSession() ;
+    await this.networkSvc.extendSession( this.session ) ;
+    this.session.sessionId = -1 ;
+  }
+
+  public async startPause() {
+    let currentTime = new Date() ;
+    let pause:SessionPauseSO = {
+      id: -1,
+      sessionId: this.session.sessionId,
+      startTime: currentTime,
+      endTime: currentTime
+    }
+    pause.id = await this.networkSvc.startPause( pause ) ;
+
+    this.session.startPause( pause ) ;
+    await this.networkSvc.extendSession( this.session ) ;
+  }
+
+  public async endPause() {
+    let currentPause = this.session.currentPause ;
+    if( currentPause != null ) {
+
+      this.session.endPause() ;
+      await this.networkSvc.endPause( currentPause ) ;
+      await this.networkSvc.extendSession( this.session ) ;
+    }
+  }
+
+  public updateContinuationTime() {
+    this.session.updateContinuationTime() ;
+    this.networkSvc.extendSession( this.session ).then() ;
   }
 }

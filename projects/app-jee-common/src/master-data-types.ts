@@ -42,3 +42,10 @@ export type SessionTypeSO = {
   color : string;
   iconName : string;
 }
+
+export type SessionPauseSO = {
+  id: number,
+  sessionId:number,
+  startTime:Date,
+  endTime:Date
+}

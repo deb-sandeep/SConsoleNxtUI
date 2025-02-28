@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { NgIf } from "@angular/common";
+import { SessionStateService } from "../../../../service/session-state.service";
 
 @Component({
   selector: 'session-timer',
@@ -9,7 +10,9 @@ import { NgIf } from "@angular/common";
   templateUrl: './timer.component.html',
   styleUrl: './timer.component.css'
 })
-export class TimerComponent {
+export class TimerComponent implements OnDestroy {
+
+  private stateSvc = inject( SessionStateService ) ;
 
   private numActiveSeconds = 0 ;
   private numPauseSeconds = 0 ;
@@ -28,6 +31,8 @@ export class TimerComponent {
     else {
       this.numActiveSeconds++ ;
     }
+
+    this.stateSvc.updateContinuationTime() ;
 
     if( !this.killSwitch ) {
       setTimeout(() => this.tick(), 1000 ) ;
@@ -58,15 +63,25 @@ export class TimerComponent {
   }
 
   pauseTimer(): void {
-    this.paused = true ;
+    this.stateSvc
+        .startPause()
+        .then( () => this.paused  = true ) ;
   }
 
-  resume(): void {
-    this.paused = false ;
-    this.numPauseSeconds = 0 ;
+  resumeTimer(): void {
+    this.stateSvc
+      .endPause()
+      .then( () => {
+        this.paused = false ;
+        this.numPauseSeconds = 0 ;
+      }) ;
   }
 
   stop(): void {
     this.killSwitch = true ;
+  }
+
+  ngOnDestroy(): void {
+    stop() ;
   }
 }

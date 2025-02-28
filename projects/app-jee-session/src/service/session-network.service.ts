@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RemoteService } from "lib-core";
 
 import { environment } from "@env/environment";
-import { SessionTypeSO, SyllabusSO, TopicTrackAssignmentSO } from "@jee-common/master-data-types";
+import { SessionPauseSO, SessionTypeSO, SyllabusSO, TopicTrackAssignmentSO } from "@jee-common/master-data-types";
 import dayjs from "dayjs";
 import { Session } from "./session";
 
@@ -25,8 +25,8 @@ export class SessionNetworkService extends RemoteService {
     return this.getPromise<TopicTrackAssignmentSO[]>( url, true ) ;
   }
 
-  startNewSession( session: Session ) {
-    const url:string = `${environment.apiRoot}/Master/Session/NewSession` ;
+  startSession( session: Session ) {
+    const url:string = `${environment.apiRoot}/Master/Session/StartSession` ;
     return this.postPromise<number>( url, {
       sessionType: session.sessionType?.sessionType,
       topicId: session.topic()!.id,
@@ -34,4 +34,43 @@ export class SessionNetworkService extends RemoteService {
       startTime: dayjs( session.startTime ).add( dayjs().utcOffset(), 'minutes' ).toDate()
     } ) ;
   }
+
+  extendSession( session: Session ) {
+    const url:string = `${environment.apiRoot}/Master/Session/ExtendSession` ;
+
+    let pauseId = -1 ;
+    let problemAttemptId = -1 ;
+    let problemAttemptEffectiveDuration = 0 ;
+
+    if( session.currentPause != null ) {
+      pauseId = session.currentPause.id ;
+    }
+
+    return this.postPromise<number>( url, {
+      sessionId: session.sessionId,
+      endTime: dayjs( session.endTime ).add( dayjs().utcOffset(), 'minutes' ).toDate(),
+      sessionEffectiveDuration: session.effectiveDuration,
+      pauseId: pauseId,
+      problemAttemptId: problemAttemptId,
+      problemAttemptEffectiveDuration: problemAttemptEffectiveDuration
+    } ) ;
+  }
+
+  startPause( pause: SessionPauseSO ) {
+    const url:string = `${environment.apiRoot}/Master/Session/StartPause` ;
+    return this.postPromise<number>( url, {
+      sessionId: pause.sessionId,
+      startTime: dayjs( pause.startTime ).add( dayjs().utcOffset(), 'minutes' ).toDate()
+    } ) ;
+  }
+
+  endPause( pause: SessionPauseSO ) {
+    const url:string = `${environment.apiRoot}/Master/Session/EndPause` ;
+    return this.postPromise<number>( url, {
+      id: pause.id,
+      sessionId: pause.sessionId,
+      endTime: dayjs( pause.endTime ).add( dayjs().utcOffset(), 'minutes' ).toDate()
+    } ) ;
+  }
+
 }
