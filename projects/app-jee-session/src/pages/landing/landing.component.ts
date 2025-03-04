@@ -71,8 +71,11 @@ export class LandingComponent {
     if( sessionType === 'Exercise' ) {
       await this.router.navigate( [ '../exercise-session' ] ) ;
     }
-    else if( ['Theory','Coaching'].includes( sessionType ) ) {
-      await this.router.navigate( [ '../non-exercise-session' ] ) ;
+    else if( 'Theory' === sessionType ) {
+      await this.router.navigate( [ '../theory-session' ] ) ;
+    }
+    else if( 'Coaching' === sessionType ) {
+      await this.router.navigate( [ '../coaching-session' ] ) ;
     }
   }
 

@@ -1,9 +1,10 @@
 import { Routes } from "@angular/router";
 
 import { LandingComponent } from "./pages/landing/landing.component";
-import { ProblemSelectionComponent } from "./pages/problem-selection/problem-selection.component";
+import { ProblemPickerComponent } from "./pages/session/widgets/problem-picker/problem-picker.component";
 import { ExerciseSessionComponent } from "./pages/session/exercise-session/exercise-session.component";
-import { NonExerciseSessionComponent } from "./pages/session/non-exercise-session/non-exercise-session.component";
+import { TheorySessionComponent } from "./pages/session/theory-session/theory-session.component";
+import { CoachingSessionComponent } from "./pages/session/coaching-session/coaching-session.component";
 
 export const pageRoutes: Routes = [
   {
@@ -19,18 +20,16 @@ export const pageRoutes: Routes = [
   {
     path: 'exercise-session',
     title: 'Exercise Session',
-    component: ExerciseSessionComponent,
-    children: [
-      {
-        path: 'problem-selection',
-        title: 'Select Problem',
-        component: ProblemSelectionComponent,
-      },
-    ]
+    component: ExerciseSessionComponent
   },
   {
-    path: 'non-exercise-session',
-    title: 'Study Session',
-    component: NonExerciseSessionComponent,
+    path: 'theory-session',
+    title: 'Theory Session',
+    component: TheorySessionComponent,
+  },
+  {
+    path: 'coaching-session',
+    title: 'Coaching Session',
+    component: CoachingSessionComponent,
   },
 ] ;

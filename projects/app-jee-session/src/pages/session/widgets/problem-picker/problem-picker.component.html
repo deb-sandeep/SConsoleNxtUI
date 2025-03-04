@@ -1,0 +1,15 @@
+<div id="problem-picker-screen">
+  <div id="problem-picker-ui">
+    <div id="problem-list">
+      @for( p of problems; track p.problemId ) {
+        <div class="problem" (click)="problemSelected( p )">
+          {{p.problemKey.replaceAll( '/', ' / ' )}}
+        </div>
+      }
+    </div>
+    <div id="btn-panel">
+      <button type="button" class="btn btn-lg btn-secondary"
+              (click)="hide.emit()">Cancel</button>
+    </div>
+  </div>
+</div>

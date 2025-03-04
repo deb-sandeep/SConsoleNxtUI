@@ -1,0 +1,25 @@
+<div id="session-screen">
+  <session-header></session-header>
+  <session-timer #sessionTimer></session-timer>
+  <div class="action-btn-panel">
+    <!-- Pigeon selection button -->
+    <action-btn *ngIf="session.hasProblems()"
+                (click)="showProblemPicker=true"
+                [bgColor]="'#002200'"
+                [color]="'#858585'">
+      <span class="bi-twitter" style="font-size:45px;"></span>
+    </action-btn>
+    <div style="width: 50px;display: inline-block"></div>
+    <!-- Exit session button -->
+    <action-btn (click)="exitSession()"
+                [bgColor]="'#200000'"
+                [color]="'#858585'">
+      <span class="bi-box-arrow-right" style="font-size:45px;"></span>
+    </action-btn>
+  </div>
+</div>
+
+<problem-picker *ngIf="showProblemPicker"
+                (hide)="showProblemPicker=false"
+                (selection)="pigeonSelected( $event )">
+</problem-picker>

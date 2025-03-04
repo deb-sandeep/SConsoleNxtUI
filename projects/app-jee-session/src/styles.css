@@ -1,11 +1,12 @@
 body {
+    --background-color: #101010;
+    background-color: var(--background-color);
     color: white;
     font-size: 18px;
 }
 
 #page-content {
-    --background-color: #101010;
-    background-color: var(--page-title-bgcolor) ;
+    background-color: var(--background-color) ;
 }
 
 .action-btn-panel {

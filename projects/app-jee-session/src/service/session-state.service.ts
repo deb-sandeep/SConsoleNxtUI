@@ -5,7 +5,7 @@ import { SessionNetworkService } from "./session-network.service";
 import {
   SessionPauseSO,
   SessionTypeSO,
-  SyllabusSO,
+  SyllabusSO, TopicProblemSO,
   TopicSO,
   TopicTrackAssignmentSO
 } from "@jee-common/master-data-types";
@@ -128,6 +128,10 @@ export class SessionStateService {
     this.session.sessionId = await this.networkSvc.startSession( this.session ) ;
   }
 
+  public async fetchPigeons() {
+    this.session.problems = await this.networkSvc.getPigeonsForSession( this.session ) ;
+  }
+
   public async endSession() {
     this.session.endSession() ;
     await this.networkSvc.extendSession( this.session ) ;
@@ -158,8 +162,27 @@ export class SessionStateService {
     }
   }
 
-  public updateContinuationTime() {
+  public updateContinuationTime( updateServer:boolean) {
     this.session.updateContinuationTime() ;
-    this.networkSvc.extendSession( this.session ).then() ;
+    if( updateServer ) {
+      this.networkSvc.extendSession( this.session ).then() ;
+    }
+  }
+
+  async setProblemAttempt( problem: TopicProblemSO ) {
+
+    const currentTime = new Date() ;
+    let problemAttempt = {
+      id: -1,
+      sessionId: this.session.sessionId,
+      problemId: problem.problemId,
+      startTime: currentTime,
+      endTime: currentTime,
+      effectiveDuration: 0,
+      prevState: problem.problemState,
+      targetState: problem.problemState,
+    } ;
+    problemAttempt.id = await this.networkSvc.startProblemAttempt( problemAttempt ) ;
+    this.session.startProblemAttempt( problemAttempt ) ;
   }
 }

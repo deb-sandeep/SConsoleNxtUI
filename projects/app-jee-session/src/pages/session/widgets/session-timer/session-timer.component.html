@@ -1,6 +1,6 @@
-<div id="active-timer"
+<div [ngClass]="getTimerClass()"
      (click)="pauseTimer()">
-  {{getActiveDurationDisplay()}}
+  {{numActiveSeconds | duration}}
 </div>
 
 <div id="pause-screen" *ngIf="paused">
@@ -8,7 +8,7 @@
        (click)="resumeTimer()">
     <span [style.color]="'lightgrey'">Paused</span>
     <div id="pause-timer">
-      {{getPauseDurationDisplay()}}
+      {{numPauseSeconds | duration}}
     </div>
   </div>
 </div>

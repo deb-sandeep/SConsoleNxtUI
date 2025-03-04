@@ -1,39 +1,34 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { Session } from "../../../service/session";
-import { TimerComponent } from "../widgets/timer/timer.component";
+import { SessionTimerComponent } from "../widgets/session-timer/session-timer.component";
 import { HeaderComponent } from "../widgets/header/header.component";
 import { SessionStateService } from "../../../service/session-state.service";
 import { ActionButtonComponent } from "../widgets/action-button/action-button.component";
 import { Router } from "@angular/router";
+import { NgIf } from "@angular/common";
+import { ProblemPickerComponent } from "../widgets/problem-picker/problem-picker.component";
+import { TopicProblemSO } from "@jee-common/master-data-types";
 
 @Component({
-  selector: 'non-exercise-session',
+  selector: 'theory-session',
   imports: [
-    TimerComponent,
+    SessionTimerComponent,
     HeaderComponent,
-    ActionButtonComponent
+    ActionButtonComponent,
+    NgIf,
+    ProblemPickerComponent
   ],
-  template: `
-    <div id="ne-session-container">
-      <session-header></session-header>
-      <session-timer #timer></session-timer>
-      <div class="action-btn-panel">
-        <action-btn (click)="exitSession()"
-                    [bgColor]="'#200000'"
-                    [color]="'#858585'">
-          <span class="bi-box-arrow-right" style="font-size:45px;"></span>
-        </action-btn>
-      </div>
-    </div>
-  `,
+  templateUrl: "./coaching-session.component.html",
 })
-export class NonExerciseSessionComponent {
+export class CoachingSessionComponent {
 
   router = inject( Router ) ;
   stateSvc = inject( SessionStateService ) ;
   session: Session;
 
-  @ViewChild( "timer" ) timer : TimerComponent ;
+  @ViewChild( "sessionTimer" ) sessionTimer : SessionTimerComponent ;
+
+  showProblemPicker = false;
 
   constructor() {
     if( this.stateSvc.session.topic() == null ) {
@@ -41,12 +36,17 @@ export class NonExerciseSessionComponent {
     }
     else {
       this.session = this.stateSvc.session ;
-      this.stateSvc.startSession().then() ;
+      this.stateSvc.startSession()
+          .then( () => this.stateSvc.fetchPigeons() ) ;
     }
   }
 
+  pigeonSelected( problem: TopicProblemSO ) {
+    this.stateSvc.setProblemAttempt( problem ).then() ;
+  }
+
   exitSession() {
-    this.timer.stop() ;
+    this.sessionTimer.stop() ;
     this.stateSvc.endSession()
         .then( ()=> this.router.navigate(['../landing']) )
         .then() ;

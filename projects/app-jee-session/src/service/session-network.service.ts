@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { RemoteService } from "lib-core";
 
 import { environment } from "@env/environment";
-import { SessionPauseSO, SessionTypeSO, SyllabusSO, TopicTrackAssignmentSO } from "@jee-common/master-data-types";
+import {
+  ProblemAttemptSO,
+  SessionPauseSO,
+  SessionTypeSO,
+  SyllabusSO,
+  TopicProblemSO,
+  TopicTrackAssignmentSO
+} from "@jee-common/master-data-types";
 import dayjs from "dayjs";
 import { Session } from "./session";
 
@@ -25,13 +32,18 @@ export class SessionNetworkService extends RemoteService {
     return this.getPromise<TopicTrackAssignmentSO[]>( url, true ) ;
   }
 
+  getPigeonsForSession( session: Session ) : Promise<TopicProblemSO[]> {
+    const url:string = `${environment.apiRoot}/Master/Session/${session.sessionId}/PigeonedProblems` ;
+    return this.getPromise<TopicProblemSO[]>( url ) ;
+  }
+
   startSession( session: Session ) {
     const url:string = `${environment.apiRoot}/Master/Session/StartSession` ;
     return this.postPromise<number>( url, {
       sessionType: session.sessionType?.sessionType,
       topicId: session.topic()!.id,
       syllabusName: session.syllabus()!.syllabusName,
-      startTime: dayjs( session.startTime ).add( dayjs().utcOffset(), 'minutes' ).toDate()
+      startTime: this.utcAdjustedTime( session.startTime )
     } ) ;
   }
 
@@ -46,9 +58,14 @@ export class SessionNetworkService extends RemoteService {
       pauseId = session.currentPause.id ;
     }
 
+    if( session.currentProblemAttempt != null ) {
+      problemAttemptId = session.currentProblemAttempt.id ;
+      problemAttemptEffectiveDuration = session.currentProblemAttempt.effectiveDuration ;
+    }
+
     return this.postPromise<number>( url, {
       sessionId: session.sessionId,
-      endTime: dayjs( session.endTime ).add( dayjs().utcOffset(), 'minutes' ).toDate(),
+      endTime: this.utcAdjustedTime( session.endTime ),
       sessionEffectiveDuration: session.effectiveDuration,
       pauseId: pauseId,
       problemAttemptId: problemAttemptId,
@@ -60,7 +77,7 @@ export class SessionNetworkService extends RemoteService {
     const url:string = `${environment.apiRoot}/Master/Session/StartPause` ;
     return this.postPromise<number>( url, {
       sessionId: pause.sessionId,
-      startTime: dayjs( pause.startTime ).add( dayjs().utcOffset(), 'minutes' ).toDate()
+      startTime: this.utcAdjustedTime( pause.startTime ),
     } ) ;
   }
 
@@ -69,8 +86,26 @@ export class SessionNetworkService extends RemoteService {
     return this.postPromise<number>( url, {
       id: pause.id,
       sessionId: pause.sessionId,
-      endTime: dayjs( pause.endTime ).add( dayjs().utcOffset(), 'minutes' ).toDate()
+      endTime: this.utcAdjustedTime( pause.endTime ),
     } ) ;
   }
 
+  startProblemAttempt( pa: ProblemAttemptSO ) {
+
+    const url:string = `${environment.apiRoot}/Master/Session/StartProblemAttempt` ;
+    return this.postPromise<number>( url,  {
+      id: -1,
+      sessionId: pa.sessionId,
+      problemId: pa.problemId,
+      startTime: this.utcAdjustedTime( pa.startTime ),
+      endTime: this.utcAdjustedTime( pa.endTime ),
+      effectiveDuration: 0,
+      prevState: pa.prevState,
+      targetState: pa.targetState,
+    } ) ;
+  }
+
+  private utcAdjustedTime( time:Date ) {
+    return dayjs( time ).add( dayjs().utcOffset(), 'minutes' ).toDate() ;
+  }
 }

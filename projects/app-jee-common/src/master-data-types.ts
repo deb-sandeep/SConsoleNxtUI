@@ -49,3 +49,31 @@ export type SessionPauseSO = {
   startTime:Date,
   endTime:Date
 }
+
+export type TopicProblemSO = {
+  topicId: number,
+  topicSection: string,
+  topicName: string,
+  bookId: number,
+  bookShortName: string,
+  bookSeries: string,
+  chapterNum: number,
+  chapterName: string,
+  problemId: number,
+  exerciseNum: number,
+  exerciseName: string,
+  problemType: string,
+  problemKey: string,
+  problemState: string
+}
+
+export type ProblemAttemptSO = {
+  id: number,
+  sessionId: number,
+  problemId: number,
+  startTime: Date,
+  endTime: Date,
+  effectiveDuration: number,
+  prevState: string,
+  targetState: string,
+}
