@@ -1,11 +1,11 @@
 <div [ngClass]="getTimerClass()"
-     (click)="pauseTimer()">
+     (click)="pause()">
   {{numActiveSeconds | duration}}
 </div>
 
 <div id="pause-screen" *ngIf="paused">
   <div id="resume-panel"
-       (click)="resumeTimer()">
+       (click)="resume()">
     <span [style.color]="'lightgrey'">Paused</span>
     <div id="pause-timer">
       {{numPauseSeconds | duration}}

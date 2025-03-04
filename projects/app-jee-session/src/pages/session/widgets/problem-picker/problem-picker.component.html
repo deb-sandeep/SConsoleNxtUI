@@ -1,10 +1,22 @@
 <div id="problem-picker-screen">
   <div id="problem-picker-ui">
     <div id="problem-list">
-      @for( p of problems; track p.problemId ) {
-        <div class="problem" (click)="problemSelected( p )">
-          {{p.problemKey.replaceAll( '/', ' / ' )}}
+      @for( key of Object.keys( catProblems ); track key ) {
+        @let problemList = catProblems[key] ;
+        @let firstProblem = problemList[0] ;
+        @let bookName = firstProblem.bookShortName ;
+        @let chapterName = firstProblem.chapterNum + '. ' + firstProblem.chapterName ;
+
+        <div class="book-chapter">
+          <div class="book-name">{{bookName}}</div>
+          <div class="chapter-name">{{chapterName}}</div>
         </div>
+
+        @for( p of problems; track p.problemId ) {
+          <div class="problem" (click)="problemSelected( p )">
+            {{p.problemKey.replaceAll( '/', ' / ' )}}
+          </div>
+        }
       }
     </div>
     <div id="btn-panel">

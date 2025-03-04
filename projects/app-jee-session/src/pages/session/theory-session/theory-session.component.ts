@@ -16,7 +16,7 @@ import { Router } from "@angular/router";
   template: `
     <div id="session-screen">
       <session-header></session-header>
-      <session-timer #timer></session-timer>
+      <session-timer #sessionTimer></session-timer>
       <div class="action-btn-panel">
         <action-btn (click)="exitSession()"
                     [bgColor]="'#200000'"
@@ -33,7 +33,7 @@ export class TheorySessionComponent {
   stateSvc = inject( SessionStateService ) ;
   session: Session;
 
-  @ViewChild( "timer" ) timer : SessionTimerComponent ;
+  @ViewChild( "sessionTimer" ) timer : SessionTimerComponent ;
 
   constructor() {
     if( this.stateSvc.session.topic() == null ) {

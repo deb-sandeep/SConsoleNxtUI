@@ -1,0 +1,30 @@
+@let session = stateSvc.session ;
+@let problem = stateSvc.session.currentProblem ;
+
+@if( session.isInProblemAttemptMode() ) {
+
+  <div class="chapter-summary">
+      <div class="book-name">{{problem?.bookShortName}}</div>
+      <div class="chapter-name">{{problem?.chapterNum}}. {{problem?.chapterName}}</div>
+  </div>
+
+  <div class="problem-timer"
+       (click)="pause()">
+    {{numActiveSeconds | duration}}
+  </div>
+
+  <div class="problem-key">
+    <span class="bi-twitter pigeon-icon"></span>&nbsp;
+    {{problem!.problemKey.replaceAll( "/", " / ")}}
+  </div>
+
+  <div id="pause-screen" *ngIf="paused">
+    <div id="resume-panel"
+         (click)="resume()">
+      <span [style.color]="'lightgrey'">Paused</span>
+      <div id="pause-timer">
+        {{numPauseSeconds | duration}}
+      </div>
+    </div>
+  </div>
+}

@@ -1,48 +1,32 @@
 import { Component, inject, OnDestroy } from '@angular/core';
-import { NgClass, NgIf } from "@angular/common";
+import { NgIf } from "@angular/common";
 import { SessionStateService } from "../../../../service/session-state.service";
 import { DurationPipe } from "../../../../pipes/duration.pipe";
 
 @Component({
-  selector: 'session-timer',
+  selector: 'problem-timer',
   imports: [
     NgIf,
-    NgClass,
     DurationPipe
   ],
-  templateUrl: './session-timer.component.html',
-  styleUrl: './session-timer.component.css'
+  templateUrl: './problem-timer.component.html',
+  styleUrl: './problem-timer.component.css'
 })
-export class SessionTimerComponent implements OnDestroy {
+export class ProblemTimerComponent implements OnDestroy {
 
-  private stateSvc = inject( SessionStateService ) ;
+  protected stateSvc = inject( SessionStateService ) ;
 
   protected numActiveSeconds = 0 ;
   protected numPauseSeconds = 0 ;
 
   protected paused = false ;
 
-  private numTicks = 0 ;
-
   private timeoutRef:ReturnType<typeof setTimeout>|null = null ;
 
-  constructor() {
-    this.timeoutRef = setTimeout(() => this.tick(), 1000 ) ;
-  }
+  constructor() {}
 
-  private tick(): void {
-    this.numTicks++;
-
-    if( this.paused ) {
-      this.numPauseSeconds++ ;
-    }
-    else {
-      this.numActiveSeconds++ ;
-    }
-
-    let updateServer = this.numTicks % 5 == 0 ;
-    this.stateSvc.updateContinuationTime( updateServer ) ;
-
+  start() {
+    this.stop() ;
     this.timeoutRef = setTimeout(() => this.tick(), 1000 ) ;
   }
 
@@ -66,7 +50,6 @@ export class SessionTimerComponent implements OnDestroy {
       clearTimeout( this.timeoutRef ) ;
     }
     this.paused = false ;
-    this.numTicks = 0 ;
     this.numActiveSeconds = 0 ;
     this.numPauseSeconds = 0 ;
     this.timeoutRef = null ;
@@ -76,7 +59,13 @@ export class SessionTimerComponent implements OnDestroy {
     stop() ;
   }
 
-  getTimerClass() {
-    return this.stateSvc.session.isInProblemAttemptMode() ? 'timer-small' : 'timer-big' ;
+  private tick(): void {
+    if( this.paused ) {
+      this.numPauseSeconds++ ;
+    }
+    else {
+      this.numActiveSeconds++ ;
+    }
+    this.timeoutRef = setTimeout(() => this.tick(), 1000 ) ;
   }
 }

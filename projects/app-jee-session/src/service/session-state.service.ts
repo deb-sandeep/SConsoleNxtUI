@@ -183,6 +183,6 @@ export class SessionStateService {
       targetState: problem.problemState,
     } ;
     problemAttempt.id = await this.networkSvc.startProblemAttempt( problemAttempt ) ;
-    this.session.startProblemAttempt( problemAttempt ) ;
+    this.session.startProblemAttempt( problem, problemAttempt ) ;
   }
 }

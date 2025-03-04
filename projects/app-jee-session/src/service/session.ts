@@ -25,6 +25,7 @@ export class Session {
 
   currentPause:SessionPauseSO|null = null ;
 
+  currentProblem:TopicProblemSO|null = null ;
   currentProblemAttempt:ProblemAttemptSO|null = null ;
   pausesDuringCurrentProblemAttempt:SessionPauseSO[] = [] ;
 
@@ -74,7 +75,8 @@ export class Session {
     this.updateContinuationTime() ;
   }
 
-  startProblemAttempt( pa: ProblemAttemptSO ) {
+  startProblemAttempt( tp:TopicProblemSO, pa: ProblemAttemptSO ) {
+    this.currentProblem = tp ;
     this.problemAttempts.push( pa ) ;
     this.currentProblemAttempt = pa ;
     this.pausesDuringCurrentProblemAttempt = [] ;
@@ -84,7 +86,10 @@ export class Session {
   endProblemAttempt() {
     this.currentProblemAttempt!.endTime = new Date() ;
     this.updateContinuationTime() ;
-    this.pausesDuringCurrentProblemAttempt = [] ;
+
+    //this.currentProblem = null ;
+    //this.currentProblemAttempt = null ;
+    //this.pausesDuringCurrentProblemAttempt = [] ;
   }
 
   updateContinuationTime() {

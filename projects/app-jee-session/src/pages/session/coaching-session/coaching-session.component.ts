@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { NgIf } from "@angular/common";
 import { ProblemPickerComponent } from "../widgets/problem-picker/problem-picker.component";
 import { TopicProblemSO } from "@jee-common/master-data-types";
+import { ProblemTimerComponent } from "../widgets/problem-timer/problem-timer.component";
 
 @Component({
   selector: 'theory-session',
@@ -16,7 +17,8 @@ import { TopicProblemSO } from "@jee-common/master-data-types";
     HeaderComponent,
     ActionButtonComponent,
     NgIf,
-    ProblemPickerComponent
+    ProblemPickerComponent,
+    ProblemTimerComponent
   ],
   templateUrl: "./coaching-session.component.html",
 })
@@ -27,6 +29,7 @@ export class CoachingSessionComponent {
   session: Session;
 
   @ViewChild( "sessionTimer" ) sessionTimer : SessionTimerComponent ;
+  @ViewChild( "problemTimer" ) problemTimer : ProblemTimerComponent ;
 
   showProblemPicker = false;
 
@@ -43,6 +46,7 @@ export class CoachingSessionComponent {
 
   pigeonSelected( problem: TopicProblemSO ) {
     this.stateSvc.setProblemAttempt( problem ).then() ;
+    this.problemTimer.start() ;
   }
 
   exitSession() {

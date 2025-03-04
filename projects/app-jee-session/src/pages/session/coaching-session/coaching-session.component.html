@@ -1,7 +1,11 @@
 <div id="session-screen">
   <session-header></session-header>
+
   <session-timer #sessionTimer></session-timer>
-  <div class="action-btn-panel">
+
+  <problem-timer #problemTimer></problem-timer>
+
+  <div class="action-btn-panel" *ngIf="!session.isInProblemAttemptMode()">
     <!-- Pigeon selection button -->
     <action-btn *ngIf="session.hasProblems()"
                 (click)="showProblemPicker=true"
@@ -10,12 +14,16 @@
       <span class="bi-twitter" style="font-size:45px;"></span>
     </action-btn>
     <div style="width: 50px;display: inline-block"></div>
+
     <!-- Exit session button -->
     <action-btn (click)="exitSession()"
                 [bgColor]="'#200000'"
                 [color]="'#858585'">
       <span class="bi-box-arrow-right" style="font-size:45px;"></span>
     </action-btn>
+  </div>
+
+  <div class="action-btn-panel" *ngIf="session.isInProblemAttemptMode()">
   </div>
 </div>
 

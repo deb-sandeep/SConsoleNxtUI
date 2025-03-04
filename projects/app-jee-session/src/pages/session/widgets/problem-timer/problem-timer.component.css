@@ -1,0 +1,59 @@
+.chapter-summary {
+    --panel-height: 160px;
+    --panel-width: 650px;
+    position: absolute;
+    text-align: center;
+    height: var(--panel-height);
+    width: var(--panel-width);
+    top: 200px;
+    left: calc( 50dvw - var(--panel-width)/2 ) ;
+    z-index: 100;
+}
+
+.book-name {
+    font-size: 25px;
+    color: #505050;
+}
+
+.chapter-name {
+    font-size: 35px;
+    color: #63451f;
+}
+
+.problem-key {
+    --panel-height: 40px;
+    --panel-width: 650px;
+    position: absolute;
+    text-align: center;
+    height: var(--panel-height);
+    width: var(--panel-width);
+    top: 500px;
+    left: calc( 50dvw - var(--panel-width)/2 ) ;
+    z-index: 100;
+
+    font-size: 40px;
+    color: #8c7801;
+    margin-top: 20px;
+}
+
+.pigeon-icon {
+    color: #885c16;
+    filter: drop-shadow(0px 4px 5px rgba(200, 200, 200, 0.3));
+}
+
+.problem-timer {
+    --panel-height: 300px;
+
+    position: absolute;
+    width: 100%;
+    height: var(--panel-height);
+    top: calc( 50dvh - var(--panel-height)/2 ) ;
+    left: 0;
+
+    text-align: center ;
+    font-size: 200px;
+    line-height: 300px;
+    font-family: "Courier New", "Courier", "ui-monospace";
+    color: #253e17;
+}
+
