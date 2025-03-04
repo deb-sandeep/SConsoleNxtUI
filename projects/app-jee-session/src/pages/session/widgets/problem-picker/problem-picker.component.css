@@ -1,0 +1,62 @@
+#problem-picker-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    z-index: 1000;
+    background-color: rgba(50, 50, 50, 0.65);
+    margin: 0 auto;
+    text-align: center;
+}
+
+#problem-picker-ui {
+    --panel-height: 400px;
+    --panel-width: 450px;
+    --btn-panel-height: 60px;
+    --padding: 5px;
+
+    position: absolute;
+    top: calc( 50dvh - var(--panel-height)/2 );
+    left: calc( 50dvw - var(--panel-width)/2 );
+    width: var(--panel-width);
+    height: var(--panel-height);
+    background-color: #5a5a5a;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px #101010;
+    overflow-y: scroll;
+    padding: var(--padding);
+}
+
+#problem-list {
+    width: 100%;
+    height: calc( var(--panel-height) - var(--btn-panel-height) - var(--padding)*2 ) ;
+    padding: var(--padding);
+}
+
+#btn-panel {
+    height: var(--btn-panel-height);
+    text-align: center;
+    padding: var(--padding);
+}
+
+button {
+    border: 1px #676666 solid ;
+    color: darkgray ;
+    background-color: #515151;
+}
+
+.problem {
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    background-color: #7a7a7a;
+    margin: 7px 5px 7px 5px;
+    color: #cccccc;
+    text-align: left;
+    padding: 0 5px 0 15px ;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 1px #858585 solid ;
+}
