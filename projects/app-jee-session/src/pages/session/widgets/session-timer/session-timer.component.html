@@ -8,7 +8,7 @@
        (click)="resume()">
     <span [style.color]="'lightgrey'">Paused</span>
     <div id="pause-timer">
-      {{session.currentPauseDuration() | duration}}
+      {{session.currentPause!.duration() | duration}}
     </div>
   </div>
 </div>

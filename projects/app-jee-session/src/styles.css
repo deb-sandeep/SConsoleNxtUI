@@ -21,7 +21,6 @@ body {
     left: 0;
     width: 100% ;
     height:  var(--body-height) ;
-    background-color: #292929;
 }
 
 .action-btn-panel {

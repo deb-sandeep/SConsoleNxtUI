@@ -12,6 +12,7 @@ import {
 } from "@jee-common/master-data-types";
 import dayjs from "dayjs";
 import { Session } from "./session";
+import { Pause } from "./pause";
 
 @Injectable()
 export class SessionNetworkService extends RemoteService {
@@ -73,20 +74,11 @@ export class SessionNetworkService extends RemoteService {
     } ) ;
   }
 
-  startPause( pause: SessionPauseSO ) {
+  startPause( pause: Pause ) {
     const url:string = `${environment.apiRoot}/Master/Session/StartPause` ;
     return this.postPromise<number>( url, {
       sessionId: pause.sessionId,
       startTime: this.utcAdjustedTime( pause.startTime ),
-    } ) ;
-  }
-
-  endPause( pause: SessionPauseSO ) {
-    const url:string = `${environment.apiRoot}/Master/Session/EndPause` ;
-    return this.postPromise<number>( url, {
-      id: pause.id,
-      sessionId: pause.sessionId,
-      endTime: this.utcAdjustedTime( pause.endTime ),
     } ) ;
   }
 

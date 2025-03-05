@@ -1,6 +1,5 @@
 import {
   ProblemAttemptSO,
-  SessionPauseSO,
   SessionTypeSO,
   SyllabusSO,
   TopicProblemSO,
@@ -12,6 +11,7 @@ import { LocalStorageService } from "lib-core";
 import { StorageKey } from "@jee-common/storage-keys";
 import { TimerService } from "./timer.service";
 import { Subscription } from "rxjs" ;
+import { Pause } from "./pause";
 
 export class SessionError extends Error {
   constructor( msg: string ) {
@@ -28,10 +28,10 @@ type assertionResult = {
 export class Session {
 
   private timerSvc:TimerService = inject( TimerService ) ;
-  private sessionTickHandle: Subscription | null = null ;
+  private tickHandle:Subscription | null = null ;
 
-  private networkSvc: SessionNetworkService ;
-  private localStorageSvc: LocalStorageService ;
+  private networkSvc: SessionNetworkService = inject( SessionNetworkService ) ;
+  private localStorageSvc: LocalStorageService = inject( LocalStorageService ) ;
 
   sessionType:SessionTypeSO|null = null ;
   syllabus = signal<SyllabusSO|null>(null);
@@ -43,21 +43,17 @@ export class Session {
   endTime:Date = new Date() ;
 
   problemAttempts:ProblemAttemptSO[] = [] ;
-  pauses:SessionPauseSO[] = [] ;
-  pausesDuringCurrentProblemAttempt:SessionPauseSO[] = [] ;
+  pauses:Pause[] = [] ;
+  pausesDuringCurrentProblemAttempt:Pause[] = [] ;
 
-  currentPause: SessionPauseSO|null = null ;
+  currentPause: Pause|null = null ;
   currentProblem:TopicProblemSO|null = null ;
   currentProblemAttempt:ProblemAttemptSO|null = null ;
 
   effectiveDuration = signal<number>(0) ;
-  currentPauseDuration = signal<number>(0) ;
   currentProblemAttemptsDuration = signal<number>(0) ;
 
-  constructor( netSvc: SessionNetworkService, storageSvc:LocalStorageService ) {
-    this.networkSvc = netSvc ;
-    this.localStorageSvc = storageSvc ;
-  }
+  constructor() {}
 
   // -------------- Check and throw error functions -------------------------------
 
@@ -176,7 +172,7 @@ export class Session {
     this.pausesDuringCurrentProblemAttempt = [] ;
 
     this.sessionId = await this.networkSvc.startSession( this ) ;
-    this.sessionTickHandle = this.timerSvc.subscribe( ( tickCount) => this.sessionTick( tickCount ) ) ;
+    this.tickHandle = this.timerSvc.subscribe( ( tickCount) => this.sessionTick( tickCount ) ) ;
   }
 
   public async end() {
@@ -199,7 +195,7 @@ export class Session {
     // us from client crash and leaving the session data on the server
     // in an inconsistent fashion.
     this.sessionId = -1 ;
-    this.sessionTickHandle!.unsubscribe() ;
+    this.tickHandle!.unsubscribe() ;
   }
 
   public async pause() {
@@ -210,14 +206,7 @@ export class Session {
     this.assertStates( !this.isPaused() )
         .elseThrow( "Can't pause session. Current session is already paused." ) ;
 
-    const currentTime = new Date() ;
-    let pause:SessionPauseSO = {
-      id: -1,
-      sessionId: this.sessionId,
-      startTime: currentTime,
-      endTime: currentTime
-    }
-
+    let pause = new Pause( this.sessionId ) ;
     pause.id = await this.networkSvc.startPause( pause ) ;
 
     this.pauses.push( pause ) ;
@@ -299,10 +288,7 @@ export class Session {
     this.endTime = currentTime ;
 
     if( this.currentPause != null ) {
-
-      let cp = this.currentPause! ;
-      cp.endTime = this.endTime ;
-      this.currentPauseDuration.set( ( cp.endTime.getTime() - cp.startTime.getTime() )/1000 ) ;
+      this.currentPause.updateEndTime( currentTime ) ;
     }
 
     if( this.currentProblemAttempt != null ) {
@@ -322,12 +308,9 @@ export class Session {
 
   private computeEffectiveSessionDuration() {
 
-    const totalDuration = this.endTime.getTime() - this.startTime.getTime() ;
-    const pauseDuration = this.pauses.reduce( (total:number, pause:SessionPauseSO) => {
-      return total + ( pause.endTime.getTime() - pause.startTime.getTime() ) ;
-    }, 0 ) ;
+    const totalDuration = ( this.endTime.getTime() - this.startTime.getTime() ) / 1000 ;
+    const effDuration = totalDuration - this.getTotalPauseDuration( this.pauses ) ;
 
-    let effDuration = ( totalDuration - pauseDuration )/1000 ;
     this.effectiveDuration.set( effDuration ) ;
   }
 
@@ -338,11 +321,17 @@ export class Session {
       const cpa = this.currentProblemAttempt ;
       const cpaPauses = this.pausesDuringCurrentProblemAttempt ;
 
-      const totalDuration = cpa.endTime.getTime() - cpa.startTime.getTime() ;
-      const pauseDuration = cpaPauses.reduce( (total:number, pause:SessionPauseSO) => {
-        return total + ( pause.endTime.getTime() - pause.startTime.getTime() ) ;
-      }, 0 ) ;
-      cpa.effectiveDuration = ( totalDuration - pauseDuration )/1000 ;
+      const totalDuration = ( cpa.endTime.getTime() - cpa.startTime.getTime() )/1000 ;
+      const pauseDuration = this.getTotalPauseDuration( cpaPauses ) ;
+
+      cpa.effectiveDuration = ( totalDuration - pauseDuration ) ;
     }
+  }
+
+  // This returns the aggregate duration of all the pauses in seconds
+  private getTotalPauseDuration( pauses:Pause[] ) {
+    return pauses.reduce( (total:number, pause:Pause) => {
+      return total + pause.duration() ;
+    }, 0 ) ;
   }
 }

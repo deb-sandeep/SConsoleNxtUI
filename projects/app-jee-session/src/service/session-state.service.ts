@@ -24,7 +24,7 @@ export class SessionStateService {
   // This encapsulates all the information related to the current session.
   // Note that a session can be active, inactive or in being-configured state. A session is
   // active iff its id is > 0.
-  session:Session = new Session( this.networkSvc, this.storageSvc ) ;
+  session:Session = new Session() ;
 
   private resetState() {
     this.activeTopicsMap = {} ;
