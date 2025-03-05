@@ -11,6 +11,7 @@ import { pageRoutes } from "./routes" ;
 import AlertService = Alert.AlertService;
 import { SessionNetworkService } from "./service/session-network.service";
 import { SessionStateService } from "./service/session-state.service";
+import { TimerService } from "./service/timer.service";
 
 @Component( {
   selector: 'app-root',
@@ -42,6 +43,7 @@ bootstrapApplication( AppComponent, {
     provideHttpClient( withFetch() ),
     AlertService,
     SessionNetworkService,
-    SessionStateService
+    SessionStateService,
+    TimerService
   ]
 }).catch((err) => console.error(err)) ;

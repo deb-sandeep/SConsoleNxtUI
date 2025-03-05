@@ -21,51 +21,25 @@ export class ProblemTimerComponent implements OnDestroy {
 
   protected paused = false ;
 
-  private timeoutRef:ReturnType<typeof setTimeout>|null = null ;
-
   constructor() {}
 
   start() {
     this.stop() ;
-    this.timeoutRef = setTimeout(() => this.tick(), 1000 ) ;
   }
 
   pause(): void {
-    this.stateSvc
-        .startPause()
-        .then( () => this.paused  = true ) ;
   }
 
   resume(): void {
-    this.stateSvc
-      .endPause()
-      .then( () => {
-        this.paused = false ;
-        this.numPauseSeconds = 0 ;
-      }) ;
   }
 
   stop(): void {
-    if( this.timeoutRef != null ) {
-      clearTimeout( this.timeoutRef ) ;
-    }
     this.paused = false ;
     this.numActiveSeconds = 0 ;
     this.numPauseSeconds = 0 ;
-    this.timeoutRef = null ;
   }
 
   ngOnDestroy(): void {
     stop() ;
-  }
-
-  private tick(): void {
-    if( this.paused ) {
-      this.numPauseSeconds++ ;
-    }
-    else {
-      this.numActiveSeconds++ ;
-    }
-    this.timeoutRef = setTimeout(() => this.tick(), 1000 ) ;
   }
 }

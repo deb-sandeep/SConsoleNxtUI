@@ -4,10 +4,10 @@ img {
 
 #header-container {
     background: #101010;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    height: 200px;
+    height: var(--header-height);
     width: 100dvw;
 }
 
@@ -15,28 +15,28 @@ img {
     position: absolute;
     top: 0;
     left: 0;
-    height: 200px;
-    width: 200px;
+    height: var(--header-height);
+    width: var(--header-height);
 }
 
 .syllabus-icon {
     position: absolute;
     top: 0;
     right: 0;
-    height: 200px;
-    width: 200px;
+    height: var(--header-height);
+    width: var(--header-height);
 }
 
 .syllabus-name {
     text-align: center;
     font-size: 45px;
     filter: opacity(0.3);
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 .topic-name {
     text-align: center;
     font-size: 40px;
     font-weight: bold;
-    filter: opacity(0.15);
+    filter: opacity(0.3);
 }

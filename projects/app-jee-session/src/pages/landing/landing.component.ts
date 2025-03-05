@@ -66,7 +66,7 @@ export class LandingComponent {
   }
 
   async topicSelected( t: TopicSO ) {
-    await this.stateSvc.setSelectedTopic( t ) ;
+    await this.stateSvc.session.setSelectedTopic( t ) ;
     let sessionType = this.stateSvc.session.sessionType!.sessionType ;
     if( sessionType === 'Exercise' ) {
       await this.router.navigate( [ '../exercise-session' ] ) ;

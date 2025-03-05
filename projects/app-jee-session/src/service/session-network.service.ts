@@ -66,7 +66,7 @@ export class SessionNetworkService extends RemoteService {
     return this.postPromise<number>( url, {
       sessionId: session.sessionId,
       endTime: this.utcAdjustedTime( session.endTime ),
-      sessionEffectiveDuration: session.effectiveDuration,
+      sessionEffectiveDuration: session.effectiveDuration(),
       pauseId: pauseId,
       problemAttemptId: problemAttemptId,
       problemAttemptEffectiveDuration: problemAttemptEffectiveDuration

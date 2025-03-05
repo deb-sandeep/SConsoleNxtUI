@@ -7,9 +7,11 @@ import { Pipe, PipeTransform } from "@angular/core";
 export class DurationPipe implements PipeTransform {
   transform( numSeconds: number ): string {
 
-    let hours   = Math.floor( numSeconds / 3600 ) ;
-    let minutes = Math.floor( ( numSeconds - (hours * 3600) ) / 60 ) ;
-    let seconds = numSeconds - ( hours * 3600 ) - ( minutes * 60 ) ;
+    const ns = Math.round( numSeconds ) ;
+
+    let hours   = Math.floor( ns / 3600 ) ;
+    let minutes = Math.floor( ( ns - (hours * 3600) ) / 60 ) ;
+    let seconds = ns - ( hours * 3600 ) - ( minutes * 60 ) ;
 
     let hrStr, minStr, secStr ;
 

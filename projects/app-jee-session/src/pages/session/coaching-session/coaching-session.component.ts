@@ -28,9 +28,6 @@ export class CoachingSessionComponent {
   stateSvc = inject( SessionStateService ) ;
   session: Session;
 
-  @ViewChild( "sessionTimer" ) sessionTimer : SessionTimerComponent ;
-  @ViewChild( "problemTimer" ) problemTimer : ProblemTimerComponent ;
-
   showProblemPicker = false;
 
   constructor() {
@@ -39,19 +36,17 @@ export class CoachingSessionComponent {
     }
     else {
       this.session = this.stateSvc.session ;
-      this.stateSvc.startSession()
-          .then( () => this.stateSvc.fetchPigeons() ) ;
+      this.session.start()
+          .then( () => this.session.fetchPigeons() ) ;
     }
   }
 
   pigeonSelected( problem: TopicProblemSO ) {
-    this.stateSvc.setProblemAttempt( problem ).then() ;
-    this.problemTimer.start() ;
+    this.session.startProblemAttempt( problem ).then() ;
   }
 
   exitSession() {
-    this.sessionTimer.stop() ;
-    this.stateSvc.endSession()
+    this.session.end()
         .then( ()=> this.router.navigate(['../landing']) )
         .then() ;
   }

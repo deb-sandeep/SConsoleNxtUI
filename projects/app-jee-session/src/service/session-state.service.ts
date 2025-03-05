@@ -3,10 +3,8 @@ import { LocalStorageService } from "lib-core";
 
 import { SessionNetworkService } from "./session-network.service";
 import {
-  SessionPauseSO,
   SessionTypeSO,
-  SyllabusSO, TopicProblemSO,
-  TopicSO,
+  SyllabusSO, TopicSO,
   TopicTrackAssignmentSO
 } from "@jee-common/master-data-types";
 import { StorageKey } from "@jee-common/storage-keys" ;
@@ -16,14 +14,17 @@ import { Session } from "./session";
 @Injectable()
 export class SessionStateService {
 
-  storageSvc: LocalStorageService = inject( LocalStorageService ) ;
+  storageSvc: LocalStorageService   = inject( LocalStorageService ) ;
   networkSvc: SessionNetworkService = inject( SessionNetworkService ) ;
 
   syllabuses: SyllabusSO[] = [];
   sessionTypes: SessionTypeSO[] = [];
   activeTopicsMap: Record<string, { topic:TopicSO, assignment:TopicTrackAssignmentSO, syllabus:SyllabusSO}[]> = {} ;
 
-  session:Session = new Session() ;
+  // This encapsulates all the information related to the current session.
+  // Note that a session can be active, inactive or in being-configured state. A session is
+  // active iff its id is > 0.
+  session:Session = new Session( this.networkSvc, this.storageSvc ) ;
 
   private resetState() {
     this.activeTopicsMap = {} ;
@@ -42,6 +43,25 @@ export class SessionStateService {
     })
 
     this.selectLastUsedSessionType() ;
+  }
+
+  private async _loadMasterData<T>( networkFn:()=>Promise<T>, storageKey:string )  {
+
+    let obj:T ;
+    const str = this.storageSvc.getItem( storageKey ) ;
+    if( str == null ) {
+      obj = await networkFn() ;
+      this.storageSvc.setItem( storageKey, JSON.stringify( obj ) ) ;
+    }
+    else {
+      obj = JSON.parse( str ) ;
+    }
+    return obj ;
+  }
+
+  private getCurrentDate() {
+    return dayjs( '2025-04-20' ).toDate() ;
+    // return new Date() ;
   }
 
   private addActiveTopic( assignment:TopicTrackAssignmentSO ) {
@@ -76,29 +96,16 @@ export class SessionStateService {
       })
     }
     else {
-      this.setSelectedSessionType( this.sessionTypes[0] ) ;
+      this.session.setSelectedSessionType( this.sessionTypes[0] ) ;
     }
   }
 
-  private async _loadMasterData<T>( networkFn:()=>Promise<T>, storageKey:string )  {
-
-    let obj:T ;
-    const str = this.storageSvc.getItem( storageKey ) ;
-    if( str == null ) {
-      obj = await networkFn() ;
-      this.storageSvc.setItem( storageKey, JSON.stringify( obj ) ) ;
-    }
-    else {
-      obj = JSON.parse( str ) ;
-    }
-    return obj ;
-  }
-
-  private getCurrentDate() {
-    return dayjs( '2025-04-20' ).toDate() ;
-    // return new Date() ;
-  }
-
+  /**
+   * Given a topic, return true if the topic is active on the date returned by
+   * #getCurrentDate() function.
+   *
+   * @param topic TopicSO instance
+   */
   public isTopicActive( topic:TopicSO ) {
     let selectedSyllabusName = this.session.syllabus()!.syllabusName ;
     if( selectedSyllabusName in this.activeTopicsMap ) {
@@ -107,82 +114,5 @@ export class SessionStateService {
         .includes( topic ) ;
     }
     return false ;
-  }
-
-  public setSelectedSessionType( st: SessionTypeSO ) {
-    this.session.sessionType = st ;
-    this.storageSvc.setItem( StorageKey.LAST_SESSION_TYPE, st.sessionType ) ;
-  }
-
-  public setSelectedSyllabus( s: SyllabusSO ) {
-    this.session.syllabus.set( s ) ;
-    this.session.topic.set( null ) ;
-  }
-
-  public async setSelectedTopic( t: TopicSO ) {
-    this.session.topic.set( t ) ;
-  }
-
-  public async startSession() {
-    this.session.startSession() ;
-    this.session.sessionId = await this.networkSvc.startSession( this.session ) ;
-  }
-
-  public async fetchPigeons() {
-    this.session.problems = await this.networkSvc.getPigeonsForSession( this.session ) ;
-  }
-
-  public async endSession() {
-    this.session.endSession() ;
-    await this.networkSvc.extendSession( this.session ) ;
-    this.session.sessionId = -1 ;
-  }
-
-  public async startPause() {
-    let currentTime = new Date() ;
-    let pause:SessionPauseSO = {
-      id: -1,
-      sessionId: this.session.sessionId,
-      startTime: currentTime,
-      endTime: currentTime
-    }
-    pause.id = await this.networkSvc.startPause( pause ) ;
-
-    this.session.startPause( pause ) ;
-    await this.networkSvc.extendSession( this.session ) ;
-  }
-
-  public async endPause() {
-    let currentPause = this.session.currentPause ;
-    if( currentPause != null ) {
-
-      this.session.endPause() ;
-      await this.networkSvc.endPause( currentPause ) ;
-      await this.networkSvc.extendSession( this.session ) ;
-    }
-  }
-
-  public updateContinuationTime( updateServer:boolean) {
-    this.session.updateContinuationTime() ;
-    if( updateServer ) {
-      this.networkSvc.extendSession( this.session ).then() ;
-    }
-  }
-
-  async setProblemAttempt( problem: TopicProblemSO ) {
-
-    const currentTime = new Date() ;
-    let problemAttempt = {
-      id: -1,
-      sessionId: this.session.sessionId,
-      problemId: problem.problemId,
-      startTime: currentTime,
-      endTime: currentTime,
-      effectiveDuration: 0,
-      prevState: problem.problemState,
-      targetState: problem.problemState,
-    } ;
-    problemAttempt.id = await this.networkSvc.startProblemAttempt( problemAttempt ) ;
-    this.session.startProblemAttempt( problem, problemAttempt ) ;
   }
 }
