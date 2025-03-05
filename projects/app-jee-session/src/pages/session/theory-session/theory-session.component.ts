@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Session } from "../../../service/session";
 import { SessionTimerComponent } from "../widgets/session-timer/session-timer.component";
-import { HeaderComponent } from "../widgets/header/header.component";
+import { SessionHeaderComponent } from "../widgets/session-header/session-header.component";
 import { SessionStateService } from "../../../service/session-state.service";
 import { ActionButtonComponent } from "../widgets/action-button/action-button.component";
 import { Router } from "@angular/router";
@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
   selector: 'theory-session',
   imports: [
     SessionTimerComponent,
-    HeaderComponent,
+    SessionHeaderComponent,
     ActionButtonComponent
   ],
   template: `

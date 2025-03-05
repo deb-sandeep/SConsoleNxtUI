@@ -9,10 +9,10 @@ import { ImgColorCSSGen } from "@jee-common/img-color-cssgen";
   imports: [
     NgOptimizedImage,
   ],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  templateUrl: './session-header.component.html',
+  styleUrl: './session-header.component.css'
 })
-export class HeaderComponent {
+export class SessionHeaderComponent {
 
   stateSvc:SessionStateService = inject( SessionStateService ) ;
 
