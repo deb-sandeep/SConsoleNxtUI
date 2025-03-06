@@ -1,8 +1,8 @@
-.timer-big {
+.session-timer-big {
     --panel-height: 300px ;
 
     position: absolute ;
-    top: calc( (var(--body-height) - var(--panel-height))/2 ) ;
+    top: calc( (var(--body-content-height) - var(--panel-height))/2 ) ;
     left: 0 ;
     height: var(--panel-height) ;
     width: 100% ;
@@ -12,23 +12,4 @@
     font-family: "Courier New", "Courier", "ui-monospace" ;
 
     color: #283f6c ;
-}
-
-.timer-small {
-    --panel-height: 70px ;
-    --panel-width: 250px ;
-
-    position: absolute;
-    top: 0 ;
-    left: 0 ;
-    height: var(--panel-height);
-    width: var(--panel-width);
-
-    text-align: left ;
-    font-size: 50px;
-    font-family: "Courier New", "Courier", "ui-monospace";
-
-    color: #1c3257;
-
-    padding-left: 20px;
 }

@@ -9,7 +9,7 @@ import {
 } from "@jee-common/master-data-types";
 import { StorageKey } from "@jee-common/storage-keys" ;
 import dayjs from "dayjs";
-import { Session } from "./session";
+import { Session } from "../entities/session";
 
 @Injectable()
 export class SessionStateService {

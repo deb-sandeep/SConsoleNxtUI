@@ -1,6 +1,6 @@
 import { Component, inject, output } from '@angular/core';
 import { SessionStateService } from "../../../../service/session-state.service";
-import { Session } from "../../../../service/session";
+import { Session } from "../../../../entities/session";
 import { TopicProblemSO } from "@jee-common/master-data-types";
 
 @Component({

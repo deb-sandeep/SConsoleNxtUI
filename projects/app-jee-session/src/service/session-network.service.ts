@@ -3,16 +3,15 @@ import { RemoteService } from "lib-core";
 
 import { environment } from "@env/environment";
 import {
-  ProblemAttemptSO,
-  SessionPauseSO,
   SessionTypeSO,
   SyllabusSO,
   TopicProblemSO,
   TopicTrackAssignmentSO
 } from "@jee-common/master-data-types";
 import dayjs from "dayjs";
-import { Session } from "./session";
-import { Pause } from "./pause";
+import { Session } from "../entities/session";
+import { Pause } from "../entities/pause";
+import { ProblemAttempt } from "../entities/problem-attempt";
 
 @Injectable()
 export class SessionNetworkService extends RemoteService {
@@ -61,13 +60,13 @@ export class SessionNetworkService extends RemoteService {
 
     if( session.currentProblemAttempt != null ) {
       problemAttemptId = session.currentProblemAttempt.id ;
-      problemAttemptEffectiveDuration = session.currentProblemAttempt.effectiveDuration ;
+      problemAttemptEffectiveDuration = Math.ceil( session.currentProblemAttempt.effectiveDuration()/1000 ) ;
     }
 
     return this.postPromise<number>( url, {
       sessionId: session.sessionId,
       endTime: this.utcAdjustedTime( session.endTime ),
-      sessionEffectiveDuration: session.effectiveDuration(),
+      sessionEffectiveDuration: Math.ceil(session.effectiveDuration()/1000),
       pauseId: pauseId,
       problemAttemptId: problemAttemptId,
       problemAttemptEffectiveDuration: problemAttemptEffectiveDuration
@@ -82,17 +81,26 @@ export class SessionNetworkService extends RemoteService {
     } ) ;
   }
 
-  startProblemAttempt( pa: ProblemAttemptSO ) {
+  startProblemAttempt( pa: ProblemAttempt ) {
 
     const url:string = `${environment.apiRoot}/Master/Session/StartProblemAttempt` ;
     return this.postPromise<number>( url,  {
       id: -1,
       sessionId: pa.sessionId,
-      problemId: pa.problemId,
+      problemId: pa.problem.problemId,
       startTime: this.utcAdjustedTime( pa.startTime ),
       endTime: this.utcAdjustedTime( pa.endTime ),
       effectiveDuration: 0,
       prevState: pa.prevState,
+      targetState: pa.targetState,
+    } ) ;
+  }
+
+  endProblemAttempt( pa: ProblemAttempt ) {
+
+    const url:string = `${environment.apiRoot}/Master/Session/EndProblemAttempt` ;
+    return this.postPromise<number>( url,  {
+      id: pa.id,
       targetState: pa.targetState,
     } ) ;
   }

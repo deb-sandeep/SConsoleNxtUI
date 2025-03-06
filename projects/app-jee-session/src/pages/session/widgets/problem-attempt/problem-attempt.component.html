@@ -1,0 +1,61 @@
+<div id="problem-attempt-body">
+
+  <div class="session-body-content">
+
+    <div class="session-timer-small">
+      {{session.effectiveDuration() | duration}}
+    </div>
+
+    <div *ngIf="showAutoPlay()" class="auto-play-switch form-switch">
+      <input class="form-check-input" type="checkbox" role="switch"
+             [checked]="autoPlay"
+             (change)="autoPlay = !autoPlay">
+    </div>
+
+    <div class="chapter-summary">
+      <div class="book-name">{{problem?.bookShortName}}</div>
+      <div class="chapter-name">{{problem?.chapterNum}}. {{problem?.chapterName}}</div>
+    </div>
+
+    <div class="problem-timer"
+         (click)="session.pause()">
+      {{problemAttempt!.effectiveDuration() | duration}}
+    </div>
+
+    <div class="problem-key">
+      <span class="bi-twitter pigeon-icon"></span>&nbsp;
+      {{problem!.problemKey.replaceAll( "/", " / ")}}
+    </div>
+  </div>
+
+  <div class="action-btn-panel">
+    <action-btn *ngIf="isValidAction( 'Pigeon' )"
+                (click)="endProblemAttempt( 'Pigeon' )"
+                bgColor="#002200"
+                color="#858585">
+      <span class="bi-twitter" style="font-size:45px;"></span>
+    </action-btn>
+    <div style="width: 50px;display: inline-block"></div>
+    <action-btn *ngIf="isValidAction( 'Pigeon Kill' )"
+                (click)="endProblemAttempt( 'Pigeon Kill' )"
+                bgColor="#0b3d28"
+                color="#858585">
+      <span class="bi-check2-square" style="font-size:45px;"></span>
+    </action-btn>
+    <div style="width: 50px;display: inline-block"></div>
+    <action-btn *ngIf="isValidAction( 'Redo' )"
+                (click)="endProblemAttempt( 'Redo' )"
+                bgColor="#3d2020"
+                color="#858585">
+      <span class="bi-box-arrow-left" style="font-size:45px;"></span>
+    </action-btn>
+    <div style="width: 50px;display: inline-block"></div>
+    <action-btn *ngIf="isValidAction( 'Reassign' )"
+                (click)="endProblemAttempt( 'Reassign' )"
+                bgColor="#02243d"
+                color="#858585">
+      <span class="bi-signpost-split" style="font-size:45px;"></span>
+    </action-btn>
+  </div>
+
+</div>

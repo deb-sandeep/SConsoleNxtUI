@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DurationPipe } from "../../../../pipes/duration.pipe";
 import { SessionStateService } from "../../../../service/session-state.service";
-import { Session } from "../../../../service/session";
+import { Session } from "../../../../entities/session";
 
 @Component({
   selector: 'pause-screen',

@@ -1,17 +1,18 @@
 import {
-  ProblemAttemptSO,
   SessionTypeSO,
   SyllabusSO,
   TopicProblemSO,
   TopicSO
 } from "@jee-common/master-data-types";
 import { inject, signal } from "@angular/core";
-import { SessionNetworkService } from "./session-network.service";
+import { SessionNetworkService } from "../service/session-network.service";
 import { LocalStorageService } from "lib-core";
 import { StorageKey } from "@jee-common/storage-keys";
-import { TimerService } from "./timer.service";
+import { TimerService } from "../service/timer.service";
 import { Subscription } from "rxjs" ;
 import { Pause } from "./pause";
+import { ProblemAttempt } from "./problem-attempt";
+import { PausableTimedEntity } from "./base-entities";
 
 export class SessionError extends Error {
   constructor( msg: string ) {
@@ -25,7 +26,7 @@ type assertionResult = {
   elseThrow: (msg:string)=>void
 } ;
 
-export class Session {
+export class Session extends PausableTimedEntity {
 
   private timerSvc:TimerService = inject( TimerService ) ;
   private tickHandle:Subscription | null = null ;
@@ -39,21 +40,11 @@ export class Session {
   problems: TopicProblemSO[] = [] ;
 
   sessionId:number = -1 ; // <=0 => session not started
-  startTime:Date = new Date() ;
-  endTime:Date = new Date() ;
 
-  problemAttempts:ProblemAttemptSO[] = [] ;
-  pauses:Pause[] = [] ;
-  pausesDuringCurrentProblemAttempt:Pause[] = [] ;
+  problemAttempts:ProblemAttempt[] = [] ;
 
   currentPause: Pause|null = null ;
-  currentProblem:TopicProblemSO|null = null ;
-  currentProblemAttempt:ProblemAttemptSO|null = null ;
-
-  effectiveDuration = signal<number>(0) ;
-  currentProblemAttemptsDuration = signal<number>(0) ;
-
-  constructor() {}
+  currentProblemAttempt:ProblemAttempt|null = null ;
 
   // -------------- Check and throw error functions -------------------------------
 
@@ -169,7 +160,6 @@ export class Session {
     this.currentProblemAttempt = null ;
     this.pauses = [] ;
     this.currentPause = null ;
-    this.pausesDuringCurrentProblemAttempt = [] ;
 
     this.sessionId = await this.networkSvc.startSession( this ) ;
     this.tickHandle = this.timerSvc.subscribe( ( tickCount) => this.sessionTick( tickCount ) ) ;
@@ -186,8 +176,7 @@ export class Session {
     this.assertStates( !this.isInProblemAttemptMode() )
         .elseThrow( "Can't end session. Currently in exercise mode." ) ;
 
-    this.endTime = new Date() ;
-    this.computeEffectiveSessionDuration() ;
+    this.updateEndTime( new Date() ) ;
     await this.networkSvc.extendSession( this ) ;
 
     // Note that there is no server API to close the session.
@@ -212,7 +201,7 @@ export class Session {
     this.pauses.push( pause ) ;
     this.currentPause = pause ;
     if( this.currentProblemAttempt != null ){
-      this.pausesDuringCurrentProblemAttempt.push( pause ) ;
+      this.currentProblemAttempt.addPause( pause ) ;
     }
 
     this.updateContinuationTime() ;
@@ -241,29 +230,16 @@ export class Session {
     this.assertStates( !this.isPaused() )
         .elseThrow( "Can't start problem attempt. Current session is paused." ) ;
 
-    const currentTime = new Date() ;
-    let problemAttempt = {
-      id: -1,
-      sessionId: this.sessionId,
-      problemId: problem.problemId,
-      startTime: currentTime,
-      endTime: currentTime,
-      effectiveDuration: 0,
-      prevState: problem.problemState,
-      targetState: problem.problemState,
-    } ;
-
+    let problemAttempt = new ProblemAttempt( this.sessionId, problem ) ;
     problemAttempt.id = await this.networkSvc.startProblemAttempt( problemAttempt ) ;
 
-    this.currentProblem = problem ;
-    this.problemAttempts.push( problemAttempt ) ;
     this.currentProblemAttempt = problemAttempt ;
-    this.pausesDuringCurrentProblemAttempt = [] ;
+    this.problemAttempts.push( problemAttempt ) ;
 
     this.updateContinuationTime() ;
   }
 
-  public async endProblemAttempt() {
+  public async endProblemAttempt( targetState:string ) {
 
     this.assertStates( this.isActive() )
         .elseThrow( "Can't end problem attempt. No active session exists." ) ;
@@ -274,64 +250,32 @@ export class Session {
     this.assertStates( !this.isPaused() )
         .elseThrow( "Can't attempt problem attempt. Current session is paused." ) ;
 
+    this.currentProblemAttempt!.targetState = targetState ;
+    await this.networkSvc.endProblemAttempt( this.currentProblemAttempt! ) ;
+
     this.updateContinuationTime() ;
 
-    this.currentProblem = null ;
+    let index = this.problems.findIndex( value =>
+      value.problemId === this.currentProblemAttempt!.problem.problemId ) ;
+
+    if ( index > -1 ) {
+      this.problems.splice( index, 1 ) ;
+    }
     this.currentProblemAttempt = null ;
-    this.pausesDuringCurrentProblemAttempt = [] ;
   }
 
-  public updateContinuationTime( updateServer:boolean = true ) {
+  private updateContinuationTime( updateServer:boolean = true ) {
 
     const currentTime = new Date() ;
 
-    this.endTime = currentTime ;
+    this.currentPause?.updateEndTime( currentTime ) ;
+    this.currentProblemAttempt?.updateEndTime( currentTime ) ;
 
-    if( this.currentPause != null ) {
-      this.currentPause.updateEndTime( currentTime ) ;
-    }
-
-    if( this.currentProblemAttempt != null ) {
-
-      this.currentProblemAttempt!.endTime = currentTime ;
-      this.computeEffectiveProblemAttemptDuration() ;
-      this.currentProblemAttemptsDuration.set( this.currentProblemAttempt!.effectiveDuration ) ;
-    }
-
-    this.computeEffectiveSessionDuration() ;
+    this.updateEndTime( currentTime ) ;
 
     if( updateServer ) {
       // Extend the session asynchronously.
       this.networkSvc.extendSession( this ).then() ;
     }
-  }
-
-  private computeEffectiveSessionDuration() {
-
-    const totalDuration = ( this.endTime.getTime() - this.startTime.getTime() ) / 1000 ;
-    const effDuration = totalDuration - this.getTotalPauseDuration( this.pauses ) ;
-
-    this.effectiveDuration.set( effDuration ) ;
-  }
-
-  private computeEffectiveProblemAttemptDuration() {
-
-    if( this.currentProblemAttempt != null ){
-
-      const cpa = this.currentProblemAttempt ;
-      const cpaPauses = this.pausesDuringCurrentProblemAttempt ;
-
-      const totalDuration = ( cpa.endTime.getTime() - cpa.startTime.getTime() )/1000 ;
-      const pauseDuration = this.getTotalPauseDuration( cpaPauses ) ;
-
-      cpa.effectiveDuration = ( totalDuration - pauseDuration ) ;
-    }
-  }
-
-  // This returns the aggregate duration of all the pauses in seconds
-  private getTotalPauseDuration( pauses:Pause[] ) {
-    return pauses.reduce( (total:number, pause:Pause) => {
-      return total + pause.duration() ;
-    }, 0 ) ;
   }
 }

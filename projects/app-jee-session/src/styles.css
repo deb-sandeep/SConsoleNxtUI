@@ -12,7 +12,8 @@ body {
 #session-screen {
     --header-height: 200px;
     --footer-height: 150px;
-    --body-height: calc( 100dvh - var(--header-height) - var(--footer-height));
+    --body-height: calc( 100dvh - var(--header-height) );
+    --body-content-height: calc( 100dvh - var(--header-height) - var(--footer-height));
 }
 
 .session-body {
@@ -20,11 +21,19 @@ body {
     top: var(--header-height) ;
     left: 0;
     width: 100% ;
-    height:  var(--body-height) ;
+    height: var(--body-height) ;
+}
+
+.session-body-content {
+    position: absolute ;
+    top: 0 ;
+    left: 0;
+    width: 100% ;
+    height:  var(--body-content-height) ;
 }
 
 .action-btn-panel {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     right: 0;
     width: 100% ;

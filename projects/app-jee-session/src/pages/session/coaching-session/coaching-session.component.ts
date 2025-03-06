@@ -1,5 +1,5 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { Session } from "../../../service/session";
+import { Component, inject } from '@angular/core';
+import { Session } from "../../../entities/session";
 import { SessionTimerComponent } from "../widgets/session-timer/session-timer.component";
 import { SessionHeaderComponent } from "../widgets/session-header/session-header.component";
 import { SessionStateService } from "../../../service/session-state.service";
@@ -8,7 +8,8 @@ import { Router } from "@angular/router";
 import { NgIf } from "@angular/common";
 import { ProblemPickerComponent } from "../widgets/problem-picker/problem-picker.component";
 import { TopicProblemSO } from "@jee-common/master-data-types";
-import { ProblemTimerComponent } from "../widgets/problem-timer/problem-timer.component";
+import { ProblemAttemptComponent } from "../widgets/problem-attempt/problem-attempt.component";
+import { PauseScreenComponent } from "../widgets/pause-screen/pause-screen.component";
 
 @Component({
   selector: 'theory-session',
@@ -18,7 +19,8 @@ import { ProblemTimerComponent } from "../widgets/problem-timer/problem-timer.co
     ActionButtonComponent,
     NgIf,
     ProblemPickerComponent,
-    ProblemTimerComponent
+    ProblemAttemptComponent,
+    PauseScreenComponent
   ],
   templateUrl: "./coaching-session.component.html",
 })

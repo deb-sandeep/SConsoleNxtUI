@@ -1,29 +1,36 @@
 <div id="session-screen">
   <session-header></session-header>
 
-  <session-timer #sessionTimer></session-timer>
-
-  <problem-timer #problemTimer></problem-timer>
-
-  <div class="action-btn-panel" *ngIf="!session.isInProblemAttemptMode()">
-    <!-- Pigeon selection button -->
-    <action-btn *ngIf="session.hasProblems()"
-                (click)="showProblemPicker=true"
-                [bgColor]="'#002200'"
-                [color]="'#858585'">
-      <span class="bi-twitter" style="font-size:45px;"></span>
-    </action-btn>
-    <div style="width: 50px;display: inline-block"></div>
-
-    <!-- Exit session button -->
-    <action-btn (click)="exitSession()"
-                [bgColor]="'#200000'"
-                [color]="'#858585'">
-      <span class="bi-box-arrow-right" style="font-size:45px;"></span>
-    </action-btn>
+  <!-- ------------------------------------------------------------- -->
+  <!-- Body when the session is not in problem attempt mode          -->
+  <!-- ------------------------------------------------------------- -->
+  <div class="session-body" *ngIf="!session.isInProblemAttemptMode()">
+    <div class="session-body-content">
+      <session-timer></session-timer>
+    </div>
+    <div class="action-btn-panel">
+      <!-- Pigeon selection button -->
+      <action-btn *ngIf="session.hasProblems()"
+                  (click)="showProblemPicker=true"
+                  [bgColor]="'#002200'"
+                  [color]="'#858585'">
+        <span class="bi-twitter" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 50px;display: inline-block"></div>
+      <!-- Exit session button -->
+      <action-btn (click)="exitSession()"
+                  [bgColor]="'#200000'"
+                  [color]="'#858585'">
+        <span class="bi-box-arrow-right" style="font-size:45px;"></span>
+      </action-btn>
+    </div>
   </div>
 
-  <div class="action-btn-panel" *ngIf="session.isInProblemAttemptMode()">
+  <!-- ------------------------------------------------------------- -->
+  <!-- Problem attempt mode body                                     -->
+  <!-- ------------------------------------------------------------- -->
+  <div class="session-body" *ngIf="session.isInProblemAttemptMode()">
+    <problem-attempt></problem-attempt>
   </div>
 </div>
 
@@ -31,3 +38,6 @@
                 (hide)="showProblemPicker=false"
                 (selection)="pigeonSelected( $event )">
 </problem-picker>
+
+<pause-screen *ngIf="session.isPaused()">
+</pause-screen>

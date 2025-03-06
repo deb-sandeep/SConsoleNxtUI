@@ -5,13 +5,13 @@ import { Pipe, PipeTransform } from "@angular/core";
   name: 'duration',
 })
 export class DurationPipe implements PipeTransform {
-  transform( numSeconds: number ): string {
+  transform( numMillis: number ): string {
 
-    const ns = Math.round( numSeconds ) ;
+    const numSecs = Math.ceil( numMillis/1000 ) ;
 
-    let hours   = Math.floor( ns / 3600 ) ;
-    let minutes = Math.floor( ( ns - (hours * 3600) ) / 60 ) ;
-    let seconds = ns - ( hours * 3600 ) - ( minutes * 60 ) ;
+    let hours   = Math.floor( numSecs / 3600 ) ;
+    let minutes = Math.floor( ( numSecs - (hours * 3600) ) / 60 ) ;
+    let seconds = numSecs - ( hours * 3600 ) - ( minutes * 60 ) ;
 
     let hrStr, minStr, secStr ;
 

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NgOptimizedImage } from "@angular/common";
 import { SessionStateService } from "../../../../service/session-state.service";
-import { Session } from "../../../../service/session";
+import { Session } from "../../../../entities/session";
 import { ImgColorCSSGen } from "@jee-common/img-color-cssgen";
 
 @Component({
