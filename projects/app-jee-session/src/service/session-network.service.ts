@@ -17,12 +17,12 @@ import { ProblemAttempt } from "../entities/problem-attempt";
 export class SessionNetworkService extends RemoteService {
 
   getAllSyllabus() : Promise<SyllabusSO[]> {
-    const url:string = `${environment.apiRoot}/Master/Syllabus/All` ;
+    const url:string = `${environment.apiRoot}/Syllabus/All` ;
     return this.getPromise<SyllabusSO[]>( url, true ) ;
   }
 
   getSessionTypes() : Promise<SessionTypeSO[]> {
-    const url:string = `${environment.apiRoot}/Master/Session/Types` ;
+    const url:string = `${environment.apiRoot}/Session/Types` ;
     return this.getPromise<SessionTypeSO[]>( url, true ) ;
   }
 
@@ -33,12 +33,12 @@ export class SessionNetworkService extends RemoteService {
   }
 
   getPigeonsForSession( session: Session ) : Promise<TopicProblemSO[]> {
-    const url:string = `${environment.apiRoot}/Master/Session/${session.sessionId}/PigeonedProblems` ;
+    const url:string = `${environment.apiRoot}/Session/${session.sessionId}/PigeonedProblems` ;
     return this.getPromise<TopicProblemSO[]>( url ) ;
   }
 
   startSession( session: Session ) {
-    const url:string = `${environment.apiRoot}/Master/Session/StartSession` ;
+    const url:string = `${environment.apiRoot}/Session/StartSession` ;
     return this.postPromise<number>( url, {
       sessionType: session.sessionType?.sessionType,
       topicId: session.topic()!.id,
@@ -48,7 +48,7 @@ export class SessionNetworkService extends RemoteService {
   }
 
   extendSession( session: Session ) {
-    const url:string = `${environment.apiRoot}/Master/Session/ExtendSession` ;
+    const url:string = `${environment.apiRoot}/Session/ExtendSession` ;
 
     let pauseId = -1 ;
     let problemAttemptId = -1 ;
@@ -74,7 +74,7 @@ export class SessionNetworkService extends RemoteService {
   }
 
   startPause( pause: Pause ) {
-    const url:string = `${environment.apiRoot}/Master/Session/StartPause` ;
+    const url:string = `${environment.apiRoot}/Session/StartPause` ;
     return this.postPromise<number>( url, {
       sessionId: pause.sessionId,
       startTime: this.utcAdjustedTime( pause.startTime ),
@@ -83,7 +83,7 @@ export class SessionNetworkService extends RemoteService {
 
   startProblemAttempt( pa: ProblemAttempt ) {
 
-    const url:string = `${environment.apiRoot}/Master/Session/StartProblemAttempt` ;
+    const url:string = `${environment.apiRoot}/Session/StartProblemAttempt` ;
     return this.postPromise<number>( url,  {
       id: -1,
       sessionId: pa.sessionId,
@@ -98,7 +98,7 @@ export class SessionNetworkService extends RemoteService {
 
   endProblemAttempt( pa: ProblemAttempt ) {
 
-    const url:string = `${environment.apiRoot}/Master/Session/EndProblemAttempt` ;
+    const url:string = `${environment.apiRoot}/Session/EndProblemAttempt` ;
     return this.postPromise<number>( url,  {
       id: pa.id,
       targetState: pa.targetState,

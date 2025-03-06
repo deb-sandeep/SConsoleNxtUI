@@ -14,6 +14,7 @@
 
         @for( p of problems; track p.problemId ) {
           <div class="problem" (click)="problemSelected( p )">
+            <span [class]="getProblemIcon( p.problemState )"></span>&nbsp;&nbsp;
             {{p.problemKey.replaceAll( '/', ' / ' )}}
           </div>
         }

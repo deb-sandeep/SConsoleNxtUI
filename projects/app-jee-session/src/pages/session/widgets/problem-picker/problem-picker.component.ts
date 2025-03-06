@@ -14,6 +14,8 @@ export class ProblemPickerComponent {
   private stateSvc = inject( SessionStateService ) ;
   private session: Session ;
 
+  protected readonly Object = Object;
+
   problems: TopicProblemSO[] ;
   catProblems: Record<string, TopicProblemSO[]> = {} ;
 
@@ -49,5 +51,13 @@ export class ProblemPickerComponent {
     this.hide.emit() ;
   }
 
-  protected readonly Object = Object;
+  getProblemIcon( state: string ) {
+    switch( state ) {
+      case 'Assigned': return 'bi-crosshair icon' ;
+      case 'Later': return 'bi-calendar2-event icon' ;
+      case 'Redo': return 'bi-clockwise icon' ;
+      case 'Pigeon': return 'bi-twitter icon' ;
+      default: return 'bi-crosshair icon' ;
+    }
+  }
 }

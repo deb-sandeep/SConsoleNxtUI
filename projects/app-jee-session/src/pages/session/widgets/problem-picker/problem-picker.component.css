@@ -12,7 +12,7 @@
 
 #problem-picker-ui {
     --panel-height: 400px;
-    --panel-width: 450px;
+    --panel-width: 550px;
     --btn-panel-height: 60px;
     --padding: 5px;
 
@@ -79,4 +79,8 @@ button {
     border-radius: 10px;
     font-weight: bold;
     border: 1px #717171 solid ;
+}
+
+.icon {
+    color: #9dcafa;
 }
