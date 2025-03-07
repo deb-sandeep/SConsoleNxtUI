@@ -138,21 +138,6 @@ export class Session extends PausableTimedEntity {
   }
 
   // -------------- Session operations --------------------------------------------
-  // - Start / Stop
-  // - Pause / Resume
-  // - Extend duration
-  // - Start Problem Attempt
-  //      - Pause / Resume
-  //      - End
-  //           - Correct Answer
-  //           - Incorrect Answer
-  //           - Attempt Later
-  //           - Pigeon
-  //           - Pigeon Kill
-  //           - Purge
-  //           - Reassign
-  //           - Redo
-
   public async start() {
 
     this.assertStates( this.isInactive() )
@@ -261,12 +246,20 @@ export class Session extends PausableTimedEntity {
 
     let index = this.problems.findIndex( value =>
       value.problemId === this.currentProblemAttempt!.problem.problemId ) ;
-    if ( index > -1 ) {
+    let nextProblemIndex = index + 1 ;
+
+    if ( !['Later','Redo'].includes( targetState ) ) {
       this.problems.splice( index, 1 ) ;
+      nextProblemIndex = index ;
     }
+    else {
+      this.currentProblemAttempt!.problem.problemState = targetState ;
+    }
+
     this.currentProblemAttempt = null ;
-    if( index < this.problems.length ) {
-      return this.problems[ index ] ;
+
+    if( nextProblemIndex < this.problems.length ) {
+      return this.problems[ nextProblemIndex ] ;
     }
     return ;
   }

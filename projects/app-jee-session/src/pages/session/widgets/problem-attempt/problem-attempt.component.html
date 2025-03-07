@@ -16,12 +16,12 @@
       <div class="chapter-name">{{problem!.chapterNum}}. {{problem!.chapterName}}</div>
     </div>
 
-    <div class="problem-timer"
+    <div class="problem-timer animate__animated animate__backInLeft"
          (click)="session.pause()">
       {{problemAttempt!.effectiveDuration() | duration}}
     </div>
 
-    <div class="problem-key">
+    <div class="problem-key animate__animated animate__backInRight">
       <span [ngClass]="getProblemIcon(problem!.problemState)"></span>&nbsp;
       {{problem!.problemKey.replaceAll( "/", " / ")}}
     </div>

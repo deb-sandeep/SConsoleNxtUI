@@ -3,11 +3,11 @@
 @let topic = session.topic() ;
 
 <div id="header-container">
-  <div class="session-icon">
+  <div class="session-icon animate__animated animate__fadeInLeft animate__slower">
     <img ngSrc="img/{{st!.iconName}}" alt="{{st!.sessionType}}" fill priority
          [style.filter]="getCSSImageFilter( st!.color )"/>
   </div>
-  <div class="syllabus-icon">
+  <div class="syllabus-icon animate__animated animate__fadeInRight animate__slower">
     <img ngSrc="img/{{syllabus!.iconName}}" alt="{{syllabus!.syllabusName}}" fill priority
          [style.filter]="getCSSImageFilter( syllabus!.color )"/>
   </div>

@@ -17,6 +17,7 @@ img {
     left: 0;
     height: var(--header-height);
     width: var(--header-height);
+    animation-duration: 2s;
 }
 
 .syllabus-icon {
@@ -25,6 +26,7 @@ img {
     right: 0;
     height: var(--header-height);
     width: var(--header-height);
+    animation-duration: 2s;
 }
 
 .syllabus-name {

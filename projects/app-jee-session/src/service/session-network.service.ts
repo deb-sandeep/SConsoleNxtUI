@@ -17,7 +17,7 @@ import { ProblemAttempt } from "../entities/problem-attempt";
 export class SessionNetworkService extends RemoteService {
 
   getAllSyllabus() : Promise<SyllabusSO[]> {
-    const url:string = `${environment.apiRoot}/Syllabus/All` ;
+    const url:string = `${environment.apiRoot}/Master/Syllabus/All` ;
     return this.getPromise<SyllabusSO[]>( url, true ) ;
   }
 

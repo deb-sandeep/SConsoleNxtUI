@@ -173,7 +173,7 @@ export class ProblemPickerComponent {
     switch( state ) {
       case 'Assigned': return 'bi-crosshair icon' ;
       case 'Later': return 'bi-calendar2-event icon' ;
-      case 'Redo': return 'bi-clockwise icon' ;
+      case 'Redo': return 'bi-arrow-clockwise icon' ;
       case 'Pigeon': return 'bi-twitter icon' ;
       default: return 'bi-crosshair icon' ;
     }
