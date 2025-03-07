@@ -7,7 +7,6 @@ import { ActionButtonComponent } from "../widgets/action-button/action-button.co
 import { Router } from "@angular/router";
 import { NgIf } from "@angular/common";
 import { ProblemPickerComponent } from "../widgets/problem-picker/problem-picker.component";
-import { TopicProblemSO } from "@jee-common/master-data-types";
 import { ProblemAttemptComponent } from "../widgets/problem-attempt/problem-attempt.component";
 import { PauseScreenComponent } from "../widgets/pause-screen/pause-screen.component";
 
@@ -41,10 +40,6 @@ export class CoachingSessionComponent {
       this.session.start()
           .then( () => this.session.fetchPigeons() ) ;
     }
-  }
-
-  pigeonSelected( problem: TopicProblemSO ) {
-    this.session.startProblemAttempt( problem ).then() ;
   }
 
   exitSession() {

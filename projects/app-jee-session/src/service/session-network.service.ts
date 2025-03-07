@@ -37,6 +37,11 @@ export class SessionNetworkService extends RemoteService {
     return this.getPromise<TopicProblemSO[]>( url ) ;
   }
 
+  getActiveProblemsForSession( session: Session ) : Promise<TopicProblemSO[]> {
+    const url:string = `${environment.apiRoot}/Session/${session.sessionId}/ActiveProblems` ;
+    return this.getPromise<TopicProblemSO[]>( url ) ;
+  }
+
   startSession( session: Session ) {
     const url:string = `${environment.apiRoot}/Session/StartSession` ;
     return this.postPromise<number>( url, {

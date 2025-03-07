@@ -128,6 +128,10 @@ export class Session extends PausableTimedEntity {
     this.problems = await this.networkSvc.getPigeonsForSession( this ) ;
   }
 
+  public async fetchActiveProblems() {
+    this.problems = await this.networkSvc.getActiveProblemsForSession( this ) ;
+  }
+
   // ------------- Timer callback -------------------------------------------------
   private sessionTick( tickCount:number ) {
     this.updateContinuationTime( tickCount%5 == 0 ) ;
@@ -257,7 +261,6 @@ export class Session extends PausableTimedEntity {
 
     let index = this.problems.findIndex( value =>
       value.problemId === this.currentProblemAttempt!.problem.problemId ) ;
-
     if ( index > -1 ) {
       this.problems.splice( index, 1 ) ;
     }

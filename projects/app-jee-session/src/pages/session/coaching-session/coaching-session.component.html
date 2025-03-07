@@ -36,7 +36,7 @@
 
 <problem-picker *ngIf="showProblemPicker"
                 (hide)="showProblemPicker=false"
-                (selection)="pigeonSelected( $event )">
+                (selection)="session.startProblemAttempt( $event )">
 </problem-picker>
 
 <pause-screen *ngIf="session.isPaused()">

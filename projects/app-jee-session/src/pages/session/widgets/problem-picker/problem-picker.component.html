@@ -1,22 +1,40 @@
 <div id="problem-picker-screen">
   <div id="problem-picker-ui">
     <div id="problem-list">
-      @for( key of Object.keys( catProblems ); track key ) {
-        @let problemList = catProblems[key] ;
-        @let firstProblem = problemList[0] ;
-        @let bookName = firstProblem.bookShortName ;
-        @let chapterName = firstProblem.chapterNum + '. ' + firstProblem.chapterName ;
-
-        <div class="book-chapter">
-          <div class="book-name">{{bookName}}</div>
-          <div class="chapter-name">{{chapterName}}</div>
-        </div>
-
-        @for( p of problems; track p.problemId ) {
-          <div class="problem" (click)="problemSelected( p )">
-            <span [class]="getProblemIcon( p.problemState )"></span>&nbsp;&nbsp;
-            {{p.problemKey.replaceAll( '/', ' / ' )}}
+      @for( book of books; track book.bookId ) {
+        @for( chapter of book.chapters; track chapter.chapterNum ) {
+          <div class="book-chapter">
+            <div class="tweakie" (click)="chapter.toggleExpansion()">
+              <span class="tweakie-icon"
+                    [ngClass]="chapter.expanded ? 'bi-chevron-contract' : 'bi-chevron-expand'"
+                    [style.color]="chapter.expanded? 'brown':'green'"></span>
+            </div>
+            <div class="book-name"><span class="bi-book"></span>&nbsp;&nbsp;{{book.bookShortName}}</div>
+            <div class="chapter-name" [innerHTML]="chapter.displayName()"></div>
           </div>
+
+          @if( chapter.expanded ) {
+            @for( exercise of chapter.exercises; track exercise.exerciseNum ) {
+              <div class="exercise">
+                <div class="tweakie" (click)="exercise.expanded = !exercise.expanded">
+                  <span class="tweakie-icon"
+                        [ngClass]="exercise.expanded ? 'bi-chevron-contract' : 'bi-chevron-expand'"
+                        [style.color]="exercise.expanded? 'brown':'green'"></span>
+                </div>
+                <span class="bi-folder2-open"></span>&nbsp;&nbsp;{{exercise.displayName()}}
+              </div>
+
+              @if( exercise.expanded ) {
+                @for( problem of exercise.problems; track problem.problemId ) {
+
+                  <div class="problem" (click)="problemSelected( problem.so )">
+                    <span [class]="getProblemIcon( problem.so.problemState )"></span>&nbsp;&nbsp;
+                    {{problem.so.problemKey.replaceAll( '/', ' / ' )}}
+                  </div>
+                }
+              }
+            }
+          }
         }
       }
     </div>
