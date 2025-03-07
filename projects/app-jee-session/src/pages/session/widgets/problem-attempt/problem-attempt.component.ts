@@ -5,7 +5,7 @@ import { Session } from "../../../../entities/session";
 import { ActionButtonComponent } from "../action-button/action-button.component";
 import { TopicProblemSO } from "@jee-common/master-data-types";
 import { ProblemAttempt } from "../../../../entities/problem-attempt";
-import { NgIf } from "@angular/common";
+import { NgClass, NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 
 @Component({
@@ -14,7 +14,8 @@ import { FormsModule } from "@angular/forms";
     DurationPipe,
     ActionButtonComponent,
     NgIf,
-    FormsModule
+    FormsModule,
+    NgClass
   ],
   templateUrl: './problem-attempt.component.html',
   styleUrl: './problem-attempt.component.css'
@@ -23,7 +24,10 @@ export class ProblemAttemptComponent {
 
   // ['Assigned',	'Correct',	'Incorrect',	'Later', 'Pigeon',	'Pigeon Kill',	'Purge',	'Reassign',	'Redo']
   readonly actionMatrix:Record<string, string[]> = {
-    'Pigeon' : ['Pigeon', 'Pigeon Kill', 'Reassign', 'Redo']
+    'Assigned': ['Correct',	'Incorrect',	'Later', 'Pigeon',	'Purge', 'Reassign',	'Redo'],
+    'Later': ['Correct',	'Incorrect',	'Later', 'Pigeon',	'Purge', 'Reassign',	'Redo'],
+    'Redo': ['Correct',	'Incorrect',	'Later', 'Pigeon',	'Reassign',	'Redo'],
+    'Pigeon' : ['Pigeon', 'Pigeon Kill', 'Purge', 'Reassign', 'Redo']
   } ;
 
   private stateSvc = inject( SessionStateService ) ;
@@ -41,5 +45,15 @@ export class ProblemAttemptComponent {
 
   async endProblemAttempt( targetState:string ) {
     await this.stateSvc.session.endProblemAttempt( targetState ) ;
+  }
+
+  getProblemIcon( state: string ) {
+    switch( state ) {
+      case 'Assigned': return 'bi-crosshair icon' ;
+      case 'Later': return 'bi-calendar2-event icon' ;
+      case 'Redo': return 'bi-clockwise icon' ;
+      case 'Pigeon': return 'bi-twitter icon' ;
+      default: return 'bi-crosshair icon' ;
+    }
   }
 }

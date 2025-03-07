@@ -23,39 +23,75 @@
     </div>
 
     <div class="problem-key">
-      <span class="bi-twitter pigeon-icon"></span>&nbsp;
+      <span [ngClass]="getProblemIcon(problem!.problemState)"></span>&nbsp;
       {{problem!.problemKey.replaceAll( "/", " / ")}}
     </div>
   </div>
 
   <div class="action-btn-panel">
-    <action-btn *ngIf="isValidAction( 'Pigeon' )"
-                (click)="endProblemAttempt( 'Pigeon' )"
-                bgColor="#002200"
-                color="#858585">
-      <span class="bi-twitter" style="font-size:45px;"></span>
-    </action-btn>
-    <div style="width: 50px;display: inline-block"></div>
-    <action-btn *ngIf="isValidAction( 'Pigeon Kill' )"
-                (click)="endProblemAttempt( 'Pigeon Kill' )"
-                bgColor="#0b3d28"
-                color="#858585">
-      <span class="bi-check2-square" style="font-size:45px;"></span>
-    </action-btn>
-    <div style="width: 50px;display: inline-block"></div>
-    <action-btn *ngIf="isValidAction( 'Redo' )"
-                (click)="endProblemAttempt( 'Redo' )"
-                bgColor="#3d2020"
-                color="#858585">
-      <span class="bi-box-arrow-left" style="font-size:45px;"></span>
-    </action-btn>
-    <div style="width: 50px;display: inline-block"></div>
-    <action-btn *ngIf="isValidAction( 'Reassign' )"
-                (click)="endProblemAttempt( 'Reassign' )"
-                bgColor="#02243d"
-                color="#858585">
-      <span class="bi-signpost-split" style="font-size:45px;"></span>
-    </action-btn>
-  </div>
+    @if( isValidAction( 'Correct' ) ) {
+      <action-btn (click)="endProblemAttempt( 'Correct' )"
+                  bgColor="#002200">
+        <span class="bi-check-lg" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+    }
 
+    @if( isValidAction( 'Pigeon Kill' ) ) {
+      <action-btn (click)="endProblemAttempt( 'Pigeon Kill' )"
+                  bgColor="#002200">
+        <span class="bi-check2-square" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+    }
+
+    @if( isValidAction( 'Redo' ) ) {
+      <action-btn (click)="endProblemAttempt( 'Redo' )"
+                  bgColor="#3d0932">
+        <span class="bi-arrow-clockwise" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+    }
+
+    @if( isValidAction( 'Incorrect' ) ) {
+      <action-btn (click)="endProblemAttempt( 'Incorrect' )"
+                  bgColor="#341101">
+        <span class="bi-x-lg" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+    }
+
+    @if( isValidAction( 'Pigeon' ) ) {
+      <action-btn (click)="endProblemAttempt( 'Pigeon' )"
+                  bgColor="#091627">
+        <span class="bi-twitter" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+    }
+
+    @if( isValidAction( 'Later' ) ) {
+      <action-btn (click)="endProblemAttempt( 'Later' )"
+                  bgColor="#353535">
+        <span class="bi-arrow-right" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+    }
+
+    @if( isValidAction( 'Reassign' ) ) {
+      <action-btn (click)="endProblemAttempt( 'Reassign' )"
+                  bgColor="#3d253b">
+        <span class="bi-signpost-split" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+    }
+
+    @if( isValidAction( 'Purge' ) ) {
+      <action-btn (click)="endProblemAttempt( 'Purge' )"
+                  bgColor="#1d1c0a">
+        <span class="bi-box-arrow-up-right" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+    }
+
+  </div>
 </div>

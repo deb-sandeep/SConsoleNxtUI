@@ -5,6 +5,7 @@
     width: var(--btn-width);
     height: var(--btn-height);
     background-color: lightgrey;
+    color: #858585 ;
     border-radius: 10px;
     box-shadow: 5px 5px 5px #000000;
     margin-left: 10px;
