@@ -8,8 +8,7 @@
 
     <div *ngIf="showAutoPlay()" class="auto-play-switch form-switch">
       <input class="form-check-input" type="checkbox" role="switch"
-             [checked]="autoPlay"
-             (change)="autoPlay = !autoPlay">
+             [(ngModel)]="autoPlay">
     </div>
 
     <div class="chapter-summary">

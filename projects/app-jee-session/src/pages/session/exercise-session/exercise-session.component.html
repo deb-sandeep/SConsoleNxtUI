@@ -14,7 +14,7 @@
                   (click)="showProblemPicker=true"
                   [bgColor]="'#002200'"
                   [color]="'#858585'">
-        <span class="bi-twitter" style="font-size:45px;"></span>
+        <span class="bi-list-ul" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 50px;display: inline-block"></div>
       <!-- Exit session button -->
@@ -30,7 +30,7 @@
   <!-- Problem attempt mode body                                     -->
   <!-- ------------------------------------------------------------- -->
   <div class="session-body" *ngIf="session.isInProblemAttemptMode()">
-    <problem-attempt [showAutoPlay]="true"></problem-attempt>
+    <problem-attempt [showAutoPlay]="true" [autoPlay]="true"></problem-attempt>
   </div>
 </div>
 

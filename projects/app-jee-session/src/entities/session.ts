@@ -265,6 +265,10 @@ export class Session extends PausableTimedEntity {
       this.problems.splice( index, 1 ) ;
     }
     this.currentProblemAttempt = null ;
+    if( index < this.problems.length ) {
+      return this.problems[ index ] ;
+    }
+    return ;
   }
 
   private updateContinuationTime( updateServer:boolean = true ) {
