@@ -8,6 +8,7 @@ import { ProblemAttempt } from "../../../../entities/problem-attempt";
 import { NgClass, NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { NgbRatingModule } from "@ng-bootstrap/ng-bootstrap";
+import { SessionNetworkService } from "../../../../service/session-network.service";
 
 @Component({
   selector: 'problem-attempt',
@@ -33,14 +34,14 @@ export class ProblemAttemptComponent {
   } ;
 
   private stateSvc = inject( SessionStateService ) ;
+  private networkSvc = inject( SessionNetworkService ) ;
+
   protected session:Session = this.stateSvc.session ;
   protected problemAttempt: ProblemAttempt = this.session.currentProblemAttempt! ;
   protected problem:TopicProblemSO = this.session.currentProblemAttempt!.problem ;
 
   @Input( "autoPlay" ) autoPlay = false ;
   showAutoPlay = input( this.autoPlay ) ;
-
-  rating = 0 ;
 
   isValidAction( action:string ) {
     return this.actionMatrix[ this.problem.problemState ].includes( action ) ;
@@ -64,6 +65,9 @@ export class ProblemAttemptComponent {
   }
 
   problemRatingChanged() {
-    console.log( `New rating ${this.rating}` ) ;
+    this.networkSvc.updateProblemDifficultyLevel(
+      this.problem.problemId,
+      this.problem.difficultyLevel
+    ).then() ;
   }
 }

@@ -64,6 +64,7 @@ export type TopicProblemSO = {
   exerciseName: string,
   problemType: string,
   problemKey: string,
+  difficultyLevel: number,
   problemState: string
 }
 

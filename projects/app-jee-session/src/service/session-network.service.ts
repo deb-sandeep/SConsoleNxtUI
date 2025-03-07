@@ -113,4 +113,9 @@ export class SessionNetworkService extends RemoteService {
   private utcAdjustedTime( time:Date ) {
     return dayjs( time ).add( dayjs().utcOffset(), 'minutes' ).toDate() ;
   }
+
+  updateProblemDifficultyLevel( problemId: number, difficultyLevel: number ) {
+    const url:string = `${environment.apiRoot}/Master/Problem/${problemId}/DifficultyLevel/${difficultyLevel}` ;
+    return this.postPromise<void>( url ) ;
+  }
 }

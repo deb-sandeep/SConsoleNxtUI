@@ -12,22 +12,24 @@
     </div>
 
     <div class="chapter-summary">
-      <div class="book-name">{{problem!.bookShortName}}</div>
-      <div class="chapter-name">{{problem!.chapterNum}}. {{problem!.chapterName}}</div>
+      <div class="book-name">{{problem.bookShortName}}</div>
+      <div class="chapter-name">{{problem.chapterNum}}. {{problem.chapterName}}</div>
     </div>
 
     <div class="problem-timer animate__animated animate__backInLeft"
          (click)="session.pause()">
-      {{problemAttempt!.effectiveDuration() | duration}}
+      {{problemAttempt.effectiveDuration() | duration}}
     </div>
 
     <div class="problem-key animate__animated animate__backInRight">
       <span [ngClass]="getProblemIcon(problem!.problemState)"></span>&nbsp;
-      {{problem!.problemKey.replaceAll( "/", " / ")}}
+      {{problem.problemKey.replaceAll( "/", " / ")}}
     </div>
 
     <div class="problem-rating">
-      <ngb-rating [(rate)]="rating" [max]="10" (rateChange)="problemRatingChanged()">
+      <ngb-rating [(rate)]="problem.difficultyLevel"
+                  [max]="10"
+                  (rateChange)="problemRatingChanged()">
         <ng-template let-fill="fill" let-index="index">
           <i class="bi-star{{ fill === 100 ? '-fill' : '' }}"
              [class.filled]="fill === 100"
@@ -81,14 +83,6 @@
       <div style="width: 20px;display: inline-block"></div>
     }
 
-    @if( isValidAction( 'Later' ) ) {
-      <action-btn (click)="endProblemAttempt( 'Later' )"
-                  bgColor="#353535">
-        <span class="bi-arrow-right" style="font-size:45px;"></span>
-      </action-btn>
-      <div style="width: 20px;display: inline-block"></div>
-    }
-
     @if( isValidAction( 'Reassign' ) ) {
       <action-btn (click)="endProblemAttempt( 'Reassign' )"
                   bgColor="#3d253b">
@@ -101,6 +95,14 @@
       <action-btn (click)="endProblemAttempt( 'Purge' )"
                   bgColor="#1d1c0a">
         <span class="bi-box-arrow-up-right" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+    }
+
+    @if( isValidAction( 'Later' ) ) {
+      <action-btn (click)="endProblemAttempt( 'Later' )"
+                  bgColor="#353535">
+        <span class="bi-arrow-right" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 20px;display: inline-block"></div>
     }
