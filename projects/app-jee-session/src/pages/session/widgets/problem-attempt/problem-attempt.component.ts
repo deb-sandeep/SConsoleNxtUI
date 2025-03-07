@@ -7,6 +7,7 @@ import { TopicProblemSO } from "@jee-common/master-data-types";
 import { ProblemAttempt } from "../../../../entities/problem-attempt";
 import { NgClass, NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { NgbRatingModule } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'problem-attempt',
@@ -15,7 +16,8 @@ import { FormsModule } from "@angular/forms";
     ActionButtonComponent,
     NgIf,
     FormsModule,
-    NgClass
+    NgClass,
+    NgbRatingModule
   ],
   templateUrl: './problem-attempt.component.html',
   styleUrl: './problem-attempt.component.css'
@@ -38,6 +40,8 @@ export class ProblemAttemptComponent {
   @Input( "autoPlay" ) autoPlay = false ;
   showAutoPlay = input( this.autoPlay ) ;
 
+  rating = 0 ;
+
   isValidAction( action:string ) {
     return this.actionMatrix[ this.problem.problemState ].includes( action ) ;
   }
@@ -57,5 +61,9 @@ export class ProblemAttemptComponent {
       case 'Pigeon': return 'bi-twitter icon' ;
       default: return 'bi-crosshair icon' ;
     }
+  }
+
+  problemRatingChanged() {
+    console.log( `New rating ${this.rating}` ) ;
   }
 }

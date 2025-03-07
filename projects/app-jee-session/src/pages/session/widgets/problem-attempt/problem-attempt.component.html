@@ -25,6 +25,19 @@
       <span [ngClass]="getProblemIcon(problem!.problemState)"></span>&nbsp;
       {{problem!.problemKey.replaceAll( "/", " / ")}}
     </div>
+
+    <div class="problem-rating">
+      <ngb-rating [(rate)]="rating" [max]="10" (rateChange)="problemRatingChanged()">
+        <ng-template let-fill="fill" let-index="index">
+          <i class="bi-star{{ fill === 100 ? '-fill' : '' }}"
+             [class.filled]="fill === 100"
+             [class.easy]="index < 3"
+             [class.moderate]="index >= 3 && index <= 6"
+             [class.hard]="index > 6"
+          >&nbsp;&nbsp;</i>
+        </ng-template>
+      </ngb-rating>
+    </div>
   </div>
 
   <div class="action-btn-panel">

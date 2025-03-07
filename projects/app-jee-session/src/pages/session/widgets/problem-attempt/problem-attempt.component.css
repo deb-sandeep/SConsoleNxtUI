@@ -1,7 +1,8 @@
 #problem-attempt-body {
     --chapter-summary-height: 90px;
-    --problem-timer-height: 250px;
-    --problem-key-height: 40px;
+    --problem-timer-height: 180px;
+    --problem-key-height: 65px;
+    --problem-rating-height: 50px;
 }
 
 .chapter-summary {
@@ -13,7 +14,6 @@
     width: var(--panel-width);
     top: 0;
     left: calc( 50dvw - var(--panel-width)/2 ) ;
-    z-index: 100;
 }
 
 .book-name {
@@ -35,7 +35,7 @@
     left: 0;
 
     text-align: center ;
-    font-size: 200px;
+    font-size: 180px;
     line-height: var(--problem-timer-height);
     font-family: "Courier New", "Courier", "ui-monospace";
     color: #253e17;
@@ -48,13 +48,45 @@
     text-align: center;
     height: var(--panel-height);
     width: 100%;
-    top: calc( var(--chapter-summary-height) + var(--problem-timer-height) );
+    top: calc( var(--chapter-summary-height) + var(--problem-timer-height) - 10px);
     left: calc( 50dvw - var(--panel-width)/2 ) ;
-    z-index: 100;
 
     font-size: 40px;
+    line-height: var(--panel-height);
     color: #8c7801;
     margin-top: 0;
+}
+
+.problem-rating {
+    --panel-height: var(--problem-rating-height);
+
+    position: absolute;
+    text-align: center;
+    height: var(--panel-height);
+    width: 100%;
+    top: calc( var(--chapter-summary-height) + var(--problem-timer-height) + var(--problem-key-height) );
+    left: calc( 50dvw - var(--panel-width)/2 ) ;
+
+    font-size: 40px;
+    font-weight: lighter;
+    color: #333131;
+}
+
+i {
+    padding-right: 0.1rem;
+    color: #323232;
+}
+.filled {
+    color: #1e90ff;
+}
+.filled.easy {
+    color: #0b3d28;
+}
+.filled.moderate {
+    color: #9c5402;
+}
+.filled.hard {
+    color: #b30000;
 }
 
 .pigeon-icon {
