@@ -27,19 +27,14 @@ export class AppComponent {
   title: string = 'Home' ;
   sections: SectionMeta[] = [
     {
-      name : "Memory Gym",
-      modules : [
-        {
-          name : "Speed<br>Arithmetic",
-          icon : "calculator",
-          bgcolor : "#b9d2fc",
-          target : '/apps/memgym/arithmetic/index.html'
-        },
-      ]
-    },
-    {
       name : "JEE Preparation",
       modules : [
+        {
+          name : "Remote<br>Control",
+          icon : "controller",
+          bgcolor : "#c7fdca",
+          target : '/apps/jee/ctrl-screens/index.html'
+        },
         {
           name : "Study<br>Session",
           icon : "mortarboard",
@@ -51,6 +46,17 @@ export class AppComponent {
           icon : "database-fill-gear",
           bgcolor : "#fcffd0",
           target : '/apps/jee/mdm/index.html'
+        },
+      ]
+    },
+    {
+      name : "Memory Gym",
+      modules : [
+        {
+          name : "Speed<br>Arithmetic",
+          icon : "calculator",
+          bgcolor : "#b9d2fc",
+          target : '/apps/memgym/arithmetic/index.html'
         },
       ]
     },

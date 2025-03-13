@@ -1,4 +1,9 @@
 <div class="page-header">
     <a href="/"><img src="/core-assets/sconsole-icon-sm.png" /></a>Console >
-    <span class="header-title">{{title}}</span>
+    <span class="header-title">{{title()}}</span>
+    @if( farRightTitle() !== "" ) {
+      <div class="far-right-title">
+          {{farRightTitle()}}
+      </div>
+    }
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component( {
   selector: 'page-header',
@@ -8,6 +8,6 @@ import { Component, Input } from '@angular/core';
 })
 export class PageHeaderComponent {
 
-  @Input( "title" )
-  title:string = "" ;
+  title = input<string>( "" ) ;
+  farRightTitle = input<string>( "" ) ;
 }

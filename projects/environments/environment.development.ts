@@ -1,4 +1,10 @@
+const serverHost = '192.168.0.166' ;
+const serverPort = '8080' ;
+
 export const environment = {
   production:false,
-  apiRoot:"http://192.168.0.166:8080"
+  serverHost: serverHost,
+  serverPort: serverPort,
+  apiRoot:`http://${serverHost}:${serverPort}`,
+  wsRoot:`ws://${serverHost}:${serverPort}`
 };

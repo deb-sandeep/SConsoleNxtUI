@@ -12,3 +12,10 @@
     color: #bdbdbd;
     font-weight: normal;
 }
+
+.far-right-title {
+    float: right ;
+    margin-right: 10px ;
+    color: #bdbdbd ;
+    font-weight: normal ;
+}

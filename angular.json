@@ -471,6 +471,123 @@
           "defaultConfiguration": "development"
         }
       }
+    },
+    "app-jee-ctrl-screens": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:component": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:resolver": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        }
+      },
+      "root": "projects/app-jee-ctrl-screens",
+      "sourceRoot": "projects/app-jee-ctrl-screens/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "baseHref": "/apps/jee/ctrl-screens/",
+            "outputPath": {
+              "base" : "dist/webroot/apps/jee/ctrl-screens",
+              "browser": ""
+            },
+            "index": "projects/app-jee-ctrl-screens/src/index.html",
+            "browser": "projects/app-jee-ctrl-screens/src/main.ts",
+            "polyfills": [
+              "zone.js",
+              "@angular/localize/init"
+            ],
+            "tsConfig": "projects/app-jee-ctrl-screens/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/app-jee-session/public"
+              }
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
+              "projects/lib-core/assets/bootstrap-overrides.css",
+              "projects/lib-core/assets/styles.css",
+              "projects/app-jee-ctrl-screens/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/environments/environment.ts",
+                  "with": "projects/environments/environment.development.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "./projects/lib-core/assets",
+                  "output": "/core-assets/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "projects/app-jee-ctrl-screens/public"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "app-jee-ctrl-screens:build:production"
+            },
+            "development": {
+              "buildTarget": "app-jee-ctrl-screens:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
     }
   }
 }

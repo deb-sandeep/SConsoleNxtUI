@@ -1,0 +1,45 @@
+.tile {
+    display: inline-block;
+    position: relative;
+    width: 175px;
+    height: 175px;
+    margin: 20px;
+    overflow:hidden;
+    border-radius: 15px;
+    box-shadow: 7px 7px 10px #303030;
+    border: 2px outset #303030;
+    color: #bfbfbf;
+}
+
+.tile:hover {
+    box-shadow: 2px 2px 5px #9b9b9b;
+}
+
+.tile-content {
+    position:absolute;
+    height:100%;
+    width:100%;
+    text-align: center;
+}
+
+.tile-table{
+    display:table;
+    height:100%;
+    width:100%;
+}
+
+.tile-table-cell{
+    display:table-cell;
+    vertical-align:middle;
+    height:100%;
+    width:100%;
+}
+
+.tile-icon {
+    font-size: 45px;
+    display: block;
+}
+
+.tile-name {
+    font-size:20px;
+}

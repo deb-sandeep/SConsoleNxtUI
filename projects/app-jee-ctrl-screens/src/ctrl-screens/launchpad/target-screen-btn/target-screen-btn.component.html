@@ -1,0 +1,15 @@
+@if( stateSvc.possibleNextScreens.includes( targetScreenId() ) ) {
+  <div class="tile" [style.background-color]="bgColor()"
+       (click)="requestTargetScreen()">
+    <div class="tile-content">
+      <div class="tile-table">
+        <div class="tile-table-cell">
+          <i [style.color]="iconColor()"
+             class="bi bi-{{iconName()}} tile-icon"></i>
+          <span [style.color]="labelColor()"
+                class="tile-name"><ng-content></ng-content></span>
+        </div>
+      </div>
+    </div>
+  </div>
+}
