@@ -111,7 +111,8 @@ export class SessionNetworkService extends RemoteService {
   }
 
   private utcAdjustedTime( time:Date ) {
-    return dayjs( time ).add( dayjs().utcOffset(), 'minutes' ).toDate() ;
+    return time ;
+    //return dayjs( time ).add( dayjs().utcOffset(), 'minutes' ).toDate() ;
   }
 
   updateProblemDifficultyLevel( problemId: number, difficultyLevel: number ) {

@@ -3,7 +3,8 @@ export const config = {
   leadTheoryDays: {
     physics: 5,
     chemistry: 7,
-    maths: 3
+    maths: 3,
+    reasoning: 0
   },
   avgTimePerTopicPerDay:45,
   avgSolutionTime: {
@@ -36,6 +37,16 @@ export const config = {
       CMT: 5,
       NVT: 5,
       SUB: 7,
+    },
+    reasoning: {
+      SCA: 1.5,
+      MCA: 1.5,
+      LCT: 1.5,
+      ART: 2,
+      MMT: 1.5,
+      CMT: 1.5,
+      NVT: 1.5,
+      SUB: 3,
     }
   }
 }

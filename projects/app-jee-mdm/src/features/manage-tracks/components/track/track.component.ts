@@ -93,6 +93,9 @@ export class TrackComponent {
     else if( syllabusName.includes( 'Maths' ) ) {
       return config.leadTheoryDays.maths ;
     }
+    else if( syllabusName.includes( 'Reasoning' ) ) {
+      return config.leadTheoryDays.reasoning ;
+    }
     return TopicSchedule.DEFAULT_TOPIC_THEORY_MARGIN_DAYS ;
   }
 }

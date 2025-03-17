@@ -29,6 +29,10 @@ import { WebSocketService } from "./service/web-socket.service";
         <div id="page-content">
             <router-outlet></router-outlet>
         </div>
+        <div id="connection-status">
+          <span class="bi-stop-circle"
+                [style.color]="networkSvc.connected()?'green':'red'"></span>
+        </div>
     `
 })
 class AppComponent {

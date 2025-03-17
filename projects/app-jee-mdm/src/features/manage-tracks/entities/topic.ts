@@ -34,6 +34,9 @@ export class Topic {
     else if( syllabusName.includes( 'Maths' ) ){
       solutionTimeMatrix = config.avgSolutionTime.maths ;
     }
+    else if( syllabusName.includes( 'Reasoning' ) ){
+      solutionTimeMatrix = config.avgSolutionTime.reasoning ;
+    }
 
     const totalTimeInMin = this.getProjectedSolutionTime( solutionTimeMatrix ) ;
 
