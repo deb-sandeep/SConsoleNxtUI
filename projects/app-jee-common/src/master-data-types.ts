@@ -71,6 +71,7 @@ export type TopicProblemSO = {
 export type ProblemAttemptSO = {
   id: number,
   sessionId: number,
+  topicId: number,
   problemId: number,
   startTime: Date,
   endTime: Date,
