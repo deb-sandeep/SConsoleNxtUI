@@ -6,7 +6,9 @@ import { Router } from "@angular/router";
 @Injectable()
 export class StateService {
 
-  readonly screenRoutes: Record<string, string> = {} ;
+  readonly screenRoutes: Record<string, string> = {
+    "SESSION_SCREEN" : "session-screen"
+  } ;
 
   router: Router = inject( Router ) ;
 

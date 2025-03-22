@@ -167,6 +167,7 @@ export class Session extends PausableTimedEntity {
 
     this.updateEndTime( new Date() ) ;
     await this.networkSvc.extendSession( this ) ;
+    await this.networkSvc.endSession( this ) ;
 
     // Note that there is no server API to close the session.
     // A session end duration is taken as the end time. This insulates

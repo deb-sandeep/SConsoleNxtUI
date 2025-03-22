@@ -52,6 +52,11 @@ export class SessionNetworkService extends RemoteService {
     } ) ;
   }
 
+  endSession( session: Session ) {
+    const url:string = `${environment.apiRoot}/Session/${session.sessionId}/EndSession` ;
+    return this.postPromise<number>( url ) ;
+  }
+
   extendSession( session: Session ) {
     const url:string = `${environment.apiRoot}/Session/ExtendSession` ;
 
