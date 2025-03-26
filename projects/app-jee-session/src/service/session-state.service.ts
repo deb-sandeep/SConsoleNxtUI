@@ -60,8 +60,8 @@ export class SessionStateService {
   }
 
   private getCurrentDate() {
-    return dayjs( '2025-04-20' ).toDate() ;
-    //return new Date() ;
+    //return dayjs( '2025-04-20' ).toDate() ;
+    return new Date() ;
   }
 
   private addActiveTopic( assignment:TopicTrackAssignmentSO ) {
