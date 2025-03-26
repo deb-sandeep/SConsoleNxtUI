@@ -16,7 +16,7 @@ import { ManageTracksService } from "./features/manage-tracks/manage-tracks.serv
 export const featureRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'manage-books',
+        redirectTo: 'manage-tracks',
         pathMatch: 'full'
     },
     {

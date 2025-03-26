@@ -38,7 +38,7 @@ export class TopicSchedule {
     this.theoryMargin = vo.theoryMargin ;
     this.startDate    = dayjs( vo.startDate ).toDate() ;
     this.endDate      = dayjs( vo.endDate ).toDate() ;
-    this.numDays      = dayjs( this.endDate ).diff( this.startDate, 'days' ) ;
+    this.numDays      = dayjs( this.endDate ).diff( this.startDate, 'days' ) + 1 ;
     this.exerciseDays = this.numDays - this.bufferLeft - this.bufferRight - this.theoryMargin ;
 
     this.topic = topic ;
@@ -81,7 +81,7 @@ export class TopicSchedule {
 
   public recomputeEndDate() {
     let newNumDays = this.bufferLeft + this.theoryMargin + this.exerciseDays + this.bufferRight ;
-    let newEndDate = dayjs( this.startDate ).add( newNumDays, 'days' ).toDate() ;
+    let newEndDate = dayjs( this.startDate ).add( newNumDays-1, 'days' ).toDate() ;
 
     if( newNumDays !== this.numDays ) {
       this.numDays = newNumDays ;
