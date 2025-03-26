@@ -27,7 +27,7 @@ export class SessionNetworkService extends RemoteService {
   }
 
   getCurrentTrackAssignments( date:Date ) : Promise<TopicTrackAssignmentSO[]> {
-    const dateStr = dayjs( date ).add( dayjs().utcOffset(), 'minutes' ).format( 'YYYY-MM-DD' ) ;
+    const dateStr = dayjs( date ).format( 'YYYY-MM-DD' ) ;
     const url:string = `${environment.apiRoot}/Master/Track/CurrentTopicAssignments?date=${dateStr}` ;
     return this.getPromise<TopicTrackAssignmentSO[]>( url, true ) ;
   }
