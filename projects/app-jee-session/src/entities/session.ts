@@ -249,7 +249,11 @@ export class Session extends PausableTimedEntity {
       value.problemId === this.currentProblemAttempt!.problem.problemId ) ;
     let nextProblemIndex = index + 1 ;
 
-    if ( !['Later','Redo'].includes( targetState ) ) {
+    if( this.sessionType!.sessionType === "Coaching" && targetState === 'Redo' ) {
+      this.problems.splice( index, 1 ) ;
+      nextProblemIndex = index ;
+    }
+    else if ( !['Later','Redo'].includes( targetState ) ) {
       this.problems.splice( index, 1 ) ;
       nextProblemIndex = index ;
     }
