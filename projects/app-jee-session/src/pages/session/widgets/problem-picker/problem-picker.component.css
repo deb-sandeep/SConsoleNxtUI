@@ -98,6 +98,10 @@ button {
     color: #9dcafa;
 }
 
+.icon-green {
+    color: greenyellow;
+}
+
 .tweakie {
     float:right;
     height: 100%;

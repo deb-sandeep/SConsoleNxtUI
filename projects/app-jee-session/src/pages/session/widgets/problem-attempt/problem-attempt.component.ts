@@ -25,12 +25,13 @@ import { SessionNetworkService } from "../../../../service/session-network.servi
 })
 export class ProblemAttemptComponent {
 
-  // ['Assigned',	'Correct',	'Incorrect',	'Later', 'Pigeon',	'Pigeon Kill',	'Purge',	'Reassign',	'Redo']
+  // ['Assigned',	'Correct',	'Incorrect',	'Later', 'Pigeon',	'Pigeon Solved', 'Pigeon Explained', 'Purge',	'Reassign',	'Redo']
   readonly actionMatrix:Record<string, string[]> = {
     'Assigned': ['Correct',	'Incorrect',	'Later', 'Pigeon',	'Purge', 'Reassign',	'Redo'],
     'Later': ['Correct',	'Incorrect',	'Later', 'Pigeon',	'Purge', 'Reassign',	'Redo'],
     'Redo': ['Correct',	'Incorrect',	'Later', 'Pigeon',	'Reassign',	'Redo'],
-    'Pigeon' : ['Pigeon', 'Pigeon Kill', 'Purge', 'Reassign', 'Redo']
+    'Pigeon' : ['Pigeon', 'Pigeon Explained', 'Purge', 'Reassign', 'Redo'],
+    'Pigeon Solved' : ['Pigeon', 'Pigeon Explained', 'Purge', 'Reassign', 'Redo'],
   } ;
 
   private stateSvc = inject( SessionStateService ) ;
@@ -60,6 +61,7 @@ export class ProblemAttemptComponent {
       case 'Later': return 'bi-calendar2-event icon' ;
       case 'Redo': return 'bi-clockwise icon' ;
       case 'Pigeon': return 'bi-twitter icon' ;
+      case 'Pigeon Solved': return 'bi-twitter icon-green' ;
       default: return 'bi-crosshair icon' ;
     }
   }

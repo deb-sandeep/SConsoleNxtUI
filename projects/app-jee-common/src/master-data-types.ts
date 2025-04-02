@@ -65,7 +65,8 @@ export type TopicProblemSO = {
   problemType: string,
   problemKey: string,
   difficultyLevel: number,
-  problemState: string
+  problemState: string,
+  lastAttemptTime: Date
 }
 
 export type ProblemAttemptSO = {

@@ -175,6 +175,7 @@ export class ProblemPickerComponent {
       case 'Later': return 'bi-calendar2-event icon' ;
       case 'Redo': return 'bi-arrow-clockwise icon' ;
       case 'Pigeon': return 'bi-twitter icon' ;
+      case 'Pigeon Solved': return 'bi-twitter icon-green' ;
       default: return 'bi-crosshair icon' ;
     }
   }
