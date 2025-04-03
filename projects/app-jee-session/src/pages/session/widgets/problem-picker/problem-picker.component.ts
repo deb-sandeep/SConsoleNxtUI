@@ -3,6 +3,7 @@ import { SessionStateService } from "../../../../service/session-state.service";
 import { Session } from "../../../../entities/session";
 import { TopicProblemSO } from "@jee-common/master-data-types";
 import { NgClass } from "@angular/common";
+import { SConsoleUtil } from "@jee-common/common-util";
 
 class Book {
   bookId: number;
@@ -126,6 +127,8 @@ class Problem {
 })
 export class ProblemPickerComponent {
 
+  protected readonly SConsoleUtil = SConsoleUtil;
+
   private stateSvc = inject( SessionStateService ) ;
   private session: Session ;
 
@@ -167,16 +170,5 @@ export class ProblemPickerComponent {
   problemSelected(problem: TopicProblemSO){
     this.selection.emit( problem ) ;
     this.hide.emit() ;
-  }
-
-  getProblemIcon( state: string ) {
-    switch( state ) {
-      case 'Assigned': return 'bi-crosshair icon' ;
-      case 'Later': return 'bi-calendar2-event icon' ;
-      case 'Redo': return 'bi-arrow-clockwise icon' ;
-      case 'Pigeon': return 'bi-twitter icon' ;
-      case 'Pigeon Solved': return 'bi-twitter icon-green' ;
-      default: return 'bi-crosshair icon' ;
-    }
   }
 }

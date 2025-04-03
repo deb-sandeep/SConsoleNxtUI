@@ -28,7 +28,7 @@
                 @for( problem of exercise.problems; track problem.problemId ) {
 
                   <div class="problem" (click)="problemSelected( problem.so )">
-                    <span [class]="getProblemIcon( problem.so.problemState )"></span>&nbsp;&nbsp;
+                    <span [class]="SConsoleUtil.getProblemIcon( problem.so.problemState )"></span>&nbsp;&nbsp;
                     {{problem.so.problemKey.replaceAll( '/', ' / ' )}}
                   </div>
                 }

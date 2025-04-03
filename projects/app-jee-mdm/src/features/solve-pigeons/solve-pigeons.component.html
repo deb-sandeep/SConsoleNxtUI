@@ -1,0 +1,86 @@
+<page-title></page-title>
+<alerts-display></alerts-display>
+<div class="page-content">
+  <div class="pigeon-tree">
+    @for( syllabusProblems of getSyllabusProblems(); track syllabusProblems.syllabusName ) {
+      @let syllabus = syllabusProblems.syllabus ;
+
+      <div class="syllabus-name"
+           [style.background-color]="syllabus?.color">
+        {{syllabusProblems.syllabusName}}
+      </div>
+
+      @for( topicProblems of syllabusProblems.getTopicProblems(); track topicProblems.topicName ) {
+        <div class="topic-name">{{topicProblems.topicName}}</div>
+
+        @for( bcProblems of topicProblems.getBookChapterProblems(); track bcProblems.bookChapterName ) {
+          <div class="bc-name" [innerHTML]="bcProblems.bookChapterName"></div>
+
+          @for( pigeon of bcProblems.pigeons; track pigeon.problemId ) {
+            <div class="pigeon" (click)="pigeonSelected(pigeon)"
+                 [class.pigeon-selected]="selectedPigeon == pigeon">
+              <span [ngClass]="SConsoleUtil.getProblemIcon( pigeon.problemState )">&nbsp;</span>
+              {{pigeon.problemKey}}
+            </div>
+          }
+        }
+      }
+    }
+  </div>
+  <div class="pigeon-details">
+    @if( problemAttempts != null ) {
+
+      <div class="problem-path-1">
+        {{selectedPigeon?.syllabusName}} &nbsp;>&nbsp; {{selectedPigeon?.topicName}}
+      </div>
+
+      <div class="problem-path-2">
+        {{selectedPigeon?.chapterNum}}. {{selectedPigeon?.chapterName}} &nbsp;>&nbsp; {{selectedPigeon?.problemKey}}
+      </div>
+
+      <table class="table table-sm problem-attempt-table">
+        <thead>
+          <tr>
+            <th style="width: 150px;">Start</th>
+            <th style="width: 150px;">End</th>
+            <th style="width: 75px;">Duration</th>
+            <th style="width: 100px;">Previous State</th>
+            <th style="width: 30px;"></th>
+            <th style="width: 150px;">Target State</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for( pa of problemAttempts; track pa.id ) {
+            <tr>
+              <td class="mono-font">{{pa.startTime | date:'short'}}</td>
+              <td class="mono-font">{{pa.endTime | date:'short'}}</td>
+              <td class="mono-font">{{pa.effectiveDuration*1000 | duration}}</td>
+              <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.prevState)">&nbsp;</span> {{pa.prevState}}</td>
+              <td><span class="bi-arrow-right"></span></td>
+              <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.targetState)">&nbsp;</span> {{pa.targetState}}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="button-bar">
+        <button type="button" class="btn btn-success"
+                (click)="changePigeonState( 'Pigeon Solved' )">
+          <span class="bi-twitter" style="color:lightgreen;">&nbsp;</span> Pigeon Solved
+        </button>
+        <button type="button" class="btn btn-warning"
+                (click)="changePigeonState( 'Redo' )">
+          <span class="bi-arrow-clockwise">&nbsp;</span> Redo
+        </button>
+        <button type="button" class="btn btn-secondary"
+                (click)="changePigeonState( 'Reassign' )">
+          <span class="bi-signpost-split">&nbsp;</span> Reassign
+        </button>
+        <button type="button" class="btn btn-danger"
+                (click)="changePigeonState( 'Purge' )">
+          <span class="bi-box-arrow-up-right" style="color:white;">&nbsp;</span> Purge
+        </button>
+      </div>
+    }
+  </div>
+</div>

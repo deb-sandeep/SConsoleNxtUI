@@ -12,11 +12,13 @@ import { ManageProblemsService } from "./features/manage-problems/manage-problem
 import { manageProblemsRoutes } from "./features/manage-problems/manage-problems.route";
 import { ManageTracksComponent } from "./features/manage-tracks/manage-tracks.component";
 import { ManageTracksService } from "./features/manage-tracks/manage-tracks.service";
+import { SolvePigeonsComponent } from "./features/solve-pigeons/solve-pigeons.component";
+import { SolvePigeonsService } from "./features/solve-pigeons/solve-pigeons.service";
 
 export const featureRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'manage-tracks',
+        redirectTo: 'solve-pigeons',
         pathMatch: 'full'
     },
     {
@@ -38,5 +40,11 @@ export const featureRoutes: Routes = [
         title: 'Manage Tracks',
         component: ManageTracksComponent,
         providers: [ManageTracksService, AlertService]
+    },
+    {
+        path: 'solve-pigeons',
+        title: 'Solve Pigeons',
+        component: SolvePigeonsComponent,
+        providers: [SolvePigeonsService, AlertService]
     },
 ] ;

@@ -22,7 +22,7 @@
     </div>
 
     <div class="problem-key animate__animated animate__backInRight">
-      <span [ngClass]="getProblemIcon(problem!.problemState)"></span>&nbsp;
+      <span [ngClass]="SConsoleUtil.getProblemIcon(problem!.problemState)"></span>&nbsp;
       {{problem.problemKey.replaceAll( "/", " / ")}}
     </div>
 

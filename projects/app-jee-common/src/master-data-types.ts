@@ -52,6 +52,7 @@ export type SessionPauseSO = {
 
 export type TopicProblemSO = {
   topicId: number,
+  syllabusName: string,
   topicSection: string,
   topicName: string,
   bookId: number,

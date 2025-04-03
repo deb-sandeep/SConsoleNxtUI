@@ -9,6 +9,7 @@ import { NgClass, NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { NgbRatingModule } from "@ng-bootstrap/ng-bootstrap";
 import { SessionNetworkService } from "../../../../service/session-network.service";
+import { SConsoleUtil } from "@jee-common/common-util";
 
 @Component({
   selector: 'problem-attempt',
@@ -37,6 +38,7 @@ export class ProblemAttemptComponent {
   private stateSvc = inject( SessionStateService ) ;
   private networkSvc = inject( SessionNetworkService ) ;
 
+  protected readonly SConsoleUtil = SConsoleUtil ;
   protected session:Session = this.stateSvc.session ;
   protected problemAttempt: ProblemAttempt = this.session.currentProblemAttempt! ;
   protected problem:TopicProblemSO = this.session.currentProblemAttempt!.problem ;
@@ -52,17 +54,6 @@ export class ProblemAttemptComponent {
     const nextProblem = await this.stateSvc.session.endProblemAttempt( targetState ) ;
     if( this.autoPlay && nextProblem ) {
       await this.session.startProblemAttempt( nextProblem ) ;
-    }
-  }
-
-  getProblemIcon( state: string ) {
-    switch( state ) {
-      case 'Assigned': return 'bi-crosshair icon' ;
-      case 'Later': return 'bi-calendar2-event icon' ;
-      case 'Redo': return 'bi-clockwise icon' ;
-      case 'Pigeon': return 'bi-twitter icon' ;
-      case 'Pigeon Solved': return 'bi-twitter icon-green' ;
-      default: return 'bi-crosshair icon' ;
     }
   }
 

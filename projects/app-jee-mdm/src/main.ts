@@ -30,9 +30,10 @@ import { featureRoutes } from "./routes" ;
 class AppComponent {
     title: string = 'JEE Preparation > Master Data Management' ;
     menubarMeta : FeatureMenuItemMeta[] = [
-        { routePath:'/manage-books', iconName:'journals', selected:true },
+        { routePath:'/manage-books', iconName:'journals', selected:false },
         { routePath:'/manage-problems', iconName:'p-square', selected:false },
         { routePath:'/manage-tracks', iconName:'bar-chart-steps', selected:false },
+        { routePath:'/solve-pigeons', iconName:'twitter', selected:true },
     ] ;
 
     constructor( alertConfig:NgbAlertConfig ) {
