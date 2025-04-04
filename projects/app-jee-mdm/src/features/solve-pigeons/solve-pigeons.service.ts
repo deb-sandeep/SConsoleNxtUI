@@ -34,4 +34,9 @@ export class SolvePigeonsService extends RemoteService {
       targetState: targetState
     }) ;
   }
+
+  updateProblemDifficultyLevel( problemId: number, difficultyLevel: number ) {
+    const url:string = `${environment.apiRoot}/Master/Problem/${problemId}/DifficultyLevel/${difficultyLevel}` ;
+    return this.postPromise<void>( url ) ;
+  }
 }

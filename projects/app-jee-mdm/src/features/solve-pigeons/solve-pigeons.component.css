@@ -48,6 +48,18 @@
     color: blue ;
 }
 
+.age {
+    float: right;
+    font-family: monospace;
+    font-size: 14px ;
+    font-weight: bold;
+    color: black;
+}
+
+.red {
+    color: red;
+}
+
 .pigeon > span {
     filter: opacity( 0.5 );
 }
@@ -107,3 +119,33 @@
 .button-bar > button {
     margin: 5px;
 }
+
+.problem-rating {
+
+    margin: 15px auto 10px auto;
+    text-align: center;
+    height: 50px;
+    width: 100%;
+
+    font-size: 30px;
+    font-weight: lighter;
+    color: #333131;
+}
+
+i {
+    padding-right: 0.1rem;
+    color: #323232;
+}
+.filled {
+    color: #1e90ff;
+}
+.filled.easy {
+    color: #22bc7a;
+}
+.filled.moderate {
+    color: #ea932f;
+}
+.filled.hard {
+    color: #ea2020;
+}
+

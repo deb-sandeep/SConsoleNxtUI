@@ -21,6 +21,8 @@
                  [class.pigeon-selected]="selectedPigeon == pigeon">
               <span [ngClass]="SConsoleUtil.getProblemIcon( pigeon.problemState )">&nbsp;</span>
               {{pigeon.problemKey}}
+              @let age = getAge( pigeon ) ;
+              <span class="age" [ngClass]="{'red':age>0}">[{{age}}]</span>
             </div>
           }
         }
@@ -63,6 +65,21 @@
         </tbody>
       </table>
 
+      <div class="problem-rating">
+        <ngb-rating [(rate)]="selectedPigeon!.difficultyLevel"
+                    [max]="10"
+                    (rateChange)="problemRatingChanged()">
+          <ng-template let-fill="fill" let-index="index">
+            <i class="bi-star{{ fill === 100 ? '-fill' : '' }}"
+               [class.filled]="fill === 100"
+               [class.easy]="index < 3"
+               [class.moderate]="index >= 3 && index <= 6"
+               [class.hard]="index > 6"
+            >&nbsp;&nbsp;</i>
+          </ng-template>
+        </ngb-rating>
+      </div>
+
       <div class="button-bar">
         <button type="button" class="btn btn-success"
                 (click)="changePigeonState( 'Pigeon Solved' )">
@@ -81,6 +98,7 @@
           <span class="bi-box-arrow-up-right" style="color:white;">&nbsp;</span> Purge
         </button>
       </div>
+
     }
   </div>
 </div>

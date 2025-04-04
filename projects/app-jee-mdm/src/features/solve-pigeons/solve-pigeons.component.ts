@@ -5,6 +5,7 @@ import { ProblemAttemptSO, SyllabusSO, TopicProblemSO } from "@jee-common/master
 import { DatePipe, NgClass } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/common-util";
 import { DurationPipe } from "../../../../app-jee-session/src/pipes/duration.pipe";
+import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
 
 class BookChapterProblems {
 
@@ -74,6 +75,7 @@ class SyllabusProblems {
     NgClass,
     DatePipe,
     DurationPipe,
+    NgbRating,
   ],
   templateUrl: './solve-pigeons.component.html',
   styleUrl: './solve-pigeons.component.css'
@@ -167,5 +169,16 @@ export class SolvePigeonsComponent {
     else if( this.allPigeons.length > 0 ) {
       await this.pigeonSelected( this.allPigeons[0] ) ;
     }
+  }
+
+  problemRatingChanged() {
+    this.pigeonSvc.updateProblemDifficultyLevel(
+      this.selectedPigeon!.problemId,
+      this.selectedPigeon!.difficultyLevel
+    ).then() ;
+  }
+
+  getAge( pigeon: TopicProblemSO ) {
+    return Math.floor( ( new Date().getTime() - new Date( pigeon.lastAttemptTime ).getTime() ) / 86400000 ) ;
   }
 }
