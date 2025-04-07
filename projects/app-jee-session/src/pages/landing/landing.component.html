@@ -29,6 +29,9 @@
              [class.selected]="session.topic() == topic.topic"
              (click)="topicSelected( topic.topic )">
           {{topic.topic.topicName}}
+          <span class="bi-list-ul problem-browser-icon"
+                (click)="showProblemBrowserDialog(topic.topic);$event.stopPropagation()"></span>
+
           <div class="date-bar">
             <div class="start-date">{{ topic.assignment.startDate | date}}</div>
             <div class="end-date">{{ topic.assignment.endDate | date}}</div>
@@ -45,6 +48,9 @@
                  [class.inactive-topic-selected]="session.topic() == topic"
                  (click)="topicSelected( topic )">
               {{topic.topicName}}
+              <span class="bi-list-ul problem-browser-icon"
+                    (click)="showProblemBrowserDialog(topic);$event.stopPropagation()"></span>
+
             </div>
           }
         }
@@ -53,3 +59,6 @@
   </div>
 </div>
 
+<problem-browser *ngIf="showProblemBrowserFlag"
+                 [topic]="selectedTopic"
+                 (hide)="showProblemBrowserFlag=false"></problem-browser>

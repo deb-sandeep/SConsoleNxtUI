@@ -1,0 +1,133 @@
+#problem-browser-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    z-index: 1000;
+    background-color: rgba(50, 50, 50, 0.85);
+    margin: 0 auto;
+    text-align: center;
+}
+
+#problem-browser-ui {
+    --panel-height: 600px;
+    --panel-width: 600px;
+    --topic-name-height: 35px;
+    --btn-panel-height: 60px;
+    --padding: 5px;
+
+    position: absolute;
+    top: calc( 50dvh - var(--panel-height)/2 );
+    left: calc( 50dvw - var(--panel-width)/2 );
+    width: var(--panel-width);
+    height: var(--panel-height);
+    background-color: #5a5a5a;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px #101010;
+    padding: var(--padding);
+}
+
+#topic-name {
+    width: 100%;
+    height: var(--topic-name-height);
+    font-size: 25px;
+    padding-right: 10px;
+}
+
+#problem-list {
+    width: 100%;
+    height: calc( var(--panel-height) - var(--btn-panel-height) - var(--topic-name-height) - var(--padding)*2 ) ;
+    padding: var(--padding);
+    overflow-y: scroll;
+}
+
+#btn-panel {
+    height: var(--btn-panel-height);
+    text-align: center;
+    padding: 10px;
+}
+
+button {
+    border: 1px #676666 solid ;
+    color: darkgray ;
+    background-color: #404040;
+}
+
+.book-chapter {
+    position: relative;
+    height: 50px;
+    background-color: #434343;
+    margin: 7px 5px 7px 5px;
+    text-align: left;
+    padding: 0 5px 0 10px ;
+    border-radius: 10px;
+}
+
+.book-name {
+    color: #9dcafa;
+    font-size: 14px;
+}
+
+.chapter-name {
+    color: #97fa97;
+    font-size: 17px;
+}
+
+.num-problems {
+    float: right;
+    font-size: 15px;
+    font-family: monospace;
+}
+
+.exercise {
+    position: relative;
+    height: 35px;
+    background-color: #474747;
+    margin: 7px 5px 7px 20px;
+    text-align: left;
+    padding: 0 5px 0 10px ;
+    border-radius: 10px;
+    font-size: 17px;
+    line-height: 35px;
+    color: #cc9774;
+}
+
+.problem {
+    position: relative;
+    height: 35px;
+    line-height: 35px;
+    background-color: #6a6a6a;
+    margin: 7px 5px 7px 40px;
+    color: #cccccc;
+    text-align: left;
+    padding: 0 5px 0 10px ;
+    font-size: 16px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 1px #717171 solid ;
+}
+
+.icon {
+    color: #9dcafa;
+}
+
+.icon-green {
+    color: greenyellow;
+}
+
+.tweakie {
+    float:right;
+    height: 100%;
+    font-size: 20px;
+    display: table;
+    margin-right: 5px;
+}
+
+.tweakie-icon {
+    display: table-cell ;
+    vertical-align: middle ;
+    text-align: center ;
+    font-weight: bold;
+}
+

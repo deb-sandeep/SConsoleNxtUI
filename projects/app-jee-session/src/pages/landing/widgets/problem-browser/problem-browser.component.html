@@ -1,5 +1,9 @@
-<div id="problem-picker-screen">
-  <div id="problem-picker-ui">
+<div id="problem-browser-screen">
+  <div id="problem-browser-ui">
+    <div id="topic-name">
+      {{topic().topicName}}
+      <span class="num-problems">[{{numProblems}}]</span>
+    </div>
     <div id="problem-list">
       @for( book of books; track book.bookId ) {
         @for( chapter of book.chapters; track chapter.chapterNum ) {
@@ -10,7 +14,10 @@
                     [style.color]="chapter.expanded? 'brown':'green'"></span>
             </div>
             <div class="book-name"><span class="bi-book"></span>&nbsp;&nbsp;{{book.bookShortName}}</div>
-            <div class="chapter-name" [innerHTML]="chapter.displayName()"></div>
+            <div class="chapter-name">
+              {{chapter.displayName()}}
+              <span class="num-problems">[{{chapter.numProblems}}]</span>
+            </div>
           </div>
 
           @if( chapter.expanded ) {
@@ -22,12 +29,13 @@
                         [style.color]="exercise.expanded? 'brown':'green'"></span>
                 </div>
                 <span class="bi-folder2-open"></span>&nbsp;&nbsp;{{exercise.displayName()}}
+                <span class="num-problems">[{{exercise.numProblems}}]</span>
               </div>
 
               @if( exercise.expanded ) {
                 @for( problem of exercise.problems; track problem.problemId ) {
 
-                  <div class="problem" (click)="problemSelected( problem.so )">
+                  <div class="problem">
                     <span [class]="SConsoleUtil.getProblemIcon( problem.so.problemState )"></span>&nbsp;&nbsp;
                     {{problem.so.problemKey.replaceAll( '/', ' / ' )}}
                   </div>

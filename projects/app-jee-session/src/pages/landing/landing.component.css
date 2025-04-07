@@ -123,3 +123,9 @@ img {
     border: 7px solid #0078ff;
     box-shadow: 1px 1px 1px #515050;
 }
+
+.problem-browser-icon {
+    float: right ;
+    padding-right: 20px;
+    color: darkblue;
+}

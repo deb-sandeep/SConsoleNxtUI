@@ -1,15 +1,18 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { SessionStateService } from "../../service/session-state.service";
-import { DatePipe, NgOptimizedImage, NgStyle } from "@angular/common";
+import { DatePipe, NgIf, NgOptimizedImage, NgStyle } from "@angular/common";
 import { SessionTypeSO, SyllabusSO, TopicSO } from "@jee-common/master-data-types";
 import { Router } from "@angular/router";
+import { ProblemBrowserComponent } from "./widgets/problem-browser/problem-browser.component";
 
 @Component({
   selector: 'landing',
   imports: [
     NgOptimizedImage,
     NgStyle,
-    DatePipe
+    DatePipe,
+    ProblemBrowserComponent,
+    NgIf
   ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
@@ -18,6 +21,11 @@ export class LandingComponent {
 
   stateSvc:SessionStateService = inject( SessionStateService ) ;
   router: Router = inject( Router ) ;
+
+  @ViewChild( ProblemBrowserComponent ) problemBrowserComponent: ProblemBrowserComponent ;
+
+  showProblemBrowserFlag: boolean = false ;
+  selectedTopic: TopicSO ;
 
   constructor() {
     this.stateSvc.loadMasterData().then() ;
@@ -81,5 +89,11 @@ export class LandingComponent {
 
   private getCSSHeight( numDivisions:number ) {
     return `calc( (100dvh - var(--tile-padding)*${numDivisions+1} ) / ${numDivisions})` ;
+  }
+
+  showProblemBrowserDialog( topic:TopicSO ) {
+    console.log( `Showing topic browser for ${topic.id}` ) ;
+    this.selectedTopic = topic ;
+    this.showProblemBrowserFlag = true ;
   }
 }
