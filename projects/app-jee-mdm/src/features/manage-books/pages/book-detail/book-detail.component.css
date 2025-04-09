@@ -44,3 +44,16 @@ td {
 .total {
     background-color: #f1f0f0;
 }
+
+.action-btn {
+    padding: 0 10px 0 10px ;
+    float: right;
+    border: 1px solid #bcbcbc;
+    background-color: #f1f0f0;
+    font-size: 12px;
+}
+
+.btn-cell {
+    background-color: transparent;
+    border: none;
+}

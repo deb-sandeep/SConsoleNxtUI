@@ -8,8 +8,10 @@
               (click)="toggleFullExpansion()"></span>
         </th>
         <th style="width: 40px;">#</th>
-        <th>Name</th>
-        <th class="problem-type-col">SCA</th>
+        <th>
+          Names
+        </th>
+        <th class="problem-type-col">SCAs</th>
         <th class="problem-type-col">MCA</th>
         <th class="problem-type-col">ART</th>
         <th class="problem-type-col">NVT</th>
@@ -18,6 +20,7 @@
         <th class="problem-type-col">CMT</th>
         <th class="problem-type-col">SUB</th>
         <th style="width: 50px;" class="number">{{ totalProblems }}</th>
+        <th style="width: 60px;" class="btn-cell"><button type="button" class="btn btn-sm action-btn">+ Ch</button></th>
       </tr>
     </thead>
     <tbody>
@@ -42,6 +45,7 @@
           <td class="number">{{ getChapterProblemTypeCount(ch, 'CMT') }}</td>
           <td class="number">{{ getChapterProblemTypeCount(ch, 'SUB') }}</td>
           <td class="number total">{{ getTotalProblemCountForChapter(ch) }}</td>
+          <td class="btn-cell"><button type="button" class="btn btn-sm action-btn">+ Ex</button></td>
         </tr>
         @if (isExpanded(ch)) {
           @for (ex of ch.exerciseProblemSummaries; track ex.exerciseNum) {
@@ -61,6 +65,7 @@
               <td class="number">{{ ex.problemTypeCount['CMT'] }}</td>
               <td class="number">{{ ex.problemTypeCount['SUB'] }}</td>
               <td class="number total">{{ getTotalProblemCountForExercise(ex) }}</td>
+              <td class="btn-cell"></td>
             </tr>
           }
         }
