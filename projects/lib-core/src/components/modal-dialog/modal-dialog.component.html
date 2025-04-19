@@ -1,0 +1,46 @@
+<div class="modal-backdrop" *ngIf="show()">
+  
+  <div class="dialog-container"
+       [style]="getDialogContainerStyle()">
+    <div class="dialog-header">
+      <div class="dialog-title">{{title()}}</div>
+      <button type="button" class="btn btn-sm dismiss-btn"
+              (click)="hide.emit(true)">
+        <span class="bi-x-lg"></span>
+      </button>
+    </div>
+    <div class="dialog-body">
+      <ng-content></ng-content>
+    </div>
+    <div class="dialog-footer">
+      <button type="button" class="btn btn-secondary"
+              (click)="hide.emit( true )">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-info"
+              (click)="confirm.emit( true )">
+        <ng-content select="[confirm-btn-text]"></ng-content>
+      </button>
+    </div>
+  </div>
+
+  <!-- This is shown only if there are messages -->
+  <div class="message-container" *ngIf="messages().length > 0"
+       [style]="getMsgContainerStyle()">
+    <div class="dialog-header">
+      <div class="dialog-title">Messages</div>
+      <button type="button" class="btn btn-sm dismiss-btn"
+              (click)="closeMessageDialog()">
+        <span class="bi-x-lg"></span>
+      </button>
+    </div>
+    <div class="dialog-body">
+      @for ( msg of messages(); track $index ) {
+        <div class="msg" [ngClass]="getMsgClass(msg)">
+          <span class="msg-icon" [ngClass]="getMsgIconClass(msg)"></span>
+          {{msg}}
+        </div>
+      }
+    </div>
+  </div>
+</div>

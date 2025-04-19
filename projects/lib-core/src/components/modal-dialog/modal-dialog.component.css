@@ -1,0 +1,84 @@
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    z-index: 100;
+    background-color: rgba(89, 88, 88, 0.82);
+
+    --dlg-bg-color: #353535 ;
+}
+
+.dialog-container {
+    position: absolute;
+    background-color: var(--dlg-bg-color) ;
+    border-radius: 10px;
+}
+
+.dialog-header {
+    width: 100%;
+    border-bottom: 1px solid #616161;
+}
+
+.dialog-title {
+    font-size: 18px ;
+    color: #0dcaf0;
+    padding: 5px 10px 5px 10px;
+    display: inline-block;
+}
+
+.dismiss-btn {
+    float: right;
+    display: inline-block;
+    color: white;
+    margin: 5px 10px 5px 5px ;
+    padding: 2px 5px 2px 5px ;
+    background-color: #424242;
+    border-radius: 15px;
+}
+
+.dialog-body {
+    padding: 5px 10px 5px 10px;
+    overflow-y: scroll;
+}
+
+.dialog-footer {
+    width: 100%;
+    border-top: 1px solid #616161;
+    padding: 10px ;
+    text-align: right;
+}
+
+.dialog-footer button {
+    margin-left: 10px;
+}
+
+.message-container {
+    position: absolute;
+    background-color: var(--dlg-bg-color) ;
+    border-radius: 10px;
+    margin-top: 3px;
+}
+
+.msg {
+    margin: 5px ;
+    font-size: 16px ;
+}
+
+.msg-icon {
+    padding-right: 10px;
+}
+
+.error-msg {
+    color: red;
+}
+
+.warning-msg {
+    color: orange;
+}
+
+.info-msg {
+    color: lightgrey;
+}
+

@@ -43,10 +43,11 @@
       <table class="table table-sm problem-attempt-table">
         <thead>
           <tr>
-            <th style="width: 150px;">Start</th>
-            <th style="width: 150px;">End</th>
+            <th style="width: 100px;">Date</th>
+            <th style="width: 75px;">Start</th>
+            <th style="width: 75px;">End</th>
             <th style="width: 75px;">Duration</th>
-            <th style="width: 100px;"></th>
+            <th style="width: 150px;"></th>
             <th style="width: 30px;"></th>
             <th style="width: 150px;"></th>
           </tr>
@@ -54,8 +55,9 @@
         <tbody>
           @for( pa of problemAttempts; track pa.id ) {
             <tr>
-              <td class="mono-font">{{pa.startTime | date:'short'}}</td>
-              <td class="mono-font">{{pa.endTime | date:'short'}}</td>
+              <td class="mono-font">{{pa.startTime | date:'dd/MMM/yy'}}</td>
+              <td class="mono-font">{{pa.startTime | date:'HH:mm'}}</td>
+              <td class="mono-font">{{pa.endTime | date:'HH:mm'}}</td>
               <td class="mono-font">{{pa.effectiveDuration*1000 | duration}}</td>
               <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.prevState)">&nbsp;</span> {{pa.prevState}}</td>
               <td><span class="bi-arrow-right"></span></td>

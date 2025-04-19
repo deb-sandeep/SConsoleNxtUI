@@ -1,0 +1,33 @@
+.title {
+    font-size: 18px ;
+    color: white ;
+}
+
+.label {
+    color: lightgrey;
+    font-size: 13px ;
+    padding: 5px 0 5px 0 ;
+}
+
+input {
+    width: 100%;
+    background-color: #575757;
+    border: 1px inset #3c3c3c;
+    border-radius: 5px;
+    color: white;
+    padding: 3px 10px 3px 10px;
+    outline: none;
+    font-family: monospace;
+}
+
+textarea {
+    width: 100%;
+    background-color: #575757;
+    border: 1px inset #3c3c3c;
+    border-radius: 5px;
+    color: white;
+    padding: 3px 10px 3px 10px;
+    outline: none;
+    font-family: monospace;
+}
+

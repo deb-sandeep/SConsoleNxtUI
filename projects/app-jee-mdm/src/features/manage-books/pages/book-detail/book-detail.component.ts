@@ -1,20 +1,22 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ManageBooksService } from "../../manage-books.service";
 import { Alert, EditableAttributeSaveEvent, EditableInput} from "lib-core";
 import { PageTitleService } from "lib-core";
 import { BookProblemSummary, ChapterProblemSummary, ExerciseProblemSummary } from "../../manage-books.type";
-import { NgClass } from "@angular/common";
+import { NgClass, NgIf } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 
 import AlertService = Alert.AlertService;
+import { NewExerciseDialogComponent } from "./new-exercise-dialog/new-exercise-dialog.component";
 
 @Component( {
   selector: 'book-detail',
   imports: [
     EditableInput,
-    NgClass
+    NgClass,
+    NgIf,
+    NewExerciseDialogComponent
   ],
-  providers: [ ManageBooksService, AlertService ],
   templateUrl: './book-detail.component.html',
   styleUrl: './book-detail.component.css'
 })
@@ -31,23 +33,36 @@ export class BookDetailComponent {
   expandedState:Record<number, boolean> = {} ;
   fullyExpanded:boolean = false ;
 
+  @ViewChild( "newExerciseDialog" )
+  newExerciseDialog: NewExerciseDialogComponent ;
+
   constructor() {
 
     this.bookId = Number( this.activeRoute.snapshot.params['bookId'] ) ;
     this.titleSvc.setTitle( ' > ' + String( this.bookId ) ) ;
 
+    this.refresh() ;
+  }
+
+  protected refresh() {
+
+    this.summary = null ;
+    this.totalProblems = 0 ;
+    this.expandedState = {} ;
+    this.fullyExpanded = false ;
+
     this.manageBookSvc.getBookProblemSummary( this.bookId )
-      .then( data => {
-        this.summary = data ;
-        this.titleSvc.setTitle( ` > [${data.book.syllabusName}] >
+        .then( data => {
+          this.summary = data ;
+          this.titleSvc.setTitle( ` > [${data.book.syllabusName}] >
                                  ${data.book.seriesName} > 
                                  ${data.book.author} >
                                  ${data.book.bookName}` ) ;
-        this.linkParent() ;
-        this.toggleFullExpansion() ;
-        this.computeTotalNumProblems() ;
-      } )
-      .catch( () => this.alertSvc.error( "Could not fetch book problem summary" ) ) ;
+          this.linkParent() ;
+          this.toggleFullExpansion() ;
+          this.computeTotalNumProblems() ;
+        } )
+        .catch( () => this.alertSvc.error( "Could not fetch book problem summary" ) ) ;
   }
 
   private linkParent() {
@@ -112,7 +127,7 @@ export class BookDetailComponent {
   saveUpdatedChapterName($evt: EditableAttributeSaveEvent ) {
     let ch = $evt.target as ChapterProblemSummary ;
     this.manageBookSvc
-        .updateChapterName( ch.parent.book.id,
+        .saveChapterName( ch.parent.book.id,
                             ch.chapterNum,
                             $evt.attributeValue )
         .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
@@ -128,5 +143,28 @@ export class BookDetailComponent {
                              $evt.attributeValue )
         .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )
         .catch( msg => this.alertSvc.error( msg ) ) ;
+  }
+
+  addNewChapter() {
+
+    let chProbSummaries = this.summary!.chapterProblemSummaries ;
+    let newChNum = 1 ;
+
+    if( chProbSummaries.length > 0 ) {
+      let lastChSumamry = chProbSummaries[chProbSummaries.length-1] ;
+      newChNum = lastChSumamry.chapterNum + 1 ;
+    }
+
+    this.manageBookSvc
+      .saveChapterName( this.summary!.book.id, newChNum, 'New Chapter' )
+      .then( ( ch ) => {
+        let newChSummary: ChapterProblemSummary = {
+          chapterNum: ch.chapterNum,
+          chapterName: ch.chapterName,
+          exerciseProblemSummaries: [],
+          parent: this.summary!,
+        } ;
+        this.summary!.chapterProblemSummaries.push( newChSummary ) ;
+      })
   }
 }

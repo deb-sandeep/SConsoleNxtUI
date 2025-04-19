@@ -253,6 +253,9 @@ export class Session extends PausableTimedEntity {
       this.problems.splice( index, 1 ) ;
       nextProblemIndex = index ;
     }
+    else if( this.sessionType!.sessionType === "Coaching" && targetState === 'Pigeon' ) {
+      // Don't do anything. Let the problem be there in this context
+    }
     else if ( !['Later','Redo'].includes( targetState ) ) {
       this.problems.splice( index, 1 ) ;
       nextProblemIndex = index ;

@@ -56,9 +56,16 @@ export type BookSummary = {
     author : string,
     bookShortName : string,
     topicMappingDone : boolean,
+    extensible: boolean,
     numChapters? : number,
     numProblems? : number,
     selected? : boolean
+}
+
+export type ChapterSO = {
+    bookId : number,
+    chapterNum : number,
+    chapterName : string,
 }
 
 export type BookProblemSummary = {

@@ -107,5 +107,13 @@
       <div style="width: 20px;display: inline-block"></div>
     }
 
+    @if( isValidAction( 'Park Pigeon' ) ) {
+      <action-btn (click)="endProblemAttempt( 'Pigeon' )"
+                  bgColor="#091627">
+        <span class="bi-box-arrow-right" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+    }
+
   </div>
 </div>

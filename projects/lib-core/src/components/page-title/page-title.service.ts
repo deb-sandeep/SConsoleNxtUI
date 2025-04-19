@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
@@ -6,14 +6,13 @@ import { BehaviorSubject, Observable } from "rxjs";
 })
 export class PageTitleService {
 
-  private titleSubject:BehaviorSubject<string> = new BehaviorSubject<string>( "" ) ;
-  title$:Observable<string> = this.titleSubject.asObservable() ;
+  additionalTitle = signal( "" ) ;
 
   setTitle( title:string ) {
-    this.titleSubject.next( title ) ;
+    this.additionalTitle.set( title ) ;
   }
 
   clear() {
-    this.titleSubject.next("" ) ;
+    this.additionalTitle.set( "" ) ;
   }
 }

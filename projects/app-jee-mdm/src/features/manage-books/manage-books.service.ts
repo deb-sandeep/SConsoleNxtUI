@@ -6,7 +6,7 @@ import {
   BookProblemSummary,
   BookSummary,
   BookTopicMappingRes,
-  BookValidationResult,
+  BookValidationResult, ChapterSO,
   SaveBookMetaRes
 } from "./manage-books.type";
 
@@ -116,10 +116,10 @@ export class ManageBooksService extends RemoteService {
     }) ;
   }
 
-  updateChapterName( bookId:number, chapterNum:number, name:string ) : Promise<string> {
+  saveChapterName( bookId:number, chapterNum:number, name:string ) : Promise<ChapterSO> {
 
-    const url = `${environment.apiRoot}/Master/Book/${bookId}/${chapterNum}/UpdateChapterName` ;
-    return this.postPromise<string>( url, {"value": name}) ;
+    const url = `${environment.apiRoot}/Master/Book/${bookId}/${chapterNum}/SaveChapterName` ;
+    return this.postPromise<ChapterSO>( url, {"value": name}) ;
   }
 
   updateExerciseName( bookId:number, chapterNum:number, exerciseNum:number, name:string ) : Promise<string> {
@@ -142,5 +142,16 @@ export class ManageBooksService extends RemoteService {
 
     const url = `${environment.apiRoot}/Master/ChapterTopicMapping/${mappingId}` ;
     return this.deletePromise( url, false ) ;
+  }
+
+  createNewExercise( bookId: number, chapterNum:number, exerciseName:string, problemClusters:string ) : Promise<string[]> {
+
+    const url = `${environment.apiRoot}/Master/Book/CreateNewExercise` ;
+    return this.postPromise( url, {
+      "bookId" : bookId,
+      "chapterNum" : chapterNum,
+      "exerciseName" : exerciseName,
+      "problemClusters" : problemClusters,
+    }) ;
   }
 }

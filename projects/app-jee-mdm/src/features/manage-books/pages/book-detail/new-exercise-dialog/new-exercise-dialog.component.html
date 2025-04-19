@@ -1,0 +1,19 @@
+<modal-dialog [show]="chapter!=null"
+              (hide)="hideDialog()"
+              (confirm)="createNewExercise()"
+              [width]="500" [height]="450"
+              [(messages)]="messages"
+              title="New Exercise">
+  <div class="title">{{chapter?.chapterNum}}. {{chapter?.chapterName}}</div>
+  <div class="label">Exercise Name:</div>
+  <div>
+    <input #exerciseNameInput type="text" [(ngModel)]="exerciseName"/>
+  </div>
+  <div class="label">Problem Metadata:</div>
+  <div>
+    <textarea rows="11" [(ngModel)]="exerciseMetadata"></textarea>
+  </div>
+  <span confirm-btn-text>
+    Save
+  </span>
+</modal-dialog>

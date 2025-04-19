@@ -143,7 +143,7 @@ export class TopicMappingComponent {
   saveUpdatedChapterName( $evt: EditableAttributeSaveEvent ) {
     let ch = $evt.target as ChapterTopicMapping ;
     this.manageBookSvc
-        .updateChapterName( this.selectedBook!.id,
+        .saveChapterName( this.selectedBook!.id,
                             ch.chapterNum,
                             $evt.attributeValue )
         .then( () => $evt.target[$evt.attributeName] = $evt.attributeValue )

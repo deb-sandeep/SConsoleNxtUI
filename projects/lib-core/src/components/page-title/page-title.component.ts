@@ -8,7 +8,7 @@ import {PageTitleService} from "./page-title.service";
   imports: [ CommonModule ],
   template: `
     <div class="page-title">
-      {{ pageTitle }}{{ additionalTitle }}
+      {{ pageTitle }}{{ pageTitleSvc.additionalTitle() }}
     </div>
   `,
   styles: `
@@ -27,23 +27,19 @@ import {PageTitleService} from "./page-title.service";
 export class PageTitleComponent {
 
   pageTitle:string = "" ;
-  additionalTitle:string = "" ;
 
   constructor( private router: Router,
                private activatedRoute: ActivatedRoute,
-               private toolbarTitleSvc: PageTitleService ) {
+               protected pageTitleSvc: PageTitleService ) {
 
     router.events.subscribe( e => {
       if( e instanceof NavigationStart ) {
-        this.additionalTitle = "" ;
+        pageTitleSvc.clear() ;
+        this.pageTitle = "" ;
       }
       else if( e instanceof NavigationEnd ) {
         this.pageTitle = activatedRoute.snapshot.firstChild?.title || "" ;
       }
     } ) ;
-
-    toolbarTitleSvc.title$.subscribe( title => {
-      this.additionalTitle = ( title === "" ) ? "" : `${title}` ;
-    }) ;
   }
 }

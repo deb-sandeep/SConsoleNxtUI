@@ -31,8 +31,8 @@ export class ProblemAttemptComponent {
     'Assigned': ['Correct',	'Incorrect',	'Later', 'Pigeon',	'Purge', 'Reassign',	'Redo'],
     'Later': ['Correct',	'Incorrect',	'Later', 'Pigeon',	'Purge', 'Reassign',	'Redo'],
     'Redo': ['Correct',	'Incorrect',	'Later', 'Pigeon',	'Reassign',	'Redo'],
-    'Pigeon' : ['Pigeon', 'Pigeon Explained', 'Purge', 'Reassign', 'Redo'],
-    'Pigeon Solved' : ['Pigeon', 'Pigeon Explained', 'Purge', 'Reassign', 'Redo'],
+    'Pigeon' : ['Pigeon', 'Pigeon Explained', 'Purge', 'Reassign', 'Redo', 'Park Pigeon'],
+    'Pigeon Solved' : ['Pigeon', 'Pigeon Explained', 'Purge', 'Reassign', 'Redo', 'Park Pigeon'],
   } ;
 
   private stateSvc = inject( SessionStateService ) ;
