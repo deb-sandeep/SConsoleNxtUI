@@ -34,6 +34,7 @@ class AppComponent {
         { routePath:'/manage-problems', iconName:'p-square', selected:false },
         { routePath:'/manage-tracks', iconName:'bar-chart-steps', selected:false },
         { routePath:'/solve-pigeons', iconName:'twitter', selected:true },
+        { routePath:'/problem-history', iconName:'clock-history', selected:false },
     ] ;
 
     constructor( alertConfig:NgbAlertConfig ) {

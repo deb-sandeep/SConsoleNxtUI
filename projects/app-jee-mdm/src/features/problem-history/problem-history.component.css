@@ -1,0 +1,141 @@
+select {
+    display: inline-block;
+    width: initial;
+    margin: 2px 10px 2px 10px;
+    background-color: #737373;
+    border: none;
+    color: white;
+}
+
+button {
+    padding: 7px 11px 7px 11px;
+    float: right;
+    margin-left: 5px ;
+    margin-right: 5px ;
+    border-radius: 20px ;
+}
+
+button > span {
+    font-size: 16px ;
+}
+
+span[class^="bi-chevron"] {
+    font-weight: bold;
+}
+
+.page-content {
+}
+
+.ph-container {
+    position: absolute ;
+    top: var(--page-title-height) ;
+    height: calc( 100dvh - var(--page-header-height) - var(--page-title-height) ) ;
+    color: black;
+    font-size: 18px;
+    overflow-y: scroll;
+}
+
+.problem-list-container {
+    left: 0 ;
+    width: 40% ;
+    padding: 5px 2px 5px 5px;
+}
+
+.problem-history-container {
+    left: 40% ;
+    width: 60% ;
+    padding: 5px 5px 5px 2px;
+}
+
+.problem-list {
+    font-size: 12px ;
+}
+
+.problem-list thead th {
+    background-color: transparent ;
+}
+
+.book-chapter-name td {
+    font-size: 15px ;
+    background-color: #606060;
+    color: yellow ;
+    font-weight: bold ;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 10px;
+}
+
+.exercise-name td {
+    font-size: 14px ;
+    padding-left: 20px ;
+    font-weight: bold;
+    background-color: #8f8f8f;
+    color: white;
+    border-radius: 10px;
+}
+
+.problem-row td {
+    padding: 2px;
+    background-color: transparent;
+}
+
+.problem-name {
+    padding-left: 40px !important;
+}
+
+.problem-assigned td {
+    color: gray;
+    background-color: #ececec;
+}
+
+.problem-correct td {
+    color: darkgreen;
+    background-color: #f1fde9;
+}
+
+.problem-incorrect td {
+    color: red;
+    background-color: #f1fde9;
+}
+
+.problem-redo td {
+    color: #6b03c6;
+    background-color: #f5e9ff;
+}
+
+.problem-later td {
+    color: #303030;
+    background-color: #ececec;
+}
+
+.problem-purge td {
+    color: brown;
+    background-color: #faede9;
+}
+
+.problem-pigeon td {
+    color: red;
+    background-color: #ffede6;
+    font-weight: bold;
+}
+
+.problem-pigeon-solved td {
+    color: #ac0000;
+    background-color: #e6f9ff;
+}
+
+.problem-pigeon-explained td {
+    color: blue;
+    background-color: #e6f9ff;
+}
+
+.num-attempts {
+    padding-right: 20px;
+    font-family: monospace;
+}
+
+.duration {
+    font-family: monospace;
+    text-align: right;
+    font-size: 11px;
+}

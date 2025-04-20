@@ -19,6 +19,9 @@ export * from './components/page-title/page-title.service' ;
 
 // Directives
 
+// Pipes
+export * from './pipes/duration.pipe'
+
 // Types
 export * from './types/api-response' ;
 

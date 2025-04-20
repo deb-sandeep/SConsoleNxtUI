@@ -1,0 +1,102 @@
+<page-title></page-title>
+<alerts-display></alerts-display>
+<div class="page-content">
+  <div class="ph-container problem-list-container">
+
+    <div class="topic-selection-panel">
+
+      <select class="form-select"
+              [(ngModel)]="selectedSyllabusName"
+              (ngModelChange)="syllabusSelected()">
+
+        @let syllabusList = Object.values( svc.syllabusMap ) ;
+        @for( syllabus of syllabusList; track syllabus.syllabusName ) {
+          <option [value]="syllabus.syllabusName">{{syllabus.syllabusName}}</option>
+        }
+      </select>
+
+      <select class="form-select"
+              [(ngModel)]="selectedTopicId"
+              (ngModelChange)="topicSelected()">
+
+        @if( svc.syllabusMap[selectedSyllabusName] ) {
+          @let topicList = Object.values( svc.syllabusMap[selectedSyllabusName].topicMap ) ;
+          @for( topic of topicList; track topic.id ) {
+            <option [value]="topic.id">{{topic.topicName}}</option>
+          }
+        }
+      </select>
+
+      <button type="button" class="btn btn-sm btn-secondary"
+              (click)="expandAll()">
+        <span class="bi-chevron-expand"></span>
+      </button>
+
+      <button type="button" class="btn btn-sm btn-secondary"
+              (click)="collapseAll()">
+        <span class="bi-chevron-contract"></span>
+      </button>
+
+    </div>
+
+    <div class="problem-list">
+
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th style="width: 300px;"></th>
+            <th style="width: 50px;"></th>
+            <th style="width: 150px;"></th>
+            <th style="width: 50px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for( chapterName of Object.keys( filteredProblems ); track $index ) {
+            @let bookChapter = filteredProblems[ chapterName ] ;
+            <tr class="book-chapter-name">
+              <td colspan="4">
+                <span class="bi-chevron-expand" *ngIf="bookChapter.collapsed"
+                      (click)="bookChapter.collapsed=false">&nbsp;</span>
+                <span class="bi-chevron-contract" *ngIf="!bookChapter.collapsed"
+                      (click)="bookChapter.collapsed=true">&nbsp;</span>
+                {{ chapterName }}
+              </td>
+            </tr>
+
+            @for( exerciseName of Object.keys( bookChapter.exerciseProblems ); track $index ) {
+              @let exercise = bookChapter.exerciseProblems[ exerciseName ] ;
+
+              @if( !bookChapter.collapsed ) {
+                <tr class="exercise-name">
+                  <td colspan="4">
+                    <span class="bi-chevron-expand" *ngIf="exercise.collapsed"
+                          (click)="exercise.collapsed=false">&nbsp;</span>
+                    <span class="bi-chevron-contract" *ngIf="!exercise.collapsed"
+                          (click)="exercise.collapsed=true">&nbsp;</span>
+                    &nbsp;&nbsp;{{exerciseName}}
+                  </td>
+                </tr>
+
+                @if( !exercise.collapsed ) {
+                  @for( p of exercise.problems; track $index ) {
+                    <tr class="problem-row" [ngClass]="getProblemRowClass( p )">
+                      <td class="problem-name">{{p.problemKey.replaceAll( '/', ' / ')}}</td>
+                      <td class="num-attempts">{{p.numAttempts}}</td>
+                      <td><span [ngClass]="SConsoleUtil.getProblemIcon(p.problemState)">&nbsp;</span> {{p.problemState}}</td>
+                      <td class="duration">{{p.totalDuration*1000 | duration}}&nbsp;&nbsp;</td>
+                    </tr>
+                  }
+                }
+              }
+            }
+          }
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <div class="ph-container problem-history-container">
+
+  </div>
+</div>

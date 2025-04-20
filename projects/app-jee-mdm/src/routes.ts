@@ -14,6 +14,8 @@ import { ManageTracksComponent } from "./features/manage-tracks/manage-tracks.co
 import { ManageTracksService } from "./features/manage-tracks/manage-tracks.service";
 import { SolvePigeonsComponent } from "./features/solve-pigeons/solve-pigeons.component";
 import { SolvePigeonsService } from "./features/solve-pigeons/solve-pigeons.service";
+import { ProblemHistoryComponent } from "./features/problem-history/problem-history.component";
+import { ProblemHistoryService } from "./features/problem-history/problem-history.service";
 
 export const featureRoutes: Routes = [
     {
@@ -46,5 +48,11 @@ export const featureRoutes: Routes = [
         title: 'Solve Pigeons',
         component: SolvePigeonsComponent,
         providers: [SolvePigeonsService, AlertService]
+    },
+    {
+        path: 'problem-history',
+        title: 'Problem History',
+        component: ProblemHistoryComponent,
+        providers: [ProblemHistoryService, AlertService]
     },
 ] ;

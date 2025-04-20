@@ -1,6 +1,6 @@
 import { Component, inject, Input, input } from '@angular/core';
 import { SessionStateService } from "../../../../service/session-state.service";
-import { DurationPipe } from "../../../../pipes/duration.pipe";
+import { DurationPipe } from "lib-core";
 import { Session } from "../../../../entities/session";
 import { ActionButtonComponent } from "../action-button/action-button.component";
 import { TopicProblemSO } from "@jee-common/master-data-types";
