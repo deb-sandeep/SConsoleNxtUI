@@ -1,4 +1,4 @@
-import { TopicProblemSO } from "@jee-common/master-data-types";
+import { TopicProblemSO } from "@jee-common/util/master-data-types";
 import { PausableTimedEntity } from "./base-entities";
 
 export class ProblemAttempt extends PausableTimedEntity {

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { NgOptimizedImage } from "@angular/common";
 import { SessionStateService } from "../../../../service/session-state.service";
 import { Session } from "../../../../entities/session";
-import { ImgColorCSSGen } from "@jee-common/img-color-cssgen";
+import { ImgColorCSSGen } from "@jee-common/util/img-color-cssgen";
 
 @Component({
   selector: 'session-header',

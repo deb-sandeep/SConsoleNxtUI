@@ -3,13 +3,13 @@ import { SessionStateService } from "../../../../service/session-state.service";
 import { DurationPipe } from "lib-core";
 import { Session } from "../../../../entities/session";
 import { ActionButtonComponent } from "../action-button/action-button.component";
-import { TopicProblemSO } from "@jee-common/master-data-types";
+import { TopicProblemSO } from "@jee-common/util/master-data-types";
 import { ProblemAttempt } from "../../../../entities/problem-attempt";
 import { NgClass, NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { NgbRatingModule } from "@ng-bootstrap/ng-bootstrap";
 import { SessionNetworkService } from "../../../../service/session-network.service";
-import { SConsoleUtil } from "@jee-common/common-util";
+import { SConsoleUtil } from "@jee-common/util/common-util";
 
 @Component({
   selector: 'problem-attempt',

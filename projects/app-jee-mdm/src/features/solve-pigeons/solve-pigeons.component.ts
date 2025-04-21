@@ -1,9 +1,9 @@
 import { Component, inject } from "@angular/core";
 import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe } from "lib-core";
 import { SolvePigeonsService } from "./solve-pigeons.service";
-import { ProblemAttemptSO, SyllabusSO, TopicProblemSO } from "@jee-common/master-data-types";
+import { ProblemAttemptSO, SyllabusSO, TopicProblemSO } from "@jee-common/util/master-data-types";
 import { DatePipe, NgClass } from "@angular/common";
-import { SConsoleUtil } from "@jee-common/common-util";
+import { SConsoleUtil } from "@jee-common/util/common-util";
 import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
 
 class BookChapterProblems {

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { RemoteService } from "lib-core";
-import { ProblemAttemptSO, SyllabusSO, TopicProblemSO } from "@jee-common/master-data-types";
+import { ProblemAttemptSO, SyllabusSO, TopicProblemSO } from "@jee-common/util/master-data-types";
 import { environment } from "@env/environment";
 
 @Injectable()

@@ -1,4 +1,4 @@
-import { SyllabusSO, TrackSO } from "@jee-common/master-data-types" ;
+import { SyllabusSO, TrackSO } from "@jee-common/util/master-data-types" ;
 import { Topic } from "./topic";
 import { Track } from "./track";
 import { Colors } from "../util/colors";

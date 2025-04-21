@@ -3,11 +3,11 @@ import {
   SyllabusSO,
   TopicProblemSO,
   TopicSO
-} from "@jee-common/master-data-types";
+} from "@jee-common/util/master-data-types";
 import { inject, signal } from "@angular/core";
 import { SessionNetworkService } from "../service/session-network.service";
 import { LocalStorageService } from "lib-core";
-import { StorageKey } from "@jee-common/storage-keys";
+import { StorageKey } from "@jee-common/util/storage-keys";
 import { TimerService } from "../service/timer.service";
 import { Subscription } from "rxjs" ;
 import { Pause } from "./pause";

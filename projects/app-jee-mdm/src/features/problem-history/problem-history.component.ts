@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe } from "lib-core";
 import { FormsModule } from "@angular/forms";
-import { TopicProblemSO } from "@jee-common/master-data-types";
+import { ProblemAttemptSO, TopicProblemSO } from "@jee-common/util/master-data-types";
 import { ProblemHistoryService } from "./problem-history.service";
-import { SConsoleUtil } from "@jee-common/common-util";
-import { NgClass, NgIf } from "@angular/common";
+import { SConsoleUtil } from "@jee-common/util/common-util";
+import { DatePipe, NgClass, NgIf } from "@angular/common";
+import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
 
 class Exercise {
 
@@ -67,7 +68,9 @@ class BookChapter {
     FormsModule,
     NgClass,
     DurationPipe,
-    NgIf
+    NgIf,
+    DatePipe,
+    NgbRating
   ],
   templateUrl: './problem-history.component.html',
   styleUrl: './problem-history.component.css'
@@ -86,6 +89,8 @@ export class ProblemHistoryComponent {
   allProblems: TopicProblemSO[] = [] ;
 
   filteredProblems: Record<string, BookChapter> = {}
+  selectedProblem: TopicProblemSO | null = null ;
+  problemAttempts: ProblemAttemptSO[] | null = null ;
 
   constructor() {
     this.titleSvc.setTitle( "Explore problem history" ) ;
@@ -95,6 +100,8 @@ export class ProblemHistoryComponent {
   syllabusSelected() {
     this.selectedTopicId = -1 ;
     this.filteredProblems = {} ;
+    this.selectedProblem = null ;
+    this.problemAttempts = null ;
   }
 
   async topicSelected() {
@@ -129,18 +136,40 @@ export class ProblemHistoryComponent {
   }
 
   getProblemRowClass( problem: TopicProblemSO ) {
+    let classNames = [] ;
     switch( problem.problemState ) {
-      case 'Assigned':         return 'problem-assigned' ;
-      case 'Correct':          return 'problem-correct' ;
-      case 'Incorrect':        return 'problem-incorrect' ;
-      case 'Redo':             return 'problem-redo' ;
-      case 'Later':            return 'problem-later' ;
-      case 'Purge':            return 'problem-purge' ;
-      case 'Pigeon':           return 'problem-pigeon' ;
-      case 'Pigeon Explained': return 'problem-pigeon-explained' ;
-      case 'Pigeon Solved':    return 'problem-pigeon-solved' ;
+      case 'Assigned'         : classNames.push( 'problem-assigned'         ) ; break ;
+      case 'Correct'          : classNames.push( 'problem-correct'          ) ; break ;
+      case 'Incorrect'        : classNames.push( 'problem-incorrect'        ) ; break ;
+      case 'Redo'             : classNames.push( 'problem-redo'             ) ; break ;
+      case 'Later'            : classNames.push( 'problem-later'            ) ; break ;
+      case 'Purge'            : classNames.push( 'problem-purge'            ) ; break ;
+      case 'Pigeon'           : classNames.push( 'problem-pigeon'           ) ; break ;
+      case 'Pigeon Explained' : classNames.push( 'problem-pigeon-explained' ) ; break ;
+      case 'Pigeon Solved'    : classNames.push( 'problem-pigeon-solved'    ) ; break ;
     }
-    return '' ;
+
+    if( this.selectedProblem == problem ) {
+      classNames.push( 'problem-selected' ) ;
+    }
+    return classNames.join( ' ' ) ;
+  }
+
+  getDifficultyLevelIcon( problem: TopicProblemSO ) {
+    let classNames = [] ;
+    if( problem.difficultyLevel > 0 ) {
+      classNames.push( 'bi-star-fill' );
+      if( problem.difficultyLevel < 4 ) {
+        classNames.push( 'problem-difficulty-medium' ) ;
+      }
+      else if( problem.difficultyLevel < 8 ) {
+        classNames.push( 'problem-difficulty-high' ) ;
+      }
+      else {
+        classNames.push( 'problem-difficulty-exceptional' ) ;
+      }
+    }
+    return classNames.join( ' ' ) ;
   }
 
   expandAll() {
@@ -153,5 +182,28 @@ export class ProblemHistoryComponent {
     Object.values( this.filteredProblems ).forEach( bookCh => {
       bookCh.collapseAll() ;
     }) ;
+  }
+
+  async problemSelected( problem: TopicProblemSO ) {
+    this.selectedProblem = problem ;
+    this.problemAttempts = await this.svc.getProblemAttempts( problem.problemId ) ;
+  }
+
+  problemRatingChanged() {
+    this.svc.updateProblemDifficultyLevel(
+      this.selectedProblem!.problemId,
+      this.selectedProblem!.difficultyLevel
+    ).then() ;
+  }
+
+  async changePigeonState( targetState: string ) {
+    await this.svc.changePigeonState(
+      this.selectedProblem!.problemId,
+      this.selectedProblem!.topicId,
+      this.selectedProblem!.problemState,
+      targetState
+    ) ;
+    this.selectedProblem!.problemState = targetState ;
+    this.problemAttempts = await this.svc.getProblemAttempts( this.selectedProblem!.problemId ) ;
   }
 }

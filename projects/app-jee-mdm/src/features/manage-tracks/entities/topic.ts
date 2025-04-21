@@ -1,4 +1,4 @@
-import { PROBLEM_TYPES, TopicSO } from "@jee-common/master-data-types";
+import { PROBLEM_TYPES, TopicSO } from "@jee-common/util/master-data-types";
 import { Syllabus } from "./syllabus";
 import { TopicProblemCounts } from "../manage-tracks.types";
 import { config } from "../manage-tracks.config"

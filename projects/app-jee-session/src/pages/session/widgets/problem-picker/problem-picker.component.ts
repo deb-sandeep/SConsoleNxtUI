@@ -1,9 +1,9 @@
 import { Component, inject, output } from '@angular/core';
 import { SessionStateService } from "../../../../service/session-state.service";
 import { Session } from "../../../../entities/session";
-import { TopicProblemSO } from "@jee-common/master-data-types";
+import { TopicProblemSO } from "@jee-common/util/master-data-types";
 import { NgClass } from "@angular/common";
-import { SConsoleUtil } from "@jee-common/common-util";
+import { SConsoleUtil } from "@jee-common/util/common-util";
 
 class Book {
   bookId: number;

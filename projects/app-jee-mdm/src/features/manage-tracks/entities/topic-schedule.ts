@@ -1,4 +1,4 @@
-import { TopicTrackAssignmentSO } from "@jee-common/master-data-types" ;
+import { TopicTrackAssignmentSO } from "@jee-common/util/master-data-types" ;
 import { Track } from "./track";
 import { Topic } from "./topic";
 import dayjs from "dayjs";

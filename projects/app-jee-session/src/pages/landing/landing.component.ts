@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { SessionStateService } from "../../service/session-state.service";
 import { DatePipe, NgIf, NgOptimizedImage, NgStyle } from "@angular/common";
-import { SessionTypeSO, SyllabusSO, TopicSO } from "@jee-common/master-data-types";
+import { SessionTypeSO, SyllabusSO, TopicSO } from "@jee-common/util/master-data-types";
 import { Router } from "@angular/router";
 import { ProblemBrowserComponent } from "./widgets/problem-browser/problem-browser.component";
 

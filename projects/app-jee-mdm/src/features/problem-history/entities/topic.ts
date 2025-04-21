@@ -1,4 +1,4 @@
-import { TopicSO } from "@jee-common/master-data-types";
+import { TopicSO } from "@jee-common/util/master-data-types";
 import { Syllabus } from "./syllabus";
 
 export class Topic {

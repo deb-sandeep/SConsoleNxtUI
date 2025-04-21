@@ -12,11 +12,11 @@ import { CommonModule } from "@angular/common";
 import AlertService = Alert.AlertService;
 import { ManageProblemsService } from "../../manage-problems.service";
 import { TopicChapterMapping } from "../../manage-problems.type";
-import { PROBLEM_TYPES } from "@jee-common/master-data-types" ;
+import { PROBLEM_TYPES } from "@jee-common/util/master-data-types" ;
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
-import { StorageKey } from "@jee-common/storage-keys";
+import { StorageKey } from "@jee-common/util/storage-keys";
 
 @Component( {
   selector: 'topic-chapter-list',

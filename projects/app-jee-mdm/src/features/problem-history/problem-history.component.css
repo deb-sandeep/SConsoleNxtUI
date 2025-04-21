@@ -7,14 +7,6 @@ select {
     color: white;
 }
 
-button {
-    padding: 7px 11px 7px 11px;
-    float: right;
-    margin-left: 5px ;
-    margin-right: 5px ;
-    border-radius: 20px ;
-}
-
 button > span {
     font-size: 16px ;
 }
@@ -31,7 +23,7 @@ span[class^="bi-chevron"] {
     top: var(--page-title-height) ;
     height: calc( 100dvh - var(--page-header-height) - var(--page-title-height) ) ;
     color: black;
-    font-size: 18px;
+    font-size: 13px;
     overflow-y: scroll;
 }
 
@@ -44,7 +36,15 @@ span[class^="bi-chevron"] {
 .problem-history-container {
     left: 40% ;
     width: 60% ;
-    padding: 5px 5px 5px 2px;
+    padding: 20px 50px 5px 50px;
+}
+
+.topic-selection-panel button {
+    padding: 7px 11px 7px 11px;
+    float: right;
+    margin-left: 5px ;
+    margin-right: 5px ;
+    border-radius: 20px ;
 }
 
 .problem-list {
@@ -56,7 +56,7 @@ span[class^="bi-chevron"] {
 }
 
 .book-chapter-name td {
-    font-size: 15px ;
+    font-size: 16px ;
     background-color: #606060;
     color: yellow ;
     font-weight: bold ;
@@ -138,4 +138,66 @@ span[class^="bi-chevron"] {
     font-family: monospace;
     text-align: right;
     font-size: 11px;
+}
+
+.problem-selected {
+    border: 2px solid #ff8f8f !important;
+}
+
+.problem-difficulty-medium {
+    color: orange ;
+}
+
+.problem-difficulty-high {
+    color: brown ;
+}
+
+.problem-difficulty-exceptional {
+    color: red ;
+}
+
+.mono-font {
+    font-family: "Courier", Courier, monospace;
+}
+
+.icon-green {
+    color: green ;
+}
+
+.problem-rating {
+
+    margin: 15px auto 10px auto;
+    text-align: center;
+    height: 50px;
+    width: 100%;
+
+    font-size: 30px;
+    font-weight: lighter;
+    color: #333131;
+}
+
+i {
+    padding-right: 0.1rem;
+    color: #323232;
+}
+.filled {
+    color: #1e90ff;
+}
+.filled.easy {
+    color: #22bc7a;
+}
+.filled.moderate {
+    color: #ea932f;
+}
+.filled.hard {
+    color: #ea2020;
+}
+
+.button-bar {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.button-bar > button {
+    margin: 5px;
 }

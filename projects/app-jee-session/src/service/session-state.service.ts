@@ -6,8 +6,8 @@ import {
   SessionTypeSO,
   SyllabusSO, TopicSO,
   TopicTrackAssignmentSO
-} from "@jee-common/master-data-types";
-import { StorageKey } from "@jee-common/storage-keys" ;
+} from "@jee-common/util/master-data-types";
+import { StorageKey } from "@jee-common/util/storage-keys" ;
 import dayjs from "dayjs";
 import { Session } from "../entities/session";
 

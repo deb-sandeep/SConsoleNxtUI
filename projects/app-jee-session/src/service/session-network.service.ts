@@ -7,7 +7,7 @@ import {
   SyllabusSO,
   TopicProblemSO,
   TopicTrackAssignmentSO
-} from "@jee-common/master-data-types";
+} from "@jee-common/util/master-data-types";
 import dayjs from "dayjs";
 import { Session } from "../entities/session";
 import { Pause } from "../entities/pause";

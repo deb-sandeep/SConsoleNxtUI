@@ -16,7 +16,7 @@ import {
   ExerciseProblems,
   ProblemTopicMapping,
 } from "../../manage-problems.type";
-import { PROBLEM_TYPES } from "@jee-common/master-data-types";
+import { PROBLEM_TYPES } from "@jee-common/util/master-data-types";
 import { Topic } from "../../../manage-books/manage-books.type";
 
 export enum ProblemGroup {
