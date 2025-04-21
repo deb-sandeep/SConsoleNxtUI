@@ -9,7 +9,7 @@
               [(ngModel)]="selectedSyllabusName"
               (ngModelChange)="syllabusSelected()">
 
-        @let syllabusList = Object.values( svc.syllabusMap ) ;
+        @let syllabusList = Object.values( syllabusMap ) ;
         @for( syllabus of syllabusList; track syllabus.syllabusName ) {
           <option [value]="syllabus.syllabusName">{{syllabus.syllabusName}}</option>
         }
@@ -19,8 +19,8 @@
               [(ngModel)]="selectedTopicId"
               (ngModelChange)="topicSelected()">
 
-        @if( svc.syllabusMap[selectedSyllabusName] ) {
-          @let topicList = Object.values( svc.syllabusMap[selectedSyllabusName].topicMap ) ;
+        @if( syllabusMap[selectedSyllabusName] ) {
+          @let topicList = Object.values( syllabusMap[selectedSyllabusName].topicMap ) ;
           @for( topic of topicList; track topic.id ) {
             <option [value]="topic.id">{{topic.topicName}}</option>
           }
@@ -102,60 +102,20 @@
 
   <div class="ph-container problem-history-container">
 
+    <attempt-history #attemptHistory [problem]="selectedProblem"></attempt-history>
+
     @if( selectedProblem != null ) {
-      <table class="table table-sm problem-attempt-table">
-        <thead>
-        <tr>
-          <th style="width: 100px;">Date</th>
-          <th style="width: 75px;">Start</th>
-          <th style="width: 75px;">End</th>
-          <th style="width: 75px;">Duration</th>
-          <th style="width: 150px;"></th>
-          <th style="width: 30px;"></th>
-          <th style="width: 150px;"></th>
-        </tr>
-        </thead>
-        <tbody>
-          @for( pa of problemAttempts; track pa.id ) {
-            <tr>
-              <td class="mono-font">{{pa.startTime | date:'dd/MMM/yy'}}</td>
-              <td class="mono-font">{{pa.startTime | date:'HH:mm'}}</td>
-              <td class="mono-font">{{pa.endTime | date:'HH:mm'}}</td>
-              <td class="mono-font">{{pa.effectiveDuration*1000 | duration}}</td>
-              <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.prevState)">&nbsp;</span> {{pa.prevState}}</td>
-              <td><span class="bi-arrow-right"></span></td>
-              <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.targetState)">&nbsp;</span> {{pa.targetState}}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-
-      <div class="problem-rating">
-        <ngb-rating [(rate)]="selectedProblem!.difficultyLevel"
-                    [max]="10"
-                    (rateChange)="problemRatingChanged()">
-          <ng-template let-fill="fill" let-index="index">
-            <i class="bi-star{{ fill === 100 ? '-fill' : '' }}"
-               [class.filled]="fill === 100"
-               [class.easy]="index < 3"
-               [class.moderate]="index >= 3 && index <= 6"
-               [class.hard]="index > 6"
-            >&nbsp;&nbsp;</i>
-          </ng-template>
-        </ngb-rating>
-      </div>
-
       <div class="button-bar">
         <button type="button" class="btn btn-warning"
-                (click)="changePigeonState( 'Redo' )">
+                (click)="changeProblemState( 'Redo' )">
           <span class="bi-arrow-clockwise">&nbsp;</span> Redo
         </button>
         <button type="button" class="btn btn-secondary"
-                (click)="changePigeonState( 'Reassign' )">
+                (click)="changeProblemState( 'Reassign' )">
           <span class="bi-signpost-split">&nbsp;</span> Reassign
         </button>
         <button type="button" class="btn btn-danger"
-                (click)="changePigeonState( 'Purge' )">
+                (click)="changeProblemState( 'Purge' )">
           <span class="bi-box-arrow-up-right" style="color:white;">&nbsp;</span> Purge
         </button>
       </div>

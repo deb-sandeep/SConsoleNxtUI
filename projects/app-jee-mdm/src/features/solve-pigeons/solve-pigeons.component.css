@@ -106,11 +106,6 @@
     font-weight: bold;
 }
 
-.problem-attempt-table {
-    width: auto;
-    margin: 0 auto ;
-}
-
 .button-bar {
     text-align: center;
     margin-top: 10px;
@@ -118,34 +113,5 @@
 
 .button-bar > button {
     margin: 5px;
-}
-
-.problem-rating {
-
-    margin: 15px auto 10px auto;
-    text-align: center;
-    height: 50px;
-    width: 100%;
-
-    font-size: 30px;
-    font-weight: lighter;
-    color: #333131;
-}
-
-i {
-    padding-right: 0.1rem;
-    color: #323232;
-}
-.filled {
-    color: #1e90ff;
-}
-.filled.easy {
-    color: #22bc7a;
-}
-.filled.moderate {
-    color: #ea932f;
-}
-.filled.hard {
-    color: #ea2020;
 }
 

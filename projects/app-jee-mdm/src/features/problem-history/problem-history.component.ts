@@ -1,11 +1,14 @@
-import { Component, inject } from '@angular/core';
-import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe } from "lib-core";
+import { Component, inject, ViewChild } from '@angular/core';
+import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe, Alert } from "lib-core";
 import { FormsModule } from "@angular/forms";
-import { ProblemAttemptSO, TopicProblemSO } from "@jee-common/util/master-data-types";
-import { ProblemHistoryService } from "./problem-history.service";
+import { TopicProblemSO } from "@jee-common/util/master-data-types";
 import { SConsoleUtil } from "@jee-common/util/common-util";
-import { DatePipe, NgClass, NgIf } from "@angular/common";
-import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
+import { NgClass, NgIf } from "@angular/common";
+import { AttemptHistoryComponent } from "@jee-common/widgets/attempt-history/attempt-history.component";
+import { ProblemApiService } from "@jee-common/services/problem-api.service";
+import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
+import { Syllabus } from "./entities/syllabus";
+import AlertService = Alert.AlertService;
 
 class Exercise {
 
@@ -69,8 +72,7 @@ class BookChapter {
     NgClass,
     DurationPipe,
     NgIf,
-    DatePipe,
-    NgbRating
+    AttemptHistoryComponent
   ],
   templateUrl: './problem-history.component.html',
   styleUrl: './problem-history.component.css'
@@ -78,11 +80,18 @@ class BookChapter {
 export class ProblemHistoryComponent {
 
   private titleSvc: PageTitleService = inject( PageTitleService ) ;
+  private alertSvc:AlertService = inject( AlertService ) ;
 
   protected readonly Object = Object;
   protected readonly SConsoleUtil = SConsoleUtil;
 
-  protected svc: ProblemHistoryService = inject( ProblemHistoryService ) ;
+  protected probApiSvc: ProblemApiService = inject( ProblemApiService ) ;
+  protected sylApiSvc: SyllabusApiService = inject( SyllabusApiService ) ;
+
+  @ViewChild( "attemptHistory" )
+  private attemptHistory: AttemptHistoryComponent ;
+
+  syllabusMap:Record<string, Syllabus> = {} ;
 
   selectedSyllabusName = 'IIT Maths' ;
   selectedTopicId = 91 ;
@@ -90,22 +99,32 @@ export class ProblemHistoryComponent {
 
   filteredProblems: Record<string, BookChapter> = {}
   selectedProblem: TopicProblemSO | null = null ;
-  problemAttempts: ProblemAttemptSO[] | null = null ;
 
   constructor() {
     this.titleSvc.setTitle( "Explore problem history" ) ;
-    this.topicSelected().then() ;
+    this.fetchSyllabusAndTopics()
+        .then( () => this.topicSelected() ) ;
+  }
+
+  private async fetchSyllabusAndTopics() {
+    try {
+      let syllabusSOList = await this.sylApiSvc.getAllSyllabus() ;
+      syllabusSOList.forEach( so => {
+        this.syllabusMap[so.syllabusName] = new Syllabus( so )
+      } ) ;
+    }
+    catch( error ) { this.alertSvc.error( 'Error : ' + error ) ; }
   }
 
   syllabusSelected() {
     this.selectedTopicId = -1 ;
     this.filteredProblems = {} ;
     this.selectedProblem = null ;
-    this.problemAttempts = null ;
   }
 
   async topicSelected() {
-    this.allProblems = await this.svc.getProblems( this.selectedTopicId ) ;
+    this.selectedProblem = null ;
+    this.allProblems = await this.probApiSvc.getProblems( this.selectedTopicId ) ;
     this.computeDisplayProblems() ;
   }
 
@@ -186,24 +205,16 @@ export class ProblemHistoryComponent {
 
   async problemSelected( problem: TopicProblemSO ) {
     this.selectedProblem = problem ;
-    this.problemAttempts = await this.svc.getProblemAttempts( problem.problemId ) ;
   }
 
-  problemRatingChanged() {
-    this.svc.updateProblemDifficultyLevel(
-      this.selectedProblem!.problemId,
-      this.selectedProblem!.difficultyLevel
-    ).then() ;
-  }
-
-  async changePigeonState( targetState: string ) {
-    await this.svc.changePigeonState(
+  async changeProblemState( targetState: string ) {
+    await this.probApiSvc.changeProblemState(
       this.selectedProblem!.problemId,
       this.selectedProblem!.topicId,
       this.selectedProblem!.problemState,
       targetState
     ) ;
     this.selectedProblem!.problemState = targetState ;
-    this.problemAttempts = await this.svc.getProblemAttempts( this.selectedProblem!.problemId ) ;
+    this.attemptHistory.refreshProblemAttempts() ;
   }
 }

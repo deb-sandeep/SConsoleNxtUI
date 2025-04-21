@@ -30,57 +30,17 @@
     }
   </div>
   <div class="pigeon-details">
-    @if( problemAttempts != null ) {
+    @if( selectedPigeon != null ) {
 
       <div class="problem-path-1">
-        {{selectedPigeon?.syllabusName}} &nbsp;>&nbsp; {{selectedPigeon?.topicName}}
+        {{selectedPigeon!.syllabusName}} &nbsp;>&nbsp; {{selectedPigeon!.topicName}}
       </div>
 
       <div class="problem-path-2">
-        {{selectedPigeon?.chapterNum}}. {{selectedPigeon?.chapterName}} &nbsp;>&nbsp; {{selectedPigeon?.problemKey}}
+        {{selectedPigeon!.chapterNum}}. {{selectedPigeon!.chapterName}} &nbsp;>&nbsp; {{selectedPigeon!.problemKey}}
       </div>
 
-      <table class="table table-sm problem-attempt-table">
-        <thead>
-          <tr>
-            <th style="width: 100px;">Date</th>
-            <th style="width: 75px;">Start</th>
-            <th style="width: 75px;">End</th>
-            <th style="width: 75px;">Duration</th>
-            <th style="width: 150px;"></th>
-            <th style="width: 30px;"></th>
-            <th style="width: 150px;"></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for( pa of problemAttempts; track pa.id ) {
-            <tr>
-              <td class="mono-font">{{pa.startTime | date:'dd/MMM/yy'}}</td>
-              <td class="mono-font">{{pa.startTime | date:'HH:mm'}}</td>
-              <td class="mono-font">{{pa.endTime | date:'HH:mm'}}</td>
-              <td class="mono-font">{{pa.effectiveDuration*1000 | duration}}</td>
-              <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.prevState)">&nbsp;</span> {{pa.prevState}}</td>
-              <td><span class="bi-arrow-right"></span></td>
-              <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.targetState)">&nbsp;</span> {{pa.targetState}}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-
-      <div class="problem-rating">
-        <ngb-rating [(rate)]="selectedPigeon!.difficultyLevel"
-                    [max]="10"
-                    (rateChange)="problemRatingChanged()">
-          <ng-template let-fill="fill" let-index="index">
-            <i class="bi-star{{ fill === 100 ? '-fill' : '' }}"
-               [class.filled]="fill === 100"
-               [class.easy]="index < 3"
-               [class.moderate]="index >= 3 && index <= 6"
-               [class.hard]="index > 6"
-            >&nbsp;&nbsp;</i>
-          </ng-template>
-        </ngb-rating>
-      </div>
+      <attempt-history [problem]="selectedPigeon"></attempt-history>
 
       <div class="button-bar">
         <button type="button" class="btn btn-success"

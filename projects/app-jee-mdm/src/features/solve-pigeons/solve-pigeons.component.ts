@@ -1,10 +1,15 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, ViewChild } from "@angular/core";
 import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe } from "lib-core";
-import { SolvePigeonsService } from "./solve-pigeons.service";
 import { ProblemAttemptSO, SyllabusSO, TopicProblemSO } from "@jee-common/util/master-data-types";
 import { DatePipe, NgClass } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/util/common-util";
 import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
+import { ProblemApiService } from "@jee-common/services/problem-api.service";
+import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
+import {
+  ProblemAttemptComponent
+} from "../../../../app-jee-session/src/pages/session/widgets/problem-attempt/problem-attempt.component";
+import { AttemptHistoryComponent } from "@jee-common/widgets/attempt-history/attempt-history.component";
 
 class BookChapterProblems {
 
@@ -72,9 +77,7 @@ class SyllabusProblems {
     PageTitleComponent,
     AlertsDisplayComponent,
     NgClass,
-    DatePipe,
-    DurationPipe,
-    NgbRating,
+    AttemptHistoryComponent,
   ],
   templateUrl: './solve-pigeons.component.html',
   styleUrl: './solve-pigeons.component.css'
@@ -84,7 +87,8 @@ export class SolvePigeonsComponent {
   protected readonly SConsoleUtil = SConsoleUtil;
 
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
-  private pigeonSvc : SolvePigeonsService = inject( SolvePigeonsService ) ;
+  private problemApiSvc : ProblemApiService = inject( ProblemApiService ) ;
+  private syllabusApiSvc : SyllabusApiService = inject( SyllabusApiService ) ;
 
   private syllabusProblemsMap:Record<string, SyllabusProblems> = {} ;
 
@@ -98,7 +102,7 @@ export class SolvePigeonsComponent {
   }
 
   public refreshPigeons() {
-    this.pigeonSvc.getAllPigeons()
+    this.problemApiSvc.getAllPigeons()
         .then(  pigeons => {
           this.sortPigeons( pigeons ) ;
           if( pigeons.length > 0 ) {
@@ -123,7 +127,7 @@ export class SolvePigeonsComponent {
   }
 
   private async mapSyllabusSO() {
-    let syllabuses:SyllabusSO[] = await this.pigeonSvc.getAllSyllabus() ;
+    let syllabuses:SyllabusSO[] = await this.syllabusApiSvc.getAllSyllabus() ;
     syllabuses.forEach( syllabus => {
       if( syllabus.syllabusName in this.syllabusProblemsMap ) {
         this.syllabusProblemsMap[ syllabus.syllabusName ].syllabus = syllabus ;
@@ -137,11 +141,11 @@ export class SolvePigeonsComponent {
 
   async pigeonSelected( pigeon: TopicProblemSO ) {
     this.selectedPigeon = pigeon ;
-    this.problemAttempts = await this.pigeonSvc.getProblemAttempts( pigeon.problemId ) ;
+    this.problemAttempts = await this.problemApiSvc.getProblemAttempts( pigeon.problemId ) ;
   }
 
   async changePigeonState( targetState: string ) {
-    await this.pigeonSvc.changePigeonState(
+    await this.problemApiSvc.changeProblemState(
       this.selectedPigeon!.problemId,
       this.selectedPigeon!.topicId,
       this.selectedPigeon!.problemState,
@@ -168,13 +172,6 @@ export class SolvePigeonsComponent {
     else if( this.allPigeons.length > 0 ) {
       await this.pigeonSelected( this.allPigeons[0] ) ;
     }
-  }
-
-  problemRatingChanged() {
-    this.pigeonSvc.updateProblemDifficultyLevel(
-      this.selectedPigeon!.problemId,
-      this.selectedPigeon!.difficultyLevel
-    ).then() ;
   }
 
   getAge( pigeon: TopicProblemSO ) {
