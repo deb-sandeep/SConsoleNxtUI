@@ -10,6 +10,7 @@
       <th style="width: 150px;"></th>
       <th style="width: 30px;"></th>
       <th style="width: 150px;"></th>
+      <th style="width: 30px"></th>
     </tr>
     </thead>
     <tbody>
@@ -22,6 +23,9 @@
           <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.prevState)">&nbsp;</span> {{pa.prevState}}</td>
           <td><span class="bi-arrow-right"></span></td>
           <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.targetState)">&nbsp;</span> {{pa.targetState}}</td>
+          <td>
+            <span style="color:red;" class="bi-trash" (click)="deleteProblemAttempt( pa )"></span>
+          </td>
         </tr>
       }
     </tbody>

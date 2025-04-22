@@ -1,4 +1,4 @@
-import { Component, inject, input, resource } from "@angular/core";
+import { Component, inject, input, output, resource } from "@angular/core";
 import { DurationPipe } from "lib-core";
 import { FormsModule } from "@angular/forms";
 import { DatePipe, NgClass } from "@angular/common";
@@ -37,6 +37,8 @@ export class AttemptHistoryComponent {
     }
   }) ;
 
+  attemptHistoryModified = output<boolean>() ;
+
   constructor() {}
 
   refreshProblemAttempts() {
@@ -48,5 +50,11 @@ export class AttemptHistoryComponent {
       this.problem()!.problemId,
       this.problem()!.difficultyLevel
     ).then() ;
+  }
+
+  async deleteProblemAttempt( pa: ProblemAttemptSO) {
+    await this.problemApi.deleteProblemAttempt( pa.id ) ;
+    this.refreshProblemAttempts() ;
+    this.attemptHistoryModified.emit( true ) ;
   }
 }

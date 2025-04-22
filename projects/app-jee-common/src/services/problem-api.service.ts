@@ -15,9 +15,19 @@ export class ProblemApiService extends RemoteService {
     return this.getPromise( url, true ) ;
   }
 
+  public getProblem( problemId:number ): Promise<TopicProblemSO> {
+    const url:string = `${environment.apiRoot}/Problem/${problemId}` ;
+    return this.getPromise( url, false ) ;
+  }
+
   public getProblemAttempts( problemId: number ):Promise<ProblemAttemptSO[]> {
     const url:string = `${environment.apiRoot}/Problem/${problemId}/Attempts` ;
     return this.getPromise( url, false ) ;
+  }
+
+  public deleteProblemAttempt( problemAttemptId: number ) {
+    const url:string = `${environment.apiRoot}/Problem/Attempt/${problemAttemptId}` ;
+    return this.deletePromise( url, false ) ;
   }
 
   public updateProblemDifficultyLevel( problemId: number, difficultyLevel: number ) {
@@ -40,4 +50,5 @@ export class ProblemApiService extends RemoteService {
     const url:string = `${environment.apiRoot}/Problem/Pigeons` ;
     return this.getPromise( url, true ) ;
   }
+
 }

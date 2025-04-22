@@ -11,44 +11,55 @@ export class Topic {
   public problemCounts: TopicProblemCounts ;
   public syllabus: Syllabus ;
 
+  private solutionTimeMatrix: Record<string, number> = {} ;
+
   public constructor( vo:TopicSO, syllabus:Syllabus ) {
 
     this.id = vo.id ;
     this.sectionName = vo.sectionName ;
     this.topicName = vo.topicName ;
     this.syllabus = syllabus ;
+
+    this.solutionTimeMatrix = this.createSolutionTimeMatrix() ;
+  }
+
+  private createSolutionTimeMatrix() {
+
+    const syllabusName = this.syllabus.syllabusName ;
+    if( syllabusName.includes( 'Chemistry' ) ) {
+      return config.avgSolutionTime.chemistry ;
+    }
+    else if( syllabusName.includes( 'Physics' ) ){
+      return config.avgSolutionTime.physics ;
+    }
+    else if( syllabusName.includes( 'Maths' ) ){
+      return config.avgSolutionTime.maths ;
+    }
+    else if( syllabusName.includes( 'Reasoning' ) ){
+      return config.avgSolutionTime.reasoning ;
+    }
+    return config.avgSolutionTime.default ;
   }
 
   public getDefaultExerciseDuration() {
 
-    let solutionTimeMatrix = {} ;
-
-    const syllabusName = this.syllabus.syllabusName ;
-
-    if( syllabusName.includes( 'Chemistry' ) ) {
-      solutionTimeMatrix = config.avgSolutionTime.chemistry ;
-    }
-    else if( syllabusName.includes( 'Physics' ) ){
-      solutionTimeMatrix = config.avgSolutionTime.physics ;
-    }
-    else if( syllabusName.includes( 'Maths' ) ){
-      solutionTimeMatrix = config.avgSolutionTime.maths ;
-    }
-    else if( syllabusName.includes( 'Reasoning' ) ){
-      solutionTimeMatrix = config.avgSolutionTime.reasoning ;
-    }
-
-    const totalTimeInMin = this.getProjectedSolutionTime( solutionTimeMatrix ) ;
-
+    const totalTimeInMin = this.getProjectedSolutionTime( this.problemCounts.problemTypeCount ) ;
     return Math.ceil( totalTimeInMin / config.avgTimePerTopicPerDay ) ;
   }
 
-  private getProjectedSolutionTime( solutionTimeMatrix:any ):number {
+  public getRemainingExerciseDuration() {
+
+    const remainingTimeInMin = this.getProjectedSolutionTime( this.problemCounts.remainingProblemTypeCount ) ;
+    return Math.ceil( remainingTimeInMin / config.avgTimePerTopicPerDay ) ;
+  }
+
+  private getProjectedSolutionTime( problemTypeCounts:Record<string, number> ):number {
+
     let totalTime = 0 ;
     PROBLEM_TYPES.forEach( type => {
       if( type in this.problemCounts.problemTypeCount ) {
-        let numProblems = this.problemCounts.problemTypeCount[type as string] ;
-        let avgTime = solutionTimeMatrix[type as string] ;
+        let numProblems = problemTypeCounts[type as string] ;
+        let avgTime = this.solutionTimeMatrix[type as string] ;
         totalTime += numProblems * avgTime ;
       }
     }) ;

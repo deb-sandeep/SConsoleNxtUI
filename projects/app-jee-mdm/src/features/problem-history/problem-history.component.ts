@@ -9,6 +9,7 @@ import { ProblemApiService } from "@jee-common/services/problem-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { Syllabus } from "./entities/syllabus";
 import AlertService = Alert.AlertService;
+import { NgbTooltip, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 
 class Exercise {
 
@@ -72,7 +73,8 @@ class BookChapter {
     NgClass,
     DurationPipe,
     NgIf,
-    AttemptHistoryComponent
+    AttemptHistoryComponent,
+    NgbTooltipModule
   ],
   templateUrl: './problem-history.component.html',
   styleUrl: './problem-history.component.css'
@@ -216,5 +218,12 @@ export class ProblemHistoryComponent {
     ) ;
     this.selectedProblem!.problemState = targetState ;
     this.attemptHistory.refreshProblemAttempts() ;
+  }
+
+  async refreshSelectedProblem() {
+    let topicProblem = await this.probApiSvc.getProblem( this.selectedProblem!.problemId ) ;
+    this.selectedProblem!.problemState = topicProblem.problemState ;
+    this.selectedProblem!.numAttempts = topicProblem.numAttempts ;
+    this.selectedProblem!.totalDuration = topicProblem.totalDuration ;
   }
 }

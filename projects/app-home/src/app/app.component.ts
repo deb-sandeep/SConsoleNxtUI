@@ -42,7 +42,7 @@ export class AppComponent {
           target : '/apps/jee/session/index.html'
         },
         {
-          name : "Master Data<br>Management",
+          name : "SConsole<br>Administration",
           icon : "database-fill-gear",
           bgcolor : "#fcffd0",
           target : '/apps/jee/mdm/index.html'

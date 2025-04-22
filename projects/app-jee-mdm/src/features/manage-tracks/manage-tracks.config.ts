@@ -8,6 +8,16 @@ export const config = {
   },
   avgTimePerTopicPerDay:45,
   avgSolutionTime: {
+    default: {
+      SCA: 2.5,
+      MCA: 3,
+      LCT: 3,
+      ART: 3,
+      MMT: 5,
+      CMT: 5,
+      NVT: 4,
+      SUB: 5,
+    },
     physics: {
       SCA: 2.5,
       MCA: 3,

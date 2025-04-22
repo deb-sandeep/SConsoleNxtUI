@@ -126,7 +126,7 @@
 }
 
 .total-problems {
-    width: 100px;
+    width: 120px;
     display: inline-block;
 }
 
@@ -150,7 +150,7 @@
 }
 
 .problem-type-counts {
-    width: 80px;
+    width: 110px;
     height: var(--body-height);
     display: inline-block;
     vertical-align: top;
@@ -168,7 +168,7 @@
 }
 
 .num-problems {
-    width: 30px;
+    width: 60px;
     text-align: right;
     font-size:11px;
     display: inline-block;
@@ -207,3 +207,16 @@
     border: 1px solid #ffc698;
 }
 
+/* ------------------------------------------------------------------- */
+/* Recompute exercise days buttons.                                    */
+/* ------------------------------------------------------------------- */
+.ex-recompute-btn {
+    padding: 0 10px 0 10px ;
+    height: 20px;
+    background-color: #dadada;
+}
+
+.ex-recompute-btn span {
+    padding: 0 ;
+    margin: 0 ;
+}

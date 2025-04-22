@@ -83,7 +83,11 @@
                     <tr class="problem-row"
                         [ngClass]="getProblemRowClass( p )"
                         (click)="problemSelected( p )">
-                      <td class="problem-name">{{p.problemKey.replaceAll( '/', ' / ')}}</td>
+                      <td class="problem-name">
+                        <span [ngbTooltip]="''+p.problemId">
+                          {{p.problemKey.replaceAll( '/', ' / ')}}
+                        </span>
+                      </td>
                       <td><span [ngClass]="getDifficultyLevelIcon(p)"></span></td>
                       <td class="num-attempts">{{p.numAttempts}}</td>
                       <td><span [ngClass]="SConsoleUtil.getProblemIcon(p.problemState)">&nbsp;</span> {{p.problemState}}</td>
@@ -102,13 +106,27 @@
 
   <div class="ph-container problem-history-container">
 
-    <attempt-history #attemptHistory [problem]="selectedProblem"></attempt-history>
+    <attempt-history #attemptHistory
+                     [problem]="selectedProblem"
+                     (attemptHistoryModified)="refreshSelectedProblem()"></attempt-history>
 
     @if( selectedProblem != null ) {
       <div class="button-bar">
+        <button type="button" class="btn btn-primary"
+                (click)="changeProblemState( 'Pigeon' )">
+          <span class="bi-twitter">&nbsp;</span> Pigeon
+        </button>
         <button type="button" class="btn btn-warning"
                 (click)="changeProblemState( 'Redo' )">
           <span class="bi-arrow-clockwise">&nbsp;</span> Redo
+        </button>
+        <button type="button" class="btn btn-success"
+                (click)="changeProblemState( 'Correct' )">
+          <span class="bi-check-lg">&nbsp;</span> Correct
+        </button>
+        <button type="button" class="btn btn-danger"
+                (click)="changeProblemState( 'Incorrect' )">
+          <span class="bi-x-lg">&nbsp;</span> Incorrect
         </button>
         <button type="button" class="btn btn-secondary"
                 (click)="changeProblemState( 'Reassign' )">

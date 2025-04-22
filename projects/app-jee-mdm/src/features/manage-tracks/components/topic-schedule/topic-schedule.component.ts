@@ -1,6 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { TopicSchedule } from "../../entities/topic-schedule";
 import { DatePipe, DecimalPipe, NgIf } from "@angular/common";
+import { TopicProblemCounts } from "../../manage-tracks.types";
 
 @Component({
   selector: 'topic-schedule',
@@ -28,5 +29,12 @@ export class TopicScheduleComponent {
 
   getNumExerciseDays() {
     return this.schedule().exerciseDays ;
+  }
+
+  getProblemCount( problemType:string, pc:TopicProblemCounts ) {
+    if( problemType in pc.problemTypeCount ) {
+      return `${ pc.remainingProblemTypeCount[problemType] }/${ pc.problemTypeCount[problemType] }`;
+    }
+    return '0' ;
   }
 }

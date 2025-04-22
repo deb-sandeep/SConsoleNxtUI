@@ -69,27 +69,38 @@
 
       <div class="total-problems">
         <div>&Sigma; Problems</div>
-        <div>{{pc.numProblems}}</div>
-        <div></div>
+        <div>{{pc.numRemainingProblems}} / {{pc.numProblems}}</div>
+        <div>
+          <!--
+          <button type="button" class="btn ex-recompute-btn btn-sm">
+            <span class="bi-arrow-clockwise"></span>
+          </button>
+          <span style="width: 20px;display: inline-block;"></span>
+          <button type="button" class="btn ex-recompute-btn btn-sm"
+                  (click)="recomputeExerciseDays()">
+            <span class="bi-arrow-clockwise"></span>
+          </button>
+          -->
+        </div>
       </div>
 
       <div class="problem-type-counts">
-        <div><span class="num-problems">{{ pc.problemTypeCount['SCA'] }}</span> <span class="problem-type">SCA</span></div>
-        <div><span class="num-problems">{{ pc.problemTypeCount['MCA'] }}</span> <span class="problem-type">MCA</span></div>
-        <div><span class="num-problems">{{ pc.problemTypeCount['LCT'] }}</span> <span class="problem-type">LCT</span></div>
-        <div><span class="num-problems">{{ pc.problemTypeCount['ART'] }}</span> <span class="problem-type">ART</span></div>
+        <div><span class="num-problems">{{getProblemCount( 'SCA', pc )}}</span> <span class="problem-type">SCA</span></div>
+        <div><span class="num-problems">{{getProblemCount( 'MCA', pc )}}</span> <span class="problem-type">MCA</span></div>
+        <div><span class="num-problems">{{getProblemCount( 'LCT', pc )}}</span> <span class="problem-type">LCT</span></div>
+        <div><span class="num-problems">{{getProblemCount( 'ART', pc )}}</span> <span class="problem-type">ART</span></div>
       </div>
 
       <div class="problem-type-counts">
-        <div><span class="num-problems">{{ pc.problemTypeCount['MMT'] }}</span> <span class="problem-type">MMT</span></div>
-        <div><span class="num-problems">{{ pc.problemTypeCount['CMT'] }}</span> <span class="problem-type">CMT</span></div>
-        <div><span class="num-problems">{{ pc.problemTypeCount['NVT'] }}</span> <span class="problem-type">NVT</span></div>
-        <div><span class="num-problems">{{ pc.problemTypeCount['SUB'] }}</span> <span class="problem-type">SUB</span></div>
+        <div><span class="num-problems">{{getProblemCount( 'MMT', pc )}}</span> <span class="problem-type">MMT</span></div>
+        <div><span class="num-problems">{{getProblemCount( 'CMT', pc )}}</span> <span class="problem-type">CMT</span></div>
+        <div><span class="num-problems">{{getProblemCount( 'NVT', pc )}}</span> <span class="problem-type">NVT</span></div>
+        <div><span class="num-problems">{{getProblemCount( 'SUB', pc )}}</span> <span class="problem-type">SUB</span></div>
       </div>
     </div>
 
     <div class="burn-rate">
-      <div>Burn/Day</div>
+      <div>Burn</div>
       <div>{{(pc.numProblems / schedule().exerciseDays) | number:'1.0-0'}}</div>
       <div></div>
     </div>
