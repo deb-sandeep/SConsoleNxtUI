@@ -35,13 +35,11 @@ export class ProblemApiService extends RemoteService {
     return this.postPromise<void>( url ) ;
   }
 
-  public changeProblemState( problemId: number, topicId:number,
-                             currentState: string, targetState: string ) {
+  public changeProblemState( problemIds: number[], topicId:number, targetState: string ) {
     const url:string = `${environment.apiRoot}/Problem/ChangeState` ;
     return this.postPromise( url, {
-      problemId: problemId,
+      problemIds: problemIds,
       topicId: topicId,
-      currentState: currentState,
       targetState: targetState
     }) ;
   }

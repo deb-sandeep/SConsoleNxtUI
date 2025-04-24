@@ -70,6 +70,8 @@ export type TopicProblemSO = {
   lastAttemptTime: Date,
   totalDuration: number,
   numAttempts: number,
+
+  selected?:boolean, // Local attribute
 }
 
 export type ProblemAttemptSO = {

@@ -1,110 +1,135 @@
 <page-title></page-title>
 <alerts-display></alerts-display>
 <div class="page-content">
-  <div class="ph-container problem-list-container">
 
-    <div class="topic-selection-panel">
+  <div class="topic-selection-panel">
 
-      <select class="form-select"
-              [(ngModel)]="selectedSyllabusName"
-              (ngModelChange)="syllabusSelected()">
+    <select class="form-select"
+            [(ngModel)]="selectedSyllabusName"
+            (ngModelChange)="syllabusSelected()">
 
-        @let syllabusList = Object.values( syllabusMap ) ;
-        @for( syllabus of syllabusList; track syllabus.syllabusName ) {
-          <option [value]="syllabus.syllabusName">{{syllabus.syllabusName}}</option>
+      @let syllabusList = Object.values( syllabusMap ) ;
+      @for( syllabus of syllabusList; track syllabus.syllabusName ) {
+        <option [value]="syllabus.syllabusName">{{syllabus.syllabusName}}</option>
+      }
+    </select>
+
+    <select class="form-select"
+            [(ngModel)]="selectedTopicId"
+            (ngModelChange)="topicSelected()">
+
+      @if( syllabusMap[selectedSyllabusName] ) {
+        @let topicList = Object.values( syllabusMap[selectedSyllabusName].topicMap ) ;
+        @for( topic of topicList; track topic.id ) {
+          <option [value]="topic.id">{{topic.topicName}}</option>
         }
-      </select>
+      }
+    </select>
 
-      <select class="form-select"
-              [(ngModel)]="selectedTopicId"
-              (ngModelChange)="topicSelected()">
-
-        @if( syllabusMap[selectedSyllabusName] ) {
-          @let topicList = Object.values( syllabusMap[selectedSyllabusName].topicMap ) ;
-          @for( topic of topicList; track topic.id ) {
-            <option [value]="topic.id">{{topic.topicName}}</option>
-          }
-        }
-      </select>
-
-      <button type="button" class="btn btn-sm btn-secondary"
-              (click)="expandAll()">
-        <span class="bi-chevron-expand"></span>
-      </button>
-
-      <button type="button" class="btn btn-sm btn-secondary"
-              (click)="collapseAll()">
-        <span class="bi-chevron-contract"></span>
-      </button>
-
+    <div class="action-bar">
+      <div class="expand-collapse-action-bar">
+        <span class="bi-chevron-expand problem-action" (click)="expandAll()"></span>
+        <span class="bi-chevron-contract problem-action" (click)="collapseAll()"></span>
+      </div>
+      <div class="selected-problems-action-bar">
+        <span style="color:blue" class="problem-action bi-twitter"
+            (click)="changeProblemStateForSelectedProblems( 'Pigeon' )"></span>
+        <span style="color:#734d00" class="problem-action bi-arrow-clockwise"
+              (click)="changeProblemStateForSelectedProblems( 'Redo' )"></span>
+        <span style="color:green" class="problem-action bi-check-lg"
+              (click)="changeProblemStateForSelectedProblems( 'Correct' )"></span>
+        <span style="color:red" class="problem-action bi-x-lg"
+              (click)="changeProblemStateForSelectedProblems( 'Incorrect' )"></span>
+        <span style="color:black" class="problem-action bi-signpost-split"
+              (click)="changeProblemStateForSelectedProblems( 'Reassign' )"></span>
+        <span style="color:red" class="problem-action bi-box-arrow-up-right"
+              (click)="changeProblemStateForSelectedProblems( 'Purge' )"></span>
+      </div>
     </div>
 
-    <div class="problem-list">
+  </div>
 
-      <table class="table table-sm">
-        <thead>
-          <tr>
-            <th style="width: 250px;"></th>
-            <th style="width: 50px;"></th>
-            <th style="width: 50px;"></th>
-            <th style="width: 150px;"></th>
-            <th style="width: 50px;"></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for( chapterName of Object.keys( filteredProblems ); track $index ) {
-            @let bookChapter = filteredProblems[ chapterName ] ;
-            <tr class="book-chapter-name">
-              <td colspan="5">
+  <div class="problem-list-container">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th style="width: 300px;"></th>
+          <th style="width: 40px;"></th>
+          <th style="width: 40px;"></th>
+          <th style="width: 150px;"></th>
+          <th style="width: 50px;"></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for( chapterName of Object.keys( filteredProblems ); track $index ) {
+          @let bookChapter = filteredProblems[ chapterName ] ;
+          <tr class="book-chapter-name">
+            <td colspan="6">
                 <span class="bi-chevron-expand" *ngIf="bookChapter.collapsed"
                       (click)="bookChapter.collapsed=false">&nbsp;</span>
-                <span class="bi-chevron-contract" *ngIf="!bookChapter.collapsed"
-                      (click)="bookChapter.collapsed=true">&nbsp;</span>
-                {{ chapterName }}
-              </td>
-            </tr>
+              <span class="bi-chevron-contract" *ngIf="!bookChapter.collapsed"
+                    (click)="bookChapter.collapsed=true">&nbsp;</span>
+              {{ chapterName }}
+            </td>
+          </tr>
 
-            @for( exerciseName of Object.keys( bookChapter.exerciseProblems ); track $index ) {
-              @let exercise = bookChapter.exerciseProblems[ exerciseName ] ;
+          @for( exerciseName of Object.keys( bookChapter.exerciseProblems ); track $index ) {
+            @let exercise = bookChapter.exerciseProblems[ exerciseName ] ;
 
-              @if( !bookChapter.collapsed ) {
-                <tr class="exercise-name">
-                  <td colspan="5">
+            @if( !bookChapter.collapsed ) {
+              <tr class="exercise-name">
+                <td colspan="6">
                     <span class="bi-chevron-expand" *ngIf="exercise.collapsed"
                           (click)="exercise.collapsed=false">&nbsp;</span>
-                    <span class="bi-chevron-contract" *ngIf="!exercise.collapsed"
-                          (click)="exercise.collapsed=true">&nbsp;</span>
-                    &nbsp;&nbsp;{{exerciseName}}
-                  </td>
-                </tr>
+                  <span class="bi-chevron-contract" *ngIf="!exercise.collapsed"
+                        (click)="exercise.collapsed=true">&nbsp;</span>
+                  &nbsp;&nbsp;{{exerciseName}}
+                </td>
+              </tr>
 
-                @if( !exercise.collapsed ) {
-                  @for( p of exercise.problems; track $index ) {
-                    <tr class="problem-row"
-                        [ngClass]="getProblemRowClass( p )"
-                        (click)="problemSelected( p )">
-                      <td class="problem-name">
-                        <span [ngbTooltip]="''+p.problemId">
+              @if( !exercise.collapsed ) {
+                @for( p of exercise.problems; track $index ) {
+                  <tr class="problem-row"
+                      [ngClass]="getProblemRowClass( p )"
+                      (click)="problemSelected( p )">
+                    <td class="problem-name">
+                      <div class="selection-checkbox">
+                        <input type="checkbox" [(ngModel)]="p.selected"/>
+                      </div>
+                      <span [ngbTooltip]="''+p.problemId">
                           {{p.problemKey.replaceAll( '/', ' / ')}}
                         </span>
-                      </td>
-                      <td><span [ngClass]="getDifficultyLevelIcon(p)"></span></td>
-                      <td class="num-attempts">{{p.numAttempts}}</td>
-                      <td><span [ngClass]="SConsoleUtil.getProblemIcon(p.problemState)">&nbsp;</span> {{p.problemState}}</td>
-                      <td class="duration">{{p.totalDuration*1000 | duration}}&nbsp;&nbsp;</td>
-                    </tr>
-                  }
+                    </td>
+                    <td><span [ngClass]="getDifficultyLevelIcon(p)"></span></td>
+                    <td class="num-attempts">{{p.numAttempts}}</td>
+                    <td><span [ngClass]="SConsoleUtil.getProblemIcon(p.problemState)">&nbsp;</span> {{p.problemState}}</td>
+                    <td class="duration">{{p.totalDuration*1000 | duration}}</td>
+                    <td class="problem-action-bar">
+                      <span style="color:blue"    class="problem-action bi-twitter"
+                              (click)="changeProblemState( p, 'Pigeon' )"></span>
+                      <span style="color:#734d00" class="problem-action bi-arrow-clockwise"
+                            (click)="changeProblemState( p, 'Redo' )"></span>
+                      <span style="color:green"   class="problem-action bi-check-lg"
+                            (click)="changeProblemState( p, 'Correct' )"></span>
+                      <span style="color:red"     class="problem-action bi-x-lg"
+                            (click)="changeProblemState( p, 'Incorrect' )"></span>
+                      <span style="color:black"   class="problem-action bi-signpost-split"
+                            (click)="changeProblemState( p, 'Reassign' )"></span>
+                      <span style="color:red"     class="problem-action bi-box-arrow-up-right"
+                            (click)="changeProblemState( p, 'Purge' )"></span>
+                    </td>
+                  </tr>
                 }
               }
             }
           }
-        </tbody>
-      </table>
-
-    </div>
+        }
+      </tbody>
+    </table>
   </div>
 
-  <div class="ph-container problem-history-container">
+  <div class="problem-history-container">
 
     <attempt-history #attemptHistory
                      [problem]="selectedProblem"
@@ -113,27 +138,27 @@
     @if( selectedProblem != null ) {
       <div class="button-bar">
         <button type="button" class="btn btn-primary"
-                (click)="changeProblemState( 'Pigeon' )">
+                (click)="changeProblemState( selectedProblem!, 'Pigeon' )">
           <span class="bi-twitter">&nbsp;</span> Pigeon
         </button>
         <button type="button" class="btn btn-warning"
-                (click)="changeProblemState( 'Redo' )">
+                (click)="changeProblemState( selectedProblem!, 'Redo' )">
           <span class="bi-arrow-clockwise">&nbsp;</span> Redo
         </button>
         <button type="button" class="btn btn-success"
-                (click)="changeProblemState( 'Correct' )">
+                (click)="changeProblemState( selectedProblem!, 'Correct' )">
           <span class="bi-check-lg">&nbsp;</span> Correct
         </button>
         <button type="button" class="btn btn-danger"
-                (click)="changeProblemState( 'Incorrect' )">
+                (click)="changeProblemState( selectedProblem!, 'Incorrect' )">
           <span class="bi-x-lg">&nbsp;</span> Incorrect
         </button>
         <button type="button" class="btn btn-secondary"
-                (click)="changeProblemState( 'Reassign' )">
+                (click)="changeProblemState( selectedProblem!, 'Reassign' )">
           <span class="bi-signpost-split">&nbsp;</span> Reassign
         </button>
         <button type="button" class="btn btn-danger"
-                (click)="changeProblemState( 'Purge' )">
+                (click)="changeProblemState( selectedProblem!, 'Purge' )">
           <span class="bi-box-arrow-up-right" style="color:white;">&nbsp;</span> Purge
         </button>
       </div>

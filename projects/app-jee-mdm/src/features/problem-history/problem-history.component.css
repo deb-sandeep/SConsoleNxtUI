@@ -1,4 +1,24 @@
-select {
+.page-content {
+    --selection-panel-height: 77px ;
+    --left-panel-width: 45% ;
+    --right-panel-width: 55% ;
+}
+
+/* ----------------------------------------------------------------------------- */
+/*                         Topic Selection Panel                                 */
+/* ----------------------------------------------------------------------------- */
+.topic-selection-panel {
+    position: absolute ;
+    top: var(--page-title-height) ;
+    left: 0 ;
+    height: var( --selection-panel-height ) ;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: var( --left-panel-width ) ;
+    background-color: #dcdcdc;
+}
+
+.topic-selection-panel select {
     display: inline-block;
     width: initial;
     margin: 2px 10px 2px 10px;
@@ -7,51 +27,43 @@ select {
     color: white;
 }
 
-button > span {
+.action-bar {
     font-size: 16px ;
 }
 
-span[class^="bi-chevron"] {
-    font-weight: bold;
+.selected-problems-action-bar {
+    float: right;
+    padding: 5px 35px 0 10px ;
 }
 
-.page-content {
+.expand-collapse-action-bar {
+    float: left;
+    padding: 5px 35px 0 10px ;
 }
 
-.ph-container {
+.expand-collapse-action-bar span {
+    background-color: #a5a5a5;
+    margin-left: 10px ;
+    border-radius : 8px ;
+}
+
+/* ----------------------------------------------------------------------------- */
+/*                         Problem List Container                                */
+/* ----------------------------------------------------------------------------- */
+.problem-list-container {
     position: absolute ;
-    top: var(--page-title-height) ;
-    height: calc( 100dvh - var(--page-header-height) - var(--page-title-height) ) ;
+    top: calc( var(--page-title-height) + var(--selection-panel-height) ) ;
+    left: 0 ;
+    height: calc( 100dvh - var(--page-header-height) - var(--page-title-height) - var(--selection-panel-height) ) ;
+    width: var( --left-panel-width ) ;
     color: black;
     font-size: 13px;
     overflow-y: scroll;
+    padding: 0 10px 5px 5px;
+    background-color: #dcdcdc;
 }
 
-.problem-list-container {
-    left: 0 ;
-    width: 40% ;
-    padding: 5px 2px 5px 5px;
-}
-
-.problem-history-container {
-    left: 40% ;
-    width: 60% ;
-    padding: 20px 50px 5px 50px;
-}
-
-.topic-selection-panel button {
-    padding: 7px 11px 7px 11px;
-    float: right;
-    margin-left: 5px ;
-    margin-right: 5px ;
-    border-radius: 20px ;
-}
-
-.problem-list {
-    font-size: 12px ;
-}
-
-.problem-list thead th {
+.problem-list-container thead th {
     background-color: transparent ;
 }
 
@@ -60,8 +72,8 @@ span[class^="bi-chevron"] {
     background-color: #606060;
     color: yellow ;
     font-weight: bold ;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border-radius: 10px;
 }
 
@@ -79,8 +91,20 @@ span[class^="bi-chevron"] {
     background-color: transparent;
 }
 
+.selection-checkbox {
+    display: inline-block ;
+    padding-right: 10px;
+}
+
+.selection-checkbox input[type=checkbox] {
+    float: right;
+    width : 12px;
+    height: 12px;
+}
+
 .problem-name {
-    padding-left: 40px !important;
+    padding-left: 20px !important;
+    vertical-align: center !important;
 }
 
 .problem-assigned td {
@@ -156,6 +180,22 @@ span[class^="bi-chevron"] {
     color: red ;
 }
 
+/* ----------------------------------------------------------------------------- */
+/*                         Problem History Container                             */
+/* ----------------------------------------------------------------------------- */
+.problem-history-container {
+    position: absolute ;
+    top: var(--page-title-height) ;
+    height: calc( 100dvh - var(--page-header-height) - var(--page-title-height) ) ;
+    color: black;
+    font-size: 13px;
+    overflow-y: scroll;
+    left: 45% ;
+    width: 55% ;
+    padding: 20px 50px 5px 50px;
+    background-color: #dcdcdc;
+}
+
 .button-bar {
     text-align: center;
     margin-top: 10px;
@@ -163,4 +203,12 @@ span[class^="bi-chevron"] {
 
 .button-bar > button {
     margin: 5px;
+}
+
+.problem-action-bar {
+    text-align: center;
+}
+
+.problem-action {
+    padding: 0 7px 0 7px;
 }

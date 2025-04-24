@@ -9,7 +9,7 @@ import { ProblemApiService } from "@jee-common/services/problem-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { Syllabus } from "./entities/syllabus";
 import AlertService = Alert.AlertService;
-import { NgbTooltip, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 
 class Exercise {
 
@@ -19,6 +19,7 @@ class Exercise {
   constructor( public exerciseName: string ) {}
 
   addProblem( problem: TopicProblemSO ) {
+    problem.selected = false ;
     this.problems.push( problem ) ;
     if( problem.problemState !== 'Assigned' ) {
       this.collapsed = false ;
@@ -209,15 +210,16 @@ export class ProblemHistoryComponent {
     this.selectedProblem = problem ;
   }
 
-  async changeProblemState( targetState: string ) {
+  async changeProblemState( problem:TopicProblemSO, targetState: string ) {
     await this.probApiSvc.changeProblemState(
-      this.selectedProblem!.problemId,
-      this.selectedProblem!.topicId,
-      this.selectedProblem!.problemState,
+      [problem.problemId],
+      problem.topicId,
       targetState
     ) ;
-    this.selectedProblem!.problemState = targetState ;
-    this.attemptHistory.refreshProblemAttempts() ;
+    problem.problemState = targetState ;
+    if( problem == this.selectedProblem ) {
+      this.attemptHistory.refreshProblemAttempts() ;
+    }
   }
 
   async refreshSelectedProblem() {
@@ -225,5 +227,42 @@ export class ProblemHistoryComponent {
     this.selectedProblem!.problemState = topicProblem.problemState ;
     this.selectedProblem!.numAttempts = topicProblem.numAttempts ;
     this.selectedProblem!.totalDuration = topicProblem.totalDuration ;
+  }
+
+  async changeProblemStateForSelectedProblems( targetState:string ) {
+
+    let problemIds:number[] = [] ;
+    let selectedProblems = this.getSelectedProblems() ;
+
+    if( selectedProblems.length > 0 ) {
+      selectedProblems.forEach( problem => {
+        if( problem.selected ) {
+          problemIds.push( problem.problemId ) ;
+        }
+      }) ;
+
+      await this.probApiSvc.changeProblemState(
+        problemIds,
+        this.selectedTopicId,
+        targetState
+      ) ;
+
+      selectedProblems.forEach( problem => {
+        problem.problemState = targetState ;
+        if( problem == this.selectedProblem ) {
+          this.attemptHistory.refreshProblemAttempts() ;
+        }
+      }) ;
+    }
+  }
+
+  private getSelectedProblems():TopicProblemSO[] {
+    let selectedProblems: TopicProblemSO[] = [];
+    this.allProblems.forEach( problem => {
+      if( problem.selected ) {
+        selectedProblems.push( problem ) ;
+      }
+    }) ;
+    return selectedProblems ;
   }
 }

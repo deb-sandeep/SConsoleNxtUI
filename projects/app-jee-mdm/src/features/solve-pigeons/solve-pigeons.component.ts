@@ -1,14 +1,10 @@
-import { Component, inject, ViewChild } from "@angular/core";
-import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe } from "lib-core";
+import { Component, inject } from "@angular/core";
+import { AlertsDisplayComponent, PageTitleComponent, PageTitleService } from "lib-core";
 import { ProblemAttemptSO, SyllabusSO, TopicProblemSO } from "@jee-common/util/master-data-types";
-import { DatePipe, NgClass } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/util/common-util";
-import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
 import { ProblemApiService } from "@jee-common/services/problem-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
-import {
-  ProblemAttemptComponent
-} from "../../../../app-jee-session/src/pages/session/widgets/problem-attempt/problem-attempt.component";
 import { AttemptHistoryComponent } from "@jee-common/widgets/attempt-history/attempt-history.component";
 
 class BookChapterProblems {
@@ -19,10 +15,6 @@ class BookChapterProblems {
 
   addProblem( problem: TopicProblemSO ) {
     this.pigeons.push( problem ) ;
-  }
-
-  getProblems() {
-    return this.pigeons ;
   }
 }
 
@@ -146,9 +138,8 @@ export class SolvePigeonsComponent {
 
   async changePigeonState( targetState: string ) {
     await this.problemApiSvc.changeProblemState(
-      this.selectedPigeon!.problemId,
+      [this.selectedPigeon!.problemId],
       this.selectedPigeon!.topicId,
-      this.selectedPigeon!.problemState,
       targetState
     ) ;
 
