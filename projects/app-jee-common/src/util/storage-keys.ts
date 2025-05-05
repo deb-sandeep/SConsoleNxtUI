@@ -11,4 +11,9 @@ export class StorageKey {
 
   // Stores the last selected session type
   static readonly LAST_SESSION_TYPE = "lastSessionType" ;
+
+  // Stores an array of last exercise pointers against topics.
+  // Used to present the last exercise done in an expanded state during
+  // problem selection
+  static readonly LAST_EXERCISE_POINTERS = "lastExercisePointers" ;
 }

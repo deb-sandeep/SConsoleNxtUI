@@ -4,6 +4,8 @@ import { Session } from "../../../../entities/session";
 import { TopicProblemSO } from "@jee-common/util/master-data-types";
 import { NgClass } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/util/common-util";
+import { LocalStorageService } from "lib-core";
+import { StorageKey } from "@jee-common/util/storage-keys";
 
 class Book {
   bookId: number;
@@ -117,6 +119,27 @@ class Problem {
   getExerciseNum() { return this.so.exerciseNum ; }
 }
 
+class LastExercisePointer {
+
+  topicId: number;
+  bookId: number;
+  chapterNum: number;
+  exerciseNum: number;
+
+  constructor( topicId:number, bookId=-1, chapterNum=-1, exerciseNum=-1 ) {
+    this.topicId = topicId ;
+    this.bookId = bookId ;
+    this.chapterNum = chapterNum ;
+    this.exerciseNum = exerciseNum ;
+  }
+
+  update( problem: TopicProblemSO ) {
+    this.bookId = problem.bookId;
+    this.chapterNum = problem.chapterNum;
+    this.exerciseNum = problem.exerciseNum;
+  }
+}
+
 @Component({
   selector: 'problem-picker',
   imports: [
@@ -130,7 +153,10 @@ export class ProblemPickerComponent {
   protected readonly SConsoleUtil = SConsoleUtil;
 
   private stateSvc = inject( SessionStateService ) ;
+  private localDb = inject( LocalStorageService ) ;
   private session: Session ;
+
+  private readonly lastExercisePointer: LastExercisePointer ;
 
   books: Book[] = [];
 
@@ -138,11 +164,15 @@ export class ProblemPickerComponent {
   selection = output<TopicProblemSO>() ;
 
   constructor() {
+
     this.session = this.stateSvc.session ;
+    this.lastExercisePointer = this.getLastExercisePointer() ;
     this.categorizeProblems() ;
+    this.setExpandedStates() ;
   }
 
   private categorizeProblems() {
+
     const problems = this.session.problems ;
     const bookMap: Record<number, Book> = {};
 
@@ -151,7 +181,7 @@ export class ProblemPickerComponent {
       let book: Book ;
       const lookupKey = problem.getBookId() ;
       if( lookupKey in bookMap ) {
-        book = bookMap[ lookupKey];
+        book = bookMap[ lookupKey ] ;
         book.addProblem( problem ) ;
       }
       else {
@@ -160,14 +190,74 @@ export class ProblemPickerComponent {
         this.books.push( book );
       }
     }) ;
+  }
 
-    if( this.books.length > 0 ) {
+  private setExpandedStates() {
+
+    let lastExercisePointerFound = false ;
+
+    this.books.forEach( book => {
+      book.chapters.forEach( chapter => {
+        if( this.lastExercisePointer.bookId == book.bookId &&
+            this.lastExercisePointer.chapterNum == chapter.chapterNum) {
+
+          chapter.expanded = true ;
+
+          chapter.exercises.forEach( exercise => {
+            if( this.lastExercisePointer.exerciseNum == exercise.exerciseNum ) {
+              exercise.expanded = true ;
+              lastExercisePointerFound = true ;
+            }
+          })
+        }
+      })
+    }) ;
+
+    if( !lastExercisePointerFound && this.books.length > 0 ) {
       this.books[0].chapters[0].expanded = true ;
       this.books[0].chapters[0].exercises[0].expanded = true ;
     }
   }
 
-  problemSelected(problem: TopicProblemSO){
+  private loadLastExercisePointers() {
+
+    let str = this.localDb.getItem( StorageKey.LAST_EXERCISE_POINTERS ) ;
+    let pointers: Record<number, LastExercisePointer> = {} ;
+
+    if( str != null ) {
+      pointers = JSON.parse(str) ;
+    }
+    return pointers;
+  }
+
+  private getLastExercisePointer(): LastExercisePointer {
+
+    let pointers: Record<number, LastExercisePointer> = this.loadLastExercisePointers() ;
+    const topicId = this.session.topic()!.id ;
+
+    if( topicId in pointers ) {
+      let p = pointers[ topicId ] ;
+      return new LastExercisePointer( p.topicId, p.bookId, p.chapterNum, p.exerciseNum ) ;
+    }
+    else {
+      return new LastExercisePointer( topicId ) ;
+    }
+  }
+
+  private saveLastExercisePointer( problem: TopicProblemSO ) {
+
+    this.lastExercisePointer!.update( problem ) ;
+
+    let pointers: Record<number, LastExercisePointer> = this.loadLastExercisePointers() ;
+    const topicId = this.session.topic()!.id ;
+    pointers[ topicId ] = this.lastExercisePointer! ;
+
+    this.localDb.setItem( StorageKey.LAST_EXERCISE_POINTERS, JSON.stringify( pointers ) ) ;
+  }
+
+  problemSelected( problem: TopicProblemSO ){
+
+    this.saveLastExercisePointer( problem ) ;
     this.selection.emit( problem ) ;
     this.hide.emit() ;
   }
