@@ -30,7 +30,9 @@
   <!-- Problem attempt mode body                                     -->
   <!-- ------------------------------------------------------------- -->
   <div class="session-body" *ngIf="session.isInProblemAttemptMode()">
-    <problem-attempt [showAutoPlay]="true" [autoPlay]="true"></problem-attempt>
+    <problem-attempt [showAutoPlay]="true"
+                     [autoPlayState]="autoPlayState"
+                     (autoPlayChange)="autoPlayChanged($event)"></problem-attempt>
   </div>
 </div>
 

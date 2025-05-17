@@ -30,6 +30,7 @@ export class ExerciseSessionComponent {
   session: Session;
 
   showProblemPicker = false ;
+  autoPlayState = true ;
 
   constructor() {
     if( this.stateSvc.session.topic() == null ) {
@@ -49,5 +50,9 @@ export class ExerciseSessionComponent {
     this.session.end()
         .then( ()=> this.router.navigate(['../landing']) )
         .then() ;
+  }
+
+  autoPlayChanged( value:boolean ) {
+    this.autoPlayState = value ;
   }
 }

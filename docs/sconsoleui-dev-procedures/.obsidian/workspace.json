@@ -18,8 +18,21 @@
               "icon": "lucide-book-up",
               "title": "Release Notes 1.8.9"
             }
+          },
+          {
+            "id": "f171085a4dbb799e",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.8.10"
+              },
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.8.10"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -163,7 +176,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "28a74bb554875a4e",
+  "active": "f171085a4dbb799e",
   "lastOpenFiles": [
     "App code patterns/App design.md",
     "Creating a new application.md",

@@ -1,4 +1,4 @@
-import { Component, inject, Input, input } from '@angular/core';
+import { Component, inject, Input, input, output } from '@angular/core';
 import { SessionStateService } from "../../../../service/session-state.service";
 import { DurationPipe } from "lib-core";
 import { Session } from "../../../../entities/session";
@@ -43,8 +43,10 @@ export class ProblemAttemptComponent {
   protected problemAttempt: ProblemAttempt = this.session.currentProblemAttempt! ;
   protected problem:TopicProblemSO = this.session.currentProblemAttempt!.problem ;
 
-  @Input( "autoPlay" ) autoPlay = false ;
-  showAutoPlay = input( this.autoPlay ) ;
+  @Input( "autoPlayState" ) autoPlayState = true ;
+
+  showAutoPlay = input( this.autoPlayState ) ;
+  autoPlayChange = output<boolean>() ;
 
   isValidAction( action:string ) {
     return this.actionMatrix[ this.problem.problemState ].includes( action ) ;
@@ -52,7 +54,7 @@ export class ProblemAttemptComponent {
 
   async endProblemAttempt( targetState:string ) {
     const nextProblem = await this.stateSvc.session.endProblemAttempt( targetState ) ;
-    if( this.autoPlay && nextProblem ) {
+    if( this.autoPlayState && nextProblem ) {
       await this.session.startProblemAttempt( nextProblem ) ;
     }
   }
