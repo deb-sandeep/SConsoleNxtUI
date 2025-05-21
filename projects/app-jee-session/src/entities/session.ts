@@ -46,6 +46,8 @@ export class Session extends PausableTimedEntity {
   currentPause: Pause|null = null ;
   currentProblemAttempt:ProblemAttempt|null = null ;
 
+  audioClip: HTMLAudioElement|null = null ;
+
   // -------------- Check and throw error functions -------------------------------
 
   private assertStates( ...assertionSources: assertionSrc[] ): assertionResult {
@@ -220,13 +222,19 @@ export class Session extends PausableTimedEntity {
     this.assertStates( !this.isPaused() )
         .elseThrow( "Can't start problem attempt. Current session is paused." ) ;
 
-    let problemAttempt = new ProblemAttempt( this.sessionId, problem ) ;
+    let problemAttempt = new ProblemAttempt( problem, this ) ;
     problemAttempt.id = await this.networkSvc.startProblemAttempt( problemAttempt ) ;
 
     this.currentProblemAttempt = problemAttempt ;
     this.problemAttempts.push( problemAttempt ) ;
 
     this.updateContinuationTime() ;
+
+    if( this.audioClip == null ) {
+      this.audioClip = new Audio() ;
+      this.audioClip.autoplay = true ;
+      this.audioClip.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+    }
   }
 
   public async endProblemAttempt( targetState:string ) {
@@ -285,5 +293,13 @@ export class Session extends PausableTimedEntity {
       // Extend the session asynchronously.
       this.networkSvc.extendSession( this ).then() ;
     }
+  }
+
+  public playBellSound() {
+    this.audioClip!.src = 'audio/bell.mp3' ;
+  }
+
+  public playDoubleBellSound() {
+    this.audioClip!.src = 'audio/double-bell.mp3' ;
   }
 }
