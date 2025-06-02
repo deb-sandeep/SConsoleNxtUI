@@ -22,6 +22,10 @@
       {{problemAttempt.effectiveDuration() | duration}}
     </div>
 
+    <div class="problem-total-timer">
+      {{problemAttempt.totalDuration | duration}}
+    </div>
+
     <div class="problem-key animate__animated animate__backInRight">
       <span [ngClass]="SConsoleUtil.getProblemIcon(problem!.problemState)"></span>&nbsp;
       {{problem.problemKey.replaceAll( "/", " / ")}}

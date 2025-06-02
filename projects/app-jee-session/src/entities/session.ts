@@ -208,6 +208,7 @@ export class Session extends PausableTimedEntity {
         .elseThrow( "Can't resume session. Current session is not paused." ) ;
 
     this.updateContinuationTime() ;
+    await this.networkSvc.endPause( this.currentPause! ) ;
     this.currentPause = null ;
   }
 
@@ -223,7 +224,10 @@ export class Session extends PausableTimedEntity {
         .elseThrow( "Can't start problem attempt. Current session is paused." ) ;
 
     let problemAttempt = new ProblemAttempt( problem, this ) ;
-    problemAttempt.id = await this.networkSvc.startProblemAttempt( problemAttempt ) ;
+    let response = await this.networkSvc.startProblemAttempt( problemAttempt ) ;
+
+    problemAttempt.id = response.problemAttemptId ;
+    problemAttempt.baseTotalDuration = response.totalDuration ;
 
     this.currentProblemAttempt = problemAttempt ;
     this.problemAttempts.push( problemAttempt ) ;

@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import { Session } from "../entities/session";
 import { Pause } from "../entities/pause";
 import { ProblemAttempt } from "../entities/problem-attempt";
+import { NewProblemAttemptResponse } from "./server-response.type";
 
 @Injectable()
 export class SessionNetworkService extends RemoteService {
@@ -96,10 +97,18 @@ export class SessionNetworkService extends RemoteService {
     } ) ;
   }
 
+  endPause( pause: Pause ) {
+    const url:string = `${environment.apiRoot}/Session/EndPause` ;
+    return this.postPromise<number>( url, {
+      sessionId: pause.sessionId,
+      startTime: this.utcAdjustedTime( pause.endTime ),
+    } ) ;
+  }
+
   startProblemAttempt( pa: ProblemAttempt ) {
 
     const url:string = `${environment.apiRoot}/Session/StartProblemAttempt` ;
-    return this.postPromise<number>( url,  {
+    return this.postPromise<NewProblemAttemptResponse>( url,  {
       id: -1,
       sessionId: pa.sessionId,
       problemId: pa.problem.problemId,

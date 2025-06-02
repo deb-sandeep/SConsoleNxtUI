@@ -41,6 +41,26 @@
     color: #253e17;
 }
 
+.problem-total-timer {
+
+    --panel-height: 70px ;
+    --panel-width: 300px ;
+
+    position: absolute;
+    top: 0 ;
+    right: 0 ;
+    height: var(--panel-height);
+    width: var(--panel-width);
+
+    text-align: right ;
+    font-size: 40px;
+    font-family: "Courier New", "Courier", "ui-monospace";
+
+    color: #5c67a8;
+
+    padding-right: 20px;
+}
+
 .problem-key {
     --panel-height: var(--problem-key-height);
 
