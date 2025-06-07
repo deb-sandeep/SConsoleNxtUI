@@ -1,0 +1,101 @@
+@for ( session of stateSvc.sessions; track session.sessionId ) {
+  <div class="session"
+       [style.border-left-color]="uiSvc.getSyllabusColor( session.syllabusName )">
+    <div class="session-header">
+      <img class="icon"
+           [src]="'img/' + uiSvc.getSessionTypeImgName( session.sessionType )"
+           [style.filter]="uiSvc.getSessionTypeCSSImgFilter( session.sessionType )"/>
+      <img class="icon"
+           [src]="'img/' + uiSvc.getSyllabusImgName( session.syllabusName )"
+           [style.filter]="uiSvc.getSyllabusCSSImgFilter( session.syllabusName )"/>
+      <span class="topic-name"
+            [style.color]="uiSvc.getSyllabusColor( session.syllabusName )">
+        {{session.topicName}}
+      </span>
+    </div>
+
+    <div class="session-details">
+      <div class="duration">
+        {{session.effectiveDuration/60 | number:'1.0-0'}} m
+        <span class="time-range">
+          ({{session.startTime | date:'HH:mm a'}} -
+          @if( session.endTime != null ) {
+            {{session.endTime | date:'HH:mm a'}})
+          }
+          @else {
+            <span style="color:red;font-size: 15px;">ONGOING)</span>
+          }
+        </span>
+      </div>
+    </div>
+
+    @for( event of session.events; track event.id ) {
+
+      @if( event.id.startsWith( 'pat' ) ) {
+        @let pa = event.getObject() ;
+        <div class="problem-attempt">
+          <div class="problem-attempt-details">
+            <div>
+              <span class="problem-state-icon" [ngClass]="SConsoleUtil.getProblemIcon(pa.currentState)"></span>
+              <span class="problem-key">{{pa.problemKey}}</span><br>
+              <span class="book-name">{{pa.bookName}}</span>
+            </div>
+            <div class="chapter-name">
+              Ch {{pa.chapterNum}}. {{pa.chapterName}}
+            </div>
+            <div class="duration">
+              {{pa.effectiveDuration/60 | number:'1.0-0'}} m
+              <span class="time-range">
+                ({{pa.startTime | date:'HH:mm a'}} -
+                @if( pa.endTime != null ) {
+                  {{pa.endTime | date:'HH:mm a'}})
+                }
+                @else {
+                  <span style="color:red;font-size: 15px;">ONGOING)</span>
+                }
+              </span>
+            </div>
+          </div>
+
+          @for( pau of pa.pauses; track pau.pauseId ) {
+            <div class="pause">
+              <div class="pause-details">
+                <div class="duration">
+                  {{pau.duration/60 | number:'1.0-0'}} m
+                  <span class="time-range">
+                ({{pau.startTime | date:'HH:mm a'}} -
+                    @if( pau.endTime != null ) {
+                      {{pau.endTime | date:'HH:mm a'}})
+                    }
+                    @else {
+                      <span style="color:red;font-size: 15px;">ONGOING)</span>
+                    }
+              </span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+      @else if( event.id.startsWith( 'pau' ) ) {
+        @let pau = event.getObject() ;
+        <div class="pause">
+          <div class="duration">
+            {{pau.duration/60 | number:'1.0-0'}} m
+            <span class="time-range">
+                ({{pau.startTime | date:'HH:mm a'}} -
+              @if( pau.endTime != null ) {
+                {{pau.endTime | date:'HH:mm a'}})
+              }
+              @else {
+                <span style="color:red;font-size: 15px;">ONGOING)</span>
+              }
+              </span>
+          </div>
+        </div>
+      }
+
+    }
+
+  </div>
+}

@@ -100,8 +100,10 @@ export class SessionNetworkService extends RemoteService {
   endPause( pause: Pause ) {
     const url:string = `${environment.apiRoot}/Session/EndPause` ;
     return this.postPromise<number>( url, {
+      id: pause.id,
       sessionId: pause.sessionId,
-      startTime: this.utcAdjustedTime( pause.endTime ),
+      startTime: this.utcAdjustedTime( pause.startTime ),
+      endTime: this.utcAdjustedTime( pause.endTime ),
     } ) ;
   }
 

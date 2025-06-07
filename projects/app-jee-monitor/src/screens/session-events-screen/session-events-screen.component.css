@@ -1,0 +1,78 @@
+img[class='icon'] {
+    width: 30px;
+    height: 30px;
+}
+
+.session {
+    border-left: 2px solid;
+    border-bottom: 1px solid #5a5a5a;
+    margin: 5px 0 20px 0;
+    padding: 5px;
+}
+
+.topic-name {
+    font-size: 17px;
+}
+
+.problem-attempt {
+    margin: 7px 0 5px 15px;
+    border-left: 5px solid #4c4c4c;
+    border-bottom: 1px solid #424242;
+    padding: 5px 0 5px 10px ;
+}
+
+.problem-attempt-details {
+    font-size: 12px;
+}
+
+.problem-state-icon {
+    font-size: 17px;
+    padding-right: 10px ;
+}
+
+.problem-key {
+    font-size: 14px;
+}
+
+.book-name {
+    font-size: 12px;
+    color: #636363;
+}
+
+.chapter-name {
+    color: #636363;
+}
+
+.duration {
+    font-size: 12px;
+    width: 100%;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.time-range {
+    color: #616161;
+    font-family: "Courier New", Courier, monospace;
+}
+
+.icon {
+    color: #9dcafa;
+}
+
+.icon-green {
+    color: greenyellow;
+}
+
+.icon-red {
+    color: red;
+}
+
+.icon-orange {
+    color: orange;
+}
+
+.pause {
+    margin: 5px 0 5px 15px;
+    padding: 0 0 0 10px ;
+    background-color: #371515;
+}

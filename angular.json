@@ -522,7 +522,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/app-jee-session/public"
+                "input": "projects/app-jee-ctrl-screens/public"
               }
             ],
             "styles": [
@@ -583,6 +583,123 @@
             },
             "development": {
               "buildTarget": "app-jee-ctrl-screens:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    },
+    "app-jee-monitor": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:component": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:resolver": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        }
+      },
+      "root": "projects/app-jee-monitor",
+      "sourceRoot": "projects/app-jee-monitor/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "baseHref": "/apps/jee/monitor/",
+            "outputPath": {
+              "base" : "dist/webroot/apps/jee/monitor",
+              "browser": ""
+            },
+            "index": "projects/app-jee-monitor/src/index.html",
+            "browser": "projects/app-jee-monitor/src/main.ts",
+            "polyfills": [
+              "zone.js",
+              "@angular/localize/init"
+            ],
+            "tsConfig": "projects/app-jee-monitor/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/app-jee-monitor/public"
+              }
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
+              "projects/lib-core/assets/bootstrap-overrides.css",
+              "projects/lib-core/assets/styles.css",
+              "projects/app-jee-monitor/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/environments/environment.ts",
+                  "with": "projects/environments/environment.development.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "./projects/lib-core/assets",
+                  "output": "/core-assets/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "projects/app-jee-monitor/public"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "app-jee-monitor:build:production"
+            },
+            "development": {
+              "buildTarget": "app-jee-monitor:build:development"
             }
           },
           "defaultConfiguration": "development"
