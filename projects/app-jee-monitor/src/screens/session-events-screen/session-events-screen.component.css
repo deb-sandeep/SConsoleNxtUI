@@ -1,23 +1,24 @@
 img[class='icon'] {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
 }
 
 .session {
     border-left: 2px solid;
-    border-bottom: 1px solid #5a5a5a;
+    border-bottom: 1px dashed #959595;
     margin: 5px 0 20px 0;
     padding: 5px;
 }
 
 .topic-name {
     font-size: 17px;
+    margin-left: 5px;
 }
 
 .problem-attempt {
     margin: 7px 0 5px 15px;
     border-left: 5px solid #4c4c4c;
-    border-bottom: 1px solid #424242;
+    border-bottom: 1px solid #323232;
     padding: 5px 0 5px 10px ;
 }
 
@@ -31,7 +32,7 @@ img[class='icon'] {
 }
 
 .problem-key {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .book-name {
@@ -43,8 +44,16 @@ img[class='icon'] {
     color: #636363;
 }
 
+.session-details .duration {
+    font-size: 15px;
+}
+
+.session-details .time-range {
+    font-size: 15px;
+}
+
 .duration {
-    font-size: 12px;
+    font-size: 13px;
     width: 100%;
     text-align: right;
     padding-right: 10px;
