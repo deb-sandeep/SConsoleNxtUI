@@ -64,9 +64,11 @@ export class StateService {
         console.log( event ) ;
       }
       else {
-        let pa = new ProblemAttempt( event ) ;
-        this.currentSession.addProblemAttempt( pa ) ;
-        this.currentProblemAttempt = pa ;
+        if( event.sessionId == this.currentSession.sessionId ) {
+          let pa = new ProblemAttempt( event ) ;
+          this.currentSession.addProblemAttempt( pa ) ;
+          this.currentProblemAttempt = pa ;
+        }
       }
     }
   }
@@ -82,8 +84,10 @@ export class StateService {
         console.log( event ) ;
       }
       else {
-        this.currentProblemAttempt.processEndEvent( event ) ;
-        this.currentProblemAttempt = null ;
+        if( event.sessionId == this.currentSession.sessionId ) {
+          this.currentProblemAttempt.processEndEvent( event ) ;
+          this.currentProblemAttempt = null ;
+        }
       }
     }
   }

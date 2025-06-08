@@ -47,6 +47,12 @@ export class AppComponent {
           bgcolor : "#fcffd0",
           target : '/apps/jee/mdm/index.html'
         },
+        {
+          name : "Session<br>Monitor",
+          icon : "eye",
+          bgcolor : "#f0e4ff",
+          target : '/apps/jee/monitor/index.html'
+        },
       ]
     },
     {

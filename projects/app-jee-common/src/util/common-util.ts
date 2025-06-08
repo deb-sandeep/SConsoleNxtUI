@@ -9,6 +9,7 @@ export class SConsoleUtil {
       case 'Later': return 'bi-calendar2-event icon' ;
       case 'Pigeon': return 'bi-twitter icon icon-orange' ;
       case 'Pigeon Solved': return 'bi-twitter icon icon-green' ;
+      case 'Pigeon Explained': return 'bi-shield-check icon-green' ;
       case 'Purge': return 'bi-box-arrow-up-right icon icon-green' ;
       default: return 'bi-crosshair icon' ;
     }
