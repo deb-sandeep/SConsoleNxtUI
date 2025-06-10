@@ -1,7 +1,7 @@
 .page-content {
     --selection-panel-height: 77px ;
-    --left-panel-width: 45% ;
-    --right-panel-width: 55% ;
+    --left-panel-width: 47% ;
+    --right-panel-width: 53% ;
 }
 
 /* ----------------------------------------------------------------------------- */
@@ -78,8 +78,8 @@
 }
 
 .exercise-name td {
-    font-size: 14px ;
-    padding-left: 20px ;
+    font-size: 15px ;
+    padding: 7px 0 7px 20px ;
     font-weight: bold;
     background-color: #8f8f8f;
     color: white;
@@ -87,7 +87,7 @@
 }
 
 .problem-row td {
-    padding: 2px;
+    padding: 5px 2px 5px 2px ;
     background-color: transparent;
 }
 
@@ -162,6 +162,7 @@
     font-family: monospace;
     text-align: right;
     font-size: 11px;
+    padding-right: 5px !important;
 }
 
 .problem-selected {
@@ -190,9 +191,9 @@
     color: black;
     font-size: 13px;
     overflow-y: scroll;
-    left: 45% ;
-    width: 55% ;
-    padding: 20px 50px 5px 50px;
+    left: var(--left-panel-width) ;
+    width: var(--right-panel-width) ;
+    padding: 20px 5px 5px 5px;
     background-color: #dcdcdc;
 }
 
