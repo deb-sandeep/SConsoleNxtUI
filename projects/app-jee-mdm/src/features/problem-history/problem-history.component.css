@@ -36,15 +36,25 @@
     padding: 5px 35px 0 10px ;
 }
 
-.expand-collapse-action-bar {
+.problem-list-action-bar {
     float: left;
     padding: 5px 35px 0 10px ;
 }
 
-.expand-collapse-action-bar span {
+.problem-list-action-bar span {
     background-color: #a5a5a5;
     margin-left: 10px ;
     border-radius : 8px ;
+}
+
+.star-select {
+    color: #1f1f1f;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.star-select label {
+    color: red;
 }
 
 /* ----------------------------------------------------------------------------- */
@@ -161,7 +171,7 @@
 .duration {
     font-family: monospace;
     text-align: right;
-    font-size: 11px;
+    font-size: 12px;
     padding-right: 5px !important;
 }
 
@@ -211,5 +221,10 @@
 }
 
 .problem-action {
-    padding: 0 7px 0 7px;
+    padding: 2px 7px 2px 7px;
+}
+
+.hourglass {
+    font-size: 15px;
+    color: red;
 }

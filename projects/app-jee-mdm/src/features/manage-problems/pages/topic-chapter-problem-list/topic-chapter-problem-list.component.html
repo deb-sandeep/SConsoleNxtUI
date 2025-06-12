@@ -50,6 +50,7 @@
         </th>
         <th style="width: 75px;">Type</th>
         <th style="width: 200px;">Problem Key</th>
+        <th style="width: 175px;">State</th>
         <th>Topic</th>
       </tr>
     </thead>
@@ -61,7 +62,7 @@
                   style="color: gray;"
                   (click)="toggleChapterExpandedState( ex.exerciseNum )"></span>
           </td>
-          <td colspan="3">
+          <td colspan="4">
             <input type="checkbox" [(ngModel)]="ex.selected"/>
             &nbsp;
             <span (dblclick)="toggleSelectionAllProblemsForExercise( ex )">
@@ -71,9 +72,10 @@
         </tr>
         @if( isExpanded( ex.exerciseNum ) ) {
           @for( p of ex.problems; track p.problemId ) {
+            @let state = problemState[p.problemId] ;
             <tr class="problem-row"
                 [class.problem-row-selected]="p.selected"
-                [class]="{'problem-attached':isPTMAttached(p), 'problem-available':isPTMAvailable(p), 'problem-unavailable':isPTMUnavailable(p)}"
+                [class]="{'problem-attached':isMappedToCurrentTopic(p), 'problem-available':isProblemUnmapped(p), 'problem-unavailable':isMappedToDifferentTopic(p)}"
                 draggable="true"
                 (dragstart)="problemDragStarted( $event, p )"
                 (dragover)="problemDragOver( p )">
@@ -81,18 +83,28 @@
               <td (dblclick)="toggleSelectionOfAllProblemsOfType( ex, p.problemType )">{{p.problemType}}</td>
               <td (dblclick)="p.selected = !p.selected">{{p.problemKey}}</td>
               <td>
-                @if( p.topic == null ) {
+                @if( p.topic != null ) {
+                  <span [ngClass]="SConsoleUtil.getProblemIcon( state )"></span> {{state}}
+                }
+              </td>
+              <td>
+                @if( isAttachable( p ) ) {
                   <button type="button"
                           class="btn btn-sm btn-success row-btn"
                           (click)="attachProblem( p )">Attach</button>
                 }
-                @else if ( p.topic.topicId == selTopic?.topicId ) {
-                  <button type="button"
-                          class="btn btn-sm btn-outline-danger row-btn"
-                          (click)="detachProblem( p )">Detach</button>
+                @else if ( p.topic!.topicId == selTopic?.topicId ) {
+                  @if( state === 'Assigned' ) {
+                    <button type="button"
+                            class="btn btn-sm btn-outline-danger row-btn"
+                            (click)="detachProblem( p )">Detach</button>
+                  }
+                  @else {
+                    <span class="bi-ban" style="color: red;"></span>
+                  }
                 }
                 @else {
-                  <span class="bi-ban" style="color: red;"></span>&nbsp;<span class="bi-arrow-right"></span>&nbsp;{{p.topic.topicName}}
+                  <span class="bi-ban" style="color: red;"></span>&nbsp;<span class="bi-arrow-right"></span>&nbsp;{{p.topic!.topicName}}
                 }
               </td>
             </tr>

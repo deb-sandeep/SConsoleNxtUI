@@ -18,6 +18,7 @@ import {
 } from "../../manage-problems.type";
 import { PROBLEM_TYPES } from "@jee-common/util/master-data-types";
 import { Topic } from "../../../manage-books/manage-books.type";
+import { SConsoleUtil } from "@jee-common/util/common-util";
 
 export enum ProblemGroup {
   ATTACHED,
@@ -42,9 +43,10 @@ export class TopicChapterProblemListComponent {
   private alertSvc = inject( AlertService ) ;
   private route = inject( ActivatedRoute ) ;
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
-  private manageProblemsSvc:ManageProblemsService = inject( ManageProblemsService ) ;
+  private probSvc: ManageProblemsService = inject( ManageProblemsService ) ;
 
   protected readonly ProblemGroup = ProblemGroup ;
+  protected readonly SConsoleUtil = SConsoleUtil;
   protected readonly PROBLEM_TYPES = PROBLEM_TYPES;
 
   private dragSelection:boolean = false ;
@@ -57,6 +59,7 @@ export class TopicChapterProblemListComponent {
   topicId:number = 0 ;
 
   data:ChapterProblemTopicMapping | null = null ;
+  problemState: Record<number, string> = {} ; // Key - problem id, value - problem state
   selTopic:Topic | null = null ;
 
   expandedState:Record<number, boolean> = {} ;
@@ -80,8 +83,11 @@ export class TopicChapterProblemListComponent {
 
   private async fetchDataFromServer(){
     try {
-      this.data = await this.manageProblemsSvc.getProblemTopicMappingsForChapter( this.bookId, this.chapterNum ) ;
-      this.selTopic = await this.manageProblemsSvc.getTopic( this.topicId ) ;
+      this.data = await this.probSvc.getProblemTopicMappingsForChapter( this.bookId, this.chapterNum ) ;
+      (await this.probSvc.getProblemState( this.bookId, this.chapterNum )).forEach( s => {
+        this.problemState[s.problemId] = s.state ;
+      })
+      this.selTopic = await this.probSvc.getTopic( this.topicId ) ;
       this.titleSvc.setTitle( ` > ${this.data.book.bookShortName} : ${this.data.chapterNum} - ${this.data.chapterName}` ) ;
       this.toggleFullExpansion() ;
     }
@@ -118,28 +124,34 @@ export class TopicChapterProblemListComponent {
   }
 
   attachProblem( p:ProblemTopicMapping ) {
-    this.manageProblemsSvc
-        .attachProblems( this.topicChapterMappingId, [p], this.selTopic )
-        .then() ;
+    if( this.isAttachable( p ) ) {
+      this.probSvc
+          .attachProblems( this.topicChapterMappingId, [p], this.selTopic )
+          .then() ;
+    }
   }
 
   detachProblem( p:ProblemTopicMapping ) {
-    this.manageProblemsSvc
-        .detachProblems( [p] )
-        .then() ;
+    if( this.isDetachable( p ) ) {
+      this.probSvc
+          .detachProblems( [p] )
+          .then() ;
+    }
   }
 
   attachSelectedProblems() {
-    this.manageProblemsSvc
+    const problemsToAttach = this.selectOnlyAttachableProblems( this.getSelectedProblems() ) ;
+    this.probSvc
         .attachProblems( this.topicChapterMappingId,
-                         this.getSelectedProblems(),
+                         problemsToAttach,
                          this.selTopic )
         .then() ;
   }
 
   detachSelectedProblems() {
-    this.manageProblemsSvc
-        .detachProblems( this.getSelectedProblems() )
+    const problemsToDetach = this.selectOnlyDetachableProblems( this.getSelectedProblems() ) ;
+    this.probSvc
+        .detachProblems( problemsToDetach )
         .then() ;
   }
 
@@ -158,10 +170,10 @@ export class TopicChapterProblemListComponent {
           if( counter % 2 == 0 ) {
             // This problem needs to be attached. If the problem is:
             // 1) Attached -> No action
-            // 2) Available -> add it to the problemsToAttach list
+            // 2) Available -> add it to problemsToAttach list
             // 3) Unavailable -> No action
-            if( !this.isPTMUnavailable( ptm ) ) {
-              if( this.isPTMAvailable( ptm ) ) {
+            if( !this.isMappedToDifferentTopic( ptm ) ) {
+              if( this.isProblemUnmapped( ptm ) ) {
                 problemsToAttach.push( ptm ) ;
               }
               counter++ ;
@@ -169,12 +181,14 @@ export class TopicChapterProblemListComponent {
           }
           else if( counter % 2 == 1 ) {
             // This problem needs to be detached. If the problem is:
-            // 1) Attached -> add it to the problemsToDetach list
+            // 1) Attached -> add it to problemsToDetach list
             // 2) Available -> No action
             // 3) Unavailable -> No action
-            if( !this.isPTMUnavailable( ptm ) ) {
-              if( this.isPTMAttached( ptm ) ) {
-                problemsToDetach.push( ptm ) ;
+            if( !this.isMappedToDifferentTopic( ptm ) ) {
+              if( this.isMappedToCurrentTopic( ptm ) ) {
+                if( this.isDetachable( ptm ) ) {
+                  problemsToDetach.push( ptm ) ;
+                }
               }
               counter++ ;
             }
@@ -184,28 +198,65 @@ export class TopicChapterProblemListComponent {
     }) ;
 
     if( problemsToDetach.length > 0 ) {
-      await this.manageProblemsSvc.detachProblems( problemsToDetach ) ;
+      await this.probSvc.detachProblems( problemsToDetach ) ;
     }
 
     if( problemsToAttach.length > 0 ) {
-      await this.manageProblemsSvc.attachProblems( this.topicChapterMappingId,
+      await this.probSvc.attachProblems( this.topicChapterMappingId,
                                                    problemsToAttach,
                                                    this.selTopic ) ;
     }
   }
 
   attachAllDetached() {
-    this.manageProblemsSvc
+    const problemsToAttach = this.selectOnlyAttachableProblems( this.getAllDetachedProblems() ) ;
+    this.probSvc
         .attachProblems( this.topicChapterMappingId,
-                         this.getAllDetachedProblems(),
+                         problemsToAttach,
                          this.selTopic )
         .then() ;
   }
 
   detachAllAttached() {
-    this.manageProblemsSvc
-        .detachProblems( this.getAllAttachedProblems() )
+    const problemsToDetach = this.selectOnlyDetachableProblems( this.getAllAttachedProblems() ) ;
+    this.probSvc
+        .detachProblems( problemsToDetach )
         .then() ;
+  }
+
+  private selectOnlyAttachableProblems( problems: ProblemTopicMapping[] ) {
+    let attachableProblems:ProblemTopicMapping[] = [] ;
+    problems.forEach( ptm => {
+      if( this.isAttachable( ptm ) ) {
+        attachableProblems.push( ptm ) ;
+      }
+    }) ;
+    return attachableProblems ;
+  }
+
+  private selectOnlyDetachableProblems( problems: ProblemTopicMapping[] ) {
+    let detachableProblems:ProblemTopicMapping[] = [] ;
+    problems.forEach( ptm => {
+      if( this.isDetachable( ptm ) ) {
+        detachableProblems.push( ptm ) ;
+      }
+    }) ;
+    return detachableProblems ;
+  }
+
+  isAttachable( p: ProblemTopicMapping ): boolean {
+    return p.topic == null ;
+  }
+
+  isDetachable( p: ProblemTopicMapping ): boolean {
+    if( p.topic != null ) {
+      if( p.topic.topicId == this.selTopic?.topicId ) {
+        if( this.problemState[ p.problemId ] === 'Assigned' ) {
+          return true ;
+        }
+      }
+    }
+    return false ;
   }
 
   private getSelectedProblems():ProblemTopicMapping[] {
@@ -245,7 +296,7 @@ export class TopicChapterProblemListComponent {
     const ptMappings:ProblemTopicMapping[] = [] ;
     this.data!.exercises.forEach( ex => {
       ex.problems.forEach( ptm => {
-        if( this.isPTMAvailable( ptm ) ) { ptMappings.push( ptm ) }
+        if( this.isProblemUnmapped( ptm ) ) { ptMappings.push( ptm ) }
       }) ;
     }) ;
     return ptMappings ;
@@ -255,7 +306,7 @@ export class TopicChapterProblemListComponent {
     const ptMappings:ProblemTopicMapping[] = [] ;
     this.data!.exercises.forEach( ex => {
       ex.problems.forEach( ptm => {
-        if( this.isPTMAttached( ptm ) ) {
+        if( this.isMappedToCurrentTopic( ptm ) ) {
           ptMappings.push( ptm )
         }
       }) ;
@@ -269,7 +320,7 @@ export class TopicChapterProblemListComponent {
       let isExerciseOperable = limitToSelectedExercises ? ex.selected : true ;
       if( isExerciseOperable ) {
         ex.problems.forEach( ptm => {
-          if( this.isPTMAvailable( ptm ) ) { ptm.selected = true ; }
+          if( this.isProblemUnmapped( ptm ) ) { ptm.selected = true ; }
         }) ;
       }
     }) ;
@@ -281,21 +332,21 @@ export class TopicChapterProblemListComponent {
       let isExerciseOperable = limitToSelectedExercises ? ex.selected : true ;
       if( isExerciseOperable ) {
         ex.problems.forEach( ptm => {
-          if( this.isPTMAttached( ptm ) ) { ptm.selected = true ; }
+          if( this.isMappedToCurrentTopic( ptm ) ) { ptm.selected = true ; }
         }) ;
       }
     }) ;
   }
 
-  protected isPTMAttached( ptm: ProblemTopicMapping ) {
+  protected isMappedToCurrentTopic( ptm: ProblemTopicMapping ) {
     return ptm.topic != null && ptm.topic!.topicId === this.selTopic?.topicId ;
   }
 
-  protected isPTMAvailable( ptm: ProblemTopicMapping ) {
+  protected isProblemUnmapped( ptm: ProblemTopicMapping ) {
     return ptm.topic == null ;
   }
 
-  protected isPTMUnavailable( ptm: ProblemTopicMapping ) {
+  protected isMappedToDifferentTopic( ptm: ProblemTopicMapping ) {
     return ptm.topic != null && ptm.topic!.topicId !== this.selTopic?.topicId ;
   }
 
@@ -369,4 +420,5 @@ export class TopicChapterProblemListComponent {
   problemDragOver( p:ProblemTopicMapping ) {
     p.selected = this.dragSelection ;
   }
+
 }

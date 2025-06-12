@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { RemoteService } from "lib-core";
 
 import { environment } from "@env/environment";
-import { ChapterProblemTopicMapping, ProblemTopicMapping, TopicChapterMapping } from "./manage-problems.type";
+import {
+  ChapterProblemTopicMapping,
+  ProblemState,
+  ProblemTopicMapping,
+  TopicChapterMapping
+} from "./manage-problems.type";
 import { Topic } from "../manage-books/manage-books.type";
 
 @Injectable()
@@ -25,6 +30,11 @@ export class ManageProblemsService extends RemoteService {
 
   getProblemTopicMappingsForChapter( bookId:number, chapterNum:number ):Promise<ChapterProblemTopicMapping> {
     const url:string = `${environment.apiRoot}/Master/ProblemTopicMapping/Book/${bookId}/Chapter/${chapterNum}` ;
+    return this.getPromise( url, true ) ;
+  }
+
+  getProblemState( bookId:number, chapterNum:number ):Promise<ProblemState[]> {
+    const url:string = `${environment.apiRoot}/Problem/State/${bookId}/${chapterNum}` ;
     return this.getPromise( url, true ) ;
   }
 

@@ -27,9 +27,14 @@
     </select>
 
     <div class="action-bar">
-      <div class="expand-collapse-action-bar">
+      <div class="problem-list-action-bar">
         <span class="bi-chevron-expand problem-action" (click)="expandAll()"></span>
         <span class="bi-chevron-contract problem-action" (click)="collapseAll()"></span>
+        <div class="form-check form-switch star-select">
+          <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault"
+                 [(ngModel)]="showOnlyStarred">
+          <label class="form-check-label bi-star-fill" for="switchCheckDefault"></label>
+        </div>
       </div>
       <div class="selected-problems-action-bar">
         <span style="color:blue" class="problem-action bi-twitter"
@@ -53,11 +58,11 @@
     <table class="table table-sm">
       <thead>
         <tr>
-          <th style="width: 275px;"></th>
+          <th style="width: 250px;"></th>
           <th style="width: 40px;"></th>
           <th style="width: 40px;"></th>
-          <th style="width: 175px;"></th>
-          <th style="width: 50px;"></th>
+          <th style="width: 150px;"></th>
+          <th style="width: 100px;"></th>
           <!--<th></th>-->
         </tr>
       </thead>
@@ -89,6 +94,7 @@
               @if( !exercise.collapsed ) {
                 @for( p of exercise.problems; track $index ) {
                   <tr class="problem-row"
+                      *ngIf="!showOnlyStarred || ( showOnlyStarred && p.difficultyLevel > 0 )"
                       [ngClass]="getProblemRowClass( p )"
                       (click)="problemSelected( p )">
                     <td class="problem-name">
@@ -102,7 +108,10 @@
                     <td><span [ngClass]="getDifficultyLevelIcon(p)"></span></td>
                     <td class="num-attempts">{{p.numAttempts}}</td>
                     <td><span [ngClass]="SConsoleUtil.getProblemIcon(p.problemState)">&nbsp;</span> {{p.problemState}}</td>
-                    <td class="duration">{{p.totalDuration*1000 | duration}}</td>
+                    <td class="duration">
+                      <span *ngIf="p.totalDuration > 900" class="bi-hourglass-bottom hourglass"></span>
+                      {{p.totalDuration*1000 | duration}}
+                    </td>
 
                     <!--
                     <td class="problem-action-bar">

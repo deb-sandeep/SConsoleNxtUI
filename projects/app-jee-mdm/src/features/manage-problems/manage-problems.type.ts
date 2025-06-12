@@ -43,3 +43,8 @@ export type ChapterProblemTopicMapping = {
   selTopic: Topic,
   exercises: ExerciseProblems[]
 }
+
+export type ProblemState = {
+  problemId: number,
+  state: string
+}

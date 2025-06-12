@@ -102,6 +102,7 @@ export class ProblemHistoryComponent {
 
   filteredProblems: Record<string, BookChapter> = {}
   selectedProblem: TopicProblemSO | null = null ;
+  showOnlyStarred = false ;
 
   constructor() {
     this.titleSvc.setTitle( "Explore problem history" ) ;
