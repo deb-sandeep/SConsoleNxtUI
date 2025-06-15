@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 import {
+  DashboardState,
   PauseEnd,
   PauseStart,
   ProblemAttemptEnd,
@@ -18,6 +19,7 @@ import {
 export class StateService {
 
   sessions: Session[] = [] ;
+  dashboardState = signal<DashboardState|null>( null ) ;
 
   private currentSession: Session | null = null ;
   private currentProblemAttempt: ProblemAttempt | null = null ;
@@ -134,5 +136,9 @@ export class StateService {
         this.currentPause.duration = sessionExt.pauseDuration ;
       }
     }
+  }
+
+  updateDashboardState( dashboardState: DashboardState ) {
+    this.dashboardState.set( dashboardState) ;
   }
 }

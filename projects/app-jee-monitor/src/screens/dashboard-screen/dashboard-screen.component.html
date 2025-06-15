@@ -1,1 +1,37 @@
-<p>dashboard-screen works!</p>
+@if( stateSvc.dashboardState() != null ) {
+  @for( sylState of stateSvc.dashboardState()!.syllabusStates; track sylState.syllabusName ) {
+    <div class="syllabus-state"
+         [style.border-left-color]="uiSvc.getSyllabusColor( sylState.syllabusName )">
+      <img class="icon"
+           [src]="'img/' + uiSvc.getSyllabusImgName( sylState.syllabusName )"
+           [style.filter]="uiSvc.getSyllabusCSSImgFilter( sylState.syllabusName )"/>
+
+      <span class="syllabus-name"
+            [style.color]="uiSvc.getSyllabusColor( sylState.syllabusName )">
+        {{sylState.syllabusName}}
+      </span>
+
+      <span class="syllabus-duration">
+        {{sylState.duration*1000 | duration}}
+      </span>
+
+      @for( topicState of sylState.topicStates; track topicState.topicName ) {
+        <div class="topic-state">
+          <div class="topic-name">
+            {{topicState.topicName}}
+            <span class="burn-ratio">
+              [{{topicState.numProblemsSolvedToday}}/{{topicState.requiredBurnRate}}]
+            </span>
+          </div>
+          <burn-bar [currentBurnRate]="topicState.currentBurnRate"
+                    [requiredBurnRate]="topicState.requiredBurnRate"
+                    [numProblemsSolvedToday]="topicState.numProblemsSolvedToday"></burn-bar>
+        </div>
+      }
+    </div>
+  }
+
+  <div class="total-duration">
+    {{stateSvc.dashboardState()!.totalDuration*1000 | duration}}
+  </div>
+}

@@ -78,3 +78,17 @@ export type SessionExtended = {
   pauseDuration: number,
 }
 
+export type DashboardState = {
+  totalDuration:number,
+  syllabusStates: {
+    syllabusName: string,
+    duration: number,
+    topicStates: {
+      topicName: string,
+      currentBurnRate: number,
+      requiredBurnRate: number,
+      numProblemsSolvedToday: number,
+    }[]
+  }[]
+}
+

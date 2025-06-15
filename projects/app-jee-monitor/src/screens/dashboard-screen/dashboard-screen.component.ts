@@ -1,14 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { StateService } from "../../service/state.service";
+import { UIHelperService } from "../../service/ui-helper.service";
+import { BurnBarComponent } from "./widgets/burn-bar/burn-bar.component";
+import { DurationPipe } from "lib-core";
 
 @Component({
   selector: 'app-dashboard-screen',
-  imports: [],
+  imports: [
+    BurnBarComponent,
+    DurationPipe
+  ],
   templateUrl: './dashboard-screen.component.html',
   styleUrl: './dashboard-screen.component.css'
 })
 export class DashboardScreenComponent {
 
-  constructor() {
-    console.log('dashboard ScreenComponent');
-  }
+  stateSvc: StateService = inject( StateService ) ;
+  uiSvc: UIHelperService = inject( UIHelperService ) ;
+
+  constructor() {}
+
+  protected readonly Math = Math;
 }

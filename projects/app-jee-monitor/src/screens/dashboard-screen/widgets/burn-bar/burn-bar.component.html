@@ -1,0 +1,10 @@
+<table class="burn-bar">
+  <tr>
+    @for( cell of cells; track $index ) {
+      <td class="burn-cell"
+          [ngClass]="cell.classes">
+
+      </td>
+    }
+  </tr>
+</table>

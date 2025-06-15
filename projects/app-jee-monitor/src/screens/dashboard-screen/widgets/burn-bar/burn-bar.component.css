@@ -1,0 +1,32 @@
+.burn-bar {
+    width: 100%;
+}
+
+.burn-cell {
+    border: 1px solid #303030;
+    height: 20px;
+}
+
+.under-burn {
+    background-color: #325132;
+}
+
+.normal-burn {
+    background-color: #4d704d;
+}
+
+.over-burn {
+    background-color: lightgreen;
+}
+
+.unburnt {
+    background-color: darkred;
+}
+
+.current-burn-marker {
+    border-right: 2px solid white ;
+}
+
+.required-burn-marker {
+    border-right: 2px solid greenyellow ;
+}

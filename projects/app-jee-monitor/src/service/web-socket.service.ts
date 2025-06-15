@@ -5,6 +5,7 @@ import { NgZone } from "@angular/core";
 import { environment } from "@env/environment" ;
 import { StateService } from "./state.service";
 import {
+  DashboardState,
   PauseEnd,
   PauseStart,
   ProblemAttemptEnd,
@@ -61,6 +62,11 @@ export class WebSocketService extends RxStomp implements OnDestroy {
       case "SESSION_EVENT":
         const event = res.payload as SessionEvent ;
         this.processSessionEvent( event ) ;
+        break ;
+
+      case "CURRENT_DASHBOARD_STATE":
+        const state = res.payload as DashboardState ;
+        this.stateSvc.updateDashboardState( state ) ;
         break ;
     }
   }

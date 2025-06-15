@@ -49,3 +49,9 @@ body {
     background-color: #454444;
     color: white;
 }
+
+img[class='icon'] {
+    width: 35px;
+    height: 35px;
+}
+
