@@ -33,6 +33,7 @@ export class Session extends PausableTimedEntity {
 
   private networkSvc: SessionNetworkService = inject( SessionNetworkService ) ;
   private localStorageSvc: LocalStorageService = inject( LocalStorageService ) ;
+  private sessionExtensionInProgress = false ;
 
   sessionType:SessionTypeSO|null = null ;
   syllabus = signal<SyllabusSO|null>(null);
@@ -294,8 +295,14 @@ export class Session extends PausableTimedEntity {
     this.updateEndTime( currentTime ) ;
 
     if( updateServer ) {
-      // Extend the session asynchronously.
-      this.networkSvc.extendSession( this ).then() ;
+      if( !this.sessionExtensionInProgress ) {
+        // Extend the session asynchronously.
+        this.sessionExtensionInProgress = true ;
+        this.networkSvc.extendSession( this ).then( ()=> this.sessionExtensionInProgress = false ) ;
+      }
+      else {
+        console.log( 'Session extension on server in progress. Ignoring duplicate request.' ) ;
+      }
     }
   }
 
