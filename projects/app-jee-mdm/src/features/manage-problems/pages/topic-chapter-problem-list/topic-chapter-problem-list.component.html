@@ -34,6 +34,13 @@
               (click)="attachOnlyAlternateProblems()">Attach only alternates</button>
     </div>
   </div>
+
+  <div class="toolbar-checkbox">
+    <input type="radio" name="visibilityType" value="detachable" [(ngModel)]="visibilityType"> Show only detachable &vert;
+    <input type="radio" name="visibilityType" value="attachable" [(ngModel)]="visibilityType"> Show only attachable &vert;
+    <input type="radio" name="visibilityType" value="all"        [(ngModel)]="visibilityType"> Show all
+  </div>
+
 </page-toolbar>
 
 <div class="page-content">
@@ -74,6 +81,7 @@
           @for( p of ex.problems; track p.problemId ) {
             @let state = problemState[p.problemId] ;
             <tr class="problem-row"
+                *ngIf="isVisible(p)"
                 [class.problem-row-selected]="p.selected"
                 [class]="{'problem-attached':isMappedToCurrentTopic(p), 'problem-available':isProblemUnmapped(p), 'problem-unavailable':isMappedToDifferentTopic(p)}"
                 draggable="true"
@@ -96,7 +104,7 @@
                 @else if ( p.topic!.topicId == selTopic?.topicId ) {
                   @if( state === 'Assigned' ) {
                     <button type="button"
-                            class="btn btn-sm btn-outline-danger row-btn"
+                            class="btn btn-sm btn-danger row-btn"
                             (click)="detachProblem( p )">Detach</button>
                   }
                   @else {

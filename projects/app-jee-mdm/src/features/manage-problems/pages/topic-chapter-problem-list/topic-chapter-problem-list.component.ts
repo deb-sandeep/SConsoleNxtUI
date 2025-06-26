@@ -65,6 +65,8 @@ export class TopicChapterProblemListComponent {
   expandedState:Record<number, boolean> = {} ;
   fullyExpanded:boolean = false ;
 
+  visibilityType = "all" ;
+
   constructor() {
 
     this.topicChapterMappingId = this.route.snapshot.params['topicChapterMappingId'] ;
@@ -124,7 +126,7 @@ export class TopicChapterProblemListComponent {
   }
 
   attachProblem( p:ProblemTopicMapping ) {
-    if( this.isAttachable( p ) ) {
+    if( this.isAttachable( p ) && this.isVisible( p ) ) {
       this.probSvc
           .attachProblems( this.topicChapterMappingId, [p], this.selTopic )
           .then() ;
@@ -132,7 +134,7 @@ export class TopicChapterProblemListComponent {
   }
 
   detachProblem( p:ProblemTopicMapping ) {
-    if( this.isDetachable( p ) ) {
+    if( this.isDetachable( p ) && this.isVisible( p ) ) {
       this.probSvc
           .detachProblems( [p] )
           .then() ;
@@ -174,7 +176,9 @@ export class TopicChapterProblemListComponent {
             // 3) Unavailable -> No action
             if( !this.isMappedToDifferentTopic( ptm ) ) {
               if( this.isProblemUnmapped( ptm ) ) {
-                problemsToAttach.push( ptm ) ;
+                if( this.isVisible( ptm ) ) {
+                  problemsToAttach.push( ptm ) ;
+                }
               }
               counter++ ;
             }
@@ -187,7 +191,9 @@ export class TopicChapterProblemListComponent {
             if( !this.isMappedToDifferentTopic( ptm ) ) {
               if( this.isMappedToCurrentTopic( ptm ) ) {
                 if( this.isDetachable( ptm ) ) {
-                  problemsToDetach.push( ptm ) ;
+                  if( this.isVisible( ptm ) ) {
+                    problemsToDetach.push( ptm ) ;
+                  }
                 }
               }
               counter++ ;
@@ -227,7 +233,7 @@ export class TopicChapterProblemListComponent {
   private selectOnlyAttachableProblems( problems: ProblemTopicMapping[] ) {
     let attachableProblems:ProblemTopicMapping[] = [] ;
     problems.forEach( ptm => {
-      if( this.isAttachable( ptm ) ) {
+      if( this.isAttachable( ptm ) && this.isVisible( ptm ) ) {
         attachableProblems.push( ptm ) ;
       }
     }) ;
@@ -237,7 +243,7 @@ export class TopicChapterProblemListComponent {
   private selectOnlyDetachableProblems( problems: ProblemTopicMapping[] ) {
     let detachableProblems:ProblemTopicMapping[] = [] ;
     problems.forEach( ptm => {
-      if( this.isDetachable( ptm ) ) {
+      if( this.isDetachable( ptm ) && this.isVisible( ptm )) {
         detachableProblems.push( ptm ) ;
       }
     }) ;
@@ -264,7 +270,7 @@ export class TopicChapterProblemListComponent {
     let selectedProblems:ProblemTopicMapping[] = [] ;
     this.data!.exercises.forEach( ex => {
       ex.problems.forEach( p => {
-        if( p.selected ) selectedProblems.push( p ) ;
+        if( p.selected && this.isVisible( p )) selectedProblems.push( p ) ;
       }) ;
     }) ;
     return selectedProblems ;
@@ -274,7 +280,7 @@ export class TopicChapterProblemListComponent {
     try {
       this.data!.exercises.forEach( ex => {
         ex.problems.forEach( p => {
-          if( p.selected ) { throw true ; }
+          if( p.selected && this.isVisible( p ) ) { throw true ; }
         }) ;
       }) ;
     }
@@ -296,7 +302,7 @@ export class TopicChapterProblemListComponent {
     const ptMappings:ProblemTopicMapping[] = [] ;
     this.data!.exercises.forEach( ex => {
       ex.problems.forEach( ptm => {
-        if( this.isProblemUnmapped( ptm ) ) { ptMappings.push( ptm ) }
+        if( this.isProblemUnmapped( ptm ) && this.isVisible( ptm )) { ptMappings.push( ptm ) }
       }) ;
     }) ;
     return ptMappings ;
@@ -306,7 +312,7 @@ export class TopicChapterProblemListComponent {
     const ptMappings:ProblemTopicMapping[] = [] ;
     this.data!.exercises.forEach( ex => {
       ex.problems.forEach( ptm => {
-        if( this.isMappedToCurrentTopic( ptm ) ) {
+        if( this.isMappedToCurrentTopic( ptm ) && this.isVisible( ptm )) {
           ptMappings.push( ptm )
         }
       }) ;
@@ -320,7 +326,7 @@ export class TopicChapterProblemListComponent {
       let isExerciseOperable = limitToSelectedExercises ? ex.selected : true ;
       if( isExerciseOperable ) {
         ex.problems.forEach( ptm => {
-          if( this.isProblemUnmapped( ptm ) ) { ptm.selected = true ; }
+          if( this.isProblemUnmapped( ptm ) && this.isVisible( ptm ) ) { ptm.selected = true ; }
         }) ;
       }
     }) ;
@@ -332,7 +338,7 @@ export class TopicChapterProblemListComponent {
       let isExerciseOperable = limitToSelectedExercises ? ex.selected : true ;
       if( isExerciseOperable ) {
         ex.problems.forEach( ptm => {
-          if( this.isMappedToCurrentTopic( ptm ) ) { ptm.selected = true ; }
+          if( this.isMappedToCurrentTopic( ptm ) && this.isVisible( ptm )) { ptm.selected = true ; }
         }) ;
       }
     }) ;
@@ -419,6 +425,16 @@ export class TopicChapterProblemListComponent {
 
   problemDragOver( p:ProblemTopicMapping ) {
     p.selected = this.dragSelection ;
+  }
+
+  isVisible( p:ProblemTopicMapping ) {
+    if( this.visibilityType === "attachable" ) {
+      return this.isAttachable( p ) ;
+    }
+    if( this.visibilityType === "detachable" ) {
+      return this.isDetachable( p ) ;
+    }
+    return true ;
   }
 
 }

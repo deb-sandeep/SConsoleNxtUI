@@ -9,7 +9,7 @@
 
 .problem-row td {
     font-size: 12px;
-    padding: 3px 5px 3px 5px;
+    padding: 5px 5px 5px 5px;
 }
 
 .problem-row-selected td {
@@ -17,11 +17,11 @@
 }
 
 .problem-available td {
-    background-color: #dffff5;
+    background-color: #f3fdfa;
 }
 
 .problem-attached td {
-    background-color: #faebe0;
+    background-color: #f3f3f3;
 }
 
 .problem-unavailable td {
@@ -64,4 +64,9 @@
     height: 400px;
 }
 
-
+.toolbar-checkbox {
+    display: inline-block;
+    padding-left: 10px;
+    font-size: 13px;
+    color: black;
+}
