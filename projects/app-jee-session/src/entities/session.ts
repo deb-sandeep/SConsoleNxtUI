@@ -313,4 +313,8 @@ export class Session extends PausableTimedEntity {
   public playDoubleBellSound() {
     this.audioClip!.src = 'audio/double-bell.mp3' ;
   }
+
+  public playTripleBellSound() {
+    this.audioClip!.src = 'audio/triple-bell.mp3' ;
+  }
 }
