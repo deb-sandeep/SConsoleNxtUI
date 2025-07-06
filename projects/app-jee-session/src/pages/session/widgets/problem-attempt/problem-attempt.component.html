@@ -23,7 +23,7 @@
     </div>
 
     <div class="problem-total-timer">
-      {{problemAttempt.totalDuration | duration}}
+      {{problemAttempt.totalDuration | duration}} [{{problem.numAttempts+1}}]
     </div>
 
     <div class="problem-key animate__animated animate__backInRight">
@@ -64,7 +64,7 @@
       <div style="width: 20px;display: inline-block"></div>
     }
 
-    @if( isValidAction( 'Redo' ) ) {
+    @if( isValidAction( 'Redo' ) && !isPigeonFavoredOverRedo() ) {
       <action-btn (click)="endProblemAttempt( 'Redo' )"
                   bgColor="#3d0932">
         <span class="bi-arrow-clockwise" style="font-size:45px;"></span>

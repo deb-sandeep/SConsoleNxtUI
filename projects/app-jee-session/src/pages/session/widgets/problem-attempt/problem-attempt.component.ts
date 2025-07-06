@@ -52,6 +52,23 @@ export class ProblemAttemptComponent {
     return this.actionMatrix[ this.problem.problemState ].includes( action ) ;
   }
 
+  // To avoid spending too much time on a single problem and encourage call for assistance,
+  // the redo button is hidden under the following situations:
+  //    1) Total time spent on the problem is more than 30 minutes
+  //    2) Number of attempts (including current) is more than 1 and total time exceeds 20 minutes
+  // This would encourage the student to pigeon the problem if the current attempt does not succeed.
+  isPigeonFavoredOverRedo() {
+      if( this.problemAttempt.totalDuration >= 30*60*1000 ) {
+        return true ;
+      }
+      else if( this.problem.numAttempts + 1 >= 2 ) { // +1 to include the current problem attempt
+        if( this.problemAttempt.totalDuration >= 20*60*1000 ) {
+          return true ;
+        }
+      }
+      return false ;
+  }
+
   async endProblemAttempt( targetState:string ) {
     const nextProblem = await this.stateSvc.session.endProblemAttempt( targetState ) ;
     if( this.autoPlayState && nextProblem ) {
