@@ -88,6 +88,7 @@ export type DashboardState = {
       currentBurnRate: number,
       requiredBurnRate: number,
       numProblemsSolvedToday: number,
+      numPigeons: number,
     }[]
   }[]
 }

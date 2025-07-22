@@ -4,7 +4,7 @@
          [style.border-left-color]="uiSvc.getSyllabusColor( sylState.syllabusName )">
       <img class="icon"
            [src]="'img/' + uiSvc.getSyllabusImgName( sylState.syllabusName )"
-           [style.filter]="uiSvc.getSyllabusCSSImgFilter( sylState.syllabusName )"/>
+           [style.filter]="uiSvc.getSyllabusCSSImgFilter( sylState.syllabusName )" alt="Syllabus Image"/>
 
       <span class="syllabus-name"
             [style.color]="uiSvc.getSyllabusColor( sylState.syllabusName )">
@@ -21,6 +21,9 @@
             {{topicState.topicName}}
             <span class="burn-ratio">
               [{{topicState.numProblemsSolvedToday}}/{{topicState.requiredBurnRate}}]
+            </span>
+            <span class="active-pigeons" *ngIf="topicState.numPigeons>0">
+              (<span class="bi-twitter"></span> <span class="num-pigeons"> {{topicState.numPigeons}}</span>)
             </span>
           </div>
           <burn-bar [currentBurnRate]="topicState.currentBurnRate"

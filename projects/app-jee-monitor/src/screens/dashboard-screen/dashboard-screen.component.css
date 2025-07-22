@@ -37,3 +37,16 @@
     font-family:  'Courier New', Courier, monospace;
     font-size: 20px;
 }
+
+.active-pigeons {
+    color: #636363;
+}
+
+.active-pigeons span.bi-twitter {
+    color: yellow;
+}
+
+.active-pigeons .num-pigeons {
+    color: red;
+    font-weight: bold;
+}
