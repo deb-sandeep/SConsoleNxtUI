@@ -233,7 +233,7 @@ export class TopicSchedule {
         return this.topic.problemCounts.numRemainingProblems / this.numExerciseDaysLeft ;
       }
       else {
-        return this.topic.problemCounts.numProblems / this.exerciseNumDays ;
+        return this.topic.problemCounts.numRemainingProblems / this.exerciseNumDays ;
       }
     }
     return -1 ;
