@@ -1,4 +1,4 @@
-import { Component, input, ViewChild } from '@angular/core';
+import { Component, inject, input, ViewChild } from '@angular/core';
 import dayjs from 'dayjs';
 import { DndDropEvent, DndModule } from "ngx-drag-drop";
 
@@ -10,6 +10,7 @@ import { NgbDateStruct, NgbDatepickerModule, NgbDate, NgbDatepicker } from '@ng-
 import { FormsModule } from '@angular/forms';
 
 import { ConfigUtil } from "../../util/cfg-util";
+import { ManageTracksService } from "../../manage-tracks.service";
 
 @Component({
   selector: 'study-track',
@@ -58,6 +59,8 @@ import { ConfigUtil } from "../../util/cfg-util";
 export class TrackComponent {
 
   @ViewChild('dp') datepicker: NgbDatepicker | undefined;
+
+  private svc = inject( ManageTracksService ) ;
 
   track = input.required<Track>() ;
   showDatePicker = false;
@@ -136,5 +139,6 @@ export class TrackComponent {
     const selectedDate = new Date(date.year, date.month - 1, date.day);
     this.track().setTrackStartDate(selectedDate);
     this.showDatePicker = false;
+    this.svc.notifyTopicScheduleUpdated() ;
   }
 }

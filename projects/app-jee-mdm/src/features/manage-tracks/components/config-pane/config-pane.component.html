@@ -102,7 +102,7 @@
                   <div class="field-input">
                     <input type="number" min="0"
                            [(ngModel)]="selTs.coachingNumDays"
-                           (ngModelChange)="selTs.numDaysEdited()"> days
+                           (ngModelChange)="topicScheduleUpdated( selTs )"> days
                   </div>
                   <div class="default-btn">
                     <button type="button" class="btn-sm"
@@ -117,7 +117,7 @@
                   <div class="field-input">
                     <input type="number" min="0"
                            [(ngModel)]="selTs.selfStudyNumDays"
-                           (ngModelChange)="selTs.numDaysEdited()"> days
+                           (ngModelChange)="topicScheduleUpdated( selTs )"> days
                   </div>
                   <div class="default-btn">
                     <button type="button" class="btn-sm"
@@ -132,7 +132,7 @@
                   <div class="field-input">
                     <input type="number" min="0"
                            [(ngModel)]="selTs.exerciseNumDays"
-                           (ngModelChange)="selTs.numDaysEdited()"> days
+                           (ngModelChange)="topicScheduleUpdated( selTs )"> days
                   </div>
                 </div>
                 <div class="form-row">
@@ -141,7 +141,7 @@
                   <div class="field-input">
                     <input type="number" min="0"
                            [(ngModel)]="selTs.consolidationNumDays"
-                           (ngModelChange)="selTs.numDaysEdited()"> days
+                           (ngModelChange)="topicScheduleUpdated( selTs )"> days
                   </div>
                   <div class="default-btn">
                     <button type="button" class="btn-sm"
@@ -156,7 +156,7 @@
                   <div class="field-input">
                     <input type="number" min="0"
                            [(ngModel)]="selTs.interTopicGapNumDays"
-                           (ngModelChange)="selTs.numDaysEdited()"> days
+                           (ngModelChange)="topicScheduleUpdated( selTs )"> days
                   </div>
                   <div class="default-btn">
                     <button type="button" class="btn-sm"

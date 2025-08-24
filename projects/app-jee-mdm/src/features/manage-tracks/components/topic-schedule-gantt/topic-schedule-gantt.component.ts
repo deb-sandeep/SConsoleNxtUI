@@ -1,7 +1,8 @@
-import { Component, ElementRef, ViewChild, inject, AfterViewInit, OnDestroy } from '@angular/core' ;
+import { Component, ElementRef, ViewChild, inject, AfterViewInit, OnDestroy, effect } from '@angular/core' ;
 import { CommonModule } from '@angular/common' ;
 import { ManageTracksService } from "../../manage-tracks.service" ;
 import { GanttChartRenderer, GanttChartConfig } from './gantt-chart-renderer' ;
+import { Syllabus } from "../../entities/syllabus";
 
 @Component({
   selector: 'topic-schedule-gantt',
@@ -41,12 +42,12 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     headerBackgroundColor: '#e0e0e0',
     trackHeaderBackgroundColor: '#f0f0f0',
     trackBgColors: [
-      '#f9f0ff',  // Default color (same as trackHeaderBackgroundColor)
-      '#e0f6ff',  // Light blue
-      '#f9f0ff',  // Light purple
-      '#fff7e6',  // Light orange
-      '#e6ffe6',  // Light green
-      '#ffe6e6'   // Light red
+      '#ede0fa',
+      '#d7f5ff',
+      '#f9f0ff',
+      '#fff7e6',
+      '#e6ffe6',
+      '#ffe6e6'
     ],
     gridLineColor: '#ddd',
     monthGridLineColor: '#d36767',
@@ -64,7 +65,17 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     }
   };
 
-  constructor() {} 
+  constructor() {
+    effect(() => {
+      const syllabus = this.svc.selectedSyllabus() ;
+      this.renderGanttChart( syllabus ) ;
+    }) ;
+
+    effect(() => {
+      this.svc.topicScheduleUpdated() ;
+      this.renderGanttChart( this.svc.selectedSyllabus() ) ;
+    }) ;
+  }
 
   ngAfterViewInit(): void {
 
@@ -83,7 +94,7 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     // Set up a resize observer to handle canvas resizing
     this.resizeObserver = new ResizeObserver(() => {
       this.renderer.resizeCanvases() ;
-      this.renderGanttChart() ;
+      this.renderGanttChart( this.svc.selectedSyllabus() ) ;
     }) ;
 
     // Observe the content container for size changes
@@ -99,7 +110,7 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
 
     // Initial render
     this.renderer.resizeCanvases();
-    this.renderGanttChart();
+    this.renderGanttChart( this.svc.selectedSyllabus() );
   }
 
   ngOnDestroy(): void {
@@ -119,8 +130,7 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private renderGanttChart(): void {
-    const syllabus = this.svc.selectedSyllabus() ;
+  private renderGanttChart( syllabus:Syllabus ): void {
     if( !syllabus ) return ;
 
     // Render the Gantt chart using the renderer

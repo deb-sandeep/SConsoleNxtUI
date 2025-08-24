@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, Signal, signal } from '@angular/core';
 import { Alert, PageTitleService, RemoteService } from "lib-core";
 
 import { environment } from "@env/environment";
@@ -20,6 +20,8 @@ export class ManageTracksService extends RemoteService {
 
   public selectedSyllabusName = '' ;
   public selectedSyllabus = signal<Syllabus>( this.syllabusMap[this.selectedSyllabusName] ) ;
+
+  private topicScheduleAdjusted = signal<boolean>(false) ;
 
   public selectedTopicSchedule:TopicSchedule|null = null;
 
@@ -51,6 +53,14 @@ export class ManageTracksService extends RemoteService {
       }) ;
     }
     catch (error) { this.alertSvc.error( 'Error : ' + error ) ; }
+  }
+
+  get topicScheduleUpdated(): Signal<boolean> {
+    return this.topicScheduleAdjusted;
+  }
+
+  public notifyTopicScheduleUpdated() {
+    this.topicScheduleAdjusted.set( !this.topicScheduleAdjusted() ) ;
   }
 
   public selectDefaultSyllabus() {

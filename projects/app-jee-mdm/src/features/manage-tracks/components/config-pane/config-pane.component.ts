@@ -55,6 +55,7 @@ export class ConfigPaneComponent {
     const selTs = this.svc.selectedTopicSchedule ;
     selTs!.coachingNumDays = ConfigUtil.getCoachingNumDays( selectedSyllabusName ) ;
     selTs!.numDaysEdited() ;
+    this.svc.notifyTopicScheduleUpdated() ;
   }
 
   setDefaultSelfStudyNumDays() {
@@ -62,18 +63,21 @@ export class ConfigPaneComponent {
     const selTs = this.svc.selectedTopicSchedule ;
     selTs!.selfStudyNumDays = ConfigUtil.getSelfStudyNumDays( selectedSyllabusName ) ;
     selTs!.numDaysEdited() ;
+    this.svc.notifyTopicScheduleUpdated() ;
   }
 
   setDefaultConsolidationNumDays() {
     const selTs = this.svc.selectedTopicSchedule ;
     selTs!.consolidationNumDays = TopicSchedule.DEFAULT_TOPIC_CONSOLIDATION_NUM_DAYS ;
     selTs!.numDaysEdited() ;
+    this.svc.notifyTopicScheduleUpdated() ;
   }
 
   setDefaultInterTopicGapNumDays() {
     const selTs = this.svc.selectedTopicSchedule ;
     selTs!.interTopicGapNumDays = 0 ;
     selTs!.numDaysEdited() ;
+    this.svc.notifyTopicScheduleUpdated() ;
   }
 
   setAllNumDayDefaultValues() {
@@ -84,5 +88,11 @@ export class ConfigPaneComponent {
     selTs!.consolidationNumDays = TopicSchedule.DEFAULT_TOPIC_CONSOLIDATION_NUM_DAYS ;
     selTs!.interTopicGapNumDays = 0 ;
     selTs!.numDaysEdited() ;
+    this.svc.notifyTopicScheduleUpdated() ;
+  }
+
+  topicScheduleUpdated( ts:TopicSchedule ) {
+    ts.numDaysEdited() ;
+    this.svc.notifyTopicScheduleUpdated() ;
   }
 }
