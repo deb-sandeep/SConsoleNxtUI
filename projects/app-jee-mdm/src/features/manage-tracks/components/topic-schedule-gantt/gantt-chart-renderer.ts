@@ -145,8 +145,19 @@ export class GanttChartRenderer {
         const { earliestDate, latestDate } = this.getChartDateBoundaries( tracks );
         if( !earliestDate || !latestDate ) return;
 
+        // Collect all topic schedules from all tracks and sort them by coaching start date
+        const allSchedules: TopicSchedule[] = [];
+        tracks.forEach(track => {
+            for (const schedule of track) {
+                allSchedules.push(schedule);
+            }
+        });
+
+        // Sort schedules by coaching start date (which is the same as startDate)
+        allSchedules.sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+
         // Calculate the parameters required to render the chart
-        const totalRows = this.getTotalRows( tracks );
+        const totalRows = allSchedules.length; // Only count topic schedules, not track headers
         const totalHeight = ( totalRows * this.config.rowHeight );
         const totalDays = dayjs( latestDate ).diff( earliestDate, 'day' ) + 1;
         const requiredWidth = totalDays * this.config.dayWidth;
@@ -171,26 +182,18 @@ export class GanttChartRenderer {
         // Render labels and content
         let currentY = 0;
 
-        tracks.forEach( (track, trackIndex) => {
-            // Render track header in labels canvas
-            this.renderTrackHeader( track, currentY, trackIndex );
+        // Render all topic schedules in sorted order
+        allSchedules.forEach((schedule, index) => {
+            const trackIndex = tracks.indexOf(schedule.track!);
 
-            // Render track content (grid lines) in content canvas
-            this.renderTrackContent( track, currentY, earliestDate!, totalDays, monthBoundaries, weekBoundaries, trackIndex );
+            // Render topic name in labels canvas
+            this.renderTopicLabel( schedule, currentY, trackIndex );
+
+            // Render topic blocks in content canvas
+            this.renderTopicBlocks( schedule, earliestDate!, currentY, trackIndex );
 
             currentY += this.config.rowHeight;
-
-            // Render topic schedules for this track
-            for( const schedule of track ) {
-                // Render topic name in labels canvas
-                this.renderTopicLabel( schedule, currentY, trackIndex );
-
-                // Render topic blocks in content canvas
-                this.renderTopicBlocks( schedule, earliestDate!, currentY, trackIndex );
-
-                currentY += this.config.rowHeight;
-            }
-        } );
+        });
     }
 
     private getChartDateBoundaries( tracks: Track[] ): { earliestDate: Date | null, latestDate: Date | null } {
@@ -217,7 +220,7 @@ export class GanttChartRenderer {
 
         let totalRows = 0;
         tracks.forEach( track => {
-            totalRows += 1; // Track header
+            // No longer counting track headers
             totalRows += track.getNumTopicsScheduled(); // Topic schedules in this track
         } );
         return totalRows;
