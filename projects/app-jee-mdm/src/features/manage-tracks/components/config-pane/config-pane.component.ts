@@ -8,6 +8,8 @@ import {
 import { ManageTracksService } from "../../manage-tracks.service";
 import { FormsModule } from "@angular/forms";
 import { DndModule } from "ngx-drag-drop";
+import { ConfigUtil } from "../../util/cfg-util";
+import { TopicSchedule } from "../../entities/topic-schedule";
 
 @Component({
   selector: 'config-pane',
@@ -43,8 +45,44 @@ export class ConfigPaneComponent {
   }
 
   refreshInitializationData() {
-    let selectedSyllabusName:string = this.svc.selectedSyllabusName ;
+    const selectedSyllabusName:string = this.svc.selectedSyllabusName ;
     this.svc.refreshInitializationData()
         .then( () => this.svc.setSelectedSyllabusName( selectedSyllabusName ) ) ;
+  }
+
+  setDefaultCoachingNumDays() {
+    const selectedSyllabusName:string = this.svc.selectedSyllabusName ;
+    const selTs = this.svc.selectedTopicSchedule ;
+    selTs!.coachingNumDays = ConfigUtil.getCoachingNumDays( selectedSyllabusName ) ;
+    selTs!.numDaysEdited() ;
+  }
+
+  setDefaultSelfStudyNumDays() {
+    const selectedSyllabusName:string = this.svc.selectedSyllabusName ;
+    const selTs = this.svc.selectedTopicSchedule ;
+    selTs!.selfStudyNumDays = ConfigUtil.getSelfStudyNumDays( selectedSyllabusName ) ;
+    selTs!.numDaysEdited() ;
+  }
+
+  setDefaultConsolidationNumDays() {
+    const selTs = this.svc.selectedTopicSchedule ;
+    selTs!.consolidationNumDays = TopicSchedule.DEFAULT_TOPIC_CONSOLIDATION_NUM_DAYS ;
+    selTs!.numDaysEdited() ;
+  }
+
+  setDefaultInterTopicGapNumDays() {
+    const selTs = this.svc.selectedTopicSchedule ;
+    selTs!.interTopicGapNumDays = 0 ;
+    selTs!.numDaysEdited() ;
+  }
+
+  setAllNumDayDefaultValues() {
+    const selectedSyllabusName:string = this.svc.selectedSyllabusName ;
+    const selTs = this.svc.selectedTopicSchedule ;
+    selTs!.coachingNumDays = ConfigUtil.getCoachingNumDays( selectedSyllabusName ) ;
+    selTs!.selfStudyNumDays = ConfigUtil.getSelfStudyNumDays( selectedSyllabusName ) ;
+    selTs!.consolidationNumDays = TopicSchedule.DEFAULT_TOPIC_CONSOLIDATION_NUM_DAYS ;
+    selTs!.interTopicGapNumDays = 0 ;
+    selTs!.numDaysEdited() ;
   }
 }

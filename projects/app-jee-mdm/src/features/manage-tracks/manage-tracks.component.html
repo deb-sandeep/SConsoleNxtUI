@@ -2,7 +2,8 @@
 <alerts-display></alerts-display>
 <div class="page-content">
   <div id="track-pane"
-       [style.width]="trackPanelWidth">
+       [style.width]="trackPanelWidth"
+       [style.height]="getTrackPanelHeight()">
     @if( svc.selectedSyllabus() ) {
       @let tracks = svc.selectedSyllabus()!.tracks ;
       @for( track of tracks ; track track.id ) {
@@ -10,10 +11,18 @@
       }
     }
   </div>
+
   <div id="config-pane"
-       [style.width]="configPanelWidth">
+       [style.width]="configPanelWidth"
+       [style.height]="getTrackPanelHeight()">
     <config-pane></config-pane>
   </div>
+
+  <div id="gantt-pane"
+       [style.height]="ganttPanelHeight">
+
+  </div>
+
   <div id="config-pane-pull-tab"
        [style.right]="configPanelWidth"
        (click)="toggleConfigPane()">
@@ -22,6 +31,17 @@
     }
     @else {
       <span class="bi-chevron-left"></span>
+    }
+  </div>
+
+  <div id="gantt-pane-pull-tab"
+       [style.bottom]="ganttPanelHeight"
+       (click)="toggleGanttPane()">
+    @if( isGanttPaneVisible() ) {
+      <span class="bi-chevron-down"></span>
+    }
+    @else {
+      <span class="bi-chevron-up"></span>
     }
   </div>
 </div>

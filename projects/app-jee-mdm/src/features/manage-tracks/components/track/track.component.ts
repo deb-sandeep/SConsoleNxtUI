@@ -9,7 +9,7 @@ import { DatePipe } from "@angular/common";
 import { NgbDateStruct, NgbDatepickerModule, NgbDate, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 
-import { config } from "../../manage-tracks.config"
+import { ConfigUtil } from "../../util/cfg-util";
 
 @Component({
   selector: 'study-track',
@@ -75,8 +75,8 @@ export class TrackComponent {
 
     const defaultDurationInDays = droppedTopic.getDefaultExerciseDuration() ;
 
-    let selfStudyMargin = this.getSelfStudyNumDays() ;
-    let coachingMargin = this.getCoachingNumDays() ;
+    let selfStudyMargin = ConfigUtil.getSelfStudyNumDays( this.track().syllabusName ) ;
+    let coachingMargin = ConfigUtil.getCoachingNumDays( this.track().syllabusName ) ;
 
     let startDate = this.track().getNextStartDate() ;
     const endDate = dayjs( startDate ).add( defaultDurationInDays, 'days' )
@@ -99,42 +99,6 @@ export class TrackComponent {
 
     this.track().addTopicSchedule( schedule ) ;
     this.track().syllabus.svc.setSelectedTopicSchedule( schedule ) ;
-  }
-
-  private getSelfStudyNumDays() {
-
-    let syllabusName = this.track().syllabus.syllabusName ;
-    if( syllabusName.includes( 'Physics' ) ) {
-      return config.defaultSelfStudyNumDays.physics ;
-    }
-    else if( syllabusName.includes( 'Chemistry' ) ) {
-      return config.defaultSelfStudyNumDays.chemistry ;
-    }
-    else if( syllabusName.includes( 'Maths' ) ) {
-      return config.defaultSelfStudyNumDays.maths ;
-    }
-    else if( syllabusName.includes( 'Reasoning' ) ) {
-      return config.defaultSelfStudyNumDays.reasoning ;
-    }
-    return TopicSchedule.DEFAULT_TOPIC_SELF_STUDY_NUM_DAYS ;
-  }
-
-  private getCoachingNumDays() {
-
-    let syllabusName = this.track().syllabus.syllabusName ;
-    if( syllabusName.includes( 'Physics' ) ) {
-      return config.defaultCoachingNumDays.physics ;
-    }
-    else if( syllabusName.includes( 'Chemistry' ) ) {
-      return config.defaultCoachingNumDays.chemistry ;
-    }
-    else if( syllabusName.includes( 'Maths' ) ) {
-      return config.defaultCoachingNumDays.maths ;
-    }
-    else if( syllabusName.includes( 'Reasoning' ) ) {
-      return config.defaultCoachingNumDays.reasoning ;
-    }
-    return TopicSchedule.DEFAULT_TOPIC_COACHING_NUM_DAYS ;
   }
 
   public toggleDatePicker( event: MouseEvent ): void {

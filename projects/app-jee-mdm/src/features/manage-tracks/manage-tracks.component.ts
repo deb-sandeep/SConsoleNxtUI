@@ -23,8 +23,9 @@ export class ManageTracksComponent {
 
   public svc:ManageTracksService = inject( ManageTracksService ) ;
 
-  configPanelWidth = '20%' ;
   trackPanelWidth = '80%' ;
+  configPanelWidth = '20%' ;
+  ganttPanelHeight: string = '40%' ;
 
   constructor() {
     this.titleSvc.setTitle( "Manage Tracks" ) ;
@@ -43,7 +44,24 @@ export class ManageTracksComponent {
     }
   }
 
+  toggleGanttPane() {
+    if( this.isGanttPaneVisible() ) {
+      this.ganttPanelHeight = '0%' ;
+    }
+    else {
+      this.ganttPanelHeight = '40%' ;
+    }
+  }
+
+  getTrackPanelHeight() {
+    return `calc(100% - var(--page-title-height) - ${this.ganttPanelHeight})` ;
+  }
+
   isConfigPaneVisible() {
     return this.configPanelWidth === '20%' ;
+  }
+
+  isGanttPaneVisible() {
+    return this.ganttPanelHeight === '40%' ;
   }
 }

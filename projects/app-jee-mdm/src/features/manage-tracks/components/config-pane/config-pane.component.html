@@ -104,6 +104,12 @@
                            [(ngModel)]="selTs.coachingNumDays"
                            (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
+                  <div class="default-btn">
+                    <button type="button" class="btn-sm"
+                            (click)="setDefaultCoachingNumDays()">
+                      Use default
+                    </button>
+                  </div>
                 </div>
                 <div class="form-row">
                   <div class="field-label">Self Study</div>
@@ -112,6 +118,12 @@
                     <input type="number" min="0"
                            [(ngModel)]="selTs.selfStudyNumDays"
                            (ngModelChange)="selTs.numDaysEdited()"> days
+                  </div>
+                  <div class="default-btn">
+                    <button type="button" class="btn-sm"
+                            (click)="setDefaultSelfStudyNumDays()">
+                      Use default
+                    </button>
                   </div>
                 </div>
                 <div class="form-row">
@@ -131,6 +143,12 @@
                            [(ngModel)]="selTs.consolidationNumDays"
                            (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
+                  <div class="default-btn">
+                    <button type="button" class="btn-sm"
+                            (click)="setDefaultConsolidationNumDays()">
+                      Use default
+                    </button>
+                  </div>
                 </div>
                 <div class="form-row">
                   <div class="field-label">Inter-topic gap</div>
@@ -139,6 +157,21 @@
                     <input type="number" min="0"
                            [(ngModel)]="selTs.interTopicGapNumDays"
                            (ngModelChange)="selTs.numDaysEdited()"> days
+                  </div>
+                  <div class="default-btn">
+                    <button type="button" class="btn-sm"
+                            (click)="setDefaultInterTopicGapNumDays()">
+                      Use default
+                    </button>
+                  </div>
+                </div>
+                <div class="form-row">
+                  &nbsp;
+                  <div class="default-btn">
+                    <button type="button" class="btn-sm"
+                            (click)="setAllNumDayDefaultValues()">
+                      Use all defaults
+                    </button>
                   </div>
                 </div>
               </div>

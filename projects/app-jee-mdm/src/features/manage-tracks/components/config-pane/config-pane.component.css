@@ -70,3 +70,14 @@
     text-align: right;
     font-family: monospace;
 }
+
+.default-btn {
+    display:  inline-block;
+    float: right;
+}
+
+.default-btn button {
+    border: none;
+    border-radius: 5px;
+    background-color: #dcdcdc;
+}

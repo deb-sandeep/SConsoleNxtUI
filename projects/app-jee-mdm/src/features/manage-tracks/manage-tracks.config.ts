@@ -1,15 +1,15 @@
 export const config = {
 
   defaultCoachingNumDays: {
-    physics: 14,
-    chemistry: 14,
-    maths: 14,
+    physics: 10,
+    chemistry: 10,
+    maths: 10,
     reasoning: 0
   },
   defaultSelfStudyNumDays: {
-    physics: 7,
-    chemistry: 7,
-    maths: 7,
+    physics: 5,
+    chemistry: 5,
+    maths: 5,
     reasoning: 0
   },
   avgTimePerTopicPerDay:45,
