@@ -5,6 +5,7 @@ import { AlertsDisplayComponent, PageTitleComponent, PageTitleService } from "li
 import { ManageTracksService } from "./manage-tracks.service";
 import { ConfigPaneComponent } from "./components/config-pane/config-pane.component";
 import { TrackComponent } from "./components/track/track.component";
+import { TopicScheduleGanttComponent } from "./components/topic-schedule-gantt/topic-schedule-gantt.component";
 
 @Component({
   selector: 'manage-tracks',
@@ -12,7 +13,8 @@ import { TrackComponent } from "./components/track/track.component";
     PageTitleComponent,
     AlertsDisplayComponent,
     ConfigPaneComponent,
-    TrackComponent
+    TrackComponent,
+    TopicScheduleGanttComponent
   ],
   templateUrl: './manage-tracks.component.html',
   styleUrl: './manage-tracks.component.css'
