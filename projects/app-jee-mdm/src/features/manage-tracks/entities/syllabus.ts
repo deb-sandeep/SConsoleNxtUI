@@ -49,9 +49,15 @@ export class Syllabus {
   }
 
   isDirty() {
+    console.log( 'Check syllabus ' + this.syllabusName + ' isDirty()' ) ;
     for( let track of this.tracks ) {
-      if( track.isDirty() ) return true ;
+      if( track.isDirty() ) {
+        console.log( '  Track ' + track.trackName + ' is dirty' ) ;
+        console.log( 'Returning syllabus as dirty' ) ;
+        return true ;
+      }
     }
+    console.log( 'Syllabus is not dirty' ) ;
     return false ;
   }
 

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ViewChild } from '@angular/core';
 import dayjs from 'dayjs';
 import { DndDropEvent, DndModule } from "ngx-drag-drop";
 
@@ -6,18 +6,20 @@ import { TopicScheduleComponent } from "../topic-schedule/topic-schedule.compone
 import { Track } from "../../entities/track";
 import { TopicSchedule } from "../../entities/topic-schedule";
 import { DatePipe } from "@angular/common";
+import { NgbDateStruct, NgbDatepickerModule, NgbDate, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 import { config } from "../../manage-tracks.config"
 
 @Component({
   selector: 'study-track',
-  imports: [ DndModule, TopicScheduleComponent, DatePipe ],
+  imports: [ DndModule, TopicScheduleComponent, DatePipe, NgbDatepickerModule, FormsModule ],
   template: `
     @if( track() ) {
       @let trackBgColor = track().colors.bodyBackground ;
       @let titleBgColor = track().colors.titleBackground ;
       @let titleFgColor = track().colors.titleForeground ;
-      
+
       <div class="track"
            [style.background-color]="trackBgColor"
            [style.width]="getTrackWidth()"
@@ -27,7 +29,9 @@ import { config } from "../../manage-tracks.config"
         <div class="track-title"
              [style.background-color]="titleBgColor"
              [style.color]="titleFgColor">
-          <div class="track-start-date">{{ track().scheduleListHead?.startDate | date}}</div>
+          <div class="track-start-date" (click)="toggleDatePicker($event)">
+            {{ track().scheduleListHead?.startDate | date }}
+          </div>
           <div class="track-name">[ {{ track().trackName }} ]</div>
           <div class="track-end-date">{{ track().scheduleListTail?.endDate | date}}</div>
         </div>
@@ -36,6 +40,16 @@ import { config } from "../../manage-tracks.config"
             <topic-schedule [schedule]="topicSchedule"></topic-schedule>
           }
         </div>
+        @if( showDatePicker ) {
+          <div class="date-picker-overlay" (click)="closeDatePicker($event)">
+            <div class="date-picker-container" (click)="$event.stopPropagation()">
+              <ngb-datepicker #dp
+                              [(ngModel)]="selectedDate"
+                              (dateSelect)="onDateSelect($event)">
+              </ngb-datepicker>
+            </div>
+          </div>
+        }
       </div>
     }
   `,
@@ -43,7 +57,11 @@ import { config } from "../../manage-tracks.config"
 })
 export class TrackComponent {
 
+  @ViewChild('dp') datepicker: NgbDatepicker | undefined;
+
   track = input.required<Track>() ;
+  showDatePicker = false;
+  selectedDate: NgbDateStruct | null = null;
 
   public getTrackWidth():string {
     let numTracks = this.track().syllabus.tracks.length ;
@@ -117,5 +135,42 @@ export class TrackComponent {
       return config.defaultCoachingNumDays.reasoning ;
     }
     return TopicSchedule.DEFAULT_TOPIC_COACHING_NUM_DAYS ;
+  }
+
+  public toggleDatePicker( event: MouseEvent ): void {
+    event.stopPropagation();
+    this.showDatePicker = !this.showDatePicker;
+    if( this.showDatePicker ) {
+      const startDate = this.track().startDate;
+      if( startDate ) {
+        const date = new Date(startDate);
+        this.selectedDate = {
+          year: date.getFullYear(),
+          month: date.getMonth() + 1,
+          day: date.getDate()
+        } ;
+
+        // Navigate the datepicker to the selected month and year
+        setTimeout(() => {
+          if (this.datepicker) {
+            this.datepicker.navigateTo({
+              year: this.selectedDate!.year,
+              month: this.selectedDate!.month,
+            });
+          }
+        });
+      }
+    }
+  }
+
+  public closeDatePicker(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showDatePicker = false;
+  }
+
+  public onDateSelect(date: NgbDate): void {
+    const selectedDate = new Date(date.year, date.month - 1, date.day);
+    this.track().setTrackStartDate(selectedDate);
+    this.showDatePicker = false;
   }
 }

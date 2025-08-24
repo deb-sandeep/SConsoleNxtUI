@@ -105,6 +105,7 @@ export class TopicSchedule {
 
   public numDaysEdited() {
     this.track!.recomputeScheduleSequenceAttributes() ;
+    this.dirtyFlag = true ;
     //this.printMilestoneDates() ;
   }
 
