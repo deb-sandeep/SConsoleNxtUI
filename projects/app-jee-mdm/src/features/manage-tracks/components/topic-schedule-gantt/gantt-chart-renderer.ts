@@ -121,7 +121,7 @@ export class GanttChartRenderer {
     // Resize content canvas - use scrollWidth to ensure it's wide enough for scrolling
     // Note: We'll adjust this width further in renderGanttChart if needed
     this.canvases.contentCanvas.width = contentContainer.scrollWidth || contentContainer.clientWidth;
-    this.canvases.contentCanvas.height = contentContainer.clientHeight;
+    this.canvases.contentCanvas.height = contentContainer.scrollHeight || contentContainer.clientHeight;
   }
 
   public renderGanttChart(tracks: Track[]): void {

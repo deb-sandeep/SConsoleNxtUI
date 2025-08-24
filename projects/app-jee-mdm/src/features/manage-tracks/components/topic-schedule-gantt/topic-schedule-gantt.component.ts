@@ -58,7 +58,7 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
 
   constructor() {}
 
-  private handleScroll = () => {
+  private handleContentScroll = () => {
     const contentContainer = this.contentCanvas.parentElement!;
 
     // Sync header canvas with horizontal scroll
@@ -68,6 +68,14 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     // Sync labels canvas with vertical scroll
     const labelsContainer = this.labelsCanvas.parentElement!;
     labelsContainer.scrollTop = contentContainer.scrollTop;
+  };
+
+  private handleLabelsScroll = () => {
+    const labelsContainer = this.labelsCanvas.parentElement!;
+    const contentContainer = this.contentCanvas.parentElement!;
+
+    // Sync content canvas with vertical scroll from labels
+    contentContainer.scrollTop = labelsContainer.scrollTop;
   };
 
   ngAfterViewInit(): void {
@@ -94,7 +102,11 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     this.resizeObserver.observe(contentContainer);
 
     // Set up scroll synchronization
-    contentContainer.addEventListener('scroll', this.handleScroll);
+    contentContainer.addEventListener('scroll', this.handleContentScroll);
+
+    // Set up scroll synchronization for labels container
+    const labelsContainer = this.labelsCanvas.parentElement!;
+    labelsContainer.addEventListener('scroll', this.handleLabelsScroll);
 
     // Initial render
     this.renderer.resizeCanvases();
@@ -106,10 +118,15 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
       this.resizeObserver.disconnect();
     }
 
-    // Remove scroll event listener
+    // Remove scroll event listeners
     const contentContainer = this.contentCanvas.parentElement;
     if (contentContainer) {
-      contentContainer.removeEventListener('scroll', this.handleScroll);
+      contentContainer.removeEventListener('scroll', this.handleContentScroll);
+    }
+
+    const labelsContainer = this.labelsCanvas.parentElement;
+    if (labelsContainer) {
+      labelsContainer.removeEventListener('scroll', this.handleLabelsScroll);
     }
   }
 

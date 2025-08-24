@@ -35,7 +35,7 @@
   position: sticky;
   left: 0;
   z-index: 2;
-  overflow-y: hidden;
+  overflow-y: auto;
   background-color: #f9f9f9;
 }
 
