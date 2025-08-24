@@ -1,30 +1,30 @@
-import { Component, ElementRef, ViewChild, inject, AfterViewInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ManageTracksService } from "../../manage-tracks.service";
-import { GanttChartRenderer, GanttChartConfig } from './gantt-chart-renderer';
+import { Component, ElementRef, ViewChild, inject, AfterViewInit, OnDestroy } from '@angular/core' ;
+import { CommonModule } from '@angular/common' ;
+import { ManageTracksService } from "../../manage-tracks.service" ;
+import { GanttChartRenderer, GanttChartConfig } from './gantt-chart-renderer' ;
 
 @Component({
   selector: 'topic-schedule-gantt',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './topic-schedule-gantt.component.html',
-  styleUrl: './topic-schedule-gantt.component.css'
+  imports: [CommonModule] ,
+  templateUrl: './topic-schedule-gantt.component.html' ,
+  styleUrl: './topic-schedule-gantt.component.css' 
 })
 export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
 
-  @ViewChild('cornerCanvas') cornerCanvasRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('headerCanvas') headerCanvasRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('labelsCanvas') labelsCanvasRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('contentCanvas') contentCanvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('cornerCanvas') cornerCanvasRef!: ElementRef<HTMLCanvasElement> ;
+  @ViewChild('headerCanvas') headerCanvasRef!: ElementRef<HTMLCanvasElement> ;
+  @ViewChild('labelsCanvas') labelsCanvasRef!: ElementRef<HTMLCanvasElement> ;
+  @ViewChild('contentCanvas') contentCanvasRef!: ElementRef<HTMLCanvasElement> ;
 
-  public svc: ManageTracksService = inject(ManageTracksService);
+  public svc: ManageTracksService = inject(ManageTracksService) ;
 
-  private cornerCanvas!: HTMLCanvasElement;
-  private headerCanvas!: HTMLCanvasElement;
-  private labelsCanvas!: HTMLCanvasElement;
-  private contentCanvas!: HTMLCanvasElement;
-  private resizeObserver!: ResizeObserver;
-  private renderer!: GanttChartRenderer;
+  private cornerCanvas!: HTMLCanvasElement ;
+  private headerCanvas!: HTMLCanvasElement ;
+  private labelsCanvas!: HTMLCanvasElement ;
+  private contentCanvas!: HTMLCanvasElement ;
+  private resizeObserver!: ResizeObserver ;
+  private renderer!: GanttChartRenderer ;
 
   // Gantt chart configuration
   private config: GanttChartConfig = {
@@ -56,38 +56,38 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     }
   };
 
-  constructor() {}
+  constructor() {} 
 
   ngAfterViewInit(): void {
 
-    this.cornerCanvas = this.cornerCanvasRef.nativeElement;
-    this.headerCanvas = this.headerCanvasRef.nativeElement;
-    this.labelsCanvas = this.labelsCanvasRef.nativeElement;
-    this.contentCanvas = this.contentCanvasRef.nativeElement;
+    this.cornerCanvas = this.cornerCanvasRef.nativeElement ;
+    this.headerCanvas = this.headerCanvasRef.nativeElement ;
+    this.labelsCanvas = this.labelsCanvasRef.nativeElement ;
+    this.contentCanvas = this.contentCanvasRef.nativeElement ;
 
     this.renderer = new GanttChartRenderer({
-      cornerCanvas: this.cornerCanvas,
-      headerCanvas: this.headerCanvas,
-      labelsCanvas: this.labelsCanvas,
+      cornerCanvas: this.cornerCanvas ,
+      headerCanvas: this.headerCanvas ,
+      labelsCanvas: this.labelsCanvas ,
       contentCanvas: this.contentCanvas
-    }, this.config);
+    }, this.config) ;
 
     // Set up a resize observer to handle canvas resizing
     this.resizeObserver = new ResizeObserver(() => {
-      this.renderer.resizeCanvases();
-      this.renderGanttChart();
-    });
+      this.renderer.resizeCanvases() ;
+      this.renderGanttChart() ;
+    }) ;
 
     // Observe the content container for size changes
     const contentContainer = this.contentCanvas.parentElement!;
-    this.resizeObserver.observe(contentContainer);
+    this.resizeObserver.observe(contentContainer) ;
 
     // Set up scroll synchronization
-    contentContainer.addEventListener('scroll', this.handleContentScroll);
+    contentContainer.addEventListener('scroll', this.handleContentScroll) ;
 
     // Set up scroll synchronization for labels container
     const labelsContainer = this.labelsCanvas.parentElement!;
-    labelsContainer.addEventListener('scroll', this.handleLabelsScroll);
+    labelsContainer.addEventListener('scroll', this.handleLabelsScroll) ;
 
     // Initial render
     this.renderer.resizeCanvases();
