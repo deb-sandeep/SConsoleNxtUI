@@ -42,26 +42,27 @@ export interface GanttChartConfig {
 }
 
 interface GanttCanvases {
-  cornerCanvas: HTMLCanvasElement;
-  headerCanvas: HTMLCanvasElement;
-  labelsCanvas: HTMLCanvasElement;
-  contentCanvas: HTMLCanvasElement;
+  cornerCanvas: HTMLCanvasElement ;
+  headerCanvas: HTMLCanvasElement ;
+  labelsCanvas: HTMLCanvasElement ;
+  contentCanvas: HTMLCanvasElement ;
 }
 
 export class GanttChartRenderer {
-  private canvases: GanttCanvases;
-  private cornerCtx: CanvasRenderingContext2D;
-  private headerCtx: CanvasRenderingContext2D;
-  private labelsCtx: CanvasRenderingContext2D;
-  private contentCtx: CanvasRenderingContext2D;
-  private config: GanttChartConfig;
+  private canvases: GanttCanvases ;
+  private cornerCtx: CanvasRenderingContext2D ;
+  private headerCtx: CanvasRenderingContext2D ;
+  private labelsCtx: CanvasRenderingContext2D ;
+  private contentCtx: CanvasRenderingContext2D ;
 
-  constructor(canvases: GanttCanvases, config?: Partial<GanttChartConfig>) {
-    this.canvases = canvases;
-    this.cornerCtx = this.canvases.cornerCanvas.getContext('2d')!;
-    this.headerCtx = this.canvases.headerCanvas.getContext('2d')!;
-    this.labelsCtx = this.canvases.labelsCanvas.getContext('2d')!;
-    this.contentCtx = this.canvases.contentCanvas.getContext('2d')!;
+  private readonly config: GanttChartConfig;
+
+  constructor( canvases: GanttCanvases, config?: Partial<GanttChartConfig> ) {
+    this.canvases = canvases ;
+    this.cornerCtx = this.canvases.cornerCanvas.getContext('2d')! ;
+    this.headerCtx = this.canvases.headerCanvas.getContext('2d')! ;
+    this.labelsCtx = this.canvases.labelsCanvas.getContext('2d')! ;
+    this.contentCtx = this.canvases.contentCanvas.getContext('2d')! ;
 
     // Default configuration
     this.config = {
@@ -91,11 +92,11 @@ export class GanttChartRenderer {
         exercise: '#FFC107',     // Yellow
         consolidation: '#FF5722' // Orange
       }
-    };
+    } ;
 
-    // Override defaults with provided config
+    // Override defaults with the provided config
     if (config) {
-      this.config = { ...this.config, ...config };
+      this.config = { ...this.config, ...config } ;
     }
   }
 

@@ -41,7 +41,7 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     headerBackgroundColor: '#e0e0e0',
     trackHeaderBackgroundColor: '#f0f0f0',
     gridLineColor: '#ddd',
-    monthGridLineColor: '#871f1f',
+    monthGridLineColor: '#d36767',
     weekGridLineColor: '#bbb',
     headerSeparatorColor: '#999',
     rowSeparatorColor: '#eee',
@@ -58,27 +58,8 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
 
   constructor() {}
 
-  private handleContentScroll = () => {
-    const contentContainer = this.contentCanvas.parentElement!;
-
-    // Sync header canvas with horizontal scroll
-    const headerContainer = this.headerCanvas.parentElement!;
-    headerContainer.scrollLeft = contentContainer.scrollLeft;
-
-    // Sync labels canvas with vertical scroll
-    const labelsContainer = this.labelsCanvas.parentElement!;
-    labelsContainer.scrollTop = contentContainer.scrollTop;
-  };
-
-  private handleLabelsScroll = () => {
-    const labelsContainer = this.labelsCanvas.parentElement!;
-    const contentContainer = this.contentCanvas.parentElement!;
-
-    // Sync content canvas with vertical scroll from labels
-    contentContainer.scrollTop = labelsContainer.scrollTop;
-  };
-
   ngAfterViewInit(): void {
+
     this.cornerCanvas = this.cornerCanvasRef.nativeElement;
     this.headerCanvas = this.headerCanvasRef.nativeElement;
     this.labelsCanvas = this.labelsCanvasRef.nativeElement;
@@ -126,15 +107,35 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
 
     const labelsContainer = this.labelsCanvas.parentElement;
     if (labelsContainer) {
-      labelsContainer.removeEventListener('scroll', this.handleLabelsScroll);
+      labelsContainer.removeEventListener('scroll', this.handleLabelsScroll ) ;
     }
   }
 
   private renderGanttChart(): void {
-    const syllabus = this.svc.selectedSyllabus();
-    if (!syllabus) return;
+    const syllabus = this.svc.selectedSyllabus() ;
+    if( !syllabus ) return ;
 
     // Render the Gantt chart using the renderer
-    this.renderer.renderGanttChart(syllabus.tracks);
+    this.renderer.renderGanttChart( syllabus.tracks ) ;
   }
+
+  private handleContentScroll = () => {
+    const contentContainer = this.contentCanvas.parentElement!;
+
+    // Sync header canvas with horizontal scroll
+    const headerContainer = this.headerCanvas.parentElement!;
+    headerContainer.scrollLeft = contentContainer.scrollLeft;
+
+    // Sync labels canvas with vertical scroll
+    const labelsContainer = this.labelsCanvas.parentElement!;
+    labelsContainer.scrollTop = contentContainer.scrollTop;
+  };
+
+  private handleLabelsScroll = () => {
+    const labelsContainer = this.labelsCanvas.parentElement!;
+    const contentContainer = this.contentCanvas.parentElement!;
+
+    // Sync content canvas with vertical scroll from labels
+    contentContainer.scrollTop = labelsContainer.scrollTop;
+  };
 }
