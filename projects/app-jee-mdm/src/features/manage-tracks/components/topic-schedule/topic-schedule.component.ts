@@ -37,4 +37,6 @@ export class TopicScheduleComponent {
     }
     return '0' ;
   }
+
+  protected readonly TopicSchedule = TopicSchedule;
 }

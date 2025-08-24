@@ -35,6 +35,10 @@
     border: 2px solid #ff7a7a;
 }
 
+.topic-schedule-current {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+}
+
 /* ------------------------------------------------------------------- */
 /* Topic title bar buttons                                             */
 /* ------------------------------------------------------------------- */
@@ -201,10 +205,18 @@
 .burn-rate div:nth-child(2) {
     text-align: center;
     height: var(--num-days-height);
-    line-height: var(--num-days-height);
-    font-size:25px;
     background-color: #fde1b7;
     border: 1px solid #ffc698;
+}
+
+.phase-name {
+    text-align: center;
+    font-size: 15px;
+    line-height: var(--num-days-height);
+}
+
+.burn-rate-count {
+    font-size: 25px;
 }
 
 /* ------------------------------------------------------------------- */

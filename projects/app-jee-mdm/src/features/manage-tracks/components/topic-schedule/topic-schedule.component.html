@@ -1,5 +1,6 @@
 <div class="topic-schedule"
-     [class.topic-schedule-selected]="schedule().selected">
+     [class.topic-schedule-selected]="schedule().selected"
+     [class.topic-schedule-current]="schedule().isCurrentlyActive()">
 
   <div class="topic-schedule-title"
        [style.background-color]="colors().titleBackground"
@@ -100,8 +101,19 @@
     </div>
 
     <div class="burn-rate">
-      <div>Burn</div>
-      <div>{{(pc.numProblems / schedule().exerciseNumDays) | number:'1.0-0'}}</div>
+      <div>{{schedule().currentPhase}}</div>
+      @if( schedule().getRequiredBurnRate() != -1 ) {
+        <div>
+          <span class="burn-rate-count">
+            {{schedule().getRequiredBurnRate() | number:'1.0-0'}}
+          </span>
+        </div>
+      }
+      @else {
+        <div>
+          <span class="phase-name">---</span>
+        </div>
+      }
       <div></div>
     </div>
   </div>

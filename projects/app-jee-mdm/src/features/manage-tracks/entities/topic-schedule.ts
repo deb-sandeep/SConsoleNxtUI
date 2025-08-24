@@ -2,12 +2,22 @@ import { TopicTrackAssignmentSO } from "@jee-common/util/master-data-types" ;
 import { Track } from "./track";
 import { Topic } from "./topic";
 import dayjs from "dayjs";
+import isBetween from 'dayjs/plugin/isBetween';
+
+dayjs.extend( isBetween );
 
 export class TopicSchedule {
   static readonly DEFAULT_TOPIC_COACHING_NUM_DAYS = 14 ;
   static readonly DEFAULT_TOPIC_SELF_STUDY_NUM_DAYS = 7 ;
   static readonly DEFAULT_TOPIC_CONSOLIDATION_NUM_DAYS = 7 ;
   static readonly DEFAULT_INTER_TOPIC_GAP_NUM_DAYS = 0 ;
+
+  static readonly PRE_START = "Yet to start" ;
+  static readonly COACHING = "Coaching" ;
+  static readonly SELF_STUDY = "Self study" ;
+  static readonly EXERCISE = "Exercise" ;
+  static readonly CONSOLIDATION = "Wrap-up" ;
+  static readonly POST_END = "Ended" ;
 
   public prev:TopicSchedule|null = null ;
   public next:TopicSchedule|null = null ;
@@ -29,6 +39,18 @@ export class TopicSchedule {
 
   private dirtyFlag:boolean = false ;
 
+  private coachingStartDate:Date ;
+  private coachingEndDate:Date ;
+  private selfStudyStartDate:Date ;
+  private selfStudyEndDate:Date ;
+  private exerciseStartDate:Date ;
+  private exerciseEndDate:Date ;
+  private consolidationStartDate:Date ;
+  private consolidationEndDate:Date ;
+
+  public currentPhase:string = TopicSchedule.PRE_START ;
+  private numExerciseDaysLeft:number = 0 ;
+
   public constructor( vo:TopicTrackAssignmentSO,
                       track:Track,
                       topic:Topic ) {
@@ -47,6 +69,8 @@ export class TopicSchedule {
 
     this.topic = topic ;
     this.track = track ;
+
+    this.computeMilestoneDates() ;
   }
 
   refreshSavedState( schedule: TopicTrackAssignmentSO ) {
@@ -81,6 +105,7 @@ export class TopicSchedule {
 
   public numDaysEdited() {
     this.track!.recomputeScheduleSequenceAttributes() ;
+    //this.printMilestoneDates() ;
   }
 
   public recomputeEndDate() {
@@ -99,6 +124,80 @@ export class TopicSchedule {
       this.endDate = newEndDate ;
       this.dirtyFlag = true ;
     }
+    this.computeMilestoneDates() ;
+  }
+
+  private computeMilestoneDates() {
+    this.coachingStartDate = this.startDate ;
+    this.coachingEndDate = dayjs( this.startDate )
+      .add( this.coachingNumDays, 'days' )
+      .add( -1, 'second')
+      .toDate() ;
+
+    this.selfStudyStartDate = dayjs( this.coachingEndDate )
+      .add( 1, 'second' )
+      .toDate() ;
+    this.selfStudyEndDate = dayjs( this.selfStudyStartDate )
+      .add( this.selfStudyNumDays, 'days' )
+      .add( -1, 'second')
+      .toDate() ;
+
+    this.exerciseStartDate = dayjs( this.selfStudyEndDate )
+      .add( 1, 'second' )
+      .toDate() ;
+
+    this.exerciseEndDate = dayjs( this.exerciseStartDate )
+      .add( this.exerciseNumDays, 'days' )
+      .add( -1, 'second' )
+      .toDate() ;
+
+    this.consolidationStartDate = dayjs( this.exerciseEndDate )
+      .add( 1, 'second' )
+      .toDate() ;
+    this.consolidationEndDate = dayjs( this.consolidationStartDate )
+      .add( this.consolidationNumDays, 'days' )
+      .add( -1,   'second' )
+      .toDate() ;
+
+    this.computeCurrentPhase() ;
+  }
+
+  private computeCurrentPhase() {
+
+    this.numExerciseDaysLeft = -1 ;
+    const now = dayjs( new Date() ) ;
+    if( now.isBefore( this.startDate ) ) {
+      this.currentPhase = TopicSchedule.PRE_START;
+    }
+    else if( now.isBetween( this.startDate, this.coachingEndDate, null, '[]' ) ) {
+      this.currentPhase = TopicSchedule.COACHING;
+    }
+    else if( now.isBetween( this.selfStudyStartDate, this.selfStudyEndDate, null, '[]' ) ) {
+      this.currentPhase = TopicSchedule.SELF_STUDY;
+    }
+    else if( now.isBetween( this.exerciseStartDate, this.exerciseEndDate, null, '[]' ) ) {
+      this.currentPhase = TopicSchedule.EXERCISE;
+      this.numExerciseDaysLeft = dayjs( this.exerciseEndDate ).diff( now, 'days' ) + 1 ;
+    }
+    else if( now.isBetween( this.consolidationStartDate, this.consolidationEndDate, null, '[]' ) ) {
+      this.currentPhase = TopicSchedule.CONSOLIDATION;
+    }
+    else {
+      this.currentPhase = TopicSchedule.POST_END;
+    }
+  }
+
+  public printMilestoneDates() {
+
+    console.log( `Topic ${this.topic.topicName} dates:` ) ;
+    console.log( `  Coaching      : ${ this.fmtDate( this.coachingStartDate      ) } - ${ this.fmtDate( this.coachingEndDate      ) }` );
+    console.log( `  Self Study    : ${ this.fmtDate( this.selfStudyStartDate     ) } - ${ this.fmtDate( this.selfStudyEndDate     ) }` );
+    console.log( `  Exercise      : ${ this.fmtDate( this.exerciseStartDate      ) } - ${ this.fmtDate( this.exerciseEndDate      ) }` );
+    console.log( `  Consolidation : ${ this.fmtDate( this.consolidationStartDate ) } - ${ this.fmtDate( this.consolidationEndDate ) }` );
+  }
+
+  private fmtDate( date: Date ) {
+    return dayjs( date ).format( 'YYYY-MMM-DD:HH-mm-ss' ) ;
   }
 
   public recomputeExerciseDays() {
@@ -125,5 +224,25 @@ export class TopicSchedule {
 
   private addUTCOffset( date:Date ):Date {
     return dayjs( date ).add( dayjs().utcOffset(), 'minutes' ).toDate() ;
+  }
+
+  public getRequiredBurnRate():number {
+    const now = dayjs( new Date() ) ;
+    if( now.isBefore( this.consolidationStartDate ) ) {
+      if( now.isAfter( this.exerciseStartDate ) ) {
+        return this.topic.problemCounts.numRemainingProblems / this.numExerciseDaysLeft ;
+      }
+      else {
+        return this.topic.problemCounts.numProblems / this.exerciseNumDays ;
+      }
+    }
+    return -1 ;
+  }
+
+  public isCurrentlyActive() {
+    return this.currentPhase === TopicSchedule.COACHING ||
+           this.currentPhase === TopicSchedule.SELF_STUDY ||
+           this.currentPhase === TopicSchedule.EXERCISE ||
+           this.currentPhase === TopicSchedule.CONSOLIDATION ;
   }
 }
