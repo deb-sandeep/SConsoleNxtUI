@@ -4,9 +4,10 @@ import { Topic } from "./topic";
 import dayjs from "dayjs";
 
 export class TopicSchedule {
-  static readonly DEFAULT_TOPIC_BUFFER_LEFT_DAYS = 0 ;
-  static readonly DEFAULT_TOPIC_BUFFER_RIGHT_DAYS = 3 ;
-  static readonly DEFAULT_TOPIC_THEORY_MARGIN_DAYS = 5 ;
+  static readonly DEFAULT_TOPIC_COACHING_NUM_DAYS = 14 ;
+  static readonly DEFAULT_TOPIC_SELF_STUDY_NUM_DAYS = 7 ;
+  static readonly DEFAULT_TOPIC_CONSOLIDATION_NUM_DAYS = 7 ;
+  static readonly DEFAULT_INTER_TOPIC_GAP_NUM_DAYS = 0 ;
 
   public prev:TopicSchedule|null = null ;
   public next:TopicSchedule|null = null ;
@@ -16,12 +17,13 @@ export class TopicSchedule {
 
   public id?:number ;
   public sequence:number ;
-  public bufferLeft:number ;
-  public theoryMargin:number ;
-  public exerciseDays:number ;
-  public bufferRight:number ;
+  public coachingNumDays:number ;
+  public selfStudyNumDays:number ;
+  public exerciseNumDays:number ;
+  public consolidationNumDays:number ;
   public startDate:Date ;
   public endDate:Date ;
+  public interTopicGapNumDays:number ;
   public numDays:number ;
   public selected:boolean = false ;
 
@@ -31,15 +33,17 @@ export class TopicSchedule {
                       track:Track,
                       topic:Topic ) {
 
-    this.id           = vo.id ;
-    this.sequence     = vo.sequence ;
-    this.bufferLeft   = vo.bufferLeft ;
-    this.bufferRight  = vo.bufferRight ;
-    this.theoryMargin = vo.theoryMargin ;
-    this.startDate    = dayjs( vo.startDate ).toDate() ;
-    this.endDate      = dayjs( vo.endDate ).toDate() ;
-    this.numDays      = dayjs( this.endDate ).diff( this.startDate, 'days' ) + 1 ;
-    this.exerciseDays = this.numDays - this.bufferLeft - this.bufferRight - this.theoryMargin ;
+    this.id = vo.id ;
+    this.sequence = vo.sequence ;
+    this.startDate = dayjs( vo.startDate ).toDate() ;
+    this.endDate = dayjs( vo.endDate ).toDate() ;
+    this.numDays = dayjs( this.endDate ).diff( this.startDate, 'days' ) + 1 ;
+
+    this.coachingNumDays = vo.coachingNumDays ;
+    this.selfStudyNumDays = vo.selfStudyNumDays ;
+    this.consolidationNumDays  = vo.consolidationNumDays ;
+    this.exerciseNumDays = this.numDays - this.coachingNumDays - this.consolidationNumDays - this.selfStudyNumDays ;
+    this.interTopicGapNumDays = vo.interTopicGapNumDays ;
 
     this.topic = topic ;
     this.track = track ;
@@ -80,7 +84,10 @@ export class TopicSchedule {
   }
 
   public recomputeEndDate() {
-    let newNumDays = this.bufferLeft + this.theoryMargin + this.exerciseDays + this.bufferRight ;
+    let newNumDays = this.coachingNumDays +
+                              this.selfStudyNumDays +
+                              this.exerciseNumDays +
+                              this.consolidationNumDays  ;
     let newEndDate = dayjs( this.startDate ).add( newNumDays-1, 'days' ).toDate() ;
 
     if( newNumDays !== this.numDays ) {
@@ -96,8 +103,8 @@ export class TopicSchedule {
 
   public recomputeExerciseDays() {
     let newExerciseDays = this.topic.getDefaultExerciseDuration() ;
-    if( newExerciseDays != this.exerciseDays ) {
-      this.exerciseDays = newExerciseDays ;
+    if( newExerciseDays != this.exerciseNumDays ) {
+      this.exerciseNumDays = newExerciseDays ;
       this.dirtyFlag = true ;
     }
   }
@@ -107,11 +114,12 @@ export class TopicSchedule {
       trackId: this.track!.id,
       sequence: this.sequence,
       topicId: this.topic.id,
-      bufferLeft: this.bufferLeft,
-      bufferRight: this.bufferRight,
-      theoryMargin: this.theoryMargin,
+      coachingNumDays: this.coachingNumDays,
+      consolidationNumDays: this.consolidationNumDays,
+      selfStudyNumDays: this.selfStudyNumDays,
       startDate: this.addUTCOffset( this.startDate ),
       endDate: this.addUTCOffset( this.endDate ),
+      interTopicGapNumDays: this.interTopicGapNumDays,
     } as TopicTrackAssignmentSO ;
   }
 

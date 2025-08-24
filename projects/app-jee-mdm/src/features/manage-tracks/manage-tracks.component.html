@@ -1,7 +1,8 @@
 <page-title></page-title>
 <alerts-display></alerts-display>
 <div class="page-content">
-  <div id="track-pane">
+  <div id="track-pane"
+       [style.width]="trackPanelWidth">
     @if( svc.selectedSyllabus() ) {
       @let tracks = svc.selectedSyllabus()!.tracks ;
       @for( track of tracks ; track track.id ) {
@@ -9,8 +10,19 @@
       }
     }
   </div>
-  <div id="config-pane">
+  <div id="config-pane"
+       [style.width]="configPanelWidth">
     <config-pane></config-pane>
+  </div>
+  <div id="config-pane-pull-tab"
+       [style.right]="configPanelWidth"
+       (click)="toggleConfigPane()">
+    @if( isConfigPaneVisible() ) {
+      <span class="bi-chevron-right"></span>
+    }
+    @else {
+      <span class="bi-chevron-left"></span>
+    }
   </div>
 </div>
 

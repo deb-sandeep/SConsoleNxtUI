@@ -10,7 +10,6 @@
     top: calc(var(--page-title-height));
     left: 0;
     height: calc(100% - var(--page-title-height));
-    width: 80%;
 }
 
 #config-pane {
@@ -20,6 +19,17 @@
     right: 0;
     height: calc(100% - var(--page-title-height));
     width: 20%;
-    padding: var(--pad-xs);
+}
+
+#config-pane-pull-tab {
+    position: absolute;
+    top:calc(var(--page-title-height));
+    width: 20px;
+    height: 30px;
+    background-color: var( --page-title-bgcolor ) ;
+    color: white;
+    font-size: 20px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 

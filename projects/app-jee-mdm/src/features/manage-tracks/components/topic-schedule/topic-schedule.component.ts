@@ -28,7 +28,7 @@ export class TopicScheduleComponent {
   }
 
   getNumExerciseDays() {
-    return this.schedule().exerciseDays ;
+    return this.schedule().exerciseNumDays ;
   }
 
   getProblemCount( problemType:string, pc:TopicProblemCounts ) {

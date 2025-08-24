@@ -9,7 +9,7 @@
     border-radius: var(--border-radius);
     border: 1px solid #cacaca;
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .topic-schedule-title {
@@ -58,7 +58,7 @@
 /* Date range and num days breakup                                     */
 /* ------------------------------------------------------------------- */
 .date-range {
-    width: 120px;
+    width: 105px;
     display: inline-block;
 }
 
@@ -126,7 +126,7 @@
 }
 
 .total-problems {
-    width: 120px;
+    width: 100px;
     display: inline-block;
 }
 
@@ -220,3 +220,22 @@
     padding: 0 ;
     margin: 0 ;
 }
+
+/* ------------------------------------------------------------------- */
+/* Inter topic gap rendering.                                          */
+/* ------------------------------------------------------------------- */
+.inter-topic-gap {
+    width: 100%;
+    background-color: #dfdfdf;
+    height: 40px;
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+    font-size: 17px;
+    vertical-align: center;
+}
+
+.inter-topic-gap-selected {
+    border: 1px solid #ff7a7a;
+}
+

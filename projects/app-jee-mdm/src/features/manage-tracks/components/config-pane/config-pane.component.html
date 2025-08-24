@@ -97,20 +97,20 @@
               </div>
               <div class="sel-schedule-edit-form">
                 <div class="form-row">
-                  <div class="field-label">Start buffer</div>
+                  <div class="field-label">Coaching</div>
                   <div class="separator"> : </div>
                   <div class="field-input">
                     <input type="number" min="0"
-                           [(ngModel)]="selTs.bufferLeft"
+                           [(ngModel)]="selTs.coachingNumDays"
                            (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
                 </div>
                 <div class="form-row">
-                  <div class="field-label">Lead theory</div>
+                  <div class="field-label">Self Study</div>
                   <div class="separator"> : </div>
                   <div class="field-input">
                     <input type="number" min="0"
-                           [(ngModel)]="selTs.theoryMargin"
+                           [(ngModel)]="selTs.selfStudyNumDays"
                            (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
                 </div>
@@ -119,16 +119,25 @@
                   <div class="separator"> : </div>
                   <div class="field-input">
                     <input type="number" min="0"
-                           [(ngModel)]="selTs.exerciseDays"
+                           [(ngModel)]="selTs.exerciseNumDays"
                            (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
                 </div>
                 <div class="form-row">
-                  <div class="field-label">End buffer</div>
+                  <div class="field-label">Consolidation</div>
                   <div class="separator"> : </div>
                   <div class="field-input">
                     <input type="number" min="0"
-                           [(ngModel)]="selTs.bufferRight"
+                           [(ngModel)]="selTs.consolidationNumDays"
+                           (ngModelChange)="selTs.numDaysEdited()"> days
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field-label">Inter-topic gap</div>
+                  <div class="separator"> : </div>
+                  <div class="field-input">
+                    <input type="number" min="0"
+                           [(ngModel)]="selTs.interTopicGapNumDays"
                            (ngModelChange)="selTs.numDaysEdited()"> days
                   </div>
                 </div>

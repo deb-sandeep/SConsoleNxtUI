@@ -45,23 +45,23 @@
        [style.background-color]="colors().bodyBackground">
 
     <div class="date-range">
-      <div class="start-date">{{ schedule().startDate | date}}</div>
+      <div class="start-date">{{ schedule().startDate | date:'MMM d, yy'}}</div>
       <div class="num-total-days">{{ schedule().numDays }} days</div>
-      <div class="end-date">{{schedule().endDate | date}}</div>
+      <div class="end-date">{{schedule().endDate | date:'MMM d, yy'}}</div>
     </div>
 
     <div class="days-breakup">
-      <div><span class="num-days">{{ schedule().bufferLeft   }}d</span> <span class="days-label">Start buffer</span></div>
-      <div><span class="num-days">{{ schedule().theoryMargin }}d</span> <span class="days-label">Lead theory</span></div>
+      <div><span class="num-days">{{ schedule().coachingNumDays   }}d</span> <span class="days-label">Coaching</span></div>
+      <div><span class="num-days">{{ schedule().selfStudyNumDays }}d</span> <span class="days-label">Self Study</span></div>
       <div>
-        <span class="num-days">{{ schedule().exerciseDays }}d</span>
+        <span class="num-days">{{ schedule().exerciseNumDays }}d</span>
         <span class="days-label">Exercise</span>&nbsp;
         <span class="bi-arrow-clockwise" style="font-size: 11px;"
               *ngIf="getNumExerciseDays() != getDefaultNumExerciseDays()"
               [style.color]="getDefaultNumExerciseDays() > getNumExerciseDays() ? 'green':'red'"
               (click)="recomputeExerciseDays()"></span>
       </div>
-      <div><span class="num-days">{{ schedule().bufferRight  }}d</span> <span class="days-label">End buffer</span></div>
+      <div><span class="num-days">{{ schedule().consolidationNumDays  }}d</span> <span class="days-label">Consolidation</span></div>
     </div>
 
     <div class="problem-counts">
@@ -101,9 +101,14 @@
 
     <div class="burn-rate">
       <div>Burn</div>
-      <div>{{(pc.numProblems / schedule().exerciseDays) | number:'1.0-0'}}</div>
+      <div>{{(pc.numProblems / schedule().exerciseNumDays) | number:'1.0-0'}}</div>
       <div></div>
     </div>
   </div>
+</div>
 
+<div *ngIf="schedule().interTopicGapNumDays > 0"
+     class="inter-topic-gap"
+     [class.inter-topic-gap-selected]="schedule().selected">
+  {{schedule().interTopicGapNumDays}} days gap
 </div>

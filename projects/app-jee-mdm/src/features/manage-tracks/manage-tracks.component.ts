@@ -23,9 +23,27 @@ export class ManageTracksComponent {
 
   public svc:ManageTracksService = inject( ManageTracksService ) ;
 
+  configPanelWidth = '20%' ;
+  trackPanelWidth = '80%' ;
+
   constructor() {
     this.titleSvc.setTitle( "Manage Tracks" ) ;
     this.svc.refreshInitializationData()
         .then( () => this.svc.selectDefaultSyllabus() ) ;
+  }
+
+  toggleConfigPane() {
+    if( this.isConfigPaneVisible() ) {
+      this.configPanelWidth = '0%' ;
+      this.trackPanelWidth = '100%' ;
+    }
+    else {
+      this.configPanelWidth = '20%' ;
+      this.trackPanelWidth = '80%' ;
+    }
+  }
+
+  isConfigPaneVisible() {
+    return this.configPanelWidth === '20%' ;
   }
 }

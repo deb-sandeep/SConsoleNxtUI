@@ -57,45 +57,65 @@ export class TrackComponent {
 
     const defaultDurationInDays = droppedTopic.getDefaultExerciseDuration() ;
 
-    let theoryMargin = this.getTheoryMarginNumDays() ;
+    let selfStudyMargin = this.getSelfStudyNumDays() ;
+    let coachingMargin = this.getCoachingNumDays() ;
 
     let startDate = this.track().getNextStartDate() ;
     const endDate = dayjs( startDate ).add( defaultDurationInDays, 'days' )
-                                             .add( TopicSchedule.DEFAULT_TOPIC_BUFFER_LEFT_DAYS, 'days' )
-                                             .add( TopicSchedule.DEFAULT_TOPIC_BUFFER_RIGHT_DAYS, 'days' )
-                                             .add( theoryMargin, 'days' )
+                                             .add( TopicSchedule.DEFAULT_TOPIC_COACHING_NUM_DAYS, 'days' )
+                                             .add( TopicSchedule.DEFAULT_TOPIC_CONSOLIDATION_NUM_DAYS, 'days' )
+                                             .add( selfStudyMargin, 'days' )
                                              .toDate() ;
 
     const schedule = new TopicSchedule({
       trackId:this.track().id,
       sequence:this.track().getNumTopicsScheduled()+1,
       topicId:droppedTopic.id,
-      bufferLeft:TopicSchedule.DEFAULT_TOPIC_BUFFER_LEFT_DAYS,
-      bufferRight:TopicSchedule.DEFAULT_TOPIC_BUFFER_RIGHT_DAYS,
-      theoryMargin:theoryMargin,
       startDate:startDate,
+      coachingNumDays:coachingMargin,
+      selfStudyNumDays:selfStudyMargin,
+      consolidationNumDays:TopicSchedule.DEFAULT_TOPIC_CONSOLIDATION_NUM_DAYS,
       endDate:endDate,
+      interTopicGapNumDays:TopicSchedule.DEFAULT_INTER_TOPIC_GAP_NUM_DAYS
     }, this.track(), droppedTopic ) ;
 
     this.track().addTopicSchedule( schedule ) ;
     this.track().syllabus.svc.setSelectedTopicSchedule( schedule ) ;
   }
 
-  private getTheoryMarginNumDays() {
+  private getSelfStudyNumDays() {
 
     let syllabusName = this.track().syllabus.syllabusName ;
     if( syllabusName.includes( 'Physics' ) ) {
-      return config.leadTheoryDays.physics ;
+      return config.defaultSelfStudyNumDays.physics ;
     }
     else if( syllabusName.includes( 'Chemistry' ) ) {
-      return config.leadTheoryDays.chemistry ;
+      return config.defaultSelfStudyNumDays.chemistry ;
     }
     else if( syllabusName.includes( 'Maths' ) ) {
-      return config.leadTheoryDays.maths ;
+      return config.defaultSelfStudyNumDays.maths ;
     }
     else if( syllabusName.includes( 'Reasoning' ) ) {
-      return config.leadTheoryDays.reasoning ;
+      return config.defaultSelfStudyNumDays.reasoning ;
     }
-    return TopicSchedule.DEFAULT_TOPIC_THEORY_MARGIN_DAYS ;
+    return TopicSchedule.DEFAULT_TOPIC_SELF_STUDY_NUM_DAYS ;
+  }
+
+  private getCoachingNumDays() {
+
+    let syllabusName = this.track().syllabus.syllabusName ;
+    if( syllabusName.includes( 'Physics' ) ) {
+      return config.defaultCoachingNumDays.physics ;
+    }
+    else if( syllabusName.includes( 'Chemistry' ) ) {
+      return config.defaultCoachingNumDays.chemistry ;
+    }
+    else if( syllabusName.includes( 'Maths' ) ) {
+      return config.defaultCoachingNumDays.maths ;
+    }
+    else if( syllabusName.includes( 'Reasoning' ) ) {
+      return config.defaultCoachingNumDays.reasoning ;
+    }
+    return TopicSchedule.DEFAULT_TOPIC_COACHING_NUM_DAYS ;
   }
 }

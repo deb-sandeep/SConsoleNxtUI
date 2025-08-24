@@ -19,11 +19,12 @@ export type TopicTrackAssignmentSO = {
   trackId:number,
   sequence:number,
   topicId:number,
-  bufferLeft:number,
-  bufferRight:number,
-  theoryMargin:number,
   startDate:Date,
+  coachingNumDays:number,
+  selfStudyNumDays:number,
+  consolidationNumDays:number,
   endDate:Date,
+  interTopicGapNumDays:number
 }
 
 export type TrackSO = {

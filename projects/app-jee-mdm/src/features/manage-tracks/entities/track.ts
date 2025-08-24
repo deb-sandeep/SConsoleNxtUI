@@ -192,7 +192,7 @@ export class Track {
     while( currentSchedule != null ) {
       currentSchedule.sequence = nextSequenceNumber ;
       currentSchedule.alignStartDate( nextStartDate ) ;
-      nextStartDate = dayjs( currentSchedule.endDate ).add( 1, 'day' ).toDate() ;
+      nextStartDate = dayjs( currentSchedule.endDate ).add( 1 + currentSchedule.interTopicGapNumDays, 'day' ).toDate() ;
 
       currentSchedule = currentSchedule.next ;
       nextSequenceNumber += 1 ;
