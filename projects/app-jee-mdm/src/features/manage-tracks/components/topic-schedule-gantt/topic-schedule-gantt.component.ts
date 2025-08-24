@@ -40,6 +40,14 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
 
     headerBackgroundColor: '#e0e0e0',
     trackHeaderBackgroundColor: '#f0f0f0',
+    trackBgColors: [
+      '#f9f0ff',  // Default color (same as trackHeaderBackgroundColor)
+      '#e0f6ff',  // Light blue
+      '#f9f0ff',  // Light purple
+      '#fff7e6',  // Light orange
+      '#e6ffe6',  // Light green
+      '#ffe6e6'   // Light red
+    ],
     gridLineColor: '#ddd',
     monthGridLineColor: '#d36767',
     weekGridLineColor: '#bbb',

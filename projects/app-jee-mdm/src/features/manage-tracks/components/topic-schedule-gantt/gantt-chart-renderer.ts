@@ -24,6 +24,7 @@ export interface GanttChartConfig {
     // Color configuration
     headerBackgroundColor: string;
     trackHeaderBackgroundColor: string;
+    trackBgColors?: string[];  // Array of background colors for tracks
     gridLineColor: string;
     monthGridLineColor: string;
     weekGridLineColor: string;
@@ -78,6 +79,14 @@ export class GanttChartRenderer {
 
             headerBackgroundColor: '#e0e0e0',
             trackHeaderBackgroundColor: '#f0f0f0',
+            trackBgColors: [
+                '#f0f0f0',  // Default color (same as trackHeaderBackgroundColor)
+                '#e6f7ff',  // Light blue
+                '#f9f0ff',  // Light purple
+                '#fff7e6',  // Light orange
+                '#e6ffe6',  // Light green
+                '#ffe6e6'   // Light red
+            ],
             gridLineColor: '#ddd',
             monthGridLineColor: '#aaa',
             weekGridLineColor: '#bbb',
@@ -162,22 +171,22 @@ export class GanttChartRenderer {
         // Render labels and content
         let currentY = 0;
 
-        tracks.forEach( track => {
+        tracks.forEach( (track, trackIndex) => {
             // Render track header in labels canvas
-            this.renderTrackHeader( track, currentY );
+            this.renderTrackHeader( track, currentY, trackIndex );
 
             // Render track content (grid lines) in content canvas
-            this.renderTrackContent( track, currentY, earliestDate!, totalDays, monthBoundaries, weekBoundaries );
+            this.renderTrackContent( track, currentY, earliestDate!, totalDays, monthBoundaries, weekBoundaries, trackIndex );
 
             currentY += this.config.rowHeight;
 
             // Render topic schedules for this track
             for( const schedule of track ) {
                 // Render topic name in labels canvas
-                this.renderTopicLabel( schedule, currentY );
+                this.renderTopicLabel( schedule, currentY, trackIndex );
 
                 // Render topic blocks in content canvas
-                this.renderTopicBlocks( schedule, earliestDate!, currentY );
+                this.renderTopicBlocks( schedule, earliestDate!, currentY, trackIndex );
 
                 currentY += this.config.rowHeight;
             }
@@ -378,9 +387,12 @@ export class GanttChartRenderer {
         return { monthBoundaries, weekBoundaries };
     }
 
-    private renderTrackHeader( track: Track, y: number ): void {
+    private renderTrackHeader( track: Track, y: number, trackIndex: number = 0 ): void {
         // Render track header background
-        this.labelsCtx.fillStyle = this.config.trackHeaderBackgroundColor;
+        const bgColor = this.config.trackBgColors && this.config.trackBgColors.length > 0
+            ? this.config.trackBgColors[trackIndex % this.config.trackBgColors.length]
+            : this.config.trackHeaderBackgroundColor;
+        this.labelsCtx.fillStyle = bgColor;
         this.labelsCtx.fillRect( 0, y, this.canvases.labelsCanvas.width, this.config.rowHeight );
 
         // Render track name
@@ -403,15 +415,19 @@ export class GanttChartRenderer {
       chartStartDate: Date,
       totalDays: number,
       monthBoundaries: number[],
-      weekBoundaries: number[]
+      weekBoundaries: number[],
+      trackIndex: number = 0
     ): void {
         // Render track row background in content canvas
-        this.contentCtx.fillStyle = this.config.trackHeaderBackgroundColor;
+        const bgColor = this.config.trackBgColors && this.config.trackBgColors.length > 0
+            ? this.config.trackBgColors[trackIndex % this.config.trackBgColors.length]
+            : this.config.trackHeaderBackgroundColor;
+        this.contentCtx.fillStyle = bgColor;
         this.contentCtx.fillRect( 0, y, this.canvases.contentCanvas.width, this.config.rowHeight );
 
         // Only render month and week boundary grid lines for track headers
         // to avoid unwanted grid lines
-        this.renderVerticalGridLines( y, totalDays, monthBoundaries, weekBoundaries, true );
+        //this.renderVerticalGridLines( y, totalDays, monthBoundaries, weekBoundaries, true );
 
         // Render separator line
         this.contentCtx.beginPath();
@@ -529,7 +545,16 @@ export class GanttChartRenderer {
         }
     }
 
-    private renderTopicLabel( schedule: TopicSchedule, y: number ): void {
+    private renderTopicLabel( schedule: TopicSchedule, y: number, trackIndex: number = 0 ): void {
+        // Get background color based on track index
+        const bgColor = this.config.trackBgColors && this.config.trackBgColors.length > 0
+            ? this.config.trackBgColors[trackIndex % this.config.trackBgColors.length]
+            : this.config.trackHeaderBackgroundColor;
+
+        // Apply a very light background for the topic row
+        this.labelsCtx.fillStyle = bgColor;
+        this.labelsCtx.fillRect( 0, y, this.canvases.labelsCanvas.width, this.config.rowHeight );
+
         // Render topic name in labels canvas
         this.labelsCtx.fillStyle = '#333';
         this.labelsCtx.font = this.config.topicFont;
@@ -544,7 +569,15 @@ export class GanttChartRenderer {
         this.labelsCtx.stroke();
     }
 
-    private renderTopicBlocks( schedule: TopicSchedule, chartStartDate: Date, y: number ): void {
+    private renderTopicBlocks( schedule: TopicSchedule, chartStartDate: Date, y: number, trackIndex: number = 0 ): void {
+        // Get background color based on track index
+        const bgColor = this.config.trackBgColors && this.config.trackBgColors.length > 0
+            ? this.config.trackBgColors[trackIndex % this.config.trackBgColors.length]
+            : this.config.trackHeaderBackgroundColor;
+
+        // Apply background for the topic row in content canvas
+        this.contentCtx.fillStyle = bgColor;
+        this.contentCtx.fillRect( 0, y, this.canvases.contentCanvas.width, this.config.rowHeight );
         // Calculate position on the chart
         const startDays = dayjs( schedule.startDate ).diff( chartStartDate, 'day' );
         const totalDays = schedule.numDays;
