@@ -90,6 +90,27 @@ export class Track {
     return startDate ;
   }
 
+  private getSelectedTopicSchedule() {
+    let topicSchedule = this.scheduleListHead ;
+    while( topicSchedule != null ) {
+      if( topicSchedule.selected ) {
+        return topicSchedule ;
+      }
+      topicSchedule = topicSchedule.next ;
+    }
+    return null ;
+  }
+
+  public addScheduleAfterSelection( ts: TopicSchedule ) {
+    const selectedSchedule = this.getSelectedTopicSchedule() ;
+    if( selectedSchedule != null ) {
+      this.addScheduleAfter( ts, selectedSchedule ) ;
+    }
+    else {
+      this.addTopicSchedule( ts ) ;
+    }
+  }
+
   public addTopicSchedule( ts: TopicSchedule ) {
     if( this.scheduleListTail == null ) {
       this.scheduleListTail = this.scheduleListHead = ts ;
@@ -173,14 +194,14 @@ export class Track {
   public moveScheduleToNextTrack( ts:TopicSchedule ) {
       this.removeSchedule( ts, false ) ;
       this.recomputeScheduleSequenceAttributes() ;
-      this.nextTrack!.addTopicSchedule( ts ) ;
+      this.nextTrack!.addScheduleAfterSelection( ts ) ;
       this.nextTrack!.recomputeScheduleSequenceAttributes() ;
   }
 
   public moveScheduleToPrevTrack( ts:TopicSchedule ) {
     this.removeSchedule( ts, false ) ;
     this.recomputeScheduleSequenceAttributes() ;
-    this.prevTrack!.addTopicSchedule( ts ) ;
+    this.prevTrack!.addScheduleAfterSelection( ts ) ;
     this.prevTrack!.recomputeScheduleSequenceAttributes() ;
   }
 

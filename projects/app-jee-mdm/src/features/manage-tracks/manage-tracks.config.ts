@@ -1,9 +1,9 @@
 export const config = {
 
   defaultCoachingNumDays: {
-    physics: 10,
-    chemistry: 10,
-    maths: 10,
+    physics: 5,
+    chemistry: 5,
+    maths: 5,
     reasoning: 0
   },
   defaultSelfStudyNumDays: {

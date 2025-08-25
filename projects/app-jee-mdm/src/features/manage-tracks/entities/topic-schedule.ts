@@ -7,9 +7,9 @@ import isBetween from 'dayjs/plugin/isBetween';
 dayjs.extend( isBetween );
 
 export class TopicSchedule {
-  static readonly DEFAULT_TOPIC_COACHING_NUM_DAYS = 10 ;
+  static readonly DEFAULT_TOPIC_COACHING_NUM_DAYS = 5 ;
   static readonly DEFAULT_TOPIC_SELF_STUDY_NUM_DAYS = 5 ;
-  static readonly DEFAULT_TOPIC_CONSOLIDATION_NUM_DAYS = 5 ;
+  static readonly DEFAULT_TOPIC_CONSOLIDATION_NUM_DAYS = 4 ;
   static readonly DEFAULT_INTER_TOPIC_GAP_NUM_DAYS = 0 ;
 
   static readonly PRE_START = "Yet to start" ;
