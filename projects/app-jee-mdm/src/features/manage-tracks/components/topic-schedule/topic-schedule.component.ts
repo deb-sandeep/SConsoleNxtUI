@@ -42,6 +42,11 @@ export class TopicScheduleComponent {
     return '0' ;
   }
 
+  selectTopicSchedule() {
+    this.schedule().setSelected() ;
+    this.svc.notifyTopicScheduleUpdated() ;
+  }
+
   moveScheduleToPrevTrack() {
     this.schedule().track!.moveScheduleToPrevTrack( this.schedule() ) ;
     this.svc.notifyTopicScheduleUpdated() ;

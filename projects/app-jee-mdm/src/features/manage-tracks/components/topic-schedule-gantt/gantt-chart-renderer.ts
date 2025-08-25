@@ -24,6 +24,7 @@ export interface GanttChartConfig {
     // Color configuration
     headerBackgroundColor: string;
     trackHeaderBackgroundColor: string;
+    selectedTopicBackgroundColor: string;
     trackBgColors?: string[];  // Array of background colors for tracks
     gridLineColor: string;
     monthGridLineColor: string;
@@ -82,6 +83,7 @@ export class GanttChartRenderer {
 
             headerBackgroundColor: '#e0e0e0',
             trackHeaderBackgroundColor: '#f0f0f0',
+            selectedTopicBackgroundColor: '#e5fa94',
             trackBgColors: [
                 '#f0f0f0',  // Default color (same as trackHeaderBackgroundColor)
                 '#e6f7ff',  // Light blue
@@ -506,9 +508,13 @@ export class GanttChartRenderer {
 
     private renderTopicLabel( schedule: TopicSchedule, y: number, trackIndex: number = 0 ): void {
         // Get background color based on track index
-        const bgColor = this.config.trackBgColors && this.config.trackBgColors.length > 0
+        let bgColor = this.config.trackBgColors && this.config.trackBgColors.length > 0
             ? this.config.trackBgColors[trackIndex % this.config.trackBgColors.length]
             : this.config.trackHeaderBackgroundColor;
+
+        if( schedule.selected ) {
+            bgColor = this.config.selectedTopicBackgroundColor ;
+        }
 
         // Apply a very light background for the topic row
         this.labelsCtx.fillStyle = bgColor;
@@ -530,9 +536,13 @@ export class GanttChartRenderer {
 
     private renderTopicBlocks( schedule: TopicSchedule, chartStartDate: Date, y: number, trackIndex: number = 0 ): void {
         // Get background color based on track index
-        const bgColor = this.config.trackBgColors && this.config.trackBgColors.length > 0
+        let bgColor = this.config.trackBgColors && this.config.trackBgColors.length > 0
             ? this.config.trackBgColors[trackIndex % this.config.trackBgColors.length]
             : this.config.trackHeaderBackgroundColor;
+
+        if( schedule.selected ) {
+            bgColor = this.config.selectedTopicBackgroundColor ;
+        }
 
         // Apply background for the topic row in content canvas
         this.contentCtx.fillStyle = bgColor;

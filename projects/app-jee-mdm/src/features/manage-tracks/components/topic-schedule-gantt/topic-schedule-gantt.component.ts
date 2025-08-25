@@ -41,6 +41,7 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
 
     headerBackgroundColor: '#e0e0e0',
     trackHeaderBackgroundColor: '#f0f0f0',
+    selectedTopicBackgroundColor: '#e5fa94',
     trackBgColors: [
       '#ede0fa',
       '#d7f5ff',
