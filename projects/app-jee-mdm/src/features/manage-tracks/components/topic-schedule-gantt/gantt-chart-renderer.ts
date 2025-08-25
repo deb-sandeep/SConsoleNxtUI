@@ -39,6 +39,7 @@ export interface GanttChartConfig {
         selfStudy: string;
         exercise: string;
         consolidation: string;
+        interTopicGap: string;
     };
 }
 
@@ -57,6 +58,8 @@ export class GanttChartRenderer {
     private contentCtx: CanvasRenderingContext2D;
 
     private readonly config: GanttChartConfig;
+
+    private tracks: Track[];
 
     constructor( canvases: GanttCanvases, config?: Partial<GanttChartConfig> ) {
         this.canvases = canvases;
@@ -99,7 +102,8 @@ export class GanttChartRenderer {
                 coaching: '#4CAF50',     // Green
                 selfStudy: '#2196F3',    // Blue
                 exercise: '#FFC107',     // Yellow
-                consolidation: '#FF5722' // Orange
+                consolidation: '#FF5722', // Orange
+                interTopicGap: '#FFFFFF',
             }
         };
 
@@ -112,6 +116,13 @@ export class GanttChartRenderer {
     public resizeCanvases(): void {
         // Get container dimensions
         const contentContainer = this.canvases.contentCanvas.parentElement!;
+        if( contentContainer.clientHeight === 0 ) {
+            this.canvases.cornerCanvas.height = 0;
+            this.canvases.headerCanvas.height = 0;
+            this.canvases.labelsCanvas.height = 0;
+            this.canvases.contentCanvas.height = 0;
+            return ;
+        }
 
         // Resize corner canvas
         this.canvases.cornerCanvas.width = this.config.labelWidth;
@@ -129,11 +140,16 @@ export class GanttChartRenderer {
         // Note: We'll adjust this width further in renderGanttChart if needed
         this.canvases.contentCanvas.width = contentContainer.scrollWidth || contentContainer.clientWidth;
         this.canvases.contentCanvas.height = contentContainer.scrollHeight || contentContainer.clientHeight;
+
+        this.renderGanttChart( this.tracks ) ;
     }
 
     public renderGanttChart( tracks: Track[] ): void {
 
+        if( this.canvases.cornerCanvas.height === 0 ) return ;
         if( !tracks || tracks.length === 0 ) return;
+
+        this.tracks = tracks;
 
         // Clear all canvases
         this.cornerCtx.clearRect( 0, 0, this.canvases.cornerCanvas.width, this.canvases.cornerCanvas.height );
@@ -177,7 +193,7 @@ export class GanttChartRenderer {
         this.renderCorner();
 
         // Render header with months and weeks
-        const { monthBoundaries, weekBoundaries } = this.renderHeader( earliestDate, totalDays );
+        this.renderHeader( earliestDate, totalDays ) ;
 
         // Render labels and content
         let currentY = 0;
@@ -214,16 +230,6 @@ export class GanttChartRenderer {
         } );
 
         return { earliestDate, latestDate };
-    }
-
-    private getTotalRows( tracks: Track[] ) {
-
-        let totalRows = 0;
-        tracks.forEach( track => {
-            // No longer counting track headers
-            totalRows += track.getNumTopicsScheduled(); // Topic schedules in this track
-        } );
-        return totalRows;
     }
 
     private renderCorner(): void {
@@ -275,7 +281,7 @@ export class GanttChartRenderer {
                 weeks[weekKey] = {
                     start: i,
                     end: i,
-                    label: `W${ date.isoWeek() }`
+                    label: `${ date.date() }`
                 };
             }
             else {
@@ -324,7 +330,7 @@ export class GanttChartRenderer {
 
             // Draw week label
             this.headerCtx.fillStyle = '#333';
-            this.headerCtx.fillText( week.label, startX + ( width / 2 ), monthHeight + ( monthHeight / 2 ) + 5 );
+            this.headerCtx.fillText( week.label, startX + 7, monthHeight + ( monthHeight / 2 ) + 5 );
         } );
 
         // Collect month and week boundary indices
@@ -388,56 +394,6 @@ export class GanttChartRenderer {
 
         // Return grid boundary information for content rendering
         return { monthBoundaries, weekBoundaries };
-    }
-
-    private renderTrackHeader( track: Track, y: number, trackIndex: number = 0 ): void {
-        // Render track header background
-        const bgColor = this.config.trackBgColors && this.config.trackBgColors.length > 0
-            ? this.config.trackBgColors[trackIndex % this.config.trackBgColors.length]
-            : this.config.trackHeaderBackgroundColor;
-        this.labelsCtx.fillStyle = bgColor;
-        this.labelsCtx.fillRect( 0, y, this.canvases.labelsCanvas.width, this.config.rowHeight );
-
-        // Render track name
-        this.labelsCtx.fillStyle = '#333';
-        this.labelsCtx.font = this.config.trackHeaderFont;
-        this.labelsCtx.textAlign = 'left';
-        this.labelsCtx.fillText( track.trackName, 10, y + ( this.config.rowHeight / 2 ) + 5 );
-
-        // Render separator line
-        this.labelsCtx.beginPath();
-        this.labelsCtx.moveTo( 0, y + this.config.rowHeight );
-        this.labelsCtx.lineTo( this.canvases.labelsCanvas.width, y + this.config.rowHeight );
-        this.labelsCtx.strokeStyle = this.config.gridLineColor;
-        this.labelsCtx.stroke();
-    }
-
-    private renderTrackContent(
-      track: Track,
-      y: number,
-      chartStartDate: Date,
-      totalDays: number,
-      monthBoundaries: number[],
-      weekBoundaries: number[],
-      trackIndex: number = 0
-    ): void {
-        // Render track row background in content canvas
-        const bgColor = this.config.trackBgColors && this.config.trackBgColors.length > 0
-            ? this.config.trackBgColors[trackIndex % this.config.trackBgColors.length]
-            : this.config.trackHeaderBackgroundColor;
-        this.contentCtx.fillStyle = bgColor;
-        this.contentCtx.fillRect( 0, y, this.canvases.contentCanvas.width, this.config.rowHeight );
-
-        // Only render month and week boundary grid lines for track headers
-        // to avoid unwanted grid lines
-        //this.renderVerticalGridLines( y, totalDays, monthBoundaries, weekBoundaries, true );
-
-        // Render separator line
-        this.contentCtx.beginPath();
-        this.contentCtx.moveTo( 0, y + this.config.rowHeight );
-        this.contentCtx.lineTo( this.canvases.contentCanvas.width, y + this.config.rowHeight );
-        this.contentCtx.strokeStyle = this.config.gridLineColor;
-        this.contentCtx.stroke();
     }
 
     private renderVerticalGridLines(
@@ -583,7 +539,7 @@ export class GanttChartRenderer {
         this.contentCtx.fillRect( 0, y, this.canvases.contentCanvas.width, this.config.rowHeight );
         // Calculate position on the chart
         const startDays = dayjs( schedule.startDate ).diff( chartStartDate, 'day' );
-        const totalDays = schedule.numDays;
+        const totalDays = schedule.numDays + schedule.interTopicGapNumDays ;
 
         const startX = startDays * this.config.dayWidth;
         const width = totalDays * this.config.dayWidth;
@@ -644,24 +600,39 @@ export class GanttChartRenderer {
         const selfStudyWidth = ( schedule.selfStudyNumDays / totalDays ) * width;
         const exerciseWidth = ( schedule.exerciseNumDays / totalDays ) * width;
         const consolidationWidth = ( schedule.consolidationNumDays / totalDays ) * width;
+        const interTopicGapWidth = ( schedule.interTopicGapNumDays / totalDays ) * width;
 
         // Render the four distinct blocks in content canvas
         let currentX = startX;
 
         // Coaching block
-        this.renderBlock( currentX, y, coachingWidth, this.config.phaseColors.coaching );
-        currentX += coachingWidth;
+        if( schedule.coachingNumDays > 0 ) {
+            this.renderBlock( currentX, y, coachingWidth, this.config.phaseColors.coaching );
+            currentX += coachingWidth;
+        }
 
-        // Self Study block
-        this.renderBlock( currentX, y, selfStudyWidth, this.config.phaseColors.selfStudy );
-        currentX += selfStudyWidth;
+        // Self-Study block
+        if( schedule.selfStudyNumDays > 0 ) {
+            this.renderBlock( currentX, y, selfStudyWidth, this.config.phaseColors.selfStudy );
+            currentX += selfStudyWidth;
+        }
 
         // Exercise block
-        this.renderBlock( currentX, y, exerciseWidth, this.config.phaseColors.exercise );
-        currentX += exerciseWidth;
+        if( schedule.exerciseNumDays > 0 ) {
+            this.renderBlock( currentX, y, exerciseWidth, this.config.phaseColors.exercise );
+            currentX += exerciseWidth;
+        }
 
         // Consolidation block
-        this.renderBlock( currentX, y, consolidationWidth, this.config.phaseColors.consolidation );
+        if( schedule.consolidationNumDays > 0 ) {
+            this.renderBlock( currentX, y, consolidationWidth, this.config.phaseColors.consolidation );
+            currentX += consolidationWidth;
+        }
+
+        // Inter-topic gap
+        if( schedule.interTopicGapNumDays > 0 ) {
+            this.renderBlock( currentX, y, interTopicGapWidth, this.config.phaseColors.interTopicGap );
+        }
 
         // Render row separator line
         this.contentCtx.beginPath();

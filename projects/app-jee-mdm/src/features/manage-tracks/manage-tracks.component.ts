@@ -6,6 +6,7 @@ import { ManageTracksService } from "./manage-tracks.service";
 import { ConfigPaneComponent } from "./components/config-pane/config-pane.component";
 import { TrackComponent } from "./components/track/track.component";
 import { TopicScheduleGanttComponent } from "./components/topic-schedule-gantt/topic-schedule-gantt.component";
+import { NgIf } from "@angular/common";
 
 @Component({
   selector: 'manage-tracks',
@@ -14,12 +15,15 @@ import { TopicScheduleGanttComponent } from "./components/topic-schedule-gantt/t
     AlertsDisplayComponent,
     ConfigPaneComponent,
     TrackComponent,
-    TopicScheduleGanttComponent
+    TopicScheduleGanttComponent,
+    NgIf
   ],
   templateUrl: './manage-tracks.component.html',
   styleUrl: './manage-tracks.component.css'
 })
 export class ManageTracksComponent {
+
+  private static readonly DEFAULT_GANTT_PANEL_HEIGHT = 400 ;
 
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
 
@@ -27,7 +31,9 @@ export class ManageTracksComponent {
 
   trackPanelWidth = '80%' ;
   configPanelWidth = '20%' ;
-  ganttPanelHeight: string = '40%' ;
+  ganttPanelHeight = ManageTracksComponent.DEFAULT_GANTT_PANEL_HEIGHT ;
+
+  private lastSavedGanttPanelHeight = ManageTracksComponent.DEFAULT_GANTT_PANEL_HEIGHT ;
 
   constructor() {
     this.titleSvc.setTitle( "Manage Tracks" ) ;
@@ -48,15 +54,30 @@ export class ManageTracksComponent {
 
   toggleGanttPane() {
     if( this.isGanttPaneVisible() ) {
-      this.ganttPanelHeight = '0%' ;
+      this.lastSavedGanttPanelHeight = this.ganttPanelHeight ;
+      this.ganttPanelHeight = 0 ;
     }
     else {
-      this.ganttPanelHeight = '40%' ;
+      this.ganttPanelHeight = this.lastSavedGanttPanelHeight ;
+    }
+  }
+
+  decreaseGanttPaneHeight() {
+    this.ganttPanelHeight -= 50 ;
+    if( this.ganttPanelHeight < 0 ) {
+      this.ganttPanelHeight = 0 ;
+    }
+  }
+
+  increaseGanttPaneHeight() {
+    this.ganttPanelHeight += 50 ;
+    if( this.ganttPanelHeight > 1000 ) {
+      this.ganttPanelHeight = 1000 ;
     }
   }
 
   getTrackPanelHeight() {
-    return `calc(100% - var(--page-title-height) - ${this.ganttPanelHeight})` ;
+    return `calc(100% - var(--page-title-height) - ${this.ganttPanelHeight}px)` ;
   }
 
   isConfigPaneVisible() {
@@ -64,6 +85,7 @@ export class ManageTracksComponent {
   }
 
   isGanttPaneVisible() {
-    return this.ganttPanelHeight === '40%' ;
+    return this.ganttPanelHeight > 0 ;
   }
+
 }

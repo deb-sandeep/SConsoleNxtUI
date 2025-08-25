@@ -209,10 +209,7 @@ export class Track {
 
   public isDirty() {
     for( let ts of this ) {
-      console.log( '  Checking TopicSchedule ' + ts.topic.topicName + ' isDirty()' ) ;
       if( ts.isDirty() ) {
-        console.log( '   TopicSchedule ' + ts.topic.topicName + ' is dirty' ) ;
-        console.log( '    Returning track as dirty' ) ;
         return true ;
       }
     }

@@ -19,7 +19,7 @@
   </div>
 
   <div id="gantt-pane"
-       [style.height]="ganttPanelHeight">
+       [style.height]="ganttPanelHeight + 'px'">
     <topic-schedule-gantt></topic-schedule-gantt>
   </div>
 
@@ -35,10 +35,33 @@
   </div>
 
   <div id="gantt-pane-pull-tab"
-       [style.bottom]="ganttPanelHeight"
+       [style.bottom]="ganttPanelHeight + 'px'"
        (click)="toggleGanttPane()">
     @if( isGanttPaneVisible() ) {
-      <span class="bi-chevron-down"></span>
+      <span class="bi-chevron-double-down"></span>
+    }
+    @else {
+      <span class="bi-chevron-double-up"></span>
+    }
+  </div>
+
+  <div id="gantt-pane-increase-height-tab"
+       [style.bottom]="ganttPanelHeight + 'px'"
+       (click)="increaseGanttPaneHeight()">
+    @if( isGanttPaneVisible() ) {
+      <span class="bi-chevron-compact-up"></span>
+    }
+    @else {
+      <span class="bi-chevron-up"></span>
+    }
+  </div>
+
+  <div id="gantt-pane-decrease-height-tab"
+       [style.bottom]="ganttPanelHeight + 'px'"
+       (click)="decreaseGanttPaneHeight()"
+       *ngIf="isGanttPaneVisible()">
+    @if( isGanttPaneVisible() ) {
+      <span class="bi-chevron-compact-down"></span>
     }
     @else {
       <span class="bi-chevron-up"></span>

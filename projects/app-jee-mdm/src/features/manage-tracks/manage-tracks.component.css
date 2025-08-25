@@ -44,9 +44,37 @@
 #gantt-pane-pull-tab {
     position: absolute;
     width: 30px;
-    right: 0;
+    right: 10px;
     height: 20px;
     background-color: white ;
+    color: black;
+    font-size: 20px;
+    line-height: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+}
+
+#gantt-pane-increase-height-tab {
+    position: absolute;
+    width: 30px;
+    right: 50px;
+    height: 20px;
+    background-color: #fdb5b5;
+    color: black;
+    font-size: 20px;
+    line-height: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+}
+
+#gantt-pane-decrease-height-tab {
+    position: absolute;
+    width: 30px;
+    right: 90px;
+    height: 20px;
+    background-color: #b4dffb;
     color: black;
     font-size: 20px;
     line-height: 20px;

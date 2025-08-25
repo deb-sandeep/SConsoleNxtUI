@@ -32,10 +32,10 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     rowHeight: 17,
     headerHeight: 40,
     labelWidth: 250,
-    dayWidth: 5,
+    dayWidth: 3,
 
     headerFont: '11px Arial',
-    trackHeaderFont: 'bold 12px Arial',
+    trackHeaderFont: '11px Arial',
     topicFont: '11px Arial',
     blockFont: '10px Arial',
 
@@ -53,27 +53,24 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     monthGridLineColor: '#d36767',
     weekGridLineColor: '#bbb',
     headerSeparatorColor: '#999',
-    rowSeparatorColor: '#eee',
+    rowSeparatorColor: '#bababa',
     blockBorderColor: '#333',
     blockTextColor: '#fff',
 
     phaseColors: {
-      coaching: '#4CAF50',     // Green
-      selfStudy: '#2196F3',    // Blue
-      exercise: '#FFC107',     // Yellow
-      consolidation: '#FF5722' // Orange
+      coaching: '#4CAF50',      // Green
+      selfStudy: '#2196F3',     // Blue
+      exercise: '#FFC107',      // Yellow
+      consolidation: '#FF5722', // Orange
+      interTopicGap: '#FFFFFF', // White
     }
   };
 
   constructor() {
     effect(() => {
       const syllabus = this.svc.selectedSyllabus() ;
-      this.renderGanttChart( syllabus ) ;
-    }) ;
-
-    effect(() => {
       this.svc.topicScheduleUpdated() ;
-      this.renderGanttChart( this.svc.selectedSyllabus() ) ;
+      this.renderGanttChart( syllabus ) ;
     }) ;
   }
 
@@ -94,7 +91,6 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     // Set up a resize observer to handle canvas resizing
     this.resizeObserver = new ResizeObserver(() => {
       this.renderer.resizeCanvases() ;
-      this.renderGanttChart( this.svc.selectedSyllabus() ) ;
     }) ;
 
     // Observe the content container for size changes
@@ -108,9 +104,10 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     const labelsContainer = this.labelsCanvas.parentElement!;
     labelsContainer.addEventListener('scroll', this.handleLabelsScroll) ;
 
-    // Initial render
-    this.renderer.resizeCanvases();
-    this.renderGanttChart( this.svc.selectedSyllabus() );
+    // // Initial render
+    // console.log( 'Rendering chart after ngViewInit' ) ;
+    // this.renderer.resizeCanvases();
+    // this.renderGanttChart( this.svc.selectedSyllabus() );
   }
 
   ngOnDestroy(): void {
@@ -132,6 +129,13 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
 
   private renderGanttChart( syllabus:Syllabus ): void {
     if( !syllabus ) return ;
+
+    if( syllabus.tracks.length > 0 ) {
+      this.config.trackBgColors![0] = syllabus.tracks[0].colors.bodyBackground ;
+    }
+    if( syllabus.tracks.length > 1 ) {
+      this.config.trackBgColors![1] = syllabus.tracks[1].colors.bodyBackground ;
+    }
 
     // Render the Gantt chart using the renderer
     this.renderer.renderGanttChart( syllabus.tracks ) ;

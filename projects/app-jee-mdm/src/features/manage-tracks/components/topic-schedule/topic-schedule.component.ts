@@ -1,7 +1,8 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { TopicSchedule } from "../../entities/topic-schedule";
 import { DatePipe, DecimalPipe, NgIf } from "@angular/common";
 import { TopicProblemCounts } from "../../manage-tracks.types";
+import { ManageTracksService } from "../../manage-tracks.service";
 
 @Component({
   selector: 'topic-schedule',
@@ -14,6 +15,9 @@ import { TopicProblemCounts } from "../../manage-tracks.types";
   styleUrl: './topic-schedule.component.css'
 })
 export class TopicScheduleComponent {
+
+  private svc = inject( ManageTracksService ) ;
+  protected readonly TopicSchedule = TopicSchedule;
 
   schedule = input.required<TopicSchedule>() ;
   colors = computed( () => this.schedule().topic.syllabus.colors ) ;
@@ -38,5 +42,28 @@ export class TopicScheduleComponent {
     return '0' ;
   }
 
-  protected readonly TopicSchedule = TopicSchedule;
+  moveScheduleToPrevTrack() {
+    this.schedule().track!.moveScheduleToPrevTrack( this.schedule() ) ;
+    this.svc.notifyTopicScheduleUpdated() ;
+  }
+
+  moveScheduleToNextTrack() {
+    this.schedule().track!.moveScheduleToNextTrack( this.schedule() ) ;
+    this.svc.notifyTopicScheduleUpdated() ;
+  }
+
+  moveScheduleUp() {
+    this.schedule().track!.moveScheduleUp( this.schedule() ) ;
+    this.svc.notifyTopicScheduleUpdated() ;
+  }
+
+  moveScheduleDown() {
+    this.schedule().track!.moveScheduleDown( this.schedule() ) ;
+    this.svc.notifyTopicScheduleUpdated() ;
+  }
+
+  removeSchedule() {
+    this.schedule().track!.removeSchedule( this.schedule() ) ;
+    this.svc.notifyTopicScheduleUpdated() ;
+  }
 }

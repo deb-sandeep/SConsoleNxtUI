@@ -13,30 +13,30 @@
 
       @if( !schedule().track!.isFirstTrack() ) {
         <button type="button" class="btn btn-sm action-btn"
-                (click)="schedule().track!.moveScheduleToPrevTrack( schedule() )">
+                (click)="moveScheduleToPrevTrack()">
           <span class="bi-arrow-left-short"></span>
         </button>
       }
       @if( !schedule().track!.isLastTrack() ) {
         <button type="button" class="btn btn-sm action-btn"
-                (click)="schedule().track!.moveScheduleToNextTrack( schedule() )">
+                (click)="moveScheduleToNextTrack()">
           <span class="bi-arrow-right-short"></span>
         </button>
       }
       @if( !schedule().isFirst() ) {
         <button type="button" class="btn btn-sm action-btn"
-                (click)="schedule().track!.moveScheduleUp( schedule() )">
+                (click)="moveScheduleUp()">
           <span class="bi-arrow-up-short"></span>
         </button>
       }
       @if( !schedule().isLast() ) {
         <button type="button" class="btn btn-sm action-btn"
-                (click)="schedule().track!.moveScheduleDown( schedule() )">
+                (click)="moveScheduleDown()">
           <span class="bi-arrow-down-short"></span>
         </button>
       }
       <button type="button" class="btn btn-sm action-btn"
-              (click)="schedule().track!.removeSchedule( schedule() )">
+              (click)="removeSchedule()">
         <span class="bi-x" style="color:red;"></span>
       </button>
     </div>
