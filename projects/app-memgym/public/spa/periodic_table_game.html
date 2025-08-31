@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periodic Table Drag &amp; Drop Game</title>
+    <style>
+        :root {
+            /* pastel colours for categories */
+            --colour-alkali: #f8d7da;       /* soft pink/red */
+            --colour-alkaline: #fff3cd;     /* pale yellow */
+            --colour-transition: #d1ecf1;  /* light blue */
+            --colour-metalloid: #d4edda;   /* mint green */
+            --colour-nonmetal: #fce4ec;    /* very light pink */
+            --colour-noble-gas: #e2e3e5;   /* light grey */
+        }
+
+        * {
+          -webkit-font-smoothing: antialiased;
+        }
+
+        @font-face {
+          font-family: 'Quicksand';
+          font-style: normal;
+          font-weight: 400;
+          src: url('/core-assets/fonts/quicksand-v9-latin-regular.eot');
+          src: local('Quicksand Regular'), local('Quicksand-Regular'),
+          url('/core-assets/fonts/quicksand-v9-latin-regular.eot?#iefix') format('embedded-opentype'),
+          url('/core-assets/fonts/quicksand-v9-latin-regular.woff2') format('woff2'),
+          url('/core-assets/fonts/quicksand-v9-latin-regular.woff') format('woff'),
+          url('/core-assets/fonts/quicksand-v9-latin-regular.ttf') format('truetype'),
+          url('/core-assets/fonts/quicksand-v9-latin-regular.svg#Quicksand') format('svg');
+        }
+
+        body {
+            margin: 0;
+            font-family: Quicksand, sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden; /* prevent horizontal scroll when dragging */
+        }
+
+        h1 {
+            margin: 0.5rem 0;
+            text-align: center;
+        }
+
+        #game-container {
+            width: 100%;
+            padding: 1rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Periodic table grid */
+        #periodic-table {
+            display: grid;
+            grid-template-columns: repeat(18, 1fr);
+            gap: 0;
+            /* expand table to occupy 80% of viewport width */
+            width: 80vw;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            background-color: transparent;
+        }
+        .cell {
+            position: relative;
+            background-color: transparent;
+            aspect-ratio: 1/1; /* square cells */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            user-select: none;
+            box-sizing: border-box;
+        }
+        /* invalid cells (no element) */
+        .cell.empty {
+            background-color: transparent;
+            border: none;
+        }
+        /* valid cells have consistent thin borders: top and left always; right and bottom via classes */
+        .cell[data-valid="true"] {
+            border-left: 1px solid #bbb;
+            border-top: 1px solid #bbb;
+        }
+        /* add right border on last column */
+        .cell.last-col {
+            border-right: 1px solid #bbb;
+        }
+        /* add bottom border on last row */
+        .cell.last-row {
+            border-bottom: 1px solid #bbb;
+        }
+        /* highlighted cell when dragging */
+        .cell.highlight {
+            /* make highlight more visible */
+            outline: 3px solid #007bff;
+            outline-offset: -3px;
+            background-color: rgba(0, 123, 255, 0.2);
+        }
+        /* cell with wrong drop flash */
+        .cell.flash-wrong {
+            animation: flashWrong 0.5s ease;
+        }
+        @keyframes flashWrong {
+            0% { background-color: #f8d7da; }
+            50% { background-color: #f5c2c7; }
+            100% { background-color: inherit; }
+        }
+        /* Filled cell content */
+        .cell .element {
+            text-align: center;
+        }
+        /* Increase font sizes within filled cells to fill with consistent margin */
+        .cell .element .atomic-number {
+            /* increase size of atomic number in filled cells */
+            font-size: 1.2em;
+            line-height: 1;
+            margin-bottom: 0.2em;
+        }
+        .cell .element .symbol {
+            font-size: 2.5em;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .cell .element .mass {
+            /* increase size of atomic mass and separation */
+            font-size: 1.3em;
+            line-height: 1;
+            margin-top: 0.2em;
+        }
+        /* Tooltip for electron configuration */
+        .config-tooltip {
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            /* larger font for electron configuration */
+            font-size: 1.2rem;
+            white-space: nowrap;
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        /* element name inside tooltip */
+        .config-tooltip .element-name {
+            display: block;
+            font-size: 0.8em;
+            color: #555;
+            margin-top: 0.3em;
+        }
+
+        /* Challenge container and card */
+        #challenge-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        #challenge {
+            position: absolute;
+            cursor: grab;
+            background-color: #ffffff;
+            border: 2px solid #007bff;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 8px rgba(0,0,0,0.5);
+            user-select: none;
+            z-index: 1000; /* ensure challenge card floats above table */
+        }
+        #challenge.dragging {
+            cursor: grabbing;
+            opacity: 0.8;
+        }
+        #challenge .atomic-number {
+            font-size: 1.2rem;
+        }
+        #challenge .symbol {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        #challenge .mass {
+            font-size: 1.5rem;
+        }
+
+        /* Scoreboard */
+        #scoreboard {
+            font-size: 1.3rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-around;
+            border-top: 1px solid #ddd;
+            padding-top: 0.5rem;
+            width: 80vw;
+            margin: 0 auto;
+        }
+        #scoreboard span {
+            min-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Periodic Table Memory Game</h1>
+
+        <!-- Difficulty selection -->
+        <div id="difficulty-select" style="margin-bottom: 0.5rem; text-align: center;">
+            <label style="margin-right: 1rem;">
+                <input type="radio" name="difficulty" value="easy" checked> Easy
+            </label>
+            <label style="margin-right: 1rem;">
+                <input type="radio" name="difficulty" value="medium"> Medium
+            </label>
+            <label>
+                <input type="radio" name="difficulty" value="hard"> Hard
+            </label>
+        </div>
+        <div id="challenge-container">
+            <div id="challenge">
+                <!-- challenge content populated by JS -->
+            </div>
+        </div>
+        <div id="periodic-table"></div>
+        <div id="scoreboard">
+            <span id="correct-count">Correct: 0</span>
+            <span id="incorrect-count">Incorrect: 0</span>
+            <span id="avg-time">Avg Time: 0.0 s</span>
+            <span id="score">Score: 0</span>
+            <span id="high-score">High Score: 0</span>
+        </div>
+        <!-- Buttons row: show position and replay side by side -->
+        <div id="button-row" style="margin-top: 0.5rem; display: flex; justify-content: center; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <button id="show-position-btn" style="display: none; padding: 0.4rem 0.8rem; font-size: 0.9rem; cursor: pointer; margin-right: 0.5rem;">Show position</button>
+            <!-- Attach onClick handler directly to ensure the replay button always resets the game -->
+            <button id="replay-btn" style="padding: 0.4rem 0.8rem; font-size: 0.9rem; cursor: pointer;" onclick="resetGame(difficulty)">Replay</button>
+        </div>
+
+        <!-- Completion modal displayed when a difficulty level is finished -->
+        <div id="completion-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center;">
+            <div style="background-color: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); max-width: 90%; text-align: center;">
+                <h2 id="completion-message" style="margin-top: 0;">Congratulations! You completed this difficulty.</h2>
+                <p id="completion-subtext" style="margin-bottom: 1.5rem;">Would you like to advance to the next level or replay?</p>
+                <div id="completion-buttons" style="display: flex; justify-content: center; gap: 1rem;">
+                    <button id="next-level-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem; cursor: pointer;">Next Level</button>
+                    <button id="replay-level-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem; cursor: pointer;">Replay</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- High score congratulatory message -->
+        <div id="high-score-msg" style="display:none; margin-top: 0.5rem; color: green; font-size: 1.2rem; text-align: center;"></div>
+    </div>
+
+    <script>
+    // Scoring configuration object
+    const scoringConfig = {
+        // Array of rules for first attempt scoring based on time thresholds (seconds)
+        correctFirst: [
+            { threshold: 2, score: 50 },
+            { threshold: 3, score: 25 },
+            { threshold: 5, score: 10 },
+            { threshold: Infinity, score: 5 }
+        ],
+        correctMultiple: 2,
+        incorrect: -10
+    };
+
+    // Map atomic numbers to element names for tooltips
+    const elementNames = {
+        1: 'Hydrogen', 2: 'Helium', 3: 'Lithium', 4: 'Beryllium', 5: 'Boron', 6: 'Carbon',
+        7: 'Nitrogen', 8: 'Oxygen', 9: 'Fluorine', 10: 'Neon', 11: 'Sodium', 12: 'Magnesium',
+        13: 'Aluminium', 14: 'Silicon', 15: 'Phosphorus', 16: 'Sulfur', 17: 'Chlorine',
+        18: 'Argon', 19: 'Potassium', 20: 'Calcium', 21: 'Scandium', 22: 'Titanium',
+        23: 'Vanadium', 24: 'Chromium', 25: 'Manganese', 26: 'Iron', 27: 'Cobalt', 28: 'Nickel',
+        29: 'Copper', 30: 'Zinc', 31: 'Gallium', 32: 'Germanium', 33: 'Arsenic', 34: 'Selenium',
+        35: 'Bromine', 36: 'Krypton', 37: 'Rubidium', 38: 'Strontium', 39: 'Yttrium',
+        40: 'Zirconium', 41: 'Niobium', 42: 'Molybdenum', 43: 'Technetium', 44: 'Ruthenium',
+        45: 'Rhodium', 46: 'Palladium', 47: 'Silver', 48: 'Cadmium', 49: 'Indium', 50: 'Tin',
+        51: 'Antimony', 52: 'Tellurium', 53: 'Iodine', 54: 'Xenon', 55: 'Caesium',
+        56: 'Barium', 72: 'Hafnium', 73: 'Tantalum', 74: 'Tungsten', 75: 'Rhenium',
+        76: 'Osmium', 77: 'Iridium', 78: 'Platinum', 79: 'Gold', 80: 'Mercury',
+        81: 'Thallium', 82: 'Lead', 83: 'Bismuth', 84: 'Polonium', 85: 'Astatine',
+        86: 'Radon', 87: 'Francium', 88: 'Radium', 104: 'Rutherfordium', 105: 'Dubnium',
+        106: 'Seaborgium', 107: 'Bohrium', 108: 'Hassium', 109: 'Meitnerium',
+        110: 'Darmstadtium', 111: 'Roentgenium', 112: 'Copernicium', 113: 'Nihonium',
+        114: 'Flerovium', 115: 'Moscovium', 116: 'Livermorium', 117: 'Tennessine',
+        118: 'Oganesson'
+    };
+    // Current difficulty level (easy, medium, hard)
+    let difficulty = 'easy';
+
+    // High score handling using localStorage
+    function getHighScoreForDifficulty(level) {
+        const val = localStorage.getItem('highScore_' + level);
+        return val ? parseInt(val) : 0;
+    }
+    function setHighScoreForDifficulty(level, val) {
+        try {
+            localStorage.setItem('highScore_' + level, val.toString());
+        } catch (e) {
+            // ignore storage errors
+        }
+    }
+
+    // Current high score for selected difficulty
+    let highScore = 0;
+    // Data for elements: atomic number, symbol, atomic mass (1 decimal where possible), group, period, category
+    const elements = [
+        {number:1,symbol:'H',mass:1.0,group:1,period:1,category:'nonmetal'},
+        {number:2,symbol:'He',mass:4.0,group:18,period:1,category:'noble gas'},
+        {number:3,symbol:'Li',mass:6.9,group:1,period:2,category:'alkali'},
+        {number:4,symbol:'Be',mass:9.0,group:2,period:2,category:'alkaline'},
+        {number:5,symbol:'B',mass:10.8,group:13,period:2,category:'metalloid'},
+        {number:6,symbol:'C',mass:12.0,group:14,period:2,category:'nonmetal'},
+        {number:7,symbol:'N',mass:14.0,group:15,period:2,category:'nonmetal'},
+        {number:8,symbol:'O',mass:16.0,group:16,period:2,category:'nonmetal'},
+        {number:9,symbol:'F',mass:19.0,group:17,period:2,category:'nonmetal'},
+        {number:10,symbol:'Ne',mass:20.2,group:18,period:2,category:'noble gas'},
+        {number:11,symbol:'Na',mass:23.0,group:1,period:3,category:'alkali'},
+        {number:12,symbol:'Mg',mass:24.3,group:2,period:3,category:'alkaline'},
+        {number:13,symbol:'Al',mass:27.0,group:13,period:3,category:'transition'},
+        {number:14,symbol:'Si',mass:28.1,group:14,period:3,category:'metalloid'},
+        {number:15,symbol:'P',mass:31.0,group:15,period:3,category:'nonmetal'},
+        {number:16,symbol:'S',mass:32.1,group:16,period:3,category:'nonmetal'},
+        {number:17,symbol:'Cl',mass:35.5,group:17,period:3,category:'nonmetal'},
+        {number:18,symbol:'Ar',mass:40.0,group:18,period:3,category:'noble gas'},
+        {number:19,symbol:'K',mass:39.1,group:1,period:4,category:'alkali'},
+        {number:20,symbol:'Ca',mass:40.1,group:2,period:4,category:'alkaline'},
+        {number:21,symbol:'Sc',mass:45.0,group:3,period:4,category:'transition'},
+        {number:22,symbol:'Ti',mass:47.9,group:4,period:4,category:'transition'},
+        {number:23,symbol:'V',mass:50.9,group:5,period:4,category:'transition'},
+        {number:24,symbol:'Cr',mass:52.0,group:6,period:4,category:'transition'},
+        {number:25,symbol:'Mn',mass:54.9,group:7,period:4,category:'transition'},
+        {number:26,symbol:'Fe',mass:55.8,group:8,period:4,category:'transition'},
+        {number:27,symbol:'Co',mass:58.9,group:9,period:4,category:'transition'},
+        {number:28,symbol:'Ni',mass:58.7,group:10,period:4,category:'transition'},
+        {number:29,symbol:'Cu',mass:63.5,group:11,period:4,category:'transition'},
+        {number:30,symbol:'Zn',mass:65.4,group:12,period:4,category:'transition'},
+        {number:31,symbol:'Ga',mass:69.7,group:13,period:4,category:'transition'},
+        {number:32,symbol:'Ge',mass:72.6,group:14,period:4,category:'metalloid'},
+        {number:33,symbol:'As',mass:74.9,group:15,period:4,category:'metalloid'},
+        {number:34,symbol:'Se',mass:79.0,group:16,period:4,category:'nonmetal'},
+        {number:35,symbol:'Br',mass:79.9,group:17,period:4,category:'nonmetal'},
+        {number:36,symbol:'Kr',mass:83.8,group:18,period:4,category:'noble gas'},
+        {number:37,symbol:'Rb',mass:85.5,group:1,period:5,category:'alkali'},
+        {number:38,symbol:'Sr',mass:87.6,group:2,period:5,category:'alkaline'},
+        {number:39,symbol:'Y',mass:88.9,group:3,period:5,category:'transition'},
+        {number:40,symbol:'Zr',mass:91.2,group:4,period:5,category:'transition'},
+        {number:41,symbol:'Nb',mass:92.9,group:5,period:5,category:'transition'},
+        {number:42,symbol:'Mo',mass:96.0,group:6,period:5,category:'transition'},
+        {number:43,symbol:'Tc',mass:98.0,group:7,period:5,category:'transition'},
+        {number:44,symbol:'Ru',mass:101.1,group:8,period:5,category:'transition'},
+        {number:45,symbol:'Rh',mass:102.9,group:9,period:5,category:'transition'},
+        {number:46,symbol:'Pd',mass:106.4,group:10,period:5,category:'transition'},
+        {number:47,symbol:'Ag',mass:107.9,group:11,period:5,category:'transition'},
+        {number:48,symbol:'Cd',mass:112.4,group:12,period:5,category:'transition'},
+        {number:49,symbol:'In',mass:114.8,group:13,period:5,category:'transition'},
+        {number:50,symbol:'Sn',mass:118.7,group:14,period:5,category:'transition'},
+        {number:51,symbol:'Sb',mass:121.8,group:15,period:5,category:'metalloid'},
+        {number:52,symbol:'Te',mass:127.6,group:16,period:5,category:'metalloid'},
+        {number:53,symbol:'I',mass:126.9,group:17,period:5,category:'nonmetal'},
+        {number:54,symbol:'Xe',mass:131.3,group:18,period:5,category:'noble gas'},
+        {number:55,symbol:'Cs',mass:132.9,group:1,period:6,category:'alkali'},
+        {number:56,symbol:'Ba',mass:137.3,group:2,period:6,category:'alkaline'},
+        // lanthanides omitted
+        {number:72,symbol:'Hf',mass:178.5,group:4,period:6,category:'transition'},
+        {number:73,symbol:'Ta',mass:181.0,group:5,period:6,category:'transition'},
+        {number:74,symbol:'W',mass:183.8,group:6,period:6,category:'transition'},
+        {number:75,symbol:'Re',mass:186.2,group:7,period:6,category:'transition'},
+        {number:76,symbol:'Os',mass:190.2,group:8,period:6,category:'transition'},
+        {number:77,symbol:'Ir',mass:192.2,group:9,period:6,category:'transition'},
+        {number:78,symbol:'Pt',mass:195.1,group:10,period:6,category:'transition'},
+        {number:79,symbol:'Au',mass:197.0,group:11,period:6,category:'transition'},
+        {number:80,symbol:'Hg',mass:200.6,group:12,period:6,category:'transition'},
+        {number:81,symbol:'Tl',mass:204.4,group:13,period:6,category:'transition'},
+        {number:82,symbol:'Pb',mass:207.2,group:14,period:6,category:'transition'},
+        {number:83,symbol:'Bi',mass:209.0,group:15,period:6,category:'transition'},
+        {number:84,symbol:'Po',mass:209.0,group:16,period:6,category:'metalloid'},
+        {number:85,symbol:'At',mass:210.0,group:17,period:6,category:'nonmetal'},
+        {number:86,symbol:'Rn',mass:222.0,group:18,period:6,category:'noble gas'},
+        {number:87,symbol:'Fr',mass:223.0,group:1,period:7,category:'alkali'},
+        {number:88,symbol:'Ra',mass:226.0,group:2,period:7,category:'alkaline'},
+        // actinides omitted
+        {number:104,symbol:'Rf',mass:267.0,group:4,period:7,category:'transition'},
+        {number:105,symbol:'Db',mass:268.0,group:5,period:7,category:'transition'},
+        {number:106,symbol:'Sg',mass:269.0,group:6,period:7,category:'transition'},
+        {number:107,symbol:'Bh',mass:270.0,group:7,period:7,category:'transition'},
+        {number:108,symbol:'Hs',mass:277.0,group:8,period:7,category:'transition'},
+        {number:109,symbol:'Mt',mass:278.0,group:9,period:7,category:'transition'},
+        {number:110,symbol:'Ds',mass:281.0,group:10,period:7,category:'transition'},
+        {number:111,symbol:'Rg',mass:282.0,group:11,period:7,category:'transition'},
+        {number:112,symbol:'Cn',mass:285.0,group:12,period:7,category:'transition'},
+        {number:113,symbol:'Nh',mass:286.0,group:13,period:7,category:'transition'},
+        {number:114,symbol:'Fl',mass:289.0,group:14,period:7,category:'transition'},
+        {number:115,symbol:'Mc',mass:290.0,group:15,period:7,category:'transition'},
+        {number:116,symbol:'Lv',mass:293.0,group:16,period:7,category:'transition'},
+        {number:117,symbol:'Ts',mass:294.0,group:17,period:7,category:'nonmetal'},
+        {number:118,symbol:'Og',mass:294.0,group:18,period:7,category:'noble gas'},
+    ];
+
+    // Map categories to pastel colours defined in CSS variables
+    const categoryColors = {
+        'alkali': getComputedStyle(document.documentElement).getPropertyValue('--colour-alkali').trim(),
+        'alkaline': getComputedStyle(document.documentElement).getPropertyValue('--colour-alkaline').trim(),
+        'transition': getComputedStyle(document.documentElement).getPropertyValue('--colour-transition').trim(),
+        'metalloid': getComputedStyle(document.documentElement).getPropertyValue('--colour-metalloid').trim(),
+        'nonmetal': getComputedStyle(document.documentElement).getPropertyValue('--colour-nonmetal').trim(),
+        'noble gas': getComputedStyle(document.documentElement).getPropertyValue('--colour-noble-gas').trim(),
+    };
+
+    // Build dictionary from atomic number for quick lookup
+    const elementByNumber = {};
+    elements.forEach(el => { elementByNumber[el.number] = el; });
+
+    // Compute electron configuration using Aufbau principle (simple, approximate)
+    function computeElectronConfiguration(Z) {
+        // Subshell order as per n+l rule
+        const subshells = [
+            {n:1,l:'s',cap:2},
+            {n:2,l:'s',cap:2},
+            {n:2,l:'p',cap:6},
+            {n:3,l:'s',cap:2},
+            {n:3,l:'p',cap:6},
+            {n:4,l:'s',cap:2},
+            {n:3,l:'d',cap:10},
+            {n:4,l:'p',cap:6},
+            {n:5,l:'s',cap:2},
+            {n:4,l:'d',cap:10},
+            {n:5,l:'p',cap:6},
+            {n:6,l:'s',cap:2},
+            {n:4,l:'f',cap:14},
+            {n:5,l:'d',cap:10},
+            {n:6,l:'p',cap:6},
+            {n:7,l:'s',cap:2},
+            {n:5,l:'f',cap:14},
+            {n:6,l:'d',cap:10},
+            {n:7,l:'p',cap:6},
+        ];
+        let electrons = Z;
+        const parts = [];
+        for (const s of subshells) {
+            if (electrons <= 0) break;
+            const count = Math.min(s.cap, electrons);
+            parts.push(s.n + s.l + count);
+            electrons -= count;
+        }
+        return parts.join(' ');
+    }
+
+    // Compute noble gas abbreviated electron configuration
+    // Determine the last noble gas prior to element Z and return notation like [Ne]3s2
+    const nobleGases = [
+        {num: 2, symbol: 'He'},
+        {num: 10, symbol: 'Ne'},
+        {num: 18, symbol: 'Ar'},
+        {num: 36, symbol: 'Kr'},
+        {num: 54, symbol: 'Xe'},
+        {num: 86, symbol: 'Rn'},
+        {num: 118, symbol: 'Og'},
+    ];
+    // Precompute full electron configurations for noble gases
+    const nobleConfigMap = {};
+    nobleGases.forEach(ng => {
+        nobleConfigMap[ng.num] = computeElectronConfiguration(ng.num).split(' ');
+    });
+
+    function computeNobleGasConfiguration(Z) {
+        const full = computeElectronConfiguration(Z).split(' ');
+        // find noble gas with atomic number < Z, starting from highest
+        let chosen = null;
+        for (let i = nobleGases.length - 1; i >= 0; i--) {
+            if (nobleGases[i].num < Z) {
+                chosen = nobleGases[i];
+                break;
+            }
+        }
+        if (chosen) {
+            const nobleParts = nobleConfigMap[chosen.num];
+            // drop noble parts from full config
+            let remainder = full.slice(nobleParts.length);
+            // join remainder; if empty, no additional orbitals
+            const remString = remainder.join(' ');
+            return '[' + chosen.symbol + '] ' + (remString ? remString : '');
+        }
+        // if no noble gas (Z is 1) just return full config
+        return full.join(' ');
+    }
+
+    // Determine valid cell positions in the skeleton (period, group). Mark invalid cells.
+    // We'll create 7 rows (periods 1-7) and 18 columns (groups 1-18).
+    const tableContainer = document.getElementById('periodic-table');
+    const validPositions = {};
+    elements.forEach(el => {
+        const key = `${el.period}-${el.group}`;
+        validPositions[key] = el;
+    });
+
+    // Create grid cells
+    for (let period = 1; period <= 7; period++) {
+        for (let group = 1; group <= 18; group++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            // mark period and group for all cells
+            cell.dataset.period = period;
+            cell.dataset.group = group;
+            const key = `${period}-${group}`;
+            if (!validPositions[key]) {
+                // invalid cell
+                cell.classList.add('empty');
+                cell.dataset.valid = 'false';
+            } else {
+                cell.dataset.valid = 'true';
+                // for valid cells, determine if last column or last row to avoid double borders
+                const rightKey = `${period}-${group + 1}`;
+                if (!validPositions[rightKey]) {
+                    cell.classList.add('last-col');
+                }
+                const belowKey = `${period + 1}-${group}`;
+                if (!validPositions[belowKey]) {
+                    cell.classList.add('last-row');
+                }
+            }
+            tableContainer.appendChild(cell);
+        }
+    }
+
+    // Scoreboard variables
+    let correctCount = 0;
+    let incorrectCount = 0;
+    let score = 0;
+    let timeSum = 0; // sum of times for correct placements
+    let startTime = null;
+    let attemptCount = 0;
+
+    const showPositionBtn = document.getElementById('show-position-btn');
+
+    // List of remaining element numbers
+    let remaining = elements.map(e => e.number);
+
+    // Current element being challenged
+    let currentElement = null;
+    const challengeElem = document.getElementById('challenge');
+    const challengeContainer = document.getElementById('challenge-container');
+
+    // Starting coordinates for challenge (will be computed later)
+    let startLeft = 0;
+    let startTop = 0;
+    let isDragging = false;
+    let currentHighlightCell = null;
+
+    function updateScoreboard() {
+        document.getElementById('correct-count').textContent = `Correct: ${correctCount}`;
+        document.getElementById('incorrect-count').textContent = `Incorrect: ${incorrectCount}`;
+        const avg = correctCount > 0 ? (timeSum / correctCount).toFixed(1) : '0.0';
+        document.getElementById('avg-time').textContent = `Avg Time: ${avg} s`;
+        document.getElementById('score').textContent = `Score: ${score}`;
+        // Update high score: if current score exceeds previous high score, update it and show message
+        if (score > highScore) {
+            highScore = score;
+            setHighScoreForDifficulty(difficulty, highScore);
+            // display congratulatory message
+            const msgDiv = document.getElementById('high-score-msg');
+            msgDiv.textContent = 'Congratulations! New high score!';
+            msgDiv.style.display = 'block';
+        }
+        // update high score display
+        document.getElementById('high-score').textContent = `High Score: ${highScore}`;
+    }
+
+    /**
+     * Determine whether the current difficulty level is complete.
+     * If complete, show completion dialog; otherwise pick a new challenge.
+     */
+    function maybeHandleCompletion() {
+        // Compute allowed numbers for current difficulty
+        const allowedNumbers = elements.filter(el => {
+            if (difficulty === 'easy') {
+                return (
+                    el.number <= 30 ||
+                    el.category === 'alkali' ||
+                    el.category === 'alkaline' ||
+                    el.category === 'nonmetal' ||
+                    el.category === 'noble gas'
+                );
+            } else if (difficulty === 'medium') {
+                return (
+                    el.number <= 30 ||
+                    el.category === 'alkali' ||
+                    el.category === 'alkaline' ||
+                    el.category === 'nonmetal' ||
+                    el.category === 'noble gas' ||
+                    el.period === 5
+                );
+            } else {
+                return true;
+            }
+        }).map(el => el.number);
+        // Determine if any allowed numbers remain that are not yet placed
+        const eligible = remaining.filter(num => allowedNumbers.includes(num));
+        if (eligible.length === 0) {
+            // No eligible elements remain: level complete
+            // If difficulty is hard and nothing remains at all, still show completion
+            showCompletionDialog();
+        } else {
+            // Continue with new challenge
+            selectRandomElement();
+        }
+    }
+
+    /**
+     * Show completion modal with appropriate buttons based on current difficulty.
+     */
+    function showCompletionDialog() {
+        const modal = document.getElementById('completion-modal');
+        const messageEl = document.getElementById('completion-message');
+        const subtextEl = document.getElementById('completion-subtext');
+        const nextBtn = document.getElementById('next-level-btn');
+        const replayBtn = document.getElementById('replay-level-btn');
+        // Update message depending on whether there is a next difficulty
+        if (difficulty === 'easy') {
+            messageEl.textContent = 'Great job! You completed Easy mode.';
+            subtextEl.textContent = 'Would you like to advance to Medium or replay Easy?';
+            nextBtn.textContent = 'Next: Medium';
+            nextBtn.style.display = 'inline-block';
+        } else if (difficulty === 'medium') {
+            messageEl.textContent = 'Well done! You completed Medium mode.';
+            subtextEl.textContent = 'Would you like to advance to Hard or replay Medium?';
+            nextBtn.textContent = 'Next: Hard';
+            nextBtn.style.display = 'inline-block';
+        } else {
+            messageEl.textContent = 'Congratulations! You completed Hard mode!';
+            subtextEl.textContent = 'You have placed all elements. Would you like to replay?';
+            // hide next button when there is no next difficulty
+            nextBtn.style.display = 'none';
+        }
+        modal.style.display = 'flex';
+    }
+
+    /**
+     * Reset the game state and clear the board. Optionally change difficulty.
+     * @param {string} newDiff optional difficulty to set ('easy','medium','hard')
+     */
+    function resetGame(newDiff) {
+        // Clear all filled cells
+        const cells = document.querySelectorAll('.cell[data-valid="true"]');
+        cells.forEach(cell => {
+            if (cell.dataset.filled) {
+                cell.dataset.filled = '';
+                cell.style.backgroundColor = '';
+                // remove content and click listener
+                cell.innerHTML = '';
+                cell.removeEventListener('click', onCellClick);
+            }
+        });
+        // Reset scoreboard variables
+        correctCount = 0;
+        incorrectCount = 0;
+        score = 0;
+        timeSum = 0;
+        // Reset remaining to all elements numbers
+        remaining = elements.map(e => e.number);
+        // Update difficulty if provided
+        if (newDiff) {
+            difficulty = newDiff;
+            // update radio selection accordingly
+            const radio = document.querySelector(`input[name="difficulty"][value="${newDiff}"]`);
+            if (radio) radio.checked = true;
+        }
+        // update high score for current difficulty
+        highScore = getHighScoreForDifficulty(difficulty);
+        // hide high score message
+        const msgDiv = document.getElementById('high-score-msg');
+        msgDiv.style.display = 'none';
+        // Update scoreboard now (after resetting variables and high score)
+        updateScoreboard();
+        // Hide completion modal if visible
+        document.getElementById('completion-modal').style.display = 'none';
+        // Hide show position button
+        showPositionBtn.style.display = 'none';
+        // Start new challenge
+        selectRandomElement();
+    }
+
+    function formatMass(m) {
+        // Remove trailing .0
+        return (Math.round(m * 10) / 10).toString().replace(/\.0$/, '');
+    }
+
+    function selectRandomElement() {
+        // Determine allowed atomic numbers based on difficulty and remaining elements
+        function getAllowedNumbers() {
+            return elements.filter(el => {
+                // exclude lanthanides and actinides (elements we omitted in the list) implicitly
+                if (difficulty === 'easy') {
+                    // atomic numbers 1-30 OR alkali/alkaline/nonmetal/noble gas categories
+                    return (
+                        el.number <= 30 ||
+                        el.category === 'alkali' ||
+                        el.category === 'alkaline' ||
+                        el.category === 'nonmetal' ||
+                        el.category === 'noble gas'
+                    );
+                } else if (difficulty === 'medium') {
+                    // easy elements plus period 5 elements
+                    return (
+                        el.number <= 30 ||
+                        el.category === 'alkali' ||
+                        el.category === 'alkaline' ||
+                        el.category === 'nonmetal' ||
+                        el.category === 'noble gas' ||
+                        el.period === 5
+                    );
+                } else {
+                    return true;
+                }
+            }).map(el => el.number);
+        }
+        const allowed = getAllowedNumbers();
+        // Determine eligible numbers from remaining
+        const eligible = remaining.filter(num => allowed.includes(num));
+        if (eligible.length === 0) {
+            // If no eligible elements remain, consider all remaining (hard)
+            if (remaining.length === 0) {
+                alert('Congratulations! You have placed all elements!');
+                return;
+            }
+            currentElement = elementByNumber[remaining.splice(Math.floor(Math.random() * remaining.length), 1)[0]];
+        } else {
+            const randIndex = Math.floor(Math.random() * eligible.length);
+            const num = eligible[randIndex];
+            // remove selected number from remaining
+            const remIndex = remaining.indexOf(num);
+            if (remIndex !== -1) remaining.splice(remIndex, 1);
+            currentElement = elementByNumber[num];
+        }
+        attemptCount = 0;
+        // hide the show position button for a new challenge
+        showPositionBtn.style.display = 'none';
+        // update challenge display: show only the symbol (no atomic or mass numbers)
+        challengeElem.innerHTML = '';
+        const sym = document.createElement('div');
+        sym.classList.add('symbol');
+        sym.textContent = currentElement.symbol;
+        challengeElem.appendChild(sym);
+        // reset position
+        challengeElem.style.left = `${startLeft}px`;
+        challengeElem.style.top = `${startTop}px`;
+        // record start time
+        startTime = performance.now();
+    }
+
+    // Dragging handlers
+    function onPointerDown(e) {
+        if (!currentElement) return;
+        isDragging = true;
+        challengeElem.classList.add('dragging');
+        // store offset between pointer and element top-left
+        const rect = challengeElem.getBoundingClientRect();
+        challengeElem.dataset.offsetX = e.clientX - rect.left;
+        challengeElem.dataset.offsetY = e.clientY - rect.top;
+        // Temporarily disable pointer events on the challenge element so underlying cells can be detected
+        challengeElem.style.pointerEvents = 'none';
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+    }
+    function onPointerMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        const offsetX = parseFloat(challengeElem.dataset.offsetX);
+        const offsetY = parseFloat(challengeElem.dataset.offsetY);
+        const newX = e.clientX - offsetX;
+        const newY = e.clientY - offsetY;
+        challengeElem.style.left = `${newX}px`;
+        challengeElem.style.top = `${newY}px`;
+        // Determine cell under pointer
+        const elementBelow = document.elementFromPoint(e.clientX, e.clientY);
+        let cell = null;
+        if (elementBelow && elementBelow.classList && elementBelow.classList.contains('cell')) {
+            cell = elementBelow;
+        } else if (elementBelow && elementBelow.closest) {
+            const parentCell = elementBelow.closest('.cell');
+            if (parentCell) cell = parentCell;
+        }
+        // Highlight logic
+        if (currentHighlightCell && currentHighlightCell !== cell) {
+            currentHighlightCell.classList.remove('highlight');
+            currentHighlightCell = null;
+        }
+        if (cell && cell.dataset.valid === 'true' && !cell.dataset.filled) {
+            cell.classList.add('highlight');
+            currentHighlightCell = cell;
+        }
+    }
+    function onPointerUp(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        challengeElem.classList.remove('dragging');
+        // remove move/up listeners
+        window.removeEventListener('pointermove', onPointerMove);
+        window.removeEventListener('pointerup', onPointerUp);
+        // Restore pointer events on the challenge element
+        challengeElem.style.pointerEvents = 'auto';
+        // Evaluate drop
+        if (currentHighlightCell && currentHighlightCell.dataset.valid === 'true' && !currentHighlightCell.dataset.filled) {
+            const period = parseInt(currentHighlightCell.dataset.period);
+            const group = parseInt(currentHighlightCell.dataset.group);
+            // Check if correct
+            if (period === currentElement.period && group === currentElement.group) {
+                // correct placement
+                fillCell(currentHighlightCell, currentElement);
+                const elapsed = (performance.now() - startTime) / 1000;
+                timeSum += elapsed;
+                correctCount++;
+                // score computation using scoringConfig
+                if (attemptCount === 0) {
+                    // first attempt: find the first rule where elapsed < threshold
+                    let addedScore = 0;
+                    for (const rule of scoringConfig.correctFirst) {
+                        if (elapsed < rule.threshold) {
+                            addedScore = rule.score;
+                            break;
+                        }
+                    }
+                    score += addedScore;
+                } else {
+                    score += scoringConfig.correctMultiple;
+                }
+                updateScoreboard();
+                currentHighlightCell.classList.remove('highlight');
+                currentHighlightCell = null;
+                // hide show position button
+                showPositionBtn.style.display = 'none';
+                // proceed to next challenge or complete level
+                maybeHandleCompletion();
+            } else {
+                // incorrect placement
+                incorrectCount++;
+                score += scoringConfig.incorrect;
+                updateScoreboard();
+                // flash wrong
+                currentHighlightCell.classList.add('flash-wrong');
+                setTimeout(() => {
+                    if( currentHighlightCell != null ) {
+                      currentHighlightCell.classList.remove('flash-wrong');
+                    }
+                }, 500);
+                currentHighlightCell.classList.remove('highlight');
+                currentHighlightCell = null;
+                // revert challenge
+                challengeElem.style.left = `${startLeft}px`;
+                challengeElem.style.top = `${startTop}px`;
+                attemptCount++;
+                // show "Show position" button after first wrong attempt
+                showPositionBtn.style.display = 'block';
+            }
+        } else {
+            // Not dropped on valid cell
+            challengeElem.style.left = `${startLeft}px`;
+            challengeElem.style.top = `${startTop}px`;
+        }
+    }
+
+    function fillCell(cell, element) {
+        cell.dataset.filled = 'true';
+        // set background colour based on category
+        cell.style.backgroundColor = categoryColors[element.category];
+        // insert element content
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('element');
+        const an = document.createElement('div');
+        an.classList.add('atomic-number');
+        an.textContent = element.number;
+        const sym = document.createElement('div');
+        sym.classList.add('symbol');
+        sym.textContent = element.symbol;
+        const massDiv = document.createElement('div');
+        massDiv.classList.add('mass');
+        massDiv.textContent = formatMass(element.mass);
+        wrapper.appendChild(an);
+        wrapper.appendChild(sym);
+        wrapper.appendChild(massDiv);
+        cell.appendChild(wrapper);
+        // store element number in cell for config display
+        cell.dataset.elementNumber = element.number;
+        // add click listener to toggle electron configuration
+        cell.addEventListener('click', onCellClick);
+    }
+
+    // Toggle electron configuration display on cell click
+    function onCellClick(e) {
+        const cell = e.currentTarget;
+        // ignore if dragging is happening
+        if (isDragging) return;
+        const existing = cell.querySelector('.config-tooltip');
+        if (existing) {
+            existing.remove();
+            return;
+        }
+        const num = parseInt(cell.dataset.elementNumber);
+        const config = computeNobleGasConfiguration(num);
+        const tooltip = document.createElement('div');
+        tooltip.classList.add('config-tooltip');
+        // include electron configuration and element name
+        const name = elementNames[num] || '';
+        tooltip.innerHTML = `${config}<br><span class="element-name">${name}</span>`;
+        cell.appendChild(tooltip);
+    }
+
+    // Initialize after DOM is ready
+    window.addEventListener('load', () => {
+        // compute cell size and set challenge size relative
+        const anyCell = document.querySelector('.cell[data-valid="true"]');
+        const rect = anyCell.getBoundingClientRect();
+        const size = rect.width;
+        // Challenge size significantly larger than a cell (1.5x)
+        const challengeSize = size * 1.5;
+        challengeElem.style.width = `${challengeSize}px`;
+        challengeElem.style.height = `${challengeSize}px`;
+        // Place challenge near period 2 and centred between group 9 and 10
+        // Use centre of a valid period 2 cell for vertical alignment
+        const row2Ref = document.querySelector('.cell[data-period="2"][data-valid="true"]');
+        const col9Ref = document.querySelector('.cell[data-group="9"][data-valid="true"]');
+        const col10Ref = document.querySelector('.cell[data-group="10"][data-valid="true"]');
+        const rowRect = row2Ref.getBoundingClientRect();
+        const col9Rect = col9Ref.getBoundingClientRect();
+        const col10Rect = col10Ref.getBoundingClientRect();
+        const rowCenterY = rowRect.top + rowRect.height / 2;
+        const centerX = (col9Rect.left + col9Rect.right + col10Rect.left + col10Rect.right) / 4;
+        const containerRect = challengeContainer.getBoundingClientRect();
+        startLeft = centerX - challengeSize / 2 - containerRect.left;
+        startTop = rowCenterY - challengeSize / 2 - containerRect.top;
+        challengeElem.style.left = `${startLeft}px`;
+        challengeElem.style.top = `${startTop}px`;
+        // Add pointerdown listener
+        challengeElem.addEventListener('pointerdown', onPointerDown);
+        // Load high score for current difficulty
+        highScore = getHighScoreForDifficulty(difficulty);
+        // Kick off first challenge
+        selectRandomElement();
+        // Update scoreboard once initialised
+        updateScoreboard();
+
+        // Set up handler for show position button
+        showPositionBtn.addEventListener('click', () => {
+            if (!currentElement) return;
+            // find correct cell directly by period and group
+            const selector = `.cell[data-period="${currentElement.period}"][data-group="${currentElement.group}"]`;
+            const correctCell = document.querySelector(selector);
+            if (correctCell && !correctCell.dataset.filled) {
+                fillCell(correctCell, currentElement);
+            }
+            // treat as wrong answer
+            incorrectCount++;
+            score += scoringConfig.incorrect;
+            updateScoreboard();
+            // hide the button
+            showPositionBtn.style.display = 'none';
+            // proceed to next challenge or completion
+            maybeHandleCompletion();
+        });
+
+        // Difficulty selection change handler
+        const difficultyRadios = document.querySelectorAll('input[name="difficulty"]');
+        difficultyRadios.forEach(radio => {
+            radio.addEventListener('change', (event) => {
+                const newDiff = event.target.value;
+                // Reset the game entirely when difficulty changes
+                resetGame(newDiff);
+            });
+        });
+
+        // Global replay button resets the current game without changing difficulty
+        const replayBtn = document.getElementById('replay-btn');
+        replayBtn.addEventListener('click', () => {
+            resetGame(difficulty);
+        });
+
+        // Completion modal buttons
+        document.getElementById('next-level-btn').addEventListener('click', () => {
+            // Determine next difficulty
+            let next;
+            if (difficulty === 'easy') next = 'medium';
+            else if (difficulty === 'medium') next = 'hard';
+            else next = 'hard';
+            resetGame(next);
+        });
+        document.getElementById('replay-level-btn').addEventListener('click', () => {
+            resetGame(difficulty);
+        });
+
+        // Helper to get allowed numbers for current difficulty (used in change handler)
+        function getAllowedNumbersForDifficulty() {
+            return elements.filter(el => {
+                if (difficulty === 'easy') {
+                    return (
+                        el.number <= 30 ||
+                        el.category === 'alkali' ||
+                        el.category === 'alkaline' ||
+                        el.category === 'nonmetal' ||
+                        el.category === 'noble gas'
+                    );
+                } else if (difficulty === 'medium') {
+                    return (
+                        el.number <= 30 ||
+                        el.category === 'alkali' ||
+                        el.category === 'alkaline' ||
+                        el.category === 'nonmetal' ||
+                        el.category === 'noble gas' ||
+                        el.period === 5
+                    );
+                } else {
+                    return true;
+                }
+            }).map(el => el.number);
+        }
+    });
+    </script>
+</body>
+</html>
