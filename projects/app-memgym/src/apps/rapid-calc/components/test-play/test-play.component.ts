@@ -5,7 +5,7 @@ import { Output, EventEmitter } from '@angular/core' ;
 import { ViewChild, ElementRef } from '@angular/core' ;
 import { Question } from '../../question'
 import { QuestionGenerator } from "./question-generator";
-import { GameConfig } from "../../new-test.config";
+import { GameConfig } from "../../rapid-calc.config";
 
 @Component({
     selector: 'test-play',

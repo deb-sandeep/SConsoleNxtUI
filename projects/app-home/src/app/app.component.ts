@@ -59,11 +59,11 @@ export class AppComponent {
       name : "Memory Gym",
       modules : [
         {
-          name : "Speed<br>Arithmetic",
-          icon : "calculator",
+          name : "Memory Gym",
+          icon : "crosshair2",
           bgcolor : "#b9d2fc",
-          target : '/apps/memgym/arithmetic/index.html'
-        },
+          target : '/apps/memgym/index.html'
+        }
       ]
     },
   ] ;

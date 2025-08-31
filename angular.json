@@ -134,7 +134,7 @@
         }
       }
     },
-    "app-memgym-arithmetic": {
+    "app-memgym": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
@@ -162,34 +162,38 @@
           "skipTests": true
         }
       },
-      "root": "projects/app-memgym-arithmetic",
-      "sourceRoot": "projects/app-memgym-arithmetic/src",
+      "root": "projects/app-memgym",
+      "sourceRoot": "projects/app-memgym/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "baseHref": "/apps/memgym/arithmetic/",
+            "baseHref": "/apps/memgym/",
             "outputPath": {
-              "base": "dist/webroot/apps/memgym/arithmetic",
+              "base": "dist/webroot/apps/memgym",
               "browser": ""
             },
-            "index": "projects/app-memgym-arithmetic/src/index.html",
-            "browser": "projects/app-memgym-arithmetic/src/main.ts",
+            "index": "projects/app-memgym/src/index.html",
+            "browser": "projects/app-memgym/src/main.ts",
             "polyfills": [
               "zone.js",
               "@angular/localize/init"
             ],
-            "tsConfig": "projects/app-memgym-arithmetic/tsconfig.app.json",
+            "tsConfig": "projects/app-memgym/tsconfig.app.json",
             "assets": [
-              "projects/app-memgym-arithmetic/src/assets"
+              "projects/app-memgym/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/app-memgym/public"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
               "projects/lib-core/assets/bootstrap-overrides.css",
               "projects/lib-core/assets/styles.css",
-              "projects/app-memgym-arithmetic/src/assets/styles.css"
+              "projects/app-memgym/src/assets/styles.css"
             ],
             "scripts": []
           },
@@ -222,6 +226,10 @@
               "assets": [
                 {
                   "glob": "**/*",
+                  "input": "projects/app-memgym/public"
+                },
+                {
+                  "glob": "**/*",
                   "input": "./projects/lib-core/assets",
                   "output": "/core-assets/"
                 }
@@ -234,10 +242,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "app-memgym-arithmetic:build:production"
+              "buildTarget": "app-memgym:build:production"
             },
             "development": {
-              "buildTarget": "app-memgym-arithmetic:build:development"
+              "buildTarget": "app-memgym:build:development"
             }
           },
           "defaultConfiguration": "development"

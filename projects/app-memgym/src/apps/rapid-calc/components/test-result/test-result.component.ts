@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common' ;
 import { FormsModule } from '@angular/forms' ;
 import { Output, EventEmitter } from '@angular/core' ;
 import { Question } from "../../question";
-import { GameConfig } from "../../new-test.config";
+import { GameConfig } from "../../rapid-calc.config";
 
 @Component({
     selector: 'test-result',

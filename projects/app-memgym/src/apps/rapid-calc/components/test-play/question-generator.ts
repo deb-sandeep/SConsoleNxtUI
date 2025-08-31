@@ -1,4 +1,4 @@
-import { GameConfig } from "../../new-test.config";
+import { GameConfig } from "../../rapid-calc.config";
 import { Question, Op } from "../../question";
 
 export class QuestionGenerator {

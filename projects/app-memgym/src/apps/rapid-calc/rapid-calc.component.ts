@@ -6,10 +6,11 @@ import { LocalStorageService } from "lib-core" ;
 
 import { TestSetupComponent } from "./components/test-setup/test-setup.component";
 import { TestPlayComponent } from "./components/test-play/test-play.component";
-import { GameConfig } from "./new-test.config";
+import { GameConfig } from "./rapid-calc.config";
 import { TestResultComponent } from "./components/test-result/test-result.component";
 import { Question } from "./question";
 import { QuestionGenerator } from "./components/test-play/question-generator";
+import { UIStateService } from "../../ui-service";
 
 @Component({
     selector: 'feature-new-test',
@@ -17,10 +18,10 @@ import { QuestionGenerator } from "./components/test-play/question-generator";
         CommonModule,
         TestSetupComponent, TestPlayComponent, TestResultComponent
     ],
-    templateUrl: './new-test.component.html',
-    styleUrl: './new-test.component.css'
+    templateUrl: './rapid-calc.component.html',
+    styleUrl: './rapid-calc.component.css'
 })
-export class NewTestComponent {
+export class RapidCalcComponent {
 
   private readonly LS_CFG_KEY:string = 'sc-memgym-arithmetic-cfg' ;
   private readonly FOCUS_DURATION:number = 5 ;
@@ -64,13 +65,19 @@ export class NewTestComponent {
 
   private debugFlag:boolean = false ;
 
-  constructor( private localStorageSvc: LocalStorageService ) {}
+  constructor( private localStorageSvc: LocalStorageService, private uiState: UIStateService ) {
+    this.uiState.setAppTitle( 'Rapid Calculator' ) ;
+  }
 
   ngOnInit() {
     const cfgStr = localStorage.getItem( this.LS_CFG_KEY ) ;
     if( cfgStr != null ) {
       this.gameCfg = JSON.parse( cfgStr ) ;
     }
+  }
+
+  ngAfterViewInit() {
+    this.uiState.highlightMenuBarIcon( "rapid-calc" ) ;
   }
 
   // This method is called when the user clicks 'Ok' on the test-result page.
