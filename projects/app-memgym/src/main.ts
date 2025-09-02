@@ -9,6 +9,7 @@ import { Routes } from '@angular/router';
 import { RapidCalcComponent } from "./apps/rapid-calc/rapid-calc.component" ;
 import { PeriodicTableComponent } from "./apps/periodic-table/periodic-table.component";
 import { UIStateService } from "./ui-service";
+import { TrendPlotterComponent } from "./apps/trend-plotter/trend-plotter.component";
 
 const routes: Routes = [
     {
@@ -25,6 +26,11 @@ const routes: Routes = [
         path: 'periodic-table',
         title: 'Periodic Table',
         component: PeriodicTableComponent
+    },
+    {
+        path: 'trend-plotter',
+        title: 'Trend Plotter',
+        component: TrendPlotterComponent
     }
 ] ;
 

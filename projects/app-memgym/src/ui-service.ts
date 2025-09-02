@@ -11,6 +11,7 @@ export class UIStateService {
     menubarMeta : FeatureMenuItemMeta[] = [
         { iconName:'calculator',  routePath:'/rapid-calc', selected:false },
         { iconName:'grid-3x2',  routePath:'/periodic-table', selected:false },
+        { iconName:'graph-up',  routePath:'/trend-plotter', selected:false },
     ] ;
 
     setAppTitle( newTitle: string ) {

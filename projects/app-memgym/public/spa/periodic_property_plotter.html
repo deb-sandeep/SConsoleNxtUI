@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Periodic Property Plotter</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root{
+      /* Theme colors */
+      --bg:#0b1020;
+      --card:#141a2f;
+      --ink:#e8ecff;
+      --muted:#a8b3d1;
+      --accent:#7aa2ff;
+      --grid:#2a3352;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+    }
+    /* Outer wrapper fills most of viewport */
+    .wrap{
+      width:100vw;
+      height:100vh;
+    }
+    .card{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      background:var(--card);
+      border:1px solid #1f2745;
+      border-radius:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+      overflow:hidden;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 18px;
+      border-bottom:1px solid #1f2745;
+    }
+    header h1{
+      font-size:18px;
+      margin:0;
+      font-weight:650;
+      letter-spacing:.2px;
+    }
+    .pill{
+      display:inline-block;
+      padding:2px 8px;
+      border:1px solid #2a3352;
+      border-radius:999px;
+      margin-left:8px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    /* Main container splits into left (chart) and right (controls) panels */
+    .main{
+      flex:1 1 auto;
+      display:flex;
+      min-height:0;
+    }
+    .left{
+      /* Chart panel occupies ~75% width */
+      flex:0 0 80%;
+      min-width:0;
+      padding:12px 14px;
+      box-sizing:border-box;
+      display:flex;
+      flex-direction:column;
+    }
+    .right{
+      /* Control panel occupies ~25% width */
+      flex:0 0 20%;
+      min-width:260px;
+      max-width:32rem;
+      border-left:1px solid #1f2745;
+      box-sizing:border-box;
+      display:flex;
+      flex-direction:column;
+      padding:12px;
+      gap:12px;
+    }
+    /* Plot area grows to fill left panel */
+    .plot-area{
+      width: 100%;
+      height: 100%;
+    }
+    .canvas-wrapper{
+      width: 100%;
+      height: 100%;
+    }
+    canvas{
+      display:block;
+      width:100% !important;
+      height:100% !important;
+      background:#0a0f20;
+      border:1px solid #1b2342;
+      border-radius:12px;
+    }
+    /* Controls layout */
+    .controls{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    .control{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    label{
+      font-size:12px;
+      color:var(--muted);
+    }
+    select,button{
+      background:#0e1428;
+      color:var(--ink);
+      border:1px solid #243058;
+      border-radius:10px;
+      padding:10px 12px;
+      font-size:14px;
+      outline:none;
+    }
+    select:focus,button:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(122,162,255,.2);
+    }
+    .radio-group{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:8px 10px;
+      background:#0e1428;
+      border:1px solid #243058;
+      border-radius:10px;
+    }
+    .radio-group label{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      font-size:14px;
+      color:var(--ink);
+    }
+    .plot-btn{
+      background:linear-gradient(180deg, #7aa2ff, #6a8cff);
+      border:0;
+      color:#0b1020;
+      font-weight:700;
+      cursor:pointer;
+      margin-right: 10px;
+    }
+    .plot-btn:hover{
+      filter:brightness(1.05);
+    }
+    .actions{
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+    }
+    /* Series list panel */
+    .series-panel{
+      border-top:1px solid #1f2745;
+      padding-top:10px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-height:0;
+    }
+    .series-panel .title{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .series-list{
+      flex:1 1 auto;
+      min-height:0;
+      overflow:auto;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .series-chip{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      background:#0e1428;
+      border:1px solid #243058;
+      border-radius:10px;
+      padding:6px 10px;
+    }
+    .swatch{
+      width:12px;
+      height:12px;
+      border-radius:3px;
+      display:inline-block;
+      margin-right:10px;
+    }
+    .chip-label{
+      color:#cdd6ff;
+      font-size:12px;
+    }
+    .chip-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .chip-actions input[type="checkbox"]{
+      accent-color:#7aa2ff;
+    }
+    .chip-remove{
+      background:#1a2140;
+      border:1px solid #2a3352;
+      color:#e8ecff;
+      border-radius:8px;
+      padding:2px 6px;
+      cursor:pointer;
+    }
+    /* Hide dataset and units footers if present */
+    .note,.legend,.footer{
+      display:none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <h1>Periodic Property Plotter</h1>
+      </header>
+      <div class="main">
+        <!-- Left panel: chart area -->
+        <div class="left">
+          <div class="plot-area">
+            <div class="canvas-wrapper">
+              <canvas id="chart"></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- Right panel: controls and series list -->
+        <aside class="right">
+          <div class="controls">
+            <div class="control">
+              <label for="propertySel">Property</label>
+              <select id="propertySel" aria-label="Choose property">
+                <option value="electronegativity">Electronegativity (Pauling)</option>
+                <option value="electronAffinity">Electron Affinity (kJ/mol)</option>
+                <option value="atomicRadius">Atomic Radius (pm)</option>
+                <option value="ionicRadius">Ionic Radius (pm)</option>
+                <option value="IE1">IE1 (kJ/mol)</option>
+                <option value="IE2">IE2 (kJ/mol)</option>
+              </select>
+            </div>
+            <div class="control">
+              <label>Axis Mode</label>
+              <div class="radio-group" role="radiogroup" aria-label="Choose axis mode">
+                <label><input type="radio" name="axisMode" value="period" checked /> Period</label>
+                <label><input type="radio" name="axisMode" value="group" /> Group</label>
+              </div>
+            </div>
+            <div class="control">
+              <label for="numSel" id="numSelLabel">Period Number</label>
+              <select id="numSel" aria-labelledby="numSelLabel"></select>
+            </div>
+            <div class="actions">
+              <button class="plot-btn" id="plotBtn">Plot</button>
+              <div id="plotActions" style="display:none;">
+                <button class="plot-btn" id="addSeriesBtn" title="Add this series">Add to plot</button>
+                <button class="plot-btn" id="newPlotBtn"  title="Clear and plot only this">New plot</button>
+              </div>
+            </div>
+          </div>
+          <div class="series-panel">
+            <div class="title">Series</div>
+            <div id="seriesList" class="series-list"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // -----------------------------
+  // Element dataset: base and static append (lanthanides/actinides removed). Values in kJ/mol and pm.
+  // -----------------------------
+  const elements = [
+    {Z:1,sym:'H',period:1,group:1,electronegativity:2.20,electronAffinity:73,atomicRadius:53,ionicRadius:154,IE1:1312,IE2:null},
+    {Z:2,sym:'He',period:1,group:18,electronegativity:null,electronAffinity:0,atomicRadius:31,ionicRadius:null,IE1:2372,IE2:5251},
+    {Z:3,sym:'Li',period:2,group:1,electronegativity:0.98,electronAffinity:60,atomicRadius:167,ionicRadius:76,IE1:520,IE2:7298},
+    {Z:4,sym:'Be',period:2,group:2,electronegativity:1.57,electronAffinity:0,atomicRadius:112,ionicRadius:45,IE1:900,IE2:1757},
+    {Z:5,sym:'B',period:2,group:13,electronegativity:2.04,electronAffinity:27,atomicRadius:87,ionicRadius:27,IE1:801,IE2:2427},
+    {Z:6,sym:'C',period:2,group:14,electronegativity:2.55,electronAffinity:122,atomicRadius:67,ionicRadius:260,IE1:1086,IE2:2352},
+    {Z:7,sym:'N',period:2,group:15,electronegativity:3.04,electronAffinity:0,atomicRadius:56,ionicRadius:146,IE1:1402,IE2:2856},
+    {Z:8,sym:'O',period:2,group:16,electronegativity:3.44,electronAffinity:141,atomicRadius:48,ionicRadius:140,IE1:1314,IE2:3388},
+    {Z:9,sym:'F',period:2,group:17,electronegativity:3.98,electronAffinity:328,atomicRadius:42,ionicRadius:133,IE1:1681,IE2:3375},
+    {Z:10,sym:'Ne',period:2,group:18,electronegativity:null,electronAffinity:0,atomicRadius:38,ionicRadius:null,IE1:2081,IE2:3952},
+    {Z:11,sym:'Na',period:3,group:1,electronegativity:0.93,electronAffinity:53,atomicRadius:190,ionicRadius:102,IE1:496,IE2:4563},
+    {Z:12,sym:'Mg',period:3,group:2,electronegativity:1.31,electronAffinity:0,atomicRadius:145,ionicRadius:72,IE1:738,IE2:1451},
+    {Z:13,sym:'Al',period:3,group:13,electronegativity:1.61,electronAffinity:42,atomicRadius:118,ionicRadius:53,IE1:578,IE2:1817},
+    {Z:14,sym:'Si',period:3,group:14,electronegativity:1.90,electronAffinity:134,atomicRadius:111,ionicRadius:271,IE1:787,IE2:1577},
+    {Z:15,sym:'P',period:3,group:15,electronegativity:2.19,electronAffinity:72,atomicRadius:98,ionicRadius:212,IE1:1012,IE2:1907},
+    {Z:16,sym:'S',period:3,group:16,electronegativity:2.58,electronAffinity:200,atomicRadius:88,ionicRadius:184,IE1:1000,IE2:2252},
+    {Z:17,sym:'Cl',period:3,group:17,electronegativity:3.16,electronAffinity:349,atomicRadius:79,ionicRadius:181,IE1:1251,IE2:2298},
+    {Z:18,sym:'Ar',period:3,group:18,electronegativity:null,electronAffinity:0,atomicRadius:71,ionicRadius:null,IE1:1521,IE2:2666},
+    {Z:19,sym:'K',period:4,group:1,electronegativity:0.82,electronAffinity:48,atomicRadius:243,ionicRadius:138,IE1:419,IE2:3052},
+    {Z:20,sym:'Ca',period:4,group:2,electronegativity:1.00,electronAffinity:2,atomicRadius:194,ionicRadius:100,IE1:590,IE2:1145},
+    {Z:21,sym:'Sc',period:4,group:3,electronegativity:1.36,electronAffinity:19,atomicRadius:184,ionicRadius:74,IE1:633,IE2:1235},
+    {Z:22,sym:'Ti',period:4,group:4,electronegativity:1.54,electronAffinity:8,atomicRadius:176,ionicRadius:61,IE1:659,IE2:1309},
+    {Z:23,sym:'V',period:4,group:5,electronegativity:1.63,electronAffinity:50,atomicRadius:171,ionicRadius:59,IE1:651,IE2:1414},
+    {Z:24,sym:'Cr',period:4,group:6,electronegativity:1.66,electronAffinity:65,atomicRadius:166,ionicRadius:52,IE1:653,IE2:1590},
+    {Z:25,sym:'Mn',period:4,group:7,electronegativity:1.55,electronAffinity:0,atomicRadius:161,ionicRadius:53,IE1:717,IE2:1509},
+    {Z:26,sym:'Fe',period:4,group:8,electronegativity:1.83,electronAffinity:16,atomicRadius:156,ionicRadius:61,IE1:763,IE2:1561},
+    {Z:27,sym:'Co',period:4,group:9,electronegativity:1.88,electronAffinity:64,atomicRadius:152,ionicRadius:65,IE1:760,IE2:1648},
+    {Z:28,sym:'Ni',period:4,group:10,electronegativity:1.91,electronAffinity:112,atomicRadius:149,ionicRadius:69,IE1:737,IE2:1753},
+    {Z:29,sym:'Cu',period:4,group:11,electronegativity:1.90,electronAffinity:119,atomicRadius:145,ionicRadius:77,IE1:746,IE2:1958},
+    {Z:30,sym:'Zn',period:4,group:12,electronegativity:1.65,electronAffinity:0,atomicRadius:142,ionicRadius:74,IE1:906,IE2:1734},
+    {Z:31,sym:'Ga',period:4,group:13,electronegativity:1.81,electronAffinity:29,atomicRadius:136,ionicRadius:62,IE1:579,IE2:1979},
+    {Z:32,sym:'Ge',period:4,group:14,electronegativity:2.01,electronAffinity:119,atomicRadius:125,ionicRadius:73,IE1:762,IE2:1537},
+    {Z:33,sym:'As',period:4,group:15,electronegativity:2.18,electronAffinity:78,atomicRadius:114,ionicRadius:58,IE1:947,IE2:1798},
+    {Z:34,sym:'Se',period:4,group:16,electronegativity:2.55,electronAffinity:195,atomicRadius:103,ionicRadius:50,IE1:941,IE2:2045},
+    {Z:35,sym:'Br',period:4,group:17,electronegativity:2.96,electronAffinity:324,atomicRadius:94,ionicRadius:196,IE1:1140,IE2:2103},
+    {Z:36,sym:'Kr',period:4,group:18,electronegativity:3.00,electronAffinity:0,atomicRadius:88,ionicRadius:null,IE1:1351,IE2:2351},
+  ];
+  // Static append from external dataset (PubChemElements_all.json) for Z>36, excluding lanthanides and actinides
+  const PUBCHEM_SUBSET = [
+    [37,'Rb',0.82,303,4.177,0.468],[38,'Sr',0.95,249,5.695,null],[39,'Y',1.22,219,6.217,0.307],[40,'Zr',1.33,186,6.634,0.426],
+    [41,'Nb',1.60,207,6.759,0.893],[42,'Mo',2.16,209,7.092,0.746],[43,'Tc',1.90,209,7.280,0.550],[44,'Ru',2.20,207,7.361,1.050],
+    [45,'Rh',2.28,195,7.459,1.137],[46,'Pd',2.20,202,8.337,0.557],[47,'Ag',1.93,172,7.576,1.302],[48,'Cd',1.69,158,8.994,null],
+    [49,'In',1.78,193,5.786,0.300],[50,'Sn',1.96,217,7.344,1.200],[51,'Sb',2.05,206,8.640,1.070],[52,'Te',2.10,206,9.010,1.971],
+    [53,'I',2.66,198,10.451,3.059],[54,'Xe',2.60,216,12.130,null],[55,'Cs',0.79,343,3.894,0.472],[56,'Ba',0.89,268,5.212,null],
+    [72,'Hf',1.30,212,6.825,null],[73,'Ta',1.50,217,7.890,0.322],[74,'W',2.36,210,7.980,0.815],[75,'Re',1.90,217,7.880,0.150],
+    [76,'Os',2.20,216,8.700,1.100],[77,'Ir',2.20,202,9.100,1.565],[78,'Pt',2.28,209,9.000,2.128],[79,'Au',2.54,166,9.226,2.309],
+    [80,'Hg',2.00,209,10.438,null],[81,'Tl',1.62,196,6.108,0.200],[82,'Pb',2.33,202,7.417,0.360],[83,'Bi',2.02,207,7.289,0.946],
+    [84,'Po',2.00,197,8.417,1.900],[85,'At',2.20,202,9.500,2.800],[86,'Rn',null,220,10.745,null],[87,'Fr',0.70,348,3.900,0.470],
+    [88,'Ra',0.90,283,5.279,null],[104,'Rf',null,null,null,null],[105,'Db',null,null,null,null],[106,'Sg',null,null,null,null],
+    [107,'Bh',null,null,null,null],[108,'Hs',null,null,null,null],[109,'Mt',null,null,null,null],[110,'Ds',null,null,null,null],
+    [111,'Rg',null,null,null,null],[112,'Cn',null,null,null,null],[113,'Nh',null,null,null,null],[114,'Fl',null,null,null,null],
+    [115,'Mc',null,null,null,null],[116,'Lv',null,null,null,null],[117,'Ts',null,null,null,null],[118,'Og',null,null,null,null]
+  ];
+  const eV_TO_KJMOL = 96.485;
+  function periodForZ(Z){ return (Z>=37 && Z<=54) ? 5 : (Z>=55 && Z<=86) ? 6 : (Z>=87 && Z<=118) ? 7 : null; }
+  function groupForZ(Z){ if(Z>=37 && Z<=54) return (Z-36); if(Z===55) return 1; if(Z===56) return 2; if(Z>=72 && Z<=86) return (Z-68); if(Z===87) return 1; if(Z===88) return 2; if(Z>=104 && Z<=118) return (Z-100); return null; }
+  const moreElements = PUBCHEM_SUBSET.map(([Z,sym,EN,AR,IE1_eV,EA_eV]) => ({
+    Z,
+    sym,
+    period: periodForZ(Z),
+    group: groupForZ(Z),
+    electronegativity: EN ?? null,
+    electronAffinity: (EA_eV == null ? 0 : Math.round(EA_eV * eV_TO_KJMOL)),
+    atomicRadius: (AR == null ? null : Math.round(AR)),
+    ionicRadius: null,
+    IE1: (IE1_eV == null ? null : Math.round(IE1_eV * eV_TO_KJMOL)),
+    IE2: null
+  }));
+  elements.push(...moreElements);
+
+  // --------------------------------------------------------------------
+  // UI element references
+  const propertySel = document.getElementById('propertySel');
+  const axisRadios  = [...document.querySelectorAll('input[name="axisMode"]')];
+  const numSel      = document.getElementById('numSel');
+  const numSelLabel = document.getElementById('numSelLabel');
+  const plotBtn     = document.getElementById('plotBtn');
+  const plotActions = document.getElementById('plotActions');
+  const addSeriesBtn= document.getElementById('addSeriesBtn');
+  const newPlotBtn  = document.getElementById('newPlotBtn');
+  const seriesList  = document.getElementById('seriesList');
+
+  // Helpers to get current selection
+  function currentMode(){ return document.querySelector('input[name="axisMode"]:checked').value; }
+  function currentNum(){ return parseInt(numSel.value,10); }
+  function currentProp(){ return propertySel.value; }
+
+  // Populate the number selector based on axis mode (period -> 1-7, group -> 1-18)
+  function renderNumberOptions(){
+    const mode = currentMode();
+    numSel.innerHTML = '';
+    if(mode === 'period'){
+      numSelLabel.textContent = 'Period Number';
+      for(let i=1; i<=7; i++){
+        const o = document.createElement('option');
+        o.value = o.textContent = i;
+        numSel.appendChild(o);
+      }
+    } else {
+      numSelLabel.textContent = 'Group Number';
+      for(let i=1; i<=18; i++){
+        const o = document.createElement('option');
+        o.value = o.textContent = i;
+        numSel.appendChild(o);
+      }
+    }
+  }
+  // Initial options
+  renderNumberOptions();
+  // When axis mode changes: re-render number options, reset chart, hide dual buttons
+  axisRadios.forEach(r => r.addEventListener('change', () => {
+    renderNumberOptions();
+    resetSeries();
+    hideDualButtonsToDefault();
+  }));
+
+  // Show/hide Add/New buttons when user changes property or number
+  propertySel.addEventListener('change', showDualButtons);
+  numSel.addEventListener('change', showDualButtons);
+  function showDualButtons(){
+    plotBtn.style.display = 'none';
+    plotActions.style.display = 'inline-flex';
+  }
+  function hideDualButtonsToDefault(){
+    plotActions.style.display = 'none';
+    plotBtn.style.display = '';
+  }
+
+  // Chart state
+  let chart = null;
+  let seriesCounter = 0;
+  const ctx = document.getElementById('chart').getContext('2d');
+  const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--grid').trim() || '#2a3352';
+  const palette = ['#7aa2ff','#7ef29a','#f6c177','#f29ed2','#6be6ff','#ffd166','#c58cff','#9ef0f0','#ff9e9e','#a0f17b','#ffb86c'];
+  const PROP_META = {
+    electronegativity:{name:'Electronegativity (Pauling)', unit:''},
+    electronAffinity: {name:'Electron Affinity (kJ/mol)', unit:'kJ/mol'},
+    atomicRadius:     {name:'Atomic Radius (pm)', unit:'pm'},
+    ionicRadius:      {name:'Ionic Radius (pm)', unit:'pm'},
+    IE1:              {name:'IE1 (kJ/mol)', unit:'kJ/mol'},
+    IE2:              {name:'IE2 (kJ/mol)', unit:'kJ/mol'},
+  };
+
+  // Build numeric-domain series: x-axis values 1-18 (groups) or 1-7 (periods)
+  function buildNumericSeries(prop, mode, n){
+    const domainMax = (mode === 'period') ? 18 : 7;
+    const xLabels   = Array.from({length: domainMax}, (_,i) => String(i+1));
+    const yValues   = new Array(domainMax).fill(null);
+    const tags      = new Array(domainMax).fill(null);
+    // Filter elements by period/group and property non-null
+    let rows = elements.filter(el => el[prop] !== null);
+    rows = (mode === 'period') ? rows.filter(el => el.period === n) : rows.filter(el => el.group === n);
+    rows.sort((a,b) => a.Z - b.Z);
+    rows.forEach(el => {
+      const xpos = (mode === 'period') ? el.group : el.period;
+      if(xpos >= 1 && xpos <= domainMax){
+        const idx = xpos - 1;
+        yValues[idx] = el[prop];
+        tags[idx]    = el.sym;
+      }
+    });
+    return { xLabels, yValues, tags };
+  }
+
+  // Annotation plugin: writes element symbols above each point using dataset color
+  const annotateSymbols = {
+    id: 'annotateSymbols',
+    afterDatasetsDraw(c){
+      const {ctx, chartArea:{top}} = c;
+      c.data.datasets.forEach((ds, di) => {
+        const color = ds.borderColor || palette[0];
+        ctx.save();
+        ctx.fillStyle = color;
+        ctx.font = '12px system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        const labels = ds._pointLabels || [];
+        c.getDatasetMeta(di).data.forEach((pt, i) => {
+          const tag = labels[i];
+          const val = ds.data[i];
+          if(tag == null || val == null) return;
+          const y = pt.y - 6;
+          if(y > top - 2){ ctx.fillText(tag, pt.x, y); }
+        });
+        ctx.restore();
+      });
+    }
+  };
+
+  // Reset chart and series panel
+  function resetSeries(){
+    if(chart){ chart.destroy(); chart = null; }
+    seriesList.innerHTML = '';
+    seriesCounter = 0;
+  }
+
+  // Refresh series panel UI: list datasets with toggle and remove buttons
+  function refreshSeriesPanel(){
+    seriesList.innerHTML = '';
+    if(!chart || !chart.data.datasets) return;
+    chart.data.datasets.forEach(ds => {
+      const chip = document.createElement('div');
+      chip.className = 'series-chip';
+      const leftWrap = document.createElement('div');
+      const sw = document.createElement('span');
+      sw.className = 'swatch';
+      sw.style.background = ds.borderColor || '#7aa2ff';
+      const lbl = document.createElement('span');
+      lbl.className = 'chip-label';
+      lbl.textContent = ds.label;
+      leftWrap.appendChild(sw);
+      leftWrap.appendChild(lbl);
+      const act = document.createElement('div');
+      act.className = 'chip-actions';
+      const toggle = document.createElement('input');
+      toggle.type = 'checkbox';
+      toggle.checked = !ds.hidden;
+      toggle.title = 'Toggle visibility';
+      toggle.addEventListener('change', () => {
+        ds.hidden = !toggle.checked;
+        chart.update();
+      });
+      const rm = document.createElement('button');
+      rm.className = 'chip-remove';
+      rm.textContent = '✕';
+      rm.title = 'Remove series';
+      rm.addEventListener('click', () => {
+        const idx = chart.data.datasets.indexOf(ds);
+        if(idx >= 0){
+          chart.data.datasets.splice(idx,1);
+          if(chart.data.datasets.length === 0){ resetSeries(); hideDualButtonsToDefault(); }
+          else { chart.update(); refreshSeriesPanel(); }
+        }
+      });
+      act.appendChild(toggle);
+      act.appendChild(rm);
+      chip.appendChild(leftWrap);
+      chip.appendChild(act);
+      seriesList.appendChild(chip);
+    });
+  }
+
+  // Add a numeric-axis dataset to the chart
+  function addNumericDataset(prop, mode, n){
+    const meta = PROP_META[prop];
+    const { xLabels, yValues, tags } = buildNumericSeries(prop, mode, n);
+    // If no chart exists or axis length changed, rebuild
+    const needRebuild = !chart || (chart.data.labels && chart.data.labels.length !== xLabels.length) || (chart.options.scales.x.title.text.includes('Group') !== (mode === 'period'));
+    if(needRebuild){
+      if(chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: xLabels, datasets: [] },
+        options: {
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display:false, labels:{ color:'#e8ecff' } },
+            tooltip: {
+              callbacks: {
+                title: items => `${mode==='period' ? 'Group' : 'Period'} ${items[0].label}`,
+                label: (ci) => {
+                  const tag = (ci.dataset._pointLabels || [])[ci.dataIndex];
+                  const base = `${ci.dataset.label}${tag ? ` [${tag}]` : ''}: ${ci.parsed.y}`;
+                  return meta.unit ? `${base} ${meta.unit}` : base;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: gridColor },
+              ticks:{ color:'#cdd6ff' },
+              title:{ display:true, text: (mode === 'period') ? 'Group (1–18)' : 'Period (1–7)', color:'#cdd6ff' }
+            },
+            y: {
+              grid: { color:gridColor },
+              ticks:{ color:'#cdd6ff' },
+              title:{ display:true, text: meta.name, color:'#cdd6ff' },
+              beginAtZero: true
+            }
+          }
+        },
+        plugins:[annotateSymbols]
+      });
+    }
+    // Determine color
+    const color = palette[seriesCounter % palette.length];
+    const ds = {
+      label: `${meta.name} — ${mode==='period'?'Period':'Group'} ${n}`,
+      data: yValues,
+      tension:0.25,
+      fill:false,
+      borderWidth:2,
+      pointRadius:4,
+      borderColor: color,
+      _pointLabels: tags,
+      __unit: meta.unit
+    };
+    seriesCounter += 1;
+    chart.data.datasets.push(ds);
+    chart.update();
+    refreshSeriesPanel();
+  }
+
+  // Button handlers
+  function addSeries(){ addNumericDataset(currentProp(), currentMode(), currentNum()); }
+  function newPlot(){ resetSeries(); addSeries(); hideDualButtonsToDefault(); }
+
+  plotBtn.addEventListener('click', newPlot);
+  addSeriesBtn.addEventListener('click', addSeries);
+  newPlotBtn.addEventListener('click', newPlot);
+
+  // Initial plot on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    newPlot();
+  });
+  </script>
+</body>
+</html>
