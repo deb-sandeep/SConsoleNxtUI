@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { UIStateService } from "../../ui-service";
 import { ModalDialogComponent, PageToolbarComponent, ToolbarActionComponent } from "lib-core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -22,6 +22,8 @@ export class ChemCompoundsComponent {
 
     svc = inject( ChemCompoundsService ) ;
 
+    allCompounds: ChemCompound[] ;
+
     importDialogVisible:boolean = false ;
     importQueryParams:any = {
         filterText : "",
@@ -29,22 +31,18 @@ export class ChemCompoundsComponent {
         forceImport : true
     } ;
     importDialogMsgs: string[] = [] ;
-    importedCompound: ChemCompound ;
 
-    latexHtml = `
-  Display: $$E=mc^2$$
-  Inline: \\( \\sqrt{ b^2 - 4ac } \\) <br/>
-  Inline: \\( \\ce{ (CH3COO)Na } \\) <br/>
-  Display: $$\\ce{2H2 + O2 -> 2H2O}$$ <br/>
-  Molar mass: \\( \\pu{18.015 g mol^{-1}} \\)
-`;
+    editDialogVisible: boolean = false ;
+    editDialogMsgs: string[] = [] ;
+    editableCompound: ChemCompound | null = null ;
 
     constructor( private uiState: UIStateService ) {
         this.uiState.setAppTitle( 'Chemical Compounds' ) ;
     }
 
-    ngAfterViewInit() {
+    async ngAfterViewInit() {
         this.uiState.highlightMenuBarIcon( "chem-compounds" ) ;
+        this.allCompounds = await this.svc.getAllCompounds() ;
     }
 
     importCompound() {
@@ -54,8 +52,15 @@ export class ChemCompoundsComponent {
                                      this.importQueryParams.filterText,
                                      this.importQueryParams.forceImport )
               .then( chemCompound => {
-                    this.importedCompound = chemCompound ;
+                    this.allCompounds.push( chemCompound )
+                    this.allCompounds.sort( (c1, c2) => {
+                        return c1.commonName.localeCompare(c2.commonName);
+                    });
                     this.importDialogVisible = false ;
+
+                    this.editableCompound = chemCompound ;
+                    this.editDialogVisible = true ;
+
                     console.log( 'Compound imported' ) ;
                     console.log( chemCompound ) ;
               } )
@@ -71,5 +76,16 @@ export class ChemCompoundsComponent {
             this.importDialogMsgs.push( 'ERROR: Filter text can\'t be empty.' ) ;
         }
         return this.importDialogMsgs.length === 0 ;
+    }
+    
+    showEditDialog( c:ChemCompound ) {
+        this.editableCompound = c ;
+        this.editDialogVisible = true ;
+    }
+
+    saveEditedCompound() {
+        console.log( this.editableCompound ) ;
+        this.editDialogVisible = false ;
+        this.editableCompound = null ;
     }
 }

@@ -1,16 +1,46 @@
 <page-toolbar>
-  <toolbar-action type="button" name="import" icon="cloud-arrow-down" (click)="importDialogVisible=true"></toolbar-action>
+  <toolbar-action type="button"
+                  name="import"
+                  icon="cloud-arrow-down"
+                  (click)="importDialogVisible=true">
+  </toolbar-action>
 </page-toolbar>
 
-<div [mathjax]="latexHtml"></div>
+<div class="compounds-meta-list">
+  <table class="table table-sm">
+    <thead>
+    <tr>
+      <th style="width: 200px;">Common Name</th>
+      <th style="width: 100px;">Formula</th>
+      <th style="width: 400px;">IUPAC Name</th>
+      <th style="width: 150px;text-align: right;">Mol Wt.</th>
+      <th style="width: 40px;"></th>
+    </tr>
+    </thead>
+    <tbody>
+      @for( c of allCompounds; track c.id ) {
+        <tr>
+          <td>{{c.commonName}}</td>
+          <td><div [mathjax]="'\\( \\ce{' + c.compactFormula + '}\\)'"></div></td>
+          <td>{{c.iupacName}}</td>
+          <td class="number">{{c.molecularWeight}}</td>
+          <th>
+            <span class="bi-pencil" (click)="showEditDialog( c )"></span>
+          </th>
+        </tr>
+      }
+    </tbody>
+  </table>
 
+</div>
+
+<!-- The import compound dialog -->
 <modal-dialog [show]="importDialogVisible"
               [title]="'Import Compound'"
               (hide)="importDialogVisible=false"
               (confirm)="importCompound()"
               [width]="500" [height]="250"
-              [messages]="importDialogMsgs"
-              title="New Exercise">
+              [messages]="importDialogMsgs">
   <div class="label">Query string:</div>
   <div>
     <input type="text" [(ngModel)]="importQueryParams.filterText"/>
@@ -39,3 +69,32 @@
     Save
   </span>
 </modal-dialog>
+
+<!-- The edit compound dialog -->
+@if( editableCompound != null ) {
+  <modal-dialog [show]="editDialogVisible"
+                [title]="'Edit Compound'"
+                (hide)="editDialogVisible=false"
+                (confirm)="saveEditedCompound()"
+                [width]="500" [height]="470"
+                [messages]="editDialogMsgs">
+    <div class="label">Common Name:</div>
+    <div><input type="text" [(ngModel)]="editableCompound.commonName"/></div>
+
+    <div class="label">IUPAC Name:</div>
+    <div><input type="text" [(ngModel)]="editableCompound.iupacName"/></div>
+
+    <div class="label">Formula:</div>
+    <div><input type="text" [(ngModel)]="editableCompound.compactFormula"/></div>
+    <div class="rendered-formula" [mathjax]="'\\( \\ce{' + editableCompound.compactFormula + '}\\)'"></div>
+
+    <div class="compound-img">
+      <img class="image-container"
+           [src]="'http://localhost:8080/chem-compound-img/' + editableCompound.chemSpiderId + '.dark.png'">
+    </div>
+
+    <span confirm-btn-text>
+    Save
+    </span>
+  </modal-dialog>
+}

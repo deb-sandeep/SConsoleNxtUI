@@ -20,6 +20,11 @@ export type ChemCompound = {
 @Injectable()
 export class ChemCompoundsService extends RemoteService {
 
+    getAllCompounds(): Promise<ChemCompound[]> {
+        const url = `${environment.apiRoot}/Master/ChemCompound/All` ;
+        return this.getPromise( url ) ;
+    }
+
     importCompound( importType:string, filterText:string, forceImport:boolean ) : Promise<ChemCompound> {
         const url = `${environment.apiRoot}/Master/ChemCompound/Import` ;
         const body = {
@@ -28,5 +33,9 @@ export class ChemCompoundsService extends RemoteService {
             "forceImport" : forceImport
         } ;
         return this.postPromise<ChemCompound>( url, body, true ) ;
+    }
+
+    saveChem( chem: ChemCompound ) {
+
     }
 }
