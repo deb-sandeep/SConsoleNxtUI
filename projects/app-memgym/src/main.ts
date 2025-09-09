@@ -14,6 +14,9 @@ import { ChemCompoundsComponent } from "./apps/chem-compounds/chem-compounds.com
 import { ChemCompoundsService } from "./apps/chem-compounds/chem-compounds.service";
 import { provideHttpClient, withFetch } from "@angular/common/http";
 
+// app.config.ts (standalone) or app.module.ts (NgModule)
+import { APP_INITIALIZER, Provider } from '@angular/core';
+
 const routes: Routes = [
     {
         path: '',
@@ -43,6 +46,35 @@ const routes: Routes = [
     }
 ] ;
 
+function loadMathJax() {
+    return () => new Promise<void>((resolve, reject) => {
+        if ((window as any).MathJax) { resolve(); return; }
+
+        // configuration must be set before loading
+        (window as any).MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']],
+                displayMath: [['$$','$$']],
+                packages: { '[+]': ['mhchem'] }
+            },
+            loader: { load: ['[tex]/mhchem'] }
+        };
+
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = (e) => reject(e);
+        document.head.appendChild(script);
+    });
+}
+
+export const MATHJAX_LOADER: Provider = {
+    provide: APP_INITIALIZER,
+    useFactory: loadMathJax,
+    multi: true
+};
+
 @Component({
     selector: 'app-root',
     imports: [
@@ -64,5 +96,6 @@ class AppComponent {
 
 bootstrapApplication( AppComponent, {
     providers: [ provideRouter(routes),
-                 provideHttpClient( withFetch() ) ]
+                 provideHttpClient( withFetch() ),
+                 MATHJAX_LOADER ]
 }).catch((err) => console.error(err)) ;

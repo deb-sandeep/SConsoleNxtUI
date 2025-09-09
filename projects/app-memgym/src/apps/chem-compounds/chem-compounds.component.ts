@@ -3,6 +3,7 @@ import { UIStateService } from "../../ui-service";
 import { ModalDialogComponent, PageToolbarComponent, ToolbarActionComponent } from "lib-core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ChemCompound, ChemCompoundsService } from "./chem-compounds.service";
+import { MathjaxDirective } from "../../directives/mathjax-directive";
 
 @Component( {
     selector: 'chem-compounds-app',
@@ -12,7 +13,8 @@ import { ChemCompound, ChemCompoundsService } from "./chem-compounds.service";
         ToolbarActionComponent,
         ModalDialogComponent,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        MathjaxDirective
     ],
     styleUrls: [ './chem-compounds.component.css' ]
 })
@@ -28,6 +30,14 @@ export class ChemCompoundsComponent {
     } ;
     importDialogMsgs: string[] = [] ;
     importedCompound: ChemCompound ;
+
+    latexHtml = `
+  Display: $$E=mc^2$$
+  Inline: \\( \\sqrt{ b^2 - 4ac } \\) <br/>
+  Inline: \\( \\ce{ (CH3COO)Na } \\) <br/>
+  Display: $$\\ce{2H2 + O2 -> 2H2O}$$ <br/>
+  Molar mass: \\( \\pu{18.015 g mol^{-1}} \\)
+`;
 
     constructor( private uiState: UIStateService ) {
         this.uiState.setAppTitle( 'Chemical Compounds' ) ;

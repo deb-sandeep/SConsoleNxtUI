@@ -2,6 +2,8 @@
   <toolbar-action type="button" name="import" icon="cloud-arrow-down" (click)="importDialogVisible=true"></toolbar-action>
 </page-toolbar>
 
+<div [mathjax]="latexHtml"></div>
+
 <modal-dialog [show]="importDialogVisible"
               [title]="'Import Compound'"
               (hide)="importDialogVisible=false"
