@@ -2,7 +2,7 @@
 
 <button *ngIf="isButton()"
         type="button"
-        class="btn btn-sm btn-{{style??'primary'}} action-btn"
+        class="btn btn-sm btn-{{bsStyle??'primary'}} action-btn"
         (click)="buttonClicked()">
     <i *ngIf="icon" class="bi bi-{{icon}}">&nbsp;</i>
     <span *ngIf="name">{{name}}</span>

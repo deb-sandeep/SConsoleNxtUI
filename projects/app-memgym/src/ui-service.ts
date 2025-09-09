@@ -1,8 +1,6 @@
 import { Injectable, signal } from "@angular/core";
 import { FeatureMenuItemMeta } from "lib-core";
 
-
-
 @Injectable({ providedIn: 'root' })
 export class UIStateService {
 
@@ -12,6 +10,7 @@ export class UIStateService {
         { iconName:'calculator',  routePath:'/rapid-calc', selected:false },
         { iconName:'grid-3x2',  routePath:'/periodic-table', selected:false },
         { iconName:'graph-up',  routePath:'/trend-plotter', selected:false },
+        { iconName:'nut',  routePath:'/chem-compounds', selected:false },
     ] ;
 
     setAppTitle( newTitle: string ) {

@@ -1,0 +1,39 @@
+<page-toolbar>
+  <toolbar-action type="button" name="import" icon="cloud-arrow-down" (click)="importDialogVisible=true"></toolbar-action>
+</page-toolbar>
+
+<modal-dialog [show]="importDialogVisible"
+              [title]="'Import Compound'"
+              (hide)="importDialogVisible=false"
+              (confirm)="importCompound()"
+              [width]="500" [height]="250"
+              [messages]="importDialogMsgs"
+              title="New Exercise">
+  <div class="label">Query string:</div>
+  <div>
+    <input type="text" [(ngModel)]="importQueryParams.filterText"/>
+  </div>
+  <div class="label">Query type:</div>
+  <div>
+    <input type="radio" id="import-type-name" name="importType" value="name" [(ngModel)]="importQueryParams.importType">
+    &nbsp;
+    <label class="label" for="import-type-name">Name</label>
+    &nbsp;
+    &nbsp;
+    <input type="radio" id="import-type-formula" name="importType" value="formula" [(ngModel)]="importQueryParams.importType">
+    &nbsp;
+    <label class="label" for="import-type-formula">Formula</label>
+    &nbsp;
+    &nbsp;
+    <input type="radio" id="import-type-smiles" name="importType" value="smiles" [(ngModel)]="importQueryParams.importType">
+    &nbsp;
+    <label class="label" for="import-type-smiles">SMILES</label>
+  </div>
+  <div>
+    <span class="label">Override local copy if exists:</span> &nbsp;
+    <input type="checkbox" [(ngModel)]="importQueryParams.forceImport">
+  </div>
+  <span confirm-btn-text>
+    Save
+  </span>
+</modal-dialog>

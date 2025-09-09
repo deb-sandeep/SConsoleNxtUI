@@ -10,6 +10,9 @@ import { RapidCalcComponent } from "./apps/rapid-calc/rapid-calc.component" ;
 import { PeriodicTableComponent } from "./apps/periodic-table/periodic-table.component";
 import { UIStateService } from "./ui-service";
 import { TrendPlotterComponent } from "./apps/trend-plotter/trend-plotter.component";
+import { ChemCompoundsComponent } from "./apps/chem-compounds/chem-compounds.component";
+import { ChemCompoundsService } from "./apps/chem-compounds/chem-compounds.service";
+import { provideHttpClient, withFetch } from "@angular/common/http";
 
 const routes: Routes = [
     {
@@ -31,6 +34,12 @@ const routes: Routes = [
         path: 'trend-plotter',
         title: 'Trend Plotter',
         component: TrendPlotterComponent
+    },
+    {
+        path: 'chem-compounds',
+        title: 'Chemical Compounds',
+        component: ChemCompoundsComponent,
+        providers: [ ChemCompoundsService ]
     }
 ] ;
 
@@ -54,5 +63,6 @@ class AppComponent {
 }
 
 bootstrapApplication( AppComponent, {
-    providers: [provideRouter(routes)]
+    providers: [ provideRouter(routes),
+                 provideHttpClient( withFetch() ) ]
 }).catch((err) => console.error(err)) ;

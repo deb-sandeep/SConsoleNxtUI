@@ -19,7 +19,7 @@ export class ToolbarActionComponent implements OnInit {
   name:string = "" ;
 
   @Input( "style" )
-  style:'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' = 'secondary' ;
+  bsStyle:'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' = 'secondary' ;
 
   @Output( "click" )
   clickEmitter:EventEmitter<any> = new EventEmitter<any>() ;
