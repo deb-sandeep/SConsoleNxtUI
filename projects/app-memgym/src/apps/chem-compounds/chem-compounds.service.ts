@@ -2,40 +2,39 @@ import { Injectable } from '@angular/core';
 import { RemoteService } from "lib-core";
 
 import { environment } from "@env/environment" ;
+import { ChemCompound, ChemCompoundType } from "./chem-compounds.entity";
 
-export type ChemCompound = {
-    id: number,
-    chemSpiderId:number,
-    commonName:string,
-    iupacName:string,
-    smiles:string,
-    formula:string,
-    molecularWeight:number,
-    averageMass:number,
-    mol2D:string,
-    mol3D:string,
-    compactFormula:string,
-} ;
 
 @Injectable()
 export class ChemCompoundsService extends RemoteService {
 
-    getAllCompounds(): Promise<ChemCompound[]> {
-        const url = `${environment.apiRoot}/Master/ChemCompound/All` ;
-        return this.getPromise( url ) ;
+    async getAllCompounds(): Promise<ChemCompound[]> {
+        const url = `${ environment.apiRoot }/Master/ChemCompound/All`;
+        const response = await this.getPromise<ChemCompoundType[]>( url );
+        const compounds: ChemCompound[] = [];
+        response.forEach( item => compounds.push( new ChemCompound( item ) ) );
+        return compounds;
     }
 
-    importCompound( importType:string, filterText:string, forceImport:boolean ) : Promise<ChemCompound> {
-        const url = `${environment.apiRoot}/Master/ChemCompound/Import` ;
+    async importCompound( importType: string, filterText: string, forceImport: boolean ): Promise<ChemCompound> {
+        const url = `${ environment.apiRoot }/Master/ChemCompound/Import`;
         const body = {
-            "importType" : importType,
-            "filterText" : filterText,
-            "forceImport" : forceImport
-        } ;
-        return this.postPromise<ChemCompound>( url, body, true ) ;
+            "importType": importType,
+            "filterText": filterText,
+            "forceImport": forceImport
+        };
+        const response = await this.postPromise<ChemCompoundType>( url, body, true );
+        return new ChemCompound( response );
     }
 
-    saveChem( chem: ChemCompound ) {
-
+    async saveChem( chem: ChemCompoundType ) {
+        const url = `${ environment.apiRoot }/Master/ChemCompound/Save` ;
+        const body = {
+            "id" : chem.id,
+            "commonName" : chem.commonName,
+            "iupacName" : chem.iupacName,
+            "compactFormula" : chem.compactFormula
+        } ;
+        return this.postPromise<ChemCompoundType>( url, body, true ) ;
     }
 }

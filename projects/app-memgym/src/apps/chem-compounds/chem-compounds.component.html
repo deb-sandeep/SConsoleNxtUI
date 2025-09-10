@@ -35,66 +35,11 @@
 </div>
 
 <!-- The import compound dialog -->
-<modal-dialog [show]="importDialogVisible"
-              [title]="'Import Compound'"
-              (hide)="importDialogVisible=false"
-              (confirm)="importCompound()"
-              [width]="500" [height]="250"
-              [messages]="importDialogMsgs">
-  <div class="label">Query string:</div>
-  <div>
-    <input type="text" [(ngModel)]="importQueryParams.filterText"/>
-  </div>
-  <div class="label">Query type:</div>
-  <div>
-    <input type="radio" id="import-type-name" name="importType" value="name" [(ngModel)]="importQueryParams.importType">
-    &nbsp;
-    <label class="label" for="import-type-name">Name</label>
-    &nbsp;
-    &nbsp;
-    <input type="radio" id="import-type-formula" name="importType" value="formula" [(ngModel)]="importQueryParams.importType">
-    &nbsp;
-    <label class="label" for="import-type-formula">Formula</label>
-    &nbsp;
-    &nbsp;
-    <input type="radio" id="import-type-smiles" name="importType" value="smiles" [(ngModel)]="importQueryParams.importType">
-    &nbsp;
-    <label class="label" for="import-type-smiles">SMILES</label>
-  </div>
-  <div>
-    <span class="label">Override local copy if exists:</span> &nbsp;
-    <input type="checkbox" [(ngModel)]="importQueryParams.forceImport">
-  </div>
-  <span confirm-btn-text>
-    Save
-  </span>
-</modal-dialog>
+<import-dialog [show]="importDialogVisible"
+               (cancel)="importDialogVisible=false"
+               (save)="handleImportedCompound( $event )">
+</import-dialog>
 
 <!-- The edit compound dialog -->
-@if( editableCompound != null ) {
-  <modal-dialog [show]="editDialogVisible"
-                [title]="'Edit Compound'"
-                (hide)="editDialogVisible=false"
-                (confirm)="saveEditedCompound()"
-                [width]="500" [height]="470"
-                [messages]="editDialogMsgs">
-    <div class="label">Common Name:</div>
-    <div><input type="text" [(ngModel)]="editableCompound.commonName"/></div>
-
-    <div class="label">IUPAC Name:</div>
-    <div><input type="text" [(ngModel)]="editableCompound.iupacName"/></div>
-
-    <div class="label">Formula:</div>
-    <div><input type="text" [(ngModel)]="editableCompound.compactFormula"/></div>
-    <div class="rendered-formula" [mathjax]="'\\( \\ce{' + editableCompound.compactFormula + '}\\)'"></div>
-
-    <div class="compound-img">
-      <img class="image-container"
-           [src]="'http://localhost:8080/chem-compound-img/' + editableCompound.chemSpiderId + '.dark.png'">
-    </div>
-
-    <span confirm-btn-text>
-    Save
-    </span>
-  </modal-dialog>
-}
+<edit-dialog [compound]="editableCompound">
+</edit-dialog>

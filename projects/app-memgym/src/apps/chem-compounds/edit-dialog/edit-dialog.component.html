@@ -1,0 +1,28 @@
+@if( editableCompound != null ) {
+  <modal-dialog [show]="true"
+                (hide)="editableCompound = null"
+                (confirm)="saveEditedCompound()"
+                [title]="'Edit - ' + editableCompound!.commonName"
+                [width]="500" [height]="470"
+                [messages]="editDialogMsgs">
+
+    <div class="label">Common Name:</div>
+    <div><input type="text" [(ngModel)]="editableCompound!.commonName"/></div>
+
+    <div class="label">IUPAC Name:</div>
+    <div><input type="text" [(ngModel)]="editableCompound!.iupacName"/></div>
+
+    <div class="label">Formula:</div>
+    <div><input type="text" [(ngModel)]="editableCompound!.compactFormula"/></div>
+    <div class="rendered-formula" [mathjax]="'\\( \\ce{' + editableCompound!.compactFormula + '}\\)'"></div>
+
+    <div class="compound-img">
+      <img class="image-container"
+           [src]="'http://localhost:8080/chem-compound-img/' + editableCompound!.chemSpiderId + '.dark.png'">
+    </div>
+
+    <span confirm-btn-text>
+    Save
+    </span>
+  </modal-dialog>
+}
