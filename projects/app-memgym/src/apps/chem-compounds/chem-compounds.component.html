@@ -6,32 +6,60 @@
   </toolbar-action>
 </page-toolbar>
 
-<div class="compounds-meta-list">
-  <table class="table table-sm">
-    <thead>
-    <tr>
-      <th style="width: 200px;">Common Name</th>
-      <th style="width: 100px;">Formula</th>
-      <th style="width: 400px;">IUPAC Name</th>
-      <th style="width: 150px;text-align: right;">Mol Wt.</th>
-      <th style="width: 40px;"></th>
-    </tr>
-    </thead>
-    <tbody>
-      @for( c of allCompounds; track c.id ) {
-        <tr>
-          <td>{{c.commonName}}</td>
-          <td><div [mathjax]="'\\( \\ce{' + c.compactFormula + '}\\)'"></div></td>
-          <td>{{c.iupacName}}</td>
-          <td class="number">{{c.molecularWeight}}</td>
-          <th>
-            <span class="bi-pencil" (click)="showEditDialog( c )"></span>
-          </th>
-        </tr>
-      }
-    </tbody>
-  </table>
+<div class="left-panel">
+  <div class="compounds-meta-list">
+    <table class="table table-sm">
+      <thead>
+      <tr>
+        <th style="width: 250px;">
+          <input class="name-filter" type="text"
+                 (input)="nameFilterChanged( $event )">
+        </th>
+        <th style="width: 150px;">Formula</th>
+        <th style="width: 400px;">IUPAC Name</th>
+        <th style="width: 150px;text-align: right;">Mol Wt.</th>
+        <th style="width: 30px;"></th>
+        <th style="width: 30px;"></th>
+      </tr>
+      </thead>
+      <tbody>
+        @for( c of allCompounds; track c.id ) {
+          @if( c.visible ) {
+            <tr (click)="compoundSelected( c )"
+                [class.compound-selected]="c.selected">
+              <td>{{c.commonName}}</td>
+              <td><div [mathjax]="'\\( \\ce{' + c.compactFormula + '}\\)'"></div></td>
+              <td>{{c.iupacName}}</td>
+              <td class="number">{{c.molecularWeight}}</td>
+              <td style="text-align: center;">
+                <span class="bi-pencil" (click)="showEditDialog( c )"></span>
+              </td>
+              <td style="text-align: center;color:red;">
+                <span class="bi-trash" (click)="deleteCompound( c )"></span>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
 
+<div class="right-panel">
+  <div class="compound-info">
+    @if( selectedCompound != null ) {
+      <span class="common-name">{{selectedCompound!.commonName}} :</span>
+      <span class="formula" [mathjax]="'\\( \\ce{' + selectedCompound!.compactFormula + '}\\)'"></span>
+    }
+  </div>
+  <div class="viewer-2d">
+    @if( selectedCompound != null ) {
+      <img [src]="'/chem-compound-img/' + selectedCompound!.chemSpiderId + '.dark.png'">
+    }
+  </div>
+  <div class="viewer-3d">
+    <mol-viewer [mol3D]="selectedCompound == null ? '' : selectedCompound.mol3D"></mol-viewer>
+  </div>
 </div>
 
 <!-- The import compound dialog -->
@@ -41,5 +69,7 @@
 </import-dialog>
 
 <!-- The edit compound dialog -->
-<edit-dialog [compound]="editableCompound">
+<edit-dialog [compound]="editableCompound"
+             (save)="editingSaved( $event )"
+             (cancel)="editingCancelled()">
 </edit-dialog>

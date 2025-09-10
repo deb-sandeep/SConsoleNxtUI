@@ -1,0 +1,67 @@
+.left-panel {
+    position: absolute;
+    top: var(--page-toolbar-height);
+    left: 0;
+    height: calc( 100% - var(--page-toolbar-height) ) ;
+    width: 60%;
+    overflow: scroll;
+}
+
+.name-filter {
+    background-color: #f1f1f1;
+    border-color: #d1d1d1;
+    color: #0b3d28;
+}
+
+tr.compound-selected td {
+    background-color: yellow ;
+}
+
+.right-panel {
+    --2d-canvas-height: 200px;
+    --compound-info-height: 30px;
+    position: absolute;
+    right: 0;
+    top: var(--page-toolbar-height);
+    height: calc( 100% - var(--page-toolbar-height) ) ;
+    width: 40%;
+}
+
+.compound-info {
+    width: 100%;
+    height: 30px;
+    background: #ddd;
+    font-size: 20px;
+}
+
+.common-name {
+    padding-left: 10px;
+}
+
+.formula {
+    padding-left: 20px;
+    font-size: 17px;
+}
+
+.viewer-2d {
+    width: 100%;
+    height: var(--2d-canvas-height) ;
+    text-align: center;
+    overflow: hidden;
+    margin: 10px 10px 10px 10px;
+}
+
+.viewer-2d img {
+    width: 100%;
+    height: var(--2d-canvas-height) ;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    mix-blend-mode: exclusion;
+}
+
+.viewer-3d {
+    width: 100%;
+    height: calc( 100% - var(--2d-canvas-height) - var(--compound-info-height));
+}
+

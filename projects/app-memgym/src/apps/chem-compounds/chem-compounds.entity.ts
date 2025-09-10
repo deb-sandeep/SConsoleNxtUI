@@ -29,6 +29,8 @@ export class ChemCompound {
     public compactFormula:string ;
 
     // Attributes used by the application for local needs
+    public selected: boolean = false ;
+    public visible: boolean = true ;
 
     constructor( ccType: ChemCompoundType ) ;
     constructor( cc: ChemCompound ) ;

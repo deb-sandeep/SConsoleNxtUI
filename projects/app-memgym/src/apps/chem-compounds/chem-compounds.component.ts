@@ -7,6 +7,7 @@ import { MathjaxDirective } from "../../directives/mathjax-directive";
 import { ChemCompound } from "./chem-compounds.entity";
 import { ImportDialogComponent } from "./import-dialog/import-dialog.component";
 import { EditDialogComponent } from "./edit-dialog/edit-dialog.component";
+import { MolViewerComponent } from "./mol-viewer/mol-viewer.component";
 
 @Component( {
     selector: 'chem-compounds-app',
@@ -18,7 +19,8 @@ import { EditDialogComponent } from "./edit-dialog/edit-dialog.component";
         FormsModule,
         MathjaxDirective,
         ImportDialogComponent,
-        EditDialogComponent
+        EditDialogComponent,
+        MolViewerComponent
     ],
     styleUrls: [ './chem-compounds.component.css' ]
 })
@@ -31,6 +33,7 @@ export class ChemCompoundsComponent {
     importDialogVisible:boolean = false ;
 
     editableCompound: ChemCompound | null = null ;
+    selectedCompound: ChemCompound | null = null ;
 
     constructor( private uiState: UIStateService ) {
         this.uiState.setAppTitle( 'Chemical Compounds' ) ;
@@ -45,6 +48,15 @@ export class ChemCompoundsComponent {
         this.editableCompound = c ;
     }
 
+    editingSaved( c:ChemCompound ) {
+        this.editableCompound = null ;
+    }
+
+    editingCancelled() {
+        console.log( 'Editing cancelled' );
+        this.editableCompound = null ;
+    }
+
     handleImportedCompound( compound: ChemCompound ) {
         this.allCompounds.push( compound )
         this.allCompounds.sort( (c1, c2) => {
@@ -52,5 +64,47 @@ export class ChemCompoundsComponent {
         });
         this.importDialogVisible = false ;
         this.editableCompound = compound ;
+    }
+
+    async compoundSelected( c: ChemCompound ) {
+        this.allCompounds.forEach( comp => comp.selected = c.id == comp.id ) ;
+        this.selectedCompound = await this.svc.getCompound( c.id ) ;
+    }
+
+    nameFilterChanged( $event:any ) {
+        const filterText = $event.target.value.trim().toLocaleLowerCase() ;
+        this.allCompounds.forEach( c => {
+            if( filterText === "" ) {
+                c.visible = true ;
+            }
+            else {
+                if( c.commonName.toLowerCase().includes( filterText ) ) {
+                    c.visible = true ;
+                }
+                else if( c.iupacName.toLowerCase().includes( filterText ) ) {
+                    c.visible = true ;
+                }
+                else {
+                    c.visible = false ;
+                    if( c.selected ) {
+                        c.selected = false ;
+                        this.selectedCompound = null ;
+                    }
+                }
+            }
+        }) ;
+    }
+
+    deleteCompound( c: ChemCompound ) {
+        if( window.confirm( 'Are you sure you want to delete ' + c.commonName + '?' ) ) {
+            this.svc.deleteCompound( c.id )
+              .then( () => {
+                let index = this.allCompounds.findIndex( item => item.id == c.id) ;
+                this.allCompounds.splice( index, 1 ) ;
+                if( c.selected ) {
+                    this.selectedCompound = null ;
+                }
+              }) ;
+        }
     }
 }

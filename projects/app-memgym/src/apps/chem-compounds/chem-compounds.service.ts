@@ -8,6 +8,12 @@ import { ChemCompound, ChemCompoundType } from "./chem-compounds.entity";
 @Injectable()
 export class ChemCompoundsService extends RemoteService {
 
+    async getCompound( id: number ): Promise<ChemCompound> {
+        const url = `${ environment.apiRoot }/Master/ChemCompound/${id}` ;
+        const cc = await this.getPromise<ChemCompoundType>( url ) ;
+        return new ChemCompound( cc ) ;
+    }
+
     async getAllCompounds(): Promise<ChemCompound[]> {
         const url = `${ environment.apiRoot }/Master/ChemCompound/All`;
         const response = await this.getPromise<ChemCompoundType[]>( url );
@@ -27,7 +33,7 @@ export class ChemCompoundsService extends RemoteService {
         return new ChemCompound( response );
     }
 
-    async saveChem( chem: ChemCompoundType ) {
+    async saveCompound( chem: ChemCompoundType ) {
         const url = `${ environment.apiRoot }/Master/ChemCompound/Save` ;
         const body = {
             "id" : chem.id,
@@ -36,5 +42,10 @@ export class ChemCompoundsService extends RemoteService {
             "compactFormula" : chem.compactFormula
         } ;
         return this.postPromise<ChemCompoundType>( url, body, true ) ;
+    }
+
+    async deleteCompound( id: number ) {
+        const url = `${ environment.apiRoot }/Master/ChemCompound/${id}` ;
+        return this.deletePromise( url ) ;
     }
 }

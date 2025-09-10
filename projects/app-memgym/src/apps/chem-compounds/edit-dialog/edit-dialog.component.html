@@ -1,6 +1,6 @@
 @if( editableCompound != null ) {
   <modal-dialog [show]="true"
-                (hide)="editableCompound = null"
+                (hide)="editingCancelled()"
                 (confirm)="saveEditedCompound()"
                 [title]="'Edit - ' + editableCompound!.commonName"
                 [width]="500" [height]="470"
@@ -18,7 +18,7 @@
 
     <div class="compound-img">
       <img class="image-container"
-           [src]="'http://localhost:8080/chem-compound-img/' + editableCompound!.chemSpiderId + '.dark.png'">
+           [src]="'/chem-compound-img/' + editableCompound!.chemSpiderId + '.dark.png'">
     </div>
 
     <span confirm-btn-text>

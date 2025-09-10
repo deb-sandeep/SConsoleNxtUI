@@ -3,13 +3,15 @@ import { ModalDialogComponent } from "lib-core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ChemCompound } from "../chem-compounds.entity";
 import { ChemCompoundsService } from "../chem-compounds.service";
+import { NgIf } from "@angular/common";
 
 @Component({
   selector: 'import-dialog',
   imports: [
     ModalDialogComponent,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './import-dialog.component.html',
   styleUrl: './import-dialog.component.css'
@@ -19,9 +21,10 @@ export class ImportDialogComponent {
   importQueryParams:any = {
     filterText : "",
     importType : "formula",
-    forceImport : true
+    forceImport : false
   } ;
   importDialogMsgs: string[] = [] ;
+  serverCommInProgress: boolean = false;
 
   svc = inject( ChemCompoundsService ) ;
   show = input( false ) ;
@@ -31,6 +34,7 @@ export class ImportDialogComponent {
   importCompound() {
     if( this.validateImportInputs() ) {
       console.log( 'Import inputs validated.' ) ;
+      this.serverCommInProgress = true;
       this.svc.importCompound( this.importQueryParams.importType,
             this.importQueryParams.filterText,
             this.importQueryParams.forceImport )
@@ -41,7 +45,10 @@ export class ImportDialogComponent {
           } )
           .catch( error => {
             this.importDialogMsgs.push( "ERROR: " + error ) ;
-          } ) ;
+          } )
+        .finally( () => {
+          this.serverCommInProgress = false;
+        });
     }
   }
 

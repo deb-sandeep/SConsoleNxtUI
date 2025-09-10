@@ -11,8 +11,7 @@ import { NgOptimizedImage } from "@angular/common";
   imports: [
     ModalDialogComponent,
     FormsModule,
-    MathjaxDirective,
-    NgOptimizedImage
+    MathjaxDirective
   ],
   templateUrl: './edit-dialog.component.html',
   styleUrl: './edit-dialog.component.css'
@@ -36,14 +35,20 @@ export class EditDialogComponent {
     }
   }
 
+  editingCancelled() {
+    this.editableCompound = null ;
+    this.cancel.emit() ;
+  }
+
   async saveEditedCompound() {
     if( this.validateEditedInputs() ) {
-      this.svc.saveChem( this.editableCompound! )
+      this.svc.saveCompound( this.editableCompound! )
           .then( () => {
             this.compound()!.commonName = this.editableCompound!.commonName ;
             this.compound()!.iupacName = this.editableCompound!.iupacName ;
             this.compound()!.compactFormula = this.editableCompound!.compactFormula ;
             this.editableCompound = null ;
+            this.save.emit( this.compound()! ) ;
           })
           .catch( error => {
             this.editDialogMsgs.push("ERROR: Server save failed." ) ;
