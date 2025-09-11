@@ -40,7 +40,7 @@
 
 .dialog-body {
     padding: 5px 10px 5px 10px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .dialog-footer {

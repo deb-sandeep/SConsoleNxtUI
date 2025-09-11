@@ -9,7 +9,7 @@ import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular
             height: 100%;
             position: relative;
             background-color: #f1f1f1;
-            margin: 10px 10px 10px 10px;
+            padding: 10px 10px 10px 10px;
         }
     `
 })
