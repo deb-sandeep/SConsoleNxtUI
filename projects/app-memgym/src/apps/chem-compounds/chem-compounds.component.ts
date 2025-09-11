@@ -28,12 +28,13 @@ export class ChemCompoundsComponent {
 
     svc = inject( ChemCompoundsService ) ;
 
-    allCompounds: ChemCompound[] ;
+    allCompounds: ChemCompound[] = [] ;
 
     importDialogVisible:boolean = false ;
 
     editableCompound: ChemCompound | null = null ;
     selectedCompound: ChemCompound | null = null ;
+    selectAll:boolean = false ;
 
     constructor( private uiState: UIStateService ) {
         this.uiState.setAppTitle( 'Chemical Compounds' ) ;
@@ -106,5 +107,27 @@ export class ChemCompoundsComponent {
                 }
               }) ;
         }
+    }
+
+    selectAllOptionChanged() {
+        this.allCompounds.forEach( c => {
+            c.selectedForCardDownload = this.selectAll
+        } ) ;
+    }
+
+    downloadFlashCards() {
+        console.log( "Downloading flash cards" ) ;
+        if( this.allCompounds.filter( c => c.selectedForCardDownload).length == 0 ) {
+            window.alert( 'No cards selected for download.' ) ;
+            return ;
+        }
+
+        console.log( "Compounds selected." ) ;
+        let selectedIds:number[] = [] ;
+        this.allCompounds.forEach( c => {
+            if( c.selectedForCardDownload ) { selectedIds.push( c.id ); }
+        }) ;
+        console.log( "Downloading flash cards " + selectedIds ) ;
+        this.svc.downloadFlashCards( selectedIds ) ;
     }
 }

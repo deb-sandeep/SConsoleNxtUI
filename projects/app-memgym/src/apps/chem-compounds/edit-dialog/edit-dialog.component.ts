@@ -31,7 +31,7 @@ export class EditDialogComponent {
   ngOnChanges() {
     this.editableCompound = null ;
     if( this.compound() != null ) {
-      this.editableCompound = new ChemCompound( this.compound()! ) ;
+      this.editableCompound = ChemCompound.fromChemCompound( this.compound()! ) ;
     }
   }
 

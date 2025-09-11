@@ -13,6 +13,7 @@ export * from './components/modal-dialog/modal-dialog.component' ;
 // Services
 export * from './services/local-storage.service' ;
 export * from './services/remote-service' ;
+export * from './services/download.service' ;
 export * from './components/alerts-display/alert.service' ;
 export * from './components/modal-wait/modal-wait.service' ;
 export * from './components/page-title/page-title.service' ;

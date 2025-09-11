@@ -1,8 +1,13 @@
 <page-toolbar>
   <toolbar-action type="button"
-                  name="import"
+                  name="Import"
                   icon="cloud-arrow-down"
                   (click)="importDialogVisible=true">
+  </toolbar-action>
+  <toolbar-action type="button"
+                  name="Download"
+                  icon="box-arrow-down"
+                  (click)="downloadFlashCards()">
   </toolbar-action>
 </page-toolbar>
 
@@ -11,6 +16,12 @@
     <table class="table table-sm">
       <thead>
       <tr>
+        <th style="width: 50px;">
+          <input type="checkbox"
+                 [(ngModel)]="selectAll"
+                 (change)="selectAllOptionChanged()">
+          <span class="bi-download" style="padding-left:5px;font-size: 10px;"></span>
+        </th>
         <th style="width: 250px;">
           <input class="name-filter" type="text"
                  (input)="nameFilterChanged( $event )">
@@ -27,6 +38,7 @@
           @if( c.visible ) {
             <tr (click)="compoundSelected( c )"
                 [class.compound-selected]="c.selected">
+              <td><input type="checkbox" [(ngModel)]="c.selectedForCardDownload"></td>
               <td>{{c.commonName}}</td>
               <td><div [mathjax]="'\\( \\ce{' + c.compactFormula + '}\\)'"></div></td>
               <td>{{c.iupacName}}</td>
