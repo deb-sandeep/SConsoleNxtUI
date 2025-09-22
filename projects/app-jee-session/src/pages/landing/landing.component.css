@@ -1,7 +1,7 @@
 img {
     object-fit: contain;
     filter: brightness(1.2);
-    opacity: 0.15;
+    opacity: 0.35;
     border:30px solid transparent;
 }
 
@@ -120,7 +120,7 @@ img {
 }
 
 .selected {
-    border: 7px solid #0078ff;
+    border: 7px solid #ff4400;
     box-shadow: 1px 1px 1px #515050;
 }
 

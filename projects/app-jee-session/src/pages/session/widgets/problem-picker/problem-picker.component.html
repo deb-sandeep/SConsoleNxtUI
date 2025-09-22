@@ -10,7 +10,10 @@
                     [style.color]="chapter.expanded? 'brown':'green'"></span>
             </div>
             <div class="book-name"><span class="bi-book"></span>&nbsp;&nbsp;{{book.bookShortName}}</div>
-            <div class="chapter-name" [innerHTML]="chapter.displayName()"></div>
+            <div class="chapter-name">
+              {{chapter.displayName()}}
+              <span class="num-problems">[{{chapter.numProblems}}]</span>
+            </div>
           </div>
 
           @if( chapter.expanded ) {
@@ -22,6 +25,7 @@
                         [style.color]="exercise.expanded? 'brown':'green'"></span>
                 </div>
                 <span class="bi-folder2-open"></span>&nbsp;&nbsp;{{exercise.displayName()}}
+                <span class="num-problems">[{{exercise.numProblems}}]</span>
               </div>
 
               @if( exercise.expanded ) {

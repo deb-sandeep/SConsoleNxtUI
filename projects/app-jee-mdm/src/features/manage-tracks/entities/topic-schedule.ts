@@ -39,14 +39,14 @@ export class TopicSchedule {
 
   private dirtyFlag:boolean = false ;
 
-  private coachingStartDate:Date ;
-  private coachingEndDate:Date ;
-  private selfStudyStartDate:Date ;
-  private selfStudyEndDate:Date ;
-  private exerciseStartDate:Date ;
-  private exerciseEndDate:Date ;
-  private consolidationStartDate:Date ;
-  private consolidationEndDate:Date ;
+  public coachingStartDate:Date ;
+  public coachingEndDate:Date ;
+  public selfStudyStartDate:Date ;
+  public selfStudyEndDate:Date ;
+  public exerciseStartDate:Date ;
+  public exerciseEndDate:Date ;
+  public consolidationStartDate:Date ;
+  public consolidationEndDate:Date ;
 
   public currentPhase:string = TopicSchedule.PRE_START ;
   private numExerciseDaysLeft:number = 0 ;

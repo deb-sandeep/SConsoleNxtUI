@@ -175,6 +175,44 @@
                   </div>
                 </div>
               </div>
+              <div class="sel-schedule-date-markers">
+                <table class="table table-sm phase-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 30%">Phase</th>
+                      <th style="width: 30%">Start</th>
+                      <th style="width: 30%">End</th>
+                      <th style="width: 10%">Days</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Coaching</td>
+                      <td class="date-cell">{{selTs.coachingStartDate | date:'dd MMM yy'}}</td>
+                      <td class="date-cell">{{selTs.coachingEndDate | date:'dd MMM yy'}}</td>
+                      <td class="days-cell">{{selTs.coachingNumDays}}</td>
+                    </tr>
+                    <tr>
+                      <td>Self-Study</td>
+                      <td class="date-cell">{{selTs.selfStudyStartDate | date:'dd MMM yy'}}</td>
+                      <td class="date-cell">{{selTs.selfStudyEndDate | date:'dd MMM yy'}}</td>
+                      <td class="days-cell">{{selTs.selfStudyNumDays}}</td>
+                    </tr>
+                    <tr>
+                      <td>Exercise</td>
+                      <td class="date-cell">{{selTs.exerciseStartDate | date:'dd MMM yy'}}</td>
+                      <td class="date-cell">{{selTs.exerciseEndDate | date:'dd MMM yy'}}</td>
+                      <td class="days-cell">{{selTs.exerciseNumDays}}</td>
+                    </tr>
+                    <tr>
+                      <td>Consolidation</td>
+                      <td class="date-cell">{{selTs.consolidationStartDate | date:'dd MMM yy'}}</td>
+                      <td class="date-cell">{{selTs.consolidationEndDate | date:'dd MMM yy'}}</td>
+                      <td class="days-cell">{{selTs.coachingNumDays}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </ng-template>
           </div>
         </div>

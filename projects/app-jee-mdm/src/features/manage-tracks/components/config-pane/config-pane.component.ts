@@ -10,19 +10,21 @@ import { FormsModule } from "@angular/forms";
 import { DndModule } from "ngx-drag-drop";
 import { ConfigUtil } from "../../util/cfg-util";
 import { TopicSchedule } from "../../entities/topic-schedule";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: 'config-pane',
-  imports: [
-    NgbAccordionBody,
-    NgbAccordionButton,
-    NgbAccordionCollapse,
-    NgbAccordionDirective,
-    NgbAccordionHeader,
-    NgbAccordionItem,
-    FormsModule,
-    DndModule
-  ],
+    imports: [
+        NgbAccordionBody,
+        NgbAccordionButton,
+        NgbAccordionCollapse,
+        NgbAccordionDirective,
+        NgbAccordionHeader,
+        NgbAccordionItem,
+        FormsModule,
+        DndModule,
+        DatePipe
+    ],
   templateUrl: './config-pane.component.html',
   styleUrl: './config-pane.component.css'
 })

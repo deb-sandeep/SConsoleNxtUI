@@ -103,6 +103,7 @@ export class ProblemHistoryComponent {
   filteredProblems: Record<string, BookChapter> = {}
   selectedProblem: TopicProblemSO | null = null ;
   showOnlyStarred = false ;
+  visibilityChoice = "all" ;
 
   constructor() {
     this.titleSvc.setTitle( "Explore problem history" ) ;
@@ -265,5 +266,58 @@ export class ProblemHistoryComponent {
       }
     }) ;
     return selectedProblems ;
+  }
+
+  public isProblemRowVisible( p:TopicProblemSO ) {
+    let visible = true ;
+    if( this.visibilityChoice != "all" ) {
+      if( this.visibilityChoice === "completed" ) {
+        visible = ( p.problemState === "Correct" ||
+                    p.problemState === "Incorrect" ||
+                    p.problemState === "Pigeon Explained" ||
+                    p.problemState === "Pigeon Solved" ||
+                    p.problemState === "Purge" ) ;
+      }
+      else if( this.visibilityChoice === "incomplete" ) {
+        visible = ( p.problemState === "Assigned" ||
+                    p.problemState === "Later" ||
+                    p.problemState === "Pigeon" ||
+                    p.problemState === "Reassign" ||
+                    p.problemState === "Redo" ) ;
+      }
+      else if( this.visibilityChoice === "assigned" ) {
+        visible = p.problemState === "Assigned" ;
+      }
+      else if( this.visibilityChoice === "correct" ) {
+        visible = p.problemState === "Correct" ;
+      }
+      else if( this.visibilityChoice === "incorrect" ) {
+        visible = p.problemState === "Incorrect" ;
+      }
+      else if( this.visibilityChoice === "later" ) {
+        visible = p.problemState === "Later" ;
+      }
+      else if( this.visibilityChoice === "pigeon" ) {
+        visible = ( p.problemState === "Pigeon" ||
+                    p.problemState === "Pigeon Explained" ||
+                    p.problemState === "Pigeon SOlved" ) ;
+      }
+      else if( this.visibilityChoice === "purge" ) {
+        visible = p.problemState === "Purge" ;
+      }
+      else if( this.visibilityChoice === "reassign" ) {
+        visible = p.problemState === "Reassign" ;
+      }
+      else if( this.visibilityChoice === "redo" ) {
+        visible = p.problemState === "Redo" ;
+      }
+    }
+
+    if( visible ) {
+      if( this.showOnlyStarred && p.difficultyLevel == 0 ) {
+        visible = false ;
+      }
+    }
+    return visible ;
   }
 }

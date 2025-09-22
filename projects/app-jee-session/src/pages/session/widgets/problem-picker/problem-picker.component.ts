@@ -45,6 +45,7 @@ class Chapter {
   chapterName: string;
   exercises: Exercise[] = [] ;
   parent: Book ;
+  numProblems:number = 0 ;
 
   expanded = false ;
 
@@ -62,7 +63,7 @@ class Chapter {
     this.exercises.forEach( (exercise: Exercise) => { exercise.expanded = false; } ) ;
   }
 
-  displayName() { return `${this.chapterNum}.&nbsp;&nbsp;${this.chapterName}`; }
+  displayName() { return `${this.chapterNum}. ${this.chapterName}`; }
 
   addProblem( problem: Problem ) {
     let exercise: Exercise ;
@@ -77,6 +78,7 @@ class Chapter {
       this.exercises.push( exercise ) ;
       this.exerciseMap[ lookupKey ] = exercise ;
     }
+    this.numProblems++ ;
   }
 }
 
@@ -85,6 +87,7 @@ class Exercise {
   exerciseName: string;
   problems: Problem[] = [] ;
   parent: Chapter ;
+  numProblems:number = 0 ;
 
   expanded = false ;
 
@@ -99,6 +102,7 @@ class Exercise {
 
   addProblem( problem: Problem ) {
     this.problems.push( problem );
+    this.numProblems++;
   }
 }
 

@@ -35,6 +35,21 @@
                  [(ngModel)]="showOnlyStarred">
           <label class="form-check-label bi-star-fill" for="switchCheckDefault"></label>
         </div>
+        <div class="visibility-choice">
+          <select class="form-select-sm" [(ngModel)]="visibilityChoice">
+            <option value="all">All</option>
+            <option value="completed">Completed</option>
+            <option value="incomplete">Incomplete</option>
+            <option value="assigned">Assigned</option>
+            <option value="correct">Correct</option>
+            <option value="incorrect">Incorrect</option>
+            <option value="later">Later</option>
+            <option value="pigeon">Pigeon (*)</option>
+            <option value="purge">Purged</option>
+            <option value="reassign">Reassign</option>
+            <option value="redo">Redo</option>
+          </select>
+        </div>
       </div>
       <div class="selected-problems-action-bar">
         <span style="color:blue" class="problem-action bi-twitter"
@@ -94,7 +109,7 @@
               @if( !exercise.collapsed ) {
                 @for( p of exercise.problems; track $index ) {
                   <tr class="problem-row"
-                      *ngIf="!showOnlyStarred || ( showOnlyStarred && p.difficultyLevel > 0 )"
+                      *ngIf="isProblemRowVisible( p )"
                       [ngClass]="getProblemRowClass( p )"
                       (click)="problemSelected( p )">
                     <td class="problem-name">

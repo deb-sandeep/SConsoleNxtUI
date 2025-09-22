@@ -57,6 +57,16 @@
     color: red;
 }
 
+.visibility-choice {
+    display: inline-block;
+}
+
+.form-select-sm {
+    height: 25px;
+    padding-left: 2px;
+    font-size: 12px;
+}
+
 /* ----------------------------------------------------------------------------- */
 /*                         Problem List Container                                */
 /* ----------------------------------------------------------------------------- */

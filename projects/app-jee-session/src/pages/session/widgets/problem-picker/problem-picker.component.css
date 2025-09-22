@@ -66,6 +66,12 @@ button {
     font-size: 17px;
 }
 
+.num-problems {
+    float: right;
+    font-size: 15px;
+    font-family: monospace;
+}
+
 .exercise {
     position: relative;
     height: 35px;
