@@ -16,6 +16,7 @@ import { provideHttpClient, withFetch } from "@angular/common/http";
 
 // app.config.ts (standalone) or app.module.ts (NgModule)
 import { APP_INITIALIZER, Provider } from '@angular/core';
+import { RelationsExplorerComponent } from "./apps/relations-explorer/relations-explorer.component";
 
 const routes: Routes = [
     {
@@ -43,6 +44,11 @@ const routes: Routes = [
         title: 'Chemical Compounds',
         component: ChemCompoundsComponent,
         providers: [ ChemCompoundsService ]
+    },
+    {
+        path: 'relations-explorer',
+        title: 'Relations Explorer',
+        component: RelationsExplorerComponent
     }
 ] ;
 

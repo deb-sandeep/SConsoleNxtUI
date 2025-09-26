@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Relations Grid</title>
+  <style>
+    /* Simple dark theme styles */
+    :root {
+      --bg: #121212;
+      --surface: #1e1e1e;
+      --accent: #00aaff;
+      --text: #8a8989;
+      --mandatory: #424242;
+      /* Slightly lighter than the background to distinguish empty cells */
+      --empty: #181818;
+      --pill-enabled: #007acc;
+      --pill-disabled: #444444;
+    }
+
+    @font-face {
+      font-family: 'Quicksand';
+      font-style: normal;
+      font-weight: 400;
+      src: url('/core-assets/fonts/quicksand-v9-latin-regular.eot');
+      src: local('Quicksand Regular'), local('Quicksand-Regular'),
+      url('/core-assets/fonts/quicksand-v9-latin-regular.eot?#iefix') format('embedded-opentype'),
+      url('/core-assets/fonts/quicksand-v9-latin-regular.woff2') format('woff2'),
+      url('/core-assets/fonts/quicksand-v9-latin-regular.woff') format('woff'),
+      url('/core-assets/fonts/quicksand-v9-latin-regular.ttf') format('truetype'),
+      url('/core-assets/fonts/quicksand-v9-latin-regular.svg#Quicksand') format('svg');
+    }
+
+    body {
+      padding: 10px;
+      font-family: Quicksand, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 95vh;
+      overflow: hidden;
+      border: 1px solid #535353;
+      border-radius: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 0.5rem 1rem;
+      background: var(--surface);
+      font-size: 1.2rem;
+      border-bottom: 1px solid #222;
+      border-top-left-radius:  10px;
+      border-top-right-radius: 10px;
+    }
+
+    /* Layout containers */
+    #controlsBar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem;
+      background: var(--surface);
+      border-bottom: 1px solid #222;
+    }
+
+    #controlsBar label {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.85rem;
+      margin: 0;
+    }
+
+    #constraintsSection {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      padding: 5px 10px 5px 10px;
+    }
+
+    #constraintsSection label {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin: 0;
+      font-size: 0.85rem;
+    }
+
+    #constraintsSection input[type="checkbox"] {
+      margin: 0;
+    }
+
+    #controlsBar select,
+    #controlsBar input[type="color"],
+    #controlsBar button {
+      padding: 0.3rem;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      color: var(--text);
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    #pillBar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: var(--surface);
+      border-bottom: 1px solid #222;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    .pill {
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      user-select: none;
+      background: var(--pill-disabled);
+      color: #bfbfbf;
+    }
+
+    .pill.active {
+      background: var(--pill-enabled);
+    }
+
+    #board-container {
+      flex: 1;
+      position: relative;
+      overflow: auto;
+      background: var(--bg);
+    }
+
+    svg {
+      display: block;
+      margin: auto;
+      max-width: calc(100% - 20px);
+      max-height: calc(100% - 20px);
+      width: 100%;
+      height: auto;
+    }
+
+    .grid-line {
+      stroke: #444;
+      stroke-width: 1;
+    }
+
+    .diag-line {
+      stroke: #333;
+      stroke-width: 1;
+      stroke-dasharray: 4 4;
+    }
+
+    .point-circle {
+      stroke: none;
+      cursor: pointer;
+    }
+
+    .point-label {
+      /* Use a lighter color for grid coordinate labels so they stand out against the dark background */
+      fill: #606060;
+      font-size: 0.8rem;
+      text-anchor: middle;
+      dominant-baseline: hanging;
+      pointer-events: none;
+    }
+
+    #tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      padding: 0.4rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      display: none;
+      z-index: 1000;
+    }
+
+    /* Removed legend styles as the legend has been removed from the UI */
+    .flash {
+      animation: flash 0.6s ease-out;
+    }
+
+    @keyframes flash {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.2;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<h1>Interactive Relations Grid</h1>
+<!-- Controls bar -->
+<div id="control-container">
+  <div id="controlsBar">
+    <label for="setSize">Set size (N):</label>
+    <select id="setSize"></select>
+    <label for="modeSelect">Mode:</label>
+    <select id="modeSelect">
+      <option value="fill">Fill</option>
+      <option value="deduce">Deduce</option>
+    </select>
+    <label for="colorPicker">Point color:</label>
+    <input type="color" id="colorPicker" value="#0003a1">
+    <button id="restartBtn">Restart</button>
+  </div>
+  <div id="constraintsSection">
+    <label><input type="checkbox" id="reflexiveChk"> Reflexive</label>
+    <label><input type="checkbox" id="symmetricChk"> Symmetric</label>
+    <label><input type="checkbox" id="transitiveChk"> Transitive</label>
+    <label><input type="checkbox" id="antisymmetricChk"> Anti-symmetric</label>
+    <label><input type="checkbox" id="equivalenceChk"> Equivalence</label>
+  </div>
+  <!-- Relationship pills -->
+  <div id="pillBar">
+    <div class="pill" id="pillReflexive">Reflexive</div>
+    <div class="pill" id="pillSymmetric">Symmetric</div>
+    <div class="pill" id="pillAntisymmetric">Anti-symmetric</div>
+    <div class="pill" id="pillTransitive">Transitive</div>
+    <div class="pill" id="pillEquivalence">Equivalence</div>
+  </div>
+</div>
+<!-- Board area -->
+<div id="board-container">
+  <svg id="board"></svg>
+  <div id="tooltip"></div>
+</div>
+<script>
+  // Application state
+  let N = 5;
+  let mode = 'fill';
+  const userPairs = new Set(); // string "a,b"
+  let finalPairs = new Set(); // final relation including mandatory pairs
+  const mandatoryPairs = new Set(); // finalPairs minus userPairs
+  const state = {}; // stores per cell state for quick lookup
+  let cellElements = {}; // map of key -> {circle, label}
+  let svg, tooltip;
+  let cellSize, gridOffset;
+  // Store individual colors for each user-selected pair
+  const userColors = {};
+
+  // DOM elements
+  const setSizeSel = document.getElementById('setSize');
+  const modeSel = document.getElementById('modeSelect');
+  const constraintsSection = document.getElementById('constraintsSection');
+  const reflexiveChk = document.getElementById('reflexiveChk');
+  const symmetricChk = document.getElementById('symmetricChk');
+  const transitiveChk = document.getElementById('transitiveChk');
+  const antisymmetricChk = document.getElementById('antisymmetricChk');
+  const equivalenceChk = document.getElementById('equivalenceChk');
+  const colorPicker = document.getElementById('colorPicker');
+  const restartBtn = document.getElementById('restartBtn');
+  const boardContainer = document.getElementById('board-container');
+  const pills = {
+    reflexive: document.getElementById('pillReflexive'),
+    symmetric: document.getElementById('pillSymmetric'),
+    antisymmetric: document.getElementById('pillAntisymmetric'),
+    transitive: document.getElementById('pillTransitive'),
+    equivalence: document.getElementById('pillEquivalence')
+  };
+  // no legend present; user color is stored per point only
+
+  window.addEventListener('resize', drawBoard);
+
+  function init() {
+    // populate set sizes
+    for (let i = 5; i <= 10; i++) {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = i;
+      setSizeSel.appendChild(opt);
+    }
+    setSizeSel.value = N;
+    // event listeners
+    setSizeSel.addEventListener('change', () => {
+      N = parseInt(setSizeSel.value);
+      restart();
+    });
+    modeSel.addEventListener('change', () => {
+      mode = modeSel.value;
+      // toggle constraint section
+      constraintsSection.style.display = mode === 'fill' ? 'flex' : 'none';
+      restart();
+    });
+    [reflexiveChk, symmetricChk, transitiveChk, antisymmetricChk, equivalenceChk].forEach(chk => {
+      chk.addEventListener('change', () => {
+        // if equivalence is checked, automatically enable reflexive, symmetric, transitive
+        if (chk === equivalenceChk) {
+          if (equivalenceChk.checked) {
+            reflexiveChk.checked = true;
+            symmetricChk.checked = true;
+            transitiveChk.checked = true;
+          }
+        }
+        restart(); // recompute mandatory pairs
+      });
+    });
+    // changing the palette only affects new selections; no legend to update
+    colorPicker.addEventListener('input', () => {
+      // intentionally empty: colorPicker changes do not recolor existing points
+      // and there is no legend element to update
+    });
+    restartBtn.addEventListener('click', () => {
+      restart();
+    });
+    svg = document.getElementById('board');
+    tooltip = document.getElementById('tooltip');
+    constraintsSection.style.display = mode === 'fill' ? 'flex' : 'none';
+    drawBoard();
+  }
+
+  function restart() {
+    // clear sets
+    userPairs.clear();
+    finalPairs.clear();
+    mandatoryPairs.clear();
+    // remove children of svg
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    cellElements = {};
+    state.pairs = {};
+    drawBoard();
+    updatePills();
+  }
+
+  function drawBoard() {
+    // compute sizes
+    const containerRect = boardContainer.getBoundingClientRect();
+    const side = Math.min(containerRect.width, containerRect.height) - 20; // margin
+    cellSize = Math.max( side / N, 10 ) ;
+    gridOffset = 10;
+    svg.setAttribute('width', side + gridOffset * 2);
+    svg.setAttribute('height', side + gridOffset * 2);
+    // clear existing
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    // draw grid lines through centers of cells
+    // vertical center lines
+    for (let j = 0; j < N; j++) {
+      const x = gridOffset + (j + 0.5) * cellSize;
+      const vLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      vLine.setAttribute('x1', x);
+      vLine.setAttribute('x2', x);
+      vLine.setAttribute('y1', gridOffset + cellSize/2);
+      vLine.setAttribute('y2', gridOffset + N * cellSize - cellSize/2);
+      vLine.setAttribute('class', 'grid-line');
+      svg.appendChild(vLine);
+    }
+    // horizontal center lines
+    for (let j = 0; j < N; j++) {
+      const y = gridOffset + (j + 0.5) * cellSize;
+      const hLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      hLine.setAttribute('x1', gridOffset + cellSize/2 );
+      hLine.setAttribute('x2', gridOffset + N * cellSize - cellSize/2);
+      hLine.setAttribute('y1', y);
+      hLine.setAttribute('y2', y);
+      hLine.setAttribute('class', 'grid-line');
+      svg.appendChild(hLine);
+    }
+
+    // The outer border lines are intentionally omitted to create an open grid appearance
+    // diagonal line from bottom-left to top-right
+    const diag = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    diag.setAttribute('x1', gridOffset + cellSize/2);
+    diag.setAttribute('y1', gridOffset + N * cellSize - cellSize/2);
+    diag.setAttribute('x2', gridOffset + N * cellSize - cellSize/2);
+    diag.setAttribute('y2', gridOffset + cellSize/2);
+    diag.setAttribute('class', 'diag-line');
+    svg.appendChild(diag);
+
+    // Draw the left to right diagonals
+    for( let col=0; col < N-1; col++ ) {
+      const diag = document.createElementNS('http://www.w3.org/2000/svg', 'line') ;
+      diag.setAttribute( 'x1', gridOffset + cellSize/2 + col*cellSize ) ;
+      diag.setAttribute( 'y1', gridOffset + cellSize/2 ) ;
+      diag.setAttribute( 'x2', gridOffset + N * cellSize - cellSize/2 ) ;
+      diag.setAttribute( 'y2', gridOffset + (N-col) * cellSize - cellSize/2 ) ;
+      diag.setAttribute( 'class', 'diag-line' ) ;
+      svg.appendChild( diag );
+    }
+
+    for( let row=N-1; row>1; row-- ) {
+      const diag = document.createElementNS('http://www.w3.org/2000/svg', 'line') ;
+      diag.setAttribute( 'x1', gridOffset + cellSize/2 ) ;
+      diag.setAttribute( 'y1', gridOffset + cellSize/2 + (N-row)*cellSize ) ;
+      diag.setAttribute( 'x2', gridOffset + row*cellSize - cellSize/2 ) ;
+      diag.setAttribute( 'y2', gridOffset + N * cellSize - cellSize/2 ) ;
+      diag.setAttribute( 'class', 'diag-line' ) ;
+      svg.appendChild( diag );
+    }
+
+    // draw points
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        const cx = gridOffset + j * cellSize + cellSize * 0.5;
+        // invert row so (1,1) is bottom-left
+        const cy = gridOffset + (N - 1 - i) * cellSize + cellSize * 0.5;
+        // Use a fixed proportion of the cell size for the point radius (30% of cell width)
+        const radius = cellSize * 0.35;
+        const key = i + ',' + j;
+        const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        // circle
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', cx);
+        circle.setAttribute('cy', cy);
+        circle.setAttribute('r', radius);
+        circle.setAttribute('class', 'point-circle');
+        circle.setAttribute('data-key', key);
+        updateCircleFill(circle, key);
+        // events
+        circle.addEventListener('click', (e) => onCircleClick(e, i, j));
+        circle.addEventListener('mouseenter', (e) => showTooltip(e, i, j));
+        circle.addEventListener('mousemove', (e) => moveTooltip(e));
+        circle.addEventListener('mouseleave', hideTooltip);
+        // label below the circle
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', cx);
+        label.setAttribute('y', cy - 6);
+        label.setAttribute('class', 'point-label');
+        label.textContent = '(' + (j + 1) + ', ' + (i + 1) + ')';
+        group.appendChild(circle);
+        group.appendChild(label);
+        svg.appendChild(group);
+        cellElements[key] = {circle, label};
+      }
+    }
+    // update mandatory pairs after drawing (reflexive loops etc.)
+    applyConstraints();
+    updatePills();
+  }
+
+  function updateCircleFill(circle, key) {
+    if (mandatoryPairs.has(key)) {
+      circle.setAttribute('fill', 'var(--mandatory)');
+    } else if (userPairs.has(key)) {
+      // use stored color for each user point
+      circle.setAttribute('fill', userColors[key] || colorPicker.value);
+    } else {
+      circle.setAttribute('fill', 'var(--empty)');
+    }
+  }
+
+  function redrawPoints() {
+    // update colors after color palette changed
+    for (const key in cellElements) {
+      updateCircleFill(cellElements[key].circle, key);
+    }
+  }
+
+  function onCircleClick(event, a, b) {
+    const key = a + ',' + b;
+    if (mode === 'deduce') {
+      // toggle user pair; mandatory pairs never appear in deduce mode
+      if (userPairs.has(key)) {
+        userPairs.delete(key);
+        delete userColors[key];
+      } else {
+        userPairs.add(key);
+        userColors[key] = colorPicker.value;
+      }
+      // update final relation equals userPairs
+      finalPairs = new Set(userPairs);
+      mandatoryPairs.clear();
+      updateCircleFill(cellElements[key].circle, key);
+      updatePills();
+    } else {
+      // fill mode: enforce constraints
+      if (mandatoryPairs.has(key)) {
+        showMessage('Cannot toggle mandatory point due to constraints.');
+        return;
+      }
+      // equivalence checked automatically sets other constraints
+      if (equivalenceChk.checked) {
+        reflexiveChk.checked = true;
+        symmetricChk.checked = true;
+        transitiveChk.checked = true;
+      }
+      // toggle user selection
+      if (userPairs.has(key)) {
+        userPairs.delete(key);
+        delete userColors[key];
+      } else {
+        userPairs.add(key);
+        userColors[key] = colorPicker.value;
+      }
+      applyConstraints();
+    }
+  }
+
+  function applyConstraints() {
+    // compute finalPairs as closure of userPairs under selected constraints
+    finalPairs = new Set(userPairs);
+    // always include reflexive loops if reflexive selected
+    if (reflexiveChk.checked) {
+      for (let i = 0; i < N; i++) {
+        finalPairs.add(i + ',' + i);
+      }
+    }
+    // symmetrical closure
+    if (symmetricChk.checked) {
+      let added = true;
+      while (added) {
+        added = false;
+        for (const pair of Array.from(finalPairs)) {
+          const [a, b] = pair.split(',').map(Number);
+          const mirror = b + ',' + a;
+          if (!finalPairs.has(mirror)) {
+            finalPairs.add(mirror);
+            added = true;
+          }
+        }
+      }
+    }
+    // transitive closure
+    if (transitiveChk.checked) {
+      let changed = true;
+      while (changed) {
+        changed = false;
+        const pairsArray = Array.from(finalPairs);
+        for (const pair1 of pairsArray) {
+          const [a1, b1] = pair1.split(',').map(Number);
+          for (const pair2 of pairsArray) {
+            const [a2, b2] = pair2.split(',').map(Number);
+            if (b1 === a2) {
+              const newPair = a1 + ',' + b2;
+              if (!finalPairs.has(newPair)) {
+                finalPairs.add(newPair);
+                changed = true;
+              }
+            }
+          }
+        }
+      }
+    }
+    // antisymmetric rule - deterministically remove duplicates
+    if (antisymmetricChk.checked) {
+      const toRemove = new Set();
+      for (const pair of finalPairs) {
+        const [a, b] = pair.split(',').map(Number);
+        if (a !== b) {
+          const mirror = b + ',' + a;
+          if (finalPairs.has(mirror)) {
+            // choose one to keep (lexicographically smaller)
+            const keep = (a < b) ? pair : mirror;
+            const remove = (a < b) ? mirror : pair;
+            if (!userPairs.has(remove)) {
+              toRemove.add(remove);
+            } else if (!userPairs.has(keep)) {
+              toRemove.add(keep);
+            } else {
+              toRemove.add(remove);
+            }
+          }
+        }
+      }
+      // remove from finalPairs and userPairs/userColors
+      for (const rem of toRemove) {
+        finalPairs.delete(rem);
+        if (userPairs.has(rem)) {
+          userPairs.delete(rem);
+          delete userColors[rem];
+        }
+      }
+    }
+    // mandatoryPairs = finalPairs minus userPairs
+    mandatoryPairs.clear();
+    for (const p of finalPairs) {
+      if (!userPairs.has(p)) {
+        mandatoryPairs.add(p);
+      }
+    }
+    // update UI colors
+    for (const key in cellElements) {
+      updateCircleFill(cellElements[key].circle, key);
+    }
+    updatePills();
+  }
+
+  function updatePills() {
+    // compute properties of current relation finalPairs
+    const props = computePropertiesInternal(N, finalPairs);
+    // update classes
+    pills.reflexive.classList.toggle('active', props.reflexive);
+    pills.symmetric.classList.toggle('active', props.symmetric);
+    pills.antisymmetric.classList.toggle('active', props.antisymmetric);
+    pills.transitive.classList.toggle('active', props.transitive);
+    pills.equivalence.classList.toggle('active', props.equivalence);
+  }
+
+  // compute properties (pure function)
+  function computePropertiesInternal(n, pairsSet) {
+    // convert to set for faster lookups
+    const has = (a, b) => pairsSet.has(a + ',' + b);
+    // reflexive: (i,i) for all i
+    let reflexive = true;
+    for (let i = 0; i < n; i++) {
+      if (!has(i, i)) {
+        reflexive = false;
+        break;
+      }
+    }
+    // symmetric: (a,b) implies (b,a)
+    let symmetric = true;
+    for (const pair of pairsSet) {
+      const [a, b] = pair.split(',').map(Number);
+      if (!has(b, a)) {
+        symmetric = false;
+        break;
+      }
+    }
+    // antisymmetric: for a!=b, if both (a,b) and (b,a) then impossible
+    let antisymmetric = true;
+    for (const pair of pairsSet) {
+      const [a, b] = pair.split(',').map(Number);
+      if (a !== b && has(b, a)) {
+        antisymmetric = false;
+        break;
+      }
+    }
+    // transitive: (a,b) and (b,c) implies (a,c)
+    let transitive = true;
+    // build adjacency lists
+    const pairsList = Array.from(pairsSet).map(p => p.split(',').map(Number));
+    for (const [a, b] of pairsList) {
+      for (const [c, d] of pairsList) {
+        if (b === c && !has(a, d)) {
+          transitive = false;
+          break;
+        }
+      }
+      if (!transitive) break;
+    }
+    const equivalence = reflexive && symmetric && transitive;
+    return {reflexive, symmetric, antisymmetric, transitive, equivalence};
+  }
+
+  // Tooltip handlers
+  function showTooltip(e, i, j) {
+    const props = computePropertiesInternal(N, finalPairs);
+    let content = '';
+    content += (props.reflexive ? 'Reflexive' : 'Not reflexive') + '\n';
+    content += (props.symmetric ? 'Symmetric' : 'Not symmetric') + '\n';
+    content += (props.antisymmetric ? 'Anti-symmetric' : 'Not anti-symmetric') + '\n';
+    content += (props.transitive ? 'Transitive' : 'Not transitive') + '\n';
+    content += (props.equivalence ? 'Equivalence relation' : 'Not equivalence relation');
+    tooltip.textContent = content;
+    tooltip.style.display = 'block';
+    moveTooltip(e);
+  }
+
+  function moveTooltip(e) {
+    const offsetX = 15;
+    const offsetY = 15;
+    tooltip.style.left = (e.clientX + offsetX) + 'px';
+    tooltip.style.top = (e.clientY + offsetY) + 'px';
+  }
+
+  function hideTooltip() {
+    tooltip.style.display = 'none';
+  }
+
+  // Show temporary messages (e.g. invalid actions)
+  let messageTimeout;
+
+  function showMessage(msg) {
+    clearTimeout(messageTimeout);
+    tooltip.textContent = msg;
+    tooltip.style.display = 'block';
+    tooltip.style.left = '10px';
+    tooltip.style.top = '10px';
+    messageTimeout = setTimeout(hideTooltip, 2000);
+  }
+
+  // Expose computeProperties for console tests
+  window.computeProperties = (n, pairsArr) => {
+    const set = new Set(pairsArr instanceof Set ? Array.from(pairsArr) : pairsArr.map(p => p.join(',')));
+    return computePropertiesInternal(n, set);
+  };
+
+  // Tests harness: runs simple tests on load
+  function runTests() {
+    const log = console.log;
+    const tests = [];
+    // empty relation on N=3
+    tests.push(() => {
+      const res = computePropertiesInternal(3, new Set());
+      log('Test empty relation:', res.reflexive === false && res.symmetric === true && res.antisymmetric === true && res.transitive === true);
+    });
+    // universal relation (all pairs)
+    tests.push(() => {
+      const pairs = new Set();
+      for (let a = 0; a < 3; a++)
+        for (let b = 0; b < 3; b++) pairs.add(a + ',' + b);
+      const res = computePropertiesInternal(3, pairs);
+      log('Test universal relation:', res.reflexive === true && res.symmetric === false && res.antisymmetric === false && res.transitive === true);
+    });
+    // missing loops
+    tests.push(() => {
+      const pairs = new Set(['0,1', '1,0', '1,2', '2,1']);
+      const res = computePropertiesInternal(3, pairs);
+      log('Test missing loops:', res.reflexive === false && res.symmetric === true && res.antisymmetric === false && res.transitive === false);
+    });
+    tests.forEach(fn => fn());
+  }
+
+  // initialize
+  init();
+  runTests();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+#relations-explorer-app {
+    width: 100%;
+    height: calc( 100dvh - var(--page-title-height) - 12px ) ;
+}

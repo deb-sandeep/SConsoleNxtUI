@@ -11,6 +11,7 @@ export class UIStateService {
         { iconName:'grid-3x2',  routePath:'/periodic-table', selected:false },
         { iconName:'graph-up',  routePath:'/trend-plotter', selected:false },
         { iconName:'nut',  routePath:'/chem-compounds', selected:false },
+        { iconName:'grid-3x3-gap',  routePath:'/relations-explorer', selected:false },
     ] ;
 
     setAppTitle( newTitle: string ) {
