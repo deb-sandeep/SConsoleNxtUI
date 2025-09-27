@@ -12,9 +12,9 @@
       --surface: #1e1e1e;
       --accent: #00aaff;
       --text: #8a8989;
-      --mandatory: #424242;
+      --mandatory: #226100;
       /* Slightly lighter than the background to distinguish empty cells */
-      --empty: #181818;
+      --empty: #202020;
       --pill-enabled: #007acc;
       --pill-disabled: #444444;
     }
@@ -157,13 +157,13 @@
     }
 
     .point-circle {
-      stroke: none;
+      stroke: var(--empty);
       cursor: pointer;
     }
 
     .point-label {
       /* Use a lighter color for grid coordinate labels so they stand out against the dark background */
-      fill: #606060;
+      fill: #717171;
       font-size: 0.8rem;
       text-anchor: middle;
       dominant-baseline: hanging;
@@ -215,7 +215,7 @@
       <option value="deduce">Deduce</option>
     </select>
     <label for="colorPicker">Point color:</label>
-    <input type="color" id="colorPicker" value="#0003a1">
+    <input type="color" id="colorPicker" value="#cc9600">
     <button id="restartBtn">Restart</button>
   </div>
   <div id="constraintsSection">
@@ -241,7 +241,7 @@
 </div>
 <script>
   // Application state
-  let N = 5;
+  let N = 6;
   let mode = 'fill';
   const userPairs = new Set(); // string "a,b"
   let finalPairs = new Set(); // final relation including mandatory pairs
@@ -370,36 +370,8 @@
       svg.appendChild(hLine);
     }
 
-    // The outer border lines are intentionally omitted to create an open grid appearance
-    // diagonal line from bottom-left to top-right
-    const diag = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    diag.setAttribute('x1', gridOffset + cellSize/2);
-    diag.setAttribute('y1', gridOffset + N * cellSize - cellSize/2);
-    diag.setAttribute('x2', gridOffset + N * cellSize - cellSize/2);
-    diag.setAttribute('y2', gridOffset + cellSize/2);
-    diag.setAttribute('class', 'diag-line');
-    svg.appendChild(diag);
-
-    // Draw the left to right diagonals
-    for( let col=0; col < N-1; col++ ) {
-      const diag = document.createElementNS('http://www.w3.org/2000/svg', 'line') ;
-      diag.setAttribute( 'x1', gridOffset + cellSize/2 + col*cellSize ) ;
-      diag.setAttribute( 'y1', gridOffset + cellSize/2 ) ;
-      diag.setAttribute( 'x2', gridOffset + N * cellSize - cellSize/2 ) ;
-      diag.setAttribute( 'y2', gridOffset + (N-col) * cellSize - cellSize/2 ) ;
-      diag.setAttribute( 'class', 'diag-line' ) ;
-      svg.appendChild( diag );
-    }
-
-    for( let row=N-1; row>1; row-- ) {
-      const diag = document.createElementNS('http://www.w3.org/2000/svg', 'line') ;
-      diag.setAttribute( 'x1', gridOffset + cellSize/2 ) ;
-      diag.setAttribute( 'y1', gridOffset + cellSize/2 + (N-row)*cellSize ) ;
-      diag.setAttribute( 'x2', gridOffset + row*cellSize - cellSize/2 ) ;
-      diag.setAttribute( 'y2', gridOffset + N * cellSize - cellSize/2 ) ;
-      diag.setAttribute( 'class', 'diag-line' ) ;
-      svg.appendChild( diag );
-    }
+    // draw diagonals
+    drawDiagonals() ;
 
     // draw points
     for (let i = 0; i < N; i++) {
@@ -441,6 +413,51 @@
     updatePills();
   }
 
+  function drawDiagonals() {
+
+    // Draw the diagonals from the top to sides
+    for( let col=0; col < N; col++ ) {
+      if( col < N-1 ) {
+        const diaglr = document.createElementNS('http://www.w3.org/2000/svg', 'line') ;
+        diaglr.setAttribute( 'x1', gridOffset + cellSize/2 + col*cellSize ) ;
+        diaglr.setAttribute( 'y1', gridOffset + cellSize/2 ) ;
+        diaglr.setAttribute( 'x2', gridOffset + N * cellSize - cellSize/2 ) ;
+        diaglr.setAttribute( 'y2', gridOffset + (N-col) * cellSize - cellSize/2 ) ;
+        diaglr.setAttribute( 'class', 'diag-line' ) ;
+        svg.appendChild( diaglr );
+      }
+
+      if( col > 0 ) {
+        const diagrl = document.createElementNS('http://www.w3.org/2000/svg', 'line') ;
+        diagrl.setAttribute( 'x1', gridOffset + cellSize/2 + col*cellSize ) ;
+        diagrl.setAttribute( 'y1', gridOffset + cellSize/2 ) ;
+        diagrl.setAttribute( 'x2', gridOffset + cellSize/2 ) ;
+        diagrl.setAttribute( 'y2', gridOffset + col * cellSize + cellSize/2 ) ;
+        diagrl.setAttribute( 'class', 'diag-line' ) ;
+        svg.appendChild( diagrl );
+      }
+    }
+
+    // Draw the diagonals from bottom to sides
+    for( let col=1; col < N-1; col++ ) {
+      const diaglr = document.createElementNS('http://www.w3.org/2000/svg', 'line') ;
+      diaglr.setAttribute( 'x1', gridOffset + cellSize/2 + col*cellSize ) ;
+      diaglr.setAttribute( 'y1', gridOffset + N*cellSize - cellSize/2 ) ;
+      diaglr.setAttribute( 'x2', gridOffset + N*cellSize - cellSize/2 ) ;
+      diaglr.setAttribute( 'y2', gridOffset + col*cellSize + cellSize/2 ) ;
+      diaglr.setAttribute( 'class', 'diag-line' ) ;
+      svg.appendChild( diaglr );
+
+      const diagrl = document.createElementNS('http://www.w3.org/2000/svg', 'line') ;
+      diagrl.setAttribute( 'x1', gridOffset + cellSize/2 + col*cellSize ) ;
+      diagrl.setAttribute( 'y1', gridOffset + N*cellSize - cellSize/2 ) ;
+      diagrl.setAttribute( 'x2', gridOffset + cellSize/2 ) ;
+      diagrl.setAttribute( 'y2', gridOffset + (N-col)*cellSize - cellSize/2 ) ;
+      diagrl.setAttribute( 'class', 'diag-line' ) ;
+      svg.appendChild( diagrl );
+    }
+  }
+
   function updateCircleFill(circle, key) {
     if (mandatoryPairs.has(key)) {
       circle.setAttribute('fill', 'var(--mandatory)');
@@ -448,7 +465,7 @@
       // use stored color for each user point
       circle.setAttribute('fill', userColors[key] || colorPicker.value);
     } else {
-      circle.setAttribute('fill', 'var(--empty)');
+      circle.setAttribute('fill', 'var(--bg)');
     }
   }
 
