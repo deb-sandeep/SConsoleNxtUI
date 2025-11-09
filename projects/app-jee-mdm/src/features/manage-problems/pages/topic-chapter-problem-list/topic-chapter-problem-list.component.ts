@@ -260,6 +260,9 @@ export class TopicChapterProblemListComponent {
         if( this.problemState[ p.problemId ] === 'Assigned' ) {
           return true ;
         }
+        else if( this.problemState[ p.problemId ] === 'Reassign' ) {
+          return true ;
+        }
       }
     }
     return false ;
@@ -339,6 +342,22 @@ export class TopicChapterProblemListComponent {
       if( isExerciseOperable ) {
         ex.problems.forEach( ptm => {
           if( this.isMappedToCurrentTopic( ptm ) && this.isVisible( ptm )) { ptm.selected = true ; }
+        }) ;
+      }
+    }) ;
+  }
+
+  selectAllReassignableProblems() {
+    let limitToSelectedExercises = this.hasSelectedExercises() ;
+    this.data!.exercises.forEach( ex => {
+      let isExerciseOperable = limitToSelectedExercises ? ex.selected : true ;
+      if( isExerciseOperable ) {
+        ex.problems.forEach( ptm => {
+          if( this.isMappedToCurrentTopic( ptm ) && this.isVisible( ptm )) {
+            if( this.problemState[ ptm.problemId ] === 'Reassign' ) {
+              ptm.selected = true ;
+            }
+          }
         }) ;
       }
     }) ;
