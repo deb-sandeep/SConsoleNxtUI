@@ -53,6 +53,12 @@ export class AppComponent {
           bgcolor : "#f0e4ff",
           target : '/apps/jee/monitor/index.html'
         },
+        {
+          name : "Test<br>Administration",
+          icon : "box-seam-fill",
+          bgcolor : "#ffddb9",
+          target : '/apps/jee/test-admin/index.html'
+        },
       ]
     },
     {
