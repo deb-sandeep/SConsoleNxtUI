@@ -115,3 +115,31 @@
     margin: 5px;
 }
 
+/* ----------------------------------------------------------------- */
+.topic-name-col {
+    width: 350px;
+}
+
+.qtype-col {
+    width: 150px;
+}
+
+.syllabus-row {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.syllabus-row td {
+    background-color: #eac2c2;
+}
+
+.numeric-cell {
+    font-family: monospace;
+    text-align: right;
+}
+
+.topic-row td {
+    padding-left: 30px;
+    border-right:  solid 1px #dcdcdc;
+    border-left:  solid 1px #dcdcdc;
+}

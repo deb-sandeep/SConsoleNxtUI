@@ -1,66 +1,40 @@
 <page-title></page-title>
 <alerts-display></alerts-display>
 <div class="page-content">
-  <div class="pigeon-tree">
-    @for( syllabusProblems of getSyllabusProblems(); track syllabusProblems.syllabusName ) {
-      @let syllabus = syllabusProblems.syllabus ;
-
-      <div class="syllabus-name"
-           [style.background-color]="syllabus?.color">
-        {{syllabusProblems.syllabusName}}
-      </div>
-
-      @for( topicProblems of syllabusProblems.getTopicProblems(); track topicProblems.topicName ) {
-        <div class="topic-name">{{topicProblems.topicName}}</div>
-
-        @for( bcProblems of topicProblems.getBookChapterProblems(); track bcProblems.bookChapterName ) {
-          <div class="bc-name" [innerHTML]="bcProblems.bookChapterName"></div>
-
-          @for( pigeon of bcProblems.pigeons; track pigeon.problemId ) {
-            <div class="pigeon" (click)="pigeonSelected(pigeon)"
-                 [class.pigeon-selected]="selectedPigeon == pigeon">
-              <span [ngClass]="SConsoleUtil.getProblemIcon( pigeon.problemState )">&nbsp;</span>
-              {{pigeon.problemKey}}
-              @let age = getAge( pigeon ) ;
-              <span class="age" [ngClass]="{'red':age>0}">[{{age}}]</span>
-            </div>
-          }
+  <table class="table table-sm" style="margin: 0 auto; width: 90%;">
+    <thead>
+    <tr>
+      <th class="topic-name-col"></th>
+      <th class="qtype-col">SCA</th>
+      <th class="qtype-col">MCA</th>
+      <th class="qtype-col">LCT</th>
+      <th class="qtype-col">MMT</th>
+      <th class="qtype-col">CMT</th>
+      <th class="qtype-col">ART</th>
+      <th class="qtype-col">NVT</th>
+      <td class="qtype-col">Total ({{numQuestions}})</td>
+    </tr>
+    </thead>
+    <tbody>
+      @for ( item of syllabusStatusMap | keyvalue; track item.key ) {
+        @let sylStatus = item.value ;
+        <tr class="syllabus-row">
+          <td colspan="9">{{ sylStatus.syllabusName }}</td>
+        </tr>
+        @for ( topicStat of sylStatus.topicStats; track topicStat.topicId ) {
+          <tr class="topic-row">
+            <td>{{topicStat.topicName}}</td>
+            <td class="numeric-cell">{{topicStat.questionTypeStats['SCA']?.numQuestions ?? 0}}</td>
+            <td class="numeric-cell">{{topicStat.questionTypeStats['MCA']?.numQuestions ?? 0}}</td>
+            <td class="numeric-cell">{{topicStat.questionTypeStats['LCT']?.numQuestions ?? 0}}</td>
+            <td class="numeric-cell">{{topicStat.questionTypeStats['MMT']?.numQuestions ?? 0}}</td>
+            <td class="numeric-cell">{{topicStat.questionTypeStats['CMT']?.numQuestions ?? 0}}</td>
+            <td class="numeric-cell">{{topicStat.questionTypeStats['ART']?.numQuestions ?? 0}}</td>
+            <td class="numeric-cell">{{topicStat.questionTypeStats['NVT']?.numQuestions ?? 0}}</td>
+            <td class="numeric-cell">{{topicStat.numQuestions}}</td>
+          </tr>
         }
       }
-    }
-  </div>
-  <div class="pigeon-details">
-    @if( selectedPigeon != null ) {
-
-      <div class="problem-path-1">
-        {{selectedPigeon!.syllabusName}} &nbsp;>&nbsp; {{selectedPigeon!.topicName}}
-      </div>
-
-      <div class="problem-path-2">
-        {{selectedPigeon!.chapterNum}}. {{selectedPigeon!.chapterName}} &nbsp;>&nbsp; {{selectedPigeon!.problemKey}}
-      </div>
-
-      <attempt-history [problem]="selectedPigeon"></attempt-history>
-
-      <div class="button-bar">
-        <button type="button" class="btn btn-success"
-                (click)="changePigeonState( 'Pigeon Solved' )">
-          <span class="bi-twitter" style="color:lightgreen;">&nbsp;</span> Pigeon Solved
-        </button>
-        <button type="button" class="btn btn-warning"
-                (click)="changePigeonState( 'Redo' )">
-          <span class="bi-arrow-clockwise">&nbsp;</span> Redo
-        </button>
-        <button type="button" class="btn btn-secondary"
-                (click)="changePigeonState( 'Reassign' )">
-          <span class="bi-signpost-split">&nbsp;</span> Reassign
-        </button>
-        <button type="button" class="btn btn-danger"
-                (click)="changePigeonState( 'Purge' )">
-          <span class="bi-box-arrow-up-right" style="color:white;">&nbsp;</span> Purge
-        </button>
-      </div>
-
-    }
-  </div>
+    </tbody>
+  </table>
 </div>
