@@ -20,7 +20,8 @@
         @let sylStatus = item.value ;
         @let sylName = sylStatus.syllabusName ;
         <tr class="syllabus-row" (click)="toggleSyllabusExpandedState( sylName )">
-          <td colspan="9">
+          <td colspan="9"
+              [ngStyle]="{'background-color':sylStatus.color}">
             <span [ngClass]="isSyllabusExpanded( sylName ) ? 'bi-caret-down-fill' : 'bi-caret-right-fill'" ></span>
             &nbsp;
             {{ sylStatus.syllabusName }}

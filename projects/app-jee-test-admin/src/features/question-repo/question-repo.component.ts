@@ -1,6 +1,6 @@
 import { Component, inject } from "@angular/core";
 import { AlertsDisplayComponent, PageTitleComponent, PageTitleService } from "lib-core";
-import { KeyValuePipe, NgClass } from "@angular/common";
+import { KeyValuePipe, NgClass, NgStyle } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/util/common-util";
 import { QuestionRepoService } from "./question-repo.service";
 import { SyllabusStatusSO } from "./question-repo.type";
@@ -13,6 +13,7 @@ import { SyllabusStatusSO } from "./question-repo.type";
     AlertsDisplayComponent,
     KeyValuePipe,
     NgClass,
+    NgStyle,
   ],
   templateUrl: './question-repo.component.html',
   styleUrl: './question-repo.component.css'

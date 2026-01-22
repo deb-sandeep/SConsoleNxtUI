@@ -15,6 +15,8 @@ export type TopicStatusSO = {
 
 export type SyllabusStatusSO = {
     syllabusName : string,
+    color : string,
+    iconName : string,
     topicStats : TopicStatusSO[],
     numQuestions : number,
 }
