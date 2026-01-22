@@ -1,5 +1,11 @@
 import { Component, inject } from "@angular/core";
-import { AlertsDisplayComponent, PageTitleComponent, PageTitleService } from "lib-core";
+import {
+  AlertsDisplayComponent,
+  PageTitleComponent,
+  PageTitleService,
+  PageToolbarComponent,
+  ToolbarActionComponent
+} from "lib-core";
 import { KeyValuePipe, NgClass, NgStyle } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/util/common-util";
 import { QuestionRepoService } from "./question-repo.service";
@@ -16,6 +22,8 @@ import { StatusChartComponent } from "./status-chart.component";
     NgClass,
     NgStyle,
     StatusChartComponent,
+    PageToolbarComponent,
+    ToolbarActionComponent,
   ],
   templateUrl: './question-repo.component.html',
   styleUrl: './question-repo.component.css'
@@ -41,9 +49,14 @@ export class QuestionRepoComponent {
   }
 
   public refreshRepoStatus() {
+    this.numQuestions = 0 ;
+    this.syllabusToggleStatus = {} ;
+    this.topicTotalMap = {} ;
+    this.maxQuestionInCell = 0 ;
+    this.maxQuestionsInTopicTotals = 0 ;
+
     this.questionRepoSvc.getRepoStatus()
       .then( status => {
-        console.log( status ) ;
         this.numQuestions = status.numQuestions ;
         this.syllabusStatusMap = status.syllabusStatusMap ;
         this.extractMaxQuestionInCell() ;
@@ -99,5 +112,9 @@ export class QuestionRepoComponent {
 
   public toggleSyllabusExpandedState( name:string ) : void {
     this.syllabusToggleStatus[name] = !this.isSyllabusExpanded( name ) ;
+  }
+
+  public refresh() : void {
+    this.refreshRepoStatus() ;
   }
 }

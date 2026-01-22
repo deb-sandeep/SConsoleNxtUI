@@ -116,6 +116,12 @@
 }
 
 /* ----------------------------------------------------------------- */
+.topic-name-col button {
+    height: 25px;
+    width: 50px;
+    padding: 0 5px 0 5px;
+}
+
 .topic-name-col {
     width: 350px;
 }

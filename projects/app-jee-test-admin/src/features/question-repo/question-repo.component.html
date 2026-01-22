@@ -4,7 +4,12 @@
   <table class="table table-sm" style="margin: 0 auto; width: 90%;">
     <thead>
     <tr>
-      <th class="topic-name-col"></th>
+      <th class="topic-name-col">
+        <button type="button" class="btn btn-sm btn-info"
+                (click)="refresh()">
+          <span class="bi-arrow-clockwise">&nbsp;</span>
+        </button>
+      </th>
       <th class="qtype-col">SCA</th>
       <th class="qtype-col">MCA</th>
       <th class="qtype-col">LCT</th>
