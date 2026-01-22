@@ -37,7 +37,7 @@ export class StatusChartComponent implements AfterViewInit, OnChanges {
   readonly BORDER_COLOR: string = '#cfcfcf';     // Light gray
 
   // Configurable text properties
-  readonly TEXT_COLOR: string = '#454545';       // White for better contrast
+  readonly TEXT_COLOR: string = '#2e2e2e';       // White for better contrast
   readonly TEXT_FONT_SIZE: number = 14;          // Increased font size for better visibility
 
   private ctx: CanvasRenderingContext2D | null = null;
@@ -110,7 +110,7 @@ export class StatusChartComponent implements AfterViewInit, OnChanges {
 
       // Display numUnassigned value on top of the unassigned bar
       this.ctx.fillStyle = this.TEXT_COLOR;
-      this.ctx.font = `bold ${this.TEXT_FONT_SIZE}px Arial`;
+      this.ctx.font = `${this.TEXT_FONT_SIZE}px Arial`;
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
       this.ctx.fillText(

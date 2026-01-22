@@ -94,7 +94,13 @@
                   }
                 </div>
               </td>
-              <td class="status-chart-cell">{{topicStat.numQuestions}}</td>
+              <td class="status-chart-cell">
+                <div class="status-chart-container">
+                  <status-chart [maxValue]="maxQuestionsInTopicTotals"
+                                [statusData]="topicTotalMap[topicStat.topicId]">
+                  </status-chart>
+                </div>
+              </td>
             </tr>
           }
         }
