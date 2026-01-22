@@ -1,6 +1,6 @@
 import { Component, inject } from "@angular/core";
 import { AlertsDisplayComponent, PageTitleComponent, PageTitleService } from "lib-core";
-import { KeyValuePipe } from "@angular/common";
+import { KeyValuePipe, NgClass } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/util/common-util";
 import { QuestionRepoService } from "./question-repo.service";
 import { SyllabusStatusSO } from "./question-repo.type";
@@ -12,6 +12,7 @@ import { SyllabusStatusSO } from "./question-repo.type";
     PageTitleComponent,
     AlertsDisplayComponent,
     KeyValuePipe,
+    NgClass,
   ],
   templateUrl: './question-repo.component.html',
   styleUrl: './question-repo.component.css'
@@ -22,6 +23,8 @@ export class QuestionRepoComponent {
 
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
   private questionRepoSvc : QuestionRepoService = inject( QuestionRepoService ) ;
+
+  private syllabusToggleStatus : Record<string, boolean> = {} ;
 
   numQuestions : number ;
   syllabusStatusMap : Record<string, SyllabusStatusSO> ;
@@ -38,5 +41,16 @@ export class QuestionRepoComponent {
         this.numQuestions = status.numQuestions ;
         this.syllabusStatusMap = status.syllabusStatusMap ;
       })   ;
+  }
+
+  public isSyllabusExpanded( name:string ) : boolean {
+    if( !(name in this.syllabusToggleStatus) ) {
+      this.syllabusToggleStatus[ name ] = true ;
+    }
+    return this.syllabusToggleStatus[ name ] ;
+  }
+
+  public toggleSyllabusExpandedState( name:string ) : void {
+    this.syllabusToggleStatus[name] = !this.isSyllabusExpanded( name ) ;
   }
 }

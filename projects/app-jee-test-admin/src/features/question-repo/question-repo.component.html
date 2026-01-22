@@ -18,21 +18,28 @@
     <tbody>
       @for ( item of syllabusStatusMap | keyvalue; track item.key ) {
         @let sylStatus = item.value ;
-        <tr class="syllabus-row">
-          <td colspan="9">{{ sylStatus.syllabusName }}</td>
+        @let sylName = sylStatus.syllabusName ;
+        <tr class="syllabus-row" (click)="toggleSyllabusExpandedState( sylName )">
+          <td colspan="9">
+            <span [ngClass]="isSyllabusExpanded( sylName ) ? 'bi-caret-down-fill' : 'bi-caret-right-fill'" ></span>
+            &nbsp;
+            {{ sylStatus.syllabusName }}
+          </td>
         </tr>
-        @for ( topicStat of sylStatus.topicStats; track topicStat.topicId ) {
-          <tr class="topic-row">
-            <td>{{topicStat.topicName}}</td>
-            <td class="numeric-cell">{{topicStat.questionTypeStats['SCA']?.numQuestions ?? 0}}</td>
-            <td class="numeric-cell">{{topicStat.questionTypeStats['MCA']?.numQuestions ?? 0}}</td>
-            <td class="numeric-cell">{{topicStat.questionTypeStats['LCT']?.numQuestions ?? 0}}</td>
-            <td class="numeric-cell">{{topicStat.questionTypeStats['MMT']?.numQuestions ?? 0}}</td>
-            <td class="numeric-cell">{{topicStat.questionTypeStats['CMT']?.numQuestions ?? 0}}</td>
-            <td class="numeric-cell">{{topicStat.questionTypeStats['ART']?.numQuestions ?? 0}}</td>
-            <td class="numeric-cell">{{topicStat.questionTypeStats['NVT']?.numQuestions ?? 0}}</td>
-            <td class="numeric-cell">{{topicStat.numQuestions}}</td>
-          </tr>
+        @if( isSyllabusExpanded( sylName ) ) {
+          @for ( topicStat of sylStatus.topicStats; track topicStat.topicId ) {
+            <tr class="topic-row">
+              <td>{{topicStat.topicName}}</td>
+              <td class="numeric-cell">{{topicStat.questionTypeStats['SCA']?.numQuestions ?? 0}}</td>
+              <td class="numeric-cell">{{topicStat.questionTypeStats['MCA']?.numQuestions ?? 0}}</td>
+              <td class="numeric-cell">{{topicStat.questionTypeStats['LCT']?.numQuestions ?? 0}}</td>
+              <td class="numeric-cell">{{topicStat.questionTypeStats['MMT']?.numQuestions ?? 0}}</td>
+              <td class="numeric-cell">{{topicStat.questionTypeStats['CMT']?.numQuestions ?? 0}}</td>
+              <td class="numeric-cell">{{topicStat.questionTypeStats['ART']?.numQuestions ?? 0}}</td>
+              <td class="numeric-cell">{{topicStat.questionTypeStats['NVT']?.numQuestions ?? 0}}</td>
+              <td class="numeric-cell">{{topicStat.numQuestions}}</td>
+            </tr>
+          }
         }
       }
     </tbody>
