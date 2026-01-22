@@ -31,14 +31,70 @@
           @for ( topicStat of sylStatus.topicStats; track topicStat.topicId ) {
             <tr class="topic-row">
               <td>{{topicStat.topicName}}</td>
-              <td class="numeric-cell">{{topicStat.questionTypeStats['SCA']?.numQuestions ?? 0}}</td>
-              <td class="numeric-cell">{{topicStat.questionTypeStats['MCA']?.numQuestions ?? 0}}</td>
-              <td class="numeric-cell">{{topicStat.questionTypeStats['LCT']?.numQuestions ?? 0}}</td>
-              <td class="numeric-cell">{{topicStat.questionTypeStats['MMT']?.numQuestions ?? 0}}</td>
-              <td class="numeric-cell">{{topicStat.questionTypeStats['CMT']?.numQuestions ?? 0}}</td>
-              <td class="numeric-cell">{{topicStat.questionTypeStats['ART']?.numQuestions ?? 0}}</td>
-              <td class="numeric-cell">{{topicStat.questionTypeStats['NVT']?.numQuestions ?? 0}}</td>
-              <td class="numeric-cell">{{topicStat.numQuestions}}</td>
+              <td class="status-chart-cell">
+                <div class="status-chart-container">
+                  @if(topicStat.questionTypeStats['SCA']) {
+                    <status-chart [maxValue]="maxQuestionInCell"
+                                  [statusData]="topicStat.questionTypeStats['SCA']">
+                    </status-chart>
+                  }
+                </div>
+              </td>
+              <td class="status-chart-cell">
+                <div class="status-chart-container">
+                  @if(topicStat.questionTypeStats['MCA']) {
+                    <status-chart [maxValue]="maxQuestionInCell"
+                                  [statusData]="topicStat.questionTypeStats['MCA']">
+                    </status-chart>
+                  }
+                </div>
+              </td>
+              <td class="status-chart-cell">
+                <div class="status-chart-container">
+                  @if(topicStat.questionTypeStats['LCT']) {
+                    <status-chart [maxValue]="maxQuestionInCell"
+                                  [statusData]="topicStat.questionTypeStats['LCT']">
+                    </status-chart>
+                  }
+                </div>
+              </td>
+              <td class="status-chart-cell">
+                <div class="status-chart-container">
+                  @if(topicStat.questionTypeStats['MMT']) {
+                    <status-chart [maxValue]="maxQuestionInCell"
+                                  [statusData]="topicStat.questionTypeStats['MMT']">
+                    </status-chart>
+                  }
+                </div>
+              </td>
+              <td class="status-chart-cell">
+                <div class="status-chart-container">
+                  @if(topicStat.questionTypeStats['CMT']) {
+                    <status-chart [maxValue]="maxQuestionInCell"
+                                  [statusData]="topicStat.questionTypeStats['CMT']">
+                    </status-chart>
+                  }
+                </div>
+              </td>
+              <td class="status-chart-cell">
+                <div class="status-chart-container">
+                  @if(topicStat.questionTypeStats['ART']) {
+                    <status-chart [maxValue]="maxQuestionInCell"
+                                  [statusData]="topicStat.questionTypeStats['ART']">
+                    </status-chart>
+                  }
+                </div>
+              </td>
+              <td class="status-chart-cell">
+                <div class="status-chart-container">
+                  @if(topicStat.questionTypeStats['NVT']) {
+                    <status-chart [maxValue]="maxQuestionInCell"
+                                  [statusData]="topicStat.questionTypeStats['NVT']">
+                    </status-chart>
+                  }
+                </div>
+              </td>
+              <td class="status-chart-cell">{{topicStat.numQuestions}}</td>
             </tr>
           }
         }

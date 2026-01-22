@@ -4,6 +4,7 @@ import { KeyValuePipe, NgClass, NgStyle } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/util/common-util";
 import { QuestionRepoService } from "./question-repo.service";
 import { SyllabusStatusSO } from "./question-repo.type";
+import { StatusChartComponent } from "./status-chart.component";
 
 
 @Component({
@@ -14,6 +15,7 @@ import { SyllabusStatusSO } from "./question-repo.type";
     KeyValuePipe,
     NgClass,
     NgStyle,
+    StatusChartComponent,
   ],
   templateUrl: './question-repo.component.html',
   styleUrl: './question-repo.component.css'
@@ -29,6 +31,7 @@ export class QuestionRepoComponent {
 
   numQuestions : number ;
   syllabusStatusMap : Record<string, SyllabusStatusSO> ;
+  maxQuestionInCell : number ;
 
   constructor() {
     this.titleSvc.setTitle( "Question Repository" ) ;
@@ -41,7 +44,19 @@ export class QuestionRepoComponent {
         console.log( status ) ;
         this.numQuestions = status.numQuestions ;
         this.syllabusStatusMap = status.syllabusStatusMap ;
+        this.extractMaxQuestionInCell() ;
       })   ;
+  }
+
+  private extractMaxQuestionInCell() {
+    this.maxQuestionInCell = 0 ;
+    for( let s of Object.values( this.syllabusStatusMap ) ) {
+      for( let t of s.topicStats ) {
+        if( t.numQuestions > this.maxQuestionInCell ) {
+          this.maxQuestionInCell = t.numQuestions ;
+        }
+      }
+    }
   }
 
   public isSyllabusExpanded( name:string ) : boolean {

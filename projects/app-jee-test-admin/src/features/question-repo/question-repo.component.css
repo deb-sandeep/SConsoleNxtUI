@@ -133,13 +133,21 @@
     background-color: #eac2c2;
 }
 
-.numeric-cell {
+.status-chart-container {
+    height: 25px;
+}
+
+.status-chart-cell {
     font-family: monospace;
     text-align: right;
+    padding: 1px;
 }
 
 .topic-row td {
-    padding-left: 30px;
     border-right:  solid 1px #dcdcdc;
     border-left:  solid 1px #dcdcdc;
+}
+
+.topic-row td:first-child {
+    padding-left: 30px;
 }
