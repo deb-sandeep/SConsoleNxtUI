@@ -40,7 +40,8 @@
                 <div class="status-chart-container">
                   @if(topicStat.questionTypeStats['SCA']) {
                     <status-chart [maxValue]="maxQuestionInCell"
-                                  [statusData]="topicStat.questionTypeStats['SCA']">
+                                  [statusData]="topicStat.questionTypeStats['SCA']"
+                                  (click)="openQuestionBrowser( topicStat.topicId, 'SCA' )">
                     </status-chart>
                   }
                 </div>

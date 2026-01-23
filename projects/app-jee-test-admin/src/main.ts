@@ -31,6 +31,7 @@ class AppComponent {
     title: string = 'JEE Preparation > Test Administration' ;
     menubarMeta : FeatureMenuItemMeta[] = [
         { routePath:'/question-repo', iconName:'database-gear', selected:true },
+        { routePath:'/question-browser', iconName:'browser-chrome', selected:false },
     ] ;
 
     constructor( alertConfig:NgbAlertConfig ) {

@@ -3,14 +3,13 @@ import {
   AlertsDisplayComponent,
   PageTitleComponent,
   PageTitleService,
-  PageToolbarComponent,
-  ToolbarActionComponent
 } from "lib-core";
 import { KeyValuePipe, NgClass, NgStyle } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/util/common-util";
 import { QuestionRepoService } from "./question-repo.service";
 import { QTypeStatusSO, SyllabusStatusSO, TopicStatusSO } from "./question-repo.type";
 import { StatusChartComponent } from "./status-chart.component";
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -22,8 +21,6 @@ import { StatusChartComponent } from "./status-chart.component";
     NgClass,
     NgStyle,
     StatusChartComponent,
-    PageToolbarComponent,
-    ToolbarActionComponent,
   ],
   templateUrl: './question-repo.component.html',
   styleUrl: './question-repo.component.css'
@@ -34,6 +31,7 @@ export class QuestionRepoComponent {
 
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
   private questionRepoSvc : QuestionRepoService = inject( QuestionRepoService ) ;
+  private router : Router = inject( Router ) ;
 
   private syllabusToggleStatus : Record<string, boolean> = {} ;
 
@@ -116,5 +114,14 @@ export class QuestionRepoComponent {
 
   public refresh() : void {
     this.refreshRepoStatus() ;
+  }
+
+  public openQuestionBrowser( topicId:number, qType:string ) : void {
+    this.router.navigate(['/question-browser'], {
+      queryParams: {
+        topicId: topicId,
+        qType: qType
+      }
+    });
   }
 }
