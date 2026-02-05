@@ -1,0 +1,9 @@
+
+#questions-listing-pane {
+    position: absolute;
+    top: calc(var(--page-title-height));
+    left: 0;
+    height: calc(100% - var(--page-title-height));
+    width: calc(100% - var(--search-criteria-pane-width));
+    background-color: #FFFFFF;
+}

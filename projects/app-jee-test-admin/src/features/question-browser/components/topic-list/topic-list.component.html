@@ -1,0 +1,20 @@
+<div class="topic-selection-toolbar">
+  <button type="button" class="btn btn-sm btn-secondary"
+          (click)="selectAll()">
+    Select All
+  </button>
+  <button type="button" class="btn btn-sm btn-secondary"
+          (click)="unselectAll()">
+    Unselect All
+  </button>
+</div>
+<ul>
+  @for( topic of topics(); track topic.id ) {
+    <li [class.selected]="selectedTopics[topic.id]">
+      <input type="checkbox"
+             [ngModel]="selectedTopics[topic.id]"
+             (change)="topicSelectionChanged(topic.id, $event)">
+      {{topic.topicName}}
+    </li>
+  }
+</ul>

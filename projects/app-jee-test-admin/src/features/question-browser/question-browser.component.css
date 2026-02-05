@@ -1,21 +1,7 @@
-.toolbar-checkbox {
-    display: inline-block;
-    padding-left: 10px;
-    font-size: 13px;
-    color: black;
+.page-content {
+    --pad-xs: 3px;
+    --pad-sm: 5px;
+    --pad-lg: 10px;
+    --border-radius: 8px;
+    --search-criteria-pane-width: 300px;
 }
-
-.action-dropdown > button {
-    padding: 2px 5px 2px 5px;
-}
-
-.action-dropdown button:hover {
-    background-color: #818181;
-}
-
-.action-dropdown * {
-    font-size: 13px;
-    background-color: #6b6b6b;
-    color: white;
-}
-

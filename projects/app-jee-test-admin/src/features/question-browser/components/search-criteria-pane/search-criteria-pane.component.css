@@ -1,0 +1,31 @@
+#search-criteria-pane {
+    position: absolute;
+    top: calc(var(--page-title-height));
+    right: 0;
+    height: calc(100% - var(--page-title-height));
+    width: var(--search-criteria-pane-width);
+    background-color: #c6c6c6;
+    padding: 5px;
+}
+
+/* --------- ngBootstrap CSS overrides ----------------------------- */
+.nav {
+    --bs-nav-link-padding-y: 2px ;
+}
+
+.nav-link.active {
+    background-color: #d4f8a8;
+}
+
+.accordion-item {
+    margin-bottom: 10px;
+}
+
+.accordion-button {
+    font-size: 14px;
+    padding: 4px;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #b2defd;
+}

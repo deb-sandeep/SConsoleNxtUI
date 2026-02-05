@@ -1,0 +1,49 @@
+<div id="search-criteria-pane">
+  <div ngbAccordion>
+
+    <div ngbAccordionItem [collapsed]="false" >
+      <h2 ngbAccordionHeader>
+        <button ngbAccordionButton>Syllabus</button>
+      </h2>
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <ng-template>
+            <ul ngbNav #nav="ngbNav" class="nav-tabs"
+                [destroyOnHide]="false"
+                (navChange)="syllabusChanged($event)">
+              <li [ngbNavItem]="1">
+                <button ngbNavLink>Physics</button>
+                <ng-template ngbNavContent>
+                  <topic-list #phyTopics
+                              [topics]="syllabusMap['IIT Physics']?.topics"
+                              (selectionChanged)="topicSelectionChanged($event)">
+                  </topic-list>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="2">
+                <button ngbNavLink>Chemistry</button>
+                <ng-template ngbNavContent>
+                  <topic-list #chemTopics
+                              [topics]="syllabusMap['IIT Chemistry']?.topics"
+                              (selectionChanged)="topicSelectionChanged($event)">
+                  </topic-list>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="3">
+                <button ngbNavLink>Maths</button>
+                <ng-template ngbNavContent>
+                  <topic-list #mathTopics
+                              [topics]="syllabusMap['IIT Maths']?.topics"
+                              (selectionChanged)="topicSelectionChanged($event)">
+                  </topic-list>
+                </ng-template>
+              </li>
+            </ul>
+            <div [ngbNavOutlet]="nav"></div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

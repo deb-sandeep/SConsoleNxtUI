@@ -6,6 +6,7 @@ import AlertService = Alert.AlertService;
 import { QuestionRepoComponent } from "./features/question-repo/question-repo.component";
 import { QuestionRepoService } from "./features/question-repo/question-repo.service";
 import { QuestionBrowserComponent } from "./features/question-browser/question-browser.component";
+import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 
 export const featureRoutes: Routes = [
     {
@@ -23,6 +24,6 @@ export const featureRoutes: Routes = [
         path: 'question-browser',
         title: 'Question Browser',
         component: QuestionBrowserComponent,
-        providers: [AlertService, QuestionRepoService]
+        providers: [AlertService, QuestionRepoService, SyllabusApiService]
     }
 ] ;

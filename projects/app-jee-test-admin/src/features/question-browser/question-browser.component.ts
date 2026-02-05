@@ -1,17 +1,20 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PageTitleComponent, PageTitleService, PageToolbarComponent } from "lib-core";
+import { PageTitleComponent, PageTitleService } from "lib-core";
 import { QuestionRepoService } from "../question-repo/question-repo.service";
 import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { ReactiveFormsModule } from "@angular/forms";
+import { SearchCriteriaPaneComponent } from "./components/search-criteria-pane/search-criteria-pane.component";
+import { QuestionsListingPaneComponent } from "./components/questions-listing-pane/questions-listing-pane.component";
 
 @Component({
   selector: 'question-browser',
   imports: [
     PageTitleComponent,
-    PageToolbarComponent,
     NgbDropdownModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SearchCriteriaPaneComponent,
+    QuestionsListingPaneComponent
   ],
   templateUrl: './question-browser.component.html',
   styleUrl: './question-browser.component.css'
