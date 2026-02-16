@@ -1,4 +1,14 @@
-
 <div id="questions-listing-pane">
-
+  @let results = qBrowserSvc.searchResults() ;
+  @if( results ) {
+    <div id="questions-list">
+        @let questions = results.questions ;
+        @for( question of questions; track question.id ) {
+          <question-display [question]="question"></question-display>
+        }
+    </div>
+    <div id="paging-bar">
+      <paging-control [searchResults]="results"></paging-control>
+    </div>
+  }
 </div>

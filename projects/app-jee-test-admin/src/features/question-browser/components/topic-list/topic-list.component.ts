@@ -1,13 +1,11 @@
 import { Component, input, output } from '@angular/core';
 import { TopicSO } from "@jee-common/util/master-data-types";
 import { FormsModule } from "@angular/forms";
-import { NgClass } from "@angular/common";
 
 @Component({
   selector: 'topic-list',
   imports: [
     FormsModule,
-    NgClass
   ],
   templateUrl: './topic-list.component.html',
   styleUrl: './topic-list.component.css'

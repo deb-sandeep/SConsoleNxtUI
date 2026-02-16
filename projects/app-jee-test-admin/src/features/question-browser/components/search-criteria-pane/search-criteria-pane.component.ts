@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { TopicListComponent } from "../topic-list/topic-list.component";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { SyllabusSO } from "@jee-common/util/master-data-types";
+import { QuestionBrowserService } from "../../question-browser.service";
 
 @Component({
   selector: 'search-criteria-pane',
@@ -40,6 +41,9 @@ import { SyllabusSO } from "@jee-common/util/master-data-types";
 export class SearchCriteriaPaneComponent {
 
   private sylApiSvc : SyllabusApiService = inject( SyllabusApiService ) ;
+  private qBrowserSvc : QuestionBrowserService = inject( QuestionBrowserService ) ;
+
+  private selectedTopicIds: number[] = [];
 
   @ViewChild( "phyTopics" )
   phyTopics : TopicListComponent ;
@@ -64,6 +68,7 @@ export class SearchCriteriaPaneComponent {
   }
 
   topicSelectionChanged( $event: number[] ) {
+    this.selectedTopicIds = $event;
   }
 
   syllabusChanged( $event: NgbNavChangeEvent ) {
@@ -72,5 +77,13 @@ export class SearchCriteriaPaneComponent {
       case 2 : this.chemTopics.emitSelectedTopics() ; break ;
       case 3 : this.mathTopics.emitSelectedTopics() ; break ;
     }
+  }
+
+  isSearchCriteriaInvalid() {
+    return this.selectedTopicIds.length == 0;
+  }
+
+  search() {
+    this.qBrowserSvc.initiateFreshSearch( this.selectedTopicIds ) ;
   }
 }

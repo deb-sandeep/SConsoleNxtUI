@@ -1,4 +1,3 @@
-
 #questions-listing-pane {
     position: absolute;
     top: calc(var(--page-title-height));
@@ -6,4 +5,28 @@
     height: calc(100% - var(--page-title-height));
     width: calc(100% - var(--search-criteria-pane-width));
     background-color: #FFFFFF;
+
+    --paging-bar-height: 35px;
+}
+
+#questions-list {
+    position: absolute;
+    overflow-y: auto;
+    top: 0;
+    left: 0;
+    height: calc(100% - var(--paging-bar-height));
+    width: 100%;
+    background-color: #FFFFFF;
+    padding: 10px;
+}
+
+#paging-bar {
+    position: absolute;
+    overflow-y: auto;
+    bottom: 0;
+    left: 0;
+    height: var(--paging-bar-height);
+    width: 100%;
+    background-color: #616161;
+    padding: 10px;
 }

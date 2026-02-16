@@ -1,0 +1,28 @@
+<div class="paging-bar">
+
+  <div class="page-ref prev-page" *ngIf="hasPrevPage()">
+    <a (click)="showPrevPage()">
+      <span class="bi-arrow-left page-ref"></span>
+    </a>
+  </div>
+
+  @for( ref of pageRefs; track $index ) {
+    <div class="page-ref" [class.current-page]="ref.isCurrentPage">
+      @if( ref.isEllipses ) {
+        ...
+      }
+      @else {
+        <a (click)="showPage(ref.pageNumber)">
+          {{ref.pageNumber+1}}
+        </a>
+      }
+    </div>
+  }
+
+  <div class="page-ref next-page" *ngIf="hasNextPage()">
+    <a (click)="showNextPage()">
+      <span class="bi-arrow-right page-ref"></span>
+    </a>
+  </div>
+
+</div>

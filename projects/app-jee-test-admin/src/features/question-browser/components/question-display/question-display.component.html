@@ -1,0 +1,23 @@
+@if( question() ) {
+  @let q = question()! ;
+  <div class="card border-default question-card">
+    <div class="card-header">
+      <span class="topic-name">[{{q.topicName}}]</span>
+      <span class="question-id">{{q.questionId}}</span>
+      <span class="problem-db-id">({{q.id}})</span>
+      <span class="problem-type">{{q.problemType}}</span>
+    </div>
+    <div class="card-body">
+      @let imgs = q.questionImages ;
+      @for( img of imgs; track img.fileName ) {
+        <img class="img-fluid question-img"
+             [src]="getImgURL(img)"
+             [width]="750"
+             [alt]="img.fileName"/>
+      }
+    </div>
+    <div class="card-footer">
+      Answer : <span class="answer">{{q.answer}}</span>
+    </div>
+  </div>
+}

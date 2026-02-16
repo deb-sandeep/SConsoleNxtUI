@@ -1,0 +1,27 @@
+a {
+    cursor: pointer;
+}
+
+.paging-bar {
+    text-align: center;
+}
+
+.page-ref {
+    margin-right: 15px;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.current-page {
+    color: cyan;
+    font-weight: bold;
+}
+
+.prev-page {
+    float: left;
+}
+
+.next-page {
+    float: right;
+}

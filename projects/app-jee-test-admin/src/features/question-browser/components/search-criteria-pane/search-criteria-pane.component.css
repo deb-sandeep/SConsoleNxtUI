@@ -6,6 +6,8 @@
     width: var(--search-criteria-pane-width);
     background-color: #c6c6c6;
     padding: 5px;
+
+    --search-bar-height:35px;
 }
 
 /* --------- ngBootstrap CSS overrides ----------------------------- */
@@ -28,4 +30,28 @@
 
 .accordion-button:not(.collapsed) {
     background-color: #b2defd;
+}
+
+/* ---------- Page element styles --------------------------------- */
+.criteria-controls {
+    position: absolute;
+    overflow-y: auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - var(--search-bar-height));
+    text-align: center;
+    padding: 3px;
+}
+
+.search-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    background-color: #616161;
+    width: 100%;
+    height: var(--search-bar-height);
+    text-align: center;
+    padding: 2px;
 }
