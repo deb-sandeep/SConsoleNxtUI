@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, effect } from '@angular/core';
+import { Component, OnInit, inject, effect, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageTitleComponent, PageTitleService } from "lib-core";
 import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
@@ -24,6 +24,9 @@ export class QuestionBrowserComponent implements OnInit {
   private route: ActivatedRoute = inject( ActivatedRoute ) ;
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
   private qBrowserSvc : QuestionBrowserService = inject( QuestionBrowserService ) ;
+
+  @ViewChild( "searchCriteriaPane")
+  public searchCriteriaPane: SearchCriteriaPaneComponent ;
 
   constructor() {
     this.titleSvc.setTitle( "Question Browser" ) ;
