@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, effect, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject, effect, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageTitleComponent, PageTitleService } from "lib-core";
 import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
@@ -19,7 +19,7 @@ import { QuestionBrowserService } from "./question-browser.service";
   templateUrl: './question-browser.component.html',
   styleUrl: './question-browser.component.css'
 })
-export class QuestionBrowserComponent implements OnInit {
+export class QuestionBrowserComponent implements OnInit, AfterViewInit {
 
   private route: ActivatedRoute = inject( ActivatedRoute ) ;
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
@@ -27,6 +27,8 @@ export class QuestionBrowserComponent implements OnInit {
 
   @ViewChild( "searchCriteriaPane")
   public searchCriteriaPane: SearchCriteriaPaneComponent ;
+
+  private pendingRouteSearchContext: { topicId: number, qType: string } | null = null ;
 
   constructor() {
     this.titleSvc.setTitle( "Question Browser" ) ;
@@ -52,7 +54,24 @@ export class QuestionBrowserComponent implements OnInit {
 
       if( topicId != -1 ) {
         this.qBrowserSvc.initiateFreshSearch( [topicId] ) ;
+        this.pendingRouteSearchContext = { topicId, qType } ;
+        this.applyPendingRouteSearchContext() ;
       }
     } ) ;
+  }
+
+  ngAfterViewInit(): void {
+    this.applyPendingRouteSearchContext() ;
+  }
+
+  private applyPendingRouteSearchContext() {
+    if( !this.pendingRouteSearchContext || !this.searchCriteriaPane ) {
+      return ;
+    }
+    this.searchCriteriaPane.applyRouteDrivenSelection(
+      this.pendingRouteSearchContext.topicId,
+      this.pendingRouteSearchContext.qType
+    ) ;
+    this.pendingRouteSearchContext = null ;
   }
 }

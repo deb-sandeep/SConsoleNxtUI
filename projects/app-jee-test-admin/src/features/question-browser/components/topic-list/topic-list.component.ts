@@ -36,6 +36,12 @@ export class TopicListComponent {
     this.emitSelectedTopics() ;
   }
 
+  setSelectedTopics( topicIds: number[] ) {
+    this.selectedTopics = {} ;
+    topicIds.forEach( id => this.selectedTopics[id] = true ) ;
+    this.emitSelectedTopics() ;
+  }
+
   emitSelectedTopics() {
     const selectedTopicIds: number[] = [] ;
     for( const id in this.selectedTopics ) {
