@@ -1,4 +1,4 @@
-const serverHost = '192.168.0.158' ;
+const serverHost = '192.168.0.166' ;
 const serverPort = '8080' ;
 
 export const environment = {

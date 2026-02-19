@@ -1,0 +1,17 @@
+@import './../exam-setup.css' ;
+
+.radio-group {
+    padding-top: 15px;
+    padding-left: 90px;
+    display: flex;
+    flex-direction: column;   /* stack vertically */
+    gap: 10px;                /* spacing between options */
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}

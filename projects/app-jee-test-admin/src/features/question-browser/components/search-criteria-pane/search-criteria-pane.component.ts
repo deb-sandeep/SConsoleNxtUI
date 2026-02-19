@@ -68,6 +68,7 @@ export class SearchCriteriaPaneComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.viewReady = true ;
     this.applyPendingRouteSelection() ;
+    this.qBrowserSvc.clearSearchResults() ;
   }
 
   private async fetchSyllabusAndTopics() {

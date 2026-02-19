@@ -1,0 +1,28 @@
+<div class="wizard-dialog"
+     style="width: 300px;">
+  <div class="card border-default question-card">
+    <div class="card-header">
+      <span class="wizard-step">[ Step 1/4 ]</span> Select exam type
+    </div>
+    <div class="card-body">
+      <div role="radiogroup" class="radio-group">
+        <label class="radio-option" *ngFor="let opt of examTypeOptions">
+          <input
+              type="radio"
+              name="difficulty"
+              [value]="opt.value"
+              [(ngModel)]="examSetupSvc.examSetupConfig.examType"
+          />
+          {{ opt.label }}
+        </label>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button type="button"
+              class="btn btn-info wizard-btn"
+              (click)="showNextDialog()">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

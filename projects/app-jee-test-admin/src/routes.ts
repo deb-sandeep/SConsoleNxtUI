@@ -8,6 +8,8 @@ import { QuestionRepoService } from "./features/question-repo/question-repo.serv
 import { QuestionBrowserComponent } from "./features/question-browser/question-browser.component";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { QuestionBrowserService } from "./features/question-browser/question-browser.service";
+import { ExamConfigComponent } from "./features/exam-config/exam-config.component";
+import { examConfigRoutes } from "./features/exam-config/exam-config.route";
 
 export const featureRoutes: Routes = [
     {
@@ -33,6 +35,17 @@ export const featureRoutes: Routes = [
             QuestionRepoService,
             SyllabusApiService,
             QuestionBrowserService
+        ]
+    },
+    {
+        path: 'exam-config',
+        title: 'Exam Configuration',
+        component: ExamConfigComponent,
+        children: examConfigRoutes,
+        providers: [
+            AlertService,
+            QuestionRepoService,
+            SyllabusApiService
         ]
     }
 ] ;
