@@ -1,0 +1,19 @@
+<div class="wizard-dialog"
+     style="width: 450px;">
+  <div class="card border-default question-card">
+    <div class="card-header">
+      Configure Sections
+      <span class="wizard-step">[ Step 3/4 ]</span>
+    </div>
+    <div class="card-body">
+    </div>
+    <div class="card-footer">
+      <button type="button"
+              class="btn btn-info wizard-btn"
+              (click)="showNextDialog()"
+              [disabled]="isConfigurationInvalid()">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

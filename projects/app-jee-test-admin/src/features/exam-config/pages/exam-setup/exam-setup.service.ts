@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { RemoteService } from "lib-core";
+import { ExamSectionTemplate } from "./exam-section.config";
 
 import { environment } from "@env/environment";
 
@@ -15,14 +16,16 @@ interface ExamSection {
 
 interface ExamSetupConfig {
   examType: string;
+  selectedSectionTemplates: ExamSectionTemplate[];
   examSections: ExamSection[];
 }
 
 @Injectable()
 export class ExamSetupService extends RemoteService {
 
-  examSetupConfig = {
+  examSetupConfig : ExamSetupConfig = {
     examType : "MAIN",
+    selectedSectionTemplates : [],
     examSections : [],
   }
 }

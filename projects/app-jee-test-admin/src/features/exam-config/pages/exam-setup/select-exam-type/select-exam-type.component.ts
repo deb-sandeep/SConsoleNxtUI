@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ExamSetupService } from "../exam-setup.service";
 import { NgForOf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'select-exam-type',
@@ -14,6 +15,7 @@ import { FormsModule } from "@angular/forms";
 })
 export class SelectExamTypeComponent {
 
+  router = inject( Router ) ;
   examSetupSvc = inject( ExamSetupService ) ;
 
   examTypeOptions = [
@@ -22,6 +24,6 @@ export class SelectExamTypeComponent {
   ] ;
 
   showNextDialog() {
-    // TODO: Navigate
+    this.router.navigateByUrl( "/exam-config/exam-setup/sel-exam-sections" ).then() ;
   }
 }

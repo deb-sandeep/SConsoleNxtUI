@@ -1,1 +1,28 @@
-<p>select-exam-sections works!</p>
+<div class="wizard-dialog"
+     style="width: 250px;">
+  <div class="card border-default question-card">
+    <div class="card-header">
+      Select sections
+      <span class="wizard-step">[ Step 2/4 ]</span>
+    </div>
+    <div class="card-body">
+      <ul class="checkbox-group">
+        @for( template of relevantSectionTemplates; track template.problemType) {
+          <li>
+            <input type="checkbox" class="checkbox-option"
+                   [(ngModel)]="sectionSelections[template.problemType]">
+            {{template.problemType}}
+          </li>
+        }
+      </ul>
+    </div>
+    <div class="card-footer">
+      <button type="button"
+              class="btn btn-info wizard-btn"
+              (click)="showNextDialog()"
+              [disabled]="!anySectionsSelected()">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
-interface ExamSectionTemplate {
+export interface ExamSectionTemplate {
     problemType: ( 'SCA' | 'MCA' | 'LCT' | 'NVT' | 'MMT' | 'CMT' | 'ART' ) ;
+    defaultSelection: boolean;
     title: string;
     correctMarks: number;
     correctMarksEditable: boolean;
@@ -14,6 +15,7 @@ interface ExamSectionTemplate {
 export const mainSectionTemplates : ExamSectionTemplate[] = [
     {
         problemType : 'SCA',
+        defaultSelection : true,
         title : 'Single Correct Answer',
         correctMarks : 4,
         correctMarksEditable : false,
@@ -26,6 +28,7 @@ export const mainSectionTemplates : ExamSectionTemplate[] = [
     },
     {
         problemType : 'NVT',
+        defaultSelection : true,
         title : 'Numerical Value Type',
         correctMarks : 4,
         correctMarksEditable : false,
@@ -42,6 +45,7 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
 
     {
         problemType : 'SCA',
+        defaultSelection : true,
         title : 'Single Correct Answer',
         correctMarks : 3,
         correctMarksEditable : true,
@@ -57,6 +61,7 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
     },
     {
         problemType : 'MCA',
+        defaultSelection : true,
         title : 'Multiple Correct Answer',
         correctMarks : 4,
         correctMarksEditable : true,
@@ -72,6 +77,7 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
     },
     {
         problemType : 'NVT',
+        defaultSelection : true,
         title : 'Numerical Value Type',
         correctMarks : 4,
         correctMarksEditable : true,
@@ -87,6 +93,7 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
     },
     {
         problemType : 'MMT',
+        defaultSelection : false,
         title : 'Matrix Match Type',
         correctMarks : 4,
         correctMarksEditable : true,
@@ -102,6 +109,7 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
     },
     {
         problemType : 'CMT',
+        defaultSelection : false,
         title : 'Comprehension / Paragraph Based',
         correctMarks : 3,
         correctMarksEditable : true,
@@ -116,6 +124,7 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
     },
     {
         problemType : 'ART',
+        defaultSelection : false,
         title : 'Assertion–Reasoning Type',
         correctMarks : 3,
         correctMarksEditable : true,
