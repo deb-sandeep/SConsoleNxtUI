@@ -28,6 +28,6 @@ export class SelectExamTypeComponent {
   }
 
   showNextDialog() {
-    this.router.navigateByUrl( "/exam-config/exam-setup/sel-exam-sections" ).then() ;
+    this.router.navigateByUrl( "/exam-config/exam-setup/sel-exam-subjects" ).then() ;
   }
 }

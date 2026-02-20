@@ -27,6 +27,7 @@ export class ConfigureExamSectionsComponent {
     for( let template of this.examSetupSvc.examSetupConfig.selectedSectionTemplates ) {
       this.templateMap[ template.problemType ] = template ;
       this.sections.push( {
+        syllabusName: "",
         problemType: template.problemType,
         title: template.title,
         correctMarks: template.correctMarks,
@@ -39,6 +40,14 @@ export class ConfigureExamSectionsComponent {
   }
 
   protected showNextDialog() {
+    for( let subject of this.examSetupSvc.examSetupConfig.selectedSubjects ) {
+      for( let section of this.sections ) {
+        let s = { ...section } ;
+        s.syllabusName = subject ;
+        this.examSetupSvc.examSetupConfig.examSections.push( s ) ;
+      }
+    }
+    console.log( this.examSetupSvc.examSetupConfig );
   }
 
   protected isConfigurationInvalid() {

@@ -1,0 +1,28 @@
+<div class="wizard-dialog"
+     style="width: 300px;">
+  <div class="card border-default question-card">
+    <div class="card-header">
+      Select exam type
+      <span class="wizard-step">[ Step 1/4 ]</span>
+    </div>
+    <div class="card-body">
+      <ul class="checkbox-group">
+        @for( syllabus of syllabusOptions; track syllabus.label ) {
+          <li>
+            <input type="checkbox" class="checkbox-option"
+                   [(ngModel)]="selectedSubjects[syllabus.value]">
+            {{syllabus.label}}
+          </li>
+        }
+      </ul>
+    </div>
+    <div class="card-footer">
+      <button type="button"
+              class="btn btn-info wizard-btn"
+              [disabled]="!anySyllabusSelected()"
+              (click)="showNextDialog()">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

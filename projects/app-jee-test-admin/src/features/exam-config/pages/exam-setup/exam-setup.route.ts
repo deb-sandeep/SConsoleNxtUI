@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { SelectExamTypeComponent } from "./select-exam-type/select-exam-type.component";
 import { SelectExamSectionsComponent } from "./select-exam-sections/select-exam-sections.component";
 import { ConfigureExamSectionsComponent } from "./configure-exam-sections/configure-exam-sections.component";
+import { SelectExamSubjectsComponent } from "./select-exam-subjects/select-exam-subjects.component";
 
 export const examSetupRoutes: Routes = [
     {
@@ -13,6 +14,11 @@ export const examSetupRoutes: Routes = [
         path: 'sel-exam-type',
         title: 'Select Exam Type',
         component: SelectExamTypeComponent,
+    },
+    {
+        path: 'sel-exam-subjects',
+        title: 'Select Exam Subjects',
+        component: SelectExamSubjectsComponent,
     },
     {
         path: 'sel-exam-sections',

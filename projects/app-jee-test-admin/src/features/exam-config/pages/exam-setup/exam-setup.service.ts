@@ -5,6 +5,7 @@ import { ExamSectionTemplate } from "./exam-section.config";
 import { environment } from "@env/environment";
 
 export interface ExamSection {
+  syllabusName: string;
   problemType: string;
   title: string;
   correctMarks: number;
@@ -16,6 +17,7 @@ export interface ExamSection {
 
 interface ExamSetupConfig {
   examType: string;
+  selectedSubjects: string[];
   selectedSectionTemplates: ExamSectionTemplate[];
   examSections: ExamSection[];
 }
@@ -25,6 +27,7 @@ export class ExamSetupService extends RemoteService {
 
   examSetupConfig : ExamSetupConfig = {
     examType : "MAIN",
+    selectedSubjects : [],
     selectedSectionTemplates : [],
     examSections : [],
   }
@@ -32,6 +35,7 @@ export class ExamSetupService extends RemoteService {
   resetSectionConfig() {
     this.examSetupConfig = {
       examType : "MAIN",
+      selectedSubjects : [],
       selectedSectionTemplates : [],
       examSections : [],
     }
