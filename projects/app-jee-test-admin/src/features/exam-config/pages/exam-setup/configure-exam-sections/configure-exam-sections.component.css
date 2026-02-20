@@ -1,2 +1,66 @@
 @import './../exam-setup.css' ;
 
+input {
+    width: 100%;
+    text-align: right;
+    border: 1px #f8dfa9 solid;
+    border-radius: 4px;
+}
+
+.column-title {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+}
+
+.section-config-row {
+    width: 100%;
+    margin-bottom: 7px;
+    margin-top: 7px;
+    background-color: rgba(253, 245, 218, 0.76);
+    padding: 2px;
+    border-radius: 6px;
+}
+
+.section-cell {
+    display: inline-block;
+    width: 50px;
+    margin-right: 10px;
+}
+
+.problem-type {
+    display: inline-block;
+    width: 50px;
+    font: 14px/1.5 "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.num-questions {
+}
+
+.num-compulsory-questions {
+}
+
+.correct-marks {
+}
+
+.wrong-penalty {
+}
+
+.section-title {
+    width: 200px;
+}
+
+.section-title input {
+    text-align: left;
+    font-size: 12px;
+}
+
+.move-up {
+    display: inline-block;
+    width: 10px;
+    margin-right: 10px;
+}
+
+.move-down {
+    display: inline-block;
+}

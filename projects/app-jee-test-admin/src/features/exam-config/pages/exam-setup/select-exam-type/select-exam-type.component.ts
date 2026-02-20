@@ -23,6 +23,10 @@ export class SelectExamTypeComponent {
     { label: 'JEE Advanced', value: 'ADV' }
   ] ;
 
+  ngOnInit() {
+    this.examSetupSvc.resetSectionConfig() ;
+  }
+
   showNextDialog() {
     this.router.navigateByUrl( "/exam-config/exam-setup/sel-exam-sections" ).then() ;
   }

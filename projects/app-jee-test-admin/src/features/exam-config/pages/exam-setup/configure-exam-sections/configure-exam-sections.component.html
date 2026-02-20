@@ -1,11 +1,71 @@
 <div class="wizard-dialog"
-     style="width: 450px;">
+     style="width: 570px;">
   <div class="card border-default question-card">
     <div class="card-header">
-      Configure Sections
+      Configure Sections - {{getTotalQuestions()}} Questions
       <span class="wizard-step">[ Step 3/4 ]</span>
     </div>
     <div class="card-body">
+      <div class="table-header">
+        <div class="section-cell problem-type">
+        </div>
+        <div class="section-cell num-questions">
+          <span class="column-title"># Q</span>
+        </div>
+        <div class="section-cell num-compulsory-questions">
+          <span class="column-title"># CQ</span>
+        </div>
+        <div class="section-cell correct-marks">
+          <span class="column-title">✅</span>
+        </div>
+        <div class="section-cell wrong-penalty">
+          <span class="column-title">❌</span>
+        </div>
+        <div class="section-cell section-title">
+          <span class="column-title">Title</span>
+        </div>
+      </div>
+      @for( section of sections; track section.problemType ) {
+        <div class="section-config-row">
+          <div class="section-cell problem-type">
+            {{section.problemType}}
+          </div>
+          <div class="section-cell num-questions">
+            <input type="number" min="1" max="30"
+                   [(ngModel)]="section.numQuestions"
+                   (change)="numQuestionChanged( section )">
+          </div>
+          <div class="section-cell num-compulsory-questions">
+            <input type="number" min="1" [max]="section.numQuestions"
+                   [disabled]="templateMap[section.problemType].allQuestionsCompulsory"
+                   [(ngModel)]="section.numCompulsoryQuestions">
+          </div>
+          <div class="section-cell correct-marks">
+            <input type="number" min="1" [max]="5"
+                   [disabled]="!templateMap[section.problemType].correctMarksEditable"
+                   [(ngModel)]="section.correctMarks">
+          </div>
+          <div class="section-cell wrong-penalty">
+            <input type="number" min="1" [max]="5"
+                   [disabled]="!templateMap[section.problemType].wrongPenaltyEditable"
+                   [(ngModel)]="section.wrongPenalty">
+          </div>
+          <div class="section-cell section-title">
+            <input type="text"
+                   [(ngModel)]="section.title">
+          </div>
+          <div class="move-up">
+            <span class="bi-caret-up-fill"
+                  *ngIf="$index > 0"
+                  (click)="moveRowUp($index)"></span>
+          </div>
+          <div class="move-down">
+            <span class="bi-caret-down-fill"
+                  *ngIf="$index < sections.length-1"
+                  (click)="moveRowDown($index)"></span>
+          </div>
+        </div>
+      }
     </div>
     <div class="card-footer">
       <button type="button"

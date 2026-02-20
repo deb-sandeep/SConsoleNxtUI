@@ -110,7 +110,7 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
     {
         problemType : 'CMT',
         defaultSelection : false,
-        title : 'Comprehension / Paragraph Based',
+        title : 'Comprehension Based',
         correctMarks : 3,
         correctMarksEditable : true,
         wrongPenalty : -1,

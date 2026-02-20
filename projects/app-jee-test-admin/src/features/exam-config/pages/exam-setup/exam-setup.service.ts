@@ -4,7 +4,7 @@ import { ExamSectionTemplate } from "./exam-section.config";
 
 import { environment } from "@env/environment";
 
-interface ExamSection {
+export interface ExamSection {
   problemType: string;
   title: string;
   correctMarks: number;
@@ -27,5 +27,13 @@ export class ExamSetupService extends RemoteService {
     examType : "MAIN",
     selectedSectionTemplates : [],
     examSections : [],
+  }
+
+  resetSectionConfig() {
+    this.examSetupConfig = {
+      examType : "MAIN",
+      selectedSectionTemplates : [],
+      examSections : [],
+    }
   }
 }
