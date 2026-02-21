@@ -1,0 +1,29 @@
+@import './../exam-setup.css' ;
+
+input {
+    border: 1px solid lightgray ;
+}
+
+input[type='number'] {
+    width: 50px ;
+}
+
+input[type='text'] {
+    width: 100% ;
+}
+
+.field-row {
+    width: 100% ;
+    margin-bottom: 15px ;
+}
+
+.label {
+    display: inline-block ;
+    width: 150px ;
+}
+
+.colon {
+    width: 20px;
+    text-align: center;
+    margin-right: 10px ;
+}

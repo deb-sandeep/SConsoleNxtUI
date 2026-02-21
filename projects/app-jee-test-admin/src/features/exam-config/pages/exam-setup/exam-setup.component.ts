@@ -14,11 +14,10 @@ import { RouterOutlet } from "@angular/router";
   styles: [`
     .page-content {
       position: relative;
+      background-color: #636363;
       width: 100%;
       min-height: calc(100dvh - var(--page-header-height) - var(--page-title-height));
     }
   `],
 })
-export class ExamSetupComponent {
-
-}
+export class ExamSetupComponent {}

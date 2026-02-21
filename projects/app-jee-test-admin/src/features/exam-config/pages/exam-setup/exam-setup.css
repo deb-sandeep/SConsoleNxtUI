@@ -1,8 +1,8 @@
 /* ------------ Bootstrap overrides ------------------------ */
 
 .card {
-    box-shadow:  5px 5px 10px rgba(161, 161, 161, 0.4);
-    --bs-card-border-color: #b5b5b5;
+    box-shadow:  5px 5px 15px rgba(255, 255, 255, 0.5);
+    --bs-card-border-color: #dadada;
 }
 
 .card-header {
@@ -16,11 +16,12 @@
 .card-body {
     padding: 10px 5px 10px 5px;
     min-height: 100px;
+    background-color: #f3f3f3;
 }
 
 .card-footer {
     --bs-card-cap-padding-y: 2px;
-    --bs-card-cap-bg: #fdf9f9;
+    --bs-card-cap-bg: #b5b5b5;
     --bs-card-border-width: 1px;
     text-align: center;
 }

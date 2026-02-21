@@ -15,14 +15,14 @@ import { Router } from "@angular/router";
 })
 export class SelectExamSectionsComponent {
 
-  examSetupSvc = inject( ExamSetupService ) ;
+  svc = inject( ExamSetupService ) ;
   router = inject( Router ) ;
 
   relevantSectionTemplates : ExamSectionTemplate[] = [] ;
   sectionSelections : Record<string, boolean> = {} ;
 
   ngOnInit(): void {
-    if( this.examSetupSvc.examSetupConfig.examType === 'MAIN' ) {
+    if( this.svc.setupConfig.examType === 'MAIN' ) {
       this.relevantSectionTemplates = mainSectionTemplates ;
     }
     else {
@@ -48,11 +48,12 @@ export class SelectExamSectionsComponent {
       if( this.sectionSelections[key] ) {
         for( let template of this.relevantSectionTemplates ) {
           if( template.problemType  === key ) {
-            this.examSetupSvc.examSetupConfig.selectedSectionTemplates.push( template ) ;
+            this.svc.setupConfig.selectedSectionTemplates.push( template ) ;
           }
         }
       }
     }
+    this.svc.incrementCurrentWizardStep() ;
     this.router.navigateByUrl( "/exam-config/exam-setup/conf-exam-sections" ).then() ;
   }
 }

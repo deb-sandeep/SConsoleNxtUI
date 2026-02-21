@@ -1,8 +1,10 @@
 import { Routes } from "@angular/router";
-import { SelectExamTypeComponent } from "./select-exam-type/select-exam-type.component";
-import { SelectExamSectionsComponent } from "./select-exam-sections/select-exam-sections.component";
-import { ConfigureExamSectionsComponent } from "./configure-exam-sections/configure-exam-sections.component";
-import { SelectExamSubjectsComponent } from "./select-exam-subjects/select-exam-subjects.component";
+import { SelectExamTypeComponent } from "./1-select-exam-type/select-exam-type.component";
+import { SelectExamSectionsComponent } from "./3-select-exam-sections/select-exam-sections.component";
+import { ConfigureExamSectionsComponent } from "./4-configure-exam-sections/configure-exam-sections.component";
+import { SelectExamSubjectsComponent } from "./2-select-exam-subjects/select-exam-subjects.component";
+import { SelectTopicsComponent } from "./5-select-topics/select-topics.component";
+import { ConfigureDurationComponent } from "./6-configure-duration/configure-duration.component";
 
 export const examSetupRoutes: Routes = [
     {
@@ -29,5 +31,15 @@ export const examSetupRoutes: Routes = [
         path: 'conf-exam-sections',
         title: 'Configure Exam Sections',
         component: ConfigureExamSectionsComponent,
+    },
+    {
+        path: 'select-topics/:subjectIndex',
+        title: 'Select Subject Topics',
+        component: SelectTopicsComponent,
+    },
+    {
+        path: 'configure-duration',
+        title: 'Configure duration and notes',
+        component: ConfigureDurationComponent,
     }
 ] ;

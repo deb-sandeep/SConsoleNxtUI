@@ -15,7 +15,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 export class SelectExamSubjectsComponent {
 
   router = inject( Router ) ;
-  examSetupSvc = inject( ExamSetupService ) ;
+  svc = inject( ExamSetupService ) ;
 
   syllabusOptions = [
     { label: 'Physics',     value: 'IIT Physics' },
@@ -43,9 +43,11 @@ export class SelectExamSubjectsComponent {
   showNextDialog() {
     for( let key of Object.keys( this.selectedSubjects ) ) {
       if( this.selectedSubjects[key] ) {
-        this.examSetupSvc.examSetupConfig.selectedSubjects.push( key ) ;
+        this.svc.setupConfig.selectedSubjects.push( key ) ;
       }
     }
+    this.svc.incrementCurrentWizardStep() ;
+    this.svc.recomputeTotalWizardSteps() ;
     this.router.navigateByUrl( "/exam-config/exam-setup/sel-exam-sections" ).then() ;
   }
 }

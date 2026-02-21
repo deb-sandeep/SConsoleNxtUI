@@ -1,0 +1,40 @@
+<div class="wizard-dialog"
+     style="width: 300px;">
+  <div class="card border-default question-card">
+    <div class="card-header">
+      Select topics
+      <span class="wizard-step">[ Step {{svc.currentWizardStep}}/{{svc.totalWizardSteps}} ]</span>
+    </div>
+    <div class="card-body">
+      <div class="syllabus-name">{{subjectName}}</div>
+      <ul>
+        @for( topic of allTopics; track topic.id ) {
+          <li [class.selected]="selectedTopics[topic.id]">
+            <input type="checkbox"
+                   [ngModel]="selectedTopics[topic.id]"
+                   (change)="topicSelectionChanged(topic.id, $event)">
+            {{topic.topicName}}
+          </li>
+        }
+      </ul>
+    </div>
+    <div class="card-footer">
+      <div class="topic-selection-toolbar">
+        <button type="button" class="btn btn-sm btn-secondary"
+                (click)="selectAll()">
+          Select All
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary"
+                (click)="unselectAll()">
+          Unselect All
+        </button>
+      </div>
+      <button type="button"
+              class="btn btn-info wizard-btn"
+              (click)="showNextDialog()"
+              [disabled]="!anyTopicsSelected()">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

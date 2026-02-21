@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ExamSection, ExamSetupService } from "../exam-setup.service";
-import { Router } from "@angular/router";
+import { ExamSetupService } from "../exam-setup.service";
+import { ActivatedRoute, Router } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ExamSectionTemplate } from "../exam-section.config";
 import { NgIf } from "@angular/common";
+import { ExamSectionConfig } from "../../../../../type";
 
 @Component({
   selector: 'app-configure-exam-sections',
@@ -17,16 +18,21 @@ import { NgIf } from "@angular/common";
 })
 export class ConfigureExamSectionsComponent {
 
-  examSetupSvc = inject( ExamSetupService ) ;
+  svc = inject( ExamSetupService ) ;
   router = inject( Router ) ;
 
   templateMap : Record<string, ExamSectionTemplate> = {} ;
-  sections : ExamSection[] = [] ;
+  sections : ExamSectionConfig[] = [] ;
+
+  constructor( private route: ActivatedRoute ) {}
 
   ngOnInit(): void {
-    for( let template of this.examSetupSvc.examSetupConfig.selectedSectionTemplates ) {
+    for( let template of this.svc.setupConfig.selectedSectionTemplates ) {
       this.templateMap[ template.problemType ] = template ;
       this.sections.push( {
+        id: -1,
+        examId: -1,
+        examSequence: 0,
         syllabusName: "",
         problemType: template.problemType,
         title: template.title,
@@ -34,27 +40,31 @@ export class ConfigureExamSectionsComponent {
         wrongPenalty: template.wrongPenalty,
         numQuestions: template.numQuestions,
         numCompulsoryQuestions: template.numCompulsoryQuestions,
-        instructions: template.instructions
+        instructions: template.instructions,
+        questions: []
       } ) ;
     }
   }
 
   protected showNextDialog() {
-    for( let subject of this.examSetupSvc.examSetupConfig.selectedSubjects ) {
+    let sequence = 1 ;
+    for( let subject of this.svc.setupConfig.selectedSubjects ) {
       for( let section of this.sections ) {
         let s = { ...section } ;
         s.syllabusName = subject ;
-        this.examSetupSvc.examSetupConfig.examSections.push( s ) ;
+        s.examSequence = sequence++ ;
+        this.svc.setupConfig.examSections.push( s ) ;
       }
     }
-    console.log( this.examSetupSvc.examSetupConfig );
+    this.svc.incrementCurrentWizardStep() ;
+    this.router.navigate(['../select-topics', 0], {relativeTo: this.route}).then() ;
   }
 
   protected isConfigurationInvalid() {
     return false ;
   }
 
-  protected numQuestionChanged( section: ExamSection ) {
+  protected numQuestionChanged( section: ExamSectionConfig ) {
     if( this.templateMap[ section.problemType ].allQuestionsCompulsory ) {
       section.numCompulsoryQuestions = section.numQuestions ;
     }
@@ -65,7 +75,7 @@ export class ConfigureExamSectionsComponent {
     for( let section of this.sections ) {
       total += section.numCompulsoryQuestions ;
     }
-    return total;
+    return total * this.svc.setupConfig.selectedSubjects.length ;
   }
 
   protected moveRowUp( index: number ) {

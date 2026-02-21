@@ -1,0 +1,43 @@
+@import './../exam-setup.css' ;
+
+.topic-selection-toolbar {
+    padding: 5px;
+    display: inline-block;
+    float: left;
+}
+
+.topic-selection-toolbar > button {
+    font-size: 12px;
+    padding: 1px 7px 1px 7px;
+    margin-right: 10px;
+}
+
+ul {
+    margin-bottom: 0;
+}
+
+li {
+    list-style-type: none;
+    font-size: 12px;
+    padding-bottom: 3px;
+    padding-left: 0;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+}
+
+li.selected {
+    background-color: #f3fbd1;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.syllabus-name {
+    width: 100% ;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 10px;
+}

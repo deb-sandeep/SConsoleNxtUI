@@ -9,7 +9,7 @@ export interface ExamSectionTemplate {
     numQuestions: number;
     allQuestionsCompulsory: boolean;
     numCompulsoryQuestions: number;
-    instructions: string;
+    instructions: string[];
 }
 
 export const mainSectionTemplates : ExamSectionTemplate[] = [
@@ -21,10 +21,14 @@ export const mainSectionTemplates : ExamSectionTemplate[] = [
         correctMarksEditable : false,
         wrongPenalty : -1,
         wrongPenaltyEditable : false,
-        numQuestions : 25,
+        numQuestions : 20,
         allQuestionsCompulsory : true,
-        numCompulsoryQuestions : 25,
-        instructions : ''
+        numCompulsoryQuestions : 20,
+        instructions : [
+            'Each question has only one correct option.',
+            'Full marks for correct answer.',
+            'Negative marks for incorrect answer'
+        ]
     },
     {
         problemType : 'NVT',
@@ -37,12 +41,15 @@ export const mainSectionTemplates : ExamSectionTemplate[] = [
         numQuestions : 10,
         allQuestionsCompulsory : false,
         numCompulsoryQuestions : 5,
-        instructions : ''
+        instructions : [
+            'One or more options may be correct.',
+            'Partial marking may be awarded.',
+            'Negative marking may apply for incorrect selections.'
+        ]
     }
 ] ;
 
 export const advancedSectionTemplates : ExamSectionTemplate[] = [
-
     {
         problemType : 'SCA',
         defaultSelection : true,
@@ -57,7 +64,8 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
         instructions : [
           'Each question has only one correct option.',
           'Full marks for correct answer.',
-          'Negative marks for incorrect answer.'].join(' ')
+          'Negative marks for incorrect answer.'
+        ]
     },
     {
         problemType : 'MCA',
@@ -73,7 +81,8 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
         instructions : [
           'One or more options may be correct.',
           'Partial marking may be awarded.',
-          'Negative marking may apply for incorrect selections.' ].join(' ')
+          'Negative marking may apply for incorrect selections.'
+        ]
     },
     {
         problemType : 'NVT',
@@ -89,7 +98,8 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
         instructions : [
           'Enter the correct numerical value.',
           'No options are provided.',
-          'Answer must match exactly as per required precision.'].join( ' ' )
+          'Answer must match exactly as per required precision.'
+        ]
     },
     {
         problemType : 'MMT',
@@ -105,7 +115,8 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
         instructions : [
           'Match items in Column I with Column II.',
           'Multiple mappings may be correct.',
-          'Partial marking may apply.'].join( ' ' )
+          'Partial marking may apply.'
+        ]
     },
     {
         problemType : 'CMT',
@@ -120,7 +131,8 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
         numCompulsoryQuestions : 4,
         instructions : [
           'Answer the questions based on the given paragraph or data.',
-          'Each question is evaluated independently.' ].join(' ')
+          'Each question is evaluated independently.'
+        ]
     },
     {
         problemType : 'ART',
@@ -140,6 +152,37 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
             '(2) A is true, R is true, but R is NOT the correct explanation of A.',
             '(3) A is true, but R is false.',
             '(4) A is false, but R is true.'
-        ].join('\n')
+        ]
     }
 ] ;
+
+export const DEFAULT_SECONDS_PER_QUESTION: Record<string, any> = {
+    'IIT Physics': {
+        SCA: 120, // 2.0 min
+        MCA: 210, // 3.5 min
+        NVT: 180, // 3.0 min
+        LCT: 165, // 2.75 min
+        MMT: 240, // 4.0 min
+        CMT: 210, // 3.5 min
+        ART: 240, // 4.0 min (reading + solving)
+    },
+    'IIT Chemistry': {
+        SCA:  98, // 1.5 min
+        MCA: 180, // 3.0 min
+        NVT: 150, // 2.5 min
+        LCT: 135, // 2.25 min
+        MMT: 210, // 3.5 min
+        CMT: 180, // 3.0 min
+        ART: 210, // 3.5 min
+    },
+    'IIT Maths': {
+        SCA: 180, // 3.5 min
+        MCA: 270, // 4.5 min
+        NVT: 240, // 4.0 min
+        LCT: 225, // 3.75 min
+        MMT: 300, // 5.0 min
+        CMT: 270, // 4.5 min
+        ART: 300, // 5.0 min
+    },
+};
+

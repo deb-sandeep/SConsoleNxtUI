@@ -14,7 +14,7 @@ export class QuestionBrowserService extends RemoteService {
     page : number,
     size : number,
     sort : string[]
-  }   = {
+  } = {
     "topicIds" : [],
     "page" : 0,
     "size" : 25,

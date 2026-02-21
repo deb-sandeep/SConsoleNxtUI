@@ -1,17 +1,17 @@
 <div class="wizard-dialog"
-     style="width: 250px;">
+     style="width: 300px;">
   <div class="card border-default question-card">
     <div class="card-header">
-      Select sections
-      <span class="wizard-step">[ Step 2/4 ]</span>
+      Select subjects
+      <span class="wizard-step">[ Step {{svc.currentWizardStep}}/{{svc.totalWizardSteps}} ]</span>
     </div>
     <div class="card-body">
       <ul class="checkbox-group">
-        @for( template of relevantSectionTemplates; track template.problemType) {
+        @for( syllabus of syllabusOptions; track syllabus.label ) {
           <li>
             <input type="checkbox" class="checkbox-option"
-                   [(ngModel)]="sectionSelections[template.problemType]">
-            {{template.problemType}}
+                   [(ngModel)]="selectedSubjects[syllabus.value]">
+            {{syllabus.label}}
           </li>
         }
       </ul>
@@ -19,8 +19,8 @@
     <div class="card-footer">
       <button type="button"
               class="btn btn-info wizard-btn"
-              (click)="showNextDialog()"
-              [disabled]="!anySectionsSelected()">
+              [disabled]="!anySyllabusSelected()"
+              (click)="showNextDialog()">
         Next
       </button>
     </div>

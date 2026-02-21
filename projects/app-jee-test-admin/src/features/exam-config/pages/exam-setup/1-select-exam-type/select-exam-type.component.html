@@ -3,7 +3,7 @@
   <div class="card border-default question-card">
     <div class="card-header">
       Select exam type
-      <span class="wizard-step">[ Step 1/4 ]</span>
+      <span class="wizard-step">[ Step {{svc.currentWizardStep}}/{{svc.totalWizardSteps}} ]</span>
     </div>
     <div class="card-body">
       <div role="radiogroup" class="radio-group">
@@ -12,7 +12,7 @@
               type="radio"
               name="examType"
               [value]="opt.value"
-              [(ngModel)]="examSetupSvc.examSetupConfig.examType"
+              [(ngModel)]="svc.setupConfig.examType"
           />
           {{ opt.label }}
         </label>

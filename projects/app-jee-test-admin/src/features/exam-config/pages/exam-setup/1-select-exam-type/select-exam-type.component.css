@@ -4,8 +4,8 @@
     padding-top: 15px;
     padding-left: 90px;
     display: flex;
-    flex-direction: column;   /* stack vertically */
-    gap: 10px;                /* spacing between options */
+    flex-direction: column;
+    gap: 10px;
 }
 
 .radio-option {

@@ -1,0 +1,48 @@
+<div class="wizard-dialog"
+     style="width: 400px;">
+  <div class="card border-default question-card">
+    <div class="card-header">
+      Configure Duration and Notes
+      <span class="wizard-step">[ Step {{svc.currentWizardStep}}/{{svc.totalWizardSteps}} ]</span>
+    </div>
+    <div class="card-body">
+      <div class="field-row">
+        <div class="label">
+          Recommended duration
+        </div>
+        <span class="colon">:</span>
+        <input type="number"
+               disabled
+               [ngModel]="Math.round( svc.getRecommendedDuration() / 60 )" />
+        min
+      </div>
+      <div class="field-row">
+        <div class="label">
+          Duration override
+        </div>
+        <span class="colon">:</span>
+        <input type="number"
+               [(ngModel)]="duration" />
+        min
+      </div>
+      <div class="field-row">
+        <div class="label">
+          Notes
+        </div>
+        <span class="colon">:</span>
+      </div>
+      <div class="field-row">
+        <input type="text"
+               [(ngModel)]="notes" />
+      </div>
+    </div>
+    <div class="card-footer">
+      <button type="button"
+              class="btn btn-info wizard-btn"
+              (click)="saveExamDraft()"
+              [disabled]="isConfigurationInvalid()">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

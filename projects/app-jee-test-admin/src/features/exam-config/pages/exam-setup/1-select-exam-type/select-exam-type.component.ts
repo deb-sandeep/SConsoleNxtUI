@@ -16,7 +16,7 @@ import { Router } from "@angular/router";
 export class SelectExamTypeComponent {
 
   router = inject( Router ) ;
-  examSetupSvc = inject( ExamSetupService ) ;
+  svc = inject( ExamSetupService ) ;
 
   examTypeOptions = [
     { label: 'JEE Main', value: 'MAIN' },
@@ -24,10 +24,11 @@ export class SelectExamTypeComponent {
   ] ;
 
   ngOnInit() {
-    this.examSetupSvc.resetSectionConfig() ;
+    this.svc.resetSectionConfig() ;
   }
 
   showNextDialog() {
+    this.svc.incrementCurrentWizardStep() ;
     this.router.navigateByUrl( "/exam-config/exam-setup/sel-exam-subjects" ).then() ;
   }
 }
