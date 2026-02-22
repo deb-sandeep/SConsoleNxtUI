@@ -51,6 +51,7 @@ export interface ExamSectionConfig {
 
 export interface ExamConfig {
     id: number;
+    state: string;
     type: string;
     note: string;
     numPhyQuestions: number;

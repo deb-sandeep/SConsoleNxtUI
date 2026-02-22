@@ -87,6 +87,7 @@ export class ExamSetupService extends RemoteService {
     const url:string = `${environment.apiRoot}/Master/Exam/` ;
     const examConfig : ExamConfig = {
       id: -1,
+      state: 'DRAFT',
       type: this.setupConfig.examType,
       note: this.setupConfig.notes,
       numPhyQuestions: this.getNumQuestions( 'IIT Physics' ),
