@@ -2,22 +2,72 @@ import { Component, inject } from '@angular/core';
 import { PageToolbarComponent, ToolbarActionComponent } from "lib-core";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
+import { ExamSetupService } from "../exam-setup/exam-setup.service";
+import { ExamConfig } from "../../../../type";
+import { DatePipe } from "@angular/common";
+import { ColumnSorterComponent } from "./column-sorter.component";
 
 @Component({
   selector: 'exam-list',
   imports: [
     FormsModule,
     PageToolbarComponent,
-    ToolbarActionComponent
+    ToolbarActionComponent,
+    DatePipe,
+    ColumnSorterComponent
   ],
   templateUrl: './exam-list.component.html',
   styleUrl: './exam-list.component.css'
 })
 export class ExamListComponent {
 
-  private router = inject( Router );
+  private router = inject( Router ) ;
+  private svc = inject( ExamSetupService ) ;
+
+  examList : ExamConfig[]|null = null ;
+  sortDirMap : Record<string, number> = {
+    'state' : 0,
+    'type' : 0,
+    'duration' : 0,
+    'numPhyQuestions' : 0,
+    'numChemQuestions' : 0,
+    'numMathQuestions' : 0,
+    'totalMarks' : 0,
+    'note' : 0,
+  };
+
+  ngOnInit() {
+    this.svc.getListOfExams().then((examList) => {
+      console.log( examList ) ;
+      this.examList = examList ;
+    }) ;
+  }
 
   newExamSetup() {
     this.router.navigateByUrl( "/exam-config/exam-setup" ).then() ;
+  }
+
+  sortByColumn( columnName: string ) {
+    let sortDir = this.sortDirMap[columnName] ;
+    sortDir = sortDir == 2 ? 0 : ++sortDir ;
+    this.sortDirMap[columnName] = sortDir ;
+
+    Object.keys( this.sortDirMap ).forEach( key => {
+      if( key !== columnName ) {
+        this.sortDirMap[key] = 0;
+      }
+    } ) ;
+
+    if( this.examList && sortDir != 0 ) {
+      const direction = this.sortDirMap[columnName] == 1 ? 1 : -1;
+      this.examList.sort( ( a, b ) => {
+        const aVal = ( a as any )[columnName];
+        const bVal = ( b as any )[columnName];
+        if( aVal < bVal ) return -1 * direction;
+        if( aVal > bVal ) return 1 * direction;
+        return 0;
+      } );
+    }
+
   }
 }

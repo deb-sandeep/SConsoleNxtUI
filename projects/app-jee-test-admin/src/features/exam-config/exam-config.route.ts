@@ -7,13 +7,14 @@ import { ExamSetupService } from "./pages/exam-setup/exam-setup.service";
 export const examConfigRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'exam-setup',
+        redirectTo: 'exam-list',
         pathMatch: 'full'
     },
     {
         path: 'exam-list',
         title: 'Exam List',
         component: ExamListComponent,
+        providers: [ExamSetupService],
     },
     {
         path: 'exam-setup',

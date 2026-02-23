@@ -124,4 +124,9 @@ export class ExamSetupService extends RemoteService {
     }
     return totalMarks
   }
+
+  getListOfExams() {
+    const url:string = `${environment.apiRoot}/Master/Exam/` ;
+    return this.getPromise<ExamConfig[]>( url ) ;
+  }
 }

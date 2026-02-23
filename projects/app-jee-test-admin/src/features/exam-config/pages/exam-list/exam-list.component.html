@@ -4,5 +4,71 @@
                   icon="plus-square"></toolbar-action>
 </page-toolbar>
 <div class="page-content">
+  <table class="table table-sm table-striped" style="margin: 0 auto; width: 90%;">
+    <thead>
+      <tr>
+        <th style="width:100px;"
+            (click)="sortByColumn( 'state' )">
+          State
+          <col-sorter [sortDir]="sortDirMap['state']"></col-sorter>
+        </th>
+        <th style="width:70px;"
+            (click)="sortByColumn( 'type' )">
+          Type
+          <col-sorter [sortDir]="sortDirMap['type']"></col-sorter>
+        </th>
+        <th style="width:100px;"
+            (click)="sortByColumn( 'duration' )">
+          Duration
+          <col-sorter [sortDir]="sortDirMap['duration']"></col-sorter>
+        </th>
+        <th style="width:90px;"
+            (click)="sortByColumn( 'numPhyQuestions' )">
+          # Phy
+          <col-sorter [sortDir]="sortDirMap['numPhyQuestions']"></col-sorter>
+        </th>
+        <th style="width:90px;"
+            (click)="sortByColumn( 'numChemQuestions' )">
+          # Chem
+          <col-sorter [sortDir]="sortDirMap['numChemQuestions']"></col-sorter>
+        </th>
+        <th style="width:90px;"
+            (click)="sortByColumn( 'numMathQuestions' )">
+          # Math
+          <col-sorter [sortDir]="sortDirMap['numMathQuestions']"></col-sorter>
+        </th>
+        <th style="width:90px;"
+            (click)="sortByColumn( 'totalMarks' )">
+          Marks
+          <col-sorter [sortDir]="sortDirMap['totalMarks']"></col-sorter>
+        </th>
+        <th style="width:250px;"
+            (click)="sortByColumn( 'note' )">
+          Note
+          <col-sorter [sortDir]="sortDirMap['note']"></col-sorter>
+        </th>
+        <th style="width:20px"></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for( exam of examList; track exam.id ) {
+        <tr>
+          <td>{{exam.state}}</td>
+          <td>{{exam.type}}</td>
+          <td class="date-cell">{{(exam.duration * 1000) | date:'HH:mm':'UTC'}}</td>
+          <td class="number-cell">{{exam.numPhyQuestions}}</td>
+          <td class="number-cell">{{exam.numChemQuestions}}</td>
+          <td class="number-cell">{{exam.numMathQuestions}}</td>
+          <td class="number-cell">{{exam.totalMarks}}</td>
+          <td>{{exam.note}}</td>
+          <td class="btn-cell">
+            <span class="bi-pencil-square btn-icon"></span>
+          </td>
+          <td></td>
+        </tr>
+      }
+    </tbody>
+  </table>
 </div>
 

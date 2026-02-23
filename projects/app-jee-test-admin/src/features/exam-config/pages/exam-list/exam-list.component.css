@@ -1,0 +1,34 @@
+tbody {
+    background: #fff;
+}
+
+th {
+    background: #dadada;
+}
+
+td, th {
+    border-right: 1px lightgrey solid;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+.date-cell {
+    font-family: monospace;
+}
+
+.number-cell {
+    font-family: monospace;
+    text-align: right;
+}
+
+.btn-cell {
+    padding: 0;
+    text-align: center;
+}
+
+.btn-icon {
+    padding: 0;
+    font-size: 16px;
+}
