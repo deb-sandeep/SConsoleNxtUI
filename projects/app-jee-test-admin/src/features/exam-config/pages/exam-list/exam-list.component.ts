@@ -70,4 +70,8 @@ export class ExamListComponent {
     }
 
   }
+
+  protected editExam( id: number ) {
+    this.router.navigateByUrl( "/exam-edit/" + id ).then() ;
+  }
 }

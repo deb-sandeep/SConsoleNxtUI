@@ -33,7 +33,8 @@ export class ConfigureDurationComponent {
   saveExamDraft() {
     this.svc.setupConfig.duration = this.duration * 60 ;
     this.svc.setupConfig.notes = this.notes ;
-    this.svc.saveExamConfig() ;
-    // TODO: Receive the result and forward it to exam edit route
+    this.svc.saveExamConfig().then( examId => {
+      this.router.navigateByUrl( "/exam-edit/" + examId ).then() ;
+    }) ;
   }
 }

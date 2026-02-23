@@ -63,7 +63,8 @@
           <td class="number-cell">{{exam.totalMarks}}</td>
           <td>{{exam.note}}</td>
           <td class="btn-cell">
-            <span class="bi-pencil-square btn-icon"></span>
+            <span class="bi-pencil-square btn-icon"
+                  (click)="editExam(exam.id)"></span>
           </td>
           <td></td>
         </tr>

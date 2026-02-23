@@ -83,7 +83,7 @@ export class ExamSetupService extends RemoteService {
     return duration ;
   }
 
-  saveExamConfig() {
+  async saveExamConfig() {
     const url:string = `${environment.apiRoot}/Master/Exam/` ;
     const examConfig : ExamConfig = {
       id: -1,
@@ -100,11 +100,8 @@ export class ExamSetupService extends RemoteService {
       topics: this.setupConfig.examTopics
     }
     console.log( examConfig ) ;
-    this.postPromise<SaveExamResSO>( url, examConfig, true )
-        .then( results => {
-          console.log( results ) ;
-          // TODO: return the result
-        });
+    let result = await this.postPromise<SaveExamResSO>( url, examConfig, true ) ;
+    return result.examId ;
   }
 
   private getNumQuestions( syllabusName : string ){

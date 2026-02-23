@@ -10,6 +10,8 @@ import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { QuestionBrowserService } from "./features/question-browser/question-browser.service";
 import { ExamConfigComponent } from "./features/exam-config/exam-config.component";
 import { examConfigRoutes } from "./features/exam-config/exam-config.route";
+import { ExamEditComponent } from "./features/exam-edit/exam-edit.component";
+import { ExamSetupService } from "./features/exam-config/pages/exam-setup/exam-setup.service";
 
 export const featureRoutes: Routes = [
     {
@@ -47,5 +49,11 @@ export const featureRoutes: Routes = [
             QuestionRepoService,
             SyllabusApiService
         ]
+    },
+    {
+        path: 'exam-edit/:examId',
+        title: 'Exam Edit',
+        component: ExamEditComponent,
+        providers: []
     }
 ] ;
