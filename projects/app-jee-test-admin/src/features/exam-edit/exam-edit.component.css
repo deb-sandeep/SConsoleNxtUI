@@ -1,0 +1,10 @@
+#topic-browser {
+    position: absolute;
+    top: var(--page-toolbar-height);
+    left: 0;
+    width: 270px;
+    height: calc(100vh - var(--page-header-height) - var(--page-toolbar-height));
+    overflow-y: scroll;
+    padding: 5px;
+    border-right: 1px solid lightgrey;
+}

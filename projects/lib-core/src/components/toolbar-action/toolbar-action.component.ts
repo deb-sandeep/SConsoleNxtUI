@@ -18,6 +18,9 @@ export class ToolbarActionComponent implements OnInit {
   @Input( "name" )
   name:string = "" ;
 
+  @Input( "disabled" )
+  disabled:boolean = false ;
+
   @Input( "style" )
   bsStyle:'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' = 'secondary' ;
 

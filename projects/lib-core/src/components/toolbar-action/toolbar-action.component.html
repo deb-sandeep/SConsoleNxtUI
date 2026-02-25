@@ -1,6 +1,7 @@
 <span *ngIf="isSpacer()" class='spacer'>|</span>
 
 <button *ngIf="isButton()"
+        [disabled]="disabled"
         type="button"
         class="btn btn-sm btn-{{bsStyle??'primary'}} action-btn"
         (click)="buttonClicked()">
@@ -9,6 +10,7 @@
 </button>
 
 <input *ngIf="isCheckbox()"
+       [disabled]="disabled"
        type="checkbox"
        (change)="checkboxClicked( $event )" />
 

@@ -1,1 +1,15 @@
-<p>exam-edit works!</p>
+<page-toolbar>
+  <toolbar-action name="Save Exam"
+                  [disabled]="!isExamConfigValid()"
+                  (click)="saveExam()"
+                  icon="plus-square"></toolbar-action>
+  <toolbar-action name="Cancel Edit"
+                  (click)="cancelEdit()"
+                  icon="plus-square"></toolbar-action>
+</page-toolbar>
+<div class="page-content">
+  <div id="topic-browser" topicBrowser
+       [topicMap]="topicMap"
+       (topicChanged)="topicChanged( $event )">
+  </div>
+</div>

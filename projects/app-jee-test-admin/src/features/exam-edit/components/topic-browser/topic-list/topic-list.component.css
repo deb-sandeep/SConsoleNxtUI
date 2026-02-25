@@ -1,0 +1,22 @@
+ul {
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+li {
+    list-style-type: none;
+    font-size: 12px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+}
+
+li:hover {
+    background-color: #c2e4f8;
+}
+
+li.selected {
+    background-color: #bbffaf;
+}

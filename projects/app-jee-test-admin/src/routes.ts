@@ -12,6 +12,7 @@ import { ExamConfigComponent } from "./features/exam-config/exam-config.componen
 import { examConfigRoutes } from "./features/exam-config/exam-config.route";
 import { ExamEditComponent } from "./features/exam-edit/exam-edit.component";
 import { ExamSetupService } from "./features/exam-config/pages/exam-setup/exam-setup.service";
+import { ExamEditService } from "./features/exam-edit/exam-edit.service";
 
 export const featureRoutes: Routes = [
     {
@@ -54,6 +55,9 @@ export const featureRoutes: Routes = [
         path: 'exam-edit/:examId',
         title: 'Exam Edit',
         component: ExamEditComponent,
-        providers: []
+        providers: [
+            ExamEditService,
+            SyllabusApiService
+        ]
     }
 ] ;

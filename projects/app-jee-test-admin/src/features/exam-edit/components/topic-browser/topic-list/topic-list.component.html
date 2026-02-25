@@ -1,0 +1,8 @@
+<ul>
+  @for( topic of topics(); track topic.id ) {
+    <li (click)="topicSelectionChanged( topic )"
+        [class.selected]="topic == selectedTopic">
+      {{topic.topicName}}
+    </li>
+  }
+</ul>

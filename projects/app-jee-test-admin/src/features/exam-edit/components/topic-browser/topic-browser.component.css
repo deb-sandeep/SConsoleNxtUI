@@ -1,0 +1,9 @@
+/* --------- ngBootstrap CSS overrides ----------------------------- */
+.nav {
+    --bs-nav-link-padding-y: 2px ;
+}
+
+.nav-link.active {
+    background-color: #d4f8a8;
+    font-weight: bold;
+}
