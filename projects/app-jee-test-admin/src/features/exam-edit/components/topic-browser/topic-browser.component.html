@@ -1,7 +1,7 @@
 <ul ngbNav #nav="ngbNav" class="nav-tabs"
     [destroyOnHide]="false"
     [(activeId)]="activeSyllabusTabId"
-    (navChange)="syllabusChanged($event)">
+    (navChange)="syllabusTabChanged($event)">
 
   <li [ngbNavItem]="1"
       *ngIf="topicMap()!['IIT Physics']">

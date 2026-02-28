@@ -27,8 +27,15 @@ import { NgIf } from "@angular/common";
 })
 export class TopicBrowserComponent {
 
+  readonly TAB_SYLLABUS_NAME_MAP: Record<number, string> = {
+    1: "IIT Physics",
+    2: "IIT Chemistry",
+    3: "IIT Maths"
+  } ;
+
   topicMap = input<Record<string, TopicSO[]>>({}) ;
   topicChanged = output<TopicSO|null>() ;
+  syllabusChanged = output<string>() ;
 
   @ViewChild( "phyTopics" )
   phyTopics : TopicListComponent ;
@@ -51,21 +58,26 @@ export class TopicBrowserComponent {
     else {
       this.activeSyllabusTabId = 3 ;
     }
-  }
+    this.emitSyllabusChange( this.activeSyllabusTabId ) ;
+   }
 
   topicSelectionChanged( newSelectedTopic: TopicSO ) {
     this.handleTopicSelectionChange( newSelectedTopic ) ;
   }
 
-  syllabusChanged( $event: NgbNavChangeEvent ) {
+  syllabusTabChanged( $event: NgbNavChangeEvent ) {
     this.handleTopicSelectionChange( null ) ;
+    this.emitSyllabusChange( $event.nextId ) ;
+  }
+
+  private emitSyllabusChange( tabId: number ) {
+    this.syllabusChanged.emit( this.TAB_SYLLABUS_NAME_MAP[ tabId ] ) ;
   }
 
   private handleTopicSelectionChange( newTopic: TopicSO | null ){
-    this.phyTopics.clearOldSelectionIfAny( newTopic ) ;
-    this.chemTopics.clearOldSelectionIfAny( newTopic ) ;
-    this.mathTopics.clearOldSelectionIfAny( newTopic ) ;
+    this.phyTopics?.clearOldSelectionIfAny( newTopic ) ;
+    this.chemTopics?.clearOldSelectionIfAny( newTopic ) ;
+    this.mathTopics?.clearOldSelectionIfAny( newTopic ) ;
     this.topicChanged.emit( newTopic ) ;
   }
-
 }

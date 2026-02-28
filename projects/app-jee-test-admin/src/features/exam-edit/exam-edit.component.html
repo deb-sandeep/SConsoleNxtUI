@@ -10,6 +10,28 @@
 <div class="page-content">
   <div id="topic-browser" topicBrowser
        [topicMap]="topicMap"
-       (topicChanged)="topicChanged( $event )">
+       (topicChanged)="topicChanged( $event )"
+       (syllabusChanged)="syllabusChanged( $event )">
+  </div>
+
+  <div id="question-selector-pane">
+    <div id="selected-topic-banner">
+      {{selectedTopic?.topicName}}
+    </div>
+    <div id="q-selectors-panel">
+      @for( problemType of editSvc.problemTypes; track $index ) {
+        <div questionSelector
+             class="problem-type-q-selector"
+             [style.width]="getQuestionSelectorWidth()"
+             [sectionCfg]="problemTypeSectionMap[problemType]">
+        </div>
+      }
+    </div>
+    <div id="selected-subject-banner">
+      {{activeSyllabus}}
+    </div>
+  </div>
+
+  <div id="selected-question-display">
   </div>
 </div>

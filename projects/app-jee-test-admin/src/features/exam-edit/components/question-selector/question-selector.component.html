@@ -1,0 +1,8 @@
+@if( sectionCfg() ) {
+  <div id="section-header">
+    {{ sectionCfg()?.problemType }}
+    &nbsp;
+    [ {{ sectionCfg()!.questions.length }} /
+      {{ sectionCfg()!.numQuestions }} ]
+  </div>
+}
