@@ -4,7 +4,7 @@ import { RemoteService } from "lib-core";
 import { environment } from "@env/environment";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { SyllabusSO, TopicSO } from "@jee-common/util/master-data-types";
-import { ExamConfig, ExamSectionConfig } from "../../type";
+import { ExamConfig, ExamSectionConfig, QuestionSO } from "../../type";
 
 @Injectable()
 export class ExamEditService extends RemoteService {
@@ -16,6 +16,7 @@ export class ExamEditService extends RemoteService {
   topicMap : Record<string, TopicSO[]> = {} ;
   sectionMap : Record<string, ExamSectionConfig[]> = {};
   problemTypes : string[] = [] ;
+  selTopicQuestions : Record<string, QuestionSO[]> = {} ;
 
   constructor() {
     super();
@@ -52,5 +53,21 @@ export class ExamEditService extends RemoteService {
       console.log( "Exam config" ) ;
       console.log( this.examCfg ) ;
     }) ;
+  }
+
+  async fetchAvailableQuestions( topic: TopicSO | null ) {
+    if( topic == null ) {
+      this.selTopicQuestions = {} ;
+    }
+    else {
+      const url:string = `${environment.apiRoot}/Master/Question/AvailableQuestions?topicId=${topic.id}&problemTypes=${this.problemTypes}` ;
+      await this.getPromise<{
+        topicId:number,
+        questions:Record<string, QuestionSO[]>
+      }>( url ).then( res => {
+          console.log( res ) ;
+          this.selTopicQuestions = res.questions ;
+      }) ;
+    }
   }
 }

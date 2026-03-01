@@ -65,6 +65,8 @@ export class ExamEditComponent {
 
   protected topicChanged( topic: TopicSO | null ) {
     this.selectedTopic = topic ;
+    this.editSvc.fetchAvailableQuestions( topic ).then() ;
+    // TODO: Refresh question selectors.
   }
 
   protected syllabusChanged( $event: string ) {
