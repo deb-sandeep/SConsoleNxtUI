@@ -5,7 +5,8 @@ import { ExamEditService } from "./exam-edit.service";
 import { TopicSO } from "@jee-common/util/master-data-types";
 import { TopicBrowserComponent } from "./components/topic-browser/topic-browser.component";
 import { QuestionSelectorComponent } from "./components/question-selector/question-selector.component";
-import { ExamSectionConfig } from "../../type";
+import { ExamSectionConfig, QuestionSO } from "../../type";
+import { QuestionDisplayComponent } from "./components/question-display/question-display.component";
 
 @Component({
   selector: 'exam-edit',
@@ -13,7 +14,8 @@ import { ExamSectionConfig } from "../../type";
     PageToolbarComponent,
     ToolbarActionComponent,
     TopicBrowserComponent,
-    QuestionSelectorComponent
+    QuestionSelectorComponent,
+    QuestionDisplayComponent
   ],
   templateUrl: './exam-edit.component.html',
   styleUrl: './exam-edit.component.css'
@@ -28,6 +30,8 @@ export class ExamEditComponent {
   selectedTopic : TopicSO|null = null ;
   activeSyllabus : string|null = null ;
   problemTypeSectionMap : Record<string, ExamSectionConfig> = {} ;
+
+  questionToShow : QuestionSO|null = null ;
 
   constructor( private route: ActivatedRoute ) {}
 
@@ -44,8 +48,8 @@ export class ExamEditComponent {
 
   getQuestionSelectorWidth() {
     const n = this.editSvc.problemTypes.length;
-    if( n < 4 ) {
-      return '400px' ;
+    if( n < 3 ) {
+      return '500px' ;
     }
     else {
       const gap = 5; // px gap between items
@@ -66,7 +70,6 @@ export class ExamEditComponent {
   protected topicChanged( topic: TopicSO | null ) {
     this.selectedTopic = topic ;
     this.editSvc.fetchAvailableQuestions( topic ).then() ;
-    // TODO: Refresh question selectors.
   }
 
   protected syllabusChanged( $event: string ) {

@@ -1,7 +1,6 @@
 .page-content {
     --topic-browser-width: 270px;
-    --question-selector-height: 550px;
-    --question-selector-banner-height: 30px ;
+    --question-selector-height: 650px;
 }
 
 #topic-browser {
@@ -25,34 +24,11 @@
     overflow-x: auto;
 }
 
-#selected-topic-banner {
-    width: 100% ;
-    height: var(--question-selector-banner-height) ;
-    line-height: var(--question-selector-banner-height);
-    background-color: #dfdede;
-    padding-left: 10px;
-    font-size: 14px;
-}
-
-#q-selectors-panel {
-    width: 100%;
-    height: calc( 100% - 2 * var(--question-selector-banner-height) ) ;
-}
-
-.problem-type-q-selector {
+.q-selector-panel {
     display: inline-block;
     height: 100%;
-    background-color: lightyellow;
+    background-color: #fafaf3;
     margin-right: 5px;
-}
-
-#selected-subject-banner {
-    width: 100% ;
-    height: var(--question-selector-banner-height) ;
-    line-height: var(--question-selector-banner-height);
-    background-color: #dfdede;
-    padding-left: 10px;
-    font-size: 14px;
 }
 
 #selected-question-display {
@@ -60,9 +36,14 @@
     top: calc( var(--page-toolbar-height) + var(--question-selector-height) ) ;
     left: var(--topic-browser-width);
     width: calc( 100vw - var(--feature-menubar-width) - var(--topic-browser-width)) ;
-    height: calc( 100vh - var(--page-toolbar-height) - var(--question-selector-height)) ;
+    height: calc( 100% - var(--page-toolbar-height) - var(--question-selector-height)) ;
     overflow-y: scroll;
     overflow-x: hidden;
-    background-color: green;
+    background-color: white;
+    padding: 5px;
 }
 
+.current-subject-topic {
+    display: inline-block;
+    margin-left: 10px;
+}

@@ -6,6 +6,9 @@
   <toolbar-action name="Cancel Edit"
                   (click)="cancelEdit()"
                   icon="plus-square"></toolbar-action>
+  <div class="current-subject-topic">
+    {{activeSyllabus}} - {{selectedTopic?.topicName}}
+  </div>
 </page-toolbar>
 <div class="page-content">
   <div id="topic-browser" topicBrowser
@@ -15,23 +18,19 @@
   </div>
 
   <div id="question-selector-pane">
-    <div id="selected-topic-banner">
-      {{selectedTopic?.topicName}}
-    </div>
-    <div id="q-selectors-panel">
-      @for( problemType of editSvc.problemTypes; track $index ) {
-        <div questionSelector
-             class="problem-type-q-selector"
-             [style.width]="getQuestionSelectorWidth()"
-             [sectionCfg]="problemTypeSectionMap[problemType]">
-        </div>
-      }
-    </div>
-    <div id="selected-subject-banner">
-      {{activeSyllabus}}
-    </div>
+    @for( problemType of editSvc.problemTypes; track $index ) {
+      <div questionSelector
+           class="q-selector-panel"
+           [style.width]="getQuestionSelectorWidth()"
+           [sectionCfg]="problemTypeSectionMap[problemType]"
+           (showQuestion)="questionToShow = $event"
+           (hideQuestion)="questionToShow = null">
+      </div>
+    }
   </div>
 
-  <div id="selected-question-display">
+  <div id="selected-question-display"
+       selectedQuestionDisplay
+       [question]="questionToShow">
   </div>
 </div>

@@ -1,8 +1,36 @@
-@if( sectionCfg() ) {
-  <div id="section-header">
-    {{ sectionCfg()?.problemType }}
-    &nbsp;
-    [ {{ sectionCfg()!.questions.length }} /
+<div class="q-selector">
+  @if( sectionCfg() ) {
+    <div class="section-header">
+      {{ sectionCfg()?.problemType }}
+      &nbsp;
+      [ {{ sectionCfg()!.questions.length }} /
       {{ sectionCfg()!.numQuestions }} ]
-  </div>
-}
+    </div>
+    <div class="available-questions">
+      @for (q of editSvc.selTopicQuestions[sectionCfg()!.problemType]; track q.id) {
+        @if( !questionAssigned( q ) ) {
+          <div class="available-question"
+               (dblclick)="selectQuestion( $index )"
+               (mouseenter)="showQuestionInView( q )"
+               (mouseleave)="removeQuestionFromView( q )">
+            {{ q.questionId?.replace('://', ' - ') }}
+          </div>
+        }
+      }
+    </div>
+    <div class="selected-questions">
+      @for( q of sectionCfg()!.questions; track q.question.id ) {
+        <div class="available-question"
+             (mouseenter)="showQuestionInView( q.question )"
+             (mouseleave)="removeQuestionFromView( q.question )">
+          <span class="question-id">
+            {{ q.question.questionId!.replace('://', ' - ') }}
+          </span>
+          <span class="topic-name">
+            [{{ q.question.topicName}}]
+          </span>
+        </div>
+      }
+    </div>
+  }
+</div>

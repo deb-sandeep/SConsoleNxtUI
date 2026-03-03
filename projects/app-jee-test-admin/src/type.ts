@@ -13,7 +13,7 @@ export type QuestionImageSO = {
 
 export type QuestionSO = {
     id: number,
-    questionId: number,
+    questionId: string,
     syllabusName: string,
     topicName: string,
     topicId: number,

@@ -30,13 +30,22 @@ export class ExamEditService extends RemoteService {
     } ) ;
   }
 
+  private resetState() {
+    this.syllabusMap = {} ;
+    this.examCfg = null ;
+    this.topicMap = {};
+    this.sectionMap = {};
+    this.problemTypes = [];
+    this.selTopicQuestions = {} ;
+  }
+
   async fetchExamDetails( examId : number ) {
     const url:string = `${environment.apiRoot}/Master/Exam/${examId}` ;
     await this.getPromise<ExamConfig>( url ).then( exam => {
+
+      this.resetState() ;
       this.examCfg = exam ;
       this.topicMap = exam.topics ;
-      this.sectionMap = {} ;
-      this.problemTypes = [] ;
 
       exam.sections.forEach( section => {
         if( !this.sectionMap[section.syllabusName] ) {

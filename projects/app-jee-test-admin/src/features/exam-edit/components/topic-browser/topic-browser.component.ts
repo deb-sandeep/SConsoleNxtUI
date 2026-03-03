@@ -58,7 +58,9 @@ export class TopicBrowserComponent {
     else {
       this.activeSyllabusTabId = 3 ;
     }
-    this.emitSyllabusChange( this.activeSyllabusTabId ) ;
+    setTimeout( () => {
+      this.emitSyllabusChange( this.activeSyllabusTabId ) ;
+    }, 100 ) ;
    }
 
   topicSelectionChanged( newSelectedTopic: TopicSO ) {
