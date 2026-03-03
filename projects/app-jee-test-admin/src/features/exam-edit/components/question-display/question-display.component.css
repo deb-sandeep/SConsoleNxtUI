@@ -1,6 +1,5 @@
 .card {
-    box-shadow:  5px 5px 10px rgba(2, 0, 0, 0.4);
-    --bs-card-border-color: #b5b5b5;
+    --bs-card-border-color: #cfcfcf;
 }
 
 .card-header {

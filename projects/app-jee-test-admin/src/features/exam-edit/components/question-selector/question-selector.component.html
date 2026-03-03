@@ -9,10 +9,10 @@
     <div class="available-questions">
       @for (q of editSvc.selTopicQuestions[sectionCfg()!.problemType]; track q.id) {
         @if( !questionAssigned( q ) ) {
-          <div class="available-question"
+          <div class="question-list-item"
                (dblclick)="selectQuestion( $index )"
                (mouseenter)="showQuestionInView( q )"
-               (mouseleave)="removeQuestionFromView( q )">
+               (mouseleave)="removeQuestionFromView()">
             {{ q.questionId?.replace('://', ' - ') }}
           </div>
         }
@@ -32,15 +32,17 @@
           current row as the target. The component then reorders sectionCfg().questions
           so the dragged question is placed directly ahead of this question.
         -->
-        <div class="available-question"
+        <div class="question-list-item"
              dndDropzone
              [dndDropzone]="['selected-question']"
+             dndDragoverClass="question-list-item-drop-target"
              [dndDraggable]="q.question.id"
              dndType="selected-question"
              dndEffectAllowed="move"
              (dndDrop)="dropSelectedQuestionBefore( $event, q.question.id )"
              (mouseenter)="showQuestionInView( q.question )"
-             (mouseleave)="removeQuestionFromView( q.question )">
+             (mouseleave)="removeQuestionFromView()">
+
           <span class="question-id">
             {{ q.question.questionId!.replace('://', ' - ') }}
           </span>

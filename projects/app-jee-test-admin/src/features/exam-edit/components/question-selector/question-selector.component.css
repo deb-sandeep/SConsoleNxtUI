@@ -40,7 +40,7 @@
             inset -1px -1px 3px rgba(255, 255, 255, 0.7);
 }
 
-.available-question {
+.question-list-item {
     font-family: Courier, monospace;
     padding-left: 10px ;
     padding-right: 10px ;
@@ -49,8 +49,13 @@
     font-size: 11px;
 }
 
-.available-question:hover {
+.question-list-item:hover {
     background-color: #dceefa;
+}
+
+.question-list-item-drop-target {
+    background-color: #c7e3ff;
+    box-shadow: inset 0 0 0 1px #5c93d6;
 }
 
 .question-id {

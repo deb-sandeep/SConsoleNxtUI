@@ -39,7 +39,7 @@ export class QuestionSelectorComponent {
     this.showQuestion.emit( q ) ;
   }
 
-  protected removeQuestionFromView( q: QuestionSO ) {
+  protected removeQuestionFromView() {
     this.hideQuestion.emit() ;
   }
 
