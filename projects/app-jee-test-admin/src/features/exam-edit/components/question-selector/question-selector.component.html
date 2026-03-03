@@ -20,7 +20,25 @@
     </div>
     <div class="selected-questions">
       @for( q of sectionCfg()!.questions; track q.question.id ) {
+        <!--
+          Each selected question row serves two roles at once:
+          1. It is draggable, so the user can pick it up and move it.
+          2. It is also a drop target, so dropping another selected question on this row
+             means "insert the dragged question immediately before this question".
+
+          This keeps the reordering interaction tied to the actual rendered items.
+
+          The drop handler receives the drag payload from the moved row and the id of the
+          current row as the target. The component then reorders sectionCfg().questions
+          so the dragged question is placed directly ahead of this question.
+        -->
         <div class="available-question"
+             dndDropzone
+             [dndDropzone]="['selected-question']"
+             [dndDraggable]="q.question.id"
+             dndType="selected-question"
+             dndEffectAllowed="move"
+             (dndDrop)="dropSelectedQuestionBefore( $event, q.question.id )"
              (mouseenter)="showQuestionInView( q.question )"
              (mouseleave)="removeQuestionFromView( q.question )">
           <span class="question-id">
