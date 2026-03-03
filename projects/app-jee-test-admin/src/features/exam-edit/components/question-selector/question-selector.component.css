@@ -10,7 +10,7 @@
     height: var(--section-header-height) ;
     line-height: var(--section-header-height) ;
     text-align: center ;
-    background-color: #9bb6fd;
+    background-color: #cbdbfb;
     font-weight: bold;
 }
 
@@ -66,4 +66,12 @@
     float: right;
     color: grey;
     font-size: 10px;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
 }

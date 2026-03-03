@@ -1,11 +1,12 @@
 import { Component, inject, input, output } from '@angular/core';
-import { ExamQuestionConfig, ExamSectionConfig, QuestionSO } from "../../../../type";
+import { ExamSectionConfig, QuestionSO } from "../../../../type";
 import { ExamEditService } from "../../exam-edit.service";
 import { DndDraggableDirective, DndDropEvent, DndDropzoneDirective } from "ngx-drag-drop";
+import { NgClass } from "@angular/common";
 
 @Component({
   selector: 'div[questionSelector]',
-  imports: [DndDraggableDirective, DndDropzoneDirective],
+  imports: [ DndDraggableDirective, DndDropzoneDirective, NgClass ],
   templateUrl: './question-selector.component.html',
   styleUrl: './question-selector.component.css'
 })
@@ -78,7 +79,7 @@ export class QuestionSelectorComponent {
 
     // Reordering is done directly on the sectionCfg().questions array because that
     // array is the source of truth for both rendering and persistence.
-    // First remove the dragged entry from its old slot, then insert it immediately
+    // First, remove the dragged entry from its old slot, then insert it immediately
     // before the question that received the drop.
     //
     // If the dragged item originally sat above the target, removing it shifts the
@@ -90,5 +91,10 @@ export class QuestionSelectorComponent {
 
   protected removeSelectedQuestion( index: number ) {
     this.sectionCfg()?.questions.splice( index, 1 );
+  }
+
+  protected getSectionCompletionClass() {
+    return this.editSvc.isSectionComplete( this.sectionCfg()! ) ?
+      "bi-check-circle green" : "bi-x-circle red" ;
   }
 }

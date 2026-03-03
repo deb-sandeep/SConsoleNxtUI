@@ -5,6 +5,8 @@
       &nbsp;
       [ {{ sectionCfg()!.questions.length }} /
       {{ sectionCfg()!.numQuestions }} ]
+      &nbsp;
+      <span [ngClass]="getSectionCompletionClass()" ></span>
     </div>
     <div class="available-questions">
       @for (q of editSvc.selTopicQuestions[sectionCfg()!.problemType]; track q.id) {

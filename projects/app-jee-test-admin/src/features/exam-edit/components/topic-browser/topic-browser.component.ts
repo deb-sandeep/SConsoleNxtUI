@@ -1,4 +1,4 @@
-import { Component, input, output, ViewChild } from '@angular/core';
+import { Component, inject, input, output, ViewChild } from '@angular/core';
 import { TopicSO } from "@jee-common/util/master-data-types";
 import {
   NgbNav,
@@ -9,19 +9,21 @@ import {
   NgbNavOutlet
 } from "@ng-bootstrap/ng-bootstrap";
 import { TopicListComponent } from "./topic-list/topic-list.component";
-import { NgIf } from "@angular/common";
+import { NgClass, NgIf } from "@angular/common";
+import { ExamEditService } from "../../exam-edit.service";
 
 @Component({
   selector: 'div[topicBrowser]',
-  imports: [
-    NgbNav,
-    NgbNavItem,
-    NgbNavLinkButton,
-    NgbNavContent,
-    TopicListComponent,
-    NgbNavOutlet,
-    NgIf
-  ],
+    imports: [
+        NgbNav,
+        NgbNavItem,
+        NgbNavLinkButton,
+        NgbNavContent,
+        TopicListComponent,
+        NgbNavOutlet,
+        NgIf,
+        NgClass
+    ],
   templateUrl: './topic-browser.component.html',
   styleUrl: './topic-browser.component.css'
 })
@@ -32,6 +34,8 @@ export class TopicBrowserComponent {
     2: "IIT Chemistry",
     3: "IIT Maths"
   } ;
+
+  editSvc = inject( ExamEditService ) ;
 
   topicMap = input<Record<string, TopicSO[]>>({}) ;
   topicChanged = output<TopicSO|null>() ;
@@ -81,5 +85,10 @@ export class TopicBrowserComponent {
     this.chemTopics?.clearOldSelectionIfAny( newTopic ) ;
     this.mathTopics?.clearOldSelectionIfAny( newTopic ) ;
     this.topicChanged.emit( newTopic ) ;
+  }
+
+  getSyllabusCompletionClass( syllabusName: string ) {
+    return this.editSvc.isSyllabusComplete( syllabusName ) ?
+           "bi-check-circle green" : "bi-x-circle red" ;
   }
 }

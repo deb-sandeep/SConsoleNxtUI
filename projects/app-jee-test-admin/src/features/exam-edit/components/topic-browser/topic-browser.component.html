@@ -5,7 +5,10 @@
 
   <li [ngbNavItem]="1"
       *ngIf="topicMap()!['IIT Physics']">
-    <button ngbNavLink>Physics</button>
+    <button ngbNavLink>
+      Phy
+      <span [ngClass]="getSyllabusCompletionClass( 'IIT Physics' )" ></span>
+    </button>
     <ng-template ngbNavContent>
       <topic-list #phyTopics
                   [topics]="topicMap()!['IIT Physics']"
@@ -16,7 +19,10 @@
 
   <li [ngbNavItem]="2"
       *ngIf="topicMap()!['IIT Chemistry']">
-    <button ngbNavLink>Chemistry</button>
+    <button ngbNavLink>
+      Chem
+      <span [ngClass]="getSyllabusCompletionClass( 'IIT Chemistry' )" ></span>
+    </button>
     <ng-template ngbNavContent>
       <topic-list #chemTopics
                   [topics]="topicMap()!['IIT Chemistry']"
@@ -27,7 +33,10 @@
 
   <li [ngbNavItem]="3"
       *ngIf="topicMap()!['IIT Maths']">
-    <button ngbNavLink>Maths</button>
+    <button ngbNavLink>
+      Math
+      <span [ngClass]="getSyllabusCompletionClass( 'IIT Maths' )" ></span>
+    </button>
     <ng-template ngbNavContent>
       <topic-list #mathTopics
                   [topics]="topicMap()!['IIT Maths']"

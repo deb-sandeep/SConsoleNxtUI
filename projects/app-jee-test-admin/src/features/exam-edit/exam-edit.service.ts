@@ -79,4 +79,17 @@ export class ExamEditService extends RemoteService {
       }) ;
     }
   }
+
+  isSyllabusComplete( syllabusName : string ) {
+    for( let section of this.sectionMap[ syllabusName ] ) {
+      if( section.questions.length != section.numQuestions ) {
+        return false ;
+      }
+    }
+    return true ;
+  }
+
+  isSectionComplete( sectionCfg: ExamSectionConfig ) {
+    return sectionCfg.questions.length == sectionCfg.numQuestions ;
+  }
 }
