@@ -16,7 +16,7 @@
 
 .available-questions {
     height: calc( (100% - var(--section-header-height))/3 - 2*var(--margin-height) ) ;
-    margin: var(--margin-height) var(--margin-width) calc(2*var(--margin-height)) var(--margin-width) ;
+    margin: var(--margin-height) 0 calc(2*var(--margin-height)) 0 ;
     border: 1px solid lightgrey;
     border-radius: 5px;
     overflow-x: auto;
@@ -29,7 +29,7 @@
 
 .selected-questions {
     height: calc( 2*(100% - var(--section-header-height))/3 - 2*var(--margin-height) ) ;
-    margin: var(--margin-height) var(--margin-width) 0 var(--margin-width);
+    margin: var(--margin-height) 0 0 0;
     border: 1px solid lightgrey;
     border-radius: 5px;
     overflow-x: auto;
