@@ -41,7 +41,8 @@
              dndEffectAllowed="move"
              (dndDrop)="dropSelectedQuestionBefore( $event, q.question.id )"
              (mouseenter)="showQuestionInView( q.question )"
-             (mouseleave)="removeQuestionFromView()">
+             (mouseleave)="removeQuestionFromView()"
+             (dblclick)="removeSelectedQuestion( $index )">
 
           <span class="question-id">
             {{ q.question.questionId!.replace('://', ' - ') }}

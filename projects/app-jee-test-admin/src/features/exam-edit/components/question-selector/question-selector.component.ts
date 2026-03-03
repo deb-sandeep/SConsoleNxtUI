@@ -1,5 +1,5 @@
 import { Component, inject, input, output } from '@angular/core';
-import { ExamSectionConfig, QuestionSO } from "../../../../type";
+import { ExamQuestionConfig, ExamSectionConfig, QuestionSO } from "../../../../type";
 import { ExamEditService } from "../../exam-edit.service";
 import { DndDraggableDirective, DndDropEvent, DndDropzoneDirective } from "ngx-drag-drop";
 
@@ -86,5 +86,9 @@ export class QuestionSelectorComponent {
     const [ movedQuestion ] = questions.splice( previousIndex, 1 ) ;
     const insertIndex = previousIndex < targetIndex ? targetIndex - 1 : targetIndex ;
     questions.splice( insertIndex, 0, movedQuestion ) ;
+  }
+
+  protected removeSelectedQuestion( index: number ) {
+    this.sectionCfg()?.questions.splice( index, 1 );
   }
 }
