@@ -8,6 +8,7 @@ th {
 
 td, th {
     border-right: 1px lightgrey solid;
+    border-left: 1px lightgrey solid;
     padding-left: 10px;
     padding-right: 10px;
     height: 25px;
@@ -30,5 +31,5 @@ td, th {
 
 .btn-icon {
     padding: 0;
-    font-size: 16px;
+    font-size: 15px;
 }

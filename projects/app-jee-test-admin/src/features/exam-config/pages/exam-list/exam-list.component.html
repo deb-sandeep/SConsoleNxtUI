@@ -42,12 +42,13 @@
           Marks
           <col-sorter [sortDir]="sortDirMap['totalMarks']"></col-sorter>
         </th>
+        <th style="width:30px"></th>
         <th style="width:250px;"
             (click)="sortByColumn( 'note' )">
           Note
           <col-sorter [sortDir]="sortDirMap['note']"></col-sorter>
         </th>
-        <th style="width:20px"></th>
+        <th style="width:30px"></th>
         <th></th>
       </tr>
     </thead>
@@ -61,10 +62,17 @@
           <td class="number-cell">{{exam.numChemQuestions}}</td>
           <td class="number-cell">{{exam.numMathQuestions}}</td>
           <td class="number-cell">{{exam.totalMarks}}</td>
-          <td>{{exam.note}}</td>
           <td class="btn-cell">
             <span class="bi-pencil-square btn-icon"
+                  style="color: blue;"
                   (click)="editExam(exam.id)"></span>
+          </td>
+          <td>{{exam.note}}</td>
+          <td class="btn-cell">
+            <span class="bi-trash3 btn-icon"
+                    style="color: red;"
+                    (click)="deleteExam( exam.id )"
+                    *ngIf="DELETE_ALLOWED_STATES.includes( exam.state )"></span>
           </td>
           <td></td>
         </tr>

@@ -126,4 +126,9 @@ export class ExamSetupService extends RemoteService {
     const url:string = `${environment.apiRoot}/Master/Exam/` ;
     return this.getPromise<ExamConfig[]>( url ) ;
   }
+
+  deleteExam( id: number ) {
+    const url:string = `${environment.apiRoot}/Master/Exam/${id}` ;
+    return this.deletePromise( url ) ;
+  }
 }

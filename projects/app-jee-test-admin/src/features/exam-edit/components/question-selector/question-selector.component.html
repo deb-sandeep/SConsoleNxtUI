@@ -15,7 +15,7 @@
                (dblclick)="selectQuestion( $index )"
                (mouseenter)="showQuestionInView( q )"
                (mouseleave)="removeQuestionFromView()">
-            {{ q.questionId?.replace('://', ' - ') }}
+            {{ q.questionId.replace('://', ' - ') }}
           </div>
         }
       }

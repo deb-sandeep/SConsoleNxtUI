@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ExamSetupService } from "../exam-setup/exam-setup.service";
 import { ExamConfig } from "../../../../type";
-import { DatePipe } from "@angular/common";
+import { DatePipe, NgIf } from "@angular/common";
 import { ColumnSorterComponent } from "./column-sorter.component";
 
 @Component({
@@ -14,12 +14,15 @@ import { ColumnSorterComponent } from "./column-sorter.component";
     PageToolbarComponent,
     ToolbarActionComponent,
     DatePipe,
-    ColumnSorterComponent
+    ColumnSorterComponent,
+    NgIf
   ],
   templateUrl: './exam-list.component.html',
   styleUrl: './exam-list.component.css'
 })
 export class ExamListComponent {
+
+  readonly DELETE_ALLOWED_STATES = ['DRAFT', 'PUBLISHED'] ;
 
   private router = inject( Router ) ;
   private svc = inject( ExamSetupService ) ;
@@ -73,5 +76,11 @@ export class ExamListComponent {
 
   protected editExam( id: number ) {
     this.router.navigateByUrl( "/exam-edit/" + id ).then() ;
+  }
+
+  protected deleteExam( id: number ) {
+    this.svc.deleteExam( id ).then( () => {
+      this.ngOnInit() ;
+    })
   }
 }
