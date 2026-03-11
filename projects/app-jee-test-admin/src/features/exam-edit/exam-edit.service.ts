@@ -74,7 +74,7 @@ export class ExamEditService extends RemoteService {
       await this.getPromise<{
         topicId:number,
         questions:Record<string, QuestionSO[]>
-      }>( url ).then( res => {
+      }>( url, false ).then( res => {
           console.log( res ) ;
           this.selTopicQuestions = res.questions ;
       }) ;
@@ -105,8 +105,12 @@ export class ExamEditService extends RemoteService {
 
   async updateExamConfig() {
     const url:string = `${environment.apiRoot}/Master/Exam/` ;
-    console.log( this.examCfg ) ;
     let result = await this.putPromise<SaveExamResSO>( url, this.examCfg, true ) ;
     return result.examId ;
+  }
+
+  async publishExamConfig() {
+    this.examCfg!.state = "PUBLISHED" ;
+    return this.updateExamConfig() ;
   }
 }

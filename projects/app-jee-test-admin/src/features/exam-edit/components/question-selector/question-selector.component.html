@@ -7,6 +7,12 @@
       {{ sectionCfg()!.numQuestions }} ]
       &nbsp;
       <span [ngClass]="getSectionCompletionClass()" ></span>
+      <div class="tool-btns">
+        <span class="tool-btn bi-shuffle"
+              (click)="shuffleSelectedQuestions()"></span>
+        <span class="tool-btn bi-sort-down-alt"
+              (click)="sortSelectedQuestions()"></span>
+      </div>
     </div>
     <div class="available-questions">
       @for (q of editSvc.selTopicQuestions[sectionCfg()!.problemType]; track q.id) {

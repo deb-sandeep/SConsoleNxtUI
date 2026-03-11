@@ -1,12 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { PageToolbarComponent, ToolbarActionComponent } from "lib-core";
+import { NgbToast } from "@ng-bootstrap/ng-bootstrap";
 import { ExamEditService } from "./exam-edit.service";
 import { TopicSO } from "@jee-common/util/master-data-types";
 import { TopicBrowserComponent } from "./components/topic-browser/topic-browser.component";
 import { QuestionSelectorComponent } from "./components/question-selector/question-selector.component";
 import { ExamSectionConfig, QuestionSO } from "../../type";
 import { QuestionDisplayComponent } from "./components/question-display/question-display.component";
+
+type ToastMessage = {
+  id: number,
+  message: string
+} ;
 
 @Component({
   selector: 'exam-edit',
@@ -15,7 +21,8 @@ import { QuestionDisplayComponent } from "./components/question-display/question
     ToolbarActionComponent,
     TopicBrowserComponent,
     QuestionSelectorComponent,
-    QuestionDisplayComponent
+    QuestionDisplayComponent,
+    NgbToast
   ],
   templateUrl: './exam-edit.component.html',
   styleUrl: './exam-edit.component.css'
@@ -32,6 +39,9 @@ export class ExamEditComponent {
   problemTypeSectionMap : Record<string, ExamSectionConfig> = {} ;
 
   questionToShow : QuestionSO|null = null ;
+
+  protected toasts: ToastMessage[] = [] ;
+  private nextToastId:number = 1 ;
 
   constructor( private route: ActivatedRoute ) {}
 
@@ -58,12 +68,15 @@ export class ExamEditComponent {
   }
 
   protected updateExam() {
-    this.editSvc.updateExamConfig().then( examId => {
-      console.log( "Saved examConfig" ) ;
+    this.editSvc.updateExamConfig().then( () => {
+      this.showSuccessToast( "Saved exam configuration." ) ;
     }) ;
   }
 
   protected publishExam() {
+    this.editSvc.publishExamConfig().then( () => {
+      this.showSuccessToast( "Published exam configuration." ) ;
+    }) ;
   }
 
   protected topicChanged( topic: TopicSO | null ) {
@@ -79,5 +92,16 @@ export class ExamEditComponent {
         this.problemTypeSectionMap[ cfg.problemType ] = cfg ;
       }
     }
+  }
+
+  protected removeToast( id:number ) {
+    this.toasts = this.toasts.filter( toast => toast.id !== id ) ;
+  }
+
+  private showSuccessToast( message:string ) {
+    this.toasts.push( {
+      id: this.nextToastId++,
+      message: message
+    } ) ;
   }
 }

@@ -20,6 +20,12 @@ export class QuestionSelectorComponent {
   hideQuestion = output<void>() ;
   
   protected selectQuestion( index: number ) {
+
+    if( this.editSvc.isSectionComplete( this.sectionCfg()! ) ) {
+      alert( "Section is fully configured. Remove some questions to add new." ) ;
+      return ;
+    }
+
     let availableQuestions: QuestionSO[] ;
     let selectedQuestion: QuestionSO;
     let problemType = this.sectionCfg()!.problemType ;
@@ -96,5 +102,31 @@ export class QuestionSelectorComponent {
   protected getSectionCompletionClass() {
     return this.editSvc.isSectionComplete( this.sectionCfg()! ) ?
       "bi-check-circle green" : "bi-x-circle red" ;
+  }
+
+  protected shuffleSelectedQuestions() {
+    const questions = this.sectionCfg()?.questions;
+    if( !questions || questions.length <= 1 ) {
+      return;
+    }
+
+    // Fisher-Yates shuffle algorithm
+    for( let i = questions.length - 1; i > 0; i-- ) {
+      const j = Math.floor( Math.random() * ( i + 1 ) );
+      [ questions[i], questions[j] ] = [ questions[j], questions[i] ];
+    }
+  }
+
+  protected sortSelectedQuestions() {
+    const questions = this.sectionCfg()?.questions;
+    if( !questions || questions.length <= 1 ) {
+      return;
+    }
+
+    questions.sort( ( a, b ) => {
+      const topicA = a.question.topicName || '';
+      const topicB = b.question.topicName || '';
+      return topicA.localeCompare( topicB );
+    } );
   }
 }

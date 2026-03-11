@@ -10,6 +10,17 @@
     {{activeSyllabus}} - {{selectedTopic?.topicName}}
   </div>
 </page-toolbar>
+<div class="toast-container">
+  @for( toast of toasts; track toast.id ) {
+    <ngb-toast class="exam-edit-toast text-bg-success border-0"
+               header="Success"
+               [autohide]="true"
+               [delay]="3000"
+               (hidden)="removeToast( toast.id )">
+      {{toast.message}}
+    </ngb-toast>
+  }
+</div>
 <div class="page-content">
   <div id="topic-browser" topicBrowser
        [topicMap]="topicMap"
