@@ -109,4 +109,38 @@ export class RemoteService {
         }) ;
     } ) ;
   }
+
+  protected putPromise<T>( url:string, body:any={}, modalWait:boolean = false ) : Promise<T> {
+
+    return new Promise<T>( ( resolve, reject ) => {
+
+      if( modalWait ) {
+        this.modalWaitSvc.showWaitDialog = true ;
+      }
+
+      this.http.put<APIResponse>( url, body )
+          .subscribe( {
+            next: ( res) => {
+              if( res.executionResult.status == 'OK' ) {
+                resolve( res.data as T ) ;
+                if( modalWait ) {
+                  this.modalWaitSvc.showWaitDialog = false ;
+                }
+              }
+              else {
+                reject( res.executionResult.message ) ;
+                if( modalWait ) {
+                  this.modalWaitSvc.showWaitDialog = false ;
+                }
+              }
+            },
+            error: () => {
+              reject( "System error. Check logs for details." ) ;
+              if( modalWait ) {
+                this.modalWaitSvc.showWaitDialog = false ;
+              }
+            }
+          }) ;
+    } ) ;
+  }
 }

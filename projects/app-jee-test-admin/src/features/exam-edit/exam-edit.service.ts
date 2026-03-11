@@ -5,6 +5,7 @@ import { environment } from "@env/environment";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { SyllabusSO, TopicSO } from "@jee-common/util/master-data-types";
 import { ExamConfig, ExamSectionConfig, QuestionSO } from "../../type";
+import { SaveExamResSO } from "../exam-config/pages/exam-setup/exam-setup.service";
 
 @Injectable()
 export class ExamEditService extends RemoteService {
@@ -91,5 +92,21 @@ export class ExamEditService extends RemoteService {
 
   isSectionComplete( sectionCfg: ExamSectionConfig ) {
     return sectionCfg.questions.length == sectionCfg.numQuestions ;
+  }
+
+  isConfigComplete() {
+    for( let syllabusName in this.sectionMap ) {
+      if( !this.isSyllabusComplete( syllabusName ) ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  async updateExamConfig() {
+    const url:string = `${environment.apiRoot}/Master/Exam/` ;
+    console.log( this.examCfg ) ;
+    let result = await this.putPromise<SaveExamResSO>( url, this.examCfg, true ) ;
+    return result.examId ;
   }
 }

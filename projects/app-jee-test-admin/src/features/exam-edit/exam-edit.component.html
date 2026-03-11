@@ -1,10 +1,10 @@
 <page-toolbar>
   <toolbar-action name="Save Exam"
-                  [disabled]="!isExamConfigValid()"
-                  (click)="saveExam()"
+                  (click)="updateExam()"
                   icon="plus-square"></toolbar-action>
-  <toolbar-action name="Cancel Edit"
-                  (click)="cancelEdit()"
+  <toolbar-action name="Publish Exam"
+                  [disabled]="!editSvc.isConfigComplete()"
+                  (click)="publishExam()"
                   icon="plus-square"></toolbar-action>
   <div class="current-subject-topic">
     {{activeSyllabus}} - {{selectedTopic?.topicName}}

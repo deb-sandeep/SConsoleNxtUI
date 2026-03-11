@@ -57,14 +57,13 @@ export class ExamEditComponent {
     }
   }
 
-  protected isExamConfigValid() {
-    return false;
+  protected updateExam() {
+    this.editSvc.updateExamConfig().then( examId => {
+      console.log( "Saved examConfig" ) ;
+    }) ;
   }
 
-  protected saveExam() {
-  }
-
-  protected cancelEdit() {
+  protected publishExam() {
   }
 
   protected topicChanged( topic: TopicSO | null ) {
