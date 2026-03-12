@@ -1,0 +1,10 @@
+.page-body {
+    background: #fab2b2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100dvw);
+    height: calc(100dvh);
+    overflow: hidden;
+    overflow-y: scroll;
+}

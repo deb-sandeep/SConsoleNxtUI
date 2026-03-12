@@ -12,12 +12,6 @@
     padding: 10px 5px 10px 5px;
 }
 
-.card-footer {
-    --bs-card-cap-padding-y: 2px;
-    --bs-card-cap-bg: #ededed;
-    --bs-card-border-width: 1px;
-}
-
 .question-card {
     width: 100% ;
     margin-bottom: 20px;
@@ -41,10 +35,6 @@
 
 .problem-type {
     color: #0b3d28;
-    font-weight: bold;
-}
-
-.answer {
     font-weight: bold;
 }
 

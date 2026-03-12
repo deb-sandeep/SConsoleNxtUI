@@ -52,12 +52,23 @@ export class AppComponent {
           icon : "eye",
           bgcolor : "#f0e4ff",
           target : '/apps/jee/monitor/index.html'
-        },
+        }
+      ]
+    },
+    {
+      name : "JEE Mock Exam",
+      modules : [
         {
-          name : "Test<br>Administration",
+          name : "Exam<br>Administration",
           icon : "box-seam-fill",
           bgcolor : "#ffddb9",
           target : '/apps/jee/test-admin/index.html'
+        },
+        {
+          name : "CBT",
+          icon : "mortarboard",
+          bgcolor : "#d6ffa9",
+          target : '/apps/jee/exam/index.html'
         },
       ]
     },
