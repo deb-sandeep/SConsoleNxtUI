@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { QuestionImageSO, QuestionSO } from "../../../../type";
+import { QuestionImageSO, QuestionSO } from "@jee-common/util/exam-data-types";
 import { environment } from "@env/environment";
 
 @Component({

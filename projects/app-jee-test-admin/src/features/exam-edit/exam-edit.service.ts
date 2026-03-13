@@ -4,7 +4,7 @@ import { RemoteService } from "lib-core";
 import { environment } from "@env/environment";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { SyllabusSO, TopicSO } from "@jee-common/util/master-data-types";
-import { ExamConfig, ExamSectionConfig, QuestionSO } from "../../type";
+import { ExamConfig, ExamSectionConfig, QuestionSO } from "@jee-common/util/exam-data-types";
 import { SaveExamResSO } from "../exam-config/pages/exam-setup/exam-setup.service";
 
 @Injectable()

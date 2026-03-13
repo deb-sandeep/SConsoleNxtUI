@@ -5,7 +5,7 @@ import { DEFAULT_SECONDS_PER_QUESTION, ExamSectionTemplate } from "./exam-sectio
 import { environment } from "@env/environment";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { SyllabusSO, TopicSO } from "@jee-common/util/master-data-types";
-import { ExamConfig, ExamSectionConfig } from "../../../../type" ;
+import { ExamConfig, ExamSectionConfig } from "@jee-common/util/exam-data-types" ;
 
 interface ExamSetupConfig {
   examType: string;

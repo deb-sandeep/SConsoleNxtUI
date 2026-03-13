@@ -1,4 +1,4 @@
-import { QuestionSO } from "../../type";
+import { QuestionSO } from "@jee-common/util/exam-data-types";
 
 export type QuestionSearchResSO = {
     totalResults: number,

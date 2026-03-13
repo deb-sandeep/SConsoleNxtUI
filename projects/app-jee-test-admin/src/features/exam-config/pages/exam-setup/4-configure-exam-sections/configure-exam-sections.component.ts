@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ExamSectionTemplate } from "../exam-section.config";
 import { NgIf } from "@angular/common";
-import { ExamSectionConfig } from "../../../../../type";
+import { ExamSectionConfig } from "@jee-common/util/exam-data-types";
 
 @Component({
   selector: 'app-configure-exam-sections',

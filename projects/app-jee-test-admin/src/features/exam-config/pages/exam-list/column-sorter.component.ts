@@ -1,10 +1,5 @@
-import { Component, inject, input, OnInit } from '@angular/core';
-import { PageToolbarComponent, ToolbarActionComponent } from "lib-core";
-import { FormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
-import { ExamSetupService } from "../exam-setup/exam-setup.service";
-import { ExamConfig } from "../../../../type";
-import { DatePipe, NgClass, NgIf } from "@angular/common";
+import { Component, input } from '@angular/core';
+import { NgClass, NgIf } from "@angular/common";
 
 @Component({
   selector: 'col-sorter',

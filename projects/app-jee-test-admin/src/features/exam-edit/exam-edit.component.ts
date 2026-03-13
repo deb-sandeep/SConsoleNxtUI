@@ -6,7 +6,7 @@ import { ExamEditService } from "./exam-edit.service";
 import { TopicSO } from "@jee-common/util/master-data-types";
 import { TopicBrowserComponent } from "./components/topic-browser/topic-browser.component";
 import { QuestionSelectorComponent } from "./components/question-selector/question-selector.component";
-import { ExamSectionConfig, QuestionSO } from "../../type";
+import { ExamSectionConfig, QuestionSO } from "@jee-common/util/exam-data-types";
 import { QuestionDisplayComponent } from "./components/question-display/question-display.component";
 
 type ToastMessage = {

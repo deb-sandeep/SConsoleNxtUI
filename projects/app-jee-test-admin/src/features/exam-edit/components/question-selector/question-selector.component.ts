@@ -1,5 +1,5 @@
 import { Component, inject, input, output } from '@angular/core';
-import { ExamSectionConfig, QuestionSO } from "../../../../type";
+import { ExamSectionConfig, QuestionSO } from "@jee-common/util/exam-data-types";
 import { ExamEditService } from "../../exam-edit.service";
 import { DndDraggableDirective, DndDropEvent, DndDropzoneDirective } from "ngx-drag-drop";
 import { NgClass } from "@angular/common";
