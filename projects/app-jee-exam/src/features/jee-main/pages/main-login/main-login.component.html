@@ -1,0 +1,43 @@
+<div class="login-page">
+  <div class="login-dialog">
+    <div class="login-title-bar">Login</div>
+
+    <div class="login-body">
+      <div class="login-field">
+        <div class="field-icon-pane">
+          <span class="bi-person-fill"></span>
+        </div>
+        <input #userIdInput
+               class="field-input"
+               type="text"
+               [(ngModel)]="userId"
+               (ngModelChange)="removeErrorMsg()">
+        <button type="button" class="field-action" disabled>
+          <span class="bi-keyboard-fill"></span>
+        </button>
+      </div>
+
+      <div class="login-field">
+        <div class="field-icon-pane">
+          <span class="bi-lock-fill"></span>
+        </div>
+        <input class="field-input"
+               type="password"
+               [(ngModel)]="password"
+               (ngModelChange)="removeErrorMsg()">
+        <button type="button" class="field-action" disabled>
+          <span class="bi-keyboard-fill"></span>
+        </button>
+      </div>
+
+      <div *ngIf="errMsg != null" class="err-msg">
+        {{errMsg}}
+      </div>
+
+      <button type="button"
+              class="signin-btn"
+              (click)="authenticate()"
+              [disabled]="credentialFormatInvalid()">Sign In</button>
+    </div>
+  </div>
+</div>

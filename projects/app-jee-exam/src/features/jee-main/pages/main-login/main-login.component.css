@@ -1,0 +1,140 @@
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #ffffff;
+}
+
+.login-dialog {
+    width: min(450px, 100%);
+    background: #ffffff;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.login-title-bar {
+    background: #d9d9d9;
+    color: #1f1f1f;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 6px 12px 7px;
+}
+
+.login-body {
+    padding: 19px 30px 20px;
+}
+
+.login-field {
+    display: grid;
+    grid-template-columns: 40px 1fr 50px;
+    align-items: stretch;
+    min-height: 29px;
+    border: 1px solid #d2d2d2;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.login-field + .login-field {
+    margin-top: 13px;
+}
+
+.field-icon-pane,
+.field-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8;
+}
+
+.field-icon-pane {
+    border-right: 1px solid #d2d2d2;
+    color: #6b6b6b;
+    font-size: 1.5rem;
+}
+
+.field-action {
+    border: 0;
+    border-left: 1px solid #d2d2d2;
+    color: #757575;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.field-input {
+    width: 100%;
+    border: 0;
+    outline: none;
+    padding: 0 11px;
+    font-size: 1rem;
+    color: #575757;
+    background: #ffffff;
+}
+
+.field-input::placeholder {
+    color: #b4bcc5;
+}
+
+.signin-btn {
+    width: 100%;
+    margin-top: 30px;
+    border: 0;
+    border-radius: 3px;
+    background: #40a7e0;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.signin-btn:disabled {
+    background: lightgrey;
+}
+
+.err-msg {
+    margin-top: 10px;
+    color: red;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+@media (max-width: 720px) {
+    .login-body {
+        padding: 18px 14px 20px;
+    }
+
+    .login-title-bar {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+
+    .login-field {
+        grid-template-columns: 52px 1fr 52px;
+        min-height: 40px;
+    }
+
+    .field-icon-pane {
+        font-size: 1.25rem;
+    }
+
+    .field-action {
+        font-size: 1rem;
+    }
+
+    .field-input {
+        padding: 0 10px;
+        font-size: 0.8rem;
+    }
+
+    .signin-btn {
+        margin-top: 28px;
+        font-size: 1rem;
+    }
+}

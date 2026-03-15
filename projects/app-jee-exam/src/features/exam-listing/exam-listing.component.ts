@@ -3,6 +3,7 @@ import { FormsModule } from "@angular/forms";
 import { DatePipe } from "@angular/common";
 import { ExamApiService } from "../../exam-api.service";
 import { ExamConfig } from "@jee-common/util/exam-data-types";
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -16,6 +17,8 @@ import { ExamConfig } from "@jee-common/util/exam-data-types";
 })
 export class ExamListingComponent {
 
+    private router = inject( Router );
+
     apiSvc: ExamApiService = inject( ExamApiService ) ;
     availableExams: ExamConfig[] ;
 
@@ -28,5 +31,9 @@ export class ExamListingComponent {
                 }
             }
         })
+    }
+
+    protected startExam( exam: ExamConfig ) {
+        this.router.navigateByUrl( `/jee-main/${exam.id}` ).then() ;
     }
 }

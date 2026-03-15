@@ -872,7 +872,10 @@
             ],
             "tsConfig": "projects/app-jee-exam/tsconfig.app.json",
             "assets": [
-              "projects/app-jee-exam/src/assets"
+              {
+                "glob": "**/*",
+                "input": "projects/app-jee-exam/public"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -915,6 +918,10 @@
                   "glob": "**/*",
                   "input": "./projects/lib-core/assets",
                   "output": "/core-assets/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "projects/app-jee-exam/public"
                 }
               ]
             }

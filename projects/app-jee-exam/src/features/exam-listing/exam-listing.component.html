@@ -31,7 +31,8 @@
                   <td class="number-cell">{{exam.totalMarks}}</td>
                   <td>{{exam.note}}</td>
                   <td>
-                    <button type="button" class="btn btn-sm btn-info">
+                    <button type="button" class="btn btn-sm btn-info"
+                            (click)="startExam( exam )">
                       Start
                     </button>
                   </td>
