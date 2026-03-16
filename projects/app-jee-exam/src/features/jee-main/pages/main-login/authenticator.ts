@@ -1,8 +1,43 @@
+/* ------------------------------- AI Generated Content ------------------------------------*/
+
 export interface LoginPasswordPair {
     login: string;
     password: string;
 }
 
+/**
+ * CBTLoginPasswordService
+ *
+ * This class provides a lightweight credential generation and validation
+ * mechanism used by the SConsole CBT simulator.
+ *
+ * The purpose of this component is NOT security or real authentication.
+ * Instead it simulates the login ritual used in real Computer Based Tests
+ * (such as JEE Main / JEE Advanced) where candidates receive temporary
+ * login credentials just before the exam begins.
+ *
+ * Design goals:
+ * - Allow realistic "Login ID / Password" entry in the CBT interface.
+ * - Avoid storing credentials in a database.
+ * - Avoid introducing server-side authentication infrastructure.
+ * - Allow deterministic validation of credentials.
+ *
+ * How it works:
+ * - Each credential set is derived from a 2-digit seed (first pair).
+ * - Additional 2-digit pairs are generated using a deterministic recurrence.
+ * - The first 4 pairs form the 8-digit Login ID.
+ * - The remaining 3 pairs form the 6-digit Password.
+ * - Validation reconstructs the expected sequence from the Login ID seed
+ *   and verifies that the supplied password matches.
+ *
+ * Because the sequence is deterministic, credentials do not need to be
+ * persisted anywhere. This keeps the simulator simple while still allowing
+ * incorrect credentials to be detected.
+ *
+ * Important:
+ * This mechanism intentionally prioritizes simplicity and determinism over
+ * cryptographic security. It should NOT be used for real authentication.
+ */
 export class CBTLoginPasswordService {
     private static readonly TOTAL_PAIRS = 7;
     private static readonly LOGIN_PAIRS = 4;

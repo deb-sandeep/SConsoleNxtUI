@@ -15,4 +15,10 @@ export class ExamApiService extends RemoteService {
     const url:string = `${environment.apiRoot}/Master/Exam/` ;
     return this.getPromise<ExamConfig[]>( url ) ;
   }
+
+  async getExamDetails( examId : number ) {
+    const url:string = `${environment.apiRoot}/Master/Exam/${examId}` ;
+    return this.getPromise<ExamConfig>( url ) ;
+  }
+
 }

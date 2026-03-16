@@ -1,7 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { CBTLoginPasswordService } from "./authenticator";
 import { FormsModule } from "@angular/forms";
 import { NgIf } from "@angular/common";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'main-login',
@@ -17,8 +18,11 @@ export class MainLoginComponent {
   @ViewChild( 'userIdInput' )
   private userIdInput?: ElementRef<HTMLInputElement> ;
 
-  userId:string ;
-  password:string ;
+  private router = inject( Router ) ;
+  private route = inject( ActivatedRoute );
+
+  userId:string = "13921566" ;
+  password:string = "537275" ;
   errMsg:string | null = null;
 
   ngAfterViewInit() {
@@ -40,13 +44,13 @@ export class MainLoginComponent {
   }
 
   protected authenticate() {
-    console.log( "Authentication Component" ) ;
     let valid = CBTLoginPasswordService.validateLoginPassword( this.userId, this.password ) ;
     if( !valid ) {
       this.errMsg = "Invalid credentials" ;
     }
     else {
-      // Move to the candidate confirmation page
+      console.log( "Credentials authenticated" ) ;
+      this.router.navigate( [ '../welcome-screen' ], { relativeTo: this.route } ).then();
     }
   }
 }

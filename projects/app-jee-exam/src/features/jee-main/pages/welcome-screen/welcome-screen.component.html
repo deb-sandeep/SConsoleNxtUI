@@ -1,0 +1,79 @@
+<div class="welcome-screen">
+  <header class="welcome-header">
+    <div class="header-inner">
+      <img
+        class="nta-logo"
+        src="/img/NTA_logo.png"
+        alt="National Testing Agency"
+      />
+    </div>
+  </header>
+
+  <main class="welcome-content">
+    <section class="welcome-panel" aria-label="Candidate confirmation">
+      <div class="confirmation-layout">
+        <section class="photo-section" aria-label="Candidate profile">
+          <div class="photo-frame">
+            <img
+              class="candidate-photo"
+              src="/img/photograph.jpg"
+              alt="Candidate photograph"
+            />
+          </div>
+          <p class="candidate-name">Arunima Deb</p>
+        </section>
+
+        <section class="candidate-details" aria-label="Candidate details">
+          <h1>Candidate Details</h1>
+
+          <div class="details-grid">
+            <div class="detail-label">Name</div>
+            <div class="detail-colon">:</div>
+            <div class="detail-value">Arunima Deb</div>
+
+            <div class="detail-label">Application Number</div>
+            <div class="detail-colon">:</div>
+            <div class="detail-value">2401023456</div>
+
+            <div class="detail-label">Exam</div>
+            <div class="detail-colon">:</div>
+            <div class="detail-value">JEE Main 2027</div>
+
+            <div class="detail-label">Paper</div>
+            <div class="detail-colon">:</div>
+            <div class="detail-value">B.E./B.Tech</div>
+
+            <div class="detail-label">Exam Date</div>
+            <div class="detail-colon">:</div>
+            <div class="detail-value">{{ examDate }}</div>
+
+            <div class="detail-label">Shift</div>
+            <div class="detail-colon">:</div>
+            <div class="detail-value">{{ shift }}</div>
+          </div>
+
+          <div class="language-row">
+            <div class="field-label">Language of Paper</div>
+            <div class="field-colon">:</div>
+            <div class="field-control">
+              <select id="paper-language" name="paper-language">
+                <option selected>English</option>
+              </select>
+            </div>
+          </div>
+
+          <label class="confirmation-row" for="confirm-details">
+            <input id="confirm-details" type="checkbox"
+                   [(ngModel)]="confirmation"/>
+            <span>I confirm that the above details belong to me.</span>
+          </label>
+
+          <button type="button"
+                  class="proceed-button"
+                  [disabled]="!confirmation"
+                  (click)="proceed()">Proceed</button>
+        </section>
+      </div>
+    </section>
+  </main>
+</div>
