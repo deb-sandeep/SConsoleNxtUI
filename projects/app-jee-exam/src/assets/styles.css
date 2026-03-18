@@ -8,3 +8,52 @@
     overflow: hidden;
     overflow-y: scroll;
 }
+
+.test-ques-stats {
+    padding: 8px 13px;
+    background-size: 100% 100%;
+}
+
+.test-ques {
+    display: inline-block;
+    padding: 8px 13px;
+    background-size: 100% 100%;
+    margin: 5px;
+    font-size: 14px
+}
+
+.test-ques:hover {
+    cursor: pointer;
+}
+
+
+.que-not-answered {
+    background: url("/img/QuizIcons/Logo2.png") no-repeat;
+    border-color: #33414E;
+    color: #fff;
+}
+
+.que-not-attempted {
+    background: url("/img/QuizIcons/Logo1.png") no-repeat;
+    color: #303030 !important;
+    background-size: 100% 100%;
+}
+
+.que-save {
+    color: #fff !important;
+    background: url("/img/QuizIcons/Logo3.png") no-repeat;
+    background-size: 100% 100%;
+}
+
+.que-save-mark {
+    color: #fff !important;
+    background: url("/img/QuizIcons/Logo5.png") no-repeat;
+    background-size: 100% 100%;
+}
+
+.que-mark {
+    background: url("/img/QuizIcons/Logo4.png") no-repeat;
+    color: #fff !important;
+    background-size: 100% 100%;
+}
+

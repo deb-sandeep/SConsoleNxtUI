@@ -1,0 +1,44 @@
+<div class="question-palette">
+  <div class="attempt-stat-panel">
+    <table class="table table-borderless">
+      <thead>
+      <tr>
+        <td class="stat-icon">
+          <span class="test-ques-stats que-not-attempted">74</span>
+        </td>
+        <td class="stat-descr">Not Visited</td>
+        <td class="stat-icon">
+          <span class="test-ques-stats que-not-answered">1</span>
+        </td>
+        <td class="stat-descr">Not Answered</td>
+      </tr>
+      <tr>
+        <td class="stat-icon">
+          <span class="test-ques-stats que-save">0</span>
+        </td>
+        <td class="stat-descr">Answered</td>
+        <td class="stat-icon">
+          <span class="test-ques-stats que-mark">0</span>
+        </td>
+        <td class="stat-descr">Marked for Review</td>
+      </tr>
+      <tr>
+        <td class="stat-icon">
+          <span class="test-ques-stats que-save-mark">0</span>
+        </td>
+        <td colspan="3" class="stat-descr">
+          Answered &amp; Marked for Review (will be considered for evaluation)
+        </td>
+      </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="question-nav-panel">
+    @for( q of examSvc.questions; track $index ) {
+      <div class="test-ques que-not-attempted"
+           (click)="displayQuestion(q)">
+        {{ ($index + 1).toString().padStart(2, '0') }}
+      </div>
+    }
+  </div>
+</div>

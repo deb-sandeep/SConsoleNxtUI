@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
-import { ExamService } from "../../exam.service";
+import { JeeMainService } from "./jee-main.service";
 
 @Component({
   selector: 'jee-main',
@@ -13,7 +13,7 @@ import { ExamService } from "../../exam.service";
 })
 export class JeeMainComponent {
 
-  private examSvc = inject( ExamService ) ;
+  private examSvc = inject( JeeMainService ) ;
 
   constructor( private route: ActivatedRoute ) {}
 
@@ -21,7 +21,7 @@ export class JeeMainComponent {
     this.route.paramMap.subscribe( pm => {
       const examId = Number( pm.get( 'examId' ) ) ;
       if( !isNaN( examId ) ){
-        this.examSvc.loadExamConfig( examId ) ;
+        this.examSvc.loadExamConfig( examId ).then() ;
       }
     })
   }

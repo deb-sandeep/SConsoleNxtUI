@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { MainLoginComponent } from "./pages/main-login/main-login.component";
 import { WelcomeScreenComponent } from "./pages/welcome-screen/welcome-screen.component";
 import { InstructionScreenComponent } from "./pages/instruction-screen/instruction-screen.component";
+import { ExamScreenComponent } from "./pages/exam-screen/exam-screen.component";
 
 export const jeeMainRoutes: Routes = [
     {
@@ -23,5 +24,10 @@ export const jeeMainRoutes: Routes = [
         path: 'instruction-screen',
         title: 'Instructions',
         component: InstructionScreenComponent,
+    },
+    {
+        path: 'exam-screen',
+        title: 'JEE Main',
+        component: ExamScreenComponent,
     }
 ] ;

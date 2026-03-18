@@ -1,0 +1,20 @@
+<div class="page-content">
+  <div class="nta-header">
+    <page-header></page-header>
+  </div>
+  <div class="section-header">
+    <section-header></section-header>
+  </div>
+  <div class="question-display"
+       [style.width]="paletteCollapsed ? '100%' : '75%'">
+  </div>
+  <div class="question-palette"
+       [style.width]="paletteCollapsed ? '0' : '25%'">
+    <question-palette></question-palette>
+  </div>
+  <div class="palette-toggle"
+       [style.right]="paletteCollapsed ? '0' : '25%'"
+       (click)="paletteCollapsed = !paletteCollapsed">
+    <span [ngClass]="paletteCollapsed? 'bi-chevron-left' : 'bi-chevron-right'"></span>
+  </div>
+</div>

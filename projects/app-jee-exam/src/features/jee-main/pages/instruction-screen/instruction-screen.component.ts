@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { NgOptimizedImage } from "@angular/common";
-import { ExamService } from "../../../../exam.service";
+import { JeeMainService } from "../../jee-main.service";
 import { FormsModule } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'instruction-screen',
@@ -14,11 +15,14 @@ import { FormsModule } from "@angular/forms";
 })
 export class InstructionScreenComponent {
 
-  examSvc = inject( ExamService ) ;
+  private router = inject( Router ) ;
+  private route = inject( ActivatedRoute );
+
+  examSvc = inject( JeeMainService ) ;
   protected confirmation: boolean = false ;
 
   protected proceed() {
-    console.log( "Start exam" ) ;
+    this.router.navigate( [ '../exam-screen' ], { relativeTo: this.route } ).then();
   }
 
   getDuration() {

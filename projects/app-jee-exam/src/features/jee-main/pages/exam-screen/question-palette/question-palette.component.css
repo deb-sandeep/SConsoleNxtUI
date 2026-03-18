@@ -1,0 +1,32 @@
+.question-palette {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.attempt-stat-panel {
+    margin-top: 10px;
+    font-size: 13px;
+    border: dotted gray;
+    padding: 5px;
+}
+
+.attempt-stat-panel td {
+    height: 47px;
+    padding: 10px;
+}
+
+.attempt-stat-panel td.stat-icon {
+    width: 50px;
+    padding-right: 2px;
+}
+
+.attempt-stat-panel td.stat-descr {
+    padding-left: 2px;
+}
+
+.question-nav-panel {
+    margin-top: 30px;
+    padding: 5px;
+    height: 550px;
+    overflow-y: scroll;
+}

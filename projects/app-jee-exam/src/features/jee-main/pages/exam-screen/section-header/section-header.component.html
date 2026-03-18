@@ -1,0 +1,14 @@
+<div class="jee-main-label">JEE MAIN</div>
+<div class="btn-panel">
+  @for( section of examSvc.sections; track section.sectionName ) {
+    <button type="button" class="btn btn-info section-btn">
+      {{section.sectionName}}
+    </button>
+  }
+</div>
+<div class="language-choice">
+  <div class="language-choice-label">Paper Language:</div>
+  <select class="form-select language-select" disabled>
+    <option selected>English</option>
+  </select>
+</div>

@@ -1,0 +1,65 @@
+.nta-logo {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: var(--nta-header-height);
+}
+
+.question-paper {
+    float: right;
+    line-height: var(--nta-header-height);
+    margin-right: 20px;
+}
+
+.question-paper button {
+    background: #f7f7f7;
+    border: 1px solid #d0d0d0;
+    color: #333;
+    border-radius: 2px;
+    font-size: 12px;
+    padding: 3px 8px;
+}
+
+.candidate-details {
+    float: right;
+    width: 350px;
+    margin-top: 2px;
+}
+
+.candidate-photo {
+    border: 1px solid grey;
+    float: left;
+}
+
+.timer-panel {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.timer-panel-row {
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.timer-panel-row-label {
+    display: inline-block;
+    width: 110px;
+}
+
+.timer-panel-separator {
+    display: inline-block;
+    width: 10px;
+}
+
+.timer-panel-row-value {
+    color: #cf7e1b;
+    font-weight: bold;
+}
+
+.timer {
+    display: inline-block;
+    background-color: #2198DC;
+    color: white;
+    padding: 0 8px 0 8px;
+    border-radius: 10px;
+    font-size: 12px;
+}

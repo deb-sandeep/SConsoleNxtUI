@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { DatePipe } from "@angular/common";
-import { ExamApiService } from "../../exam-api.service";
+import { ExamApiService } from "../../services/exam-api.service";
 import { ExamConfig } from "@jee-common/util/exam-data-types";
 import { Router } from "@angular/router";
 

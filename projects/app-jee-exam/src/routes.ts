@@ -1,10 +1,10 @@
 import { Routes } from "@angular/router";
 
 import { ExamListingComponent } from "./features/exam-listing/exam-listing.component";
-import { ExamApiService } from "./exam-api.service";
+import { ExamApiService } from "./services/exam-api.service";
 import { JeeMainComponent } from "./features/jee-main/jee-main.component";
 import { jeeMainRoutes } from "./features/jee-main/jee-main.route";
-import { ExamService } from "./exam.service";
+import { JeeMainService } from "./features/jee-main/jee-main.service";
 
 export const featureRoutes: Routes = [
     {
@@ -16,13 +16,13 @@ export const featureRoutes: Routes = [
         path: 'exam-listing',
         title: 'Available Exams',
         component: ExamListingComponent,
-        providers: [ExamService, ExamApiService]
+        providers: [ExamApiService]
     },
     {
         path: 'jee-main/:examId',
         title: 'JEE Main',
         component: JeeMainComponent,
         children: jeeMainRoutes,
-        providers: [ExamService, ExamApiService]
+        providers: [JeeMainService, ExamApiService]
     },
 ] ;
