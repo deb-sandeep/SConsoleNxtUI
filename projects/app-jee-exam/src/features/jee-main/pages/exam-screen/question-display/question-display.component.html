@@ -1,1 +1,58 @@
-<p>question-display works!</p>
+@if( examSvc.activeQuestion ) {
+  @let question = examSvc.activeQuestion ;
+  <div #questionDisplayContainer class="question-display-container">
+
+    <div class="question-header">
+      <div class="question-no-label">
+        Question {{ question.index }}:
+      </div>
+      <div class="scroll-icon"
+           (click)="scrollDown()">
+        <img ngSrc="/img/QuizIcons/down.png" alt="Down" height="30" width="30">
+      </div>
+    </div>
+
+    <div class="question-statement">
+      @let images = question.questionConfig.question.questionImages ;
+      @for( img of images; track img.fileName ) {
+        <img class="img-fluid question-img"
+             [src]="getImgURL(question.questionConfig.question, img)"
+             [width]="850"
+             [alt]="img.fileName"/>
+      }
+    </div>
+
+    @if( question.questionConfig.question.problemType === "SCA" ) {
+      <div class="container sca-answer-choices">
+        <div class="row">
+          <div class="col-3">
+            <input type="radio" name="sca-answer" value="A"
+                   [(ngModel)]="question.answer">
+            <span> A )</span>
+          </div>
+          <div class="col-3">
+            <input type="radio" name="sca-answer" value="B"
+                   [(ngModel)]="question.answer">
+            <span> B )</span>
+          </div>
+          <div class="col-3">
+            <input type="radio" name="sca-answer" value="C"
+                   [(ngModel)]="question.answer">
+            <span> C )</span>
+          </div>
+          <div class="col-3">
+            <input type="radio" name="sca-answer" value="D"
+                   [(ngModel)]="question.answer">
+            <span> D )</span>
+          </div>
+        </div>
+      </div>
+    }
+    <div class="question-footer">
+      <div class="scroll-icon"
+           (click)="scrollUp()">
+        <img ngSrc="/img/QuizIcons/up.png" alt="Up" height="30" width="30">
+      </div>
+    </div>
+  </div>
+}

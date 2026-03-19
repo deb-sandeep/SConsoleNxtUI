@@ -16,8 +16,8 @@ export class JeeMainService {
   sections: ExamSection[] = [] ;
   questions: ExamQuestion[] = [] ;
 
-  constructor() {
-  }
+  activeQuestion: ExamQuestion ;
+  timeLeftInSeconds: number = 0 ;
 
   async loadExamConfig( examId: number ) {
 
@@ -25,6 +25,8 @@ export class JeeMainService {
 
     console.log( 'Fetched exam configuration' ) ;
     console.log( this.examConfig ) ;
+
+    this.timeLeftInSeconds = this.examConfig.duration ;
 
     let currentSection : ExamSection | null = null ;
     let lastQuestion: ExamQuestion | null = null ;
@@ -63,9 +65,8 @@ export class JeeMainService {
       }
     }
 
-    // Link the head and tail to make a cyclic list
-    this.questions[0].prevQuestion = this.questions[ this.questions.length - 1 ] ;
-    this.questions[ this.questions.length - 1 ].nextQuestion = this.questions[0] ;
+    // Set the first question as active question
+    this.activateQuestion( this.questions[0] ) ;
   }
 
   private convertSyllabusNameToSectionName( syllabusName : string ) {
@@ -76,4 +77,33 @@ export class JeeMainService {
     }
     return syllabusName ;
   }
+
+  public activateQuestion( examQuestion: ExamQuestion ) {
+    this.activeQuestion = examQuestion ;
+    this.activeQuestion.activate() ;
+    console.log( this.activeQuestion );
+  }
+
+  public getNumQuestions( state: string) {
+    let numQuestions = 0 ;
+    for( let question of this.questions ) {
+      if( question.state === state ) {
+        numQuestions++ ;
+      }
+    }
+    return numQuestions ;
+  }
+
+  countdown() {
+    setTimeout( () => {
+      this.timeLeftInSeconds-- ;
+      if( this.timeLeftInSeconds > 0 ) {
+        this.countdown() ;
+      }
+      else {
+      }
+    }, 1000 ) ;
+  }
+
+
 }

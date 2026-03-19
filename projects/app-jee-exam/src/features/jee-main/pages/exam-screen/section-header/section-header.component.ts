@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { JeeMainService } from "../../../jee-main.service";
+import { ExamSection } from "../../../../../common/so-wrappers";
 
 @Component({
   selector: 'section-header',
@@ -10,4 +11,8 @@ import { JeeMainService } from "../../../jee-main.service";
 export class SectionHeaderComponent {
 
   examSvc = inject( JeeMainService ) ;
+
+  protected jumpToSection( section: ExamSection ) {
+    this.examSvc.activateQuestion( section.firstQuestion ) ;
+  }
 }

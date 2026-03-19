@@ -1,0 +1,20 @@
+<div class="prev-next-btn-panel">
+  <button type="button" class="btn pn-btn"
+          [disabled]="!prevQuestionExists()"
+          (click)="showPrevQuestion()">
+    <span class="bi-chevron-double-left">&nbsp;</span>
+    BACK
+  </button>
+  <button type="button" class="btn pn-btn"
+          [disabled]="!nextQuestionExists()"
+          (click)="showNextQuestion()">
+    NEXT&nbsp;
+    <span class="bi-chevron-double-right"></span>
+  </button>
+</div>
+
+<div class="submit-btn-panel">
+  <button type="button" class="btn submit-btn">
+    SUBMIT
+  </button>
+</div>

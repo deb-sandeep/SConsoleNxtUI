@@ -1,7 +1,8 @@
 <div class="jee-main-label">JEE MAIN</div>
 <div class="btn-panel">
   @for( section of examSvc.sections; track section.sectionName ) {
-    <button type="button" class="btn btn-info section-btn">
+    <button type="button" class="btn btn-info section-btn"
+            (click)="jumpToSection( section )">
       {{section.sectionName}}
     </button>
   }

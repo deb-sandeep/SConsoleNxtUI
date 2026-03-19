@@ -5,15 +5,24 @@
   <div class="section-header">
     <section-header></section-header>
   </div>
-  <div class="question-display"
-       [style.width]="paletteCollapsed ? '100%' : '75%'">
+  <div class="question-display-panel"
+       [style.width]="questionDisplayWidth()">
+    <question-display></question-display>
+  </div>
+  <div class="question-action-panel"
+       [style.width]="questionDisplayWidth()">
+    <question-action-panel></question-action-panel>
+  </div>
+  <div class="submit-panel"
+       [style.width]="questionDisplayWidth()">
+    <submit-panel></submit-panel>
   </div>
   <div class="question-palette"
-       [style.width]="paletteCollapsed ? '0' : '25%'">
+       [style.width]="paletteDisplayWidth()">
     <question-palette></question-palette>
   </div>
   <div class="palette-toggle"
-       [style.right]="paletteCollapsed ? '0' : '25%'"
+       [style.right]="paletteDisplayWidth()"
        (click)="paletteCollapsed = !paletteCollapsed">
     <span [ngClass]="paletteCollapsed? 'bi-chevron-left' : 'bi-chevron-right'"></span>
   </div>

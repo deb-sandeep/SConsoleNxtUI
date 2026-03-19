@@ -1,0 +1,14 @@
+.q-action-btn-panel {
+    float: left;
+}
+
+.q-action-btn {
+    margin-right: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 7px 15px 7px 15px;
+    border-radius: 1px;
+    background-color: #ffffff ;
+    color: white;
+    border: 1px solid lightgrey;
+}

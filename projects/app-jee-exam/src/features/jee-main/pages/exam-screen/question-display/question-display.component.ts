@@ -1,11 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { JeeMainService } from "../../../jee-main.service";
+import { NgOptimizedImage } from "@angular/common";
+import { QuestionImageSO, QuestionSO } from "@jee-common/util/exam-data-types";
+import { environment } from "@env/environment";
+import { FormsModule } from "@angular/forms";
 
 @Component({
-  selector: 'app-question-display',
-  imports: [],
+  selector: 'question-display',
+  imports: [
+    NgOptimizedImage,
+    FormsModule
+  ],
   templateUrl: './question-display.component.html',
   styleUrl: './question-display.component.css'
 })
 export class QuestionDisplayComponent {
 
+  @ViewChild('questionDisplayContainer')
+  private questionDisplayContainer?: ElementRef<HTMLDivElement>;
+
+  examSvc = inject( JeeMainService ) ;
+
+  getImgURL( question: QuestionSO, img:QuestionImageSO ) {
+    return `${ environment.apiRoot }/question-img/${ question.sourceId }/${ img.fileName }` ;
+  }
+
+  protected scrollUp() {
+    this.questionDisplayContainer?.nativeElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  protected scrollDown() {
+    const container = this.questionDisplayContainer?.nativeElement;
+    if (!container) { return; }
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: 'smooth'
+    });
+  }
 }
