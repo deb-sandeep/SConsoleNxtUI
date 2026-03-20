@@ -1,4 +1,4 @@
-import { ExamQuestionConfig } from "@jee-common/util/exam-data-types";
+import { ExamQuestionConfig, ExamQuestionSubmitStatus } from "@jee-common/util/exam-data-types";
 
 export class ExamSection {
 
@@ -8,20 +8,17 @@ export class ExamSection {
                  public subjectName: string ) {}
 }
 
-export type QuestionState =
-    "NOT_VISITED" | 
-    "NOT_ANSWERED" | 
-    "ANSWERED" |
-    "MARKED_FOR_REVIEW" | 
-    "ANS_AND_MARKED_FOR_REVIEW" ;
-
 export class ExamQuestion {
 
     nextQuestion: ExamQuestion|null = null ;
     prevQuestion: ExamQuestion|null = null ;
 
-    state: QuestionState = "NOT_VISITED" ;
+    examQuestionAttemptId: number = 0 ;
+    state: ExamQuestionSubmitStatus = "NOT_VISITED" ;
     answer: string | null = null ;
+    timeSpent: number = 0 ;
+
+    private activationTime: Date | null = null ;
 
     constructor( public index: number,
                  public questionConfig: ExamQuestionConfig ) {}
@@ -32,5 +29,20 @@ export class ExamQuestion {
         if( this.state === "NOT_VISITED" ) {
             this.state = "NOT_ANSWERED" ;
         }
+        this.activationTime = new Date() ;
+    }
+
+    updateTimeSpent() {
+        if( this.activationTime != null ) {
+            const currentTime = new Date() ;
+            const activationDuration = ( currentTime.getTime() - this.activationTime!.getTime() )/1000 ;
+            this.timeSpent += activationDuration ;
+            this.activationTime = currentTime ;
+        }
+    }
+
+    deactivate() {
+        this.updateTimeSpent() ;
+        this.activationTime = null ;
     }
 }

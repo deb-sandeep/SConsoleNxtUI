@@ -27,22 +27,26 @@
         <div class="row">
           <div class="col-3">
             <input type="radio" name="sca-answer" value="A"
-                   [(ngModel)]="question.answer">
+                   [(ngModel)]="question.answer"
+                   (ngModelChange)="answerEntered( question )">
             <span> A )</span>
           </div>
           <div class="col-3">
             <input type="radio" name="sca-answer" value="B"
-                   [(ngModel)]="question.answer">
+                   [(ngModel)]="question.answer"
+                   (ngModelChange)="answerEntered( question )">
             <span> B )</span>
           </div>
           <div class="col-3">
             <input type="radio" name="sca-answer" value="C"
-                   [(ngModel)]="question.answer">
+                   [(ngModel)]="question.answer"
+                   (ngModelChange)="answerEntered( question )">
             <span> C )</span>
           </div>
           <div class="col-3">
             <input type="radio" name="sca-answer" value="D"
-                   [(ngModel)]="question.answer">
+                   [(ngModel)]="question.answer"
+                   (ngModelChange)="answerEntered( question )">
             <span> D )</span>
           </div>
         </div>

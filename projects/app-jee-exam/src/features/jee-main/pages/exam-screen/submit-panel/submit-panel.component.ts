@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { JeeMainService } from "../../../jee-main.service";
+import { EventLogService } from "../../../../../services/event-log.service";
 
 @Component({
   selector: 'submit-panel',
@@ -10,6 +11,7 @@ import { JeeMainService } from "../../../jee-main.service";
 export class SubmitPanelComponent {
 
   examSvc = inject( JeeMainService ) ;
+  eventLogSvc = inject( EventLogService ) ;
 
   protected prevQuestionExists() {
     return this.examSvc.activeQuestion?.prevQuestion != null ;
@@ -20,10 +22,14 @@ export class SubmitPanelComponent {
   }
 
   protected showPrevQuestion() {
-    this.examSvc.activateQuestion( this.examSvc.activeQuestion.prevQuestion! ) ;
+    const activeQuestion = this.examSvc.activeQuestion ;
+    this.eventLogSvc.logJumpPreviousQuestion( activeQuestion) ;
+    this.examSvc.activateQuestion( activeQuestion.prevQuestion! ) ;
   }
 
   protected showNextQuestion() {
-    this.examSvc.activateQuestion( this.examSvc.activeQuestion.nextQuestion! ) ;
+    const activeQuestion = this.examSvc.activeQuestion ;
+    this.eventLogSvc.logJumpNextQuestion( activeQuestion) ;
+    this.examSvc.activateQuestion( activeQuestion.nextQuestion! ) ;
   }
 }

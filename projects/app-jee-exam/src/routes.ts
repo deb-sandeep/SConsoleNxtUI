@@ -5,6 +5,7 @@ import { ExamApiService } from "./services/exam-api.service";
 import { JeeMainComponent } from "./features/jee-main/jee-main.component";
 import { jeeMainRoutes } from "./features/jee-main/jee-main.route";
 import { JeeMainService } from "./features/jee-main/jee-main.service";
+import { EventLogService } from "./services/event-log.service";
 
 export const featureRoutes: Routes = [
     {
@@ -23,6 +24,6 @@ export const featureRoutes: Routes = [
         title: 'JEE Main',
         component: JeeMainComponent,
         children: jeeMainRoutes,
-        providers: [JeeMainService, ExamApiService]
+        providers: [JeeMainService, EventLogService, ExamApiService]
     },
 ] ;

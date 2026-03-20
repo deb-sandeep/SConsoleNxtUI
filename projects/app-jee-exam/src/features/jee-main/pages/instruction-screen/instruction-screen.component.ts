@@ -22,7 +22,10 @@ export class InstructionScreenComponent {
   protected confirmation: boolean = false ;
 
   protected proceed() {
-    this.router.navigate( [ '../exam-screen' ], { relativeTo: this.route } ).then();
+    this.examSvc.createExamAttempt().then( res => {
+      console.log( "Exam attempt created" ) ;
+      this.router.navigate( [ '../exam-screen' ], { relativeTo: this.route } ).then();
+    }) ;
   }
 
   getDuration() {

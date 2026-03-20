@@ -64,3 +64,51 @@ export interface ExamConfig {
     topics: Record<string, TopicSO[]> ;
 }
 
+export type ExamAnswerAction =
+    "SAVE_&_NEXT" |
+    "SAVE_&_MARK_REVIEW" |
+    "CLEAR_RESPONSE" |
+    "MARK_REVIEW_&_NEXT" ;
+
+export type ExamQuestionNav =
+    "SECTION_JUMPED" |
+    "NEXT_QUESTION" |
+    "PREV_QUESTION" ;
+
+export type ExamUIInteraction =
+    "ANS_ENTERED" |
+    "SCROLL_QUESTION_DOWN" |
+    "SCROLL_QUESTION_UP" |
+    "PALETTE_COLLAPSED" |
+    "PALETTE_EXPANDED" ;
+
+export type ExamEventID =
+    "EXAM_START" |
+    "QUESTION_ACTIVATED" |
+    "EXAM_SUBMIT" |
+    ExamUIInteraction |
+    ExamQuestionNav |
+    ExamAnswerAction ;
+
+export type ExamQuestionSubmitStatus =
+  "NOT_VISITED" |
+  "NOT_ANSWERED" |
+  "ANSWERED" |
+  "MARKED_FOR_REVIEW" |
+  "ANS_AND_MARKED_FOR_REVIEW" ;
+
+export interface ExamEvent {
+    id: number;
+    examAttemptId: number;
+    sequence: number;
+    eventId: ExamEventID;
+    payload: string;
+    creationTime: Date;
+    timeMarker: number;
+}
+
+export interface CreateExamAttemptResponse {
+    examId: number;
+    examAttemptId: number;
+    questionAttemptIds: Record<number, number>;
+}

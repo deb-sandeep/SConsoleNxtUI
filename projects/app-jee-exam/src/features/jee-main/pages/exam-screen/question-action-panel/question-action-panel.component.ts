@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { JeeMainService } from "../../../jee-main.service";
+import { EventLogService } from "../../../../../services/event-log.service";
+import { ExamApiService } from "../../../../../services/exam-api.service";
 
 @Component({
   selector: 'question-action-panel',
@@ -10,11 +12,15 @@ import { JeeMainService } from "../../../jee-main.service";
 export class QuestionActionPanelComponent {
 
   examSvc = inject( JeeMainService ) ;
+  apiSvc = inject( ExamApiService ) ;
+  eventLogSvc = inject( EventLogService ) ;
 
   protected saveAndNext() {
     let activeQ = this.examSvc.activeQuestion ;
     if( this.answerExists() ) {
       activeQ.state = "ANSWERED" ;
+      this.apiSvc.logAnswerAction( activeQ, "ANSWERED" ).then() ;
+      this.eventLogSvc.logAnswerAction( activeQ, "SAVE_&_NEXT" ) ;
       this.activateNextQuestion() ;
     }
   }
@@ -23,18 +29,25 @@ export class QuestionActionPanelComponent {
     let activeQ = this.examSvc.activeQuestion ;
     if( this.answerExists() ) {
       activeQ.state = "ANS_AND_MARKED_FOR_REVIEW" ;
+      this.apiSvc.logAnswerAction( activeQ, "ANS_AND_MARKED_FOR_REVIEW" ).then() ;
+      this.eventLogSvc.logAnswerAction( activeQ, "SAVE_&_MARK_REVIEW" ) ;
       this.activateNextQuestion() ;
     }
   }
 
   protected clearResponse() {
-    this.examSvc.activeQuestion.state = "NOT_ANSWERED" ;
+    let activeQ = this.examSvc.activeQuestion ;
     this.examSvc.activeQuestion.answer = null ;
+    this.examSvc.activeQuestion.state = "NOT_ANSWERED" ;
+    this.apiSvc.logAnswerAction( activeQ, "NOT_ANSWERED" ).then() ;
+    this.eventLogSvc.logAnswerAction( activeQ, "CLEAR_RESPONSE" ) ;
   }
 
   protected markForReviewAndNext() {
     let activeQ = this.examSvc.activeQuestion ;
     activeQ.state = "MARKED_FOR_REVIEW" ;
+    this.apiSvc.logAnswerAction( activeQ, "MARKED_FOR_REVIEW" ).then() ;
+    this.eventLogSvc.logAnswerAction( activeQ, "MARK_REVIEW_&_NEXT" ) ;
     this.activateNextQuestion() ;
   }
 

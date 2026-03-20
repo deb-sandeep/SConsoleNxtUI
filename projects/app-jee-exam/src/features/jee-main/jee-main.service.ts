@@ -1,20 +1,22 @@
 import { inject, Injectable } from '@angular/core';
-import { RemoteService } from "lib-core";
 
-import { environment } from "@env/environment";
-import { ExamConfig, ExamSectionConfig } from "@jee-common/util/exam-data-types" ;
+import { ExamConfig } from "@jee-common/util/exam-data-types" ;
 import { ExamApiService } from "../../services/exam-api.service";
 import { ExamQuestion, ExamSection } from "../../common/so-wrappers";
+import { EventLogService } from "../../services/event-log.service";
 
 @Injectable()
 export class JeeMainService {
 
   private apiSvc = inject( ExamApiService ) ;
+  private eventLogService = inject( EventLogService ) ;
 
   examConfig: ExamConfig ;
 
   sections: ExamSection[] = [] ;
   questions: ExamQuestion[] = [] ;
+
+  examAttemptId: number = 0 ;
 
   activeQuestion: ExamQuestion ;
   timeLeftInSeconds: number = 0 ;
@@ -64,9 +66,6 @@ export class JeeMainService {
         }
       }
     }
-
-    // Set the first question as active question
-    this.activateQuestion( this.questions[0] ) ;
   }
 
   private convertSyllabusNameToSectionName( syllabusName : string ) {
@@ -79,9 +78,12 @@ export class JeeMainService {
   }
 
   public activateQuestion( examQuestion: ExamQuestion ) {
+    if( this.activeQuestion != null ) {
+      this.activeQuestion.deactivate() ;
+    }
     this.activeQuestion = examQuestion ;
     this.activeQuestion.activate() ;
-    console.log( this.activeQuestion );
+    this.eventLogService.logQuestionActivation( this.activeQuestion ) ;
   }
 
   public getNumQuestions( state: string) {
@@ -94,6 +96,27 @@ export class JeeMainService {
     return numQuestions ;
   }
 
+  public async createExamAttempt() {
+    await this.apiSvc.createExamAttempt( this.examConfig )
+        .then( res => {
+
+          for( let question of this.questions ) {
+            let questionId = question.questionConfig.id ;
+            question.examQuestionAttemptId = res.questionAttemptIds[ questionId ] ;
+          }
+
+          this.examAttemptId = res.examAttemptId ;
+          this.eventLogService.examAttemptId = res.examAttemptId ;
+          this.eventLogService.startTime = new Date() ;
+          this.eventLogService.logExamStartEvent() ;
+
+          // Set the first question as active question
+          this.activateQuestion( this.questions[0] ) ;
+
+          return ;
+      }) ;
+  }
+
   countdown() {
     setTimeout( () => {
       this.timeLeftInSeconds-- ;
@@ -104,6 +127,4 @@ export class JeeMainService {
       }
     }, 1000 ) ;
   }
-
-
 }
