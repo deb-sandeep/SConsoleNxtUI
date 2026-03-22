@@ -2,6 +2,12 @@
   <img ngSrc="/img/NTA_exam_logo.png"  alt="NTA logo" width="449" height="80" priority>
 </div>
 
+@if( examConfig.lapAssist ) {
+  <div class="lap-name">
+    <span [ngClass]="examSvc.LAP_CLASSES[examSvc.currentLap]">{{examSvc.currentLap}}</span>
+  </div>
+}
+
 <div class="candidate-details">
   <img class="candidate-photo"
        ngSrc="/img/photograph_sm.jpg"

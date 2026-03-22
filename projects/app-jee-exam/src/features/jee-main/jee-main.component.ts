@@ -21,10 +21,7 @@ export class JeeMainComponent {
     this.route.paramMap.subscribe( pm => {
       const examId = Number( pm.get( 'examId' ) ) ;
       if( !isNaN( examId ) ){
-        this.examSvc.loadExamConfig( examId ).then( () => {
-            this.examSvc.countdown() ;
-          }
-        ) ;
+        this.examSvc.loadExamConfig( examId ).then() ;
       }
     })
   }

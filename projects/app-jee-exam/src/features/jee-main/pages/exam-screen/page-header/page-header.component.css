@@ -1,5 +1,6 @@
 .nta-logo {
     display: inline-block;
+    float: left;
     vertical-align: middle;
     line-height: var(--nta-header-height);
 }
@@ -62,4 +63,22 @@
     padding: 0 8px 0 8px;
     border-radius: 10px;
     font-size: 14px;
+}
+
+.lap-name {
+    --lap-name-side: 50px;
+    position: absolute ;
+    width: var(--lap-name-side);
+    height: var(--lap-name-side);
+    left: calc(50% - var(--lap-name-side)/2);
+    top: calc((var(--nta-header-height) - var(--lap-name-side))/2 ) ;
+    text-align: center;
+}
+
+.lap-name span {
+    display: inline-block;
+    line-height: var(--lap-name-side);
+    width: 100%;
+    height: 100%;
+    font-size: 15px;
 }

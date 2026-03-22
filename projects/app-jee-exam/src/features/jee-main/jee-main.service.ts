@@ -1,12 +1,32 @@
 import { inject, Injectable } from '@angular/core';
 
-import { ExamConfig } from "@jee-common/util/exam-data-types" ;
+import { ExamConfig, LapName } from "@jee-common/util/exam-data-types" ;
 import { ExamApiService } from "../../services/exam-api.service";
 import { ExamQuestion, ExamSection } from "../../common/so-wrappers";
 import { EventLogService } from "../../services/event-log.service";
 
 @Injectable()
 export class JeeMainService {
+
+  readonly LAP_TRANSITIONS: Record<LapName, LapName|null> = {
+    "L1"   : "L2P",
+    "L2P"  : "L2",
+    "L2"   : "AMR",
+    "AMR"  : "L3P",
+    "L3P"  : "L3.1",
+    "L3.1" : "L3.2",
+    "L3.2" : null,
+  } ;
+
+  readonly LAP_CLASSES: Record<LapName, string> = {
+    "L1"   : "q-not-visited",
+    "L2P"  : "q-marked-for-review",
+    "L2"   : "q-marked-for-review",
+    "AMR"  : "q-ans-marked-for-review",
+    "L3P"  : "q-not-answered",
+    "L3.1" : "q-marked-for-review",
+    "L3.2" : "q-not-answered",
+  }
 
   private apiSvc = inject( ExamApiService ) ;
   private eventLogService = inject( EventLogService ) ;
@@ -20,6 +40,7 @@ export class JeeMainService {
 
   activeQuestion: ExamQuestion ;
   timeLeftInSeconds: number = 0 ;
+  currentLap: LapName = "L1" ;
 
   async loadExamConfig( examId: number ) {
 
@@ -100,6 +121,8 @@ export class JeeMainService {
     await this.apiSvc.createExamAttempt( this.examConfig )
         .then( res => {
 
+          console.log( res ) ;
+
           for( let question of this.questions ) {
             let questionId = question.questionConfig.id ;
             question.examQuestionAttemptId = res.questionAttemptIds[ questionId ] ;
@@ -112,6 +135,7 @@ export class JeeMainService {
 
           // Set the first question as active question
           this.activateQuestion( this.questions[0] ) ;
+          this.countdown() ;
 
           return ;
       }) ;
@@ -122,9 +146,40 @@ export class JeeMainService {
       this.timeLeftInSeconds-- ;
       if( this.timeLeftInSeconds > 0 ) {
         this.countdown() ;
+        this.activeQuestion.timeSpentInCurrentLap++ ;
       }
       else {
       }
     }, 1000 ) ;
+  }
+
+  getNextLapName(): LapName|null {
+    return this.LAP_TRANSITIONS[this.currentLap] ;
+  }
+
+  saveLapSnapshot() {
+
+    let snapshots : {
+      examQuestionId: number,
+      timeSpentInCurrentLap: number,
+      attemptState: string
+    }[] = [] ;
+
+    for( let question of this.questions ) {
+      snapshots.push({
+        examQuestionId : question.questionConfig.id,
+        timeSpentInCurrentLap : question.timeSpentInCurrentLap,
+        attemptState : question.state
+      }) ;
+      question.timeSpentInCurrentLap = 0 ;
+    }
+
+    this.apiSvc.saveLapSnapshot( this.examAttemptId, this.currentLap, snapshots )
+        .then( ()=> console.log( 'Snapshots inserted' ) ) ;
+
+    const nextLapName = this.getNextLapName() ;
+    if( nextLapName != null ) {
+      this.currentLap = nextLapName ;
+    }
   }
 }

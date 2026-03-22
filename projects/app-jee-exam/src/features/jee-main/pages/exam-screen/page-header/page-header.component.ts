@@ -1,12 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { NgOptimizedImage } from "@angular/common";
+import { NgClass, NgOptimizedImage } from "@angular/common";
 import { JeeMainService } from "../../../jee-main.service";
+import { examConfig } from "../../../../../exam-config.js";
 
 @Component({
   selector: 'page-header',
-  imports: [
-    NgOptimizedImage
-  ],
+    imports: [
+        NgOptimizedImage,
+        NgClass
+    ],
   templateUrl: './page-header.component.html',
   styleUrl: './page-header.component.css'
 })
@@ -25,4 +27,6 @@ export class PageHeaderComponent {
            `${ minutes.toString().padStart( 2, '0' ) }:` +
            `${ seconds.toString().padStart( 2, '0' ) }`;
   }
+
+  protected readonly examConfig = examConfig;
 }

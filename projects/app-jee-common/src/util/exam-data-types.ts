@@ -91,11 +91,11 @@ export type ExamEventID =
     ExamAnswerAction ;
 
 export type ExamQuestionSubmitStatus =
-  "NOT_VISITED" |
-  "NOT_ANSWERED" |
-  "ANSWERED" |
-  "MARKED_FOR_REVIEW" |
-  "ANS_AND_MARKED_FOR_REVIEW" ;
+    "NOT_VISITED" |
+    "NOT_ANSWERED" |
+    "ANSWERED" |
+    "MARKED_FOR_REVIEW" |
+    "ANS_AND_MARKED_FOR_REVIEW" ;
 
 export interface ExamEvent {
     id: number;
@@ -112,3 +112,6 @@ export interface CreateExamAttemptResponse {
     examAttemptId: number;
     questionAttemptIds: Record<number, number>;
 }
+
+export type LapName =
+    "L1" | "L2P" | "L2" | "AMR" | "L3P" | "L3.1" | "L3.2" ;

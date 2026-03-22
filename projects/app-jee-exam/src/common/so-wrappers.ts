@@ -16,7 +16,8 @@ export class ExamQuestion {
     examQuestionAttemptId: number = 0 ;
     state: ExamQuestionSubmitStatus = "NOT_VISITED" ;
     answer: string | null = null ;
-    timeSpent: number = 0 ;
+    totalTimeSpent: number = 0 ;
+    timeSpentInCurrentLap: number = 0 ;
 
     private activationTime: Date | null = null ;
 
@@ -36,7 +37,7 @@ export class ExamQuestion {
         if( this.activationTime != null ) {
             const currentTime = new Date() ;
             const activationDuration = ( currentTime.getTime() - this.activationTime!.getTime() )/1000 ;
-            this.timeSpent += activationDuration ;
+            this.totalTimeSpent += activationDuration ;
             this.activationTime = currentTime ;
         }
     }

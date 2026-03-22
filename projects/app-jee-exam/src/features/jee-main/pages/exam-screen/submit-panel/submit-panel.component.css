@@ -1,4 +1,9 @@
+.btn-container {
+    text-align: center;
+}
+
 .prev-next-btn-panel {
+    display: inline-block;
     float: left;
 }
 
@@ -12,12 +17,29 @@
     border: 1px solid lightgrey;
 }
 
+.lap-btn-panel {
+    display: inline-block;
+}
+
+.lap-btn {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 5px 15px 5px 15px;
+    border-radius: 15px;
+    background-color: #ffaf41;
+    color: #683500;
+    border: 1px solid #ff9754;
+}
+
 .submit-btn-panel {
     float: right;
     margin-right: 20px;
 }
 
 .submit-btn {
+    display: inline-block;
     margin-right: 5px;
     font-size: 13px;
     font-weight: bold;
@@ -27,3 +49,4 @@
     color: white;
     border: 1px solid lightgrey;
 }
+

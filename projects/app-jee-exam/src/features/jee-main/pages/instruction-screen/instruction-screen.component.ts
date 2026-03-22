@@ -23,7 +23,6 @@ export class InstructionScreenComponent {
 
   protected proceed() {
     this.examSvc.createExamAttempt().then( res => {
-      console.log( "Exam attempt created" ) ;
       this.router.navigate( [ '../exam-screen' ], { relativeTo: this.route } ).then();
     }) ;
   }

@@ -1,20 +1,33 @@
-<div class="prev-next-btn-panel">
-  <button type="button" class="btn pn-btn"
-          [disabled]="!prevQuestionExists()"
-          (click)="showPrevQuestion()">
-    <span class="bi-chevron-double-left">&nbsp;</span>
-    BACK
-  </button>
-  <button type="button" class="btn pn-btn"
-          [disabled]="!nextQuestionExists()"
-          (click)="showNextQuestion()">
-    NEXT&nbsp;
-    <span class="bi-chevron-double-right"></span>
-  </button>
+<div class="btn-container">
+  <div class="prev-next-btn-panel">
+    <button type="button" class="btn pn-btn"
+            [disabled]="!prevQuestionExists()"
+            (click)="showPrevQuestion()">
+      <span class="bi-chevron-double-left">&nbsp;</span>
+      BACK
+    </button>
+    <button type="button" class="btn pn-btn"
+            [disabled]="!nextQuestionExists()"
+            (click)="showNextQuestion()">
+      NEXT&nbsp;
+      <span class="bi-chevron-double-right"></span>
+    </button>
+  </div>
+
+  @if( examConfig.lapAssist ) {
+    <div class="lap-btn-panel">
+      <button type="button" class="btn lap-btn"
+              [disabled]="examSvc.getNextLapName() == null"
+              [innerHTML]="getLapBtnLabel()"
+              (click)="examSvc.saveLapSnapshot()">
+      </button>
+    </div>
+  }
+
+  <div class="submit-btn-panel">
+    <button type="button" class="btn submit-btn">
+      SUBMIT
+    </button>
+  </div>
 </div>
 
-<div class="submit-btn-panel">
-  <button type="button" class="btn submit-btn">
-    SUBMIT
-  </button>
-</div>

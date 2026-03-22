@@ -6,7 +6,7 @@ import {
   CreateExamAttemptResponse,
   ExamConfig,
   ExamEvent,
-  ExamQuestionSubmitStatus
+  ExamQuestionSubmitStatus, LapName
 } from "@jee-common/util/exam-data-types" ;
 import { ExamQuestion } from "../common/so-wrappers";
 
@@ -29,27 +29,27 @@ export class ExamApiService extends RemoteService {
 
   async createExamAttempt( exam : ExamConfig ) {
     // const url:string = `${environment.apiRoot}/Exam/Attempt/${exam.id}` ;
-    //return this.postPromise<CreateExamAttemptResponse>( url ) ;
+    // return this.postPromise<CreateExamAttemptResponse>( url ) ;
 
     let dummyResponse: CreateExamAttemptResponse = {
       examId: 1,
-      examAttemptId: 4,
+      examAttemptId: 5,
       questionAttemptIds: {
-        1: 46,
-        2: 47,
-        3: 48,
-        4: 49,
-        5: 50,
-        6: 51,
-        7: 52,
-        8: 53,
-        9: 54,
-        10: 55,
-        11: 56,
-        12: 57,
-        13: 58,
-        14: 59,
-        15: 60
+        1: 61,
+        2: 62,
+        3: 63,
+        4: 64,
+        5: 65,
+        6: 66,
+        7: 67,
+        8: 68,
+        9: 69,
+        10: 70,
+        11: 71,
+        12: 72,
+        13: 73,
+        14: 74,
+        15: 75
       }
     } ;
     return dummyResponse ;
@@ -68,7 +68,18 @@ export class ExamApiService extends RemoteService {
       questionAttemptId: question.examQuestionAttemptId,
       submitStatus: status,
       answerProvided: question.answer,
-      timeSpent: question.timeSpent
+      timeSpent: question.totalTimeSpent
+    } ) ;
+  }
+
+  async saveLapSnapshot( examAttemptId:number, currentLap:LapName, snapshots:any[] ) {
+
+    const url:string = `${environment.apiRoot}/Exam/LapSnapshot` ;
+
+    return this.postPromise<String>( url, {
+      examAttemptId: examAttemptId,
+      currentLap: currentLap,
+      snapshots: snapshots,
     } ) ;
   }
 }
