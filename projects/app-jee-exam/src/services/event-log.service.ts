@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { ExamAnswerAction, ExamEvent, ExamEventID } from "@jee-common/util/exam-data-types" ;
+import { ExamAnswerAction, ExamEvent, ExamEventID, LapName } from "@jee-common/util/exam-data-types" ;
 import { ExamApiService } from "./exam-api.service";
 import { ExamQuestion, ExamSection } from "../common/so-wrappers";
 
@@ -99,5 +99,12 @@ export class EventLogService {
       questionSequence : question.index,
       answer : question.answer
     }) ).then( ()=> console.log( `Event: ${eventId}` ) ) ;
+  }
+
+  logLapChange( currentLap: LapName, nextLap: LapName|null ) {
+    this.apiSvc.logEvent( this.createEvent( "LAP_CHANGE", {
+      currentLap : currentLap,
+      nextLap : nextLap
+    }) ).then( ()=> console.log( `Event: LAP_CHANGE` ) ) ;
   }
 }

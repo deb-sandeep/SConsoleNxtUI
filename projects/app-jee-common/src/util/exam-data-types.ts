@@ -86,6 +86,7 @@ export type ExamEventID =
     "EXAM_START" |
     "QUESTION_ACTIVATED" |
     "EXAM_SUBMIT" |
+    "LAP_CHANGE" |
     ExamUIInteraction |
     ExamQuestionNav |
     ExamAnswerAction ;

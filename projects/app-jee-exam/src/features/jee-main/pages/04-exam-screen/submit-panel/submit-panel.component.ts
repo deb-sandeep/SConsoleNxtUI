@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { JeeMainService } from "../../../jee-main.service";
 import { EventLogService } from "../../../../../services/event-log.service";
 import { examConfig } from "../../../../../exam-config.js";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'submit-panel',
@@ -10,6 +11,9 @@ import { examConfig } from "../../../../../exam-config.js";
   styleUrl: './submit-panel.component.css'
 })
 export class SubmitPanelComponent {
+
+  private router = inject( Router ) ;
+  private route = inject( ActivatedRoute );
 
   examSvc = inject( JeeMainService ) ;
   eventLogSvc = inject( EventLogService ) ;
@@ -42,4 +46,8 @@ export class SubmitPanelComponent {
   }
 
   protected readonly examConfig = examConfig;
+
+  protected submitExam() {
+    this.router.navigate(['../submit-screen'], {relativeTo: this.route}).then() ;
+  }
 }

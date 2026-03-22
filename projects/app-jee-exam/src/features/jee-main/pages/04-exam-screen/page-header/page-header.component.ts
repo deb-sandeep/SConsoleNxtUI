@@ -18,7 +18,7 @@ export class PageHeaderComponent {
 
   protected getRemainingTime() {
 
-    let timeLeft = this.examSvc.timeLeftInSeconds ;
+    let timeLeft = this.examSvc.timeLeftInSeconds() ;
     const hours = Math.floor( timeLeft / 3600 );
     const minutes = Math.floor( ( timeLeft % 3600 ) / 60 );
     const seconds = timeLeft % 60;

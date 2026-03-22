@@ -1,6 +1,6 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 
-import { ExamConfig, LapName } from "@jee-common/util/exam-data-types" ;
+import { ExamConfig, ExamQuestionSubmitStatus, LapName } from "@jee-common/util/exam-data-types" ;
 import { ExamApiService } from "../../services/exam-api.service";
 import { ExamQuestion, ExamSection } from "../../common/so-wrappers";
 import { EventLogService } from "../../services/event-log.service";
@@ -38,8 +38,9 @@ export class JeeMainService {
 
   examAttemptId: number = 0 ;
 
+  timeLeftInSeconds = signal<number>( 0 ) ;
+
   activeQuestion: ExamQuestion ;
-  timeLeftInSeconds: number = 0 ;
   currentLap: LapName = "L1" ;
 
   async loadExamConfig( examId: number ) {
@@ -49,7 +50,7 @@ export class JeeMainService {
     console.log( 'Fetched exam configuration' ) ;
     console.log( this.examConfig ) ;
 
-    this.timeLeftInSeconds = this.examConfig.duration ;
+    this.timeLeftInSeconds.set( this.examConfig.duration ) ;
 
     let currentSection : ExamSection | null = null ;
     let lastQuestion: ExamQuestion | null = null ;
@@ -107,7 +108,7 @@ export class JeeMainService {
     this.eventLogService.logQuestionActivation( this.activeQuestion ) ;
   }
 
-  public getNumQuestions( state: string) {
+  public getNumQuestions( state: ExamQuestionSubmitStatus ) {
     let numQuestions = 0 ;
     for( let question of this.questions ) {
       if( question.state === state ) {
@@ -142,15 +143,16 @@ export class JeeMainService {
   }
 
   countdown() {
-    setTimeout( () => {
-      this.timeLeftInSeconds-- ;
-      if( this.timeLeftInSeconds > 0 ) {
-        this.countdown() ;
+    if( this.timeLeftInSeconds() > 0 ) {
+      setTimeout( () => {
+        this.timeLeftInSeconds.set( this.timeLeftInSeconds()-1 ) ;
         this.activeQuestion.timeSpentInCurrentLap++ ;
-      }
-      else {
-      }
-    }, 1000 ) ;
+        this.countdown() ;
+      }, 1000 ) ;
+    }
+    else {
+      this.submitExam() ;
+    }
   }
 
   getNextLapName(): LapName|null {
@@ -178,8 +180,13 @@ export class JeeMainService {
         .then( ()=> console.log( 'Snapshots inserted' ) ) ;
 
     const nextLapName = this.getNextLapName() ;
+    this.eventLogService.logLapChange( this.currentLap, nextLapName ) ;
     if( nextLapName != null ) {
       this.currentLap = nextLapName ;
     }
+  }
+
+  submitExam() {
+    this.timeLeftInSeconds.set( 0 ) ;
   }
 }

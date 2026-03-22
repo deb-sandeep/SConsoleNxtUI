@@ -1,0 +1,52 @@
+<div class="page-content">
+  <div class="nta-header">
+    <page-header></page-header>
+  </div>
+  <div class="section-header">
+    <div class="jee-main-label">JEE MAIN</div>
+  </div>
+  <div class="page-body">
+    <h1>Exam Summary</h1>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>No of<br/>Questions</th>
+          <th>Answered</th>
+          <th>Not<br/>Answered</th>
+          <th>Marked for<br/>Review</th>
+          <th>
+            Answered & Marked for Review<br>
+            (Will be considered for evaluation)
+          </th>
+          <th>Not Visited</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{examSvc.questions.length}}</td>
+          <td>{{examSvc.getNumQuestions( "ANSWERED" )}}</td>
+          <td>{{examSvc.getNumQuestions( "NOT_ANSWERED" )}}</td>
+          <td>{{examSvc.getNumQuestions( "MARKED_FOR_REVIEW" )}}</td>
+          <td>{{examSvc.getNumQuestions( "ANS_AND_MARKED_FOR_REVIEW" )}}</td>
+          <td>{{examSvc.getNumQuestions( "NOT_VISITED" )}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr/>
+
+    <h2>Are you sure you want to submit for final marking?<br/>
+        No changes will be allowed after submission.</h2>
+
+    <div class="btn-panel">
+      <button type="button" class="btn btn-secondary submit-btn"
+              (click)="examSvc.submitExam()">
+        YES
+      </button>
+      <button type="button" class="btn btn-secondary submit-btn"
+              (click)="goBackToExamScreen()">
+        NO
+      </button>
+    </div>
+  </div>
+</div>
