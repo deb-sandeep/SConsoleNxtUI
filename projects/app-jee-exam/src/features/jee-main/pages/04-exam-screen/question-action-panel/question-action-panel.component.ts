@@ -19,7 +19,7 @@ export class QuestionActionPanelComponent {
     let activeQ = this.examSvc.activeQuestion ;
     if( this.answerExists() ) {
       activeQ.state = "ANSWERED" ;
-      this.apiSvc.logAnswerAction( activeQ, "ANSWERED" ).then() ;
+      this.apiSvc.logAnswerAction( activeQ, "ANSWERED", this.examSvc.currentLap ).then() ;
       this.eventLogSvc.logAnswerAction( activeQ, "SAVE_&_NEXT" ) ;
       this.activateNextQuestion() ;
     }
@@ -29,7 +29,7 @@ export class QuestionActionPanelComponent {
     let activeQ = this.examSvc.activeQuestion ;
     if( this.answerExists() ) {
       activeQ.state = "ANS_AND_MARKED_FOR_REVIEW" ;
-      this.apiSvc.logAnswerAction( activeQ, "ANS_AND_MARKED_FOR_REVIEW" ).then() ;
+      this.apiSvc.logAnswerAction( activeQ, "ANS_AND_MARKED_FOR_REVIEW", this.examSvc.currentLap ).then() ;
       this.eventLogSvc.logAnswerAction( activeQ, "SAVE_&_MARK_REVIEW" ) ;
       this.activateNextQuestion() ;
     }
@@ -39,14 +39,14 @@ export class QuestionActionPanelComponent {
     let activeQ = this.examSvc.activeQuestion ;
     this.examSvc.activeQuestion.answer = null ;
     this.examSvc.activeQuestion.state = "NOT_ANSWERED" ;
-    this.apiSvc.logAnswerAction( activeQ, "NOT_ANSWERED" ).then() ;
+    this.apiSvc.logAnswerAction( activeQ, "NOT_ANSWERED", this.examSvc.currentLap ).then() ;
     this.eventLogSvc.logAnswerAction( activeQ, "CLEAR_RESPONSE" ) ;
   }
 
   protected markForReviewAndNext() {
     let activeQ = this.examSvc.activeQuestion ;
     activeQ.state = "MARKED_FOR_REVIEW" ;
-    this.apiSvc.logAnswerAction( activeQ, "MARKED_FOR_REVIEW" ).then() ;
+    this.apiSvc.logAnswerAction( activeQ, "MARKED_FOR_REVIEW", this.examSvc.currentLap ).then() ;
     this.eventLogSvc.logAnswerAction( activeQ, "MARK_REVIEW_&_NEXT" ) ;
     this.activateNextQuestion() ;
   }

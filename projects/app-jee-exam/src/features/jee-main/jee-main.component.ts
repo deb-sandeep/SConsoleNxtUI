@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { JeeMainService } from "./jee-main.service";
+import { ModalWaitComponent } from "lib-core";
 
 @Component({
   selector: 'jee-main',
-  imports: [ RouterOutlet ],
+  imports: [ RouterOutlet, ModalWaitComponent ],
   template: `
+    <modal-wait></modal-wait>
     <div>
       <router-outlet></router-outlet>
     </div>

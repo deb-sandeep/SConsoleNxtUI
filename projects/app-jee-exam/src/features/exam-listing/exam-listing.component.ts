@@ -2,7 +2,7 @@ import { Component, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { DatePipe } from "@angular/common";
 import { ExamApiService } from "../../services/exam-api.service";
-import { ExamConfig } from "@jee-common/util/exam-data-types";
+import { ExamSO } from "@jee-common/util/exam-data-types";
 import { Router } from "@angular/router";
 
 
@@ -20,7 +20,7 @@ export class ExamListingComponent {
     private router = inject( Router );
 
     apiSvc: ExamApiService = inject( ExamApiService ) ;
-    availableExams: ExamConfig[] ;
+    availableExams: ExamSO[] ;
 
     constructor() {
         this.apiSvc.getListOfExams().then((exams) => {
@@ -33,7 +33,7 @@ export class ExamListingComponent {
         })
     }
 
-    protected startExam( exam: ExamConfig ) {
+    protected startExam( exam: ExamSO ) {
         this.router.navigateByUrl( `/jee-main/${exam.id}` ).then() ;
     }
 }

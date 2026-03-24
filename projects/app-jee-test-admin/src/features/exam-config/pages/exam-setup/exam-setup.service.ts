@@ -5,13 +5,13 @@ import { DEFAULT_SECONDS_PER_QUESTION, ExamSectionTemplate } from "./exam-sectio
 import { environment } from "@env/environment";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { SyllabusSO, TopicSO } from "@jee-common/util/master-data-types";
-import { ExamConfig, ExamSectionConfig } from "@jee-common/util/exam-data-types" ;
+import { ExamSO, ExamSectionSO } from "@jee-common/util/exam-data-types" ;
 
 interface ExamSetupConfig {
   examType: string;
   selectedSubjects: string[];
   selectedSectionTemplates: ExamSectionTemplate[];
-  examSections: ExamSectionConfig[];
+  examSections: ExamSectionSO[];
   examTopics: Record<string, TopicSO[]> ;
   duration : number ;
   notes : string ;
@@ -85,7 +85,7 @@ export class ExamSetupService extends RemoteService {
 
   async saveExamConfig() {
     const url:string = `${environment.apiRoot}/Master/Exam/` ;
-    const examConfig : ExamConfig = {
+    const examConfig : ExamSO = {
       id: -1,
       state: 'DRAFT',
       type: this.setupConfig.examType,
@@ -124,7 +124,7 @@ export class ExamSetupService extends RemoteService {
 
   getListOfExams() {
     const url:string = `${environment.apiRoot}/Master/Exam/` ;
-    return this.getPromise<ExamConfig[]>( url ) ;
+    return this.getPromise<ExamSO[]>( url ) ;
   }
 
   deleteExam( id: number ) {

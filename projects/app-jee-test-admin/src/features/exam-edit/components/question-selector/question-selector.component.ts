@@ -1,5 +1,5 @@
 import { Component, inject, input, output } from '@angular/core';
-import { ExamSectionConfig, QuestionSO } from "@jee-common/util/exam-data-types";
+import { ExamSectionSO, QuestionSO } from "@jee-common/util/exam-data-types";
 import { ExamEditService } from "../../exam-edit.service";
 import { DndDraggableDirective, DndDropEvent, DndDropzoneDirective } from "ngx-drag-drop";
 import { NgClass } from "@angular/common";
@@ -14,7 +14,7 @@ export class QuestionSelectorComponent {
 
   editSvc = inject( ExamEditService ) ;
 
-  sectionCfg = input<ExamSectionConfig>() ;
+  sectionCfg = input<ExamSectionSO>() ;
 
   showQuestion = output<QuestionSO>() ;
   hideQuestion = output<void>() ;

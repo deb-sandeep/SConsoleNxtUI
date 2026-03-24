@@ -6,7 +6,7 @@ import { ExamEditService } from "./exam-edit.service";
 import { TopicSO } from "@jee-common/util/master-data-types";
 import { TopicBrowserComponent } from "./components/topic-browser/topic-browser.component";
 import { QuestionSelectorComponent } from "./components/question-selector/question-selector.component";
-import { ExamSectionConfig, QuestionSO } from "@jee-common/util/exam-data-types";
+import { ExamSectionSO, QuestionSO } from "@jee-common/util/exam-data-types";
 import { QuestionDisplayComponent } from "./components/question-display/question-display.component";
 
 type ToastMessage = {
@@ -36,7 +36,7 @@ export class ExamEditComponent {
   topicMap : Record<string, TopicSO[]> = {} ;
   selectedTopic : TopicSO|null = null ;
   activeSyllabus : string|null = null ;
-  problemTypeSectionMap : Record<string, ExamSectionConfig> = {} ;
+  problemTypeSectionMap : Record<string, ExamSectionSO> = {} ;
 
   questionToShow : QuestionSO|null = null ;
 

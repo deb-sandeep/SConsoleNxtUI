@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ExamSectionTemplate } from "../exam-section.config";
 import { NgIf } from "@angular/common";
-import { ExamSectionConfig } from "@jee-common/util/exam-data-types";
+import { ExamSectionSO } from "@jee-common/util/exam-data-types";
 
 @Component({
   selector: 'app-configure-exam-sections',
@@ -22,7 +22,7 @@ export class ConfigureExamSectionsComponent {
   router = inject( Router ) ;
 
   templateMap : Record<string, ExamSectionTemplate> = {} ;
-  sections : ExamSectionConfig[] = [] ;
+  sections : ExamSectionSO[] = [] ;
 
   constructor( private route: ActivatedRoute ) {}
 
@@ -64,7 +64,7 @@ export class ConfigureExamSectionsComponent {
     return false ;
   }
 
-  protected numQuestionChanged( section: ExamSectionConfig ) {
+  protected numQuestionChanged( section: ExamSectionSO ) {
     if( this.templateMap[ section.problemType ].allQuestionsCompulsory ) {
       section.numCompulsoryQuestions = section.numQuestions ;
     }

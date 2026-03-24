@@ -1,4 +1,4 @@
-import { ExamQuestionConfig, ExamQuestionSubmitStatus } from "@jee-common/util/exam-data-types";
+import { ExamQuestionSO, ExamQuestionSubmitStatus } from "@jee-common/util/exam-data-types";
 
 export class ExamSection {
 
@@ -19,10 +19,8 @@ export class ExamQuestion {
     totalTimeSpent: number = 0 ;
     timeSpentInCurrentLap: number = 0 ;
 
-    private activationTime: Date | null = null ;
-
     constructor( public index: number,
-                 public questionConfig: ExamQuestionConfig ) {}
+                 public questionConfig: ExamQuestionSO ) {}
 
     // This method is called right after the question has been
     // made as the active question in JEEMainService
@@ -30,20 +28,8 @@ export class ExamQuestion {
         if( this.state === "NOT_VISITED" ) {
             this.state = "NOT_ANSWERED" ;
         }
-        this.activationTime = new Date() ;
-    }
-
-    updateTimeSpent() {
-        if( this.activationTime != null ) {
-            const currentTime = new Date() ;
-            const activationDuration = ( currentTime.getTime() - this.activationTime!.getTime() )/1000 ;
-            this.totalTimeSpent += activationDuration ;
-            this.activationTime = currentTime ;
-        }
     }
 
     deactivate() {
-        this.updateTimeSpent() ;
-        this.activationTime = null ;
     }
 }

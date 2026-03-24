@@ -26,7 +26,7 @@ export type QuestionSO = {
     questionImages: QuestionImageSO[],
 }
 
-export interface ExamQuestionConfig {
+export interface ExamQuestionSO {
     id: number;
     sequence: number;
     questionId: number;
@@ -34,7 +34,7 @@ export interface ExamQuestionConfig {
     question: QuestionSO;
 }
 
-export interface ExamSectionConfig {
+export interface ExamSectionSO {
     id: number;
     examId: number;
     examSequence: number;
@@ -46,10 +46,10 @@ export interface ExamSectionConfig {
     numQuestions: number;
     numCompulsoryQuestions: number;
     instructions: string[];
-    questions: ExamQuestionConfig[];
+    questions: ExamQuestionSO[];
 }
 
-export interface ExamConfig {
+export interface ExamSO {
     id: number;
     state: string;
     type: string;
@@ -60,8 +60,40 @@ export interface ExamConfig {
     totalMarks: number;
     duration: number;
     creationTime: Date;
-    sections: ExamSectionConfig[];
+    sections: ExamSectionSO[];
     topics: Record<string, TopicSO[]> ;
+}
+
+export interface ExamQuestionAttemptSO {
+    id: number;
+    examQuestion: ExamQuestionSO;
+    examSectionAttemptId: number;
+    timeSpent: number;
+    evaluationStatus: string;
+    answerProvided: string;
+    answerSubmitStatus: string;
+    score: number;
+    rootCause: string;
+}
+
+export interface ExamSectionAttemptSO {
+    id: number;
+    examSection: ExamSectionSO;
+    examAttemptId: number;
+    score: number;
+    avoidableLossPct: number;
+    questionAttempts: ExamQuestionAttemptSO[] ;
+}
+
+export interface ExamAttemptSO {
+    id: number;
+    exam: ExamSO;
+    attemptDate: Date;
+    score: number;
+    avoidableLossPct: number;
+    unavoidableLossPct: number;
+    status: string;
+    sectionAttempts: ExamSectionAttemptSO[];
 }
 
 export type ExamAnswerAction =
@@ -71,9 +103,10 @@ export type ExamAnswerAction =
     "MARK_REVIEW_&_NEXT" ;
 
 export type ExamQuestionNav =
-    "SECTION_JUMPED" |
-    "NEXT_QUESTION" |
-    "PREV_QUESTION" ;
+    "GOTO_SECTION_START" |
+    "GOTO_NEXT_QUESTION" |
+    "GOTO_PREV_QUESTION" |
+    "GOTO_PALETTE_QUESTION" ;
 
 export type ExamUIInteraction =
     "ANS_ENTERED" |
@@ -82,11 +115,28 @@ export type ExamUIInteraction =
     "PALETTE_COLLAPSED" |
     "PALETTE_EXPANDED" ;
 
-export type ExamEventID =
+export type ExamSartStopEvent =
     "EXAM_START" |
-    "QUESTION_ACTIVATED" |
-    "EXAM_SUBMIT" |
-    "LAP_CHANGE" |
+    "EXAM_SUBMIT" ;
+
+export type LapChangeEvent =
+    "LAP_CHANGE" ;
+
+export type QuestionActivationEvent =
+    "QUESTION_ACTIVATED" ;
+
+export type ExamEventType =
+    "ANS_ACTION" |
+    "QUESTION_NAV" |
+    "UI_INTERACTION" |
+    "START_STOP" |
+    "LAP" |
+    "Q_ACTIVATION" ;
+
+export type ExamEventName =
+    QuestionActivationEvent |
+    LapChangeEvent |
+    ExamSartStopEvent |
     ExamUIInteraction |
     ExamQuestionNav |
     ExamAnswerAction ;
@@ -102,7 +152,8 @@ export interface ExamEvent {
     id: number;
     examAttemptId: number;
     sequence: number;
-    eventId: ExamEventID;
+    eventType: ExamEventType;
+    eventName: ExamEventName;
     payload: string;
     creationTime: Date;
     timeMarker: number;
@@ -116,3 +167,4 @@ export interface CreateExamAttemptResponse {
 
 export type LapName =
     "L1" | "L2P" | "L2" | "AMR" | "L3P" | "L3.1" | "L3.2" ;
+

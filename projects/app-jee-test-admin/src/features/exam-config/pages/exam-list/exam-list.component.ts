@@ -3,7 +3,7 @@ import { PageToolbarComponent, ToolbarActionComponent } from "lib-core";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ExamSetupService } from "../exam-setup/exam-setup.service";
-import { ExamConfig } from "@jee-common/util/exam-data-types";
+import { ExamSO } from "@jee-common/util/exam-data-types";
 import { DatePipe, NgIf } from "@angular/common";
 import { ColumnSorterComponent } from "./column-sorter.component";
 
@@ -27,7 +27,7 @@ export class ExamListComponent {
   private router = inject( Router ) ;
   private svc = inject( ExamSetupService ) ;
 
-  examList : ExamConfig[]|null = null ;
+  examList : ExamSO[]|null = null ;
   sortDirMap : Record<string, number> = {
     'state' : 0,
     'type' : 0,

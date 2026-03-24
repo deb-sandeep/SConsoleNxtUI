@@ -4,9 +4,9 @@ import { RemoteService } from "lib-core";
 import { environment } from "@env/environment";
 import {
   CreateExamAttemptResponse,
-  ExamConfig,
+  ExamSO,
   ExamEvent,
-  ExamQuestionSubmitStatus, LapName
+  ExamQuestionSubmitStatus, LapName, ExamAttemptSO
 } from "@jee-common/util/exam-data-types" ;
 import { ExamQuestion } from "../common/so-wrappers";
 
@@ -19,37 +19,37 @@ export class ExamApiService extends RemoteService {
 
   getListOfExams() {
     const url:string = `${environment.apiRoot}/Master/Exam/` ;
-    return this.getPromise<ExamConfig[]>( url ) ;
+    return this.getPromise<ExamSO[]>( url ) ;
   }
 
   async getExamDetails( examId : number ) {
     const url:string = `${environment.apiRoot}/Master/Exam/${examId}` ;
-    return this.getPromise<ExamConfig>( url ) ;
+    return this.getPromise<ExamSO>( url ) ;
   }
 
-  async createExamAttempt( exam : ExamConfig ) {
-    // const url:string = `${environment.apiRoot}/Exam/Attempt/${exam.id}` ;
+  async createExamAttempt( exam : ExamSO ) {
+    // const url:string = `${environment.apiRoot}/Exam/${exam.id}/Attempt` ;
     // return this.postPromise<CreateExamAttemptResponse>( url ) ;
 
     let dummyResponse: CreateExamAttemptResponse = {
       examId: 1,
-      examAttemptId: 5,
+      examAttemptId: 7,
       questionAttemptIds: {
-        1: 61,
-        2: 62,
-        3: 63,
-        4: 64,
-        5: 65,
-        6: 66,
-        7: 67,
-        8: 68,
-        9: 69,
-        10: 70,
-        11: 71,
-        12: 72,
-        13: 73,
-        14: 74,
-        15: 75
+        1: 76,
+        2: 77,
+        3: 78,
+        4: 79,
+        5: 80,
+        6: 81,
+        7: 82,
+        8: 83,
+        9: 84,
+        10: 85,
+        11: 86,
+        12: 87,
+        13: 88,
+        14: 89,
+        15: 90
       }
     } ;
     return dummyResponse ;
@@ -60,14 +60,14 @@ export class ExamApiService extends RemoteService {
     return this.postPromise<String>( url, event ) ;
   }
 
-  async logAnswerAction( question:ExamQuestion, status: ExamQuestionSubmitStatus ) {
+  async logAnswerAction( question:ExamQuestion, status: ExamQuestionSubmitStatus, currentLap:LapName ) {
     const url:string = `${environment.apiRoot}/Exam/AnswerUpdate` ;
-    question.updateTimeSpent() ;
 
     return this.postPromise<String>( url, {
       questionAttemptId: question.examQuestionAttemptId,
       submitStatus: status,
       answerProvided: question.answer,
+      answerSubmitLap: currentLap,
       timeSpent: question.totalTimeSpent
     } ) ;
   }
@@ -81,5 +81,11 @@ export class ExamApiService extends RemoteService {
       currentLap: currentLap,
       snapshots: snapshots,
     } ) ;
+  }
+
+  submitExamAttempt( examAttemptId: number ) {
+    // const url:string = `${environment.apiRoot}/Exam/${examAttemptId}/Submit` ;
+    const url:string = `${environment.apiRoot}/Exam/7/Submit` ;
+    return this.postPromise<ExamAttemptSO>( url, true ) ;
   }
 }

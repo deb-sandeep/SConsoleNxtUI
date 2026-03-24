@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 
-import { ExamConfig, ExamQuestionSubmitStatus, LapName } from "@jee-common/util/exam-data-types" ;
+import { ExamSO, ExamQuestionSubmitStatus, LapName } from "@jee-common/util/exam-data-types" ;
 import { ExamApiService } from "../../services/exam-api.service";
 import { ExamQuestion, ExamSection } from "../../common/so-wrappers";
 import { EventLogService } from "../../services/event-log.service";
@@ -31,7 +31,7 @@ export class JeeMainService {
   private apiSvc = inject( ExamApiService ) ;
   private eventLogService = inject( EventLogService ) ;
 
-  examConfig: ExamConfig ;
+  examConfig: ExamSO ;
 
   sections: ExamSection[] = [] ;
   questions: ExamQuestion[] = [] ;
@@ -42,6 +42,7 @@ export class JeeMainService {
 
   activeQuestion: ExamQuestion ;
   currentLap: LapName = "L1" ;
+  examSumbitted = false ;
 
   async loadExamConfig( examId: number ) {
 
@@ -122,6 +123,7 @@ export class JeeMainService {
     await this.apiSvc.createExamAttempt( this.examConfig )
         .then( res => {
 
+          console.log( "Exam attempt created" ) ;
           console.log( res ) ;
 
           for( let question of this.questions ) {
@@ -147,11 +149,14 @@ export class JeeMainService {
       setTimeout( () => {
         this.timeLeftInSeconds.set( this.timeLeftInSeconds()-1 ) ;
         this.activeQuestion.timeSpentInCurrentLap++ ;
+        this.activeQuestion.totalTimeSpent++ ;
         this.countdown() ;
       }, 1000 ) ;
     }
     else {
-      this.submitExam() ;
+      if( !this.examSumbitted ) {
+        this.submitExamAttempt() ;
+      }
     }
   }
 
@@ -186,7 +191,11 @@ export class JeeMainService {
     }
   }
 
-  submitExam() {
+  submitExamAttempt() {
+    this.examSumbitted = true;
     this.timeLeftInSeconds.set( 0 ) ;
+    this.eventLogService.logExamSubmitEvent() ;
+    this.apiSvc.submitExamAttempt( this.examAttemptId )
+        .then( res=> console.log( res ) ) ;
   }
 }

@@ -4,7 +4,7 @@ import { RemoteService } from "lib-core";
 import { environment } from "@env/environment";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { SyllabusSO, TopicSO } from "@jee-common/util/master-data-types";
-import { ExamConfig, ExamSectionConfig, QuestionSO } from "@jee-common/util/exam-data-types";
+import { ExamSO, ExamSectionSO, QuestionSO } from "@jee-common/util/exam-data-types";
 import { SaveExamResSO } from "../exam-config/pages/exam-setup/exam-setup.service";
 
 @Injectable()
@@ -13,9 +13,9 @@ export class ExamEditService extends RemoteService {
   private sylApiSvc : SyllabusApiService = inject( SyllabusApiService ) ;
 
   syllabusMap:Record<string, SyllabusSO|undefined> = {} ;
-  examCfg : ExamConfig|null = null ;
+  examCfg : ExamSO|null = null ;
   topicMap : Record<string, TopicSO[]> = {} ;
-  sectionMap : Record<string, ExamSectionConfig[]> = {};
+  sectionMap : Record<string, ExamSectionSO[]> = {};
   problemTypes : string[] = [] ;
   selTopicQuestions : Record<string, QuestionSO[]> = {} ;
 
@@ -42,7 +42,7 @@ export class ExamEditService extends RemoteService {
 
   async fetchExamDetails( examId : number ) {
     const url:string = `${environment.apiRoot}/Master/Exam/${examId}` ;
-    await this.getPromise<ExamConfig>( url ).then( exam => {
+    await this.getPromise<ExamSO>( url ).then( exam => {
 
       this.resetState() ;
       this.examCfg = exam ;
@@ -90,7 +90,7 @@ export class ExamEditService extends RemoteService {
     return true ;
   }
 
-  isSectionComplete( sectionCfg: ExamSectionConfig ) {
+  isSectionComplete( sectionCfg: ExamSectionSO ) {
     return sectionCfg.questions.length == sectionCfg.numQuestions ;
   }
 
