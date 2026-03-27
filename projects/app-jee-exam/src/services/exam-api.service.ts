@@ -84,8 +84,7 @@ export class ExamApiService extends RemoteService {
   }
 
   submitExamAttempt( examAttemptId: number ) {
-    // const url:string = `${environment.apiRoot}/Exam/${examAttemptId}/Submit` ;
-    const url:string = `${environment.apiRoot}/Exam/7/Submit` ;
+    const url:string = `${environment.apiRoot}/Exam/${examAttemptId}/Submit` ;
     return this.postPromise<ExamAttemptSO>( url, true ) ;
   }
 }

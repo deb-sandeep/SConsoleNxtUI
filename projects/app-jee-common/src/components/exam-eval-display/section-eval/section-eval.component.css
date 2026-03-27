@@ -1,0 +1,18 @@
+.section-eval-table {
+    font-size: 13px;
+}
+
+.numeric {
+    font-family: Courier, monospace ;
+    text-align: center;
+}
+
+.full-score {
+    color: green;
+    font-weight: bold;
+}
+
+.less-score {
+    color: red;
+    font-weight: bold;
+}

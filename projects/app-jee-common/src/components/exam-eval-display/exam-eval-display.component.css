@@ -1,0 +1,127 @@
+/** ----------- Page content ------------------------------- */
+.page-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    line-height: 1em;
+    padding: 0;
+
+    --page-header-height: 30px;
+}
+
+.page-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--page-header-height) ;
+    line-height: var(--page-header-height) ;
+    background-color: #3c3c3c;
+    color: lightgrey;
+}
+
+.page-body {
+    position: absolute;
+    top: var(--page-header-height) ;
+    left: 0;
+    width: 100%;
+    height: calc( 100% - var(--page-header-height) ) ;
+    background-color: #dddddd;
+
+    --left-pane-width: 35%;
+    --right-pane-width: calc( 100% - var(--left-pane-width) ) ;
+}
+
+/** ----------- Page header components ------------------------------- */
+.page-header .title {
+    font-size: 20px;
+    padding-left: 10px;
+    float: left;
+}
+
+.page-header .exam-score {
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.page-header .ok-btn {
+    display: inline-block;
+    float: right;
+    padding: 0 10px;
+    margin: 4px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    color: lightgrey;
+}
+
+/** ----------- Page body components ------------------------------- */
+.left-pane {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--left-pane-width);
+    height: 100%;
+
+    --section-eval-height: 25%;
+    --question-eval-height: 55%;
+    --question-annot-height: calc( 100% - var(--section-eval-height) - var(--question-eval-height) );
+}
+
+.window {
+    --window-margin: 2px;
+
+    background-color: #ffffff;
+    width: calc( 100% - 2*var(--window-margin) ) ;
+    margin: var(--window-margin) ;
+    padding: 5px;
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    left: 0;
+}
+
+.right-pane {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: var(--right-pane-width);
+    height: 100%;
+
+    --time-sequence-height: 70%;
+    --question-display-height: calc( 100% - var(--time-sequence-height) ) ;
+}
+
+/** ----------- Left pane components ------------------------------- */
+.section-eval {
+    top: 0;
+    height: calc( var(--section-eval-height) - 2*var(--window-margin) ) ;
+}
+
+.question-eval {
+    top: var(--section-eval-height);
+    height: calc( var(--question-eval-height) - 2*var(--window-margin) ) ;
+}
+
+.question-annot {
+    bottom: 0;
+    height: calc( var(--question-annot-height) - 2*var(--window-margin) ) ;
+}
+
+/** ----------- Right pane components ------------------------------- */
+.time-sequence {
+    top: 0;
+    height: calc( var(--time-sequence-height) - 2*var(--window-margin) ) ;
+}
+
+.question-display {
+    bottom: 0;
+    height: calc( var(--question-display-height) - 2*var(--window-margin) ) ;
+}

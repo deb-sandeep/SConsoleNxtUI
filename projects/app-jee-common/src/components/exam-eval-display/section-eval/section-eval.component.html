@@ -1,0 +1,25 @@
+<table class="table table-condensed table-sm section-eval-table">
+  <thead>
+    <tr>
+      <th>Section</th>
+      <th>#Q</th>
+      <th>#Marks</th>
+      <th>Score</th>
+      <th>Avoidable</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for( summary of sectionSummaries; track $index ) {
+      <tr>
+        <td>{{summary.sectionName}}</td>
+        <td class="numeric">{{summary.numQuestions}}</td>
+        <td class="numeric">{{summary.totalMarks}}</td>
+        <td class="numeric"
+            [ngClass]="summary.score == summary.totalMarks ? 'full-score':'less-score'">
+          {{summary.score}}
+        </td>
+        <td class="numeric">{{summary.avoidablePct}}</td>
+      </tr>
+    }
+  </tbody>
+</table>

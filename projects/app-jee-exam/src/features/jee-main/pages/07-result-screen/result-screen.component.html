@@ -1,1 +1,5 @@
-<div>Result screen works!</div>
+<div class="page-body">
+  <exam-eval-display [eval]="examSvc.eval"
+                     (onClose)="closeResultScreen()">
+  </exam-eval-display>
+</div>

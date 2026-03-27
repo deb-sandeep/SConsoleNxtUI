@@ -1,0 +1,32 @@
+@if( eval != null ) {
+  <div class="page-content">
+    <div class="page-header">
+      <span class="title">
+        Result for <strong>Exam-{{eval!.exam.id}}</strong>
+      </span>
+      <span class="exam-score">
+        [ {{eval!.score}} / {{eval!.exam.totalMarks}} ]
+      </span>
+      <button type="button" class="btn btn-secondary ok-btn"
+              (click)="onClose.emit()">Close</button>
+    </div>
+    <div class="page-body">
+      <div class="left-pane">
+        <div sectionEval
+             class="window section-eval"
+             [eval]="eval">
+        </div>
+        <div class="window question-eval">
+        </div>
+        <div class="window question-annot">
+        </div>
+      </div>
+      <div class="right-pane">
+        <div class="window time-sequence">
+        </div>
+        <div class="window question-display">
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -94,6 +94,7 @@ export interface ExamAttemptSO {
     unavoidableLossPct: number;
     status: string;
     sectionAttempts: ExamSectionAttemptSO[];
+    events: ExamEvent[];
 }
 
 export type ExamAnswerAction =

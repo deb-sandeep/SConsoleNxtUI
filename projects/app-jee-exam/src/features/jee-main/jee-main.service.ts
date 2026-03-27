@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { ExamSO, ExamQuestionSubmitStatus, LapName } from "@jee-common/util/exam-data-types" ;
+import { ExamSO, ExamQuestionSubmitStatus, LapName, ExamAttemptSO } from "@jee-common/util/exam-data-types" ;
 import { ExamApiService } from "../../services/exam-api.service";
 import { ExamQuestion, ExamSection } from "../../common/so-wrappers";
 import { EventLogService } from "../../services/event-log.service";
@@ -30,6 +31,7 @@ export class JeeMainService {
 
   private apiSvc = inject( ExamApiService ) ;
   private eventLogService = inject( EventLogService ) ;
+  private router = inject( Router );
 
   examConfig: ExamSO ;
 
@@ -42,7 +44,8 @@ export class JeeMainService {
 
   activeQuestion: ExamQuestion ;
   currentLap: LapName = "L1" ;
-  examSumbitted = false ;
+  examSubmitted = false ;
+  eval: ExamAttemptSO | null = null ;
 
   async loadExamConfig( examId: number ) {
 
@@ -154,8 +157,8 @@ export class JeeMainService {
       }, 1000 ) ;
     }
     else {
-      if( !this.examSumbitted ) {
-        this.submitExamAttempt() ;
+      if( !this.examSubmitted ) {
+        this.submitExamAttempt().then() ;
       }
     }
   }
@@ -191,11 +194,21 @@ export class JeeMainService {
     }
   }
 
-  submitExamAttempt() {
-    this.examSumbitted = true;
-    this.timeLeftInSeconds.set( 0 ) ;
-    this.eventLogService.logExamSubmitEvent() ;
-    this.apiSvc.submitExamAttempt( this.examAttemptId )
-        .then( res=> console.log( res ) ) ;
+  async submitExamAttempt() {
+    console.log( "*** SCAFFOLD comment - remove for production***" ) ;
+    // if( this.examSubmitted ) {
+    //   return ;
+    // }
+    //
+    // this.examSubmitted = true ;
+    // this.timeLeftInSeconds.set( 0 ) ;
+    // this.eventLogService.logExamSubmitEvent() ;
+
+    const res = await this.apiSvc.submitExamAttempt( this.examAttemptId ) ;
+    console.log( res ) ;
+
+    this.eval = res ;
+    console.log( "Transitioning to result-screen" ) ;
+    await this.router.navigate( [ '/jee-main', this.examConfig.id, 'result-screen' ] ) ;
   }
 }

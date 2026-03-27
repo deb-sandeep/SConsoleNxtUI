@@ -1,0 +1,1607 @@
+{
+  "id": 7,
+  "exam": {
+    "id": 1,
+    "state": "PUBLISHED",
+    "type": "MAIN",
+    "note": "Test",
+    "numPhyQuestions": 5,
+    "numChemQuestions": 5,
+    "numMathQuestions": 5,
+    "totalMarks": 60,
+    "duration": 1800,
+    "creationDate": "2026-03-24T11:03:47.000+00:00",
+    "sections": [],
+    "topics": {}
+  },
+  "attemptDate": "2026-03-24T05:29:46.000+00:00",
+  "score": 46,
+  "avoidableLossPct": 0,
+  "unavoidableLossPct": 0,
+  "status": "COMPLETED",
+  "sectionAttempts": [
+    {
+      "id": 17,
+      "examSection": {
+        "id": 1,
+        "examId": 1,
+        "examSequence": 1,
+        "syllabusName": "IIT Physics",
+        "problemType": "SCA",
+        "title": "Single Correct Answer",
+        "correctMarks": 4,
+        "wrongPenalty": -1,
+        "numQuestions": 5,
+        "numCompulsoryQuestions": 5,
+        "instructions": [
+          "Each question has only one correct option.",
+          "Full marks for correct answer.",
+          "Negative marks for incorrect answer"
+        ],
+        "questions": []
+      },
+      "examAttemptId": 7,
+      "score": 20,
+      "avoidableLossPct": 0,
+      "unavoidableLossPct": 0,
+      "questionAttempts": [
+        {
+          "id": 76,
+          "examQuestion": {
+            "id": 1,
+            "sequence": 1,
+            "questionId": 210,
+            "sectionId": 1,
+            "question": {
+              "id": 210,
+              "questionId": "AITS-14-M-CT3://P/SCA/20",
+              "syllabusName": "IIT Physics",
+              "topicName": "Kinematics",
+              "topicId": 103,
+              "sourceId": "AITS-14-M-CT3",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 20,
+              "answer": "D",
+              "serverSyncTime": "2026-01-16T11:16:17.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 6,
+                  "fileName": "P_SCA_20.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 537,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 17,
+          "timeSpent": 42,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "D",
+          "answerSubmitLap": "L1",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 77,
+          "examQuestion": {
+            "id": 2,
+            "sequence": 2,
+            "questionId": 213,
+            "sectionId": 1,
+            "question": {
+              "id": 213,
+              "questionId": "AITS-14-M-CT3://P/SCA/23",
+              "syllabusName": "IIT Physics",
+              "topicName": "Kinematics",
+              "topicId": 103,
+              "sourceId": "AITS-14-M-CT3",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 23,
+              "answer": "C",
+              "serverSyncTime": "2026-01-16T11:16:18.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 7,
+                  "fileName": "P_SCA_23.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 787,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 17,
+          "timeSpent": 9,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "C",
+          "answerSubmitLap": "L1",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 78,
+          "examQuestion": {
+            "id": 3,
+            "sequence": 3,
+            "questionId": 282,
+            "sectionId": 1,
+            "question": {
+              "id": 282,
+              "questionId": "AITS-14-M-CT4://P/SCA/2",
+              "syllabusName": "IIT Physics",
+              "topicName": "Kinematics",
+              "topicId": 103,
+              "sourceId": "AITS-14-M-CT4",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 2,
+              "answer": "B",
+              "serverSyncTime": "2026-01-16T11:17:21.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 2,
+                  "fileName": "P_SCA_2.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1833,
+                  "imgHeight": 432,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 17,
+          "timeSpent": 56,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "B",
+          "answerSubmitLap": "L2",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 79,
+          "examQuestion": {
+            "id": 4,
+            "sequence": 4,
+            "questionId": 28,
+            "sectionId": 1,
+            "question": {
+              "id": 28,
+              "questionId": "AITS-14-M-CT1://P/SCA/18",
+              "syllabusName": "IIT Physics",
+              "topicName": "Laws of Motion",
+              "topicId": 104,
+              "sourceId": "AITS-14-M-CT1",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 18,
+              "answer": "B",
+              "serverSyncTime": "2026-01-16T10:11:18.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 6,
+                  "fileName": "P_SCA_18.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 432,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 17,
+          "timeSpent": 40,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "B",
+          "answerSubmitLap": "L3.1",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 80,
+          "examQuestion": {
+            "id": 5,
+            "sequence": 5,
+            "questionId": 129,
+            "sectionId": 1,
+            "question": {
+              "id": 129,
+              "questionId": "AITS-14-M-CT2://P/SCA/29",
+              "syllabusName": "IIT Physics",
+              "topicName": "Work, Energy and Power",
+              "topicId": 105,
+              "sourceId": "AITS-14-M-CT2",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 29,
+              "answer": "D",
+              "serverSyncTime": "2026-01-16T11:12:27.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 9,
+                  "fileName": "P_SCA_29.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 292,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 17,
+          "timeSpent": 14,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "D",
+          "answerSubmitLap": "L1",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "examSection": {
+        "id": 2,
+        "examId": 1,
+        "examSequence": 2,
+        "syllabusName": "IIT Chemistry",
+        "problemType": "SCA",
+        "title": "Single Correct Answer",
+        "correctMarks": 4,
+        "wrongPenalty": -1,
+        "numQuestions": 5,
+        "numCompulsoryQuestions": 5,
+        "instructions": [
+          "Each question has only one correct option.",
+          "Full marks for correct answer.",
+          "Negative marks for incorrect answer"
+        ],
+        "questions": []
+      },
+      "examAttemptId": 7,
+      "score": 10,
+      "avoidableLossPct": 0,
+      "unavoidableLossPct": 0,
+      "questionAttempts": [
+        {
+          "id": 81,
+          "examQuestion": {
+            "id": 6,
+            "sequence": 6,
+            "questionId": 42,
+            "sectionId": 2,
+            "question": {
+              "id": 42,
+              "questionId": "AITS-14-M-CT1://C/SCA/2",
+              "syllabusName": "IIT Chemistry",
+              "topicName": "States of Matter - Gases and Liquids",
+              "topicId": 127,
+              "sourceId": "AITS-14-M-CT1",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 2,
+              "answer": "B",
+              "serverSyncTime": "2026-01-16T10:11:23.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 10,
+                  "fileName": "C_SCA_2.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 265,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 18,
+          "timeSpent": 13,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "B",
+          "answerSubmitLap": "L1",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 82,
+          "examQuestion": {
+            "id": 7,
+            "sequence": 7,
+            "questionId": 229,
+            "sectionId": 2,
+            "question": {
+              "id": 229,
+              "questionId": "AITS-14-M-CT3://C/SCA/9",
+              "syllabusName": "IIT Chemistry",
+              "topicName": "States of Matter - Solid",
+              "topicId": 128,
+              "sourceId": "AITS-14-M-CT3",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 9,
+              "answer": "A",
+              "serverSyncTime": "2026-01-16T11:16:24.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 11,
+                  "fileName": "C_SCA_9.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 391,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 18,
+          "timeSpent": 33,
+          "evaluationStatus": "INCORRECT",
+          "answerProvided": "B",
+          "answerSubmitLap": "AMR",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 83,
+          "examQuestion": {
+            "id": 8,
+            "sequence": 8,
+            "questionId": 402,
+            "sectionId": 2,
+            "question": {
+              "id": 402,
+              "questionId": "AITS-14-M-FT1://C/SCA/2",
+              "syllabusName": "IIT Chemistry",
+              "topicName": "States of Matter - Solid",
+              "topicId": 128,
+              "sourceId": "AITS-14-M-FT1",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 2,
+              "answer": "A",
+              "serverSyncTime": "2026-01-16T11:43:36.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 9,
+                  "fileName": "C_SCA_2.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1866,
+                  "imgHeight": 301,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 18,
+          "timeSpent": 9,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "A",
+          "answerSubmitLap": "L1",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 84,
+          "examQuestion": {
+            "id": 9,
+            "sequence": 9,
+            "questionId": 1058,
+            "sectionId": 2,
+            "question": {
+              "id": 1058,
+              "questionId": "AITS-14-M-PT4://C/SCA/28",
+              "syllabusName": "IIT Chemistry",
+              "topicName": "Surface Chemistry",
+              "topicId": 129,
+              "sourceId": "AITS-14-M-PT4",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 28,
+              "answer": "D",
+              "serverSyncTime": "2026-02-05T05:18:20.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 13,
+                  "fileName": "C_SCA_28.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 264,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 18,
+          "timeSpent": 21,
+          "evaluationStatus": "INCORRECT",
+          "answerProvided": "C",
+          "answerSubmitLap": "AMR",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 85,
+          "examQuestion": {
+            "id": 10,
+            "sequence": 10,
+            "questionId": 338,
+            "sectionId": 2,
+            "question": {
+              "id": 338,
+              "questionId": "AITS-14-M-CT4://C/SCA/28",
+              "syllabusName": "IIT Chemistry",
+              "topicName": "States of Matter - Solid",
+              "topicId": 128,
+              "sourceId": "AITS-14-M-CT4",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 28,
+              "answer": "D",
+              "serverSyncTime": "2026-01-16T11:17:45.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 15,
+                  "fileName": "C_SCA_28.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1856,
+                  "imgHeight": 315,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 18,
+          "timeSpent": 29,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "D",
+          "answerSubmitLap": "L2",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "examSection": {
+        "id": 3,
+        "examId": 1,
+        "examSequence": 3,
+        "syllabusName": "IIT Maths",
+        "problemType": "SCA",
+        "title": "Single Correct Answer",
+        "correctMarks": 4,
+        "wrongPenalty": -1,
+        "numQuestions": 5,
+        "numCompulsoryQuestions": 5,
+        "instructions": [
+          "Each question has only one correct option.",
+          "Full marks for correct answer.",
+          "Negative marks for incorrect answer"
+        ],
+        "questions": []
+      },
+      "examAttemptId": 7,
+      "score": 16,
+      "avoidableLossPct": 0,
+      "unavoidableLossPct": 0,
+      "questionAttempts": [
+        {
+          "id": 86,
+          "examQuestion": {
+            "id": 11,
+            "sequence": 11,
+            "questionId": 176,
+            "sectionId": 3,
+            "question": {
+              "id": 176,
+              "questionId": "AITS-14-M-CT2://M/SCA/16",
+              "syllabusName": "IIT Maths",
+              "topicName": "Relations and Functions",
+              "topicId": 80,
+              "sourceId": "AITS-14-M-CT2",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 16,
+              "answer": "D",
+              "serverSyncTime": "2026-01-16T11:12:44.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 20,
+                  "fileName": "M_SCA_16.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 402,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 19,
+          "timeSpent": 28,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "D",
+          "answerSubmitLap": "L2",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 87,
+          "examQuestion": {
+            "id": 12,
+            "sequence": 12,
+            "questionId": 341,
+            "sectionId": 3,
+            "question": {
+              "id": 341,
+              "questionId": "AITS-14-M-CT4://M/SCA/1",
+              "syllabusName": "IIT Maths",
+              "topicName": "Relations and Functions",
+              "topicId": 80,
+              "sourceId": "AITS-14-M-CT4",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 1,
+              "answer": "D",
+              "serverSyncTime": "2026-01-16T11:17:46.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 17,
+                  "fileName": "M_SCA_1.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1826,
+                  "imgHeight": 399,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 19,
+          "timeSpent": 14,
+          "evaluationStatus": "UNANSWERED",
+          "answerProvided": null,
+          "answerSubmitLap": "L2P",
+          "answerSubmitStatus": "NOT_ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 88,
+          "examQuestion": {
+            "id": 13,
+            "sequence": 13,
+            "questionId": 163,
+            "sectionId": 3,
+            "question": {
+              "id": 163,
+              "questionId": "AITS-14-M-CT2://M/SCA/3",
+              "syllabusName": "IIT Maths",
+              "topicName": "Complex Numbers",
+              "topicId": 81,
+              "sourceId": "AITS-14-M-CT2",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 3,
+              "answer": "C",
+              "serverSyncTime": "2026-01-16T11:12:39.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 17,
+                  "fileName": "M_SCA_3.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 292,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 19,
+          "timeSpent": 19,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "C",
+          "answerSubmitLap": "L3.1",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 89,
+          "examQuestion": {
+            "id": 14,
+            "sequence": 14,
+            "questionId": 273,
+            "sectionId": 3,
+            "question": {
+              "id": 273,
+              "questionId": "AITS-14-M-CT3://M/SCA/23",
+              "syllabusName": "IIT Maths",
+              "topicName": "Complex Numbers",
+              "topicId": 81,
+              "sourceId": "AITS-14-M-CT3",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 23,
+              "answer": "D",
+              "serverSyncTime": "2026-01-16T11:16:36.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 20,
+                  "fileName": "M_SCA_23.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 391,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 19,
+          "timeSpent": 9,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "D",
+          "answerSubmitLap": "L1",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        },
+        {
+          "id": 90,
+          "examQuestion": {
+            "id": 15,
+            "sequence": 15,
+            "questionId": 84,
+            "sectionId": 3,
+            "question": {
+              "id": 84,
+              "questionId": "AITS-14-M-CT1://M/SCA/14",
+              "syllabusName": "IIT Maths",
+              "topicName": "Theory Of Equations",
+              "topicId": 82,
+              "sourceId": "AITS-14-M-CT1",
+              "problemType": "SCA",
+              "lctSequence": -1,
+              "questionNumber": 14,
+              "answer": "C",
+              "serverSyncTime": "2026-01-16T10:11:38.000+00:00",
+              "questionImages": [
+                {
+                  "sequence": 0,
+                  "pageNumber": 19,
+                  "fileName": "M_SCA_14.png",
+                  "lctCtxImage": false,
+                  "partNumber": -1,
+                  "imgWidth": 1865,
+                  "imgHeight": 263,
+                  "imgData": null
+                }
+              ]
+            }
+          },
+          "examSectionAttemptId": 19,
+          "timeSpent": 19,
+          "evaluationStatus": "CORRECT",
+          "answerProvided": "C",
+          "answerSubmitLap": "L3.1",
+          "answerSubmitStatus": "ANSWERED",
+          "score": 0,
+          "rootCause": null
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": 467,
+      "examAttemptId": 7,
+      "sequence": 1,
+      "eventType": "START_STOP",
+      "eventName": "EXAM_START",
+      "payload": "{}",
+      "creationTime": "2026-03-27T06:21:13Z",
+      "timeMarker": 0
+    },
+    {
+      "id": 468,
+      "examAttemptId": 7,
+      "sequence": 2,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 210, \"questionNo\": 1, \"examQuestionId\": 1}",
+      "creationTime": "2026-03-27T06:21:13Z",
+      "timeMarker": 5
+    },
+    {
+      "id": 469,
+      "examAttemptId": 7,
+      "sequence": 3,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"D\", \"questionNo\": 1}",
+      "creationTime": "2026-03-27T06:21:56Z",
+      "timeMarker": 42499
+    },
+    {
+      "id": 470,
+      "examAttemptId": 7,
+      "sequence": 4,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 213, \"questionNo\": 2, \"examQuestionId\": 2}",
+      "creationTime": "2026-03-27T06:21:56Z",
+      "timeMarker": 42499
+    },
+    {
+      "id": 471,
+      "examAttemptId": 7,
+      "sequence": 5,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"C\", \"questionNo\": 2}",
+      "creationTime": "2026-03-27T06:22:05Z",
+      "timeMarker": 51454
+    },
+    {
+      "id": 472,
+      "examAttemptId": 7,
+      "sequence": 6,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 282, \"questionNo\": 3, \"examQuestionId\": 3}",
+      "creationTime": "2026-03-27T06:22:05Z",
+      "timeMarker": 51457
+    },
+    {
+      "id": 473,
+      "examAttemptId": 7,
+      "sequence": 7,
+      "eventType": "ANS_ACTION",
+      "eventName": "MARK_REVIEW_&_NEXT",
+      "payload": "{\"answer\": \"B\", \"questionNo\": 3}",
+      "creationTime": "2026-03-27T06:22:17Z",
+      "timeMarker": 64238
+    },
+    {
+      "id": 474,
+      "examAttemptId": 7,
+      "sequence": 8,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 28, \"questionNo\": 4, \"examQuestionId\": 4}",
+      "creationTime": "2026-03-27T06:22:17Z",
+      "timeMarker": 64241
+    },
+    {
+      "id": 475,
+      "examAttemptId": 7,
+      "sequence": 9,
+      "eventType": "ANS_ACTION",
+      "eventName": "MARK_REVIEW_&_NEXT",
+      "payload": "{\"answer\": \"B\", \"questionNo\": 4}",
+      "creationTime": "2026-03-27T06:22:24Z",
+      "timeMarker": 70870
+    },
+    {
+      "id": 476,
+      "examAttemptId": 7,
+      "sequence": 10,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 129, \"questionNo\": 5, \"examQuestionId\": 5}",
+      "creationTime": "2026-03-27T06:22:24Z",
+      "timeMarker": 70873
+    },
+    {
+      "id": 477,
+      "examAttemptId": 7,
+      "sequence": 11,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"D\", \"questionNo\": 5}",
+      "creationTime": "2026-03-27T06:22:38Z",
+      "timeMarker": 85103
+    },
+    {
+      "id": 478,
+      "examAttemptId": 7,
+      "sequence": 12,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 42, \"questionNo\": 6, \"examQuestionId\": 6}",
+      "creationTime": "2026-03-27T06:22:38Z",
+      "timeMarker": 85106
+    },
+    {
+      "id": 479,
+      "examAttemptId": 7,
+      "sequence": 13,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"B\", \"questionNo\": 6}",
+      "creationTime": "2026-03-27T06:22:51Z",
+      "timeMarker": 97304
+    },
+    {
+      "id": 480,
+      "examAttemptId": 7,
+      "sequence": 14,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 229, \"questionNo\": 7, \"examQuestionId\": 7}",
+      "creationTime": "2026-03-27T06:22:51Z",
+      "timeMarker": 97306
+    },
+    {
+      "id": 481,
+      "examAttemptId": 7,
+      "sequence": 15,
+      "eventType": "ANS_ACTION",
+      "eventName": "MARK_REVIEW_&_NEXT",
+      "payload": "{\"answer\": \"A\", \"questionNo\": 7}",
+      "creationTime": "2026-03-27T06:22:57Z",
+      "timeMarker": 104251
+    },
+    {
+      "id": 482,
+      "examAttemptId": 7,
+      "sequence": 16,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 402, \"questionNo\": 8, \"examQuestionId\": 8}",
+      "creationTime": "2026-03-27T06:22:57Z",
+      "timeMarker": 104254
+    },
+    {
+      "id": 483,
+      "examAttemptId": 7,
+      "sequence": 17,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"A\", \"questionNo\": 8}",
+      "creationTime": "2026-03-27T06:23:07Z",
+      "timeMarker": 113971
+    },
+    {
+      "id": 484,
+      "examAttemptId": 7,
+      "sequence": 18,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 1058, \"questionNo\": 9, \"examQuestionId\": 9}",
+      "creationTime": "2026-03-27T06:23:07Z",
+      "timeMarker": 113973
+    },
+    {
+      "id": 486,
+      "examAttemptId": 7,
+      "sequence": 19,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"D\", \"questionNo\": 9}",
+      "creationTime": "2026-03-27T06:23:15Z",
+      "timeMarker": 121805
+    },
+    {
+      "id": 485,
+      "examAttemptId": 7,
+      "sequence": 20,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 338, \"questionNo\": 10, \"examQuestionId\": 10}",
+      "creationTime": "2026-03-27T06:23:15Z",
+      "timeMarker": 121807
+    },
+    {
+      "id": 487,
+      "examAttemptId": 7,
+      "sequence": 21,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 1058, \"questionNo\": 9, \"examQuestionId\": 9}",
+      "creationTime": "2026-03-27T06:23:19Z",
+      "timeMarker": 126199
+    },
+    {
+      "id": 489,
+      "examAttemptId": 7,
+      "sequence": 22,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_MARK_REVIEW",
+      "payload": "{\"answer\": \"D\", \"questionNo\": 9}",
+      "creationTime": "2026-03-27T06:23:21Z",
+      "timeMarker": 127688
+    },
+    {
+      "id": 488,
+      "examAttemptId": 7,
+      "sequence": 23,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 338, \"questionNo\": 10, \"examQuestionId\": 10}",
+      "creationTime": "2026-03-27T06:23:21Z",
+      "timeMarker": 127692
+    },
+    {
+      "id": 491,
+      "examAttemptId": 7,
+      "sequence": 24,
+      "eventType": "ANS_ACTION",
+      "eventName": "MARK_REVIEW_&_NEXT",
+      "payload": "{\"answer\": \"D\", \"questionNo\": 10}",
+      "creationTime": "2026-03-27T06:23:29Z",
+      "timeMarker": 135688
+    },
+    {
+      "id": 490,
+      "examAttemptId": 7,
+      "sequence": 25,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 176, \"questionNo\": 11, \"examQuestionId\": 11}",
+      "creationTime": "2026-03-27T06:23:29Z",
+      "timeMarker": 135691
+    },
+    {
+      "id": 492,
+      "examAttemptId": 7,
+      "sequence": 26,
+      "eventType": "ANS_ACTION",
+      "eventName": "MARK_REVIEW_&_NEXT",
+      "payload": "{\"answer\": \"D\", \"questionNo\": 11}",
+      "creationTime": "2026-03-27T06:23:41Z",
+      "timeMarker": 148022
+    },
+    {
+      "id": 493,
+      "examAttemptId": 7,
+      "sequence": 27,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 341, \"questionNo\": 12, \"examQuestionId\": 12}",
+      "creationTime": "2026-03-27T06:23:41Z",
+      "timeMarker": 148025
+    },
+    {
+      "id": 494,
+      "examAttemptId": 7,
+      "sequence": 28,
+      "eventType": "ANS_ACTION",
+      "eventName": "MARK_REVIEW_&_NEXT",
+      "payload": "{\"answer\": \"D\", \"questionNo\": 12}",
+      "creationTime": "2026-03-27T06:23:48Z",
+      "timeMarker": 154670
+    },
+    {
+      "id": 495,
+      "examAttemptId": 7,
+      "sequence": 29,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 163, \"questionNo\": 13, \"examQuestionId\": 13}",
+      "creationTime": "2026-03-27T06:23:48Z",
+      "timeMarker": 154673
+    },
+    {
+      "id": 496,
+      "examAttemptId": 7,
+      "sequence": 30,
+      "eventType": "QUESTION_NAV",
+      "eventName": "GOTO_NEXT_QUESTION",
+      "payload": "{\"nextQuestionNo\": 14, \"currentQuestionNo\": 13}",
+      "creationTime": "2026-03-27T06:23:55Z",
+      "timeMarker": 161883
+    },
+    {
+      "id": 497,
+      "examAttemptId": 7,
+      "sequence": 31,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 273, \"questionNo\": 14, \"examQuestionId\": 14}",
+      "creationTime": "2026-03-27T06:23:55Z",
+      "timeMarker": 161888
+    },
+    {
+      "id": 498,
+      "examAttemptId": 7,
+      "sequence": 32,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"D\", \"questionNo\": 14}",
+      "creationTime": "2026-03-27T06:24:04Z",
+      "timeMarker": 170738
+    },
+    {
+      "id": 499,
+      "examAttemptId": 7,
+      "sequence": 33,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 84, \"questionNo\": 15, \"examQuestionId\": 15}",
+      "creationTime": "2026-03-27T06:24:04Z",
+      "timeMarker": 170741
+    },
+    {
+      "id": 500,
+      "examAttemptId": 7,
+      "sequence": 34,
+      "eventType": "LAP",
+      "eventName": "LAP_CHANGE",
+      "payload": "{\"nextLap\": \"L2P\", \"currentLap\": \"L1\"}",
+      "creationTime": "2026-03-27T06:24:10Z",
+      "timeMarker": 176920
+    },
+    {
+      "id": 501,
+      "examAttemptId": 7,
+      "sequence": 35,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 282, \"questionNo\": 3, \"examQuestionId\": 3}",
+      "creationTime": "2026-03-27T06:24:13Z",
+      "timeMarker": 179370
+    },
+    {
+      "id": 502,
+      "examAttemptId": 7,
+      "sequence": 36,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 28, \"questionNo\": 4, \"examQuestionId\": 4}",
+      "creationTime": "2026-03-27T06:24:26Z",
+      "timeMarker": 193282
+    },
+    {
+      "id": 503,
+      "examAttemptId": 7,
+      "sequence": 37,
+      "eventType": "ANS_ACTION",
+      "eventName": "CLEAR_RESPONSE",
+      "payload": "{\"answer\": null, \"questionNo\": 4}",
+      "creationTime": "2026-03-27T06:24:31Z",
+      "timeMarker": 197354
+    },
+    {
+      "id": 504,
+      "examAttemptId": 7,
+      "sequence": 38,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 229, \"questionNo\": 7, \"examQuestionId\": 7}",
+      "creationTime": "2026-03-27T06:24:33Z",
+      "timeMarker": 199849
+    },
+    {
+      "id": 505,
+      "examAttemptId": 7,
+      "sequence": 39,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 338, \"questionNo\": 10, \"examQuestionId\": 10}",
+      "creationTime": "2026-03-27T06:24:42Z",
+      "timeMarker": 208683
+    },
+    {
+      "id": 506,
+      "examAttemptId": 7,
+      "sequence": 40,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 176, \"questionNo\": 11, \"examQuestionId\": 11}",
+      "creationTime": "2026-03-27T06:24:52Z",
+      "timeMarker": 218466
+    },
+    {
+      "id": 507,
+      "examAttemptId": 7,
+      "sequence": 41,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 341, \"questionNo\": 12, \"examQuestionId\": 12}",
+      "creationTime": "2026-03-27T06:24:59Z",
+      "timeMarker": 226149
+    },
+    {
+      "id": 508,
+      "examAttemptId": 7,
+      "sequence": 42,
+      "eventType": "ANS_ACTION",
+      "eventName": "CLEAR_RESPONSE",
+      "payload": "{\"answer\": null, \"questionNo\": 12}",
+      "creationTime": "2026-03-27T06:25:06Z",
+      "timeMarker": 232538
+    },
+    {
+      "id": 509,
+      "examAttemptId": 7,
+      "sequence": 43,
+      "eventType": "LAP",
+      "eventName": "LAP_CHANGE",
+      "payload": "{\"nextLap\": \"L2\", \"currentLap\": \"L2P\"}",
+      "creationTime": "2026-03-27T06:25:10Z",
+      "timeMarker": 236770
+    },
+    {
+      "id": 510,
+      "examAttemptId": 7,
+      "sequence": 44,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 282, \"questionNo\": 3, \"examQuestionId\": 3}",
+      "creationTime": "2026-03-27T06:25:12Z",
+      "timeMarker": 238916
+    },
+    {
+      "id": 511,
+      "examAttemptId": 7,
+      "sequence": 45,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"B\", \"questionNo\": 3}",
+      "creationTime": "2026-03-27T06:25:42Z",
+      "timeMarker": 268757
+    },
+    {
+      "id": 512,
+      "examAttemptId": 7,
+      "sequence": 46,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 28, \"questionNo\": 4, \"examQuestionId\": 4}",
+      "creationTime": "2026-03-27T06:25:42Z",
+      "timeMarker": 268759
+    },
+    {
+      "id": 513,
+      "examAttemptId": 7,
+      "sequence": 47,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 229, \"questionNo\": 7, \"examQuestionId\": 7}",
+      "creationTime": "2026-03-27T06:26:00Z",
+      "timeMarker": 287267
+    },
+    {
+      "id": 514,
+      "examAttemptId": 7,
+      "sequence": 48,
+      "eventType": "UI_INTERACTION",
+      "eventName": "ANS_ENTERED",
+      "payload": "{\"answer\": \"B\", \"questionNo\": 7}",
+      "creationTime": "2026-03-27T06:26:08Z",
+      "timeMarker": 295120
+    },
+    {
+      "id": 515,
+      "examAttemptId": 7,
+      "sequence": 49,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_MARK_REVIEW",
+      "payload": "{\"answer\": \"B\", \"questionNo\": 7}",
+      "creationTime": "2026-03-27T06:26:12Z",
+      "timeMarker": 298405
+    },
+    {
+      "id": 516,
+      "examAttemptId": 7,
+      "sequence": 50,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 402, \"questionNo\": 8, \"examQuestionId\": 8}",
+      "creationTime": "2026-03-27T06:26:12Z",
+      "timeMarker": 298408
+    },
+    {
+      "id": 517,
+      "examAttemptId": 7,
+      "sequence": 51,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 338, \"questionNo\": 10, \"examQuestionId\": 10}",
+      "creationTime": "2026-03-27T06:26:14Z",
+      "timeMarker": 300350
+    },
+    {
+      "id": 518,
+      "examAttemptId": 7,
+      "sequence": 52,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"D\", \"questionNo\": 10}",
+      "creationTime": "2026-03-27T06:26:20Z",
+      "timeMarker": 307089
+    },
+    {
+      "id": 519,
+      "examAttemptId": 7,
+      "sequence": 53,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 176, \"questionNo\": 11, \"examQuestionId\": 11}",
+      "creationTime": "2026-03-27T06:26:20Z",
+      "timeMarker": 307092
+    },
+    {
+      "id": 520,
+      "examAttemptId": 7,
+      "sequence": 54,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 176, \"questionNo\": 11, \"examQuestionId\": 11}",
+      "creationTime": "2026-03-27T06:26:23Z",
+      "timeMarker": 310101
+    },
+    {
+      "id": 521,
+      "examAttemptId": 7,
+      "sequence": 55,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"D\", \"questionNo\": 11}",
+      "creationTime": "2026-03-27T06:26:29Z",
+      "timeMarker": 316022
+    },
+    {
+      "id": 522,
+      "examAttemptId": 7,
+      "sequence": 56,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 341, \"questionNo\": 12, \"examQuestionId\": 12}",
+      "creationTime": "2026-03-27T06:26:29Z",
+      "timeMarker": 316024
+    },
+    {
+      "id": 523,
+      "examAttemptId": 7,
+      "sequence": 57,
+      "eventType": "LAP",
+      "eventName": "LAP_CHANGE",
+      "payload": "{\"nextLap\": \"AMR\", \"currentLap\": \"L2\"}",
+      "creationTime": "2026-03-27T06:26:32Z",
+      "timeMarker": 318919
+    },
+    {
+      "id": 524,
+      "examAttemptId": 7,
+      "sequence": 58,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 229, \"questionNo\": 7, \"examQuestionId\": 7}",
+      "creationTime": "2026-03-27T06:26:34Z",
+      "timeMarker": 321050
+    },
+    {
+      "id": 525,
+      "examAttemptId": 7,
+      "sequence": 59,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"B\", \"questionNo\": 7}",
+      "creationTime": "2026-03-27T06:26:40Z",
+      "timeMarker": 327222
+    },
+    {
+      "id": 526,
+      "examAttemptId": 7,
+      "sequence": 60,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 402, \"questionNo\": 8, \"examQuestionId\": 8}",
+      "creationTime": "2026-03-27T06:26:40Z",
+      "timeMarker": 327225
+    },
+    {
+      "id": 527,
+      "examAttemptId": 7,
+      "sequence": 61,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 1058, \"questionNo\": 9, \"examQuestionId\": 9}",
+      "creationTime": "2026-03-27T06:26:42Z",
+      "timeMarker": 329284
+    },
+    {
+      "id": 528,
+      "examAttemptId": 7,
+      "sequence": 62,
+      "eventType": "UI_INTERACTION",
+      "eventName": "ANS_ENTERED",
+      "payload": "{\"answer\": \"C\", \"questionNo\": 9}",
+      "creationTime": "2026-03-27T06:26:51Z",
+      "timeMarker": 337970
+    },
+    {
+      "id": 529,
+      "examAttemptId": 7,
+      "sequence": 63,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"C\", \"questionNo\": 9}",
+      "creationTime": "2026-03-27T06:26:53Z",
+      "timeMarker": 340172
+    },
+    {
+      "id": 530,
+      "examAttemptId": 7,
+      "sequence": 64,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 338, \"questionNo\": 10, \"examQuestionId\": 10}",
+      "creationTime": "2026-03-27T06:26:53Z",
+      "timeMarker": 340175
+    },
+    {
+      "id": 531,
+      "examAttemptId": 7,
+      "sequence": 65,
+      "eventType": "LAP",
+      "eventName": "LAP_CHANGE",
+      "payload": "{\"nextLap\": \"L3P\", \"currentLap\": \"AMR\"}",
+      "creationTime": "2026-03-27T06:26:55Z",
+      "timeMarker": 342121
+    },
+    {
+      "id": 532,
+      "examAttemptId": 7,
+      "sequence": 66,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 28, \"questionNo\": 4, \"examQuestionId\": 4}",
+      "creationTime": "2026-03-27T06:26:57Z",
+      "timeMarker": 344100
+    },
+    {
+      "id": 534,
+      "examAttemptId": 7,
+      "sequence": 67,
+      "eventType": "ANS_ACTION",
+      "eventName": "MARK_REVIEW_&_NEXT",
+      "payload": "{\"answer\": null, \"questionNo\": 4}",
+      "creationTime": "2026-03-27T06:27:00Z",
+      "timeMarker": 347286
+    },
+    {
+      "id": 533,
+      "examAttemptId": 7,
+      "sequence": 68,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 129, \"questionNo\": 5, \"examQuestionId\": 5}",
+      "creationTime": "2026-03-27T06:27:00Z",
+      "timeMarker": 347288
+    },
+    {
+      "id": 535,
+      "examAttemptId": 7,
+      "sequence": 69,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 341, \"questionNo\": 12, \"examQuestionId\": 12}",
+      "creationTime": "2026-03-27T06:27:02Z",
+      "timeMarker": 349017
+    },
+    {
+      "id": 536,
+      "examAttemptId": 7,
+      "sequence": 70,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 163, \"questionNo\": 13, \"examQuestionId\": 13}",
+      "creationTime": "2026-03-27T06:27:06Z",
+      "timeMarker": 353284
+    },
+    {
+      "id": 538,
+      "examAttemptId": 7,
+      "sequence": 71,
+      "eventType": "ANS_ACTION",
+      "eventName": "MARK_REVIEW_&_NEXT",
+      "payload": "{\"answer\": \"C\", \"questionNo\": 13}",
+      "creationTime": "2026-03-27T06:27:11Z",
+      "timeMarker": 357786
+    },
+    {
+      "id": 537,
+      "examAttemptId": 7,
+      "sequence": 72,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 273, \"questionNo\": 14, \"examQuestionId\": 14}",
+      "creationTime": "2026-03-27T06:27:11Z",
+      "timeMarker": 357787
+    },
+    {
+      "id": 539,
+      "examAttemptId": 7,
+      "sequence": 73,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 84, \"questionNo\": 15, \"examQuestionId\": 15}",
+      "creationTime": "2026-03-27T06:27:12Z",
+      "timeMarker": 358800
+    },
+    {
+      "id": 540,
+      "examAttemptId": 7,
+      "sequence": 74,
+      "eventType": "ANS_ACTION",
+      "eventName": "MARK_REVIEW_&_NEXT",
+      "payload": "{\"answer\": \"C\", \"questionNo\": 15}",
+      "creationTime": "2026-03-27T06:27:16Z",
+      "timeMarker": 363020
+    },
+    {
+      "id": 541,
+      "examAttemptId": 7,
+      "sequence": 75,
+      "eventType": "LAP",
+      "eventName": "LAP_CHANGE",
+      "payload": "{\"nextLap\": \"L3.1\", \"currentLap\": \"L3P\"}",
+      "creationTime": "2026-03-27T06:27:18Z",
+      "timeMarker": 364837
+    },
+    {
+      "id": 542,
+      "examAttemptId": 7,
+      "sequence": 76,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 28, \"questionNo\": 4, \"examQuestionId\": 4}",
+      "creationTime": "2026-03-27T06:27:20Z",
+      "timeMarker": 366467
+    },
+    {
+      "id": 543,
+      "examAttemptId": 7,
+      "sequence": 77,
+      "eventType": "UI_INTERACTION",
+      "eventName": "ANS_ENTERED",
+      "payload": "{\"answer\": \"B\", \"questionNo\": 4}",
+      "creationTime": "2026-03-27T06:27:24Z",
+      "timeMarker": 370886
+    },
+    {
+      "id": 544,
+      "examAttemptId": 7,
+      "sequence": 78,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"B\", \"questionNo\": 4}",
+      "creationTime": "2026-03-27T06:27:25Z",
+      "timeMarker": 372170
+    },
+    {
+      "id": 545,
+      "examAttemptId": 7,
+      "sequence": 79,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 129, \"questionNo\": 5, \"examQuestionId\": 5}",
+      "creationTime": "2026-03-27T06:27:25Z",
+      "timeMarker": 372171
+    },
+    {
+      "id": 546,
+      "examAttemptId": 7,
+      "sequence": 80,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 163, \"questionNo\": 13, \"examQuestionId\": 13}",
+      "creationTime": "2026-03-27T06:27:28Z",
+      "timeMarker": 374834
+    },
+    {
+      "id": 548,
+      "examAttemptId": 7,
+      "sequence": 81,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"C\", \"questionNo\": 13}",
+      "creationTime": "2026-03-27T06:27:35Z",
+      "timeMarker": 381870
+    },
+    {
+      "id": 547,
+      "examAttemptId": 7,
+      "sequence": 82,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 273, \"questionNo\": 14, \"examQuestionId\": 14}",
+      "creationTime": "2026-03-27T06:27:35Z",
+      "timeMarker": 381871
+    },
+    {
+      "id": 549,
+      "examAttemptId": 7,
+      "sequence": 83,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 84, \"questionNo\": 15, \"examQuestionId\": 15}",
+      "creationTime": "2026-03-27T06:27:37Z",
+      "timeMarker": 383684
+    },
+    {
+      "id": 550,
+      "examAttemptId": 7,
+      "sequence": 84,
+      "eventType": "ANS_ACTION",
+      "eventName": "SAVE_&_NEXT",
+      "payload": "{\"answer\": \"C\", \"questionNo\": 15}",
+      "creationTime": "2026-03-27T06:27:40Z",
+      "timeMarker": 386671
+    },
+    {
+      "id": 551,
+      "examAttemptId": 7,
+      "sequence": 85,
+      "eventType": "LAP",
+      "eventName": "LAP_CHANGE",
+      "payload": "{\"nextLap\": \"L3.2\", \"currentLap\": \"L3.1\"}",
+      "creationTime": "2026-03-27T06:27:41Z",
+      "timeMarker": 387837
+    },
+    {
+      "id": 552,
+      "examAttemptId": 7,
+      "sequence": 86,
+      "eventType": "Q_ACTIVATION",
+      "eventName": "QUESTION_ACTIVATED",
+      "payload": "{\"questionId\": 341, \"questionNo\": 12, \"examQuestionId\": 12}",
+      "creationTime": "2026-03-27T06:27:42Z",
+      "timeMarker": 389167
+    },
+    {
+      "id": 553,
+      "examAttemptId": 7,
+      "sequence": 87,
+      "eventType": "START_STOP",
+      "eventName": "EXAM_SUBMIT",
+      "payload": "{}",
+      "creationTime": "2026-03-27T06:27:54Z",
+      "timeMarker": 400868
+    }
+  ]
+}
