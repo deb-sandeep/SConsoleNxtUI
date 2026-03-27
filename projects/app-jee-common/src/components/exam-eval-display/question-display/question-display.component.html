@@ -1,0 +1,39 @@
+@if( question ) {
+  @let q = question.examQuestion.question ;
+  <div class="card border-default question-card">
+    <div class="card-header">
+      <span class="topic-name">[{{q.topicName}}]</span>
+      <span class="question-id">{{q.questionId}}</span>
+      <span class="problem-db-id">({{q.id}})</span>
+      <span class="problem-type">{{q.problemType}}</span>
+
+      <div class="problem-rating">
+        <ngb-rating [(rate)]="q.rating"
+                    [max]="10"
+                    (rateChange)="questionRatingChanged()">
+          <ng-template let-fill="fill" let-index="index">
+            <i class="bi-star{{ fill === 100 ? '-fill' : '' }}"
+               [class.filled]="fill === 100"
+               [class.easy]="index < 3"
+               [class.moderate]="index >= 3 && index <= 6"
+               [class.hard]="index > 6"
+            >&nbsp;&nbsp;</i>
+          </ng-template>
+        </ngb-rating>
+      </div>
+
+    </div>
+    <div class="card-body">
+      @let imgs = q.questionImages ;
+      @for( img of imgs; track img.fileName ) {
+        <img class="img-fluid question-img"
+             [src]="getImgURL(img)"
+             [width]="700"
+             [alt]="img.fileName"/>
+      }
+    </div>
+    <div class="card-footer">
+      Answer : <span class="answer">{{q.answer}}</span>
+    </div>
+  </div>
+}

@@ -16,15 +16,17 @@
              class="window section-eval"
              [eval]="eval">
         </div>
-        <div class="window question-eval">
-        </div>
-        <div class="window question-annot">
+        <div questionEval
+             class="window question-eval"
+             [eval]="eval"
+             (questionSelected)="showQuestion( $event )">
         </div>
       </div>
       <div class="right-pane">
         <div class="window time-sequence">
         </div>
-        <div class="window question-display">
+        <div questionDisplay
+             class="window question-display">
         </div>
       </div>
     </div>

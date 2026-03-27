@@ -1,0 +1,69 @@
+<table class="table table-condensed table-sm question-eval-table">
+  <thead>
+  <tr>
+    <th style="width:20px;">#</th>
+    <th style="width:150px;">ID</th>
+    <th style="width:50px;"></th>
+    <th style="width:50px; text-align: center;">A</th>
+    <th style="width:25px; text-align: right;">S</th>
+    <th style="width: 50px;text-align: center;">Time</th>
+    <th style="width:25px;text-align: center;"></th>
+    <th style="text-align: center;">RC</th>
+  </tr>
+  </thead>
+  <tbody>
+
+    @for( section of sectionAttempts; track $index ) {
+      <tr>
+        <td colspan="8"
+            class="section-header"
+            [style.background-color]="section.bgColor">
+
+          <span [ngClass]="section.getTweakieClass()"
+                (click)="section.collapsed = !section.collapsed"></span>
+          {{section.sectionName}}
+        </td>
+      </tr>
+
+      @if( !section.collapsed ) {
+        @for( qAttempt of section.questionAttempts; track $index ) {
+          @let q = qAttempt.examQuestion ;
+
+          <tr (click)="selectQuestionAttempt( qAttempt )"
+              [class.selected]=" qAttempt == selectedAttempt">
+            <td>{{q.sequence}}</td>
+            <td class="q-id">
+              {{q.question.questionId}}
+            </td>
+            <td class="ref-answer">
+              {{q.question.answer}}
+            </td>
+            <td class="provided-answer"
+                [style.background-color]="getAnsProvidedBgColor( qAttempt )">
+              {{qAttempt.answerProvided}}
+            </td>
+            <td class="numeric score"
+                [style.color]="getScoreColor( qAttempt )">
+              {{qAttempt.score}}
+            </td>
+            <td class="time-taken"
+                [style.color]="getTimeTakenColor( qAttempt )">
+              {{qAttempt.timeSpent*1000 | duration}}
+            </td>
+            <td class="rating">
+              @let rating = q.question.rating ;
+              <span class="bi-star-fill filled"
+                 [class.easy]="rating < 3 && rating > 0"
+                 [class.moderate]="rating >= 3 && rating <= 6"
+                 [class.hard]="rating > 6"
+              ></span>
+            </td>
+            <td>
+              {{qAttempt.rootCause}}
+            </td>
+          </tr>
+        }
+      }
+    }
+  </tbody>
+</table>

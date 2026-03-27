@@ -1,0 +1,36 @@
+.numeric {
+    font-family: Courier, monospace ;
+    text-align: center;
+}
+
+.full-score {
+    color: green;
+    font-weight: bold;
+}
+
+.less-score {
+    color: red;
+    font-weight: bold;
+}
+
+.time-taken {
+    font-family: Courier, monospace ;
+    text-align: right;
+    font-size: 11px;
+}
+
+.filled {
+    color: #e4e4e4;
+}
+
+.filled.easy {
+    color: #ffb889;
+}
+
+.filled.moderate {
+    color: #fd9117;
+}
+
+.filled.hard {
+    color: #ff4c0a;
+}

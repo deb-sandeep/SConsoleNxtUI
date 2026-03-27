@@ -24,6 +24,7 @@ export type QuestionSO = {
     answer: string,
     serverSyncTime: Date,
     questionImages: QuestionImageSO[],
+    rating: number
 }
 
 export interface ExamQuestionSO {

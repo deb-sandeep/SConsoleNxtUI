@@ -1,0 +1,51 @@
+@import "../exam-eval.common.css";
+
+.question-eval-table {
+    font-size: 13px;
+}
+
+th {
+    background-color: #c8c8c8;
+}
+
+.section-header {
+    padding: 5px;
+}
+
+.tweakie {
+    margin-right: 5px ;
+    font-size: 15px;
+}
+
+tr.selected td {
+    background-color: #fff058;
+}
+
+td {
+    font-size: 12px ;
+    padding: 5px 0;
+}
+
+.q-id {
+    font-size: 10px;
+}
+
+.ref-answer {
+    background-color:#c8c8c8 !important;
+    text-align: center;
+}
+
+.provided-answer {
+    text-align: center;
+}
+
+.score {
+    text-align: right !important;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.rating {
+    text-align: center;
+}
+
