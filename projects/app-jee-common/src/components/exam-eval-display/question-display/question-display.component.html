@@ -24,8 +24,8 @@
 
     </div>
     <div class="card-body">
-      @let imgs = q.questionImages ;
-      @for( img of imgs; track img.fileName ) {
+      @let images = q.questionImages ;
+      @for( img of images; track img.fileName ) {
         <img class="img-fluid question-img"
              [src]="getImgURL(img)"
              [width]="700"
