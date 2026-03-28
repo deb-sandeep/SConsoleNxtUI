@@ -40,7 +40,7 @@ canvas {
     top: 0;
     left: 0;
     z-index: 3;
-    background-color: #ffffff;
+    background-color: #f8f8f8;
 }
 
 .gantt-header {
@@ -49,7 +49,7 @@ canvas {
     top: 0;
     z-index: 2;
     overflow-x: hidden;
-    background-color: #b18fff;
+    background-color: #ffe8bf;
 }
 
 .gantt-labels {
@@ -58,13 +58,13 @@ canvas {
     left: 0;
     z-index: 2;
     overflow-y: auto;
-    background-color: #ffffff;
+    background-color: #f8f8f8;
 }
 
 .gantt-content {
     grid-area: content;
     overflow: auto;
     z-index: 1;
-    background-color: #ffdd83;
+    background-color: #f8f8f8;
 }
 

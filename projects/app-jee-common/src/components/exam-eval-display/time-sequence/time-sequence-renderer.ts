@@ -1,4 +1,5 @@
-import { ExamAttemptSO, ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
+import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
+import { QuestionTrack } from "./question-track-renderer";
 
 export interface TimeSequenceConfig {
 
@@ -40,6 +41,11 @@ export interface TimeSequenceConfig {
         minuteWidth : number ;
         trackHeight : number ;
     }
+    syllabusColors : {
+        physics: string ;
+        chemistry: string ;
+        maths : string ;
+    }
 }
 
 interface TimeSequenceCanvases {
@@ -56,33 +62,6 @@ interface CanvasContexts {
     content: CanvasRenderingContext2D;
 }
 
-interface TrackBounds {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-}
-
-class QuestionTrack {
-    name : string ;
-    labelBounds : TrackBounds;
-    timelineBounds : TrackBounds;
-
-    constructor( private attempt: ExamQuestionAttemptSO ) {
-        this.name = this.constructName() ;
-    }
-
-    private constructName() {
-        const syllabus = this.attempt.examQuestion.question.syllabusName ;
-        const problemType = this.attempt.examQuestion.question.problemType ;
-        const sequence = this.attempt.examQuestion.sequence ;
-
-        return syllabus.charAt(4) + " " +
-               problemType + " " +
-               sequence.toString().padStart( 2, '0' ) ;
-    }
-}
-
 export class TimeSequenceRenderer {
 
     private eval : ExamAttemptSO ;
@@ -91,7 +70,51 @@ export class TimeSequenceRenderer {
     private ctx: CanvasContexts ;
     private scale: number = 1 ;
 
-    private readonly config: TimeSequenceConfig;
+    private readonly config: TimeSequenceConfig = {
+        lapConfig : {
+            colors : {
+                L1 : "#d3d3d3",
+                L2P : "#e7b9ff",
+                L2 : "#c491fd",
+                AMR : "#aea4f8",
+                L3P : "#faa5a5",
+                L3_1 : "#be7aff",
+                L3_2 : "#fb7b7b",
+            }
+        },
+        trackConfig : {
+            topMargin: 2,
+            bottomMargin: 2,
+        },
+        headerConfig : {
+            lapHdrHeight : 15,
+            timeHeaderHeight : 15,
+            lapFont : '11px Arial',
+            timeFont: '11px Arial' ,
+        },
+        labelConfig : {
+            labelWidth: 70,
+            rowHeight : 20,
+            labelFont: '11px Courier',
+            leftMargin : 5,
+            rightMargin : 5,
+        },
+        timelineConfig : {
+            marginLeft : 10,
+            marginRight : 10,
+        },
+        units : {
+            defaultMinuteWidth: 20,
+            defaultTrackHeight : 30,
+            minuteWidth: 20,
+            trackHeight: 30,
+        },
+        syllabusColors : {
+            physics : "#FFC468",
+            chemistry : "#84FF85",
+            maths : "#97D6FF",
+        }
+    } ;
 
     private qTracks: QuestionTrack[] = [];
 
@@ -107,48 +130,6 @@ export class TimeSequenceRenderer {
             labels : this.canvases.labels.getContext( '2d' )!,
             content : this.canvases.content.getContext( '2d' )!,
         }
-
-        // Default configuration
-        this.config = {
-            lapConfig : {
-                colors : {
-                    L1 : "#d3d3d3",
-                    L2P : "#e7b9ff",
-                    L2 : "#c491fd",
-                    AMR : "#aea4f8",
-                    L3P : "#faa5a5",
-                    L3_1 : "#be7aff",
-                    L3_2 : "#fb7b7b",
-                }
-            },
-            trackConfig : {
-              topMargin: 2,
-              bottomMargin: 2,
-            },
-            headerConfig : {
-                lapHdrHeight : 15,
-                timeHeaderHeight : 15,
-                lapFont : '11px Arial',
-                timeFont: '11px Arial' ,
-            },
-            labelConfig : {
-                labelWidth: 70,
-                rowHeight : 20,
-                labelFont: '11px Courier',
-                leftMargin : 5,
-                rightMargin : 5,
-            },
-            timelineConfig : {
-                marginLeft : 10,
-                marginRight : 10,
-            },
-            units : {
-                defaultMinuteWidth: 20,
-                defaultTrackHeight : 30,
-                minuteWidth: 20,
-                trackHeight: 30,
-            }
-        } ;
 
         // Override defaults with the provided config
         if( config ) {
@@ -214,7 +195,13 @@ export class TimeSequenceRenderer {
     private parseExamEval()  {
         for( let sectionAttempt of this.eval.sectionAttempts ) {
             for( let qAttempt of sectionAttempt.questionAttempts ) {
-                this.qTracks.push( new QuestionTrack( qAttempt ) ) ;
+                this.qTracks.push( new QuestionTrack(
+                  qAttempt,
+                  this.canvases.labels,
+                  this.ctx.labels,
+                  this.canvases.content,
+                  this.ctx.content,
+                  this.config ) ) ;
             }
         }
     }
@@ -254,91 +241,28 @@ export class TimeSequenceRenderer {
 
     private renderChartComponents(): void {
         this.recomputeTrackBounds() ;
-        this.renderCorner() ;
         this.renderLabels() ;
+        this.renderTimelines() ;
         this.renderHeader();
         this.renderGanttChart();
     }
 
     private recomputeTrackBounds() : void {
-        for( let trackIndex = 0; trackIndex < this.qTracks.length; trackIndex++ ) {
-
-            // Tracks are stacked row-by-row, so both canvases share the same Y and height.
-            const sharedY = this.getTrackY( trackIndex ) ;
-            const sharedHeight = this.getTrackRenderableHeight() ;
-
-            this.qTracks[trackIndex].labelBounds = this.createTrackBounds(
-                this.config.labelConfig.leftMargin,
-                sharedY,
-                this.getLabelTrackWidth(),
-                sharedHeight
-            ) ;
-
-            this.qTracks[trackIndex].timelineBounds = this.createTrackBounds(
-                this.config.timelineConfig.marginLeft,
-                sharedY,
-                this.getTimelineTrackWidth(),
-                sharedHeight
-            ) ;
+        for( let track of this.qTracks ) {
+            track.recomputeTrackBounds() ;
         }
     }
 
-    /**
-     * Tracks occupy equally stacked vertical slots based on the shared base height.
-     * The top margin shifts the drawable track area down inside that slot.
-     */
-    private getTrackY( trackIndex: number ) : number {
-        return ( trackIndex * this.config.units.trackHeight ) + this.config.trackConfig.topMargin ;
-    }
-
-    /**
-     * The visible track height is the base height minus the reserved top and bottom
-     * spacing, clamped so invalid configs do not produce negative bounds.
-     */
-    private getTrackRenderableHeight() : number {
-        const verticalMargins = this.config.trackConfig.topMargin +
-                                         this.config.trackConfig.bottomMargin ;
-        return Math.max( 0, this.config.units.trackHeight - verticalMargins ) ;
-    }
-
-    /**
-     * Label bounds use the fixed label column width and remove the label margins from
-     * the left and right edges before the track text is rendered.
-     */
-    private getLabelTrackWidth() : number {
-        return this.getRenderableWidth(
-            this.config.labelConfig.labelWidth,
-            this.config.labelConfig.leftMargin,
-            this.config.labelConfig.rightMargin
-        ) ;
-    }
-
-    /**
-     * Timeline bounds use the content canvas width and remove the timeline margins so
-     * drawing stays inside the intended horizontal gutter.
-     */
-    private getTimelineTrackWidth() : number {
-        return this.getRenderableWidth(
-            this.canvases.content.width,
-            this.config.timelineConfig.marginLeft,
-            this.config.timelineConfig.marginRight
-        ) ;
-    }
-
-    /**
-     * Shared width helper for both label and timeline bounds.
-     */
-    private getRenderableWidth( baseWidth: number, startMargin: number, endMargin: number ) : number {
-        return Math.max( 0, baseWidth - startMargin - endMargin ) ;
-    }
-
-    private createTrackBounds( x: number, y: number, width: number, height: number ) : TrackBounds {
-        return { x, y, width, height } ;
-    }
-
-    private renderCorner() {}
-
     private renderLabels() {
+        for( let track of this.qTracks ) {
+            track.renderLabel() ;
+        }
+    }
+
+    private renderTimelines() {
+        for( let track of this.qTracks ) {
+            track.renderTimeline() ;
+        }
     }
 
     private renderHeader() {
