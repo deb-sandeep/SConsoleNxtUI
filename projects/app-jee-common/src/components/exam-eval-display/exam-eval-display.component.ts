@@ -5,13 +5,15 @@ import { QuestionEvalComponent } from "@jee-common/components/exam-eval-display/
 import {
   QuestionDisplayComponent
 } from "@jee-common/components/exam-eval-display/question-display/question-display.component";
+import { TimeSequenceComponent } from "@jee-common/components/exam-eval-display/time-sequence/time-sequence.component";
 
 @Component({
   selector: 'exam-eval-display',
   imports: [
     SectionEvalComponent,
     QuestionEvalComponent,
-    QuestionDisplayComponent
+    QuestionDisplayComponent,
+    TimeSequenceComponent
   ],
   templateUrl: './exam-eval-display.component.html',
   styleUrl: './exam-eval-display.component.css'
