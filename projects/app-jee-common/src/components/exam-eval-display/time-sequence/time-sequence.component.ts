@@ -55,16 +55,13 @@ export class TimeSequenceComponent {
 
     // Observe the content container for size changes
     const contentContainer = this.contentCanvas.parentElement! ;
-    this.resizeObserver.observe( contentContainer ) ;
-
-    // Set up scroll synchronization for content container
     contentContainer.addEventListener('scroll', this.handleContentScroll ) ;
+    this.resizeObserver.observe( contentContainer ) ;
 
     // Set up scroll synchronization for labels container
     const labelsContainer = this.labelsCanvas.parentElement! ;
     labelsContainer.addEventListener('scroll', this.handleLabelsScroll ) ;
 
-    // Initial render
     console.log( 'Rendering chart after ngViewInit' ) ;
     this.renderer.resizeCanvases();
     this.renderer.render() ;
@@ -75,14 +72,13 @@ export class TimeSequenceComponent {
       this.resizeObserver.disconnect();
     }
 
-    // Remove scroll event listeners
     const contentContainer = this.contentCanvas.parentElement;
-    if (contentContainer) {
+    if( contentContainer ) {
       contentContainer.removeEventListener('scroll', this.handleContentScroll);
     }
 
     const labelsContainer = this.labelsCanvas.parentElement;
-    if (labelsContainer) {
+    if( labelsContainer ) {
       labelsContainer.removeEventListener('scroll', this.handleLabelsScroll ) ;
     }
   }

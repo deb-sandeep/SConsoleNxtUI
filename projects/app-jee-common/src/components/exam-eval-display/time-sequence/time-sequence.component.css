@@ -40,7 +40,7 @@ canvas {
     top: 0;
     left: 0;
     z-index: 3;
-    background-color: #92e0ff;
+    background-color: #ffffff;
 }
 
 .gantt-header {
@@ -58,7 +58,7 @@ canvas {
     left: 0;
     z-index: 2;
     overflow-y: auto;
-    background-color: #8e6969;
+    background-color: #ffffff;
 }
 
 .gantt-content {

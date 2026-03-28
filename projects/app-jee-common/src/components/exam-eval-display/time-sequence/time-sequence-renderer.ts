@@ -1,4 +1,4 @@
-import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
+import { ExamAttemptSO, ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
 
 export interface TimeSequenceConfig {
 
@@ -13,6 +13,10 @@ export interface TimeSequenceConfig {
             L3_2 : string;
         }
     }
+    trackConfig : {
+        topMargin : number,
+        bottomMargin : number,
+    }
     headerConfig : {
         lapHdrHeight : number;
         timeHeaderHeight : number;
@@ -23,12 +27,18 @@ export interface TimeSequenceConfig {
         labelWidth: number ;
         rowHeight : number ;
         labelFont: string ;
+        leftMargin : number ;
+        rightMargin : number ;
+    }
+    timelineConfig : {
+        marginLeft: number ;
+        marginRight : number ;
     }
     units : {
         defaultMinuteWidth: number ;
-        defaultQuestionRowHeight : number ;
+        defaultTrackHeight : number ;
         minuteWidth : number ;
-        questionRowHeight : number ;
+        trackHeight : number ;
     }
 }
 
@@ -46,6 +56,33 @@ interface CanvasContexts {
     content: CanvasRenderingContext2D;
 }
 
+interface TrackBounds {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}
+
+class QuestionTrack {
+    name : string ;
+    labelBounds : TrackBounds;
+    timelineBounds : TrackBounds;
+
+    constructor( private attempt: ExamQuestionAttemptSO ) {
+        this.name = this.constructName() ;
+    }
+
+    private constructName() {
+        const syllabus = this.attempt.examQuestion.question.syllabusName ;
+        const problemType = this.attempt.examQuestion.question.problemType ;
+        const sequence = this.attempt.examQuestion.sequence ;
+
+        return syllabus.charAt(4) + " " +
+               problemType + " " +
+               sequence.toString().padStart( 2, '0' ) ;
+    }
+}
+
 export class TimeSequenceRenderer {
 
     private eval : ExamAttemptSO ;
@@ -55,6 +92,8 @@ export class TimeSequenceRenderer {
     private scale: number = 1 ;
 
     private readonly config: TimeSequenceConfig;
+
+    private qTracks: QuestionTrack[] = [];
 
     constructor( attempt: ExamAttemptSO,
                  config: Partial<TimeSequenceConfig>,
@@ -82,6 +121,10 @@ export class TimeSequenceRenderer {
                     L3_2 : "#fb7b7b",
                 }
             },
+            trackConfig : {
+              topMargin: 2,
+              bottomMargin: 2,
+            },
             headerConfig : {
                 lapHdrHeight : 15,
                 timeHeaderHeight : 15,
@@ -89,15 +132,21 @@ export class TimeSequenceRenderer {
                 timeFont: '11px Arial' ,
             },
             labelConfig : {
-                labelWidth: 50,
+                labelWidth: 70,
                 rowHeight : 20,
-                labelFont: '11px Courier New',
+                labelFont: '11px Courier',
+                leftMargin : 5,
+                rightMargin : 5,
+            },
+            timelineConfig : {
+                marginLeft : 10,
+                marginRight : 10,
             },
             units : {
                 defaultMinuteWidth: 20,
-                defaultQuestionRowHeight : 30,
+                defaultTrackHeight : 30,
                 minuteWidth: 20,
-                questionRowHeight: 30,
+                trackHeight: 30,
             }
         } ;
 
@@ -105,6 +154,7 @@ export class TimeSequenceRenderer {
         if( config ) {
             this.config = { ...this.config, ...config };
         }
+        this.parseExamEval() ;
     }
 
     public resizeCanvases(): void {
@@ -157,8 +207,16 @@ export class TimeSequenceRenderer {
         this.config.units.defaultMinuteWidth = minuteWidth ;
         this.config.units.minuteWidth = minuteWidth * this.scale ;
 
-        this.config.units.defaultQuestionRowHeight = questionRowHeight ;
-        this.config.units.questionRowHeight = questionRowHeight * this.scale ;
+        this.config.units.defaultTrackHeight = questionRowHeight ;
+        this.config.units.trackHeight = questionRowHeight * this.scale ;
+    }
+
+    private parseExamEval()  {
+        for( let sectionAttempt of this.eval.sectionAttempts ) {
+            for( let qAttempt of sectionAttempt.questionAttempts ) {
+                this.qTracks.push( new QuestionTrack( qAttempt ) ) ;
+            }
+        }
     }
 
     public render(): void {
@@ -181,7 +239,7 @@ export class TimeSequenceRenderer {
         const numQuestions = exam.numChemQuestions + exam.numPhyQuestions + exam.numMathQuestions ;
 
         let reqContentWidth = (duration/60) * this.config.units.minuteWidth ;
-        let reqContentHeight = numQuestions * this.config.units.questionRowHeight ;
+        let reqContentHeight = numQuestions * this.config.units.trackHeight ;
 
         if( reqContentHeight > this.canvases.labels.height ) {
             this.canvases.labels.height = reqContentHeight;
@@ -195,25 +253,97 @@ export class TimeSequenceRenderer {
     }
 
     private renderChartComponents(): void {
-        this.renderCorner();
-        this.renderHeader();
+        this.recomputeTrackBounds() ;
+        this.renderCorner() ;
         this.renderLabels() ;
+        this.renderHeader();
         this.renderGanttChart();
     }
 
-    private renderCorner() {
+    private recomputeTrackBounds() : void {
+        for( let trackIndex = 0; trackIndex < this.qTracks.length; trackIndex++ ) {
 
+            // Tracks are stacked row-by-row, so both canvases share the same Y and height.
+            const sharedY = this.getTrackY( trackIndex ) ;
+            const sharedHeight = this.getTrackRenderableHeight() ;
+
+            this.qTracks[trackIndex].labelBounds = this.createTrackBounds(
+                this.config.labelConfig.leftMargin,
+                sharedY,
+                this.getLabelTrackWidth(),
+                sharedHeight
+            ) ;
+
+            this.qTracks[trackIndex].timelineBounds = this.createTrackBounds(
+                this.config.timelineConfig.marginLeft,
+                sharedY,
+                this.getTimelineTrackWidth(),
+                sharedHeight
+            ) ;
+        }
+    }
+
+    /**
+     * Tracks occupy equally stacked vertical slots based on the shared base height.
+     * The top margin shifts the drawable track area down inside that slot.
+     */
+    private getTrackY( trackIndex: number ) : number {
+        return ( trackIndex * this.config.units.trackHeight ) + this.config.trackConfig.topMargin ;
+    }
+
+    /**
+     * The visible track height is the base height minus the reserved top and bottom
+     * spacing, clamped so invalid configs do not produce negative bounds.
+     */
+    private getTrackRenderableHeight() : number {
+        const verticalMargins = this.config.trackConfig.topMargin +
+                                         this.config.trackConfig.bottomMargin ;
+        return Math.max( 0, this.config.units.trackHeight - verticalMargins ) ;
+    }
+
+    /**
+     * Label bounds use the fixed label column width and remove the label margins from
+     * the left and right edges before the track text is rendered.
+     */
+    private getLabelTrackWidth() : number {
+        return this.getRenderableWidth(
+            this.config.labelConfig.labelWidth,
+            this.config.labelConfig.leftMargin,
+            this.config.labelConfig.rightMargin
+        ) ;
+    }
+
+    /**
+     * Timeline bounds use the content canvas width and remove the timeline margins so
+     * drawing stays inside the intended horizontal gutter.
+     */
+    private getTimelineTrackWidth() : number {
+        return this.getRenderableWidth(
+            this.canvases.content.width,
+            this.config.timelineConfig.marginLeft,
+            this.config.timelineConfig.marginRight
+        ) ;
+    }
+
+    /**
+     * Shared width helper for both label and timeline bounds.
+     */
+    private getRenderableWidth( baseWidth: number, startMargin: number, endMargin: number ) : number {
+        return Math.max( 0, baseWidth - startMargin - endMargin ) ;
+    }
+
+    private createTrackBounds( x: number, y: number, width: number, height: number ) : TrackBounds {
+        return { x, y, width, height } ;
+    }
+
+    private renderCorner() {}
+
+    private renderLabels() {
     }
 
     private renderHeader() {
-
-    }
-
-    private renderLabels() {
-
     }
 
     private renderGanttChart() {
-
     }
 }
