@@ -13,7 +13,18 @@
     left: 0;
     width: 100%;
     height: var(--tool-bar-height);
-    background-color: #bf5116;
+    line-height: var(--tool-bar-height);
+    background-color: #c5c5c5;
+}
+
+.tool-btn {
+    float: right;
+    margin: 0 10px 0 5px;
+    font-size: 15px;
+}
+
+.tool-btn:hover {
+    color: blue;
 }
 
 .gantt-container {
@@ -26,7 +37,6 @@
     grid-template-areas:
         "corner header"
         "labels content";
-    border: 1px solid #ccc;
     background-color: #e7ffa1;
 }
 

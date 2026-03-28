@@ -4,7 +4,6 @@ import { TimeSequenceRenderer, TimeSequenceConfig } from "./time-sequence-render
 
 @Component({
   selector: 'div[timeSequence]',
-  imports: [],
   templateUrl: './time-sequence.component.html',
   styleUrl: './time-sequence.component.css'
 })
@@ -12,9 +11,6 @@ export class TimeSequenceComponent {
 
   @Input()
   eval: ExamAttemptSO | null = null ;
-
-  @ViewChild('cornerCanvas')
-  cornerRef!: ElementRef<HTMLCanvasElement> ;
 
   @ViewChild('headerCanvas')
   headerRef!: ElementRef<HTMLCanvasElement> ;
@@ -25,29 +21,27 @@ export class TimeSequenceComponent {
   @ViewChild('contentCanvas')
   contentRef!: ElementRef<HTMLCanvasElement> ;
 
-  private cornerCanvas!: HTMLCanvasElement ;
   private headerCanvas!: HTMLCanvasElement ;
   private labelsCanvas!: HTMLCanvasElement ;
   private contentCanvas!: HTMLCanvasElement ;
 
   private resizeObserver!: ResizeObserver ;
-  private renderer!: TimeSequenceRenderer ;
 
   private config: Partial<TimeSequenceConfig> = {};
 
+  renderer: TimeSequenceRenderer ;
+
   ngAfterViewInit(): void {
 
-    this.cornerCanvas = this.cornerRef.nativeElement ;
     this.headerCanvas = this.headerRef.nativeElement ;
     this.labelsCanvas = this.labelsRef.nativeElement ;
     this.contentCanvas = this.contentRef.nativeElement ;
 
-    this.renderer = new TimeSequenceRenderer( this.eval!, this.config, {
-      corner: this.cornerCanvas ,
-      header: this.headerCanvas ,
-      labels: this.labelsCanvas ,
-      content: this.contentCanvas
-    } ) ;
+    this.renderer = new TimeSequenceRenderer( this.eval!,
+                                              this.config,
+                                              this.headerCanvas,
+                                              this.labelsCanvas,
+                                              this.contentCanvas ) ;
 
     this.resizeObserver = new ResizeObserver(() => {
       this.renderer.resizeCanvases() ;
@@ -101,5 +95,5 @@ export class TimeSequenceComponent {
 
     // Sync content canvas with vertical scroll from labels
     contentContainer.scrollTop = labelsContainer.scrollTop;
-  };
+  } ;
 }

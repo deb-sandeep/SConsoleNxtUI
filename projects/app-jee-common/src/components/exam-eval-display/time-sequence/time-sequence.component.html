@@ -1,10 +1,14 @@
 <div class="page-content">
   <div class="tool-bar">
+    <span class="bi-zoom-in tool-btn"
+          (click)="renderer.zoomIn()"></span>
+    <span class="bi-zoom-out tool-btn"
+          (click)="renderer.zoomOut()"></span>
+    <span class="bi-arrows-fullscreen tool-btn"
+          (click)="renderer.zoomToFullSize()"></span>
   </div>
   <div class="gantt-container">
-    <div class="gantt-corner">
-      <canvas #cornerCanvas></canvas>
-    </div>
+    <div class="gantt-corner"></div>
     <div class="gantt-header">
       <canvas #headerCanvas></canvas>
     </div>

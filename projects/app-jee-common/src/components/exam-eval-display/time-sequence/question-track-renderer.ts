@@ -1,5 +1,5 @@
 import { ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
-import { TimeSequenceConfig } from "./time-sequence-renderer";
+import { DrawingArea, TimeSequenceConfig } from "./time-sequence-renderer";
 
 interface TrackBounds {
     x: number;
@@ -8,7 +8,7 @@ interface TrackBounds {
     height: number;
 }
 
-export class QuestionTrack {
+export class QuestionTrackRenderer {
 
     trackIndex: number;
     bgColor: string;
@@ -18,10 +18,8 @@ export class QuestionTrack {
 
     constructor(
       private attempt: ExamQuestionAttemptSO,
-      private labelCanvas: HTMLCanvasElement,
-      private labelCanvasCtx: CanvasRenderingContext2D,
-      private contentCanvas: HTMLCanvasElement,
-      private contentCanvasCtx: CanvasRenderingContext2D,
+      private labelsArea: DrawingArea,
+      private contentArea: DrawingArea,
       private config: TimeSequenceConfig
     ) {
         this.trackIndex = attempt.examQuestion.sequence - 1;
@@ -65,9 +63,9 @@ export class QuestionTrack {
         } ;
 
         this.timelineBounds = {
-            x: this.config.timelineConfig.marginLeft,
+            x: 0,
             y: sharedY,
-            width: this.getTimelineTrackWidth(),
+            width: this.contentArea.canvas.width,
             height: sharedHeight,
         } ;
     }
@@ -78,7 +76,7 @@ export class QuestionTrack {
 
     private getTrackRenderableHeight() : number {
         const verticalMargins = this.config.trackConfig.topMargin +
-          this.config.trackConfig.bottomMargin ;
+                                         this.config.trackConfig.bottomMargin ;
         return Math.max( 0, this.config.units.trackHeight - verticalMargins ) ;
     }
 
@@ -90,44 +88,49 @@ export class QuestionTrack {
         ) ;
     }
 
-    private getTimelineTrackWidth() : number {
-        return Math.max(
-          0,
-          this.contentCanvas.width -
-          this.config.timelineConfig.marginLeft -
-          this.config.timelineConfig.marginRight
-        ) ;
+    public renderTrack() {
+        this.renderLabel() ;
+        this.renderTimeTrack() ;
     }
 
-    public renderLabel() {
-        this.labelCanvasCtx.save() ;
+    private renderLabel() {
+        const g = this.labelsArea.g ;
 
-        // Label rendering uses the precomputed label bounds so the label column stays
-        // aligned with the matching timeline row.
-        this.labelCanvasCtx.fillStyle = this.bgColor ;
-        this.labelCanvasCtx.fillRect(
+        g.save() ;
+        g.fillStyle = this.bgColor ;
+        g.fillRect(
             this.labelBounds.x,
             this.labelBounds.y,
             this.labelBounds.width,
             this.labelBounds.height
         ) ;
 
-        this.labelCanvasCtx.restore() ;
+        let fontSize = this.config.labelConfig.fontSize ;
+        if( this.labelBounds.height >= 10 ) {
+            fontSize = Math.min( fontSize , this.labelBounds.height ) ;
+            g.fillStyle = "#252525" ;
+            g.font = fontSize + 'px ' + this.config.labelConfig.fontName ;
+            g.textBaseline = "middle" ;
+            g.fillText( this.name,
+              this.labelBounds.x + 2,
+              this.labelBounds.y + this.labelBounds.height/2,
+              this.labelBounds.width ) ;
+        }
+
+        g.restore() ;
     }
 
-    public renderTimeline() {
-        this.contentCanvasCtx.save() ;
+    private renderTimeTrack() {
+        const g = this.contentArea.g ;
 
-        // Timeline rendering uses the precomputed timeline bounds so the content area
-        // shares the same vertical placement as the label row.
-        this.contentCanvasCtx.fillStyle = this.bgColor ;
-        this.contentCanvasCtx.fillRect(
-            this.timelineBounds.x,
-            this.timelineBounds.y,
-            this.timelineBounds.width,
-            this.timelineBounds.height
-        ) ;
+        g.save() ;
 
-        this.contentCanvasCtx.restore() ;
+        g.strokeStyle = this.config.timelineConfig.lineColor ;
+        g.beginPath() ;
+        g.moveTo( this.timelineBounds.x, this.timelineBounds.y + this.timelineBounds.height/2 ) ;
+        g.lineTo( this.timelineBounds.width, this.timelineBounds.y + this.timelineBounds.height/2 ) ;
+        g.stroke() ;
+
+        g.restore() ;
     }
 }
