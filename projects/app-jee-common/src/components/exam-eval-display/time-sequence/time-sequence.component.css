@@ -75,6 +75,6 @@ canvas {
     grid-area: content;
     overflow: auto;
     z-index: 1;
-    background-color: #f8f8f8;
+    background-color: #ffffff;
 }
 

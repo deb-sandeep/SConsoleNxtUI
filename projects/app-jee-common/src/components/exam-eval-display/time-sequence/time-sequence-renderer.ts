@@ -1,18 +1,19 @@
 import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
 import { QuestionTrackRenderer } from "./question-track-renderer";
 import { TimeMarkerRenderer } from "./time-marker-renderer";
+import { LapMarkerRenderer } from "@jee-common/components/exam-eval-display/time-sequence/lap-marker-renderer";
+import { end } from "@popperjs/core";
 
 export interface TimeSequenceConfig {
-
     lapConfig : {
         colors : {
-            L1 : string;
-            L2P : string;
-            L2 : string;
-            AMR : string;
-            L3P : string;
-            L3_1 : string;
-            L3_2 : string;
+            "L1" : string;
+            "L2P" : string;
+            "L2" : string;
+            "AMR" : string;
+            "L3P" : string;
+            "L3.1" : string;
+            "L3.2" : string;
         }
     }
     trackConfig : {
@@ -49,6 +50,8 @@ export interface TimeSequenceConfig {
     }
 }
 
+type LapName = keyof TimeSequenceConfig["lapConfig"]["colors"] ;
+
 export interface DrawingArea {
     canvas: HTMLCanvasElement;
     g: CanvasRenderingContext2D;
@@ -59,13 +62,13 @@ export class TimeSequenceRenderer {
     private readonly config: TimeSequenceConfig = {
         lapConfig : {
             colors : {
-                L1 : "#d3d3d3",
-                L2P : "#e7b9ff",
-                L2 : "#c491fd",
-                AMR : "#aea4f8",
-                L3P : "#faa5a5",
-                L3_1 : "#be7aff",
-                L3_2 : "#fb7b7b",
+                "L1": "rgb(207 207 207 / 0.5)",
+                "L2P": "rgb(100 180 255 / 0.32)",
+                "L2": "rgb(255 101 149 / 0.35)",
+                "AMR": "rgb(3 248 3 / 0.18)",
+                "L3P": "rgb(196 124 251 / 0.24)",
+                "L3.1": "rgb(255 255 0 / 0.19)",
+                "L3.2": "rgb(0 255 255 / 0.21)",
             }
         },
         trackConfig : {
@@ -74,7 +77,7 @@ export class TimeSequenceRenderer {
         },
         headerConfig : {
             lapHdrHeight : 20,
-            timeHeaderHeight : 20,
+            timeHeaderHeight : 15,
             lapFont : '11px Arial',
             timeFont: '11px Arial' ,
         },
@@ -110,8 +113,9 @@ export class TimeSequenceRenderer {
 
     private scale: number = 1 ;
 
-    private qTracks: QuestionTrackRenderer[] = [];
-    private timeMarkers: TimeMarkerRenderer[] = [];
+    private questionTrackRenderers: QuestionTrackRenderer[] = [];
+    private timeMarkerRenderers: TimeMarkerRenderer[] = [];
+    private lapBgRenderers: LapMarkerRenderer[] = [] ;
 
     constructor( attempt: ExamAttemptSO,
                  config: Partial<TimeSequenceConfig>,
@@ -128,14 +132,15 @@ export class TimeSequenceRenderer {
         if( config ) {
             this.config = { ...this.config, ...config };
         }
-        this.createQuestionTracks() ;
-        this.createTimeMarkers() ;
+        this.createQuestionTrackRenderers() ;
+        this.createTimeMarkerRenderers() ;
+        this.createLapBgRenderers() ;
     }
 
-    private createQuestionTracks()  {
+    private createQuestionTrackRenderers()  {
         for( let sectionAttempt of this.eval.sectionAttempts ) {
             for( let qAttempt of sectionAttempt.questionAttempts ) {
-                this.qTracks.push( new QuestionTrackRenderer(
+                this.questionTrackRenderers.push( new QuestionTrackRenderer(
                   qAttempt,
                   this.labelsArea,
                   this.contentArea,
@@ -144,7 +149,7 @@ export class TimeSequenceRenderer {
         }
     }
 
-    private createTimeMarkers() {
+    private createTimeMarkerRenderers() {
 
         // duration is in seconds
         const examDuration = this.eval.exam.duration ;
@@ -160,11 +165,48 @@ export class TimeSequenceRenderer {
             markerDuration = 15*60 ;
         }
 
-        this.timeMarkers.push( this.createTimeMarkerRenderer( 0 ) ) ;
+        this.timeMarkerRenderers.push( this.createTimeMarkerRenderer( 0 ) ) ;
         for( let i=300; i<examDuration; i+=300 ) {
-            this.timeMarkers.push( this.createTimeMarkerRenderer( i ) ) ;
+            this.timeMarkerRenderers.push( this.createTimeMarkerRenderer( i ) ) ;
         }
-        this.timeMarkers.push( this.createTimeMarkerRenderer( examDuration ) ) ;
+        this.timeMarkerRenderers.push( this.createTimeMarkerRenderer( examDuration ) ) ;
+    }
+
+    private createLapBgRenderers()  {
+
+        let currentLapStartTimeMarker = 0 ;
+        let currentLapName: LapName = "L1" ;
+        for( let event of this.eval.events ) {
+            if( event.eventName == "LAP_CHANGE" ) {
+
+                this.lapBgRenderers.push( new LapMarkerRenderer(
+                  currentLapName,
+                  currentLapStartTimeMarker,
+                  event.timeMarker,
+                  this.headerArea,
+                  this.contentArea,
+                  this.config
+                )) ;
+
+                const payload = JSON.parse( event.payload ) ;
+                currentLapName = payload.nextLap ;
+                currentLapStartTimeMarker = event.timeMarker ;
+            }
+            else if( event.eventName == "EXAM_SUBMIT" ) {
+
+                const endTimeMarker = event.timeMarker < currentLapStartTimeMarker ?
+                                            this.eval.exam.duration * 1000 : event.timeMarker ;
+
+                this.lapBgRenderers.push( new LapMarkerRenderer(
+                  currentLapName,
+                  currentLapStartTimeMarker,
+                  endTimeMarker,
+                  this.headerArea,
+                  this.contentArea,
+                  this.config
+                )) ;
+            }
+        }
     }
 
     private createTimeMarkerRenderer( timeMarker: number ) {
@@ -265,21 +307,23 @@ export class TimeSequenceRenderer {
     }
 
     private renderQuestionTracks() {
-        for( let track of this.qTracks ) {
-            track.recomputeTrackBounds() ;
-            track.renderTrack() ;
+        for( let renderer of this.questionTrackRenderers ) {
+            renderer.recomputeTrackBounds() ;
+            renderer.renderTrack() ;
         }
     }
 
     private renderLaps() {
-    }
-
-    private renderTimeMarkers(){
-        for( let marker of this.timeMarkers ) {
-            marker.renderTimeMarker() ;
+        for( let renderer of this.lapBgRenderers ) {
+            renderer.renderLapBackground() ;
         }
     }
 
+    private renderTimeMarkers(){
+        for( let renderer of this.timeMarkerRenderers ) {
+            renderer.renderTimeMarker() ;
+        }
+    }
 
     zoomIn() {
         if( this.scale <= 2.8 ) {

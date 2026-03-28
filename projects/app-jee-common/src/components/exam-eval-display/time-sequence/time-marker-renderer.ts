@@ -11,7 +11,6 @@ export class TimeMarkerRenderer {
       private contentArea: DrawingArea,
       private config: TimeSequenceConfig
     ) {
-        console.log( this.timeMarker ) ;
         this.markerLabel = this.computeMarkerLabel() ;
     }
 
@@ -49,7 +48,7 @@ export class TimeMarkerRenderer {
         g.fillStyle = "#252525" ;
         g.font = this.config.headerConfig.timeFont ;
         g.textBaseline = "bottom" ;
-        g.fillText( this.markerLabel, x, y ) ;
+        g.fillText( this.markerLabel, x, y-2 ) ;
 
         g.restore() ;
     }
