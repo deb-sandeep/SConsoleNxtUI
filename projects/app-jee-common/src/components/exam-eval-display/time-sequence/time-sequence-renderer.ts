@@ -1,5 +1,5 @@
 import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
-import { QuestionTrackRenderer } from "./question-track-renderer";
+import { QuestionActivation, QuestionTrackRenderer } from "./question-track-renderer";
 import { TimeMarkerRenderer } from "./time-marker-renderer";
 import { LapMarkerRenderer } from "@jee-common/components/exam-eval-display/time-sequence/lap-marker-renderer";
 import { end } from "@popperjs/core";
@@ -36,6 +36,7 @@ export interface TimeSequenceConfig {
     }
     timelineConfig : {
         lineColor: string,
+        activationColor : string,
     }
     units : {
         defaultMinuteWidth: number ;
@@ -91,6 +92,7 @@ export class TimeSequenceRenderer {
         },
         timelineConfig : {
             lineColor : '#dadada',
+            activationColor : '#a5a5a5',
         },
         units : {
             defaultMinuteWidth: 20,
@@ -135,6 +137,7 @@ export class TimeSequenceRenderer {
         this.createQuestionTrackRenderers() ;
         this.createTimeMarkerRenderers() ;
         this.createLapBgRenderers() ;
+        this.createQuestionActivations() ;
     }
 
     private createQuestionTrackRenderers()  {
@@ -217,6 +220,30 @@ export class TimeSequenceRenderer {
           this.contentArea,
           this.config
         ) ;
+    }
+
+    private createQuestionActivations(){
+        let currentActivation : QuestionActivation | null = null ;
+        let currentQIndex = 0 ;
+
+        for( let event of this.eval.events ) {
+            if( event.eventName == "QUESTION_ACTIVATED" ) {
+                if( currentActivation != null ) {
+                    currentActivation.endTimeMarker = event.timeMarker ;
+                    this.questionTrackRenderers[ currentQIndex ].activations.push( currentActivation ) ;
+                }
+                currentActivation = {
+                    startTimeMarker : event.timeMarker,
+                    endTimeMarker : event.timeMarker ,
+                } ;
+                currentQIndex = JSON.parse( event.payload ).questionNo - 1 ;
+            }
+        }
+
+        if( currentActivation != null ) {
+            currentActivation.endTimeMarker = this.eval.events[ this.eval.events.length - 1 ].timeMarker ;
+            this.questionTrackRenderers[ currentQIndex ].activations.push( currentActivation ) ;
+        }
     }
 
     public resizeCanvases(): void {
@@ -304,6 +331,7 @@ export class TimeSequenceRenderer {
         this.renderQuestionTracks() ;
         this.renderLaps() ;
         this.renderTimeMarkers() ;
+        this.renderQuestionActivations() ;
     }
 
     private renderQuestionTracks() {
@@ -322,6 +350,12 @@ export class TimeSequenceRenderer {
     private renderTimeMarkers(){
         for( let renderer of this.timeMarkerRenderers ) {
             renderer.renderTimeMarker() ;
+        }
+    }
+
+    private renderQuestionActivations() {
+        for( let renderer of this.questionTrackRenderers ) {
+            renderer.renderActivations() ;
         }
     }
 

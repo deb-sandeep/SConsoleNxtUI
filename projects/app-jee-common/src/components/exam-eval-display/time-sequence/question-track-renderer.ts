@@ -8,6 +8,11 @@ interface TrackBounds {
     height: number;
 }
 
+export interface QuestionActivation {
+    startTimeMarker: number,
+    endTimeMarker: number,
+}
+
 export class QuestionTrackRenderer {
 
     trackIndex: number;
@@ -15,6 +20,7 @@ export class QuestionTrackRenderer {
     name : string ;
     labelBounds : TrackBounds;
     timelineBounds : TrackBounds;
+    activations: QuestionActivation[] = [] ;
 
     constructor(
       private attempt: ExamQuestionAttemptSO,
@@ -130,6 +136,33 @@ export class QuestionTrackRenderer {
         g.moveTo( this.timelineBounds.x, this.timelineBounds.y + this.timelineBounds.height/2 ) ;
         g.lineTo( this.timelineBounds.width, this.timelineBounds.y + this.timelineBounds.height/2 ) ;
         g.stroke() ;
+
+        g.restore() ;
+    }
+
+    renderActivations() {
+        for( let activation of this.activations ) {
+            this.renderActivation( activation ) ;
+        }
+    }
+
+    private renderActivation( activation: QuestionActivation )  {
+
+        const minuteWidth = this.config.units.minuteWidth ;
+        const startX = minuteWidth * ( activation.startTimeMarker / 60000 ) ;
+        const endX = minuteWidth * ( activation.endTimeMarker / 60000 ) ;
+
+        const g = this.contentArea.g ;
+
+        g.save() ;
+
+        g.fillStyle = this.config.timelineConfig.activationColor ;
+        g.fillRect(
+          this.timelineBounds.x + startX,
+          this.timelineBounds.y + 2,
+          endX - startX,
+          this.timelineBounds.height - 4
+        ) ;
 
         g.restore() ;
     }
