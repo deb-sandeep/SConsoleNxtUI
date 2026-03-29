@@ -6,7 +6,7 @@ import {
   CreateExamAttemptResponse,
   ExamSO,
   ExamEvent,
-  ExamQuestionSubmitStatus, LapName, ExamAttemptSO
+  ExamQuestionSubmitStatus, LapName, ExamAttemptSO, WrongAnswerRootCause
 } from "@jee-common/util/exam-data-types" ;
 import { ExamQuestion } from "../common/so-wrappers";
 
@@ -84,12 +84,24 @@ export class ExamApiService extends RemoteService {
   }
 
   submitExamAttempt( examAttemptId: number ) {
-    const url:string = `${environment.apiRoot}/Exam/${examAttemptId}/Submit` ;
+    console.log( "***SCAFFOLD*** Change URL" ) ;
+    //const url:string = `${environment.apiRoot}/Exam/${examAttemptId}/Submit` ;
+    const url:string = `${environment.apiRoot}/Exam/7/Submit` ;
     return this.postPromise<ExamAttemptSO>( url, true ) ;
   }
 
   updateQuestionRating( questionId: number, rating: number ) {
     const url:string = `${environment.apiRoot}/Master/Question/Rating/${questionId}/${rating}` ;
+    return this.postPromise<String>( url, false ) ;
+  }
+
+  getRootCauses() {
+    const url:string = `${environment.apiRoot}/Master/Exam/RootCauses` ;
+    return this.getPromise<WrongAnswerRootCause[]>( url ) ;
+  }
+
+  updateAttemptRootCause( id: number, rootCause: string ) {
+    const url:string = `${environment.apiRoot}/Exam/RootCauseUpdate/${id}/${rootCause}` ;
     return this.postPromise<String>( url, false ) ;
   }
 }

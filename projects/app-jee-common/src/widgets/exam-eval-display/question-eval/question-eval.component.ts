@@ -1,7 +1,14 @@
-import { Component, Input, output } from '@angular/core';
-import { ExamAttemptSO, ExamQuestionAttemptSO, ExamSectionAttemptSO } from "@jee-common/util/exam-data-types";
+import { Component, inject, Input, output } from '@angular/core';
+import {
+  ExamAttemptSO,
+  ExamQuestionAttemptSO,
+  ExamSectionAttemptSO,
+  WrongAnswerRootCause
+} from "@jee-common/util/exam-data-types";
 import { NgClass } from "@angular/common";
 import { DurationPipe } from "lib-core";
+import { ExamApiService } from "../../../../../app-jee-exam/src/services/exam-api.service";
+import { FormsModule } from "@angular/forms";
 
 class ExamSection {
 
@@ -43,12 +50,16 @@ class ExamSection {
   selector: 'div[questionEval]',
   imports: [
     NgClass,
-    DurationPipe
+    DurationPipe,
+    FormsModule
   ],
   templateUrl: './question-eval.component.html',
   styleUrl: './question-eval.component.css'
 })
 export class QuestionEvalComponent {
+
+  apiSvc = inject( ExamApiService ) ;
+  rootCauses: WrongAnswerRootCause[] ;
 
   @Input()
   eval: ExamAttemptSO ;
@@ -57,6 +68,12 @@ export class QuestionEvalComponent {
 
   sectionAttempts: ExamSection[] = [] ;
   selectedAttempt: ExamQuestionAttemptSO | null = null ;
+
+  ngOnInit() {
+    this.apiSvc.getRootCauses().then( res => {
+      this.rootCauses = res ;
+    }) ;
+  }
 
   ngOnChanges() {
     for( let attempt of this.eval!.sectionAttempts ) {
@@ -106,5 +123,13 @@ export class QuestionEvalComponent {
   protected selectQuestionAttempt( qAttempt: ExamQuestionAttemptSO ) {
     this.selectedAttempt = qAttempt ;
     this.questionSelected.emit( qAttempt ) ;
+  }
+
+  protected isAttemptCorrect( qAttempt: ExamQuestionAttemptSO ) {
+    return qAttempt.evaluationStatus == "CORRECT" ;
+  }
+
+  protected rootCauseAssigned( qAttempt: ExamQuestionAttemptSO ) {
+    this.apiSvc.updateAttemptRootCause( qAttempt.id, qAttempt.rootCause ) ;
   }
 }

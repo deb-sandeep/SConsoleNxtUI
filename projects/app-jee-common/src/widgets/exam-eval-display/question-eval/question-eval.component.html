@@ -59,7 +59,16 @@
               ></span>
             </td>
             <td>
-              {{qAttempt.rootCause}}
+              @if( !isAttemptCorrect( qAttempt ) ) {
+                <select class="form-select form-select-sm rc-combo chevron-right"
+                        [(ngModel)]="qAttempt.rootCause"
+                        (ngModelChange)="rootCauseAssigned( qAttempt )">
+                  <option [value]="undefined">Select cause</option>
+                  @for (rootCause of rootCauses; track rootCause.cause) {
+                    <option [value]="rootCause.cause">{{ rootCause.cause }}</option>
+                  }
+                </select>
+              }
             </td>
           </tr>
         }

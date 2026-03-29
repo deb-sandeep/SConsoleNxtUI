@@ -49,3 +49,15 @@ td {
     text-align: center;
 }
 
+.rc-combo {
+    padding: 0 5px;
+    font-size: 10px;
+    line-height: 1.5;
+    font-weight: bold;
+    background-color: transparent;
+}
+
+.form-select.chevron-right {
+    background-position: right 0.25rem center;
+    background-blend-mode: soft-light;
+}

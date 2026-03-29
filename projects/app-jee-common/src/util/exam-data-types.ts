@@ -170,3 +170,7 @@ export interface CreateExamAttemptResponse {
 export type LapName =
     "L1" | "L2P" | "L2" | "AMR" | "L3P" | "L3.1" | "L3.2" ;
 
+export interface WrongAnswerRootCause {
+    cause: string;
+    group: string;
+}
