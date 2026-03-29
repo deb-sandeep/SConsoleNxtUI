@@ -139,8 +139,8 @@ export class EventLogService {
     }) ).then( ()=> console.log( `Event: LAP_CHANGE` ) ) ;
   }
 
-    logExamSubmitEvent() {
-      this.apiSvc.logEvent( this.createEvent( "EXAM_SUBMIT" ) )
-          .then( ()=> console.log( `Event: EXAM_SUBMIT` ) ) ;
-    }
+  async logExamSubmitEvent() {
+    await this.apiSvc.logEvent( this.createEvent( "EXAM_SUBMIT" ) );
+    return console.log( `Event: EXAM_SUBMIT` );
+  }
 }

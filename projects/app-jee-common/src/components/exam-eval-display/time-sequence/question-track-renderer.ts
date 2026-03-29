@@ -142,7 +142,10 @@ export class QuestionTrackRenderer {
 
     renderActivations() {
         for( let activation of this.activations ) {
-            this.renderActivation( activation ) ;
+            const duration = activation.endTimeMarker - activation.startTimeMarker ;
+            if( duration > 3000 ) {
+                this.renderActivation( activation ) ;
+            }
         }
     }
 

@@ -83,6 +83,8 @@ export class JeeMainService {
           lastQuestion.nextQuestion = examQuestion ;
         }
 
+        examQuestion.answer = question.question.answer ;
+
         this.questions.push( examQuestion ) ;
         lastQuestion = examQuestion ;
 
@@ -195,14 +197,15 @@ export class JeeMainService {
   }
 
   async submitExamAttempt() {
-    console.log( "*** SCAFFOLD comment - remove for production***" ) ;
+    // console.log( "***SCAFFOLD*** Uncomment these lines." ) ;
+    // Uncomment the commented lines for production code
     // if( this.examSubmitted ) {
     //   return ;
     // }
     //
     // this.examSubmitted = true ;
     // this.timeLeftInSeconds.set( 0 ) ;
-    // this.eventLogService.logExamSubmitEvent() ;
+    // await this.eventLogService.logExamSubmitEvent() ;
 
     const res = await this.apiSvc.submitExamAttempt( this.examAttemptId ) ;
     console.log( res ) ;

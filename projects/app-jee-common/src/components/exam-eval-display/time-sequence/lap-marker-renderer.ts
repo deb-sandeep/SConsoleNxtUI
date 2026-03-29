@@ -10,9 +10,7 @@ export class LapMarkerRenderer {
       private headerArea: DrawingArea,
       private contentArea: DrawingArea,
       private config: TimeSequenceConfig
-    ) {
-        console.log("Lap change " + lapName + " - " + startTimeMarker + " - " + endTimeMarker ) ;
-    }
+    ) {}
 
     renderLapBackground() {
         const minuteWidth = this.config.units.minuteWidth ;
