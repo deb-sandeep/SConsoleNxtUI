@@ -18,7 +18,7 @@
             [ngClass]="summary.score == summary.totalMarks ? 'full-score':'less-score'">
           {{summary.score}}
         </td>
-        <td class="numeric">{{summary.avoidablePct}}</td>
+        <td class="numeric">{{summary.sectionAttempt.avoidableLossPct | number : '1.0-0' }}%</td>
       </tr>
     }
   </tbody>

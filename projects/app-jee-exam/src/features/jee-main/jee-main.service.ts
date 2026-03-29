@@ -1,7 +1,13 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, Input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ExamSO, ExamQuestionSubmitStatus, LapName, ExamAttemptSO } from "@jee-common/util/exam-data-types" ;
+import {
+  ExamSO,
+  ExamQuestionSubmitStatus,
+  LapName,
+  ExamAttemptSO,
+  WrongAnswerRootCause
+} from "@jee-common/util/exam-data-types" ;
 import { ExamApiService } from "../../services/exam-api.service";
 import { ExamQuestion, ExamSection } from "../../common/so-wrappers";
 import { EventLogService } from "../../services/event-log.service";
@@ -34,6 +40,7 @@ export class JeeMainService {
   private router = inject( Router );
 
   examConfig: ExamSO ;
+  rootCauses: WrongAnswerRootCause[] ;
 
   sections: ExamSection[] = [] ;
   questions: ExamQuestion[] = [] ;
@@ -93,6 +100,10 @@ export class JeeMainService {
           currentSection.firstQuestion = examQuestion ;
         }
       }
+
+      this.apiSvc.getRootCauses().then( res => {
+        this.rootCauses = res ;
+      }) ;
     }
   }
 
@@ -213,5 +224,57 @@ export class JeeMainService {
     this.eval = res ;
     console.log( "Transitioning to result-screen" ) ;
     await this.router.navigate( [ '/jee-main', this.examConfig.id, 'result-screen' ] ) ;
+  }
+
+  recomputeLossAttributionPct() {
+
+    const rcMap: Record<string, string> = {} ;
+    for( let rc of this.rootCauses ) {
+      rcMap[ rc.cause ] = rc.group ;
+    }
+
+    const totalMarks = this.examConfig.totalMarks ;
+    const totalLostMarks = totalMarks - this.eval!.score ;
+
+    if( totalLostMarks == 0 ) return ;
+
+    let totalAvoidableLossMarks = 0 ;
+
+    for( let sectionAttempt of this.eval!.sectionAttempts ) {
+
+      const section = sectionAttempt.examSection ;
+      const sectionTotalMarks = section.correctMarks * section.numCompulsoryQuestions ;
+      const sectionLostMarks = sectionTotalMarks - sectionAttempt.score ;
+
+      if( sectionLostMarks == 0 ) continue ;
+
+      let sectionAvoidableLossMarks = 0 ;
+
+      for( let qAttempt of sectionAttempt.questionAttempts ) {
+        if( qAttempt.evaluationStatus === "INCORRECT" ||
+            qAttempt.evaluationStatus === "PARTIAL" ||
+            qAttempt.evaluationStatus === "UNANSWERED" ) {
+
+          const lostMarks = section.correctMarks - qAttempt.score ;
+          let avoidableMistake = true ;
+
+          if( qAttempt.rootCause != null ) {
+            if( rcMap[ qAttempt.rootCause ] === "UNAVOIDABLE" ) {
+              avoidableMistake = false ;
+            }
+          }
+
+          if( avoidableMistake ) {
+            sectionAvoidableLossMarks += lostMarks ;
+          }
+        }
+      }
+
+      totalAvoidableLossMarks += sectionAvoidableLossMarks ;
+      sectionAttempt.avoidableLossPct = ( sectionAvoidableLossMarks / sectionLostMarks ) * 100 ;
+    }
+
+    this.eval!.avoidableLossPct = (totalAvoidableLossMarks / totalLostMarks)*100 ;
+    this.eval!.unavoidableLossPct = 100 - this.eval!.avoidableLossPct ;
   }
 }

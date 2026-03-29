@@ -9,6 +9,7 @@ import { NgClass } from "@angular/common";
 import { DurationPipe } from "lib-core";
 import { ExamApiService } from "../../../../../app-jee-exam/src/services/exam-api.service";
 import { FormsModule } from "@angular/forms";
+import { JeeMainService } from "../../../../../app-jee-exam/src/features/jee-main/jee-main.service";
 
 class ExamSection {
 
@@ -59,7 +60,7 @@ class ExamSection {
 export class QuestionEvalComponent {
 
   apiSvc = inject( ExamApiService ) ;
-  rootCauses: WrongAnswerRootCause[] ;
+  examSvc = inject( JeeMainService ) ;
 
   @Input()
   eval: ExamAttemptSO ;
@@ -68,12 +69,6 @@ export class QuestionEvalComponent {
 
   sectionAttempts: ExamSection[] = [] ;
   selectedAttempt: ExamQuestionAttemptSO | null = null ;
-
-  ngOnInit() {
-    this.apiSvc.getRootCauses().then( res => {
-      this.rootCauses = res ;
-    }) ;
-  }
 
   ngOnChanges() {
     for( let attempt of this.eval!.sectionAttempts ) {
@@ -130,6 +125,10 @@ export class QuestionEvalComponent {
   }
 
   protected rootCauseAssigned( qAttempt: ExamQuestionAttemptSO ) {
-    this.apiSvc.updateAttemptRootCause( qAttempt.id, qAttempt.rootCause ) ;
+    this.apiSvc
+        .updateAttemptRootCause( qAttempt.id, qAttempt.rootCause )
+        .then( () => {
+      this.examSvc.recomputeLossAttributionPct() ;
+    }) ;
   }
 }

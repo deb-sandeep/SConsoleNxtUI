@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ExamAttemptSO, ExamSectionAttemptSO } from "@jee-common/util/exam-data-types";
-import { NgClass } from "@angular/common";
+import { DecimalPipe, NgClass } from "@angular/common";
 
 class SectionEvalSummary {
 
@@ -8,15 +8,13 @@ class SectionEvalSummary {
   numQuestions: number;
   totalMarks: number;
   score: number;
-  avoidablePct: number;
 
-  constructor( sectionAttempt: ExamSectionAttemptSO ) {
+  constructor( public sectionAttempt: ExamSectionAttemptSO ) {
     this.sectionName = this.constructSectionName( sectionAttempt ) ;
     this.numQuestions = sectionAttempt.examSection.numCompulsoryQuestions ;
     this.totalMarks = sectionAttempt.examSection.numCompulsoryQuestions *
                       sectionAttempt.examSection.correctMarks ;
     this.score = sectionAttempt.score ;
-    this.avoidablePct = sectionAttempt.avoidableLossPct ;
   }
 
   private constructSectionName( sAttempt: ExamSectionAttemptSO ) {
@@ -29,7 +27,8 @@ class SectionEvalSummary {
 @Component({
   selector: 'div[sectionEval]',
   imports: [
-    NgClass
+    NgClass,
+    DecimalPipe
   ],
   templateUrl: './section-eval.component.html',
   styleUrl: './section-eval.component.css'
