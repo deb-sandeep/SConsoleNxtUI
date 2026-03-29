@@ -714,7 +714,7 @@
         }
       }
     },
-    "app-jee-test-admin": {
+    "app-jee-exam-admin": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
@@ -742,34 +742,34 @@
           "skipTests": true
         }
       },
-      "root": "projects/app-jee-test-admin",
-      "sourceRoot": "projects/app-jee-test-admin/src",
+      "root": "projects/app-jee-exam-admin",
+      "sourceRoot": "projects/app-jee-exam-admin/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "baseHref": "/apps/jee/test-admin/",
+            "baseHref": "/apps/jee/exam-admin/",
             "outputPath": {
-              "base" : "dist/webroot/apps/jee/test-admin",
+              "base" : "dist/webroot/apps/jee/exam-admin",
               "browser": ""
             },
-            "index": "projects/app-jee-test-admin/src/index.html",
-            "browser": "projects/app-jee-test-admin/src/main.ts",
+            "index": "projects/app-jee-exam-admin/src/index.html",
+            "browser": "projects/app-jee-exam-admin/src/main.ts",
             "polyfills": [
               "zone.js",
               "@angular/localize/init"
             ],
-            "tsConfig": "projects/app-jee-test-admin/tsconfig.app.json",
+            "tsConfig": "projects/app-jee-exam-admin/tsconfig.app.json",
             "assets": [
-              "projects/app-jee-test-admin/src/assets"
+              "projects/app-jee-exam-admin/src/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
               "projects/lib-core/assets/bootstrap-overrides.css",
               "projects/lib-core/assets/styles.css",
-              "projects/app-jee-test-admin/src/assets/styles.css"
+              "projects/app-jee-exam-admin/src/assets/styles.css"
             ],
             "scripts": []
           },
@@ -814,10 +814,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "app-jee-test-admin:build:production"
+              "buildTarget": "app-jee-exam-admin:build:production"
             },
             "development": {
-              "buildTarget": "app-jee-test-admin:build:development"
+              "buildTarget": "app-jee-exam-admin:build:development"
             }
           },
           "defaultConfiguration": "development"

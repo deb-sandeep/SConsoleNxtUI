@@ -62,7 +62,7 @@ export class AppComponent {
           name : "Exam<br>Administration",
           icon : "box-seam-fill",
           bgcolor : "#ffddb9",
-          target : '/apps/jee/test-admin/index.html'
+          target : '/apps/jee/exam-admin/index.html'
         },
         {
           name : "CBT",
