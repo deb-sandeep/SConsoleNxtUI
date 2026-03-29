@@ -1,32 +1,28 @@
 import { Component, inject } from '@angular/core';
-import { PageToolbarComponent, ToolbarActionComponent } from "lib-core";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
-import { ExamSetupService } from "../exam-setup/exam-setup.service";
 import { ExamSO } from "@jee-common/util/exam-data-types";
-import { DatePipe, NgIf } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { ColumnSorterComponent } from "@jee-common/widgets/column-sorter.component";
+import { ExamApiService } from "@jee-common/services/exam-api.service";
 
 @Component({
   selector: 'exam-list',
   imports: [
     FormsModule,
-    PageToolbarComponent,
-    ToolbarActionComponent,
     DatePipe,
     ColumnSorterComponent,
-    NgIf
   ],
-  templateUrl: './exam-list.component.html',
-  styleUrl: './exam-list.component.css'
+  templateUrl: './exam-attempt-list.component.html',
+  styleUrl: './exam-attempt-list.component.css'
 })
-export class ExamListComponent {
+export class ExamAttemptListComponent {
 
   readonly DELETE_ALLOWED_STATES = ['DRAFT', 'PUBLISHED'] ;
   readonly EDIT_ALLOWED_STATES = ['DRAFT', 'PUBLISHED'] ;
 
   private router = inject( Router ) ;
-  private svc = inject( ExamSetupService ) ;
+  private apiSvc = inject( ExamApiService ) ;
 
   examList : ExamSO[]|null = null ;
   sortDirMap : Record<string, number> = {
@@ -41,14 +37,10 @@ export class ExamListComponent {
   };
 
   ngOnInit() {
-    this.svc.getListOfExams().then((examList) => {
+    this.apiSvc.getListOfExams().then((examList) => {
       console.log( examList ) ;
       this.examList = examList ;
     }) ;
-  }
-
-  newExamSetup() {
-    this.router.navigateByUrl( "/exam-config/exam-setup" ).then() ;
   }
 
   sortByColumn( columnName: string ) {
@@ -73,15 +65,5 @@ export class ExamListComponent {
       } );
     }
 
-  }
-
-  protected editExam( id: number ) {
-    this.router.navigateByUrl( "/exam-edit/" + id ).then() ;
-  }
-
-  protected deleteExam( id: number ) {
-    this.svc.deleteExam( id ).then( () => {
-      this.ngOnInit() ;
-    })
   }
 }

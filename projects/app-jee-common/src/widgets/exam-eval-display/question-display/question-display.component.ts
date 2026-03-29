@@ -1,10 +1,10 @@
 import { Component, inject, Input } from '@angular/core';
 import { ExamAttemptSO, ExamQuestionAttemptSO, QuestionImageSO } from "@jee-common/util/exam-data-types";
 import { environment } from "@env/environment";
-import { ExamApiService } from "../../../../../app-jee-exam/src/services/exam-api.service";
 import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
 import { FormsModule } from "@angular/forms";
-import { JeeMainService } from "../../../../../app-jee-exam/src/features/jee-main/jee-main.service";
+import { ExamApiService } from "@jee-common/services/exam-api.service";
+import { JeeBaseService } from "@jee-common/services/jee-base.service";
 
 @Component( {
   selector: 'div[questionDisplay]',
@@ -20,7 +20,7 @@ export class QuestionDisplayComponent {
   @Input()
   eval: ExamAttemptSO ;
 
-  examSvc = inject( JeeMainService ) ;
+  examSvc = inject( JeeBaseService ) ;
   apiSvc = inject( ExamApiService ) ;
 
   questionAttempt : ExamQuestionAttemptSO ;

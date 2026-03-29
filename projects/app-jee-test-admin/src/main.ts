@@ -33,6 +33,7 @@ class AppComponent {
         { routePath:'/question-repo', iconName:'database-gear', selected:true },
         { routePath:'/question-browser', iconName:'browser-chrome', selected:false },
         { routePath:'/exam-config', iconName:'gear-wide-connected', selected:false },
+        { routePath:'/exam-analysis', iconName:'clipboard-data', selected:false },
     ] ;
 
     constructor( alertConfig:NgbAlertConfig ) {

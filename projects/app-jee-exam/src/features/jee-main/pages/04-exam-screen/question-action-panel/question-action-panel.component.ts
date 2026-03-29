@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { JeeMainService } from "../../../jee-main.service";
 import { EventLogService } from "../../../../../services/event-log.service";
-import { ExamApiService } from "../../../../../services/exam-api.service";
+import { ExamApiService } from "@jee-common/services/exam-api.service";
 
 @Component({
   selector: 'question-action-panel',

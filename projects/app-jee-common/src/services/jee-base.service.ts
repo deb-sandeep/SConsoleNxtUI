@@ -5,12 +5,13 @@ import {
     LapName,
     WrongAnswerRootCause
 } from "@jee-common/util/exam-data-types";
-import { ExamQuestion, ExamSection } from "../common/so-wrappers";
-import { inject, signal } from "@angular/core";
+import { ExamQuestion, ExamSection } from "../../../app-jee-exam/src/common/so-wrappers";
+import { inject, Injectable, signal } from "@angular/core";
 import { ExamApiService } from "./exam-api.service";
-import { EventLogService } from "./event-log.service";
+import { EventLogService } from "../../../app-jee-exam/src/services/event-log.service";
 import { Router } from "@angular/router";
 
+@Injectable()
 export class JeeBaseService {
 
     readonly LAP_TRANSITIONS: Record<LapName, LapName|null> = {

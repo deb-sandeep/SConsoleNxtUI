@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 
 import { ExamAnswerAction, ExamEvent, ExamEventName, ExamEventType, LapName } from "@jee-common/util/exam-data-types" ;
-import { ExamApiService } from "./exam-api.service";
+import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { ExamQuestion, ExamSection } from "../common/so-wrappers";
 
 @Injectable()

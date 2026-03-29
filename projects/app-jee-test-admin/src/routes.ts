@@ -12,6 +12,10 @@ import { ExamConfigComponent } from "./features/exam-config/exam-config.componen
 import { examConfigRoutes } from "./features/exam-config/exam-config.route";
 import { ExamEditComponent } from "./features/exam-edit/exam-edit.component";
 import { ExamEditService } from "./features/exam-edit/exam-edit.service";
+import { ExamAnalysisComponent } from "./features/exam-analysis/exam-analysis.component";
+import { examAnalysisRoutes } from "./features/exam-analysis/exam-analysis.route";
+import { ExamApiService } from "@jee-common/services/exam-api.service";
+import { JeeBaseService } from "@jee-common/services/jee-base.service";
 
 export const featureRoutes: Routes = [
     {
@@ -57,6 +61,16 @@ export const featureRoutes: Routes = [
         providers: [
             ExamEditService,
             SyllabusApiService
+        ]
+    },
+    {
+        path: 'exam-analysis',
+        title: 'Exam Analysis',
+        component: ExamAnalysisComponent,
+        children: examAnalysisRoutes,
+        providers: [
+          ExamApiService,
+          JeeBaseService,
         ]
     }
 ] ;

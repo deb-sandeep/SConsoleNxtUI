@@ -3,13 +3,12 @@ import {
   ExamAttemptSO,
   ExamQuestionAttemptSO,
   ExamSectionAttemptSO,
-  WrongAnswerRootCause
 } from "@jee-common/util/exam-data-types";
 import { NgClass } from "@angular/common";
 import { DurationPipe } from "lib-core";
-import { ExamApiService } from "../../../../../app-jee-exam/src/services/exam-api.service";
 import { FormsModule } from "@angular/forms";
-import { JeeMainService } from "../../../../../app-jee-exam/src/features/jee-main/jee-main.service";
+import { ExamApiService } from "@jee-common/services/exam-api.service";
+import { JeeBaseService } from "@jee-common/services/jee-base.service";
 
 class ExamSection {
 
@@ -60,7 +59,7 @@ class ExamSection {
 export class QuestionEvalComponent {
 
   apiSvc = inject( ExamApiService ) ;
-  examSvc = inject( JeeMainService ) ;
+  examSvc = inject( JeeBaseService ) ;
 
   @Input()
   eval: ExamAttemptSO ;

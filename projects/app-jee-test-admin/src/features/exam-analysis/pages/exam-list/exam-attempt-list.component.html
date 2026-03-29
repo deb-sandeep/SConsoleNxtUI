@@ -1,8 +1,3 @@
-<page-toolbar>
-  <toolbar-action name="New"
-                  (click)="newExamSetup()"
-                  icon="plus-square"></toolbar-action>
-</page-toolbar>
 <div class="page-content">
   <table class="table table-sm table-striped" style="margin: 0 auto; width: 90%;">
     <thead>
@@ -65,17 +60,9 @@
           <td class="number-cell">{{exam.numMathQuestions}}</td>
           <td class="number-cell">{{exam.totalMarks}}</td>
           <td class="btn-cell">
-            <span class="bi-pencil-square btn-icon"
-                  style="color: blue;"
-                  (click)="editExam(exam.id)"
-                  *ngIf="EDIT_ALLOWED_STATES.includes( exam.state )"></span>
           </td>
           <td>{{exam.note}}</td>
           <td class="btn-cell">
-            <span class="bi-trash3 btn-icon"
-                    style="color: red;"
-                    (click)="deleteExam( exam.id )"
-                    *ngIf="DELETE_ALLOWED_STATES.includes( exam.state )"></span>
           </td>
           <td></td>
         </tr>

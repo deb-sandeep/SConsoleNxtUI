@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ExamQuestion, ExamSection } from "../../common/so-wrappers";
-import { JeeBaseService } from "../../services/jee-base.service";
+import { JeeBaseService } from "@jee-common/services/jee-base.service";
 import { ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
 
 @Injectable()

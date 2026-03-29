@@ -8,7 +8,7 @@ import {
   ExamEvent,
   ExamQuestionSubmitStatus, LapName, ExamAttemptSO, WrongAnswerRootCause
 } from "@jee-common/util/exam-data-types" ;
-import { ExamQuestion } from "../common/so-wrappers";
+import { ExamQuestion } from "../../../app-jee-exam/src/common/so-wrappers";
 
 @Injectable()
 export class ExamApiService extends RemoteService {
@@ -28,6 +28,7 @@ export class ExamApiService extends RemoteService {
   }
 
   async createExamAttempt( exam : ExamSO ) {
+    console.log( "***SCAFFOLD*** Remove the commented lines" ) ;
     // const url:string = `${environment.apiRoot}/Exam/${exam.id}/Attempt` ;
     // return this.postPromise<CreateExamAttemptResponse>( url ) ;
 
