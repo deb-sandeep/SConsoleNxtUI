@@ -1,4 +1,4 @@
-import { inject, Injectable, Input, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {
@@ -6,6 +6,8 @@ import {
   ExamQuestionSubmitStatus,
   LapName,
   ExamAttemptSO,
+  ExamQuestionAttemptSO,
+  ExamSectionAttemptSO,
   WrongAnswerRootCause
 } from "@jee-common/util/exam-data-types" ;
 import { ExamApiService } from "../../services/exam-api.service";
@@ -228,47 +230,23 @@ export class JeeMainService {
 
   recomputeLossAttributionPct() {
 
-    const rcMap: Record<string, string> = {} ;
-    for( let rc of this.rootCauses ) {
-      rcMap[ rc.cause ] = rc.group ;
-    }
+    const totalLostMarks = this.examConfig.totalMarks - this.eval!.score ;
 
-    const totalMarks = this.examConfig.totalMarks ;
-    const totalLostMarks = totalMarks - this.eval!.score ;
-
+    // A perfect score leaves no loss to classify as avoidable or unavoidable.
     if( totalLostMarks == 0 ) return ;
+
+    const rcMap = this.buildRootCauseMap() ;
 
     let totalAvoidableLossMarks = 0 ;
 
     for( let sectionAttempt of this.eval!.sectionAttempts ) {
 
-      const section = sectionAttempt.examSection ;
-      const sectionTotalMarks = section.correctMarks * section.numCompulsoryQuestions ;
-      const sectionLostMarks = sectionTotalMarks - sectionAttempt.score ;
+      const sectionLostMarks = this.computeSectionLostMarks( sectionAttempt ) ;
 
       if( sectionLostMarks == 0 ) continue ;
 
-      let sectionAvoidableLossMarks = 0 ;
-
-      for( let qAttempt of sectionAttempt.questionAttempts ) {
-        if( qAttempt.evaluationStatus === "INCORRECT" ||
-            qAttempt.evaluationStatus === "PARTIAL" ||
-            qAttempt.evaluationStatus === "UNANSWERED" ) {
-
-          const lostMarks = section.correctMarks - qAttempt.score ;
-          let avoidableMistake = true ;
-
-          if( qAttempt.rootCause != null ) {
-            if( rcMap[ qAttempt.rootCause ] === "UNAVOIDABLE" ) {
-              avoidableMistake = false ;
-            }
-          }
-
-          if( avoidableMistake ) {
-            sectionAvoidableLossMarks += lostMarks ;
-          }
-        }
-      }
+      const sectionAvoidableLossMarks =
+        this.computeSectionAvoidableLossMarks( sectionAttempt, rcMap ) ;
 
       totalAvoidableLossMarks += sectionAvoidableLossMarks ;
       sectionAttempt.avoidableLossPct = ( sectionAvoidableLossMarks / sectionLostMarks ) * 100 ;
@@ -276,5 +254,47 @@ export class JeeMainService {
 
     this.eval!.avoidableLossPct = (totalAvoidableLossMarks / totalLostMarks)*100 ;
     this.eval!.unavoidableLossPct = 100 - this.eval!.avoidableLossPct ;
+  }
+
+  private buildRootCauseMap() {
+    const map: Record<string, string> = {} ;
+    for( let rootCause of this.rootCauses ) {
+      map[ rootCause.cause ] = rootCause.group ;
+    }
+    return map ;
+  }
+
+  private computeSectionAvoidableLossMarks( sectionAttempt: ExamSectionAttemptSO, rcMap: Record<string, string> ) {
+
+    let avoidableLossMarks = 0 ;
+
+    for( let qAttempt of sectionAttempt.questionAttempts ) {
+
+      if( !this.hasAttributableLoss( qAttempt ) ) continue ;
+
+      if( this.isAvoidableLoss( qAttempt, rcMap ) ) {
+        avoidableLossMarks += (sectionAttempt.examSection.correctMarks - qAttempt.score) ;
+      }
+    }
+
+    return avoidableLossMarks ;
+  }
+
+  private hasAttributableLoss( qAttempt: ExamQuestionAttemptSO ) {
+    return qAttempt.evaluationStatus === "INCORRECT" ||
+           qAttempt.evaluationStatus === "PARTIAL" ||
+           qAttempt.evaluationStatus === "UNANSWERED" ;
+  }
+
+  private isAvoidableLoss( qAttempt: ExamQuestionAttemptSO, rcMap: Record<string, string> ) {
+    // If a root cause is absent or unknown, keep the loss in the avoidable bucket.
+    return qAttempt.rootCause == null ||
+           rcMap[ qAttempt.rootCause ] !== "UNAVOIDABLE" ;
+  }
+
+  private computeSectionLostMarks( sectionAttempt: ExamSectionAttemptSO ) {
+    const section = sectionAttempt.examSection ;
+    const sectionTotalMarks = section.correctMarks * section.numCompulsoryQuestions ;
+    return sectionTotalMarks - sectionAttempt.score ;
   }
 }
