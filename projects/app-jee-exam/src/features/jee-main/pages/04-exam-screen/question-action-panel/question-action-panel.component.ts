@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { JeeMainService } from "../../../jee-main.service";
-import { EventLogService } from "../../../../../services/event-log.service";
+import { EventLogService } from "@jee-common/services/event-log.service";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 
 @Component({

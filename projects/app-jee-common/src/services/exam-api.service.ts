@@ -22,6 +22,11 @@ export class ExamApiService extends RemoteService {
     return this.getPromise<ExamSO[]>( url ) ;
   }
 
+  getListOfExamAttempts() {
+    const url:string = `${environment.apiRoot}/Exam/Attempts` ;
+    return this.getPromise<ExamAttemptSO[]>( url ) ;
+  }
+
   async getExamDetails( examId : number ) {
     const url:string = `${environment.apiRoot}/Master/Exam/${examId}` ;
     return this.getPromise<ExamSO>( url ) ;
@@ -89,6 +94,11 @@ export class ExamApiService extends RemoteService {
     //const url:string = `${environment.apiRoot}/Exam/${examAttemptId}/Submit` ;
     const url:string = `${environment.apiRoot}/Exam/7/Submit` ;
     return this.postPromise<ExamAttemptSO>( url, true ) ;
+  }
+
+  fetchExamAttempt( examAttemptId:number ) {
+    const url:string = `${environment.apiRoot}/Exam/Attempt/${examAttemptId}` ;
+    return this.getPromise<ExamAttemptSO>( url, true ) ;
   }
 
   updateQuestionRating( questionId: number, rating: number ) {

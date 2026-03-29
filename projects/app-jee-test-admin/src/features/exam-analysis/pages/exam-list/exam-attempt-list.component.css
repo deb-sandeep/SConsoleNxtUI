@@ -1,9 +1,11 @@
 tbody {
     background: #fff;
+    font-size: 12px;
 }
 
 th {
     background: #dadada;
+    font-weight: normal;
 }
 
 td, th {

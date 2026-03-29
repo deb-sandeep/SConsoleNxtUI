@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { JeeMainService } from "../../../jee-main.service";
 import { ExamSection } from "../../../../../common/so-wrappers";
-import { EventLogService } from "../../../../../services/event-log.service";
+import { EventLogService } from "@jee-common/services/event-log.service";
 
 @Component({
   selector: 'section-header',

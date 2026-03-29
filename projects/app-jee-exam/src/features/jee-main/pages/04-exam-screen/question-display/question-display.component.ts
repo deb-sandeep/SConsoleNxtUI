@@ -5,7 +5,7 @@ import { QuestionImageSO, QuestionSO } from "@jee-common/util/exam-data-types";
 import { environment } from "@env/environment";
 import { FormsModule } from "@angular/forms";
 import { ExamQuestion } from "../../../../../common/so-wrappers";
-import { EventLogService } from "../../../../../services/event-log.service";
+import { EventLogService } from "@jee-common/services/event-log.service";
 
 @Component({
   selector: 'question-display',

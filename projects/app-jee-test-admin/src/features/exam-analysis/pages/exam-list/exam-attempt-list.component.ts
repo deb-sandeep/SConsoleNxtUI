@@ -1,10 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
-import { ExamSO } from "@jee-common/util/exam-data-types";
-import { DatePipe } from "@angular/common";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
+import { DatePipe, NgIf } from "@angular/common";
 import { ColumnSorterComponent } from "@jee-common/widgets/column-sorter.component";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
+import { DurationPipe } from "lib-core";
+import { JeeBaseService } from "@jee-common/services/jee-base.service";
 
 @Component({
   selector: 'exam-list',
@@ -12,35 +14,39 @@ import { ExamApiService } from "@jee-common/services/exam-api.service";
     FormsModule,
     DatePipe,
     ColumnSorterComponent,
+    DurationPipe,
   ],
   templateUrl: './exam-attempt-list.component.html',
   styleUrl: './exam-attempt-list.component.css'
 })
 export class ExamAttemptListComponent {
 
-  readonly DELETE_ALLOWED_STATES = ['DRAFT', 'PUBLISHED'] ;
-  readonly EDIT_ALLOWED_STATES = ['DRAFT', 'PUBLISHED'] ;
-
   private router = inject( Router ) ;
+  private route = inject( ActivatedRoute ) ;
   private apiSvc = inject( ExamApiService ) ;
+  private examSvc = inject( JeeBaseService ) ;
 
-  examList : ExamSO[]|null = null ;
+  attemptList : ExamAttemptSO[]|null = null ;
   sortDirMap : Record<string, number> = {
-    'state' : 0,
     'type' : 0,
+    'date' : 0,
     'duration' : 0,
-    'numPhyQuestions' : 0,
-    'numChemQuestions' : 0,
-    'numMathQuestions' : 0,
+    'numPhyQ' : 0,
+    'numChemQ' : 0,
+    'numMathQ' : 0,
+    'score' : 0,
     'totalMarks' : 0,
+    'avoidableLossPct' : 0,
     'note' : 0,
   };
 
   ngOnInit() {
-    this.apiSvc.getListOfExams().then((examList) => {
-      console.log( examList ) ;
-      this.examList = examList ;
+    this.apiSvc.getListOfExamAttempts().then((attemptList) => {
+      console.log( "Got list of ExamAttempts" ) ;
+      console.log( attemptList ) ;
+      this.attemptList = attemptList ;
     }) ;
+    this.examSvc.loadRootCauses() ;
   }
 
   sortByColumn( columnName: string ) {
@@ -54,9 +60,9 @@ export class ExamAttemptListComponent {
       }
     } ) ;
 
-    if( this.examList && sortDir != 0 ) {
+    if( this.attemptList && sortDir != 0 ) {
       const direction = this.sortDirMap[columnName] == 1 ? 1 : -1;
-      this.examList.sort( ( a, b ) => {
+      this.attemptList.sort( ( a, b ) => {
         const aVal = ( a as any )[columnName];
         const bVal = ( b as any )[columnName];
         if( aVal < bVal ) return -1 * direction;
@@ -65,5 +71,9 @@ export class ExamAttemptListComponent {
       } );
     }
 
+  }
+
+  protected analyzeAttempt( attempt: ExamAttemptSO ) {
+    this.router.navigate( [ '../analysis-screen', attempt.id ], {relativeTo: this.route} ).then() ;
   }
 }

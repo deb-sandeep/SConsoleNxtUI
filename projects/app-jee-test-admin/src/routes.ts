@@ -16,6 +16,7 @@ import { ExamAnalysisComponent } from "./features/exam-analysis/exam-analysis.co
 import { examAnalysisRoutes } from "./features/exam-analysis/exam-analysis.route";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { JeeBaseService } from "@jee-common/services/jee-base.service";
+import { EventLogService } from "@jee-common/services/event-log.service";
 
 export const featureRoutes: Routes = [
     {
@@ -70,6 +71,7 @@ export const featureRoutes: Routes = [
         children: examAnalysisRoutes,
         providers: [
           ExamApiService,
+          EventLogService,
           JeeBaseService,
         ]
     }

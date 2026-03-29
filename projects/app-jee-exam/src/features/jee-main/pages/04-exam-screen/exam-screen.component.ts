@@ -6,7 +6,7 @@ import { QuestionPaletteComponent } from "./question-palette/question-palette.co
 import { SubmitPanelComponent } from "./submit-panel/submit-panel.component";
 import { QuestionActionPanelComponent } from "./question-action-panel/question-action-panel.component";
 import { QuestionDisplayComponent } from "./question-display/question-display.component";
-import { EventLogService } from "../../../../services/event-log.service";
+import { EventLogService } from "@jee-common/services/event-log.service";
 
 @Component({
   selector: 'exam-screen',

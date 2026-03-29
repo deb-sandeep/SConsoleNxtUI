@@ -8,7 +8,7 @@ import {
 import { ExamQuestion, ExamSection } from "../../../app-jee-exam/src/common/so-wrappers";
 import { inject, Injectable, signal } from "@angular/core";
 import { ExamApiService } from "./exam-api.service";
-import { EventLogService } from "../../../app-jee-exam/src/services/event-log.service";
+import { EventLogService } from "./event-log.service";
 import { Router } from "@angular/router";
 
 @Injectable()
@@ -53,10 +53,12 @@ export class JeeBaseService {
     examSubmitted = false ;
     eval: ExamAttemptSO | null = null ;
 
-    protected loadRootCauses() {
-        this.apiSvc.getRootCauses().then( res => {
-            this.rootCauses = res ;
-        }) ;
+    public loadRootCauses() {
+        if( !this.rootCauses ) {
+            this.apiSvc.getRootCauses().then( res => {
+                this.rootCauses = res ;
+            }) ;
+        }
     }
 
     public activateQuestion( examQuestion: ExamQuestion ) {

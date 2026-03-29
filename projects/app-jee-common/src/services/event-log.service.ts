@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { ExamAnswerAction, ExamEvent, ExamEventName, ExamEventType, LapName } from "@jee-common/util/exam-data-types" ;
 import { ExamApiService } from "@jee-common/services/exam-api.service";
-import { ExamQuestion, ExamSection } from "../common/so-wrappers";
+import { ExamQuestion, ExamSection } from "../../../app-jee-exam/src/common/so-wrappers";
 
 @Injectable()
 export class EventLogService {
