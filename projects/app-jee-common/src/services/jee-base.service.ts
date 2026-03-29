@@ -153,21 +153,18 @@ export class JeeBaseService {
     }
 
     async submitExamAttempt() {
-        console.log( "***SCAFFOLD*** Uncomment these lines." ) ;
-        // Uncomment the commented lines for production code
-        // if( this.examSubmitted ) {
-        //   return ;
-        // }
-        //
-        // this.examSubmitted = true ;
-        // this.timeLeftInSeconds.set( 0 ) ;
-        // await this.eventLogService.logExamSubmitEvent() ;
+        if( this.examSubmitted ) {
+          return ;
+        }
+
+        this.examSubmitted = true ;
+        this.timeLeftInSeconds.set( 0 ) ;
+        await this.eventLogService.logExamSubmitEvent() ;
 
         const res = await this.apiSvc.submitExamAttempt( this.examAttemptId ) ;
         console.log( res ) ;
 
         this.eval = res ;
-        console.log( "Transitioning to result-screen" ) ;
         await this.router.navigate( [ '/jee-main', this.examConfig.id, 'result-screen' ] ) ;
     }
 

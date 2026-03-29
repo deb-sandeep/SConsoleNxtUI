@@ -33,32 +33,8 @@ export class ExamApiService extends RemoteService {
   }
 
   async createExamAttempt( exam : ExamSO ) {
-    console.log( "***SCAFFOLD*** Remove the commented lines" ) ;
-    // const url:string = `${environment.apiRoot}/Exam/${exam.id}/Attempt` ;
-    // return this.postPromise<CreateExamAttemptResponse>( url ) ;
-
-    let dummyResponse: CreateExamAttemptResponse = {
-      examId: 1,
-      examAttemptId: 7,
-      questionAttemptIds: {
-        1: 76,
-        2: 77,
-        3: 78,
-        4: 79,
-        5: 80,
-        6: 81,
-        7: 82,
-        8: 83,
-        9: 84,
-        10: 85,
-        11: 86,
-        12: 87,
-        13: 88,
-        14: 89,
-        15: 90
-      }
-    } ;
-    return dummyResponse ;
+    const url:string = `${environment.apiRoot}/Exam/${exam.id}/Attempt` ;
+    return this.postPromise<CreateExamAttemptResponse>( url ) ;
   }
 
   async logEvent( event : ExamEvent ) {
@@ -90,9 +66,7 @@ export class ExamApiService extends RemoteService {
   }
 
   submitExamAttempt( examAttemptId: number ) {
-    console.log( "***SCAFFOLD*** Change URL" ) ;
-    //const url:string = `${environment.apiRoot}/Exam/${examAttemptId}/Submit` ;
-    const url:string = `${environment.apiRoot}/Exam/7/Submit` ;
+    const url:string = `${environment.apiRoot}/Exam/${examAttemptId}/Submit` ;
     return this.postPromise<ExamAttemptSO>( url, true ) ;
   }
 
