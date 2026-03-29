@@ -2,7 +2,6 @@ import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
 import { QuestionActivation, QuestionTrackRenderer } from "./question-track-renderer";
 import { TimeMarkerRenderer } from "./time-marker-renderer";
 import { LapMarkerRenderer } from "@jee-common/components/exam-eval-display/time-sequence/lap-marker-renderer";
-import { end } from "@popperjs/core";
 
 export interface TimeSequenceConfig {
     lapConfig : {
@@ -134,10 +133,13 @@ export class TimeSequenceRenderer {
         if( config ) {
             this.config = { ...this.config, ...config };
         }
+
+        // Parse the exam evaluation object graph to create renderers
         this.createQuestionTrackRenderers() ;
         this.createTimeMarkerRenderers() ;
         this.createLapBgRenderers() ;
         this.createQuestionActivations() ;
+        this.createAnswerActions() ;
     }
 
     private createQuestionTrackRenderers()  {
@@ -173,6 +175,16 @@ export class TimeSequenceRenderer {
             this.timeMarkerRenderers.push( this.createTimeMarkerRenderer( i ) ) ;
         }
         this.timeMarkerRenderers.push( this.createTimeMarkerRenderer( examDuration ) ) ;
+    }
+
+    private createTimeMarkerRenderer( timeMarker: number ) {
+        return new TimeMarkerRenderer(
+          timeMarker,
+          this.eval.exam.duration,
+          this.headerArea,
+          this.contentArea,
+          this.config
+        ) ;
     }
 
     private createLapBgRenderers()  {
@@ -212,16 +224,6 @@ export class TimeSequenceRenderer {
         }
     }
 
-    private createTimeMarkerRenderer( timeMarker: number ) {
-        return new TimeMarkerRenderer(
-          timeMarker,
-          this.eval.exam.duration,
-          this.headerArea,
-          this.contentArea,
-          this.config
-        ) ;
-    }
-
     private createQuestionActivations(){
         let currentActivation : QuestionActivation | null = null ;
         let currentQIndex = 0 ;
@@ -243,6 +245,22 @@ export class TimeSequenceRenderer {
         if( currentActivation != null ) {
             currentActivation.endTimeMarker = this.eval.events[ this.eval.events.length - 1 ].timeMarker ;
             this.questionTrackRenderers[ currentQIndex ].activations.push( currentActivation ) ;
+        }
+    }
+
+    private createAnswerActions() {
+
+        for( let event of this.eval.events ) {
+            if( event.eventType == "ANS_ACTION" ) {
+                const payload = JSON.parse( event.payload ) ;
+                const qIndex = payload.questionNo - 1 ;
+                const qRenderer = this.questionTrackRenderers[ qIndex ] ;
+
+                qRenderer.ansActions.push({
+                    actionName: event.eventName,
+                    timeMarker : event.timeMarker ,
+                }) ;
+            }
         }
     }
 
@@ -332,6 +350,7 @@ export class TimeSequenceRenderer {
         this.renderLaps() ;
         this.renderTimeMarkers() ;
         this.renderQuestionActivations() ;
+        this.renderAnswerActions() ;
     }
 
     private renderQuestionTracks() {
@@ -356,6 +375,12 @@ export class TimeSequenceRenderer {
     private renderQuestionActivations() {
         for( let renderer of this.questionTrackRenderers ) {
             renderer.renderActivations() ;
+        }
+    }
+
+    private renderAnswerActions(): void {
+        for( let renderer of this.questionTrackRenderers ) {
+            renderer.renderAnswerActions() ;
         }
     }
 

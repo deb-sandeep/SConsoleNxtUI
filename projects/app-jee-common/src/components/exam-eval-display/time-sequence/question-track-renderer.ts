@@ -13,7 +13,14 @@ export interface QuestionActivation {
     endTimeMarker: number,
 }
 
+export interface AnswerAction {
+    actionName: string,
+    timeMarker: number,
+}
+
 export class QuestionTrackRenderer {
+
+    readonly ANS_ACTION_ICON_SIZE = 10 ;
 
     trackIndex: number;
     bgColor: string;
@@ -21,6 +28,7 @@ export class QuestionTrackRenderer {
     labelBounds : TrackBounds;
     timelineBounds : TrackBounds;
     activations: QuestionActivation[] = [] ;
+    ansActions: AnswerAction[] = [] ;
 
     constructor(
       private attempt: ExamQuestionAttemptSO,
@@ -168,5 +176,77 @@ export class QuestionTrackRenderer {
         ) ;
 
         g.restore() ;
+    }
+
+    renderAnswerActions() {
+        const g = this.contentArea.g ;
+        const minuteWidth = this.config.units.minuteWidth ;
+
+        for( let action of this.ansActions ) {
+            const x = minuteWidth * ( action.timeMarker / 60000 ) ;
+            const name = action.actionName ;
+            g.save() ;
+            if( name === "SAVE_&_NEXT" ) {
+                this.renderSaveAndNextAction( x, g ) ;
+            }
+            else if( name === "SAVE_&_MARK_REVIEW" ) {
+                this.renderSaveAndMarkReviewAction( x, g ) ;
+            }
+            else if( name === "CLEAR_RESPONSE" ) {
+                this.renderClearResponseAction( x, g ) ;
+            }
+            else if( name === "MARK_REVIEW_&_NEXT" ) {
+                this.renderMarkReviewAction( x, g ) ;
+            }
+            g.restore() ;
+        }
+    }
+
+    private renderSaveAndNextAction( x: number, g: CanvasRenderingContext2D ) {
+
+        const size = this.ANS_ACTION_ICON_SIZE ;
+        const centerY = this.timelineBounds.y + ( this.timelineBounds.height / 2 ) ;
+        const left = x - size ;
+        const top = centerY - ( size / 2 ) ;
+        const right = left + size ;
+        const bottom = top + size ;
+        const arrowBaseX = left + ( size * 0.62 ) ;
+
+        // Keep the marker inside the requested square while approximating the
+        // right-pointing green badge used by the quiz UI's Logo3 icon.
+        g.beginPath() ;
+        g.moveTo( left, top + ( size * 0.12 ) ) ;
+        g.lineTo( arrowBaseX, top ) ;
+        g.lineTo( right, centerY ) ;
+        g.lineTo( arrowBaseX, bottom ) ;
+        g.lineTo( left, bottom - ( size * 0.12 ) ) ;
+        g.closePath() ;
+
+        g.fillStyle = '#31b53b' ;
+        g.strokeStyle = '#17771f' ;
+        g.lineWidth = Math.max( 1, size * 0.08 ) ;
+        g.lineJoin = 'round' ;
+        g.fill() ;
+        g.stroke() ;
+
+        // A thin inner highlight keeps the icon readable at very small sizes.
+        g.beginPath() ;
+        g.moveTo( left + ( size * 0.16 ), top + ( size * 0.24 ) ) ;
+        g.lineTo( arrowBaseX - ( size * 0.08 ), top + ( size * 0.12 ) ) ;
+        g.strokeStyle = 'rgba(255, 255, 255, 0.45)' ;
+        g.lineWidth = Math.max( 0.75, size * 0.06 ) ;
+        g.stroke() ;
+    }
+
+    private renderSaveAndMarkReviewAction( x: number, g: CanvasRenderingContext2D ) {
+        
+    }
+
+    private renderClearResponseAction( x: number, g: CanvasRenderingContext2D ) {
+        
+    }
+
+    private renderMarkReviewAction( x: number, g: CanvasRenderingContext2D ) {
+        
     }
 }
