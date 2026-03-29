@@ -29,6 +29,6 @@ export class ExamEvalDisplayComponent {
   questionDisplay: QuestionDisplayComponent ;
 
   protected showQuestion( $event: ExamQuestionAttemptSO ) {
-    this.questionDisplay.question = $event ;
+    this.questionDisplay.questionAttempt = $event ;
   }
 }

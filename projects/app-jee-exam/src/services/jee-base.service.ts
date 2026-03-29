@@ -150,7 +150,7 @@ export class JeeBaseService {
     }
 
     async submitExamAttempt() {
-        // console.log( "***SCAFFOLD*** Uncomment these lines." ) ;
+        console.log( "***SCAFFOLD*** Uncomment these lines." ) ;
         // Uncomment the commented lines for production code
         // if( this.examSubmitted ) {
         //   return ;
@@ -170,29 +170,33 @@ export class JeeBaseService {
 
     recomputeLossAttributionPct() {
 
-        const totalLostMarks = this.examConfig.totalMarks - this.eval!.score ;
-
-        // A perfect score leaves no loss to classify as avoidable or unavoidable.
-        if( totalLostMarks == 0 ) return ;
-
         const rcMap = this.buildRootCauseMap() ;
 
-        let totalAvoidableLossMarks = 0 ;
+        const totalLoss = this.examConfig.totalMarks - this.eval!.score ;
+        let totalAvoidableLoss = 0 ;
+
+        // A perfect score leaves no loss to classify as avoidable or unavoidable.
+        if( totalLoss == 0 ) {
+            this.eval!.avoidableLossPct = 0 ;
+            this.eval!.unavoidableLossPct = 0 ;
+            return ;
+        }
 
         for( let sectionAttempt of this.eval!.sectionAttempts ) {
 
-            const sectionLostMarks = this.computeSectionLostMarks( sectionAttempt ) ;
+            const sectionLoss = this.computeSectionLostMarks( sectionAttempt ) ;
+            if( sectionLoss == 0 ) {
+                sectionAttempt.avoidableLossPct = 0 ;
+            }
+            else {
+                const sectionAvoidableLoss = this.computeSectionAvoidableLoss( sectionAttempt, rcMap ) ;
+                totalAvoidableLoss += sectionAvoidableLoss ;
+                sectionAttempt.avoidableLossPct = ( sectionAvoidableLoss / sectionLoss ) * 100 ;
+            }
 
-            if( sectionLostMarks == 0 ) continue ;
-
-            const sectionAvoidableLossMarks =
-              this.computeSectionAvoidableLossMarks( sectionAttempt, rcMap ) ;
-
-            totalAvoidableLossMarks += sectionAvoidableLossMarks ;
-            sectionAttempt.avoidableLossPct = ( sectionAvoidableLossMarks / sectionLostMarks ) * 100 ;
         }
 
-        this.eval!.avoidableLossPct = (totalAvoidableLossMarks / totalLostMarks)*100 ;
+        this.eval!.avoidableLossPct = (totalAvoidableLoss / totalLoss)*100 ;
         this.eval!.unavoidableLossPct = 100 - this.eval!.avoidableLossPct ;
     }
 
@@ -204,7 +208,7 @@ export class JeeBaseService {
         return map ;
     }
 
-    private computeSectionAvoidableLossMarks( sectionAttempt: ExamSectionAttemptSO, rcMap: Record<string, string> ) {
+    private computeSectionAvoidableLoss( sectionAttempt: ExamSectionAttemptSO, rcMap: Record<string, string> ) {
 
         let avoidableLossMarks = 0 ;
 

@@ -1,5 +1,5 @@
-@if( question ) {
-  @let q = question.examQuestion.question ;
+@if( questionAttempt ) {
+  @let q = questionAttempt.examQuestion.question ;
   <div class="card border-default question-card">
     <div class="card-header">
       <span class="topic-name">[{{q.topicName}}]</span>
@@ -34,6 +34,13 @@
     </div>
     <div class="card-footer">
       Answer : <span class="answer">{{q.answer}}</span>
+      @if( isEligibleForMarkOverride() ) {
+        <div class="marks-override-panel">
+          <input type="number"
+                 [min]="getMinMarks()"
+                 [max]="getMaxMarks()" />
+        </div>
+      }
     </div>
   </div>
 }
