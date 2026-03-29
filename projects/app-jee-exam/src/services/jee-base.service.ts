@@ -241,4 +241,50 @@ export class JeeBaseService {
         const sectionTotalMarks = section.correctMarks * section.numCompulsoryQuestions ;
         return sectionTotalMarks - sectionAttempt.score ;
     }
+
+    overrideScore( questionAttempt: ExamQuestionAttemptSO, updatedScore: number ) {
+        this.apiSvc.overrideScore( questionAttempt.id, updatedScore )
+          .then( () => {
+              this.overrideScoreLocally( questionAttempt, updatedScore ) ;
+          }) ;
+    }
+
+    private overrideScoreLocally( questionAttempt: ExamQuestionAttemptSO, updatedScore: number ) {
+
+        const sectionId = questionAttempt.examQuestion.sectionId ;
+        const sectionAttempt = this.eval?.sectionAttempts.find(
+          attempt => attempt.examSection.id === sectionId
+        ) ;
+
+        questionAttempt.score = updatedScore ;
+        this.recomputeExamScore() ;
+
+        if( updatedScore == sectionAttempt!.examSection.correctMarks ) {
+            questionAttempt.rootCause = null ;
+            questionAttempt.evaluationStatus = "CORRECT" ;
+        }
+        else {
+            if( updatedScore == sectionAttempt!.examSection.wrongPenalty ) {
+                questionAttempt.evaluationStatus = "INCORRECT" ;
+            }
+            else {
+                questionAttempt.evaluationStatus = "PARTIAL" ;
+            }
+        }
+        this.recomputeLossAttributionPct() ;
+    }
+
+    private recomputeExamScore() {
+        let totalScore = 0 ;
+        for( let sectionAttempt of this.eval!.sectionAttempts ) {
+            let sectionScore = 0 ;
+
+            for( let questionAttempt of sectionAttempt.questionAttempts ) {
+                sectionScore += questionAttempt.score ;
+            }
+            sectionAttempt.score = sectionScore ;
+            totalScore += sectionScore ;
+        }
+        this.eval!.score = totalScore ;
+    }
 }

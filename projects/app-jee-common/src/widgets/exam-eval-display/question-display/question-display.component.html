@@ -36,9 +36,13 @@
       Answer : <span class="answer">{{q.answer}}</span>
       @if( isEligibleForMarkOverride() ) {
         <div class="marks-override-panel">
-          <input type="number"
+          <input class="mark-override-input"
+                 type="number"
                  [min]="getMinMarks()"
-                 [max]="getMaxMarks()" />
+                 [max]="getMaxMarks()"
+                 [(ngModel)]="updatedScore"/>
+          <span class="bi-save mark-save-btn"
+                (click)="overrideScore()"></span>
         </div>
       }
     </div>

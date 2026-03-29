@@ -126,7 +126,7 @@ export class QuestionEvalComponent {
 
   protected rootCauseAssigned( qAttempt: ExamQuestionAttemptSO ) {
     this.apiSvc
-        .updateAttemptRootCause( qAttempt.id, qAttempt.rootCause )
+        .updateAttemptRootCause( qAttempt.id, qAttempt.rootCause! )
         .then( () => {
       this.examSvc.recomputeLossAttributionPct() ;
     }) ;

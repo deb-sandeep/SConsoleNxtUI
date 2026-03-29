@@ -1,22 +1,35 @@
-import { Component, inject, input } from '@angular/core';
-import { ExamQuestionAttemptSO, QuestionImageSO } from "@jee-common/util/exam-data-types";
+import { Component, inject, Input } from '@angular/core';
+import { ExamAttemptSO, ExamQuestionAttemptSO, QuestionImageSO } from "@jee-common/util/exam-data-types";
 import { environment } from "@env/environment";
 import { ExamApiService } from "../../../../../app-jee-exam/src/services/exam-api.service";
 import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
+import { FormsModule } from "@angular/forms";
+import { JeeMainService } from "../../../../../app-jee-exam/src/features/jee-main/jee-main.service";
 
 @Component( {
   selector: 'div[questionDisplay]',
   templateUrl: './question-display.component.html',
   imports: [
-    NgbRating
+    NgbRating,
+    FormsModule
   ],
   styleUrl: './question-display.component.css'
 })
 export class QuestionDisplayComponent {
 
+  @Input()
+  eval: ExamAttemptSO ;
+
+  examSvc = inject( JeeMainService ) ;
   apiSvc = inject( ExamApiService ) ;
 
   questionAttempt : ExamQuestionAttemptSO ;
+  updatedScore : number = 0 ;
+
+  setQuestionAttempt( attempt: ExamQuestionAttemptSO ) {
+    this.questionAttempt = attempt ;
+    this.updatedScore = this.questionAttempt.score ;
+  }
 
   getImgURL( img:QuestionImageSO ) {
     return `${ environment.apiRoot }/question-img/${ this.questionAttempt.examQuestion.question.sourceId }/${ img.fileName }` ;
@@ -28,8 +41,7 @@ export class QuestionDisplayComponent {
   }
 
   protected isEligibleForMarkOverride() {
-    return this.questionAttempt.evaluationStatus === "UNANSWERED" ||
-           this.questionAttempt.evaluationStatus === "INCORRECT" ;
+    return this.questionAttempt.evaluationStatus != "CORRECT" ;
   }
 
   protected getMinMarks() {
@@ -43,6 +55,17 @@ export class QuestionDisplayComponent {
     return 0 ;
   }
 
+
   protected getMaxMarks() {
+    const sectionId = this.questionAttempt.examQuestion.sectionId ;
+    const sectionAttempt = this.eval?.sectionAttempts.find(
+      attempt => attempt.examSection.id === sectionId
+    ) ;
+
+    return sectionAttempt?.examSection.correctMarks ?? 0 ;
+  }
+
+  protected overrideScore() {
+    this.examSvc.overrideScore( this.questionAttempt, this.updatedScore ) ;
   }
 }

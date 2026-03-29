@@ -100,8 +100,13 @@ export class ExamApiService extends RemoteService {
     return this.getPromise<WrongAnswerRootCause[]>( url ) ;
   }
 
-  updateAttemptRootCause( id: number, rootCause: string ) {
-    const url:string = `${environment.apiRoot}/Exam/RootCauseUpdate/${id}/${rootCause}` ;
+  updateAttemptRootCause( questionAttemptId: number, rootCause: string ) {
+    const url:string = `${environment.apiRoot}/Exam/RootCauseUpdate/${questionAttemptId}/${rootCause}` ;
+    return this.postPromise<String>( url, false ) ;
+  }
+
+  overrideScore( questionAttemptId:number, score:number ) {
+    const url:string = `${environment.apiRoot}/Exam/ScoreOverride/${questionAttemptId}/${score}` ;
     return this.postPromise<String>( url, false ) ;
   }
 }

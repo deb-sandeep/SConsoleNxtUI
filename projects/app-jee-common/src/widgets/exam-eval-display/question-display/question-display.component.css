@@ -70,3 +70,14 @@
     display: inline-block;
     float: right;
 }
+
+.mark-override-input {
+    border: 1px solid lightgrey;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.mark-save-btn {
+    color: blue ;
+    font-weight: bold;
+}

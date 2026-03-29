@@ -74,7 +74,7 @@ export interface ExamQuestionAttemptSO {
     answerProvided: string;
     answerSubmitStatus: string;
     score: number;
-    rootCause: string;
+    rootCause: string|null;
 }
 
 export interface ExamSectionAttemptSO {
