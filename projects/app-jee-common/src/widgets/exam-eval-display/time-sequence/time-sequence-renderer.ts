@@ -1,7 +1,7 @@
 import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
 import { QuestionActivation, QuestionTrackRenderer } from "./question-track-renderer";
 import { TimeMarkerRenderer } from "./time-marker-renderer";
-import { LapMarkerRenderer } from "@jee-common/components/exam-eval-display/time-sequence/lap-marker-renderer";
+import { LapMarkerRenderer } from "@jee-common/widgets/exam-eval-display/time-sequence/lap-marker-renderer";
 
 export interface TimeSequenceConfig {
     lapConfig : {

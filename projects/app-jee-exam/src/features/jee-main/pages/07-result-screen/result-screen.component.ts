@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExamEvalDisplayComponent } from "@jee-common/components/exam-eval-display/exam-eval-display.component";
+import { ExamEvalDisplayComponent } from "@jee-common/widgets/exam-eval-display/exam-eval-display.component";
 import { JeeMainService } from "../../jee-main.service";
 
 @Component({

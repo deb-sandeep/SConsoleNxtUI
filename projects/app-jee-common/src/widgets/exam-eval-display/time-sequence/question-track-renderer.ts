@@ -228,10 +228,8 @@ export class QuestionTrackRenderer {
         }
     }
 
-    private renderSaveAndNextAction(
-        g: CanvasRenderingContext2D,
-        iconBounds: AnswerActionIconBounds
-    ) {
+    /* AI-generated logic */
+    private renderSaveAndNextAction( g: CanvasRenderingContext2D, iconBounds: AnswerActionIconBounds ) {
         const { size, left, top, right, bottom, centerY } = iconBounds ;
         const arrowBaseX = left + ( size * 0.62 ) ;
 
@@ -261,15 +259,12 @@ export class QuestionTrackRenderer {
         g.stroke() ;
     }
 
-    private renderSaveAndMarkReviewAction(
-        g: CanvasRenderingContext2D,
-        iconBounds: AnswerActionIconBounds
-    ) {
-        const { size, left, top } = iconBounds ;
-        const circleRadius = size * 0.34 ;
-        const circleCenterX = left + ( size * 0.40 ) ;
-        const circleCenterY = top + ( size * 0.50 ) ;
-        const reviewSquareSize = size * 0.34 ;
+    /* AI-generated logic */
+    private renderSaveAndMarkReviewAction( g: CanvasRenderingContext2D, iconBounds: AnswerActionIconBounds ) {
+        const { size, left, top, centerY } = iconBounds ;
+        const circleRadius = size / 2 ;
+        const circleCenterX = left + circleRadius ;
+        const reviewSquareSize = size * 0.5 ;
         const reviewSquareLeft = left + size - reviewSquareSize ;
         const reviewSquareTop = top + size - reviewSquareSize ;
         const reviewCornerRadius = Math.max( 1, size * 0.06 ) ;
@@ -277,17 +272,17 @@ export class QuestionTrackRenderer {
         // Logo5 combines the answered-state green badge with the purple
         // review marker used elsewhere in the exam UI.
         g.beginPath() ;
-        g.arc( circleCenterX, circleCenterY, circleRadius, 0, Math.PI * 2 ) ;
+        g.arc( circleCenterX, centerY, circleRadius, 0, Math.PI * 2 ) ;
         g.fillStyle = '#2db13a' ;
         g.fill() ;
 
         g.beginPath() ;
-        g.arc( circleCenterX, circleCenterY, circleRadius, 0, Math.PI * 2 ) ;
+        g.arc( circleCenterX, centerY, circleRadius, 0, Math.PI * 2 ) ;
         g.strokeStyle = '#17771f' ;
         g.lineWidth = Math.max( 1, size * 0.08 ) ;
         g.stroke() ;
 
-        // The review badge is a square anchored to the bottom-right corner.
+        // The review badge sits on top of the circle in the icon's bottom-right corner.
         g.beginPath() ;
         g.roundRect(
             reviewSquareLeft,
@@ -298,24 +293,10 @@ export class QuestionTrackRenderer {
         ) ;
         g.fillStyle = '#5b2fbf' ;
         g.fill() ;
-
-        // A small light glyph keeps the center from reading as a flat disk at
-        // the tiny timeline scale.
-        g.beginPath() ;
-        g.moveTo( circleCenterX - ( size * 0.12 ), circleCenterY - ( size * 0.09 ) ) ;
-        g.lineTo( circleCenterX + ( size * 0.01 ), circleCenterY - ( size * 0.09 ) ) ;
-        g.lineTo( circleCenterX + ( size * 0.10 ), circleCenterY + ( size * 0.01 ) ) ;
-        g.lineTo( circleCenterX + ( size * 0.01 ), circleCenterY + ( size * 0.12 ) ) ;
-        g.lineTo( circleCenterX - ( size * 0.12 ), circleCenterY + ( size * 0.12 ) ) ;
-        g.closePath() ;
-        g.fillStyle = 'rgba(255, 255, 255, 0.95)' ;
-        g.fill() ;
     }
 
-    private renderClearResponseAction(
-        g: CanvasRenderingContext2D,
-        iconBounds: AnswerActionIconBounds
-    ) {
+    /* AI-generated logic */
+    private renderClearResponseAction( g: CanvasRenderingContext2D, iconBounds: AnswerActionIconBounds ) {
         const { size, left, top } = iconBounds ;
         const cornerRadius = Math.max( 1.5, size * 0.16 ) ;
 
@@ -342,10 +323,36 @@ export class QuestionTrackRenderer {
         g.fill() ;
     }
 
-    private renderMarkReviewAction(
-        g: CanvasRenderingContext2D,
-        iconBounds: AnswerActionIconBounds
-    ) {
-        
+    /* AI-generated logic */
+    private renderMarkReviewAction( g: CanvasRenderingContext2D, iconBounds: AnswerActionIconBounds ) {
+        const { size, left, top, centerY } = iconBounds ;
+        const circleRadius = size / 2 ;
+        const circleCenterX = left + circleRadius ;
+
+        // Logo4 is the plain review-state badge: a purple circular marker fully
+        // contained inside the shared icon bounds.
+        g.beginPath() ;
+        g.arc( circleCenterX, centerY, circleRadius, 0, Math.PI * 2 ) ;
+        g.fillStyle = '#5b2fbf' ;
+        g.fill() ;
+
+        g.beginPath() ;
+        g.arc( circleCenterX, centerY, circleRadius, 0, Math.PI * 2 ) ;
+        g.strokeStyle = '#351676' ;
+        g.lineWidth = Math.max( 1, size * 0.08 ) ;
+        g.stroke() ;
+
+        // A light top-left highlight keeps the small icon from flattening out.
+        g.beginPath() ;
+        g.arc(
+            circleCenterX - ( size * 0.10 ),
+            top + ( size * 0.34 ),
+            size * 0.20,
+            Math.PI * 1.15,
+            Math.PI * 1.85
+        ) ;
+        g.strokeStyle = 'rgba(255, 255, 255, 0.35)' ;
+        g.lineWidth = Math.max( 0.75, size * 0.06 ) ;
+        g.stroke() ;
     }
 }
