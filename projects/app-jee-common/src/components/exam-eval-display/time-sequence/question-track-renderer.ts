@@ -8,6 +8,16 @@ interface TrackBounds {
     height: number;
 }
 
+interface AnswerActionIconBounds {
+    centerX: number;
+    centerY: number;
+    size: number;
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+}
+
 export interface QuestionActivation {
     startTimeMarker: number,
     endTimeMarker: number,
@@ -179,37 +189,50 @@ export class QuestionTrackRenderer {
     }
 
     renderAnswerActions() {
+
         const g = this.contentArea.g ;
         const minuteWidth = this.config.units.minuteWidth ;
+        const centerY = this.timelineBounds.y + ( this.timelineBounds.height / 2 ) ;
+        const size = this.ANS_ACTION_ICON_SIZE ;
 
         for( let action of this.ansActions ) {
             const x = minuteWidth * ( action.timeMarker / 60000 ) ;
             const name = action.actionName ;
+            const iconBounds = {
+                centerX: x,
+                centerY,
+                size,
+                left: x - size,
+                top: centerY - ( size / 2 ),
+                right: x,
+                bottom: centerY + ( size / 2 ),
+            } ;
+
             g.save() ;
+
+            // All answer-action icons share the same placement rules: a fixed-size
+            // icon box centered on the action's time marker and the track midline.
             if( name === "SAVE_&_NEXT" ) {
-                this.renderSaveAndNextAction( x, g ) ;
+                this.renderSaveAndNextAction( g, iconBounds ) ;
             }
             else if( name === "SAVE_&_MARK_REVIEW" ) {
-                this.renderSaveAndMarkReviewAction( x, g ) ;
+                this.renderSaveAndMarkReviewAction( g, iconBounds ) ;
             }
             else if( name === "CLEAR_RESPONSE" ) {
-                this.renderClearResponseAction( x, g ) ;
+                this.renderClearResponseAction( g, iconBounds ) ;
             }
             else if( name === "MARK_REVIEW_&_NEXT" ) {
-                this.renderMarkReviewAction( x, g ) ;
+                this.renderMarkReviewAction( g, iconBounds ) ;
             }
             g.restore() ;
         }
     }
 
-    private renderSaveAndNextAction( x: number, g: CanvasRenderingContext2D ) {
-
-        const size = this.ANS_ACTION_ICON_SIZE ;
-        const centerY = this.timelineBounds.y + ( this.timelineBounds.height / 2 ) ;
-        const left = x - size ;
-        const top = centerY - ( size / 2 ) ;
-        const right = left + size ;
-        const bottom = top + size ;
+    private renderSaveAndNextAction(
+        g: CanvasRenderingContext2D,
+        iconBounds: AnswerActionIconBounds
+    ) {
+        const { size, left, top, right, bottom, centerY } = iconBounds ;
         const arrowBaseX = left + ( size * 0.62 ) ;
 
         // Keep the marker inside the requested square while approximating the
@@ -238,15 +261,91 @@ export class QuestionTrackRenderer {
         g.stroke() ;
     }
 
-    private renderSaveAndMarkReviewAction( x: number, g: CanvasRenderingContext2D ) {
-        
+    private renderSaveAndMarkReviewAction(
+        g: CanvasRenderingContext2D,
+        iconBounds: AnswerActionIconBounds
+    ) {
+        const { size, left, top } = iconBounds ;
+        const circleRadius = size * 0.34 ;
+        const circleCenterX = left + ( size * 0.40 ) ;
+        const circleCenterY = top + ( size * 0.50 ) ;
+        const reviewSquareSize = size * 0.34 ;
+        const reviewSquareLeft = left + size - reviewSquareSize ;
+        const reviewSquareTop = top + size - reviewSquareSize ;
+        const reviewCornerRadius = Math.max( 1, size * 0.06 ) ;
+
+        // Logo5 combines the answered-state green badge with the purple
+        // review marker used elsewhere in the exam UI.
+        g.beginPath() ;
+        g.arc( circleCenterX, circleCenterY, circleRadius, 0, Math.PI * 2 ) ;
+        g.fillStyle = '#2db13a' ;
+        g.fill() ;
+
+        g.beginPath() ;
+        g.arc( circleCenterX, circleCenterY, circleRadius, 0, Math.PI * 2 ) ;
+        g.strokeStyle = '#17771f' ;
+        g.lineWidth = Math.max( 1, size * 0.08 ) ;
+        g.stroke() ;
+
+        // The review badge is a square anchored to the bottom-right corner.
+        g.beginPath() ;
+        g.roundRect(
+            reviewSquareLeft,
+            reviewSquareTop,
+            reviewSquareSize,
+            reviewSquareSize,
+            reviewCornerRadius
+        ) ;
+        g.fillStyle = '#5b2fbf' ;
+        g.fill() ;
+
+        // A small light glyph keeps the center from reading as a flat disk at
+        // the tiny timeline scale.
+        g.beginPath() ;
+        g.moveTo( circleCenterX - ( size * 0.12 ), circleCenterY - ( size * 0.09 ) ) ;
+        g.lineTo( circleCenterX + ( size * 0.01 ), circleCenterY - ( size * 0.09 ) ) ;
+        g.lineTo( circleCenterX + ( size * 0.10 ), circleCenterY + ( size * 0.01 ) ) ;
+        g.lineTo( circleCenterX + ( size * 0.01 ), circleCenterY + ( size * 0.12 ) ) ;
+        g.lineTo( circleCenterX - ( size * 0.12 ), circleCenterY + ( size * 0.12 ) ) ;
+        g.closePath() ;
+        g.fillStyle = 'rgba(255, 255, 255, 0.95)' ;
+        g.fill() ;
     }
 
-    private renderClearResponseAction( x: number, g: CanvasRenderingContext2D ) {
-        
+    private renderClearResponseAction(
+        g: CanvasRenderingContext2D,
+        iconBounds: AnswerActionIconBounds
+    ) {
+        const { size, left, top } = iconBounds ;
+        const cornerRadius = Math.max( 1.5, size * 0.16 ) ;
+
+        // Logo1 is essentially a light rounded square with a soft grey border.
+        g.beginPath() ;
+        g.roundRect( left, top, size, size, cornerRadius ) ;
+        g.fillStyle = '#fafafa' ;
+        g.strokeStyle = '#8f8f8f' ;
+        g.lineWidth = Math.max( 1, size * 0.08 ) ;
+        g.fill() ;
+        g.stroke() ;
+
+        // Add a subtle top highlight so the icon does not collapse into the
+        // timeline when rendered at very small sizes.
+        g.beginPath() ;
+        g.roundRect(
+            left + ( size * 0.12 ),
+            top + ( size * 0.12 ),
+            size * 0.76,
+            size * 0.26,
+            Math.max( 1, size * 0.08 )
+        ) ;
+        g.fillStyle = 'rgba(255, 255, 255, 0.55)' ;
+        g.fill() ;
     }
 
-    private renderMarkReviewAction( x: number, g: CanvasRenderingContext2D ) {
+    private renderMarkReviewAction(
+        g: CanvasRenderingContext2D,
+        iconBounds: AnswerActionIconBounds
+    ) {
         
     }
 }
