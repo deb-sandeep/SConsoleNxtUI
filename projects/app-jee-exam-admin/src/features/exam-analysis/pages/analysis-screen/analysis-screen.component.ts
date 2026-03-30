@@ -9,8 +9,16 @@ import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
   imports: [
     ExamEvalDisplayComponent
   ],
-  templateUrl: './analysis-screen.component.html',
-  styleUrl: './analysis-screen.component.css'
+  template: `
+    <div class="page-body">
+      <exam-eval-display [eval]="eval"
+                         (onClose)="closeResultScreen()">
+      </exam-eval-display>
+    </div>
+  `,
+  styles: `
+    .page-body {}
+  `
 })
 export class AnalysisScreenComponent {
 

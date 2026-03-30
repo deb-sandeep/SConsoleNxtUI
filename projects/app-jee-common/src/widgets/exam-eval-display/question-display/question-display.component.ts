@@ -66,6 +66,6 @@ export class QuestionDisplayComponent {
   }
 
   protected overrideScore() {
-    this.examSvc.overrideScore( this.questionAttempt, this.updatedScore ) ;
+    this.examSvc.overrideScore( this.eval, this.questionAttempt, this.updatedScore ) ;
   }
 }

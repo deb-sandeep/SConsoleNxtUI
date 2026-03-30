@@ -1,5 +1,6 @@
 <div class="page-content">
-  <table class="table table-sm table-striped" style="margin: 0 auto; width: 90%;">
+  <h2>Exam attempt history</h2>
+  <table class="table table-sm table-striped">
     <thead>
       <tr>
         <th style="width: 35px;">ID</th>
@@ -58,7 +59,7 @@
           <td class="number-cell">{{attempt.exam.numMathQuestions}}</td>
           <td class="number-cell">{{attempt.score}}</td>
           <td class="number-cell">{{attempt.exam.totalMarks}}</td>
-          <td class="number-cell">{{attempt.avoidableLossPct}} %</td>
+          <td class="number-cell">{{attempt.avoidableLossPct | number : '2.1-1'}} %</td>
           <td class="btn-cell">
             <span class="bi-pencil-square btn-icon"
                   style="color: blue;"

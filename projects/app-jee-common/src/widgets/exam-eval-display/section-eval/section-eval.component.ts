@@ -7,14 +7,12 @@ class SectionEvalSummary {
   sectionName: string;
   numQuestions: number;
   totalMarks: number;
-  score: number;
 
   constructor( public sectionAttempt: ExamSectionAttemptSO ) {
     this.sectionName = this.constructSectionName( sectionAttempt ) ;
     this.numQuestions = sectionAttempt.examSection.numCompulsoryQuestions ;
     this.totalMarks = sectionAttempt.examSection.numCompulsoryQuestions *
                       sectionAttempt.examSection.correctMarks ;
-    this.score = sectionAttempt.score ;
   }
 
   private constructSectionName( sAttempt: ExamSectionAttemptSO ) {

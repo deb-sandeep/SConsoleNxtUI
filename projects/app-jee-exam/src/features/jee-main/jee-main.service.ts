@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ExamQuestion, ExamSection } from "../../common/so-wrappers";
 import { JeeBaseService } from "@jee-common/services/jee-base.service";
-import { ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
 
 @Injectable()
 export class JeeMainService extends JeeBaseService {
@@ -38,8 +37,6 @@ export class JeeMainService extends JeeBaseService {
           lastQuestion.nextQuestion = examQuestion ;
         }
 
-        examQuestion.answer = question.question.answer ;
-
         this.questions.push( examQuestion ) ;
         lastQuestion = examQuestion ;
 
@@ -49,9 +46,6 @@ export class JeeMainService extends JeeBaseService {
         }
       }
     }
-
-    this.loadRootCauses() ;
-
   }
 
   private convertSyllabusNameToSectionName( syllabusName : string ) {

@@ -4,7 +4,7 @@ import {
   ExamQuestionAttemptSO,
   ExamSectionAttemptSO,
 } from "@jee-common/util/exam-data-types";
-import { NgClass } from "@angular/common";
+import { NgClass, NgStyle } from "@angular/common";
 import { DurationPipe } from "lib-core";
 import { FormsModule } from "@angular/forms";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
@@ -51,7 +51,8 @@ class ExamSection {
   imports: [
     NgClass,
     DurationPipe,
-    FormsModule
+    FormsModule,
+    NgStyle
   ],
   templateUrl: './question-eval.component.html',
   styleUrl: './question-eval.component.css'
@@ -68,6 +69,21 @@ export class QuestionEvalComponent {
 
   sectionAttempts: ExamSection[] = [] ;
   selectedAttempt: ExamQuestionAttemptSO | null = null ;
+
+  rcMap : Record<string, string> = {} ;
+
+  ngOnInit() {
+    this.examSvc.loadRootCauses().then( () => {
+      for( let rootCause of this.examSvc.rootCauses ) {
+        this.rcMap[ rootCause.cause ] = rootCause.group ;
+      }
+    } ) ;
+  }
+
+  private buildRootCauseMap() {
+    const map: Record<string, string> = {} ;
+    return map ;
+  }
 
   ngOnChanges() {
     for( let attempt of this.eval!.sectionAttempts ) {
@@ -114,7 +130,7 @@ export class QuestionEvalComponent {
     return "#065506" ;
   }
 
-  protected selectQuestionAttempt( qAttempt: ExamQuestionAttemptSO ) {
+  public selectQuestionAttempt( qAttempt: ExamQuestionAttemptSO ) {
     this.selectedAttempt = qAttempt ;
     this.questionSelected.emit( qAttempt ) ;
   }
@@ -127,7 +143,24 @@ export class QuestionEvalComponent {
     this.apiSvc
         .updateAttemptRootCause( qAttempt.id, qAttempt.rootCause! )
         .then( () => {
-      this.examSvc.recomputeLossAttributionPct() ;
+      this.examSvc.recomputeLossAttributionPct( this.eval ) ;
     }) ;
+  }
+
+  protected getScoreBoundaryStyle( qAttempt: ExamQuestionAttemptSO ) {
+    if( qAttempt.rootCause != null ) {
+      let borderColor = "#ff8181" ;
+      let bgColor = "#fbcfcf" ;
+
+      if( this.rcMap[ qAttempt.rootCause ] === "AVOIDABLE" ) {
+        borderColor = "#8eca8e" ;
+        bgColor = "#e0ffe0" ;
+      }
+      return {
+        "border" : `2px solid ${borderColor}`,
+        "background-color": `${bgColor}`,
+      }
+    }
+    return null ;
   }
 }

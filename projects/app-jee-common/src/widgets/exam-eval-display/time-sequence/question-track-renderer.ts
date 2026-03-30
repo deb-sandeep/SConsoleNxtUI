@@ -1,5 +1,5 @@
 import { ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
-import { AnswerActionIconBounds, AnswerActionRenderer } from "./answer-action-renderer";
+import { AnswerActionRenderer } from "./answer-action-renderer";
 import { DrawingArea, TimeSequenceConfig } from "./time-sequence-renderer";
 
 interface TrackBounds {
@@ -31,6 +31,7 @@ export class QuestionTrackRenderer {
     timelineBounds : TrackBounds;
     activations: QuestionActivation[] = [] ;
     ansActions: AnswerAction[] = [] ;
+    attemptSelected: boolean = false ;
 
     constructor(
       private attempt: ExamQuestionAttemptSO,
@@ -41,6 +42,21 @@ export class QuestionTrackRenderer {
         this.trackIndex = attempt.examQuestion.sequence - 1;
         this.name = this.constructName() ;
         this.bgColor = this.deduceBgColor() ;
+    }
+
+    public getAttempt(): ExamQuestionAttemptSO {
+        return this.attempt ;
+    }
+
+    public containsLabelPoint( x: number, y: number ): boolean {
+        if( !this.labelBounds ) {
+            return false ;
+        }
+
+        return x >= this.labelBounds.x &&
+          x <= this.labelBounds.x + this.labelBounds.width &&
+          y >= this.labelBounds.y &&
+          y <= this.labelBounds.y + this.labelBounds.height ;
     }
 
     private constructName() {
@@ -121,6 +137,8 @@ export class QuestionTrackRenderer {
             this.labelBounds.height
         ) ;
 
+        this.renderEvaluationStatus( g ) ;
+
         let fontSize = this.config.labelConfig.fontSize ;
         if( this.labelBounds.height >= 10 ) {
             fontSize = Math.min( fontSize , this.labelBounds.height ) ;
@@ -136,12 +154,32 @@ export class QuestionTrackRenderer {
         g.restore() ;
     }
 
+    private renderEvaluationStatus( g: CanvasRenderingContext2D ) {
+
+        const statusColors: Record<string, string> = {
+            CORRECT: "#00cf00",
+            PARTIAL: "#ff8800",
+            UNANSWERED: "#919191",
+            INCORRECT: "#ff0000",
+        };
+        g.fillStyle = statusColors[this.attempt.evaluationStatus] ;
+        g.fillRect(
+          this.labelBounds.x + this.labelBounds.width - 3,
+          this.labelBounds.y,
+          3,
+          this.labelBounds.height
+        ) ;
+    }
+
     private renderTimeTrack() {
         const g = this.contentArea.g ;
 
         g.save() ;
 
         g.strokeStyle = this.config.timelineConfig.lineColor ;
+        if( this.attemptSelected ) {
+            g.strokeStyle = '#6c6cf8' ;
+        }
         g.beginPath() ;
         g.moveTo( this.timelineBounds.x, this.timelineBounds.y + this.timelineBounds.height/2 ) ;
         g.lineTo( this.timelineBounds.width, this.timelineBounds.y + this.timelineBounds.height/2 ) ;
@@ -207,5 +245,9 @@ export class QuestionTrackRenderer {
             this.answerActionRenderer.renderAction( name, g, iconBounds ) ;
             g.restore() ;
         }
+    }
+
+    setAttemptSelected( attempt : ExamQuestionAttemptSO ) {
+        this.attemptSelected = ( attempt == this.attempt ) ;
     }
 }

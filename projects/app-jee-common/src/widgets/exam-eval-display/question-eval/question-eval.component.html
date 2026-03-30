@@ -33,7 +33,7 @@
               [class.selected]=" qAttempt == selectedAttempt">
             <td>{{q.sequence}}</td>
             <td class="q-id">
-              {{q.question.questionId}}
+              {{q.question.questionId.replace( '://', ' : ')}}
             </td>
             <td class="ref-answer">
               {{q.question.answer}}
@@ -43,6 +43,7 @@
               {{qAttempt.answerProvided}}
             </td>
             <td class="numeric score"
+                [ngStyle]="getScoreBoundaryStyle( qAttempt )"
                 [style.color]="getScoreColor( qAttempt )">
               {{qAttempt.score}}
             </td>

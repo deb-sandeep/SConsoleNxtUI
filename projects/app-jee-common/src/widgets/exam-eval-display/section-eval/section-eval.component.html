@@ -15,8 +15,8 @@
         <td class="numeric">{{summary.numQuestions}}</td>
         <td class="numeric">{{summary.totalMarks}}</td>
         <td class="numeric"
-            [ngClass]="summary.score == summary.totalMarks ? 'full-score':'less-score'">
-          {{summary.score}}
+            [ngClass]="summary.sectionAttempt.score == summary.totalMarks ? 'full-score':'less-score'">
+          {{summary.sectionAttempt.score}}
         </td>
         <td class="numeric">{{summary.sectionAttempt.avoidableLossPct | number : '1.0-0' }}%</td>
       </tr>

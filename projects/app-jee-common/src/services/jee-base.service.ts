@@ -1,6 +1,8 @@
 import {
-    ExamAttemptSO, ExamQuestionAttemptSO,
-    ExamQuestionSubmitStatus, ExamSectionAttemptSO,
+    ExamAttemptSO,
+    ExamQuestionAttemptSO,
+    ExamQuestionSubmitStatus,
+    ExamSectionAttemptSO,
     ExamSO,
     LapName,
     WrongAnswerRootCause
@@ -53,12 +55,8 @@ export class JeeBaseService {
     examSubmitted = false ;
     eval: ExamAttemptSO | null = null ;
 
-    public loadRootCauses() {
-        if( !this.rootCauses ) {
-            this.apiSvc.getRootCauses().then( res => {
-                this.rootCauses = res ;
-            }) ;
-        }
+    public async loadRootCauses() {
+        this.rootCauses = await this.apiSvc.getRootCauses();
     }
 
     public activateQuestion( examQuestion: ExamQuestion ) {
@@ -168,21 +166,21 @@ export class JeeBaseService {
         await this.router.navigate( [ '/jee-main', this.examConfig.id, 'result-screen' ] ) ;
     }
 
-    recomputeLossAttributionPct() {
+    public recomputeLossAttributionPct( examEval: ExamAttemptSO ) {
 
         const rcMap = this.buildRootCauseMap() ;
 
-        const totalLoss = this.examConfig.totalMarks - this.eval!.score ;
+        const totalLoss = examEval.exam.totalMarks - examEval.score ;
         let totalAvoidableLoss = 0 ;
 
         // A perfect score leaves no loss to classify as avoidable or unavoidable.
         if( totalLoss == 0 ) {
-            this.eval!.avoidableLossPct = 0 ;
-            this.eval!.unavoidableLossPct = 0 ;
+            examEval.avoidableLossPct = 0 ;
+            examEval.unavoidableLossPct = 0 ;
             return ;
         }
 
-        for( let sectionAttempt of this.eval!.sectionAttempts ) {
+        for( let sectionAttempt of examEval.sectionAttempts ) {
 
             const sectionLoss = this.computeSectionLostMarks( sectionAttempt ) ;
             if( sectionLoss == 0 ) {
@@ -196,8 +194,8 @@ export class JeeBaseService {
 
         }
 
-        this.eval!.avoidableLossPct = (totalAvoidableLoss / totalLoss)*100 ;
-        this.eval!.unavoidableLossPct = 100 - this.eval!.avoidableLossPct ;
+        examEval.avoidableLossPct = (totalAvoidableLoss / totalLoss)*100 ;
+        examEval.unavoidableLossPct = 100 - examEval.avoidableLossPct ;
     }
 
     private buildRootCauseMap() {
@@ -242,22 +240,27 @@ export class JeeBaseService {
         return sectionTotalMarks - sectionAttempt.score ;
     }
 
-    overrideScore( questionAttempt: ExamQuestionAttemptSO, updatedScore: number ) {
+    public overrideScore( examEval: ExamAttemptSO,
+                          questionAttempt: ExamQuestionAttemptSO,
+                          updatedScore: number ) {
+
         this.apiSvc.overrideScore( questionAttempt.id, updatedScore )
           .then( () => {
-              this.overrideScoreLocally( questionAttempt, updatedScore ) ;
+              this.overrideScoreLocally( examEval, questionAttempt, updatedScore ) ;
           }) ;
     }
 
-    private overrideScoreLocally( questionAttempt: ExamQuestionAttemptSO, updatedScore: number ) {
+    private overrideScoreLocally( examEval: ExamAttemptSO,
+                                  questionAttempt: ExamQuestionAttemptSO,
+                                  updatedScore: number ) {
 
         const sectionId = questionAttempt.examQuestion.sectionId ;
-        const sectionAttempt = this.eval?.sectionAttempts.find(
+        const sectionAttempt = examEval.sectionAttempts.find(
           attempt => attempt.examSection.id === sectionId
         ) ;
 
         questionAttempt.score = updatedScore ;
-        this.recomputeExamScore() ;
+        this.recomputeExamScore( examEval ) ;
 
         if( updatedScore == sectionAttempt!.examSection.correctMarks ) {
             questionAttempt.rootCause = null ;
@@ -271,12 +274,12 @@ export class JeeBaseService {
                 questionAttempt.evaluationStatus = "PARTIAL" ;
             }
         }
-        this.recomputeLossAttributionPct() ;
+        this.recomputeLossAttributionPct( examEval ) ;
     }
 
-    private recomputeExamScore() {
+    private recomputeExamScore( examEval: ExamAttemptSO ) {
         let totalScore = 0 ;
-        for( let sectionAttempt of this.eval!.sectionAttempts ) {
+        for( let sectionAttempt of examEval.sectionAttempts ) {
             let sectionScore = 0 ;
 
             for( let questionAttempt of sectionAttempt.questionAttempts ) {
@@ -285,6 +288,6 @@ export class JeeBaseService {
             sectionAttempt.score = sectionScore ;
             totalScore += sectionScore ;
         }
-        this.eval!.score = totalScore ;
+        examEval.score = totalScore ;
     }
 }

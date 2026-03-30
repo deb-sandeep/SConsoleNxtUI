@@ -1,4 +1,4 @@
-import { Component, Input, output, ViewChild } from '@angular/core';
+import { Component, inject, Input, output, SimpleChanges, ViewChild } from '@angular/core';
 import { ExamAttemptSO, ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
 import { SectionEvalComponent } from "@jee-common/widgets/exam-eval-display/section-eval/section-eval.component";
 import { QuestionEvalComponent } from "@jee-common/widgets/exam-eval-display/question-eval/question-eval.component";
@@ -6,6 +6,7 @@ import {
   QuestionDisplayComponent
 } from "@jee-common/widgets/exam-eval-display/question-display/question-display.component";
 import { TimeSequenceComponent } from "@jee-common/widgets/exam-eval-display/time-sequence/time-sequence.component";
+import { JeeBaseService } from "@jee-common/services/jee-base.service";
 
 @Component({
   selector: 'exam-eval-display',
@@ -28,7 +29,19 @@ export class ExamEvalDisplayComponent {
   @ViewChild( QuestionDisplayComponent )
   questionDisplay: QuestionDisplayComponent ;
 
-  protected showQuestion( $event: ExamQuestionAttemptSO ) {
+  @ViewChild( QuestionEvalComponent )
+  questionEvalComponent: QuestionEvalComponent ;
+
+  @ViewChild( TimeSequenceComponent )
+  timeSequenceComponent: TimeSequenceComponent ;
+
+  protected attemptSelectedInQuestionEvalPanel( $event: ExamQuestionAttemptSO ) {
     this.questionDisplay.setQuestionAttempt( $event ) ;
+    this.timeSequenceComponent.selectQuestionAttempt( $event ) ;
+  }
+
+  protected attemptSelectedInTimeSequencePanel( $event: ExamQuestionAttemptSO ) {
+    this.questionDisplay.setQuestionAttempt( $event ) ;
+    this.questionEvalComponent.selectQuestionAttempt( $event ) ;
   }
 }

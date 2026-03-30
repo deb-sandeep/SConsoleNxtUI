@@ -1,4 +1,4 @@
-import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
+import { ExamAttemptSO, ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
 import { QuestionActivation, QuestionTrackRenderer } from "./question-track-renderer";
 import { TimeMarkerRenderer } from "./time-marker-renderer";
 import { LapMarkerRenderer } from "@jee-common/widgets/exam-eval-display/time-sequence/lap-marker-renderer";
@@ -384,24 +384,40 @@ export class TimeSequenceRenderer {
         }
     }
 
-    zoomIn() {
+    public getQuestionAttemptAtLabelPoint( x: number, y: number ): ExamQuestionAttemptSO | null {
+        for( let renderer of this.questionTrackRenderers ) {
+            if( renderer.containsLabelPoint( x, y ) ) {
+                return renderer.getAttempt() ;
+            }
+        }
+        return null ;
+    }
+
+    public zoomIn() {
         if( this.scale <= 2.8 ) {
             this.scale += 0.2 ;
             this.resizeCanvases() ;
         }
     }
 
-    zoomOut() {
+    public zoomOut() {
         if( this.scale >= 1.2 ) {
             this.scale -= 0.2 ;
             this.resizeCanvases() ;
         }
     }
 
-    zoomToFullSize() {
+    public zoomToFullSize() {
         if( this.scale != 1 ) {
             this.scale = 1 ;
             this.resizeCanvases() ;
         }
+    }
+
+    public selectQuestionAttempt( questionAttempt: ExamQuestionAttemptSO ) {
+        for( let qtRenderer of this.questionTrackRenderers ) {
+            qtRenderer.setAttemptSelected( questionAttempt ) ;
+        }
+        this.render() ;
     }
 }

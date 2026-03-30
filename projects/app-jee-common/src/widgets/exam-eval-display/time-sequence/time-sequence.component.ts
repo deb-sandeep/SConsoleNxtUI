@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
+import { Component, ElementRef, Input, output, ViewChild } from '@angular/core';
+import { ExamAttemptSO, ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
 import { TimeSequenceRenderer, TimeSequenceConfig } from "./time-sequence-renderer";
 
 @Component({
@@ -11,6 +11,8 @@ export class TimeSequenceComponent {
 
   @Input()
   eval: ExamAttemptSO | null = null ;
+
+  questionSelected = output<ExamQuestionAttemptSO>() ;
 
   @ViewChild('headerCanvas')
   headerRef!: ElementRef<HTMLCanvasElement> ;
@@ -56,9 +58,15 @@ export class TimeSequenceComponent {
     const labelsContainer = this.labelsCanvas.parentElement! ;
     labelsContainer.addEventListener('scroll', this.handleLabelsScroll ) ;
 
+    this.installClickHandler() ;
+
     console.log( 'Rendering chart after ngViewInit' ) ;
     this.renderer.resizeCanvases();
     this.renderer.render() ;
+  }
+
+  private installClickHandler() {
+    this.labelsCanvas.addEventListener( 'click', this.handleLabelsClick ) ;
   }
 
   ngOnDestroy(): void {
@@ -74,6 +82,10 @@ export class TimeSequenceComponent {
     const labelsContainer = this.labelsCanvas.parentElement;
     if( labelsContainer ) {
       labelsContainer.removeEventListener('scroll', this.handleLabelsScroll ) ;
+    }
+
+    if( this.labelsCanvas ) {
+      this.labelsCanvas.removeEventListener( 'click', this.handleLabelsClick ) ;
     }
   }
 
@@ -96,4 +108,19 @@ export class TimeSequenceComponent {
     // Sync content canvas with vertical scroll from labels
     contentContainer.scrollTop = labelsContainer.scrollTop;
   } ;
+
+  private handleLabelsClick = ( event: MouseEvent ) => {
+    const rect = this.labelsCanvas.getBoundingClientRect() ;
+    const x = event.clientX - rect.left ;
+    const y = event.clientY - rect.top ;
+
+    const attempt = this.renderer.getQuestionAttemptAtLabelPoint( x, y ) ;
+    if( attempt != null ) {
+      this.questionSelected.emit( attempt ) ;
+    }
+  } ;
+
+  public selectQuestionAttempt( questionAttempt: ExamQuestionAttemptSO ) {
+    this.renderer.selectQuestionAttempt( questionAttempt ) ;
+  }
 }

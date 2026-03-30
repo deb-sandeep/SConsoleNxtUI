@@ -19,13 +19,14 @@
         <div questionEval
              class="window question-eval"
              [eval]="eval"
-             (questionSelected)="showQuestion( $event )">
+             (questionSelected)="attemptSelectedInQuestionEvalPanel( $event )">
         </div>
       </div>
       <div class="right-pane">
         <div timeSequence
              class="window time-sequence"
-             [eval]="eval">
+             [eval]="eval"
+             (questionSelected)="attemptSelectedInTimeSequencePanel( $event )">
         </div>
         <div questionDisplay
              class="window question-display"

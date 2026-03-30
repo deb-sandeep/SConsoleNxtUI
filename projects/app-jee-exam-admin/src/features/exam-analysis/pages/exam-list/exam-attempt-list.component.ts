@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
-import { DatePipe, NgIf } from "@angular/common";
-import { ColumnSorterComponent } from "@jee-common/widgets/column-sorter.component";
-import { ExamApiService } from "@jee-common/services/exam-api.service";
+import { DatePipe, DecimalPipe, NgIf } from "@angular/common";
 import { DurationPipe } from "lib-core";
+import { ColumnSorterComponent } from "@jee-common/widgets/column-sorter.component";
+import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
+import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { JeeBaseService } from "@jee-common/services/jee-base.service";
 
 @Component({
@@ -15,6 +15,7 @@ import { JeeBaseService } from "@jee-common/services/jee-base.service";
     DatePipe,
     ColumnSorterComponent,
     DurationPipe,
+    DecimalPipe,
   ],
   templateUrl: './exam-attempt-list.component.html',
   styleUrl: './exam-attempt-list.component.css'
@@ -42,8 +43,6 @@ export class ExamAttemptListComponent {
 
   ngOnInit() {
     this.apiSvc.getListOfExamAttempts().then((attemptList) => {
-      console.log( "Got list of ExamAttempts" ) ;
-      console.log( attemptList ) ;
       this.attemptList = attemptList ;
     }) ;
     this.examSvc.loadRootCauses() ;

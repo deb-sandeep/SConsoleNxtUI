@@ -3,6 +3,7 @@ import { CBTLoginPasswordService } from "./authenticator";
 import { FormsModule } from "@angular/forms";
 import { NgIf } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
+import { examConfig } from "../../../../exam-config.js";
 
 @Component({
   selector: 'main-login',
@@ -21,9 +22,16 @@ export class MainLoginComponent {
   private router = inject( Router ) ;
   private route = inject( ActivatedRoute );
 
-  userId:string = "13921566" ;
-  password:string = "537275" ;
+  userId:string = "" ;
+  password:string = "" ;
   errMsg:string | null = null;
+
+  constructor() {
+    if( examConfig.devMode ) {
+      this.userId = "13921566" ;
+      this.password = "537275" ;
+    }
+  }
 
   ngAfterViewInit() {
     this.userIdInput?.nativeElement.focus() ;
