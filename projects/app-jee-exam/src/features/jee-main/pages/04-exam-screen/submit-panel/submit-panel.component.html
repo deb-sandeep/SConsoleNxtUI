@@ -18,8 +18,8 @@
     <div class="lap-btn-panel">
       <button type="button" class="btn lap-btn"
               [disabled]="examSvc.getNextLapName() == null"
-              [innerHTML]="getLapBtnLabel()"
               (click)="examSvc.saveLapSnapshot()">
+        Start Next Lap
       </button>
     </div>
   }

@@ -17,7 +17,8 @@
     padding: 10px 10px 10px 10px;
     min-height: 400px;
     background-color: #ffffff;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
     border-radius: 10px;
 }
 

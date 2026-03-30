@@ -6,7 +6,6 @@
     width: calc(100dvw);
     height: calc(100dvh);
     overflow: hidden;
-    overflow-y: scroll;
 }
 
 .test-ques-stats {

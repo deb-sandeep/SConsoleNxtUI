@@ -56,7 +56,7 @@ export class EventLogService {
 
   logExamStartEvent() {
     this.apiSvc.logEvent( this.createEvent( "EXAM_START" ) )
-        .then( ()=> console.log( 'Event: EXAM_START' ) )  ;
+        .then()  ;
   }
 
   logQuestionActivation( question: ExamQuestion ) {
@@ -64,14 +64,14 @@ export class EventLogService {
       questionNo : question.index,
       examQuestionId : question.questionConfig.id,
       questionId : question.questionConfig.questionId
-    }) ).then( ()=> console.log( 'Event: QUESTION_ACTIVATED' ) ) ;
+    }) ).then() ;
   }
 
   logJumpSection( section: ExamSection ) {
     this.apiSvc.logEvent( this.createEvent( "GOTO_SECTION_START", {
       questionNo : section.firstQuestion.index,
       sectionName : section.sectionName,
-    }) ).then( ()=> console.log( 'Event: SECTION_JUMPED' ) ) ;
+    }) ).then() ;
   }
 
   logJumpNextQuestion( question: ExamQuestion ) {
@@ -81,7 +81,7 @@ export class EventLogService {
     this.apiSvc.logEvent( this.createEvent( "GOTO_NEXT_QUESTION", {
       currentQuestionNo : question.index,
       nextQuestionNo : nextQuestionSequence
-    }) ).then( ()=> console.log( 'Event: NEXT_QUESTION' ) ) ;
+    }) ).then() ;
   }
 
   logJumpPreviousQuestion( question: ExamQuestion ) {
@@ -92,20 +92,20 @@ export class EventLogService {
     this.apiSvc.logEvent( this.createEvent( "GOTO_PREV_QUESTION", {
       currentQuestionNo : question.index,
       nextQuestionNo : prevQuestionSequence
-    }) ).then( ()=> console.log( 'Event: PREV_QUESTION' ) ) ;
+    }) ).then() ;
   }
 
   logJumpToPaletteQuestion( question: ExamQuestion ) {
     this.apiSvc.logEvent( this.createEvent( "GOTO_PALETTE_QUESTION", {
       questionNo : question.index,
-    }) ).then( ()=> console.log( 'Event: PREV_QUESTION' ) ) ;
+    }) ).then() ;
   }
 
   logAnswerEntered( question: ExamQuestion ) {
     this.apiSvc.logEvent( this.createEvent( "ANS_ENTERED", {
       questionNo : question.index,
       answer : question.answer
-    }) ).then( ()=> console.log( 'Event: ANS_ENTERED' ) ) ;
+    }) ).then() ;
   }
 
   logScrollQuestion( question: ExamQuestion, dir: 'UP' | 'DOWN' ) {
@@ -114,7 +114,7 @@ export class EventLogService {
 
     this.apiSvc.logEvent( this.createEvent( eventId, {
       questionNo : question.index
-    }) ).then( ()=> console.log( `Event: ${eventId}` ) ) ;
+    }) ).then() ;
   }
 
   logPaletteToggle( collapsed: boolean ) {
@@ -122,25 +122,24 @@ export class EventLogService {
       "PALETTE_COLLAPSED" : "PALETTE_EXPANDED" ;
 
     this.apiSvc.logEvent( this.createEvent( eventId ) )
-        .then( ()=> console.log( `Event: ${eventId}` ) ) ;
+        .then() ;
   }
 
   logAnswerAction( question: ExamQuestion, eventId: ExamAnswerAction ) {
     this.apiSvc.logEvent( this.createEvent( eventId, {
       questionNo : question.index,
       answer : question.answer
-    }) ).then( ()=> console.log( `Event: ${eventId}` ) ) ;
+    }) ).then() ;
   }
 
   logLapChange( currentLap: LapName, nextLap: LapName|null ) {
     this.apiSvc.logEvent( this.createEvent( "LAP_CHANGE", {
       currentLap : currentLap,
       nextLap : nextLap
-    }) ).then( ()=> console.log( `Event: LAP_CHANGE` ) ) ;
+    }) ).then() ;
   }
 
   async logExamSubmitEvent() {
     await this.apiSvc.logEvent( this.createEvent( "EXAM_SUBMIT" ) );
-    return console.log( `Event: EXAM_SUBMIT` );
   }
 }
