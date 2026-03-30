@@ -27,33 +27,32 @@
 }
 
 .q-not-visited {
-    background: url("/img/QuizIcons/Logo1.png") no-repeat;
+    background: url("../../public/img/QuizIcons/Logo1.png") no-repeat;
     color: #303030 !important;
     background-size: 100% 100%;
 }
 
 .q-not-answered {
-    background: url("/img/QuizIcons/Logo2.png") no-repeat;
+    background: url("../../public/img/QuizIcons/Logo2.png") no-repeat;
     border-color: #33414E;
     color: #fff;
     background-size: 100% 100%;
 }
 
 .q-answered {
-    background: url("/img/QuizIcons/Logo3.png") no-repeat;
+    background: url("../../public/img/QuizIcons/Logo3.png") no-repeat;
     color: #fff !important;
     background-size: 100% 100%;
 }
 
 .q-marked-for-review {
-    background: url("/img/QuizIcons/Logo4.png") no-repeat;
+    background: url("../../public/img/QuizIcons/Logo4.png") no-repeat;
     color: #fff !important;
     background-size: 100% 100%;
 }
 
 .q-ans-marked-for-review {
-    background: url("/img/QuizIcons/Logo5.png") no-repeat;
+    background: url("../../public/img/QuizIcons/Logo5.png") no-repeat;
     color: #fff !important;
     background-size: 100% 100%;
 }
-
