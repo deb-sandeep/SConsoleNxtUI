@@ -1,4 +1,4 @@
 export const examConfig = {
-    devMode: true,
+    devMode: false,
     lapAssist: true,
 }
