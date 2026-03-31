@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ExamAttemptSO, ExamSectionAttemptSO } from "@jee-common/util/exam-data-types";
-import { DecimalPipe, NgClass } from "@angular/common";
+import { NgClass } from "@angular/common";
 
 class SectionEvalSummary {
 
@@ -26,7 +26,6 @@ class SectionEvalSummary {
   selector: 'div[sectionEval]',
   imports: [
     NgClass,
-    DecimalPipe
   ],
   templateUrl: './section-eval.component.html',
   styleUrl: './section-eval.component.css'
