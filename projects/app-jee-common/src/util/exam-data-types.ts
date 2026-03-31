@@ -74,6 +74,8 @@ export interface ExamQuestionAttemptSO {
     answerProvided: string;
     answerSubmitStatus: string;
     score: number;
+    loss: number;
+    avoidableLoss: number;
     rootCause: string|null;
 }
 
@@ -82,6 +84,8 @@ export interface ExamSectionAttemptSO {
     examSection: ExamSectionSO;
     examAttemptId: number;
     score: number;
+    loss: number;
+    avoidableLoss: number;
     avoidableLossPct: number;
     questionAttempts: ExamQuestionAttemptSO[] ;
 }
@@ -91,8 +95,9 @@ export interface ExamAttemptSO {
     exam: ExamSO;
     attemptDate: Date;
     score: number;
+    loss: number;
+    avoidableLoss: number;
     avoidableLossPct: number;
-    unavoidableLossPct: number;
     status: string;
     sectionAttempts: ExamSectionAttemptSO[];
     events: ExamEvent[];

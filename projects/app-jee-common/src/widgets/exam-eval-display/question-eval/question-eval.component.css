@@ -45,6 +45,12 @@ td {
     font-size: 13px;
 }
 
+.avoidable-loss {
+    text-align: right !important;
+    font-weight: bold;
+    font-size: 13px;
+}
+
 .rating {
     text-align: center;
 }

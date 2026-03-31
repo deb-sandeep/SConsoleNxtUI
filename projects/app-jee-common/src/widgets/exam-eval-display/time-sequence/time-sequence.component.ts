@@ -60,7 +60,6 @@ export class TimeSequenceComponent {
 
     this.installClickHandler() ;
 
-    console.log( 'Rendering chart after ngViewInit' ) ;
     this.renderer.resizeCanvases();
     this.renderer.render() ;
   }

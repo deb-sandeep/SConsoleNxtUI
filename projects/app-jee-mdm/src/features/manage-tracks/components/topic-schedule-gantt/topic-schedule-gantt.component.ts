@@ -104,11 +104,6 @@ export class TopicScheduleGanttComponent implements AfterViewInit, OnDestroy {
     // Set up scroll synchronization for labels container
     const labelsContainer = this.labelsCanvas.parentElement!;
     labelsContainer.addEventListener('scroll', this.handleLabelsScroll) ;
-
-    // // Initial render
-    // console.log( 'Rendering chart after ngViewInit' ) ;
-    // this.renderer.resizeCanvases();
-    // this.renderGanttChart( this.svc.selectedSyllabus() );
   }
 
   ngOnDestroy(): void {

@@ -19,7 +19,7 @@
       <button type="button" class="btn lap-btn"
               [disabled]="examSvc.getNextLapName() == null"
               (click)="examSvc.saveLapSnapshot()">
-        Start Next Lap
+        Start Next Lap (<em>{{examSvc.getNextLapName()}}</em>)
       </button>
     </div>
   }

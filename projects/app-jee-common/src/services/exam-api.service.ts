@@ -87,11 +87,11 @@ export class ExamApiService extends RemoteService {
 
   updateAttemptRootCause( questionAttemptId: number, rootCause: string ) {
     const url:string = `${environment.apiRoot}/Exam/RootCauseUpdate/${questionAttemptId}/${rootCause}` ;
-    return this.postPromise<String>( url, false ) ;
+    return this.postPromise<ExamAttemptSO>( url, true ) ;
   }
 
   overrideScore( questionAttemptId:number, score:number ) {
     const url:string = `${environment.apiRoot}/Exam/ScoreOverride/${questionAttemptId}/${score}` ;
-    return this.postPromise<String>( url, false ) ;
+    return this.postPromise<ExamAttemptSO>( url, true ) ;
   }
 }

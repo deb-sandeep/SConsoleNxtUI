@@ -142,8 +142,8 @@ export class QuestionEvalComponent {
   protected rootCauseAssigned( qAttempt: ExamQuestionAttemptSO ) {
     this.apiSvc
         .updateAttemptRootCause( qAttempt.id, qAttempt.rootCause! )
-        .then( () => {
-      this.examSvc.recomputeLossAttributionPct( this.eval ) ;
+        .then( ( res ) => {
+      this.examSvc.repopulateExamEvaluation( this.eval, res ) ;
     }) ;
   }
 
@@ -162,5 +162,13 @@ export class QuestionEvalComponent {
       }
     }
     return null ;
+  }
+
+  protected getAvoidableLossColor( qAttempt: ExamQuestionAttemptSO ) {
+    let bgColor = "#ffffff" ;
+    if( qAttempt.avoidableLoss > 0 ) {
+        bgColor = "#ff0000" ;
+    }
+    return bgColor ;
   }
 }

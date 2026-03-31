@@ -5,7 +5,8 @@
       <th>#Q</th>
       <th>#Marks</th>
       <th>Score</th>
-      <th>Avoidable</th>
+      <th>Loss</th>
+      <th>AL</th>
     </tr>
   </thead>
   <tbody>
@@ -18,7 +19,10 @@
             [ngClass]="summary.sectionAttempt.score == summary.totalMarks ? 'full-score':'less-score'">
           {{summary.sectionAttempt.score}}
         </td>
-        <td class="numeric">{{summary.sectionAttempt.avoidableLossPct | number : '1.0-0' }}%</td>
+        <td class="numeric">
+          {{summary.sectionAttempt.loss}}
+        </td>
+        <td class="numeric">{{summary.sectionAttempt.avoidableLoss}}%</td>
       </tr>
     }
   </tbody>

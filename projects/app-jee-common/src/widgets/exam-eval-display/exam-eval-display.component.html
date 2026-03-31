@@ -5,7 +5,7 @@
         Result for <strong>Exam-{{eval!.exam.id}}</strong>
       </span>
       <span class="exam-score">
-        [ {{eval!.score}} / {{eval!.exam.totalMarks}} ]
+        [ {{eval!.score}} ({{eval!.score + eval!.avoidableLoss}}) / {{eval!.exam.totalMarks}} ]
       </span>
       <button type="button" class="btn btn-secondary ok-btn"
               (click)="onClose.emit()">Close</button>

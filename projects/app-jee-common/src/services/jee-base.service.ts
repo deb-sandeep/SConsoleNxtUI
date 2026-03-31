@@ -166,128 +166,51 @@ export class JeeBaseService {
         await this.router.navigate( [ '/jee-main', this.examConfig.id, 'result-screen' ] ) ;
     }
 
-    public recomputeLossAttributionPct( examEval: ExamAttemptSO ) {
-
-        const rcMap = this.buildRootCauseMap() ;
-
-        const totalLoss = examEval.exam.totalMarks - examEval.score ;
-        let totalAvoidableLoss = 0 ;
-
-        // A perfect score leaves no loss to classify as avoidable or unavoidable.
-        if( totalLoss == 0 ) {
-            examEval.avoidableLossPct = 0 ;
-            examEval.unavoidableLossPct = 0 ;
-            return ;
-        }
-
-        for( let sectionAttempt of examEval.sectionAttempts ) {
-
-            const sectionLoss = this.computeSectionLostMarks( sectionAttempt ) ;
-            if( sectionLoss == 0 ) {
-                sectionAttempt.avoidableLossPct = 0 ;
-            }
-            else {
-                const sectionAvoidableLoss = this.computeSectionAvoidableLoss( sectionAttempt, rcMap ) ;
-                totalAvoidableLoss += sectionAvoidableLoss ;
-                sectionAttempt.avoidableLossPct = ( sectionAvoidableLoss / sectionLoss ) * 100 ;
-            }
-
-        }
-
-        examEval.avoidableLossPct = (totalAvoidableLoss / totalLoss)*100 ;
-        examEval.unavoidableLossPct = 100 - examEval.avoidableLossPct ;
-    }
-
-    private buildRootCauseMap() {
-        const map: Record<string, string> = {} ;
-        for( let rootCause of this.rootCauses ) {
-            map[ rootCause.cause ] = rootCause.group ;
-        }
-        return map ;
-    }
-
-    private computeSectionAvoidableLoss( sectionAttempt: ExamSectionAttemptSO, rcMap: Record<string, string> ) {
-
-        let avoidableLossMarks = 0 ;
-
-        for( let qAttempt of sectionAttempt.questionAttempts ) {
-
-            if( !this.hasAttributableLoss( qAttempt ) ) continue ;
-
-            if( this.isAvoidableLoss( qAttempt, rcMap ) ) {
-                avoidableLossMarks += (sectionAttempt.examSection.correctMarks - qAttempt.score) ;
-            }
-        }
-
-        return avoidableLossMarks ;
-    }
-
-    private hasAttributableLoss( qAttempt: ExamQuestionAttemptSO ) {
-        return qAttempt.evaluationStatus === "INCORRECT" ||
-          qAttempt.evaluationStatus === "PARTIAL" ||
-          qAttempt.evaluationStatus === "UNANSWERED" ;
-    }
-
-    private isAvoidableLoss( qAttempt: ExamQuestionAttemptSO, rcMap: Record<string, string> ) {
-        // If a root cause is absent or unknown, keep the loss in the avoidable bucket.
-        return qAttempt.rootCause == null ||
-          rcMap[ qAttempt.rootCause ] !== "UNAVOIDABLE" ;
-    }
-
-    private computeSectionLostMarks( sectionAttempt: ExamSectionAttemptSO ) {
-        const section = sectionAttempt.examSection ;
-        const sectionTotalMarks = section.correctMarks * section.numCompulsoryQuestions ;
-        return sectionTotalMarks - sectionAttempt.score ;
-    }
-
     public overrideScore( examEval: ExamAttemptSO,
                           questionAttempt: ExamQuestionAttemptSO,
                           updatedScore: number ) {
 
         this.apiSvc.overrideScore( questionAttempt.id, updatedScore )
-          .then( () => {
-              this.overrideScoreLocally( examEval, questionAttempt, updatedScore ) ;
+          .then( ( res ) => {
+              this.repopulateExamEvaluation( examEval, res ) ;
           }) ;
     }
 
-    private overrideScoreLocally( examEval: ExamAttemptSO,
-                                  questionAttempt: ExamQuestionAttemptSO,
-                                  updatedScore: number ) {
+    public repopulateExamEvaluation( examEval: ExamAttemptSO, refEval: ExamAttemptSO ) {
 
-        const sectionId = questionAttempt.examQuestion.sectionId ;
-        const sectionAttempt = examEval.sectionAttempts.find(
-          attempt => attempt.examSection.id === sectionId
-        ) ;
+        examEval.score = refEval.score ;
+        examEval.loss = refEval.loss ;
+        examEval.avoidableLoss = refEval.avoidableLoss ;
+        examEval.avoidableLossPct = refEval.avoidableLossPct ;
 
-        questionAttempt.score = updatedScore ;
-        this.recomputeExamScore( examEval ) ;
+        for( let refSection of refEval.sectionAttempts ) {
 
-        if( updatedScore == sectionAttempt!.examSection.correctMarks ) {
-            questionAttempt.rootCause = null ;
-            questionAttempt.evaluationStatus = "CORRECT" ;
-        }
-        else {
-            if( updatedScore == sectionAttempt!.examSection.wrongPenalty ) {
-                questionAttempt.evaluationStatus = "INCORRECT" ;
+            const examSection = examEval.sectionAttempts.find(
+              s => s.examSection.id === refSection.examSection.id
+            );
+
+            if( examSection ) {
+
+                examSection.score = refSection.score;
+                examSection.loss = refSection.loss;
+                examSection.avoidableLoss = refSection.avoidableLoss;
+                examSection.avoidableLossPct = refSection.avoidableLossPct;
+
+                for( let refQuestion of refSection.questionAttempts ) {
+
+                    const examQuestion = examSection.questionAttempts.find(
+                      q => q.examQuestion.id === refQuestion.examQuestion.id
+                    );
+
+                    if( examQuestion ) {
+                        examQuestion.score = refQuestion.score;
+                        examQuestion.loss = refQuestion.loss;
+                        examQuestion.avoidableLoss = refQuestion.avoidableLoss;
+                        examQuestion.evaluationStatus = refQuestion.evaluationStatus;
+                        examQuestion.rootCause = refQuestion.rootCause;
+                    }
+                }
             }
-            else {
-                questionAttempt.evaluationStatus = "PARTIAL" ;
-            }
         }
-        this.recomputeLossAttributionPct( examEval ) ;
-    }
-
-    private recomputeExamScore( examEval: ExamAttemptSO ) {
-        let totalScore = 0 ;
-        for( let sectionAttempt of examEval.sectionAttempts ) {
-            let sectionScore = 0 ;
-
-            for( let questionAttempt of sectionAttempt.questionAttempts ) {
-                sectionScore += questionAttempt.score ;
-            }
-            sectionAttempt.score = sectionScore ;
-            totalScore += sectionScore ;
-        }
-        examEval.score = totalScore ;
     }
 }

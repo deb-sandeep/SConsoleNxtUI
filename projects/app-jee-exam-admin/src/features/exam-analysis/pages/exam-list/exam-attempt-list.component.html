@@ -28,13 +28,21 @@
           M#
           <col-sorter [sortDir]="sortDirMap['numMathQ']"></col-sorter>
         </th>
+        <th style="width:65px;" (click)="sortByColumn( 'totalMarks' )">
+          Total
+          <col-sorter [sortDir]="sortDirMap['totalMarks']"></col-sorter>
+        </th>
         <th style="width:70px;" (click)="sortByColumn( 'score' )">
           Score
           <col-sorter [sortDir]="sortDirMap['score']"></col-sorter>
         </th>
-        <th style="width:65px;" (click)="sortByColumn( 'totalMarks' )">
-          Total
-          <col-sorter [sortDir]="sortDirMap['totalMarks']"></col-sorter>
+        <th style="width:70px;" (click)="sortByColumn( 'loss' )">
+          Loss
+          <col-sorter [sortDir]="sortDirMap['loss']"></col-sorter>
+        </th>
+        <th style="width:75px;" (click)="sortByColumn( 'avoidableLoss' )">
+          AL
+          <col-sorter [sortDir]="sortDirMap['avoidableLoss']"></col-sorter>
         </th>
         <th style="width:75px;" (click)="sortByColumn( 'avoidableLossPct' )">
           AL%
@@ -57,8 +65,10 @@
           <td class="number-cell">{{attempt.exam.numPhyQuestions}}</td>
           <td class="number-cell">{{attempt.exam.numChemQuestions}}</td>
           <td class="number-cell">{{attempt.exam.numMathQuestions}}</td>
-          <td class="number-cell">{{attempt.score}}</td>
           <td class="number-cell">{{attempt.exam.totalMarks}}</td>
+          <td class="number-cell">{{attempt.score}}</td>
+          <td class="number-cell">{{attempt.loss}}</td>
+          <td class="number-cell">{{attempt.avoidableLoss}}</td>
           <td class="number-cell">{{attempt.avoidableLossPct | number : '2.1-1'}} %</td>
           <td class="btn-cell">
             <span class="bi-pencil-square btn-icon"
