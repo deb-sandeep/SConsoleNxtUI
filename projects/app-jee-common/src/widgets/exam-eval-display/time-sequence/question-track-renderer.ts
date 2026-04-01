@@ -22,6 +22,13 @@ export interface AnswerAction {
 export class QuestionTrackRenderer {
 
     readonly ANS_ACTION_ICON_SIZE = 10 ;
+    readonly STATUS_COLORS: Record<string, string> = {
+        CORRECT: "#00cf00",
+        PARTIAL: "#ff8800",
+        UNANSWERED: "#919191",
+        INCORRECT: "#ff0000",
+    };
+
     private readonly answerActionRenderer = new AnswerActionRenderer() ;
 
     trackIndex: number;
@@ -156,17 +163,11 @@ export class QuestionTrackRenderer {
 
     private renderEvaluationStatus( g: CanvasRenderingContext2D ) {
 
-        const statusColors: Record<string, string> = {
-            CORRECT: "#00cf00",
-            PARTIAL: "#ff8800",
-            UNANSWERED: "#919191",
-            INCORRECT: "#ff0000",
-        };
-        g.fillStyle = statusColors[this.attempt.evaluationStatus] ;
+        g.fillStyle = this.STATUS_COLORS[this.attempt.evaluationStatus] ;
         g.fillRect(
-          this.labelBounds.x + this.labelBounds.width - 3,
+          this.labelBounds.x + this.labelBounds.width - 4,
           this.labelBounds.y,
-          3,
+          4,
           this.labelBounds.height
         ) ;
     }
@@ -178,7 +179,7 @@ export class QuestionTrackRenderer {
 
         g.strokeStyle = this.config.timelineConfig.lineColor ;
         if( this.attemptSelected ) {
-            g.strokeStyle = '#6c6cf8' ;
+            g.strokeStyle = this.STATUS_COLORS[this.attempt.evaluationStatus] ;
         }
         g.beginPath() ;
         g.moveTo( this.timelineBounds.x, this.timelineBounds.y + this.timelineBounds.height/2 ) ;
@@ -202,6 +203,7 @@ export class QuestionTrackRenderer {
         const minuteWidth = this.config.units.minuteWidth ;
         const startX = minuteWidth * ( activation.startTimeMarker / 60000 ) ;
         const endX = minuteWidth * ( activation.endTimeMarker / 60000 ) ;
+        const numSeconds = ( activation.endTimeMarker - activation.startTimeMarker )/1000 ;
 
         const g = this.contentArea.g ;
 
@@ -215,7 +217,45 @@ export class QuestionTrackRenderer {
           this.timelineBounds.height - 4
         ) ;
 
+        this.renderActivationDuration( g, startX, endX, numSeconds ) ;
         g.restore() ;
+    }
+
+    private renderActivationDuration(
+      g: CanvasRenderingContext2D,
+      startX: number,
+      endX: number,
+      numSeconds: number ) {
+
+        const totalSeconds = Math.max( 0, Math.floor( numSeconds ) ) ;
+        const minutes = Math.floor( totalSeconds / 60 ) ;
+        const seconds = totalSeconds % 60 ;
+        const activationWidth = endX - startX ;
+
+        let durationLabel = "" ;
+        if( totalSeconds > 120 ) {
+            durationLabel = minutes.toString().padStart( 1, '0' ) + ":" +
+                            seconds.toString().padStart( 2, '0' ) ;
+        }
+        else {
+            durationLabel = totalSeconds.toString() ;
+        }
+
+
+        g.font = '10px Courier' ;
+
+        if( g.measureText( durationLabel ).width > activationWidth - 6 ) {
+            return ;
+        }
+
+        g.fillStyle = "#000000" ;
+        g.textAlign = "center" ;
+        g.textBaseline = "middle" ;
+        g.fillText(
+          durationLabel,
+          this.timelineBounds.x + startX + ( activationWidth / 2 ),
+          this.timelineBounds.y + ( this.timelineBounds.height / 2 )
+        ) ;
     }
 
     renderAnswerActions() {
