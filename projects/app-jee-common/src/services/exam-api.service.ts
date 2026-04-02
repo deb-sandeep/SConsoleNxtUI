@@ -13,6 +13,9 @@ import { ExamQuestion } from "../../../app-jee-exam/src/common/so-wrappers";
 @Injectable()
 export class ExamApiService extends RemoteService {
 
+  private examSessionId: number ;
+  private examSessionStartTime: Date | null = null ;
+
   constructor() {
     super();
   }
@@ -93,5 +96,39 @@ export class ExamApiService extends RemoteService {
   overrideScore( questionAttemptId:number, score:number ) {
     const url:string = `${environment.apiRoot}/Exam/ScoreOverride/${questionAttemptId}/${score}` ;
     return this.postPromise<ExamAttemptSO>( url, true ) ;
+  }
+
+  async startExamSession() {
+    const url:string = `${environment.apiRoot}/Session/StartExamSession` ;
+    this.postPromise<number>( url )
+        .then( sessionId => {
+          this.examSessionId = sessionId ;
+          this.examSessionStartTime = new Date() ;
+        } ) ;
+  }
+
+  extendExamSession() {
+    const url:string = `${environment.apiRoot}/Session/ExtendSession` ;
+
+    const currentTime = new Date() ;
+    let duration = currentTime.getTime() - this.examSessionStartTime!.getTime() ;
+
+    this.postPromise<number>( url, {
+      sessionId: this.examSessionId,
+      endTime: currentTime,
+      sessionEffectiveDuration: Math.ceil( duration /1000 ),
+      pauseId: -1,
+      problemAttemptId: -1,
+      problemAttemptEffectiveDuration: 0
+    } ).then()  ;
+  }
+
+  endExamSession() {
+    const url:string = `${environment.apiRoot}/Session/${this.examSessionId}/EndSession` ;
+    this.postPromise<number>( url )
+        .then( () => {
+          this.examSessionId = -1 ;
+          this.examSessionStartTime = null ;
+        }) ;
   }
 }

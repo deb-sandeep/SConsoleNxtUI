@@ -80,7 +80,9 @@ export class JeeBaseService {
 
     public async createExamAttempt() {
         await this.apiSvc.createExamAttempt( this.examConfig )
-                  .then( res => {
+                  .then( async res => {
+
+                      await this.apiSvc.startExamSession() ;
 
                       console.log( "Exam attempt created" ) ;
                       console.log( res ) ;
@@ -110,6 +112,10 @@ export class JeeBaseService {
                 this.activeQuestion.timeSpentInCurrentLap++ ;
                 this.activeQuestion.totalTimeSpent++ ;
                 this.countdown() ;
+
+                if( this.timeLeftInSeconds() % 5 == 0 ) {
+                    this.apiSvc.extendExamSession() ;
+                }
             }, 1000 ) ;
         }
         else {
@@ -161,6 +167,8 @@ export class JeeBaseService {
 
         const res = await this.apiSvc.submitExamAttempt( this.examAttemptId ) ;
         console.log( res ) ;
+
+        this.apiSvc.endExamSession() ;
 
         this.eval = res ;
         await this.router.navigate( [ '/jee-main', this.examConfig.id, 'result-screen' ] ) ;
