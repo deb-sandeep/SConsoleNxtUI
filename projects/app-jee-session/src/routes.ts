@@ -5,6 +5,7 @@ import { ProblemPickerComponent } from "./pages/session/widgets/problem-picker/p
 import { ExerciseSessionComponent } from "./pages/session/exercise-session/exercise-session.component";
 import { TheorySessionComponent } from "./pages/session/theory-session/theory-session.component";
 import { CoachingSessionComponent } from "./pages/session/coaching-session/coaching-session.component";
+import { AnalysisSessionComponent } from "./pages/session/analysis-session/analysis-session.component";
 
 export const pageRoutes: Routes = [
   {
@@ -31,5 +32,10 @@ export const pageRoutes: Routes = [
     path: 'coaching-session',
     title: 'Coaching Session',
     component: CoachingSessionComponent,
+  },
+  {
+    path: 'analysis-session',
+    title: 'Exam Analysis Session',
+    component: AnalysisSessionComponent,
   },
 ] ;

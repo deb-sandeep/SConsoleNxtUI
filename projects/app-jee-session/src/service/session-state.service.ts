@@ -8,7 +8,6 @@ import {
   TopicTrackAssignmentSO
 } from "@jee-common/util/master-data-types";
 import { StorageKey } from "@jee-common/util/storage-keys" ;
-import dayjs from "dayjs";
 import { Session } from "../entities/session";
 
 @Injectable()
@@ -17,7 +16,8 @@ export class SessionStateService {
   storageSvc: LocalStorageService   = inject( LocalStorageService ) ;
   networkSvc: SessionNetworkService = inject( SessionNetworkService ) ;
 
-  syllabuses: SyllabusSO[] = [];
+  examSyllabus: SyllabusSO;
+  visibleSyllabuses: SyllabusSO[] = [];
   sessionTypes: SessionTypeSO[] = [];
   activeTopicsMap: Record<string, { topic:TopicSO, assignment:TopicTrackAssignmentSO, syllabus:SyllabusSO}[]> = {} ;
 
@@ -34,8 +34,15 @@ export class SessionStateService {
   async loadMasterData() {
 
     this.resetState() ;
-    this.syllabuses = await this._loadMasterData( () => this.networkSvc.getAllSyllabus(), StorageKey.SYLLABUSES ) ;
-    this.sessionTypes = await this._loadMasterData( () => this.networkSvc.getSessionTypes(), StorageKey.SESSION_TYPES ) ;
+
+    let syllabuses = await this._loadMasterData( () =>
+      this.networkSvc.getAllSyllabus(), StorageKey.SYLLABUSES ) ;
+
+    this.visibleSyllabuses = syllabuses.filter( (s) => !s.automated ) ;
+    this.examSyllabus = syllabuses.find( (s) => s.syllabusName == 'Exam' )! ;
+
+    this.sessionTypes = await this._loadMasterData( () =>
+      this.networkSvc.getSessionTypes(), StorageKey.SESSION_TYPES ) ;
 
     let currentAssignments = await this.networkSvc.getCurrentTrackAssignments( this.getCurrentDate() ) ;
     currentAssignments.forEach( assignment => {
@@ -66,7 +73,7 @@ export class SessionStateService {
 
   private addActiveTopic( assignment:TopicTrackAssignmentSO ) {
 
-    this.syllabuses.forEach( syllabus => {
+    this.visibleSyllabuses.forEach( syllabus => {
       syllabus.topics.forEach( topic => {
         if( topic.id == assignment.topicId ) {
           let activeTopics = this.activeTopicsMap[ syllabus.syllabusName ] ;

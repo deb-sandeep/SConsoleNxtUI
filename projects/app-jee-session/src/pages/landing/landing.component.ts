@@ -41,7 +41,7 @@ export class LandingComponent {
   }
 
   getSyllabusStyle( s:SyllabusSO ) {
-    const height = this.getCSSHeight( this.stateSvc.syllabuses.length ) ;
+    const height = this.getCSSHeight( this.stateSvc.visibleSyllabuses.length ) ;
     const width = `calc( ${height}*1.5 )` ;
     return {
       'background-color':s.color,
@@ -53,7 +53,7 @@ export class LandingComponent {
   getActiveTopicStyle( syllabus:SyllabusSO) {
     const height = this.getCSSHeight( 3 ) ;
     const stWidth = this.getCSSHeight( this.stateSvc.sessionTypes.length ) ;
-    const syllabusWidth = `calc( (${this.getCSSHeight( this.stateSvc.syllabuses.length )})*1.5 )` ;
+    const syllabusWidth = `calc( (${this.getCSSHeight( this.stateSvc.visibleSyllabuses.length )})*1.5 )` ;
     const width = `calc( 100dvw - ${syllabusWidth} - ${stWidth} - calc(var(--tile-padding)*12) )` ;
     return {
       'background-color':syllabus.color,
@@ -65,7 +65,7 @@ export class LandingComponent {
   getInactiveTopicsContainerStyle() {
     const height = this.getCSSHeight( 3 ) ;
     const stWidth = this.getCSSHeight( this.stateSvc.sessionTypes.length ) ;
-    const syllabusWidth = `calc( (${this.getCSSHeight( this.stateSvc.syllabuses.length )})*1.5 )` ;
+    const syllabusWidth = `calc( (${this.getCSSHeight( this.stateSvc.visibleSyllabuses.length )})*1.5 )` ;
     const width = `calc( 100dvw - ${syllabusWidth} - ${stWidth} - calc(var(--tile-padding)*12) )` ;
     return {
       'height': height,
@@ -76,7 +76,7 @@ export class LandingComponent {
   async topicSelected( t: TopicSO ) {
     await this.stateSvc.session.setSelectedTopic( t ) ;
     let sessionType = this.stateSvc.session.sessionType!.sessionType ;
-    if( sessionType === 'Exercise' ) {
+    if( 'Exercise' === sessionType ) {
       await this.router.navigate( [ '../exercise-session' ] ) ;
     }
     else if( 'Theory' === sessionType ) {
@@ -84,6 +84,9 @@ export class LandingComponent {
     }
     else if( 'Coaching' === sessionType ) {
       await this.router.navigate( [ '../coaching-session' ] ) ;
+    }
+    else if( 'Analysis' === sessionType ) {
+      await this.router.navigate( [ '../analysis-session' ] ) ;
     }
   }
 
@@ -95,5 +98,16 @@ export class LandingComponent {
     console.log( `Showing topic browser for ${topic.id}` ) ;
     this.selectedTopic = topic ;
     this.showProblemBrowserFlag = true ;
+  }
+
+  sessionTypeSelected( st: SessionTypeSO ) {
+    this.stateSvc.session.setSelectedSessionType( st ) ;
+    if( st.sessionType === 'Analysis' ) {
+      // If it's an analysis session, there is no need to select a syllabus
+      // and chapter. We directly open the analysis session. Why? Because
+      // a test is not limited to a syllabus or topic.
+      this.stateSvc.session.setSelectedSyllabus( this.stateSvc.examSyllabus ) ;
+      this.topicSelected( this.stateSvc.examSyllabus.topics[0] ).then() ;
+    }
   }
 }

@@ -5,14 +5,14 @@
     @for( st of stateSvc.sessionTypes; track st.id ) {
       <div class="session-type" [ngStyle]="getSTStyle(st)"
            [class.selected]="session.sessionType == st"
-           (click)="session.setSelectedSessionType( st )">
+           (click)="sessionTypeSelected( st )">
         <img ngSrc="img/{{st.iconName}}" alt="{{st.sessionType}}" fill priority/>
       </div>
     }
   </div>
 
   <div id="syllabuses-div">
-    @for( s of stateSvc.syllabuses; track s.syllabusName ) {
+    @for( s of stateSvc.visibleSyllabuses; track s.syllabusName ) {
       <div class="syllabus" [ngStyle]="getSyllabusStyle(s)"
            [class.selected]="session.syllabus()?.syllabusName == s.syllabusName"
            (click)="stateSvc.session.setSelectedSyllabus( s )">
@@ -22,7 +22,7 @@
   </div>
 
   <div id="topics-div">
-    @if( session.syllabus() != null ) {
+    @if( session.syllabus() != null && session.sessionType?.sessionType != 'Analysis' ) {
       @for( topic of stateSvc.activeTopicsMap[session.syllabus()!.syllabusName]; track topic.assignment.id ) {
         <div class="active-topic"
              [ngStyle]="getActiveTopicStyle( topic.syllabus )"

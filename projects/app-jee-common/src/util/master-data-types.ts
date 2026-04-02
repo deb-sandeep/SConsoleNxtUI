@@ -11,7 +11,8 @@ export type SyllabusSO = {
   subjectName: string,
   color: string,
   iconName: string,
-  topics:TopicSO[]
+  automated: boolean,
+  topics:TopicSO[],
 }
 
 export type TopicTrackAssignmentSO = {
@@ -42,6 +43,7 @@ export type SessionTypeSO = {
   description : string;
   color : string;
   iconName : string;
+  automated : boolean;
 }
 
 export type SessionPauseSO = {
