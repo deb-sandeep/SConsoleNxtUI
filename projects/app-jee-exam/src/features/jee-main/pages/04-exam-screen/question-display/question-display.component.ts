@@ -3,16 +3,18 @@ import { JeeMainService } from "../../../jee-main.service";
 import { NgOptimizedImage } from "@angular/common";
 import { QuestionImageSO, QuestionSO } from "@jee-common/util/exam-data-types";
 import { environment } from "@env/environment";
-import { FormsModule } from "@angular/forms";
 import { ExamQuestion } from "../../../../../common/so-wrappers";
 import { EventLogService } from "@jee-common/services/event-log.service";
+import { SCAAnswerZoneComponent } from "./sca-answer-zone/sca-answer-zone.component";
+import { NVTAnswerZoneComponent } from "./nvt-answer-zone/nvt-answer-zone.component";
 
 @Component({
   selector: 'question-display',
-  imports: [
-    NgOptimizedImage,
-    FormsModule
-  ],
+    imports: [
+        NgOptimizedImage,
+        SCAAnswerZoneComponent,
+        NVTAnswerZoneComponent
+    ],
   templateUrl: './question-display.component.html',
   styleUrl: './question-display.component.css'
 })

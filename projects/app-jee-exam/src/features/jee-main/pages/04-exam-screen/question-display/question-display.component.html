@@ -22,35 +22,14 @@
       }
     </div>
 
-    @if( question.questionConfig.question.problemType === "SCA" ) {
-      <div class="container sca-answer-choices">
-        <div class="row">
-          <div class="col-3">
-            <input type="radio" name="sca-answer" value="A"
-                   [(ngModel)]="question.answer"
-                   (ngModelChange)="answerEntered( question )">
-            <span> A )</span>
-          </div>
-          <div class="col-3">
-            <input type="radio" name="sca-answer" value="B"
-                   [(ngModel)]="question.answer"
-                   (ngModelChange)="answerEntered( question )">
-            <span> B )</span>
-          </div>
-          <div class="col-3">
-            <input type="radio" name="sca-answer" value="C"
-                   [(ngModel)]="question.answer"
-                   (ngModelChange)="answerEntered( question )">
-            <span> C )</span>
-          </div>
-          <div class="col-3">
-            <input type="radio" name="sca-answer" value="D"
-                   [(ngModel)]="question.answer"
-                   (ngModelChange)="answerEntered( question )">
-            <span> D )</span>
-          </div>
-        </div>
-      </div>
+    @let problemType = question.questionConfig.question.problemType ;
+    @if( problemType === "SCA" ) {
+      <sca-answer-zone [question]="question"
+                       (answerEntered)="answerEntered( $event )"/>
+    }
+    @else if ( problemType === "NVT" ) {
+      <nvt-answer-zone [question]="question"
+                       (answerEntered)="answerEntered( $event )"/>
     }
 
     <div class="question-footer">

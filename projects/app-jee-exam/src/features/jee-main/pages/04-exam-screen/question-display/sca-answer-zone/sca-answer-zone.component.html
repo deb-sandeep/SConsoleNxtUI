@@ -1,1 +1,17 @@
-<p>scaanswer-zone works!</p>
+<div class="container sca-answer-choices">
+  <div class="row">
+    @for( choice of ansChoices; track $index ) {
+      <div class="col-3">
+        <input type="radio"
+               [id]="'sca-answer-' + question.index + '-' + choice"
+               [name]="'sca-answer-' + question.index"
+               [value]="choice"
+               [(ngModel)]="question.answer"
+               (ngModelChange)="emitAnswerEntered()">
+        <label [for]="'sca-answer-' + question.index + '-' + choice">
+          &nbsp;{{ choice }})
+        </label>
+      </div>
+    }
+  </div>
+</div>
