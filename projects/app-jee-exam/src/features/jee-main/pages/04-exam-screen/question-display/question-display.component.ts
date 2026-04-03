@@ -7,6 +7,7 @@ import { ExamQuestion } from "../../../../../common/so-wrappers";
 import { EventLogService } from "@jee-common/services/event-log.service";
 import { SCAAnswerZoneComponent } from "./sca-answer-zone/sca-answer-zone.component";
 import { NVTAnswerZoneComponent } from "./nvt-answer-zone/nvt-answer-zone.component";
+import { ExamApiService } from "@jee-common/services/exam-api.service";
 
 @Component({
   selector: 'question-display',
@@ -23,6 +24,7 @@ export class QuestionDisplayComponent {
   @ViewChild('questionDisplayContainer')
   private questionDisplayContainer?: ElementRef<HTMLDivElement>;
 
+  apiSvc = inject( ExamApiService ) ;
   examSvc = inject( JeeMainService ) ;
   eventLogSvc = inject( EventLogService ) ;
 
@@ -50,5 +52,18 @@ export class QuestionDisplayComponent {
 
   protected answerEntered( question: ExamQuestion ) {
     this.eventLogSvc.logAnswerEntered( question ) ;
+    const currentState = question.state ;
+
+    // If the question is already answered and the user is changing the answer,
+    // the state of the answer needs to be downgraded to give the student to
+    // submit the answer again
+    if( currentState === "ANSWERED" ) {
+      question.state = "NOT_ANSWERED" ;
+      this.apiSvc.logAnswerAction( question, "NOT_ANSWERED", this.examSvc.currentLap ).then() ;
+    }
+    else if( question.state === "ANS_AND_MARKED_FOR_REVIEW" ) {
+      question.state = "MARKED_FOR_REVIEW" ;
+      this.apiSvc.logAnswerAction( question, "MARKED_FOR_REVIEW", this.examSvc.currentLap ).then() ;
+    }
   }
 }

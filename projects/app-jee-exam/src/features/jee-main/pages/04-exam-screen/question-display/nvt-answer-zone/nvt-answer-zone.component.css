@@ -1,4 +1,94 @@
 .nvt-answer-zone {
-    padding: 40px 40px 40px 60px ;
+    padding: 10px 40px 40px 60px;
     width: 100%;
+}
+
+.numeric-answer-entry {
+    width: min(200px, 100%);
+    background-color: #ffffff;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+.answer-label {
+    margin-bottom: 8px;
+    color: #222222;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.answer-input-wrapper {
+    margin-bottom: 10px;
+}
+
+.answer-input {
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    border: 1px solid #b8b8b8;
+    background-color: #f1f1f1;
+    color: #111111;
+    font-size: 20px;
+    line-height: 40px;
+    box-sizing: border-box;
+    border-radius: 0;
+    box-shadow: none;
+    font-family: Monaco, "Courier New", serif;
+}
+
+.answer-input:focus {
+    outline: none;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 6px;
+}
+
+.key {
+    grid-column: span 2;
+    height: 35px;
+    border: 1px solid #d3d3d3;
+    background-color: #ececec;
+    color: #111111;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0;
+    border-radius: 7px;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.key:hover {
+    background-color: #ececec;
+}
+
+.key:active {
+    background-color: #dfdfdf;
+}
+
+.key.wide {
+    grid-column: span 3;
+    font-size: 16px;
+}
+
+@media (max-width: 576px) {
+    .nvt-answer-zone {
+        padding: 24px 24px 32px 24px;
+    }
+
+    .numeric-answer-entry {
+        width: min(100%, 300px);
+    }
+
+    .answer-input {
+        font-size: 18px;
+    }
+
+    .key {
+        height: 40px;
+        font-size: 17px;
+    }
 }

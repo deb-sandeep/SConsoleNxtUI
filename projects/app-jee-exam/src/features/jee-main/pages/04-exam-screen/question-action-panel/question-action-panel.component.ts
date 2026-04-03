@@ -54,7 +54,8 @@ export class QuestionActionPanelComponent {
   private answerExists() {
     let answer = this.examSvc.activeQuestion.answer ;
     if( answer == null ) {
-      alert( "Please choose an option" ) ;
+      const problemType = this.examSvc.activeQuestion.questionConfig.question.problemType ;
+      alert( problemType === "NVT" ? "Please enter an answer" : "Please choose an option" ) ;
       return false ;
     }
     return true ;

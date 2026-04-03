@@ -1,2 +1,37 @@
-<div class="container nvt-answer-zone">
+<div class="nvt-answer-zone">
+  <div class="numeric-answer-entry">
+    <div class="answer-label">Answer:</div>
+
+    <div class="answer-input-wrapper">
+      <input class="answer-input"
+             type="text"
+             [value]="displayValue"
+             readonly
+             inputmode="none"
+             autocomplete="off"
+             spellcheck="false"
+             aria-label="Numeric answer">
+    </div>
+
+    <div class="keypad">
+      <button type="button" class="key key-digit" (click)="appendDigit('7')">7</button>
+      <button type="button" class="key key-digit" (click)="appendDigit('8')">8</button>
+      <button type="button" class="key key-digit" (click)="appendDigit('9')">9</button>
+
+      <button type="button" class="key key-digit" (click)="appendDigit('6')">6</button>
+      <button type="button" class="key key-digit" (click)="appendDigit('4')">4</button>
+      <button type="button" class="key key-digit" (click)="appendDigit('5')">5</button>
+
+      <button type="button" class="key key-digit" (click)="appendDigit('1')">1</button>
+      <button type="button" class="key key-digit" (click)="appendDigit('2')">2</button>
+      <button type="button" class="key key-digit" (click)="appendDigit('3')">3</button>
+
+      <button type="button" class="key key-sign"    (click)="toggleNegativeSign()">-</button>
+      <button type="button" class="key key-digit"   (click)="appendDigit('0')">0</button>
+      <button type="button" class="key key-decimal" (click)="appendDecimalPoint()">.</button>
+
+      <button type="button" class="key key-backspace wide" (click)="backspace()"> Del </button>
+      <button type="button" class="key key-clear wide"     (click)="clearAnswer()">Clear</button>
+    </div>
+  </div>
 </div>
