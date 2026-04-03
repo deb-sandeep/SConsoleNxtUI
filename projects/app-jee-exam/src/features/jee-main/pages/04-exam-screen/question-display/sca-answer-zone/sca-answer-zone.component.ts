@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './sca-answer-zone.component.html',
   styleUrl: './sca-answer-zone.component.css'
 })
-export class ScaAnswerZoneComponent {
+export class SCAAnswerZoneComponent {
 
 }
