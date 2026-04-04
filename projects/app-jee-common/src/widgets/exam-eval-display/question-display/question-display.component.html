@@ -7,6 +7,11 @@
       <span class="problem-db-id">({{q.id}})</span>
       <span class="problem-type">{{q.problemType}}</span>
 
+      <div class="pop-out">
+        <span class="bi-arrows-fullscreen"
+              (click)="showFullScreen = true"></span>
+      </div>
+
       <div class="problem-rating">
         <ngb-rating [(rate)]="q.rating"
                     [max]="10"
@@ -45,6 +50,65 @@
                 (click)="overrideScore()"></span>
         </div>
       }
+    </div>
+  </div>
+}
+
+@if( showFullScreen ) {
+  <div class="fullscreen-background">
+    @let q = questionAttempt.examQuestion.question ;
+    <div class="card border-default question-card">
+      <div class="card-header">
+        <span class="topic-name">[{{q.topicName}}]</span>
+        <span class="question-id">{{q.questionId}}</span>
+        <span class="problem-db-id">({{q.id}})</span>
+        <span class="problem-type">{{q.problemType}}</span>
+
+        <div class="popup-close-btn">
+          <button type="button" class="btn btn-sm btn-secondary"
+                  (click)="showFullScreen = false">
+            Close
+          </button>
+        </div>
+
+        <div class="problem-rating">
+          <ngb-rating [(rate)]="q.rating"
+                      [max]="10"
+                      (rateChange)="questionRatingChanged()">
+            <ng-template let-fill="fill" let-index="index">
+              <i class="bi-star{{ fill === 100 ? '-fill' : '' }}"
+                 [class.filled]="fill === 100"
+                 [class.easy]="index < 3"
+                 [class.moderate]="index >= 3 && index <= 6"
+                 [class.hard]="index > 6"
+              >&nbsp;&nbsp;</i>
+            </ng-template>
+          </ngb-rating>
+        </div>
+
+      </div>
+      <div class="card-body">
+        @let images = q.questionImages ;
+        @for( img of images; track img.fileName ) {
+          <img class="img-fluid question-img"
+               [src]="getImgURL(img)"
+               [alt]="img.fileName"/>
+        }
+      </div>
+      <div class="card-footer">
+        Answer : <span class="answer">{{q.answer}}</span>
+        @if( isEligibleForMarkOverride() ) {
+          <div class="marks-override-panel">
+            <input class="mark-override-input"
+                   type="number"
+                   [min]="getMinMarks()"
+                   [max]="getMaxMarks()"
+                   [(ngModel)]="updatedScore"/>
+            <span class="bi-save mark-save-btn"
+                  (click)="overrideScore()"></span>
+          </div>
+        }
+      </div>
     </div>
   </div>
 }

@@ -81,3 +81,35 @@
     color: blue ;
     font-weight: bold;
 }
+
+.pop-out {
+    display: inline-block;
+    margin-left: 30px;
+}
+
+.fullscreen-background {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(211 211 211 / 0.87);
+    padding: 10px;
+
+    display: flex;
+    align-items: center;      /* vertical centering */
+    justify-content: center;  /* horizontal centering */
+    overflow: hidden;
+}
+
+.popup-close-btn {
+    display: inline-block;
+    float: right;
+    margin-left: 30px;
+}
+
+.popup-close-btn button {
+    padding: 0 10px;
+    font-size: 11px;
+}

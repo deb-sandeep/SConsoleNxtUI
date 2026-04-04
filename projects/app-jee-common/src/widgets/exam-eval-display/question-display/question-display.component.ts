@@ -26,6 +26,8 @@ export class QuestionDisplayComponent {
   questionAttempt : ExamQuestionAttemptSO ;
   updatedScore : number = 0 ;
 
+  showFullScreen: boolean = false ;
+
   setQuestionAttempt( attempt: ExamQuestionAttemptSO ) {
     this.questionAttempt = attempt ;
     this.updatedScore = this.questionAttempt.score ;
