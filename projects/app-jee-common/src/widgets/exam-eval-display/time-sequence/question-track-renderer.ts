@@ -192,7 +192,7 @@ export class QuestionTrackRenderer {
     renderActivations() {
         for( let activation of this.activations ) {
             const duration = activation.endTimeMarker - activation.startTimeMarker ;
-            if( duration > 3000 ) {
+            if( duration >= this.config.timelineConfig.minActivationDuration ) {
                 this.renderActivation( activation ) ;
             }
         }
@@ -203,7 +203,6 @@ export class QuestionTrackRenderer {
         const minuteWidth = this.config.units.minuteWidth ;
         const startX = minuteWidth * ( activation.startTimeMarker / 60000 ) ;
         const endX = minuteWidth * ( activation.endTimeMarker / 60000 ) ;
-        const numSeconds = ( activation.endTimeMarker - activation.startTimeMarker )/1000 ;
 
         const g = this.contentArea.g ;
 
@@ -216,23 +215,33 @@ export class QuestionTrackRenderer {
           endX - startX,
           this.timelineBounds.height - 4
         ) ;
-
-        this.renderActivationDuration( g, startX, endX, numSeconds ) ;
         g.restore() ;
     }
 
-    private renderActivationDuration(
-      g: CanvasRenderingContext2D,
-      startX: number,
-      endX: number,
-      numSeconds: number ) {
+    renderActivationDurations() {
+        for( let activation of this.activations ) {
+            const duration = activation.endTimeMarker - activation.startTimeMarker ;
+            if( duration >= this.config.timelineConfig.minActivationDuration ) {
+                this.renderActivationDuration( activation ) ;
+            }
+        }
+    }
+
+    private renderActivationDuration( activation: QuestionActivation ) {
+
+        const minuteWidth = this.config.units.minuteWidth ;
+        const startX = minuteWidth * ( activation.startTimeMarker / 60000 ) ;
+        const endX = minuteWidth * ( activation.endTimeMarker / 60000 ) ;
+        const numSeconds = ( activation.endTimeMarker - activation.startTimeMarker )/1000 ;
+
+        const g = this.contentArea.g ;
 
         const totalSeconds = Math.max( 0, Math.floor( numSeconds ) ) ;
         const minutes = Math.floor( totalSeconds / 60 ) ;
         const seconds = totalSeconds % 60 ;
         const activationWidth = endX - startX ;
 
-        let durationLabel = "" ;
+        let durationLabel:string ;
         if( totalSeconds > 120 ) {
             durationLabel = minutes.toString().padStart( 1, '0' ) + ":" +
                             seconds.toString().padStart( 2, '0' ) ;
@@ -242,6 +251,7 @@ export class QuestionTrackRenderer {
         }
 
 
+        g.save() ;
         g.font = '10px Courier' ;
 
         if( g.measureText( durationLabel ).width > activationWidth - 6 ) {
@@ -251,11 +261,13 @@ export class QuestionTrackRenderer {
         g.fillStyle = "#000000" ;
         g.textAlign = "center" ;
         g.textBaseline = "middle" ;
+        g.globalCompositeOperation = "darken";
         g.fillText(
           durationLabel,
           this.timelineBounds.x + startX + ( activationWidth / 2 ),
           this.timelineBounds.y + ( this.timelineBounds.height / 2 )
         ) ;
+        g.restore() ;
     }
 
     renderAnswerActions() {
@@ -279,7 +291,6 @@ export class QuestionTrackRenderer {
             } ;
 
             g.save() ;
-
             // All answer-action icons share the same placement rules: a fixed-size
             // icon box centered on the action's time marker and the track midline.
             this.answerActionRenderer.renderAction( name, g, iconBounds ) ;

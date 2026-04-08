@@ -59,11 +59,11 @@ export class QuestionDisplayComponent {
     // submit the answer again
     if( currentState === "ANSWERED" ) {
       question.state = "NOT_ANSWERED" ;
-      this.apiSvc.logAnswerAction( question, "NOT_ANSWERED", this.examSvc.currentLap ).then() ;
+      this.apiSvc.saveAnswerAction( question, "NOT_ANSWERED", this.examSvc.currentLap ).then() ;
     }
     else if( question.state === "ANS_AND_MARKED_FOR_REVIEW" ) {
       question.state = "MARKED_FOR_REVIEW" ;
-      this.apiSvc.logAnswerAction( question, "MARKED_FOR_REVIEW", this.examSvc.currentLap ).then() ;
+      this.apiSvc.saveAnswerAction( question, "MARKED_FOR_REVIEW", this.examSvc.currentLap ).then() ;
     }
   }
 }

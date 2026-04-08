@@ -37,7 +37,9 @@ export class ManageTracksService extends RemoteService {
       let topicProblemCounts = await this.getTopicProblemCounts() ;
 
       syllabusSOList.forEach( so => {
-        this.syllabusMap[so.syllabusName] = new Syllabus( so, this )
+        if( !so.automated ) {
+          this.syllabusMap[so.syllabusName] = new Syllabus( so, this )
+        }
       } ) ;
 
       trackSOList.forEach( tso => {

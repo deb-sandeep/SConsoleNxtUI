@@ -36,6 +36,7 @@ export interface TimeSequenceConfig {
     timelineConfig : {
         lineColor: string,
         activationColor : string,
+        minActivationDuration: number,
     }
     units : {
         defaultMinuteWidth: number ;
@@ -92,6 +93,7 @@ export class TimeSequenceRenderer {
         timelineConfig : {
             lineColor : '#dadada',
             activationColor : '#a5a5a5',
+            minActivationDuration : 3000,
         },
         units : {
             defaultMinuteWidth: 20,
@@ -103,7 +105,7 @@ export class TimeSequenceRenderer {
             physics : "#FFC468",
             chemistry : "#84FF85",
             maths : "#97D6FF",
-        }
+        },
     } ;
 
     private eval : ExamAttemptSO ;
@@ -351,6 +353,7 @@ export class TimeSequenceRenderer {
         this.renderTimeMarkers() ;
         this.renderQuestionActivations() ;
         this.renderAnswerActions() ;
+        this.renderActivationDurations() ;
     }
 
     private renderQuestionTracks() {
@@ -381,6 +384,12 @@ export class TimeSequenceRenderer {
     private renderAnswerActions(): void {
         for( let renderer of this.questionTrackRenderers ) {
             renderer.renderAnswerActions() ;
+        }
+    }
+
+    private renderActivationDurations(): void {
+        for( let renderer of this.questionTrackRenderers ) {
+            renderer.renderActivationDurations() ;
         }
     }
 
@@ -418,6 +427,11 @@ export class TimeSequenceRenderer {
         for( let qtRenderer of this.questionTrackRenderers ) {
             qtRenderer.setAttemptSelected( questionAttempt ) ;
         }
+        this.render() ;
+    }
+
+    public applyActivityDurationThreshold( applyThreshold: boolean ) {
+        this.config.timelineConfig.minActivationDuration = applyThreshold ? 3000 : 0 ;
         this.render() ;
     }
 }

@@ -1,10 +1,14 @@
 import { Component, ElementRef, Input, output, ViewChild } from '@angular/core';
 import { ExamAttemptSO, ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
 import { TimeSequenceRenderer, TimeSequenceConfig } from "./time-sequence-renderer";
+import { FormsModule } from "@angular/forms";
 
-@Component({
+@Component( {
   selector: 'div[timeSequence]',
   templateUrl: './time-sequence.component.html',
+  imports: [
+    FormsModule
+  ],
   styleUrl: './time-sequence.component.css'
 })
 export class TimeSequenceComponent {
@@ -29,9 +33,11 @@ export class TimeSequenceComponent {
 
   private resizeObserver!: ResizeObserver ;
 
-  private config: Partial<TimeSequenceConfig> = {};
+  private config: Partial<TimeSequenceConfig> = {} ;
 
   renderer: TimeSequenceRenderer ;
+  applyActivationDurationThreshold = true ;
+  showFullScreen = false ;
 
   ngAfterViewInit(): void {
 
@@ -121,5 +127,9 @@ export class TimeSequenceComponent {
 
   public selectQuestionAttempt( questionAttempt: ExamQuestionAttemptSO ) {
     this.renderer.selectQuestionAttempt( questionAttempt ) ;
+  }
+
+  protected toggleActivationThreshold() {
+    this.renderer.applyActivityDurationThreshold( this.applyActivationDurationThreshold ) ;
   }
 }

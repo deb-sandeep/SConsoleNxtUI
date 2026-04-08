@@ -45,9 +45,16 @@ export class ExamApiService extends RemoteService {
     return this.postPromise<String>( url, event ) ;
   }
 
-  async logAnswerAction( question:ExamQuestion, status: ExamQuestionSubmitStatus, currentLap:LapName ) {
-    const url:string = `${environment.apiRoot}/Exam/AnswerUpdate` ;
+  async saveTimeSpent( question: ExamQuestion ) {
+    const url:string = `${environment.apiRoot}/Exam/TimeUpdate` ;
+    return this.postPromise<String>( url, {
+      questionAttemptId: question.examQuestionAttemptId,
+      timeSpent: question.totalTimeSpent
+    } ) ;
+  }
 
+  async saveAnswerAction( question:ExamQuestion, status: ExamQuestionSubmitStatus, currentLap:LapName ) {
+    const url:string = `${environment.apiRoot}/Exam/AnswerUpdate` ;
     return this.postPromise<String>( url, {
       questionAttemptId: question.examQuestionAttemptId,
       submitStatus: status,

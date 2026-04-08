@@ -1,11 +1,19 @@
 <div class="page-content">
   <div class="tool-bar">
+    <span class="bi-arrows-fullscreen tool-btn"
+          (click)="showFullScreen = true"></span>
     <span class="bi-zoom-in tool-btn"
           (click)="renderer.zoomIn()"></span>
     <span class="bi-zoom-out tool-btn"
           (click)="renderer.zoomOut()"></span>
-    <span class="bi-arrows-fullscreen tool-btn"
+    <span class="bi-house-door tool-btn"
           (click)="renderer.zoomToFullSize()"></span>
+    <span class="tool-btn">
+      <span class="bi-upc-scan">&nbsp;</span>
+      <input type="checkbox"
+             [(ngModel)]="applyActivationDurationThreshold"
+             (ngModelChange)="toggleActivationThreshold()"/>
+    </span>
   </div>
   <div class="gantt-container">
     <div class="gantt-corner"></div>

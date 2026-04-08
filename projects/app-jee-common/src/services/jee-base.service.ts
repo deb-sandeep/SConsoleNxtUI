@@ -61,6 +61,7 @@ export class JeeBaseService {
 
     public activateQuestion( examQuestion: ExamQuestion ) {
         if( this.activeQuestion != null ) {
+            this.apiSvc.saveTimeSpent( this.activeQuestion ).then() ;
             this.activeQuestion.deactivate() ;
         }
         this.activeQuestion = examQuestion ;
@@ -80,29 +81,29 @@ export class JeeBaseService {
 
     public async createExamAttempt() {
         await this.apiSvc.createExamAttempt( this.examConfig )
-                  .then( async res => {
+          .then( async res => {
 
-                      await this.apiSvc.startExamSession() ;
+              await this.apiSvc.startExamSession() ;
 
-                      console.log( "Exam attempt created" ) ;
-                      console.log( res ) ;
+              console.log( "Exam attempt created" ) ;
+              console.log( res ) ;
 
-                      for( let question of this.questions ) {
-                          let questionId = question.questionConfig.id ;
-                          question.examQuestionAttemptId = res.questionAttemptIds[ questionId ] ;
-                      }
+              for( let question of this.questions ) {
+                  let questionId = question.questionConfig.id ;
+                  question.examQuestionAttemptId = res.questionAttemptIds[ questionId ] ;
+              }
 
-                      this.examAttemptId = res.examAttemptId ;
-                      this.eventLogService.examAttemptId = res.examAttemptId ;
-                      this.eventLogService.startTime = new Date() ;
-                      this.eventLogService.logExamStartEvent() ;
+              this.examAttemptId = res.examAttemptId ;
+              this.eventLogService.examAttemptId = res.examAttemptId ;
+              this.eventLogService.startTime = new Date() ;
+              this.eventLogService.logExamStartEvent() ;
 
-                      // Set the first question as active question
-                      this.activateQuestion( this.questions[0] ) ;
-                      this.countdown() ;
+              // Set the first question as active question
+              this.activateQuestion( this.questions[0] ) ;
+              this.countdown() ;
 
-                      return ;
-                  }) ;
+              return ;
+          }) ;
     }
 
     countdown() {
