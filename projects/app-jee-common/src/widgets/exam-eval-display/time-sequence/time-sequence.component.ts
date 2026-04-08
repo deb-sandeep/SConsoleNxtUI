@@ -2,12 +2,14 @@ import { Component, ElementRef, Input, output, ViewChild } from '@angular/core';
 import { ExamAttemptSO, ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
 import { TimeSequenceRenderer, TimeSequenceConfig } from "./time-sequence-renderer";
 import { FormsModule } from "@angular/forms";
+import { NgIf } from "@angular/common";
 
 @Component( {
   selector: 'div[timeSequence]',
   templateUrl: './time-sequence.component.html',
   imports: [
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   styleUrl: './time-sequence.component.css'
 })
@@ -131,5 +133,12 @@ export class TimeSequenceComponent {
 
   protected toggleActivationThreshold() {
     this.renderer.applyActivityDurationThreshold( this.applyActivationDurationThreshold ) ;
+  }
+
+  protected toggleFullScreen() {
+    this.showFullScreen = !this.showFullScreen ;
+    requestAnimationFrame( () => {
+      this.renderer.resizeCanvases() ;
+    } ) ;
   }
 }

@@ -7,6 +7,14 @@
     --tool-bar-height: 25px;
 }
 
+.page-content-full-screen {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+}
+
 .tool-bar {
     position: relative;
     top: 0;
@@ -77,4 +85,3 @@ canvas {
     z-index: 1;
     background-color: #ffffff;
 }
-

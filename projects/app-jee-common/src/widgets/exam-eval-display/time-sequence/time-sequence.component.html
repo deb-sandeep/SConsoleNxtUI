@@ -1,7 +1,12 @@
-<div class="page-content">
+<div class="page-content"
+     [class.page-content-full-screen]="showFullScreen">
   <div class="tool-bar">
     <span class="bi-arrows-fullscreen tool-btn"
-          (click)="showFullScreen = true"></span>
+          *ngIf="!showFullScreen"
+          (click)="toggleFullScreen()"></span>
+    <span class="bi-box-arrow-down-left tool-btn"
+          *ngIf="showFullScreen"
+          (click)="toggleFullScreen()"></span>
     <span class="bi-zoom-in tool-btn"
           (click)="renderer.zoomIn()"></span>
     <span class="bi-zoom-out tool-btn"

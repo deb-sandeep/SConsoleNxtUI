@@ -113,3 +113,8 @@
     padding: 0 10px;
     font-size: 11px;
 }
+
+.full-screen-card-body {
+    max-height: calc(100dvh - 100px);
+    overflow-y: scroll;
+}
