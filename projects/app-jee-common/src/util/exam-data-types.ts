@@ -73,6 +73,7 @@ export interface ExamQuestionAttemptSO {
     evaluationStatus: string;
     answerProvided: string;
     answerSubmitStatus: string;
+    answerSubmitLap: string;
     score: number;
     loss: number;
     avoidableLoss: number;

@@ -58,7 +58,7 @@ td {
 .rc-combo {
     padding: 0 5px;
     font-size: 10px;
-    line-height: 1.5;
+    line-height: 13px;
     font-weight: bold;
     background-color: transparent;
 }
@@ -66,4 +66,8 @@ td {
 .form-select.chevron-right {
     background-position: right 0.25rem center;
     background-blend-mode: soft-light;
+}
+
+.submit-lap {
+    text-align: center;
 }

@@ -171,4 +171,17 @@ export class QuestionEvalComponent {
     }
     return bgColor ;
   }
+
+  protected getSubmitLapBgColor( lapName: string ) {
+    switch( lapName ) {
+      case "L1"  : return "rgb(207 207 207 / 0.5)" ;
+      case "L2P" : return "rgb(100 180 255 / 0.32)" ;
+      case "L2"  : return "rgb(255 101 149 / 0.35)" ;
+      case "AMR" : return "rgb(3 248 3 / 0.18)" ;
+      case "L3P" : return "rgb(196 124 251 / 0.24)" ;
+      case "L3.1": return "rgb(255 255 0 / 0.19)" ;
+      case "L3.2": return "rgb(0 255 255 / 0.21)" ;
+      default    : return "#ffffff" ;
+    }
+  }
 }

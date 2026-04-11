@@ -2,12 +2,13 @@
   <thead>
   <tr>
     <th style="width:20px;">#</th>
-    <th style="width:140px;">ID</th>
+    <th style="width:130px;">ID</th>
     <th style="width:40px;"></th>
     <th style="width:40px; text-align: center;">A</th>
-    <th style="width:30px; text-align: right;">S</th>
-    <th style="width:30px; text-align: right;">AL</th>
-    <th style="width: 45px;text-align: center;">Time</th>
+    <th style="width:30px; text-align: center;">L</th>
+    <th style="width:25px; text-align: right;">S</th>
+    <th style="width:25px; text-align: right;">AL</th>
+    <th style="width: 40px;text-align: center;">Time</th>
     <th style="width:25px;text-align: center;"></th>
     <th style="text-align: center;">RC</th>
   </tr>
@@ -16,7 +17,7 @@
 
     @for( section of sectionAttempts; track $index ) {
       <tr>
-        <td colspan="9"
+        <td colspan="10"
             class="section-header"
             [style.background-color]="section.bgColor">
 
@@ -42,6 +43,10 @@
             <td class="provided-answer"
                 [style.background-color]="getAnsProvidedBgColor( qAttempt )">
               {{qAttempt.answerProvided}}
+            </td>
+            <td class="submit-lap"
+                [style.background-color]="getSubmitLapBgColor( qAttempt.answerSubmitLap )">
+              {{qAttempt.answerSubmitLap}}
             </td>
             <td class="numeric score"
                 [ngStyle]="getScoreBoundaryStyle( qAttempt )"
