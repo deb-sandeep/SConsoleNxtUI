@@ -172,6 +172,14 @@ export class QuestionEvalComponent {
     return bgColor ;
   }
 
+  protected getRootCauseBgColor( qAttempt: ExamQuestionAttemptSO ) {
+    let bgColor = "#cccccc" ;
+    if( qAttempt.rootCause != null ) {
+      bgColor = qAttempt.avoidableLoss > 0 ? "#fb9d9d" : "#b3e7fd" ;
+    }
+    return bgColor ;
+  }
+
   protected getSubmitLapBgColor( lapName: string ) {
     switch( lapName ) {
       case "L1"  : return "rgb(207 207 207 / 0.5)" ;

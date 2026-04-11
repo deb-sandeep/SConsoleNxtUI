@@ -72,6 +72,7 @@
             <td>
               @if( !isAttemptCorrect( qAttempt ) ) {
                 <select class="form-select form-select-sm rc-combo chevron-right"
+                        [style.background-color]="getRootCauseBgColor( qAttempt )"
                         [(ngModel)]="qAttempt.rootCause"
                         (ngModelChange)="rootCauseAssigned( qAttempt )">
                   @for (rootCause of examSvc.rootCauses; track rootCause.cause) {
