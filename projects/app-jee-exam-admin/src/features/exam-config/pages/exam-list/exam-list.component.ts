@@ -6,6 +6,7 @@ import { ExamSetupService } from "../exam-setup/exam-setup.service";
 import { ExamSO } from "@jee-common/util/exam-data-types";
 import { DatePipe, NgIf } from "@angular/common";
 import { ColumnSorterComponent } from "@jee-common/widgets/column-sorter.component";
+import { ExamNoteComponent } from "@jee-common/widgets/exam-note/exam-note.component";
 
 @Component({
   selector: 'exam-list',
@@ -15,7 +16,8 @@ import { ColumnSorterComponent } from "@jee-common/widgets/column-sorter.compone
     ToolbarActionComponent,
     DatePipe,
     ColumnSorterComponent,
-    NgIf
+    NgIf,
+    ExamNoteComponent
   ],
   templateUrl: './exam-list.component.html',
   styleUrl: './exam-list.component.css'

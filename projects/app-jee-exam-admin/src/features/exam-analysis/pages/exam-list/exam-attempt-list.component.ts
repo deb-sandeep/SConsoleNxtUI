@@ -7,6 +7,7 @@ import { ColumnSorterComponent } from "@jee-common/widgets/column-sorter.compone
 import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { JeeBaseService } from "@jee-common/services/jee-base.service";
+import { ExamNoteComponent } from "@jee-common/widgets/exam-note/exam-note.component";
 
 @Component({
   selector: 'exam-list',
@@ -16,6 +17,7 @@ import { JeeBaseService } from "@jee-common/services/jee-base.service";
     ColumnSorterComponent,
     DurationPipe,
     DecimalPipe,
+    ExamNoteComponent,
   ],
   templateUrl: './exam-attempt-list.component.html',
   styleUrl: './exam-attempt-list.component.css'

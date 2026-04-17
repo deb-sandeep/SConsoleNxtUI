@@ -1,0 +1,16 @@
+<div class="exam-note">
+  @if( !inEditMode() ) {
+    {{exam()?.note}} &nbsp;
+    <span class="bi-pencil edit-icon"
+          (click)="enableEditMode()"></span>
+  }
+  @else {
+    <input #noteEditor
+           type="text" class="note-editor"
+           [(ngModel)]="editedNote"
+           (focusout)="exitEditMode()"
+           (keydown.escape)="exitEditMode()"
+           (keydown.enter)="saveEditedNote()">
+  }
+</div>
+

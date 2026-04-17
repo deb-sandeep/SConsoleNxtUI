@@ -70,7 +70,9 @@
                   (click)="editExam(exam.id)"
                   *ngIf="EDIT_ALLOWED_STATES.includes( exam.state )"></span>
           </td>
-          <td>{{exam.note}}</td>
+          <td>
+            <exam-note [exam]="exam"></exam-note>
+          </td>
           <td class="btn-cell">
             <span class="bi-trash3 btn-icon"
                     style="color: red;"

@@ -75,7 +75,9 @@
                   style="color: blue;"
                   (click)="analyzeAttempt( attempt )"></span>
           </td>
-          <td>{{attempt.exam.note}}</td>
+          <td>
+            <exam-note [exam]="attempt.exam"></exam-note>
+          </td>
         </tr>
       }
     </tbody>
