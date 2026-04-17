@@ -50,7 +50,8 @@
                 <div class="status-chart-container">
                   @if(topicStat.questionTypeStats['MCA']) {
                     <status-chart [maxValue]="maxQuestionInCell"
-                                  [statusData]="topicStat.questionTypeStats['MCA']">
+                                  [statusData]="topicStat.questionTypeStats['MCA']"
+                                  (click)="openQuestionBrowser( topicStat.topicId, 'MCA' )">
                     </status-chart>
                   }
                 </div>
@@ -59,7 +60,8 @@
                 <div class="status-chart-container">
                   @if(topicStat.questionTypeStats['LCT']) {
                     <status-chart [maxValue]="maxQuestionInCell"
-                                  [statusData]="topicStat.questionTypeStats['LCT']">
+                                  [statusData]="topicStat.questionTypeStats['LCT']"
+                                  (click)="openQuestionBrowser( topicStat.topicId, 'LCT' )">
                     </status-chart>
                   }
                 </div>
@@ -68,7 +70,8 @@
                 <div class="status-chart-container">
                   @if(topicStat.questionTypeStats['MMT']) {
                     <status-chart [maxValue]="maxQuestionInCell"
-                                  [statusData]="topicStat.questionTypeStats['MMT']">
+                                  [statusData]="topicStat.questionTypeStats['MMT']"
+                                  (click)="openQuestionBrowser( topicStat.topicId, 'MMT' )">
                     </status-chart>
                   }
                 </div>
@@ -77,7 +80,8 @@
                 <div class="status-chart-container">
                   @if(topicStat.questionTypeStats['CMT']) {
                     <status-chart [maxValue]="maxQuestionInCell"
-                                  [statusData]="topicStat.questionTypeStats['CMT']">
+                                  [statusData]="topicStat.questionTypeStats['CMT']"
+                                  (click)="openQuestionBrowser( topicStat.topicId, 'CMT' )">
                     </status-chart>
                   }
                 </div>
@@ -86,7 +90,8 @@
                 <div class="status-chart-container">
                   @if(topicStat.questionTypeStats['ART']) {
                     <status-chart [maxValue]="maxQuestionInCell"
-                                  [statusData]="topicStat.questionTypeStats['ART']">
+                                  [statusData]="topicStat.questionTypeStats['ART']"
+                                  (click)="openQuestionBrowser( topicStat.topicId, 'ART' )">
                     </status-chart>
                   }
                 </div>
@@ -95,7 +100,8 @@
                 <div class="status-chart-container">
                   @if(topicStat.questionTypeStats['NVT']) {
                     <status-chart [maxValue]="maxQuestionInCell"
-                                  [statusData]="topicStat.questionTypeStats['NVT']">
+                                  [statusData]="topicStat.questionTypeStats['NVT']"
+                                  (click)="openQuestionBrowser( topicStat.topicId, 'NVT' )">
                     </status-chart>
                   }
                 </div>
@@ -103,7 +109,8 @@
               <td class="status-chart-cell">
                 <div class="status-chart-container">
                   <status-chart [maxValue]="maxQuestionsInTopicTotals"
-                                [statusData]="topicTotalMap[topicStat.topicId]">
+                                [statusData]="topicTotalMap[topicStat.topicId]"
+                                (click)="openQuestionBrowser( topicStat.topicId, 'ALL' )">
                   </status-chart>
                 </div>
               </td>

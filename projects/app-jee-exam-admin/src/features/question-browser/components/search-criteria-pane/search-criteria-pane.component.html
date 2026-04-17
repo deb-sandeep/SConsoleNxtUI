@@ -1,7 +1,6 @@
 <div id="search-criteria-pane">
   <div class="criteria-controls">
     <div ngbAccordion>
-
       <div ngbAccordionItem [collapsed]="false" >
         <h2 ngbAccordionHeader>
           <button ngbAccordionButton>Syllabus</button>
@@ -46,7 +45,28 @@
           </div>
         </div>
       </div>
-
+      <div ngbAccordionItem [collapsed]="false" >
+        <h2 ngbAccordionHeader>
+          <button ngbAccordionButton>Question Type</button>
+        </h2>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <div class="qtype-checkbox-group">
+                @for (qType of QuestionBrowserService.QUESTION_TYPES; track qType) {
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox"
+                           [id]="'qtype-' + qType"
+                           [checked]="selectedQTypes.includes(qType)"
+                           (change)="toggleQType(qType)">
+                    <label class="form-check-label" [for]="'qtype-' + qType">{{ qType }}</label>
+                  </div>
+                }
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="search-bar">

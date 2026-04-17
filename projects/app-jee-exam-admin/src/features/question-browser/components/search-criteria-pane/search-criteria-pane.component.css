@@ -10,6 +10,10 @@
     --search-bar-height:35px;
 }
 
+ul {
+    margin-bottom: 0;
+}
+
 /* --------- ngBootstrap CSS overrides ----------------------------- */
 .nav {
     --bs-nav-link-padding-y: 2px ;

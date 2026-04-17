@@ -40,10 +40,13 @@ import { QuestionBrowserService } from "../../question-browser.service";
 })
 export class SearchCriteriaPaneComponent implements AfterViewInit {
 
+  protected readonly QuestionBrowserService = QuestionBrowserService;
+
   private sylApiSvc : SyllabusApiService = inject( SyllabusApiService ) ;
   private qBrowserSvc : QuestionBrowserService = inject( QuestionBrowserService ) ;
 
   private selectedTopicIds: number[] = [];
+  protected selectedQTypes: string[] = [];
   private syllabusLoaded = false ;
   private viewReady = false ;
   private pendingRouteSelection: { topicId: number, qType: string } | null = null ;
@@ -104,6 +107,8 @@ export class SearchCriteriaPaneComponent implements AfterViewInit {
 
     topicListComp.setSelectedTopics( [this.pendingRouteSelection.topicId] ) ;
     this.selectedTopicIds = [this.pendingRouteSelection.topicId] ;
+    this.selectedQTypes = this.pendingRouteSelection.qType === "ALL" ?
+                          [ ...QuestionBrowserService.QUESTION_TYPES ] : [ this.pendingRouteSelection.qType ] ;
     this.pendingRouteSelection = null ;
   }
 
@@ -131,6 +136,15 @@ export class SearchCriteriaPaneComponent implements AfterViewInit {
     }
   }
 
+  toggleQType( qType: string ) {
+    const idx = this.selectedQTypes.indexOf( qType ) ;
+    if( idx === -1 ) {
+      this.selectedQTypes = [ ...this.selectedQTypes, qType ] ;
+    } else {
+      this.selectedQTypes = this.selectedQTypes.filter( t => t !== qType ) ;
+    }
+  }
+
   topicSelectionChanged( $event: number[] ) {
     this.selectedTopicIds = $event;
   }
@@ -149,6 +163,7 @@ export class SearchCriteriaPaneComponent implements AfterViewInit {
   }
 
   search() {
-    this.qBrowserSvc.initiateFreshSearch( this.selectedTopicIds ) ;
+    this.qBrowserSvc.initiateFreshSearch( this.selectedTopicIds, this.selectedQTypes ) ;
   }
+
 }

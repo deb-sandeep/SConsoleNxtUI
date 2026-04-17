@@ -7,15 +7,21 @@ import { QuestionSearchResSO } from "./question-browser.type";
 @Injectable()
 export class QuestionBrowserService extends RemoteService {
 
+  static readonly QUESTION_TYPES: string[] = [
+    "SCA", "MCA", "LCT", "MMT", "CMT", "ART", "NVT"
+  ] ;
+
   static readonly DEFAULT_SORT = [ "serverSyncTime:desc", "problemType:asc" ] ;
 
   private searchCriteria : {
     topicIds : number[],
+    qTypes : string[],
     page : number,
     size : number,
     sort : string[]
   } = {
     "topicIds" : [],
+    "qTypes" : [],
     "page" : 0,
     "size" : 25,
     "sort" : QuestionBrowserService.DEFAULT_SORT
@@ -27,8 +33,9 @@ export class QuestionBrowserService extends RemoteService {
     this.searchCriteria.size = pageSize ;
   }
 
-  initiateFreshSearch( topicIds : number[] ) {
+  initiateFreshSearch( topicIds : number[], qTypes: string[] ) {
     this.searchCriteria.topicIds = topicIds ;
+    this.searchCriteria.qTypes = qTypes ;
     this.searchCriteria.page = 0 ;
     this.searchCriteria.sort = QuestionBrowserService.DEFAULT_SORT ;
     this.fetchSearchResults() ;

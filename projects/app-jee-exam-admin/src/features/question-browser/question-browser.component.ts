@@ -53,9 +53,10 @@ export class QuestionBrowserComponent implements OnInit, AfterViewInit {
       }
 
       if( topicId != -1 ) {
-        this.qBrowserSvc.initiateFreshSearch( [topicId] ) ;
         this.pendingRouteSearchContext = { topicId, qType } ;
         this.applyPendingRouteSearchContext() ;
+        this.qBrowserSvc.initiateFreshSearch( [topicId],
+          qType === "ALL" ? QuestionBrowserService.QUESTION_TYPES : [qType] ) ;
       }
     } ) ;
   }
