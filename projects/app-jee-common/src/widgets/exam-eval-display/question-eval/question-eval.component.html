@@ -24,72 +24,76 @@
   <tbody>
 
     @for( section of sectionAttempts; track $index ) {
-      <tr>
-        <td colspan="10"
-            class="section-header"
-            [style.background-color]="section.bgColor">
+      @if( hasSectionVisibleAttempts(section) ) {
+        <tr>
+          <td colspan="10"
+              class="section-header"
+              [style.background-color]="section.bgColor">
 
-          <span [ngClass]="section.getTweakieClass()"
-                (click)="section.collapsed = !section.collapsed"></span>
-          {{section.sectionName}}
-        </td>
-      </tr>
+            <span [ngClass]="section.getTweakieClass()"
+                  (click)="section.collapsed = !section.collapsed"></span>
+            {{section.sectionName}}
+          </td>
+        </tr>
 
-      @if( !section.collapsed ) {
-        @for( qAttempt of section.questionAttempts; track $index ) {
-          @let q = qAttempt.examQuestion ;
+        @if( !section.collapsed ) {
+          @for( qAttempt of section.questionAttempts; track $index ) {
+            @let q = qAttempt.examQuestion ;
 
-          <tr (click)="selectQuestionAttempt( qAttempt )"
-              [class.selected]=" qAttempt == selectedAttempt">
-            <td>{{q.sequence}}</td>
-            <td class="q-id">
-              {{q.question.questionId.replace( '://', ' : ')}}
-            </td>
-            <td class="ref-answer">
-              {{q.question.answer}}
-            </td>
-            <td class="provided-answer"
-                [style.background-color]="getAnsProvidedBgColor( qAttempt )">
-              {{qAttempt.answerProvided}}
-            </td>
-            <td class="submit-lap"
-                [style.background-color]="getSubmitLapBgColor( qAttempt.answerSubmitLap )">
-              {{qAttempt.answerSubmitLap}}
-            </td>
-            <td class="numeric score"
-                [ngStyle]="getScoreBoundaryStyle( qAttempt )"
-                [style.color]="getScoreColor( qAttempt )">
-              {{qAttempt.score}}
-            </td>
-            <td class="numeric avoidable-loss"
-                [style.color]="getAvoidableLossColor( qAttempt )">
-              {{qAttempt.avoidableLoss}}
-            </td>
-            <td class="time-taken"
-                [style.color]="getTimeTakenColor( qAttempt )">
-              {{qAttempt.timeSpent*1000 | duration}}
-            </td>
-            <td class="rating">
-              @let rating = q.question.rating ;
-              <span class="bi-star-fill filled"
-                 [class.easy]="rating < 3 && rating > 0"
-                 [class.moderate]="rating >= 3 && rating <= 6"
-                 [class.hard]="rating > 6"
-              ></span>
-            </td>
-            <td>
-              @if( !isAttemptCorrect( qAttempt ) ) {
-                <select class="form-select form-select-sm rc-combo chevron-right"
-                        [style.background-color]="getRootCauseBgColor( qAttempt )"
-                        [(ngModel)]="qAttempt.rootCause"
-                        (ngModelChange)="rootCauseAssigned( qAttempt )">
-                  @for (rootCause of examSvc.rootCauses; track rootCause.cause) {
-                    <option [value]="rootCause.cause">{{ rootCause.cause }}</option>
+            @if( isVisible( qAttempt ) ) {
+              <tr (click)="selectQuestionAttempt( qAttempt )"
+                  [class.selected]=" qAttempt == selectedAttempt">
+                <td>{{q.sequence}}</td>
+                <td class="q-id">
+                  {{q.question.questionId.replace( '://', ' : ')}}
+                </td>
+                <td class="ref-answer">
+                  {{q.question.answer}}
+                </td>
+                <td class="provided-answer"
+                    [style.background-color]="getAnsProvidedBgColor( qAttempt )">
+                  {{qAttempt.answerProvided}}
+                </td>
+                <td class="submit-lap"
+                    [style.background-color]="getSubmitLapBgColor( qAttempt.answerSubmitLap )">
+                  {{qAttempt.answerSubmitLap}}
+                </td>
+                <td class="numeric score"
+                    [ngStyle]="getScoreBoundaryStyle( qAttempt )"
+                    [style.color]="getScoreColor( qAttempt )">
+                  {{qAttempt.score}}
+                </td>
+                <td class="numeric avoidable-loss"
+                    [style.color]="getAvoidableLossColor( qAttempt )">
+                  {{qAttempt.avoidableLoss}}
+                </td>
+                <td class="time-taken"
+                    [style.color]="getTimeTakenColor( qAttempt )">
+                  {{qAttempt.timeSpent*1000 | duration}}
+                </td>
+                <td class="rating">
+                  @let rating = q.question.rating ;
+                  <span class="bi-star-fill filled"
+                     [class.easy]="rating < 3 && rating > 0"
+                     [class.moderate]="rating >= 3 && rating <= 6"
+                     [class.hard]="rating > 6"
+                  ></span>
+                </td>
+                <td>
+                  @if( !isAttemptCorrect( qAttempt ) ) {
+                    <select class="form-select form-select-sm rc-combo chevron-right"
+                            [style.background-color]="getRootCauseBgColor( qAttempt )"
+                            [(ngModel)]="qAttempt.rootCause"
+                            (ngModelChange)="rootCauseAssigned( qAttempt )">
+                      @for (rootCause of examSvc.rootCauses; track rootCause.cause) {
+                        <option [value]="rootCause.cause">{{ rootCause.cause }}</option>
+                      }
+                    </select>
                   }
-                </select>
-              }
-            </td>
-          </tr>
+                </td>
+              </tr>
+            }
+          }
         }
       }
     }

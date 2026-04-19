@@ -185,6 +185,15 @@ export class QuestionEvalComponent {
     return bgColor ;
   }
 
+  protected isVisible( qAttempt: ExamQuestionAttemptSO ) {
+    if( this.selectedLapName === "ALL" ) return true ;
+    return (qAttempt.lapDurations[ this.selectedLapName ] ?? 0) > 0 ;
+  }
+
+  protected hasSectionVisibleAttempts( section: ExamSection ) {
+    return section.questionAttempts.some( qa => this.isVisible( qa ) ) ;
+  }
+
   protected getSubmitLapBgColor( lapName: LapName ) {
     switch( lapName ) {
       case "L1"  : return "rgb(207 207 207 / 0.5)" ;
