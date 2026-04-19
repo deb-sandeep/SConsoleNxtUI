@@ -1,4 +1,4 @@
-import { Component, inject, Input, output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, output, ViewChild } from '@angular/core';
 import { ExamAttemptSO, ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
 import { SectionEvalComponent } from "@jee-common/widgets/exam-eval-display/section-eval/section-eval.component";
 import { QuestionEvalComponent } from "@jee-common/widgets/exam-eval-display/question-eval/question-eval.component";
@@ -6,7 +6,6 @@ import {
   QuestionDisplayComponent
 } from "@jee-common/widgets/exam-eval-display/question-display/question-display.component";
 import { TimeSequenceComponent } from "@jee-common/widgets/exam-eval-display/time-sequence/time-sequence.component";
-import { JeeBaseService } from "@jee-common/services/jee-base.service";
 import { NgClass, NgIf } from "@angular/common";
 
 @Component({

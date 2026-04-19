@@ -2,7 +2,7 @@ import { Component, inject, Input, output } from '@angular/core';
 import {
   ExamAttemptSO,
   ExamQuestionAttemptSO,
-  ExamSectionAttemptSO,
+  ExamSectionAttemptSO, LapName,
 } from "@jee-common/util/exam-data-types";
 import { NgClass, NgStyle } from "@angular/common";
 import { DurationPipe } from "lib-core";
@@ -69,8 +69,10 @@ export class QuestionEvalComponent {
 
   sectionAttempts: ExamSection[] = [] ;
   selectedAttempt: ExamQuestionAttemptSO | null = null ;
+  selectedLapName: LapName | "ALL" = "ALL" ;
 
   rcMap : Record<string, string> = {} ;
+  lapNames : LapName[] = [] ;
 
   ngOnInit() {
     this.examSvc.loadRootCauses().then( () => {
@@ -80,14 +82,17 @@ export class QuestionEvalComponent {
     } ) ;
   }
 
-  private buildRootCauseMap() {
-    const map: Record<string, string> = {} ;
-    return map ;
-  }
-
   ngOnChanges() {
+    this.sectionAttempts.length = 0 ;
     for( let attempt of this.eval!.sectionAttempts ) {
       this.sectionAttempts.push( new ExamSection( attempt ) );
+    }
+
+    let firstQAttempt = this.sectionAttempts[0].questionAttempts[0] ;
+    for( let lapName of ['L1', 'L2P', 'L2', 'AMR', 'L3P', 'L3.1', 'L3.2' ] as LapName[] ) {
+      if( lapName in firstQAttempt.lapDurations ) {
+        this.lapNames.push( lapName ) ;
+      }
     }
   }
 
@@ -180,7 +185,7 @@ export class QuestionEvalComponent {
     return bgColor ;
   }
 
-  protected getSubmitLapBgColor( lapName: string ) {
+  protected getSubmitLapBgColor( lapName: LapName ) {
     switch( lapName ) {
       case "L1"  : return "rgb(207 207 207 / 0.5)" ;
       case "L2P" : return "rgb(100 180 255 / 0.32)" ;

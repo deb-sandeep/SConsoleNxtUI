@@ -72,3 +72,19 @@ td {
 .submit-lap {
     text-align: center;
 }
+
+.lap-select {
+    padding: 0 2px;
+    margin: 0;
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: bold;
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    text-align: center;
+}

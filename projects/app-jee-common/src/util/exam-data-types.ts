@@ -73,11 +73,12 @@ export interface ExamQuestionAttemptSO {
     evaluationStatus: string;
     answerProvided: string;
     answerSubmitStatus: string;
-    answerSubmitLap: string;
+    answerSubmitLap: LapName;
     score: number;
     loss: number;
     avoidableLoss: number;
     rootCause: string|null;
+    lapDurations: Record<string, number>;
 }
 
 export interface ExamSectionAttemptSO {
