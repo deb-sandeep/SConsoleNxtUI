@@ -133,7 +133,7 @@ export class JeeBaseService {
     return this.LAP_TRANSITIONS[this.currentLap] ;
   }
 
-  saveLapSnapshot() {
+  async saveLapSnapshot() {
 
     let snapshots : {
       examQuestionId: number,
@@ -150,7 +150,7 @@ export class JeeBaseService {
       question.timeSpentInCurrentLap = 0 ;
     }
 
-    this.apiSvc.saveLapSnapshot( this.examAttemptId, this.currentLap, snapshots )
+    await this.apiSvc.saveLapSnapshot( this.examAttemptId, this.currentLap, snapshots )
         .then( ()=> console.log( 'Snapshots inserted' ) ) ;
 
     const nextLapName = this.getNextLapName() ;
@@ -167,7 +167,9 @@ export class JeeBaseService {
 
     this.examSubmitted = true ;
     this.timeLeftInSeconds.set( 0 ) ;
+
     await this.apiSvc.saveTimeSpent( this.activeQuestion ) ;
+    await this.saveLapSnapshot() ;
     await this.eventLogService.logExamSubmitEvent() ;
 
     const res = await this.apiSvc.submitExamAttempt( this.examAttemptId ) ;

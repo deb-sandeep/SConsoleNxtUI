@@ -72,6 +72,18 @@
     --question-eval-height: calc( 100% - var(--section-eval-height) ) ;
 }
 
+.right-pane {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: var(--right-pane-width);
+    height: 100%;
+
+    --time-sequence-height: 70%;
+    --question-display-height: calc( 100% - var(--time-sequence-height) ) ;
+    --question-display-width: 1000px ;
+}
+
 .window {
     --window-margin: 1px;
 
@@ -85,17 +97,6 @@
     overflow-y: auto;
     position: absolute;
     left: 0;
-}
-
-.right-pane {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: var(--right-pane-width);
-    height: 100%;
-
-    --time-sequence-height: 70%;
-    --question-display-height: calc( 100% - var(--time-sequence-height) ) ;
 }
 
 /** ----------- Left pane components ------------------------------- */
@@ -115,7 +116,24 @@
     height: calc( var(--time-sequence-height) - 2*var(--window-margin) ) ;
 }
 
+.lap-summary {
+    bottom: 0;
+    left: 0;
+    height: calc( var(--question-display-height) - 2*var(--window-margin) ) ;
+    width: calc( 100% - var(--question-display-width) - 6*var(--window-margin) ) ;
+    background-color: #ffffff;
+}
+
+.question-display-with-lap-summary {
+    bottom: 0;
+    left: calc( 100% - 1000px - 4*var(--window-margin) ) ;
+    height: calc( var(--question-display-height) - 2*var(--window-margin) ) ;
+    width: var(--question-display-width);
+    padding: 0;
+}
+
 .question-display {
     bottom: 0;
     height: calc( var(--question-display-height) - 2*var(--window-margin) ) ;
+    padding: 0;
 }

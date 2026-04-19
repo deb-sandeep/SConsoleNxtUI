@@ -1,8 +1,8 @@
 @import "../exam-eval.common.css";
 
 .card {
-    box-shadow:  5px 5px 10px rgba(2, 0, 0, 0.4);
     --bs-card-border-color: #b5b5b5;
+    border-radius: 0;
 }
 
 .card-header {
@@ -23,7 +23,7 @@
 
 .question-card {
     width: 100% ;
-    margin-bottom: 20px;
+    margin-bottom: 0;
     margin-right: 10px;
 }
 

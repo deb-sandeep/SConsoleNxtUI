@@ -7,6 +7,7 @@ import {
 } from "@jee-common/widgets/exam-eval-display/question-display/question-display.component";
 import { TimeSequenceComponent } from "@jee-common/widgets/exam-eval-display/time-sequence/time-sequence.component";
 import { JeeBaseService } from "@jee-common/services/jee-base.service";
+import { NgClass, NgIf } from "@angular/common";
 
 @Component({
   selector: 'exam-eval-display',
@@ -14,7 +15,9 @@ import { JeeBaseService } from "@jee-common/services/jee-base.service";
     SectionEvalComponent,
     QuestionEvalComponent,
     QuestionDisplayComponent,
-    TimeSequenceComponent
+    TimeSequenceComponent,
+    NgIf,
+    NgClass
   ],
   templateUrl: './exam-eval-display.component.html',
   styleUrl: './exam-eval-display.component.css'
@@ -23,6 +26,9 @@ export class ExamEvalDisplayComponent {
 
   @Input()
   eval: ExamAttemptSO | null = null ;
+
+  @Input()
+  displayLapSummary : boolean = true ;
 
   onClose = output() ;
 
