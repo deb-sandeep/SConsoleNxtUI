@@ -73,8 +73,8 @@ export class TimeSequenceRenderer {
             }
         },
         trackConfig : {
-            topMargin: 2,
-            bottomMargin: 2,
+            topMargin: 1,
+            bottomMargin: 1,
         },
         headerConfig : {
             lapHdrHeight : 20,
@@ -403,7 +403,7 @@ export class TimeSequenceRenderer {
     }
 
     public zoomIn() {
-        if( this.scale <= 2.8 ) {
+        if( this.scale <= 9.8 ) {
             this.scale += 0.2 ;
             this.resizeCanvases() ;
         }

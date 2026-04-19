@@ -211,9 +211,9 @@ export class QuestionTrackRenderer {
         g.fillStyle = this.config.timelineConfig.activationColor ;
         g.fillRect(
           this.timelineBounds.x + startX,
-          this.timelineBounds.y + 2,
+          this.timelineBounds.y + 1,
           endX - startX,
-          this.timelineBounds.height - 4
+          this.timelineBounds.height - 2
         ) ;
         g.restore() ;
     }
@@ -275,7 +275,7 @@ export class QuestionTrackRenderer {
         const g = this.contentArea.g ;
         const minuteWidth = this.config.units.minuteWidth ;
         const centerY = this.timelineBounds.y + ( this.timelineBounds.height / 2 ) ;
-        const size = this.ANS_ACTION_ICON_SIZE ;
+        const size = Math.min( this.ANS_ACTION_ICON_SIZE, this.timelineBounds.height-1 ) ;
 
         for( let action of this.ansActions ) {
             const x = minuteWidth * ( action.timeMarker / 60000 ) ;
