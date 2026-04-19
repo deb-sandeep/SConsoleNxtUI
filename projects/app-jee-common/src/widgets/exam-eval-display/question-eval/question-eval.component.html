@@ -7,7 +7,7 @@
     <th style="width:35px; text-align: center;">A</th>
     <th style="width:40px; text-align: center;">
       <select class="form-select form-select-sm lap-select"
-              [(ngModel)]="selectedLapName">
+              [(ngModel)]="selectedAnsSubmitLap">
         <option value="ALL">ALL</option>
         @for (lap of lapNames; track lap) {
           <option [value]="lap">{{lap}}</option>
@@ -16,7 +16,15 @@
     </th>
     <th style="width:25px; text-align: right;">S</th>
     <th style="width:25px; text-align: right;">AL</th>
-    <th style="width: 40px;text-align: center;">Time</th>
+    <th style="width: 40px;text-align: center;">
+      <select class="form-select form-select-sm lap-select"
+              [(ngModel)]="selectedActivityLap">
+        <option value="ALL">ALL</option>
+        @for (lap of lapNames; track lap) {
+          <option [value]="lap">{{lap}}</option>
+        }
+      </select>
+    </th>
     <th style="width:25px;text-align: center;"></th>
     <th style="text-align: center;">RC</th>
   </tr>
@@ -69,7 +77,7 @@
                 </td>
                 <td class="time-taken"
                     [style.color]="getTimeTakenColor( qAttempt )">
-                  {{qAttempt.timeSpent*1000 | duration}}
+                  {{getDisplayTimeSecs( qAttempt )*1000 | duration}}
                 </td>
                 <td class="rating">
                   @let rating = q.question.rating ;

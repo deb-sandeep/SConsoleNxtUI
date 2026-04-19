@@ -69,7 +69,8 @@ export class QuestionEvalComponent {
 
   sectionAttempts: ExamSection[] = [] ;
   selectedAttempt: ExamQuestionAttemptSO | null = null ;
-  selectedLapName: LapName | "ALL" = "ALL" ;
+  selectedActivityLap: LapName | "ALL" = "ALL" ;
+  selectedAnsSubmitLap: LapName | "ALL"  = "ALL" ;
 
   rcMap : Record<string, string> = {} ;
   lapNames : LapName[] = [] ;
@@ -103,7 +104,7 @@ export class QuestionEvalComponent {
         return "#bcffbf" ;
       }
       else if( qAttempt.evaluationStatus == "INCORRECT" ) {
-        return "#ffabb7" ;
+        return "#ff687a" ;
       }
       else if( qAttempt.evaluationStatus == "PARTIAL" ) {
         return "#fdd7a4" ;
@@ -128,8 +129,13 @@ export class QuestionEvalComponent {
     return "#a3a3a3" ;
   }
 
+  protected getDisplayTimeSecs( qAttempt: ExamQuestionAttemptSO ) {
+    if( this.selectedActivityLap === "ALL" ) return qAttempt.timeSpent ;
+    return qAttempt.lapDurations[ this.selectedActivityLap ] ?? 0 ;
+  }
+
   protected getTimeTakenColor( qAttempt: ExamQuestionAttemptSO ) {
-    if( qAttempt.timeSpent > 4*60 ) {
+    if( this.getDisplayTimeSecs( qAttempt ) > 4*60 ) {
       return "#8e0707" ;
     }
     return "#065506" ;
@@ -186,8 +192,13 @@ export class QuestionEvalComponent {
   }
 
   protected isVisible( qAttempt: ExamQuestionAttemptSO ) {
-    if( this.selectedLapName === "ALL" ) return true ;
-    return (qAttempt.lapDurations[ this.selectedLapName ] ?? 0) > 0 ;
+    if( this.selectedAnsSubmitLap !== "ALL" &&
+        qAttempt.answerSubmitLap !== this.selectedAnsSubmitLap ) return false ;
+
+    if( this.selectedActivityLap !== "ALL" &&
+        (qAttempt.lapDurations[ this.selectedActivityLap ] ?? 0) <= 1 ) return false ;
+
+    return true ;
   }
 
   protected hasSectionVisibleAttempts( section: ExamSection ) {

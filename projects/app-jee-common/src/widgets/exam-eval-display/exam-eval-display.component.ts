@@ -27,7 +27,7 @@ export class ExamEvalDisplayComponent {
   eval: ExamAttemptSO | null = null ;
 
   @Input()
-  displayLapSummary : boolean = true ;
+  displayLapSummary : boolean = false ;
 
   onClose = output() ;
 
