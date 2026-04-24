@@ -7,6 +7,10 @@
       {{ sectionCfg()!.numQuestions }} ]
       &nbsp;
       <span [ngClass]="getSectionCompletionClass()" ></span>
+      <div class="question-filter">
+        <input type="text" class="question-filter-input"
+               [(ngModel)]="questionFilterText">
+      </div>
       <div class="tool-btns">
         <span class="tool-btn bi-shuffle"
               (click)="shuffleSelectedQuestions()"></span>
@@ -17,12 +21,14 @@
     <div class="available-questions">
       @for (q of editSvc.selTopicQuestions[sectionCfg()!.problemType]; track q.id) {
         @if( !questionAssigned( q ) ) {
-          <div class="question-list-item"
-               (dblclick)="selectQuestion( $index )"
-               (mouseenter)="showQuestionInView( q )"
-               (mouseleave)="removeQuestionFromView()">
-            {{ q.questionId.replace('://', ' - ') }}
-          </div>
+          @if( !questionFiltered( q ) ) {
+            <div class="question-list-item"
+                 (dblclick)="selectQuestion( $index )"
+                 (mouseenter)="showQuestionInView( q )"
+                 (mouseleave)="removeQuestionFromView()">
+              {{ q.questionId.replace('://', ' - ') }}
+            </div>
+          }
         }
       }
     </div>

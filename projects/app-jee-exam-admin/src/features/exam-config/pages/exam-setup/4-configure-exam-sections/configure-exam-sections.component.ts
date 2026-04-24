@@ -68,6 +68,11 @@ export class ConfigureExamSectionsComponent {
     if( this.templateMap[ section.problemType ].allQuestionsCompulsory ) {
       section.numCompulsoryQuestions = section.numQuestions ;
     }
+    else {
+      if( section.numCompulsoryQuestions > section.numQuestions ) {
+        section.numCompulsoryQuestions = section.numQuestions ;
+      }
+    }
   }
 
   protected getTotalQuestions() {

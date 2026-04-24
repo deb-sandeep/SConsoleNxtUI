@@ -3,10 +3,11 @@ import { ExamSectionSO, QuestionSO } from "@jee-common/util/exam-data-types";
 import { ExamEditService } from "../../exam-edit.service";
 import { DndDraggableDirective, DndDropEvent, DndDropzoneDirective } from "ngx-drag-drop";
 import { NgClass } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: 'div[questionSelector]',
-  imports: [ DndDraggableDirective, DndDropzoneDirective, NgClass ],
+  imports: [ DndDraggableDirective, DndDropzoneDirective, NgClass, FormsModule ],
   templateUrl: './question-selector.component.html',
   styleUrl: './question-selector.component.css'
 })
@@ -18,6 +19,8 @@ export class QuestionSelectorComponent {
 
   showQuestion = output<QuestionSO>() ;
   hideQuestion = output<void>() ;
+
+  questionFilterText:string = "" ;
   
   protected selectQuestion( index: number ) {
 
@@ -128,5 +131,13 @@ export class QuestionSelectorComponent {
       const topicB = b.question.topicName || '';
       return topicA.localeCompare( topicB );
     } );
+  }
+
+  protected questionFiltered( q: QuestionSO ) {
+    if( this.questionFilterText.trim() !== "" ) {
+      return !q.questionId.startsWith( this.questionFilterText );
+
+    }
+    return false;
   }
 }
