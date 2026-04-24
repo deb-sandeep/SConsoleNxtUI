@@ -30,10 +30,10 @@ import { featureRoutes } from "./routes" ;
 class AppComponent {
     title: string = 'JEE Preparation > Test Administration' ;
     menubarMeta : FeatureMenuItemMeta[] = [
-        { routePath:'/question-repo', iconName:'database-gear', selected:true },
+        { routePath:'/question-repo', iconName:'database-gear', selected:false },
         { routePath:'/question-browser', iconName:'browser-chrome', selected:false },
         { routePath:'/exam-config', iconName:'gear-wide-connected', selected:false },
-        { routePath:'/exam-analysis', iconName:'clipboard-data', selected:false },
+        { routePath:'/exam-analysis', iconName:'clipboard-data', selected:true },
     ] ;
 
     constructor( alertConfig:NgbAlertConfig ) {

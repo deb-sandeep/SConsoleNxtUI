@@ -21,7 +21,7 @@ import { EventLogService } from "@jee-common/services/event-log.service";
 export const featureRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'question-repo',
+        redirectTo: 'exam-analysis',
         pathMatch: 'full'
     },
     {
