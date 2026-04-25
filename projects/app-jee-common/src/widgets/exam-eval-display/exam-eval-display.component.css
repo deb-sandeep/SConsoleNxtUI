@@ -31,7 +31,7 @@
     height: calc( 100% - var(--page-header-height) ) ;
     background-color: #dddddd;
 
-    --left-pane-width: 500px;
+    --left-pane-width: 425px;
     --right-pane-width: calc( 100% - var(--left-pane-width) ) ;
 }
 

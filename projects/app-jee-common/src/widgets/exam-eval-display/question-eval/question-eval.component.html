@@ -1,10 +1,10 @@
 <table class="table table-condensed table-sm question-eval-table">
   <thead>
   <tr>
-    <th style="width:20px;">#</th>
-    <th style="width:130px;">ID</th>
-    <th style="width:35px;"></th>
-    <th style="width:35px; text-align: center;">A</th>
+    <th style="width:20px;"></th>
+    <th style="width:30px;"></th>
+    <th style="width:40px;"></th>
+    <th style="width:40px; text-align: center;">A</th>
     <th style="width:40px; text-align: center;">
       <select class="form-select form-select-sm lap-select"
               [(ngModel)]="selectedAnsSubmitLap">
@@ -53,7 +53,7 @@
                   [class.selected]=" qAttempt == selectedAttempt">
                 <td>{{q.sequence}}</td>
                 <td class="q-id">
-                  {{q.question.questionId.replace( '://', ' : ')}}
+                  {{q.question.problemType}}
                 </td>
                 <td class="ref-answer">
                   {{q.question.answer}}
