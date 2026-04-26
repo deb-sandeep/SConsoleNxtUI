@@ -4,7 +4,11 @@
     <th style="width:20px;"></th>
     <th style="width:30px;"></th>
     <th style="width:40px;"></th>
-    <th style="width:40px; text-align: center;">A</th>
+    <th style="width:40px; text-align: center;"
+        [ngStyle]="showOnlyEmptyAnswers ? {'color':'red'} : {}"
+        (click)="showOnlyEmptyAnswers = !showOnlyEmptyAnswers">
+      A
+    </th>
     <th style="width:40px; text-align: center;">
       <select class="form-select form-select-sm lap-select"
               [(ngModel)]="selectedAnsSubmitLap">
@@ -25,8 +29,16 @@
         }
       </select>
     </th>
-    <th style="width:25px;text-align: center;"></th>
-    <th style="text-align: center;">RC</th>
+    <th style="width:25px;text-align: center;"
+        [ngStyle]="showOnlyStarredQuestions ? {'color':'red'} : {'color':'grey'}"
+        (click)="showOnlyStarredQuestions = !showOnlyStarredQuestions">
+      <span class="bi-star-fill"></span>
+    </th>
+    <th style="text-align: center;"
+        [ngStyle]="showOnlyMissedQuestions ? {'color':'red'} : {}"
+        (click)="showOnlyMissedQuestions = !showOnlyMissedQuestions">
+      RC
+    </th>
   </tr>
   </thead>
   <tbody>
@@ -53,7 +65,7 @@
                   [class.selected]=" qAttempt == selectedAttempt">
                 <td>{{q.sequence}}</td>
                 <td class="q-id">
-                  {{q.question.problemType}}
+                  &nbsp;{{q.question.problemType}}
                 </td>
                 <td class="ref-answer">
                   {{q.question.answer}}
@@ -68,12 +80,13 @@
                 </td>
                 <td class="numeric score"
                     [ngStyle]="getScoreBoundaryStyle( qAttempt )"
-                    [style.color]="getScoreColor( qAttempt )">
+                    [style.color]="getScoreColor( qAttempt )"
+                    style="padding-right: 2px;">
                   {{qAttempt.score}}
                 </td>
                 <td class="numeric avoidable-loss"
                     [style.color]="getAvoidableLossColor( qAttempt )">
-                  {{qAttempt.avoidableLoss}}
+                  {{qAttempt.avoidableLoss}}&nbsp;
                 </td>
                 <td class="time-taken"
                     [style.color]="getTimeTakenColor( qAttempt )">

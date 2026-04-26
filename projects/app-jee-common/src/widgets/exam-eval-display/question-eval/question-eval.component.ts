@@ -71,6 +71,9 @@ export class QuestionEvalComponent {
   selectedAttempt: ExamQuestionAttemptSO | null = null ;
   selectedActivityLap: LapName | "ALL" = "ALL" ;
   selectedAnsSubmitLap: LapName | "ALL"  = "ALL" ;
+  showOnlyMissedQuestions: boolean = false ;
+  showOnlyEmptyAnswers: boolean = false ;
+  showOnlyStarredQuestions: boolean = false ;
 
   rcMap : Record<string, string> = {} ;
   lapNames : LapName[] = [] ;
@@ -192,6 +195,16 @@ export class QuestionEvalComponent {
   }
 
   protected isVisible( qAttempt: ExamQuestionAttemptSO ) {
+
+    if( this.showOnlyMissedQuestions &&
+        qAttempt.evaluationStatus === 'CORRECT' ) return false ;
+
+    if( this.showOnlyEmptyAnswers &&
+        qAttempt.evaluationStatus !== 'UNANSWERED' ) return false ;
+
+    if( this.showOnlyStarredQuestions &&
+        qAttempt.examQuestion.question.rating === 0 ) return false ;
+
     if( this.selectedAnsSubmitLap !== "ALL" &&
         qAttempt.answerSubmitLap !== this.selectedAnsSubmitLap ) return false ;
 
