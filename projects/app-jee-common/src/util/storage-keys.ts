@@ -16,4 +16,8 @@ export class StorageKey {
   // Used to present the last exercise done in an expanded state during
   // problem selection
   static readonly LAST_EXERCISE_POINTERS = "lastExercisePointers" ;
+
+  // Stores Record<string, number[]> -> subjectName to selected topic ids,
+  // used by the exam-setup wizard to pre-select the last chosen topics.
+  static readonly LAST_SELECTED_EXAM_TOPICS = "lastSelectedExamTopics" ;
 }
