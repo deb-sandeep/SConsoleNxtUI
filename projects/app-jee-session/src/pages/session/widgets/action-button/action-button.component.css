@@ -20,3 +20,23 @@
     transform: translateY(-50%);
     font-size: 25px;
 }
+
+.action-btn.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.action-btn-spinner {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    border: 4px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: action-btn-spin 0.75s linear infinite;
+}
+
+@keyframes action-btn-spin {
+    to { transform: rotate(360deg); }
+}

@@ -5,10 +5,17 @@ import { Component, input } from '@angular/core';
   imports: [],
   template: `
     <div class="action-btn"
+         [class.disabled]="disabled()"
+         [class.busy]="busy()"
          [style.color]="color()"
          [style.background-color]="bgColor()">
       <div class="btn-txt">
-        <ng-content></ng-content>
+        @if( busy() ) {
+          <div class="action-btn-spinner"></div>
+        } 
+        @else {
+          <ng-content></ng-content>
+        }
       </div>
     </div>
   `,
@@ -18,4 +25,6 @@ export class ActionButtonComponent {
 
   color = input<string>('#8f8f8f');
   bgColor = input<string>('#535353') ;
+  disabled = input<boolean>(false) ;
+  busy = input<boolean>(false) ;
 }

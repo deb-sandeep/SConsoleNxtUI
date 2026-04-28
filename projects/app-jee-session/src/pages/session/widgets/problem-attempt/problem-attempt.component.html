@@ -50,7 +50,9 @@
   <div class="action-btn-panel">
     @if( isValidAction( 'Correct' ) ) {
       <action-btn (click)="endProblemAttempt( 'Correct' )"
-                  bgColor="#002200">
+                  bgColor="#002200"
+                  [disabled]="busyAction() !== null"
+                  [busy]="busyAction() === 'Correct'">
         <span class="bi-check-lg" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 20px;display: inline-block"></div>
@@ -58,7 +60,9 @@
 
     @if( isValidAction( 'Pigeon Explained' ) ) {
       <action-btn (click)="endProblemAttempt( 'Pigeon Explained' )"
-                  bgColor="#002200">
+                  bgColor="#002200"
+                  [disabled]="busyAction() !== null"
+                  [busy]="busyAction() === 'Pigeon Explained'">
         <span class="bi-check2-square" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 20px;display: inline-block"></div>
@@ -66,7 +70,9 @@
 
     @if( isValidAction( 'Redo' ) && !isPigeonFavoredOverRedo() ) {
       <action-btn (click)="endProblemAttempt( 'Redo' )"
-                  bgColor="#3d0932">
+                  bgColor="#3d0932"
+                  [disabled]="busyAction() !== null"
+                  [busy]="busyAction() === 'Redo'">
         <span class="bi-arrow-clockwise" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 20px;display: inline-block"></div>
@@ -74,7 +80,9 @@
 
     @if( isValidAction( 'Incorrect' ) ) {
       <action-btn (click)="endProblemAttempt( 'Incorrect' )"
-                  bgColor="#341101">
+                  bgColor="#341101"
+                  [disabled]="busyAction() !== null"
+                  [busy]="busyAction() === 'Incorrect'">
         <span class="bi-x-lg" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 20px;display: inline-block"></div>
@@ -82,7 +90,9 @@
 
     @if( isValidAction( 'Pigeon' ) ) {
       <action-btn (click)="endProblemAttempt( 'Pigeon' )"
-                  bgColor="#091627">
+                  bgColor="#091627"
+                  [disabled]="busyAction() !== null"
+                  [busy]="busyAction() === 'Pigeon'">
         <span class="bi-twitter" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 20px;display: inline-block"></div>
@@ -90,7 +100,9 @@
 
     @if( isValidAction( 'Reassign' ) ) {
       <action-btn (click)="endProblemAttempt( 'Reassign' )"
-                  bgColor="#3d253b">
+                  bgColor="#3d253b"
+                  [disabled]="busyAction() !== null"
+                  [busy]="busyAction() === 'Reassign'">
         <span class="bi-signpost-split" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 20px;display: inline-block"></div>
@@ -98,7 +110,9 @@
 
     @if( isValidAction( 'Purge' ) ) {
       <action-btn (click)="endProblemAttempt( 'Purge' )"
-                  bgColor="#1d1c0a">
+                  bgColor="#1d1c0a"
+                  [disabled]="busyAction() !== null"
+                  [busy]="busyAction() === 'Purge'">
         <span class="bi-box-arrow-up-right" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 20px;display: inline-block"></div>
@@ -106,7 +120,9 @@
 
     @if( isValidAction( 'Later' ) ) {
       <action-btn (click)="endProblemAttempt( 'Later' )"
-                  bgColor="#353535">
+                  bgColor="#353535"
+                  [disabled]="busyAction() !== null"
+                  [busy]="busyAction() === 'Later'">
         <span class="bi-arrow-right" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 20px;display: inline-block"></div>
@@ -114,7 +130,9 @@
 
     @if( isValidAction( 'Park Pigeon' ) ) {
       <action-btn (click)="endProblemAttempt( 'Pigeon' )"
-                  bgColor="#091627">
+                  bgColor="#091627"
+                  [disabled]="busyAction() !== null"
+                  [busy]="busyAction() === 'Pigeon'">
         <span class="bi-box-arrow-right" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 20px;display: inline-block"></div>
