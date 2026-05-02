@@ -36,11 +36,14 @@
           Score
           <col-sorter [sortDir]="sortDirMap['score']"></col-sorter>
         </th>
-        <th style="width:70px;" (click)="sortByColumn( 'loss' )">
+        <th style="width:60px;">
+          Pot
+        </th>
+        <th style="width:65px;" (click)="sortByColumn( 'loss' )">
           Loss
           <col-sorter [sortDir]="sortDirMap['loss']"></col-sorter>
         </th>
-        <th style="width:75px;" (click)="sortByColumn( 'avoidableLoss' )">
+        <th style="width:55px;" (click)="sortByColumn( 'avoidableLoss' )">
           AL
           <col-sorter [sortDir]="sortDirMap['avoidableLoss']"></col-sorter>
         </th>
@@ -48,10 +51,12 @@
           AL%
           <col-sorter [sortDir]="sortDirMap['avoidableLossPct']"></col-sorter>
         </th>
+        <th style="width:75px;">
+          Gap%
+        </th>
         <th style="width:30px;"></th>
-        <th (click)="sortByColumn( 'note' )">
+        <th>
           Note
-          <col-sorter [sortDir]="sortDirMap['note']"></col-sorter>
         </th>
       </tr>
     </thead>
@@ -67,9 +72,11 @@
           <td class="number-cell">{{attempt.exam.numMathQuestions}}</td>
           <td class="number-cell">{{attempt.exam.totalMarks}}</td>
           <td class="number-cell">{{attempt.score}}</td>
+          <td class="number-cell">{{(attempt.score + attempt.avoidableLoss)}}</td>
           <td class="number-cell">{{attempt.loss}}</td>
           <td class="number-cell">{{attempt.avoidableLoss}}</td>
           <td class="number-cell">{{attempt.avoidableLossPct | number : '2.1-1'}} %</td>
+          <td class="number-cell">{{getLossGapPct( attempt ) | number : '2.1-1'}} %</td>
           <td class="btn-cell">
             <span class="bi-pencil-square btn-icon"
                   style="color: blue;"

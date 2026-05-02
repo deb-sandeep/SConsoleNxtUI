@@ -37,17 +37,18 @@ export class ExamAttemptListComponent {
     'numPhyQ' : 0,
     'numChemQ' : 0,
     'numMathQ' : 0,
-    'score' : 0,
     'totalMarks' : 0,
+    'score' : 0,
+    'loss' : 0,
+    'avoidableLoss' : 0,
     'avoidableLossPct' : 0,
-    'note' : 0,
   };
 
   ngOnInit() {
     this.apiSvc.getListOfExamAttempts().then((attemptList) => {
       this.attemptList = attemptList ;
     }) ;
-    this.examSvc.loadRootCauses() ;
+    this.examSvc.loadRootCauses().then() ;
   }
 
   sortByColumn( columnName: string ) {
@@ -76,5 +77,11 @@ export class ExamAttemptListComponent {
 
   protected analyzeAttempt( attempt: ExamAttemptSO ) {
     this.router.navigate( [ '../analysis-screen', attempt.id ], {relativeTo: this.route} ).then() ;
+  }
+
+  protected getLossGapPct( attempt: ExamAttemptSO ) {
+    const potentialScore = attempt.score + attempt.avoidableLoss ;
+    const gap = potentialScore - attempt.score ;
+    return (gap / potentialScore)*100 ;
   }
 }
