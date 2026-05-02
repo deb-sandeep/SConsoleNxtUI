@@ -5,8 +5,6 @@ import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
 import { FormsModule } from "@angular/forms";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { JeeBaseService } from "@jee-common/services/jee-base.service";
-import { DurationPipe } from "lib-core";
-import { KeyValuePipe } from "@angular/common";
 import {
   AttemptSummaryComponent
 } from "@jee-common/widgets/exam-eval-display/question-display/attempt-summary/attempt-summary.component";
@@ -17,8 +15,6 @@ import {
   imports: [
     NgbRating,
     FormsModule,
-    DurationPipe,
-    KeyValuePipe,
     AttemptSummaryComponent
   ],
   styleUrl: './question-display.component.css'

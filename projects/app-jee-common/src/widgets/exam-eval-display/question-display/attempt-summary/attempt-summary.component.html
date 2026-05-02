@@ -8,47 +8,16 @@
     <span class="hdr">Dur</span> :
     <span class="duration">{{questionAttempt.timeSpent*1000 | duration}}</span>
   </th>
-  <th>
-    <span class="hdr">L1</span> :
-    <span class="duration" [class.zero-duration]="(questionAttempt.lapDurations['L1'] ?? 0) === 0">
-            {{ (questionAttempt.lapDurations['L1'] ?? 0)*1000 | duration}}
-          </span>
-  </th>
-  <th>
-    <span class="hdr">L2P</span> :
-    <span class="duration" [class.zero-duration]="(questionAttempt.lapDurations['L2P'] ?? 0) === 0">
-            {{ (questionAttempt.lapDurations['L2P'] ?? 0)*1000 | duration}}
-          </span>
-  </th>
-  <th>
-    <span class="hdr">L2</span> :
-    <span class="duration" [class.zero-duration]="(questionAttempt.lapDurations['L2'] ?? 0) === 0">
-            {{ (questionAttempt.lapDurations['L2'] ?? 0)*1000 | duration}}
-          </span>
-  </th>
-  <th>
-    <span class="hdr">AMR</span> :
-    <span class="duration" [class.zero-duration]="(questionAttempt.lapDurations['AMR'] ?? 0) === 0">
-            {{ (questionAttempt.lapDurations['AMR'] ?? 0)*1000 | duration}}
-          </span>
-  </th>
-  <th>
-    <span class="hdr">L3P</span> :
-    <span class="duration" [class.zero-duration]="(questionAttempt.lapDurations['L3P'] ?? 0) === 0">
-            {{ (questionAttempt.lapDurations['L3P'] ?? 0)*1000 | duration}}
-          </span>
-  </th>
-  <th>
-    <span class="hdr">L3.1</span> :
-    <span class="duration" [class.zero-duration]="(questionAttempt.lapDurations['L3.1'] ?? 0) === 0">
-            {{ (questionAttempt.lapDurations['L3.1'] ?? 0)*1000 | duration}}
-          </span>
-  </th>
-  <th>
-    <span class="hdr">L3.2</span> :
-    <span class="duration" [class.zero-duration]="(questionAttempt.lapDurations['L3.2'] ?? 0) === 0">
-            {{ (questionAttempt.lapDurations['L3.2'] ?? 0)*1000 | duration}}
-          </span>
-  </th>
+
+  @for( lapName of ["L1", "L2P", "L2", "AMR", "L3P", "L3.1", "L3.2"]; track $index ) {
+    @if( questionAttempt.lapDurations[lapName] ) {
+      <th>
+        <span class="hdr">{{lapName}}</span> :
+        <span class="duration" [class.zero-duration]="questionAttempt.lapDurations[lapName] === 0">
+          {{ questionAttempt.lapDurations[lapName]*1000 | duration}}
+        </span>
+      </th>
+    }
+  }
   </thead>
 </table>
