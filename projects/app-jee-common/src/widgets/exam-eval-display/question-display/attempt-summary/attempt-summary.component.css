@@ -1,0 +1,21 @@
+.attempt-summary-table {
+    display: inline-block;
+}
+
+.attempt-summary-table th {
+    padding-right: 15px;
+}
+
+.duration {
+    font-family: "Courier", Courier, monospace;
+}
+
+.zero-duration {
+    color: grey;
+    font-weight: normal;
+}
+
+.hdr {
+    color: blue;
+    font-weight: normal;
+}

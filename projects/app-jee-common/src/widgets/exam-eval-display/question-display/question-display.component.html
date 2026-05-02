@@ -38,7 +38,10 @@
       }
     </div>
     <div class="card-footer">
-      Answer : <span class="answer">{{q.answer}}</span>
+      <attempt-summary [answer]="q.answer"
+                       [questionAttempt]="questionAttempt">
+      </attempt-summary>
+
       @if( isEligibleForMarkOverride() ) {
         <div class="marks-override-panel">
           <input class="mark-override-input"
@@ -96,7 +99,10 @@
         }
       </div>
       <div class="card-footer">
-        Answer : <span class="answer">{{q.answer}}</span>
+        <attempt-summary [answer]="q.answer"
+                         [questionAttempt]="questionAttempt">
+        </attempt-summary>
+
         @if( isEligibleForMarkOverride() ) {
           <div class="marks-override-panel">
             <input class="mark-override-input"
