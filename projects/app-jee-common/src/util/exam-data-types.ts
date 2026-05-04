@@ -65,6 +65,13 @@ export interface ExamSO {
     topics: Record<string, TopicSO[]> ;
 }
 
+export interface ExamQuestionAttemptLapAnalysisSO {
+    lapName: string;
+    score: number;
+    note: string;
+    observations: string[];
+}
+
 export interface ExamQuestionAttemptSO {
     id: number;
     examQuestion: ExamQuestionSO;
@@ -78,7 +85,9 @@ export interface ExamQuestionAttemptSO {
     loss: number;
     avoidableLoss: number;
     rootCause: string|null;
+    execScore: number;
     lapDurations: Record<string, number>;
+    lapAnalysis: Record<string, ExamQuestionAttemptLapAnalysisSO>;
 }
 
 export interface ExamSectionAttemptSO {
