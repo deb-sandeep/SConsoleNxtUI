@@ -7,6 +7,9 @@ import {
 } from "@jee-common/widgets/exam-eval-display/question-display/question-display.component";
 import { TimeSequenceComponent } from "@jee-common/widgets/exam-eval-display/time-sequence/time-sequence.component";
 import { NgClass, NgIf } from "@angular/common";
+import {
+  AttemptLapAnalysisComponent
+} from "@jee-common/widgets/exam-eval-display/attempt-lap-analysis/attempt-lap-analysis.component";
 
 @Component({
   selector: 'exam-eval-display',
@@ -16,7 +19,8 @@ import { NgClass, NgIf } from "@angular/common";
     QuestionDisplayComponent,
     TimeSequenceComponent,
     NgIf,
-    NgClass
+    NgClass,
+    AttemptLapAnalysisComponent
   ],
   templateUrl: './exam-eval-display.component.html',
   styleUrl: './exam-eval-display.component.css'
@@ -27,7 +31,7 @@ export class ExamEvalDisplayComponent {
   eval: ExamAttemptSO | null = null ;
 
   @Input()
-  displayLapSummary : boolean = false ;
+  displayQAttemptLapAnalysis : boolean = false ;
 
   onClose = output() ;
 
@@ -40,12 +44,17 @@ export class ExamEvalDisplayComponent {
   @ViewChild( TimeSequenceComponent )
   timeSequenceComponent: TimeSequenceComponent ;
 
+  @ViewChild( AttemptLapAnalysisComponent )
+  attemptLapAnalysisComponent : AttemptLapAnalysisComponent ;
+
   protected attemptSelectedInQuestionEvalPanel( $event: ExamQuestionAttemptSO ) {
+    this.attemptLapAnalysisComponent.setQuestionAttempt( $event ) ;
     this.questionDisplay.setQuestionAttempt( $event ) ;
     this.timeSequenceComponent.selectQuestionAttempt( $event ) ;
   }
 
   protected attemptSelectedInTimeSequencePanel( $event: ExamQuestionAttemptSO ) {
+    this.attemptLapAnalysisComponent.setQuestionAttempt( $event ) ;
     this.questionDisplay.setQuestionAttempt( $event ) ;
     this.questionEvalComponent.selectQuestionAttempt( $event ) ;
   }

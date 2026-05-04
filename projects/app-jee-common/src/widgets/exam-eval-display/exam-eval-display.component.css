@@ -116,7 +116,7 @@
     height: calc( var(--time-sequence-height) - 2*var(--window-margin) ) ;
 }
 
-.lap-summary {
+.qattempt-lap-analysis {
     bottom: 0;
     left: 0;
     height: calc( var(--question-display-height) - 2*var(--window-margin) ) ;
@@ -124,7 +124,7 @@
     background-color: #ffffff;
 }
 
-.question-display-with-lap-summary {
+.question-display-with-lap-analysis {
     bottom: 0;
     left: calc( 100% - 1000px - 4*var(--window-margin) ) ;
     height: calc( var(--question-display-height) - 2*var(--window-margin) ) ;

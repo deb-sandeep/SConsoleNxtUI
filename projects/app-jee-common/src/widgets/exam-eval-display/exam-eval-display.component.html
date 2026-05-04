@@ -28,11 +28,13 @@
              [eval]="eval"
              (questionSelected)="attemptSelectedInTimeSequencePanel( $event )">
         </div>
-        <div *ngIf="displayLapSummary" class="window lap-summary">
+        <div qAttemptLapAnalysis
+             *ngIf="displayQAttemptLapAnalysis"
+             class="window qattempt-lap-analysis">
         </div>
         <div questionDisplay
              class="window"
-             [ngClass]="displayLapSummary ? 'question-display-with-lap-summary' : 'question-display' "
+             [ngClass]="displayQAttemptLapAnalysis ? 'question-display-with-lap-analysis' : 'question-display' "
              [eval]="eval">
         </div>
       </div>

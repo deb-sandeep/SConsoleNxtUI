@@ -12,6 +12,7 @@ import { ExamAttemptSO } from "@jee-common/util/exam-data-types";
   template: `
     <div class="page-body">
       <exam-eval-display [eval]="eval"
+                         [displayQAttemptLapAnalysis]="true"
                          (onClose)="closeResultScreen()">
       </exam-eval-display>
     </div>
