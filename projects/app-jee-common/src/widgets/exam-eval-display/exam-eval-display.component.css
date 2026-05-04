@@ -80,8 +80,8 @@
     height: 100%;
 
     --time-sequence-height: 70%;
+    --attempt-lap-analysis-width: 300px;
     --question-display-height: calc( 100% - var(--time-sequence-height) ) ;
-    --question-display-width: 1000px ;
 }
 
 .window {
@@ -120,15 +120,15 @@
     bottom: 0;
     left: 0;
     height: calc( var(--question-display-height) - 2*var(--window-margin) ) ;
-    width: calc( 100% - var(--question-display-width) - 6*var(--window-margin) ) ;
+    width: var(--attempt-lap-analysis-width) ;
     background-color: #ffffff;
 }
 
 .question-display-with-lap-analysis {
     bottom: 0;
-    left: calc( 100% - 1000px - 4*var(--window-margin) ) ;
+    left: var(--attempt-lap-analysis-width) ;
     height: calc( var(--question-display-height) - 2*var(--window-margin) ) ;
-    width: var(--question-display-width);
+    width: calc( 100% - var(--attempt-lap-analysis-width) - 4*var(--window-margin) )  ;
     padding: 0;
 }
 

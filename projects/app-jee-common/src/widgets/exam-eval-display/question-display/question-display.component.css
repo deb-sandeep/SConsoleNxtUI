@@ -7,8 +7,10 @@
 
 .card-header {
     --bs-card-cap-padding-y: 5px;
+    --bs-card-cap-padding-x: 5px;
     --bs-card-cap-bg: #e3e3e3;
     --bs-card-border-width: 1px;
+    font-size: 12px;
 }
 
 .card-body {
@@ -61,7 +63,7 @@
     float: right;
     text-align: center;
 
-    font-size: 15px;
+    font-size: 12px;
     font-weight: lighter;
     color: #8c8c8c;
 }
@@ -84,7 +86,7 @@
 
 .pop-out {
     display: inline-block;
-    margin-left: 30px;
+    margin-left: 10px;
 }
 
 .fullscreen-background {
