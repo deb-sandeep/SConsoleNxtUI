@@ -44,13 +44,13 @@
       </th>
     </tr>
     <tr>
-      <td class="numeric">{{getVisibleCount()}}</td>
-      <td colspan="5"></td>
-      <td class="numeric">{{getVisibleAttemptsScore()}}</td>
-      <td class="numeric">{{getVisibleAttemptsAvoidableLoss()}}</td>
-      <td class="time-taken" colspan="3" style="text-align: left; padding-left: 5px;">
+      <th class="numeric">{{getVisibleCount()}}</th>
+      <th colspan="5"></th>
+      <th class="numeric">{{getVisibleAttemptsScore()}}</th>
+      <th class="numeric">{{getVisibleAttemptsAvoidableLoss()}}</th>
+      <th class="time-taken" colspan="3" style="text-align: left; padding-left: 5px;">
         {{getVisibleAttemptsTotalTime()*1000 | duration}}
-      </td>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -127,9 +127,9 @@
                 <td class="rating">
                   @let score = qAttempt.execScore ;
                   <span class="bi-star-fill filled"
-                        [class.hard]="score < 3 && score >= 0"
-                        [class.moderate]="score >= 3 && score <= 7"
-                        [class.easy]="score > 7"
+                        [class.bad-exec]="score < 3 && score >= 0"
+                        [class.avg-exec]="score >= 3 && score <= 7"
+                        [class.good-exec]="score > 7"
                   ></span>
                 </td>
               </tr>

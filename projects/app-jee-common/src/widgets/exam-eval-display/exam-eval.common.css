@@ -24,7 +24,7 @@
 }
 
 .filled.easy {
-    color: #ffb889;
+    color: #ffca4c;
 }
 
 .filled.moderate {
@@ -32,5 +32,17 @@
 }
 
 .filled.hard {
+    color: #ff4c0a;
+}
+
+.filled.good-exec {
+    color: #63c100;
+}
+
+.filled.avg-exec {
+    color: #ffa700;
+}
+
+.filled.bad-exec {
     color: #ff4c0a;
 }

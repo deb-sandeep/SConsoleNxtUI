@@ -32,7 +32,6 @@ export class AttemptLapAnalysisComponent {
 
   dirtyLaps = new Set<string>() ;
 
-  // Fetches the master list of observation tags once; shared across all laps and question attempts.
   ngOnInit() {
     this.apiSvc.getQAttemptLapAnalysisObservationList().then( result => {
       this.observationTagsMaster = result ;
@@ -40,7 +39,6 @@ export class AttemptLapAnalysisComponent {
   }
 
   // Called by the parent (exam-eval-display) when the user selects a different question.
-  // Discards all unsaved working copies — intentional; stale edits from the previous question must not bleed through.
   setQuestionAttempt( attempt: ExamQuestionAttemptSO ) {
     this.questionAttempt = attempt ;
     this.workingCopies = {} ;
@@ -52,12 +50,12 @@ export class AttemptLapAnalysisComponent {
     }
   }
 
-  // Lazily initialises the in-memory working copy for a lap on first visit.
+  // Lazily initialises the in-memory working copy for a lap on the first visit.
   // Clones observations[] so edits don't mutate the original lapAnalysis from the server payload.
   private ensureWorkingCopy( lap: LapName ) {
     if( this.workingCopies[ lap ] ) return ;
 
-    const existing = this.questionAttempt?.lapAnalysis?.[ lap ] ;
+    const existing = this.questionAttempt!.lapAnalysis?.[ lap ] ;
     this.workingCopies[ lap ] = existing
       ? { ...existing, observations: [ ...existing.observations ] }
       : { lapName: lap, score: 0, note: '', observations: [] } ;
@@ -91,7 +89,13 @@ export class AttemptLapAnalysisComponent {
 
   // Called when the user clicks a tag in the available pool (F); moves it to the selected chips (E).
   protected addObservation( obs: string ) {
-    this.currentAnalysis?.observations.push( obs ) ;
+    this.currentAnalysis!.observations.push( obs ) ;
+    if( obs === 'PERFECT_EXECUTION' ) {
+      this.currentAnalysis!.score = 10 ;
+    }
+    else {
+      this.currentAnalysis!.score = 2 ;
+    }
     this.markDirty() ;
   }
 
@@ -108,10 +112,20 @@ export class AttemptLapAnalysisComponent {
   }
 
   // Accepts an explicit lap rather than defaulting to activeLap so it can be called for auto-save on tab switch.
-  // TODO: replace stub with this.apiSvc.saveQAttemptLapAnalysis( this.questionAttempt.id, analysis )
+  // Captures questionAttempt before the async call so a mid-flight question change doesn't corrupt state.
   protected saveLap( lap: LapName ) {
     const analysis = this.workingCopies[ lap ] ;
-    if( !analysis || !this.questionAttempt ) return ;
-    this.dirtyLaps.delete( lap ) ;
+    const attempt  = this.questionAttempt ;
+    if( !analysis || !attempt ) return ;
+
+    this.apiSvc.saveQAttemptLapAnalysis( attempt.id, analysis )
+      .then( r => {
+        attempt.execScore          = r.attemptScore ;
+        attempt.lapAnalysis[ lap ] = { ...analysis } ;  // keep lapAnalysis in sync for re-selection without re-fetch
+        this.dirtyLaps.delete( lap ) ;
+      })
+      .catch( () => {
+        alert( `Failed to save lap ${lap}. Please try again.` ) ;
+      }) ;
   }
 }

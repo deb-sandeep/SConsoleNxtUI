@@ -102,9 +102,12 @@ export class ExamApiService extends RemoteService {
   }
 
   saveQAttemptLapAnalysis( questionAttemptId: number, analysis: ExamQuestionAttemptLapAnalysisSO ) {
-    // TODO: confirm URL with backend
     const url:string = `${environment.apiRoot}/Exam/QAttemptLapAnalysis/${questionAttemptId}` ;
-    return this.postPromise<ExamQuestionAttemptLapAnalysisSO>( url, analysis ) ;
+    return this.postPromise<{
+      qAttemptId: number,
+      lapName: string,
+      attemptScore:number,
+    }>( url, analysis ) ;
   }
 
   updateAttemptRootCause( questionAttemptId: number, rootCause: string ) {
