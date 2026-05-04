@@ -9,6 +9,9 @@
       </span>
       <button type="button" class="btn btn-secondary ok-btn"
               (click)="onClose.emit()">Close</button>
+
+      <button type="button" class="btn btn-secondary ok-btn qp-btn"
+              (click)="openQuestionPaper()">Question Paper</button>
     </div>
     <div class="page-body">
       <div class="left-pane">
@@ -39,5 +42,40 @@
         </div>
       </div>
     </div>
+  </div>
+}
+
+@if( showQuestionPaper ) {
+  <div class="qp-overlay">
+
+    <div class="qp-toolbar">
+      <span class="qp-toolbar-title">{{ eval!.exam.type }} — Exam #{{ eval!.exam.id }}</span>
+      <button class="btn btn-sm btn-light" (click)="printPaper()">Print / Save PDF</button>
+      <button class="btn btn-sm btn-secondary" (click)="showQuestionPaper = false">Close</button>
+    </div>
+
+    <div class="qp-paper">
+      <h2 class="qp-title">{{ eval!.exam.type }} — Exam #{{ eval!.exam.id }}</h2>
+
+      @for( section of qpSections ; track section.title ) {
+        <div class="qp-section">
+          <div class="qp-section-header">{{ section.title }}</div>
+
+          @for( q of section.questions ; track q.number ) {
+            <div class="qp-question">
+              <div class="qp-qnum">Q{{ q.number }}.</div>
+              <div class="qp-images">
+                @for( img of q.images ; track img.fileName ) {
+                  <img class="qp-img"
+                       width="800"
+                       [src]="getQPImgURL( q.sourceId, img.fileName )" [alt]="img.fileName" />
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
   </div>
 }

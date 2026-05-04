@@ -1,15 +1,13 @@
 import { Component, Input, output, ViewChild } from '@angular/core';
 import { ExamAttemptSO, ExamQuestionAttemptSO } from "@jee-common/util/exam-data-types";
+import { environment } from "@env/environment";
 import { SectionEvalComponent } from "@jee-common/widgets/exam-eval-display/section-eval/section-eval.component";
 import { QuestionEvalComponent } from "@jee-common/widgets/exam-eval-display/question-eval/question-eval.component";
-import {
-  QuestionDisplayComponent
-} from "@jee-common/widgets/exam-eval-display/question-display/question-display.component";
+import { QuestionDisplayComponent } from "@jee-common/widgets/exam-eval-display/question-display/question-display.component";
 import { TimeSequenceComponent } from "@jee-common/widgets/exam-eval-display/time-sequence/time-sequence.component";
 import { NgClass, NgIf } from "@angular/common";
-import {
-  AttemptLapAnalysisComponent
-} from "@jee-common/widgets/exam-eval-display/attempt-lap-analysis/attempt-lap-analysis.component";
+import { AttemptLapAnalysisComponent } from "@jee-common/widgets/exam-eval-display/attempt-lap-analysis/attempt-lap-analysis.component";
+import { QPSection, buildQPSections, printQuestionPaper } from "./question-paper-print";
 
 @Component({
   selector: 'exam-eval-display',
@@ -27,25 +25,29 @@ import {
 })
 export class ExamEvalDisplayComponent {
 
-  @Input()
-  eval: ExamAttemptSO | null = null ;
-
-  @Input()
-  displayQAttemptLapAnalysis : boolean = false ;
+  @Input()  eval: ExamAttemptSO | null = null ;
+  @Input()  displayQAttemptLapAnalysis: boolean = false ;
 
   onClose = output() ;
 
-  @ViewChild( QuestionDisplayComponent )
-  questionDisplay: QuestionDisplayComponent ;
+  showQuestionPaper = false ;
+  qpSections: QPSection[] = [] ;
 
-  @ViewChild( QuestionEvalComponent )
-  questionEvalComponent: QuestionEvalComponent ;
+  @ViewChild( QuestionDisplayComponent )    questionDisplay: QuestionDisplayComponent ;
+  @ViewChild( QuestionEvalComponent )       questionEvalComponent: QuestionEvalComponent ;
+  @ViewChild( TimeSequenceComponent )       timeSequenceComponent: TimeSequenceComponent ;
+  @ViewChild( AttemptLapAnalysisComponent ) attemptLapAnalysisComponent: AttemptLapAnalysisComponent ;
 
-  @ViewChild( TimeSequenceComponent )
-  timeSequenceComponent: TimeSequenceComponent ;
+  protected openQuestionPaper() {
+    this.qpSections = buildQPSections( this.eval! ) ;
+    this.showQuestionPaper = true ;
+  }
 
-  @ViewChild( AttemptLapAnalysisComponent )
-  attemptLapAnalysisComponent : AttemptLapAnalysisComponent ;
+  protected printPaper() { printQuestionPaper( this.eval! ) ; }
+
+  protected getQPImgURL( sourceId: string, fileName: string ) {
+    return `${ environment.apiRoot }/question-img/${ sourceId }/${ fileName }` ;
+  }
 
   protected attemptSelectedInQuestionEvalPanel( $event: ExamQuestionAttemptSO ) {
     this.attemptLapAnalysisComponent.setQuestionAttempt( $event ) ;
