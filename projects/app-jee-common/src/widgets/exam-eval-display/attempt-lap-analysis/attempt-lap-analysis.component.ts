@@ -89,14 +89,31 @@ export class AttemptLapAnalysisComponent {
 
   // Called when the user clicks a tag in the available pool (F); moves it to the selected chips (E).
   protected addObservation( obs: string ) {
+
     this.currentAnalysis!.observations.push( obs ) ;
+
     if( obs === 'PERFECT_EXECUTION' ) {
       this.currentAnalysis!.score = 10 ;
     }
     else {
       this.currentAnalysis!.score = 2 ;
     }
+
     this.markDirty() ;
+
+    if( obs === 'PERFECT_EXECUTION' ) {
+      const indexOfActiveLap = this.visibleLaps.indexOf( this.activeLap! ) ;
+      const indexOfNextLap = indexOfActiveLap + 1 ;
+      const nextLap = this.visibleLaps[ indexOfNextLap ] ;
+
+      if( nextLap ) {
+        // switchTab auto-saves the dirty current lap before switching
+        this.switchTab( nextLap ) ;
+      }
+      else {
+        this.saveLap( this.activeLap! ) ;
+      }
+    }
   }
 
   // Called when the user clicks × on a selected chip (E); returns the tag to the available pool (F).
