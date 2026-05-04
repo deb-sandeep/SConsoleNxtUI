@@ -6,7 +6,8 @@ import {
   CreateExamAttemptResponse,
   ExamSO,
   ExamEvent,
-  ExamQuestionSubmitStatus, LapName, ExamAttemptSO, WrongAnswerRootCause
+  ExamQuestionSubmitStatus, LapName, ExamAttemptSO, WrongAnswerRootCause,
+  ExamQuestionAttemptLapAnalysisSO
 } from "@jee-common/util/exam-data-types" ;
 import { ExamQuestion } from "../../../app-jee-exam/src/common/so-wrappers";
 
@@ -98,6 +99,12 @@ export class ExamApiService extends RemoteService {
   getQAttemptLapAnalysisObservationList() {
     const url:string = `${environment.apiRoot}/Master/Exam/QAttemptLapAnalysisObservations` ;
     return this.getPromise<string[]>( url ) ;
+  }
+
+  saveQAttemptLapAnalysis( questionAttemptId: number, analysis: ExamQuestionAttemptLapAnalysisSO ) {
+    // TODO: confirm URL with backend
+    const url:string = `${environment.apiRoot}/Exam/QAttemptLapAnalysis/${questionAttemptId}` ;
+    return this.postPromise<ExamQuestionAttemptLapAnalysisSO>( url, analysis ) ;
   }
 
   updateAttemptRootCause( questionAttemptId: number, rootCause: string ) {

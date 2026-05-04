@@ -122,6 +122,7 @@
     height: calc( var(--question-display-height) - 2*var(--window-margin) ) ;
     width: var(--attempt-lap-analysis-width) ;
     background-color: #ffffff;
+    padding: 1px;
 }
 
 .question-display-with-lap-analysis {

@@ -1,1 +1,76 @@
-<p>attempt-lap-analysis works!</p>
+@if( questionAttempt ) {
+
+  <!-- A: execScore bar -->
+  <div class="exec-score-bar">
+    @for( cell of execScoreCells ; track cell ) {
+      <div class="score-cell"
+           [class.green]="cell < questionAttempt.execScore"
+           [class.red]="cell >= questionAttempt.execScore">
+      </div>
+    }
+  </div>
+
+  <!-- B: Lap tabs -->
+  @if( visibleLaps.length > 0 && activeLap ) {
+    <div class="lap-tab-strip">
+      @for( lap of visibleLaps ; track lap ) {
+        <div class="lap-tab"
+             [class.active]="lap === activeLap"
+             [class.dirty]="isTabDirty( lap )"
+             (click)="switchTab( lap )">
+          {{ lap }}
+          <span class="bi-save2"
+                *ngIf="isTabDirty( lap )"
+                (click)="saveLap( lap ); $event.stopPropagation()"></span>
+        </div>
+      }
+    </div>
+
+    <!-- Tab body -->
+    @if( currentAnalysis ) {
+      <div class="tab-body">
+
+        <!-- C: Lap score (star rating) -->
+        <div class="lap-score-row">
+          <ngb-rating [(rate)]="currentAnalysis.score" [max]="10" (rateChange)="markDirty()">
+            <ng-template let-fill="fill" let-index="index">
+              <i class="bi-star{{ fill === 100 ? '-fill' : '' }}"
+                 [class.filled]="fill === 100"
+                 [class.score-low]="fill === 100 && index < 4"
+                 [class.score-mid]="fill === 100 && index >= 4 && index <= 6"
+                 [class.score-high]="fill === 100 && index > 6"
+              ></i>
+            </ng-template>
+          </ngb-rating>
+        </div>
+
+        <!-- D: Observation note -->
+        <textarea class="obs-note"
+                  [(ngModel)]="currentAnalysis.note"
+                  (ngModelChange)="markDirty()"
+                  placeholder="Written observation notes...">
+        </textarea>
+
+        <!-- E: Selected observations (removable chips) -->
+        @if( currentAnalysis.observations.length > 0 ) {
+          <div class="selected-obs">
+            @for( obs of currentAnalysis.observations ; track obs ) {
+              <span class="obs-chip selected">
+                {{ obs }}&nbsp;<span class="remove-btn" (click)="removeObservation( obs )">&#x2715;</span>
+              </span>
+            }
+          </div>
+        }
+
+        <!-- F: Available observation pool -->
+        @if( availableObservations.length > 0 ) {
+          <div class="available-obs">
+            @for( obs of availableObservations ; track obs ) {
+              <span class="obs-chip available" (click)="addObservation( obs )">{{ obs }}</span>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
+}

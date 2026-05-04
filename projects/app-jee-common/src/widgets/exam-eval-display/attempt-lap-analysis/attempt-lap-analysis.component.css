@@ -1,0 +1,154 @@
+/* A: execScore bar */
+.exec-score-bar {
+    display: flex;
+    gap: 2px;
+    padding: 1px 2px;
+}
+
+.score-cell {
+    flex: 1;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.score-cell.green { background-color: #7dcc7d; }
+.score-cell.red   { background-color: #e8849a; }
+
+/* B: Lap tabs */
+.lap-tab-strip {
+    display: flex;
+    gap: 2px;
+    padding: 3px 4px 0;
+}
+
+.lap-tab {
+    padding: 2px 6px;
+    border: 1px solid #cacaca;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #e8e8e8;
+    user-select: none;
+}
+
+.lap-tab.active {
+    background-color: #fff1a6;
+    border-color: #bab077;
+    font-weight: 700;
+}
+
+.lap-tab.dirty {
+    background-color: #ff9999;
+    border-color: #cc4444;
+    color: #7a0000;
+}
+
+.lap-tab.dirty.active {
+    background-color: #ffcccc;
+}
+
+/* Tab body */
+.tab-body {
+    border: 1px solid #dcdcdc;
+    border-radius: 0 6px 6px 6px;
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: #ffffff;
+}
+
+/* C: Star rating */
+.lap-score-row {
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+.bi-star, .bi-star-fill {
+    font-size: 18px;
+    color: #d8d8d8;
+    margin-right: 10px;
+}
+
+.filled.score-low  { color: #ff5454; }
+.filled.score-mid  { color: #ffc316; }
+.filled.score-high { color: #5cba5c; }
+
+/* D: Note textarea */
+.obs-note {
+    width: 100%;
+    min-height: 37px;
+    resize: vertical;
+    border: 1px solid #e4e4e4;
+    border-radius: 4px;
+    padding: 4px 5px;
+    font-size: 12px;
+    box-sizing: border-box;
+    background-color: #dff3fa;
+}
+
+.obs-note:focus { outline: none; border-color: #cccccc; }
+
+/* E: Selected observations */
+.selected-obs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-height: 15px;
+}
+
+/* F: Available observation pool */
+.available-obs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 1px 2px;
+    min-height: 15px;
+    font-size: 10px;
+}
+
+/* Chips / pills */
+.obs-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 5px;
+    border-radius: 10px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.obs-chip.selected {
+    background-color: #d0eaff;
+    border: 1px solid #7ab8e8;
+    color: #1a4a7a;
+}
+
+.obs-chip.available {
+    background-color: #f5f5f5;
+    border: 1px solid #bbb;
+    color: #444;
+    cursor: pointer;
+}
+
+.obs-chip.available:hover {
+    background-color: #e0e0e0;
+    border-color: #888;
+}
+
+.remove-btn {
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 700;
+    color: #3a6a9a;
+    margin-left: 2px;
+}
+
+.remove-btn:hover { color: #c00; }
+
+.bi-save2 {
+    margin-left: 5px;
+}
