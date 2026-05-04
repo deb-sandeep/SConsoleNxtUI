@@ -230,4 +230,34 @@ export class QuestionEvalComponent {
       default    : return "#ffffff" ;
     }
   }
+
+  private aggregateVisible( selector: ( qa: ExamQuestionAttemptSO ) => number ) : number {
+    let total = 0 ;
+    for( let sa of this.sectionAttempts ) {
+      if( this.hasSectionVisibleAttempts( sa ) ) {
+        for( let qa of sa.questionAttempts ) {
+          if( this.isVisible( qa ) ) {
+            total += selector( qa ) ;
+          }
+        }
+      }
+    }
+    return total ;
+  }
+
+  protected getVisibleCount() : number {
+    return this.aggregateVisible( () => 1 ) ;
+  }
+
+  protected getVisibleAttemptsScore() : number {
+    return this.aggregateVisible( qa => qa.score ) ;
+  }
+
+  protected getVisibleAttemptsAvoidableLoss(): number {
+    return this.aggregateVisible( qa => qa.avoidableLoss ) ;
+  }
+
+  protected getVisibleAttemptsTotalTime() {
+    return this.aggregateVisible( qa => this.getDisplayTimeSecs( qa ) ) ;
+  }
 }
