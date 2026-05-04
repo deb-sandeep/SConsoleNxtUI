@@ -95,6 +95,11 @@ export class ExamApiService extends RemoteService {
     return this.getPromise<WrongAnswerRootCause[]>( url ) ;
   }
 
+  getQAttemptLapAnalysisObservationList() {
+    const url:string = `${environment.apiRoot}/Master/Exam/QAttemptLapAnalysisObservations` ;
+    return this.getPromise<string[]>( url ) ;
+  }
+
   updateAttemptRootCause( questionAttemptId: number, rootCause: string ) {
     const url:string = `${environment.apiRoot}/Exam/RootCauseUpdate/${questionAttemptId}/${rootCause}` ;
     return this.postPromise<ExamAttemptSO>( url, true ) ;

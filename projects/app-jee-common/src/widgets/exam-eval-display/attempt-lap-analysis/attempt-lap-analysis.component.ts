@@ -14,7 +14,16 @@ export class AttemptLapAnalysisComponent {
   apiSvc = inject( ExamApiService ) ;
   examSvc = inject( JeeBaseService ) ;
 
+  lapAnalysisObservations: string[] ;
+
   questionAttempt : ExamQuestionAttemptSO ;
+
+  ngOnInit() {
+    this.apiSvc.getQAttemptLapAnalysisObservationList().then((result) => {
+      this.lapAnalysisObservations = result ;
+      console.log(this.lapAnalysisObservations);
+    }) ;
+  }
 
   setQuestionAttempt( attempt: ExamQuestionAttemptSO ) {
     this.questionAttempt = attempt ;
