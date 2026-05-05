@@ -86,7 +86,7 @@
     padding: 4px 5px;
     font-size: 12px;
     box-sizing: border-box;
-    background-color: #dff3fa;
+    background-color: #ebf9ff;
 }
 
 .obs-note:focus { outline: none; border-color: #cccccc; }
@@ -132,6 +132,7 @@
     border: 1px solid #bbb;
     color: #444;
     cursor: pointer;
+    font-size: 10px;
 }
 
 .obs-chip.available:hover {
@@ -148,6 +149,13 @@
 }
 
 .remove-btn:hover { color: #c00; }
+
+.lap-tab .lap-score {
+    font-size: 10px;
+    margin-left: 3px;
+    margin-right: 0;
+    vertical-align: middle;
+}
 
 .bi-save2 {
     margin-left: 5px;

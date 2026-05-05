@@ -37,6 +37,15 @@
              [class.dirty]="isTabDirty( lap )"
              (click)="switchTab( lap )">
           {{ lap }}
+
+          @let lapScore = getLapScore( lap );
+          @if( lapScore !== null ) {
+            <span class="bi-star-fill filled lap-score"
+                  [class.score-low]="lapScore < 4"
+                  [class.score-mid]="lapScore >= 4 && lapScore <= 7"
+                  [class.score-high]="lapScore > 7"></span>
+          }
+
           <span class="bi-save2"
                 *ngIf="isTabDirty( lap )"
                 (click)="saveLap( lap ); $event.stopPropagation()"></span>
@@ -62,13 +71,6 @@
           </ngb-rating>
         </div>
 
-        <!-- D: Observation note -->
-        <textarea class="obs-note"
-                  [(ngModel)]="currentAnalysis.note"
-                  (ngModelChange)="markDirty()"
-                  placeholder="Written observation notes...">
-        </textarea>
-
         <!-- E: Selected observations (removable chips) -->
         @if( currentAnalysis.observations.length > 0 ) {
           <div class="selected-obs">
@@ -88,6 +90,14 @@
             }
           </div>
         }
+
+        <!-- D: Observation note -->
+        <textarea class="obs-note"
+                  [(ngModel)]="currentAnalysis.note"
+                  (ngModelChange)="markDirty()"
+                  placeholder="Written observation notes...">
+        </textarea>
+
       </div>
     }
   }

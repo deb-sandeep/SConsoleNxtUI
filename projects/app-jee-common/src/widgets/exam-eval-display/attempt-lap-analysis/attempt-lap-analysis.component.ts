@@ -147,6 +147,13 @@ export class AttemptLapAnalysisComponent {
       }) ;
   }
 
+  getLapScore( lap: LapName ): number | null {
+    const wc = this.workingCopies[ lap ] ;
+    if( wc ) return wc.score > 0 ? wc.score : null ;
+    const saved = this.questionAttempt?.lapAnalysis?.[ lap ] ;
+    return saved && saved.score > 0 ? saved.score : null ;
+  }
+
   protected getEvaluationStatusBg() {
 
     const ansSubStatus = this.questionAttempt!.answerSubmitStatus ;
