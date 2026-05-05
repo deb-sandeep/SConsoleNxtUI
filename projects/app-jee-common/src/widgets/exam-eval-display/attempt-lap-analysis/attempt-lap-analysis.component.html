@@ -1,5 +1,23 @@
 @if( questionAttempt ) {
 
+  <div class="lap-timings-bar">
+    <table class="lap-timing-table"
+           [style.background-color]="getEvaluationStatusBg()">
+      <thead>
+        @for( lapName of ["L1", "L2P", "L2", "AMR", "L3P", "L3.1", "L3.2"]; track $index ) {
+          @if( questionAttempt.lapDurations[lapName] ) {
+            <th>
+              <span class="hdr">{{lapName}}</span>
+              <span class="duration" [class.zero-duration]="questionAttempt.lapDurations[lapName] === 0">
+                {{questionAttempt.lapDurations[lapName]*1000 | duration}}
+              </span>
+            </th>
+          }
+      }
+      </thead>
+    </table>
+  </div>
+
   <!-- A: execScore bar -->
   <div class="exec-score-bar">
     @for( cell of execScoreCells ; track cell ) {

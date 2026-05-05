@@ -45,7 +45,7 @@ export class ExamListComponent {
   ngOnInit() {
     this.svc.getListOfExams().then((examList) => {
       console.log( examList ) ;
-      this.examList = examList ;
+      this.examList = examList.reverse() ;
     }) ;
   }
 

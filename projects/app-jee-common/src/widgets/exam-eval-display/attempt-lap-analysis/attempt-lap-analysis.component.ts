@@ -8,12 +8,13 @@ import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
 import { FormsModule } from "@angular/forms";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { NgIf } from "@angular/common";
+import { DurationPipe } from "lib-core";
 
 const LAP_ORDER: LapName[] = ['L1', 'L2P', 'L2', 'AMR', 'L3P', 'L3.1', 'L3.2'] ;
 
 @Component({
   selector: 'div[qAttemptLapAnalysis]',
-  imports: [ NgbRating, FormsModule, NgIf ],
+  imports: [ NgbRating, FormsModule, NgIf, DurationPipe ],
   templateUrl: './attempt-lap-analysis.component.html',
   styleUrl: './attempt-lap-analysis.component.css'
 })
@@ -144,5 +145,26 @@ export class AttemptLapAnalysisComponent {
       .catch( () => {
         alert( `Failed to save lap ${lap}. Please try again.` ) ;
       }) ;
+  }
+
+  protected getEvaluationStatusBg() {
+
+    const ansSubStatus = this.questionAttempt!.answerSubmitStatus ;
+    const evalStatus = this.questionAttempt!.evaluationStatus ;
+
+    if( ansSubStatus == "ANSWERED" ||
+        ansSubStatus == "ANS_AND_MARKED_FOR_REVIEW" ) {
+
+      if( evalStatus == "CORRECT" ) {
+        return "#bcffbf" ;
+      }
+      else if( evalStatus == "INCORRECT" ) {
+        return "#ff909d" ;
+      }
+      else if( evalStatus == "PARTIAL" ) {
+        return "#fdd7a4" ;
+      }
+    }
+    return "#e4e4e4" ;
   }
 }

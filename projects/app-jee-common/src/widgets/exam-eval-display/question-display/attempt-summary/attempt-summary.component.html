@@ -3,15 +3,17 @@
   <th>
     <span class="hdr">Answer</span> :
     <span class="answer">{{answer}}</span>
+    <span class="me-3"></span>
   </th>
-  <th>
-    <span class="hdr">Dur</span> :
-    <span class="duration">{{questionAttempt.timeSpent*1000 | duration}}</span>
-  </th>
+
+  <th>[</th>
 
   @for( lapName of ["L1", "L2P", "L2", "AMR", "L3P", "L3.1", "L3.2"]; track $index ) {
     @if( questionAttempt.lapDurations[lapName] ) {
       <th>
+        @if( !$first ) {
+          <span class="me-3"></span>
+        }
         <span class="hdr">{{lapName}}</span> :
         <span class="duration" [class.zero-duration]="questionAttempt.lapDurations[lapName] === 0">
           {{ questionAttempt.lapDurations[lapName]*1000 | duration}}
@@ -19,5 +21,13 @@
       </th>
     }
   }
+
+  <th>]<span class="me-3"></span></th>
+
+  <th>
+    <span class="hdr">Dur</span> :
+    <span class="duration">{{questionAttempt.timeSpent*1000 | duration}}</span>
+  </th>
+
   </thead>
 </table>
