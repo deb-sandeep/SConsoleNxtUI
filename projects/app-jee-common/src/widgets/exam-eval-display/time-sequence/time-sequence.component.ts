@@ -127,6 +127,24 @@ export class TimeSequenceComponent {
     }
   } ;
 
+  public exportPNG(): string {
+    const composite  = document.createElement( 'canvas' ) ;
+    const labelsW    = this.labelsCanvas.width ;
+    const headerH    = this.headerCanvas.height ;
+    composite.width  = labelsW + this.contentCanvas.width ;
+    composite.height = headerH + this.contentCanvas.height ;
+
+    const ctx = composite.getContext( '2d' )! ;
+    ctx.fillStyle = '#ffffff' ;
+    ctx.fillRect( 0, 0, composite.width, composite.height ) ;
+
+    ctx.drawImage( this.headerCanvas,  labelsW, 0 ) ;
+    ctx.drawImage( this.labelsCanvas,  0,       headerH ) ;
+    ctx.drawImage( this.contentCanvas, labelsW, headerH ) ;
+
+    return composite.toDataURL( 'image/png' ) ;
+  }
+
   public selectQuestionAttempt( questionAttempt: ExamQuestionAttemptSO ) {
     this.renderer.selectQuestionAttempt( questionAttempt ) ;
   }

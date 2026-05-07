@@ -60,4 +60,24 @@ export class ExamEvalDisplayComponent {
     this.questionDisplay.setQuestionAttempt( $event ) ;
     this.questionEvalComponent.selectQuestionAttempt( $event ) ;
   }
+
+  protected downloadEvalJSON() {
+    const json = JSON.stringify( this.eval, null, 2 ) ;
+    const blob = new Blob( [json], { type: 'application/json' } ) ;
+    const url  = URL.createObjectURL( blob ) ;
+    const a    = document.createElement( 'a' ) ;
+    a.href     = url ;
+    a.download = `exam-${ this.eval!.exam.id }-eval.json` ;
+    a.click() ;
+    URL.revokeObjectURL( url ) ;
+  }
+
+  protected downloadGanttChart() {
+    const dataUrl = this.timeSequenceComponent.exportPNG() ;
+    const a= document.createElement( 'a' ) ;
+
+    a.href = dataUrl ;
+    a.download = `${ this.eval!.exam.id }-gantt.png` ;
+    a.click() ;
+  }
 }
