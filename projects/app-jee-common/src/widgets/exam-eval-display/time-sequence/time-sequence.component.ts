@@ -132,24 +132,26 @@ export class TimeSequenceComponent {
     const a= document.createElement( 'a' ) ;
 
     a.href = dataUrl ;
-    a.download = `${ this.eval!.exam.id }-gantt.png` ;
+    a.download = `exam-${ this.eval!.exam.id }-gantt.png` ;
     a.click() ;
   }
 
   private exportPNG(): string {
+    const [ headerCanvas, labelsCanvas, contentCanvas ] = this.renderer.renderToOffscreen() ;
+
     const composite  = document.createElement( 'canvas' ) ;
-    const labelsW    = this.labelsCanvas.width ;
-    const headerH    = this.headerCanvas.height ;
-    composite.width  = labelsW + this.contentCanvas.width ;
-    composite.height = headerH + this.contentCanvas.height ;
+    const labelsW    = labelsCanvas.width ;
+    const headerH    = headerCanvas.height ;
+    composite.width  = labelsW + contentCanvas.width ;
+    composite.height = headerH + contentCanvas.height ;
 
     const ctx = composite.getContext( '2d' )! ;
     ctx.fillStyle = '#ffffff' ;
     ctx.fillRect( 0, 0, composite.width, composite.height ) ;
 
-    ctx.drawImage( this.headerCanvas,  labelsW, 0 ) ;
-    ctx.drawImage( this.labelsCanvas,  0,       headerH ) ;
-    ctx.drawImage( this.contentCanvas, labelsW, headerH ) ;
+    ctx.drawImage( headerCanvas,  labelsW, 0       ) ;
+    ctx.drawImage( labelsCanvas,  0,       headerH ) ;
+    ctx.drawImage( contentCanvas, labelsW, headerH ) ;
 
     return composite.toDataURL( 'image/png' ) ;
   }

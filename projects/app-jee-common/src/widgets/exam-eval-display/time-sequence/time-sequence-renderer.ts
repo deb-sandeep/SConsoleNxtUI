@@ -58,6 +58,9 @@ export interface DrawingArea {
     g: CanvasRenderingContext2D;
 }
 
+const EXPORT_MINUTE_WIDTH = 30 ;
+const EXPORT_TRACK_HEIGHT = 25 ;
+
 export class TimeSequenceRenderer {
 
     private readonly config: TimeSequenceConfig = {
@@ -433,5 +436,45 @@ export class TimeSequenceRenderer {
     public applyActivityDurationThreshold( applyThreshold: boolean ) {
         this.config.timelineConfig.minActivationDuration = applyThreshold ? 3000 : 0 ;
         this.render() ;
+    }
+
+    public renderToOffscreen(): [ HTMLCanvasElement, HTMLCanvasElement, HTMLCanvasElement ] {
+        const exam     = this.eval.exam ;
+        const minutes  = exam.duration / 60 ;
+        const numQ     = exam.numChemQuestions + exam.numPhyQuestions + exam.numMathQuestions ;
+        const headerH  = this.config.headerConfig.lapHdrHeight + this.config.headerConfig.timeHeaderHeight ;
+        const labelsW  = this.config.labelConfig.labelWidth ;
+        const contentW = Math.ceil( minutes * EXPORT_MINUTE_WIDTH ) ;
+        const contentH = Math.ceil( numQ    * EXPORT_TRACK_HEIGHT ) ;
+
+        const offHeader  = document.createElement( 'canvas' ) ;
+        const offLabels  = document.createElement( 'canvas' ) ;
+        const offContent = document.createElement( 'canvas' ) ;
+
+        offHeader.width  = contentW ;  offHeader.height  = headerH ;
+        offLabels.width  = labelsW  ;  offLabels.height  = contentH ;
+        offContent.width = contentW ;  offContent.height = contentH ;
+
+        const savedHeader  = { canvas: this.headerArea.canvas,  g: this.headerArea.g  } ;
+        const savedLabels  = { canvas: this.labelsArea.canvas,  g: this.labelsArea.g  } ;
+        const savedContent = { canvas: this.contentArea.canvas, g: this.contentArea.g } ;
+        const savedMinuteWidth = this.config.units.minuteWidth ;
+        const savedTrackHeight = this.config.units.trackHeight ;
+
+        this.headerArea.canvas  = offHeader  ;  this.headerArea.g  = offHeader.getContext( '2d' )!  ;
+        this.labelsArea.canvas  = offLabels  ;  this.labelsArea.g  = offLabels.getContext( '2d' )!  ;
+        this.contentArea.canvas = offContent ;  this.contentArea.g = offContent.getContext( '2d' )! ;
+        this.config.units.minuteWidth = EXPORT_MINUTE_WIDTH ;
+        this.config.units.trackHeight = EXPORT_TRACK_HEIGHT ;
+
+        this.render() ;
+
+        this.headerArea.canvas  = savedHeader.canvas  ;  this.headerArea.g  = savedHeader.g  ;
+        this.labelsArea.canvas  = savedLabels.canvas  ;  this.labelsArea.g  = savedLabels.g  ;
+        this.contentArea.canvas = savedContent.canvas ;  this.contentArea.g = savedContent.g ;
+        this.config.units.minuteWidth = savedMinuteWidth ;
+        this.config.units.trackHeight = savedTrackHeight ;
+
+        return [ offHeader, offLabels, offContent ] ;
     }
 }
