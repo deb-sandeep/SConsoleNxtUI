@@ -127,7 +127,16 @@ export class TimeSequenceComponent {
     }
   } ;
 
-  public exportPNG(): string {
+  protected downloadGanttChart() {
+    const dataUrl = this.exportPNG() ;
+    const a= document.createElement( 'a' ) ;
+
+    a.href = dataUrl ;
+    a.download = `${ this.eval!.exam.id }-gantt.png` ;
+    a.click() ;
+  }
+
+  private exportPNG(): string {
     const composite  = document.createElement( 'canvas' ) ;
     const labelsW    = this.labelsCanvas.width ;
     const headerH    = this.headerCanvas.height ;
