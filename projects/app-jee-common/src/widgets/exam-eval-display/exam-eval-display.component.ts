@@ -50,13 +50,17 @@ export class ExamEvalDisplayComponent {
   }
 
   protected attemptSelectedInQuestionEvalPanel( $event: ExamQuestionAttemptSO ) {
-    this.attemptLapAnalysisComponent.setQuestionAttempt( $event ) ;
+    if( this.attemptLapAnalysisComponent ) {
+      this.attemptLapAnalysisComponent.setQuestionAttempt( $event ) ;
+    }
     this.questionDisplay.setQuestionAttempt( $event ) ;
     this.timeSequenceComponent.selectQuestionAttempt( $event ) ;
   }
 
   protected attemptSelectedInTimeSequencePanel( $event: ExamQuestionAttemptSO ) {
-    this.attemptLapAnalysisComponent.setQuestionAttempt( $event ) ;
+    if( this.attemptLapAnalysisComponent ) {
+      this.attemptLapAnalysisComponent.setQuestionAttempt( $event ) ;
+    }
     this.questionDisplay.setQuestionAttempt( $event ) ;
     this.questionEvalComponent.selectQuestionAttempt( $event ) ;
   }
