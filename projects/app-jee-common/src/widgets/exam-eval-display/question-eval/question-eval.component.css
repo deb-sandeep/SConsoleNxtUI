@@ -94,3 +94,84 @@ td {
     -webkit-appearance: none;
     text-align: center;
 }
+
+/* Floating lap analysis popup */
+.lap-popup {
+    position: fixed;
+    z-index: 1000;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    box-shadow: 2px 4px 12px rgba(0,0,0,0.18);
+    padding: 5px 7px;
+    min-width: 190px;
+    max-width: 300px;
+    font-size: 11px;
+    pointer-events: none;
+}
+
+.popup-exec-bar {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 5px;
+}
+
+.popup-score-cell {
+    flex: 1;
+    height: 8px;
+    border-radius: 2px;
+}
+
+.popup-score-cell.green { background-color: #7dcc7d; }
+.popup-score-cell.red   { background-color: #e8849a; }
+
+.popup-lap-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    border-top: 1px solid #f0f0f0;
+    padding: 2px 0;
+}
+
+.popup-lap-name {
+    font-weight: 700;
+    min-width: 32px;
+    color: #444;
+}
+
+.popup-lap-time {
+    min-width: 40px;
+    color: #555;
+    font-family: "Courier New", monospace;
+}
+
+.popup-lap-score {
+    color: #555;
+    font-weight: 600;
+}
+
+.popup-obs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    width: 100%;
+}
+
+.popup-obs-chip {
+    background-color: #d0eaff;
+    border: 1px solid #7ab8e8;
+    color: #1a4a7a;
+    padding: 0 4px;
+    border-radius: 8px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.popup-note {
+    width: 100%;
+    font-style: italic;
+    color: #666;
+    font-size: 10px;
+    padding-left: 2px;
+}

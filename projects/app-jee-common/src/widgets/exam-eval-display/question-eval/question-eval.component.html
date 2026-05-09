@@ -126,11 +126,13 @@
                     </select>
                   }
                 </td>
-                <td class="rating">
+                <td class="rating"
+                    (mouseenter)="showLapPopup($event, qAttempt)"
+                    (mouseleave)="hideLapPopup()">
                   @let score = qAttempt.execScore ;
                   <span class="bi-star-fill filled"
-                        [class.bad-exec]="score < 3 && score >= 0"
-                        [class.avg-exec]="score >= 3 && score <= 7"
+                        [class.bad-exec]="score <= 3 && score >= 0"
+                        [class.avg-exec]="score > 3 && score <= 7"
                         [class.good-exec]="score > 7"
                   ></span>
                 </td>
@@ -142,3 +144,40 @@
     }
   </tbody>
 </table>
+
+@if( hoveredAttempt ) {
+  <div class="lap-popup" [ngStyle]="popupStyle">
+    <div class="popup-exec-bar">
+      @for( cell of execScoreCells; track cell ) {
+        <div class="popup-score-cell"
+             [class.green]="cell < hoveredAttempt.execScore"
+             [class.red]="cell >= hoveredAttempt.execScore">
+        </div>
+      }
+    </div>
+    @for( lap of lapNames; track lap ) {
+      @if( (hoveredAttempt.lapDurations[lap] ) > 0 ) {
+        @let analysis = getLapAnalysis(hoveredAttempt, lap);
+        <div class="popup-lap-row">
+          <span class="popup-lap-name">{{lap}}</span>
+          <span class="popup-lap-time">
+            {{hoveredAttempt.lapDurations[lap]*1000 | duration}}
+          </span>
+          @if( analysis && analysis.score > 0 ) {
+            <span class="popup-lap-score">{{analysis.score}}/10</span>
+          }
+          @if( analysis && analysis.observations.length > 0 ) {
+            <div class="popup-obs">
+              @for( obs of analysis.observations; track obs ) {
+                <span class="popup-obs-chip">{{obs}}</span>
+              }
+            </div>
+          }
+          @if( analysis && analysis.note ) {
+            <div class="popup-note">{{analysis.note}}</div>
+          }
+        </div>
+      }
+    }
+  </div>
+}
