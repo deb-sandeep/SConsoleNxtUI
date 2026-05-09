@@ -96,6 +96,9 @@ export class AttemptLapAnalysisComponent {
     if( obs === 'PERFECT_EXECUTION' ) {
       this.currentAnalysis!.score = 10 ;
     }
+    else if( obs === 'ACCIDENTAL_TOUCH' ) {
+      this.currentAnalysis!.score = 0 ;
+    }
     else {
       this.currentAnalysis!.score = 2 ;
     }
