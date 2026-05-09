@@ -273,9 +273,31 @@ export class QuestionEvalComponent {
     this.hoveredAttempt = qAttempt ;
     const rect = (event.currentTarget as HTMLElement).getBoundingClientRect() ;
     this.popupStyle = {
-      top:   `${rect.top}px`,
-      right: `${window.innerWidth - rect.left + 6}px`,
+      top:  `${rect.top}px`,
+      left: `${rect.right + 6}px`,
     } ;
+    setTimeout( () => {
+      const popup = document.querySelector( '.lap-popup' ) as HTMLElement ;
+      if ( !popup ) return ;
+      const popupHeight = popup.offsetHeight ;
+      const bottom = rect.top + popupHeight ;
+      if ( bottom > window.innerHeight ) {
+        const shiftedTop = window.innerHeight - popupHeight - 8 ;
+        if ( shiftedTop < 0 ) {
+          this.popupStyle = {
+            top:       '4px',
+            left:      `${rect.right + 6}px`,
+            maxHeight: `${window.innerHeight - 8}px`,
+            overflowY: 'auto',
+          } ;
+        } else {
+          this.popupStyle = {
+            top:  `${shiftedTop}px`,
+            left: `${rect.right + 6}px`,
+          } ;
+        }
+      }
+    }, 0 ) ;
   }
 
   protected hideLapPopup() {
@@ -284,5 +306,9 @@ export class QuestionEvalComponent {
 
   protected getLapAnalysis( qAttempt: ExamQuestionAttemptSO, lap: string ) {
     return qAttempt.lapAnalysis?.[lap] ?? null ;
+  }
+
+  protected isAccidentalTouch( qAttempt: ExamQuestionAttemptSO, lap: string ) {
+    return qAttempt.lapAnalysis?.[lap]?.observations?.includes( 'ACCIDENTAL_TOUCH' ) ?? false ;
   }
 }

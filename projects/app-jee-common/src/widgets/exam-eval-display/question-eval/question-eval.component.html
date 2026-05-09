@@ -156,7 +156,9 @@
       }
     </div>
     @for( lap of lapNames; track lap ) {
-      @if( (hoveredAttempt.lapDurations[lap] ) > 0 ) {
+      @if( (hoveredAttempt.lapDurations[lap] ) > 0 &&
+           !isAccidentalTouch(hoveredAttempt, lap) ) {
+
         @let analysis = getLapAnalysis(hoveredAttempt, lap);
         <div class="popup-lap-row">
           <span class="popup-lap-name">{{lap}}</span>
