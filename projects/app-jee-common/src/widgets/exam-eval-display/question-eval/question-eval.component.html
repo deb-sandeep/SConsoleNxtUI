@@ -166,7 +166,14 @@
             {{hoveredAttempt.lapDurations[lap]*1000 | duration}}
           </span>
           @if( analysis && analysis.score > 0 ) {
-            <span class="popup-lap-score">{{analysis.score}}/10</span>
+            <div class="popup-lap-score-bar">
+              @for( cell of execScoreCells; track cell ) {
+                <div class="popup-score-cell"
+                     [class.green]="cell < analysis.score"
+                     [class.red]="cell >= analysis.score">
+                </div>
+              }
+            </div>
           }
           @if( analysis && analysis.observations.length > 0 ) {
             <div class="popup-obs">

@@ -146,9 +146,10 @@ td {
     font-family: "Courier", monospace;
 }
 
-.popup-lap-score {
-    color: #555;
-    font-weight: 600;
+.popup-lap-score-bar {
+    display: flex;
+    flex: 1;
+    gap: 2px;
 }
 
 .popup-obs {
