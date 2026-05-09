@@ -74,6 +74,7 @@ export class QuestionEvalComponent {
   showOnlyMissedQuestions: boolean = false ;
   showOnlyEmptyAnswers: boolean = false ;
   showOnlyStarredQuestions: boolean = false ;
+  showOnlyLepidusAttempts: boolean = false ;
 
   rcMap : Record<string, string> = {} ;
   lapNames : LapName[] = [] ;
@@ -201,6 +202,9 @@ export class QuestionEvalComponent {
 
     if( this.showOnlyEmptyAnswers &&
         qAttempt.evaluationStatus !== 'UNANSWERED' ) return false ;
+
+    if( this.showOnlyLepidusAttempts &&
+        qAttempt.execScore >= 8 ) return false ;
 
     if( this.showOnlyStarredQuestions &&
         qAttempt.examQuestion.question.rating === 0 ) return false ;

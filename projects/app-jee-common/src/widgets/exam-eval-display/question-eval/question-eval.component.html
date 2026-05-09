@@ -39,7 +39,9 @@
           (click)="showOnlyMissedQuestions = !showOnlyMissedQuestions">
         RC
       </th>
-      <th style="width:20px;text-align: center;color:grey;">
+      <th style="width:20px;text-align: center;"
+          [ngStyle]="showOnlyLepidusAttempts ? {'color':'red'} : {'color':'grey'}"
+          (click)="showOnlyLepidusAttempts = !showOnlyLepidusAttempts">
         <span class="bi-star-fill"></span>
       </th>
     </tr>
