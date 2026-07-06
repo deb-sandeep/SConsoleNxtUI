@@ -4,6 +4,7 @@ import { DatePipe, NgIf, NgOptimizedImage, NgStyle } from "@angular/common";
 import { SessionTypeSO, SyllabusSO, TopicSO } from "@jee-common/util/master-data-types";
 import { Router } from "@angular/router";
 import { ProblemBrowserComponent } from "./widgets/problem-browser/problem-browser.component";
+import { BurnChartComponent } from "./widgets/burn-chart/burn-chart.component";
 
 @Component({
   selector: 'landing',
@@ -12,6 +13,7 @@ import { ProblemBrowserComponent } from "./widgets/problem-browser/problem-brows
     NgStyle,
     DatePipe,
     ProblemBrowserComponent,
+    BurnChartComponent,
     NgIf
   ],
   templateUrl: './landing.component.html',

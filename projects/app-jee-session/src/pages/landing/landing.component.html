@@ -28,14 +28,18 @@
              [ngStyle]="getActiveTopicStyle( topic.syllabus )"
              [class.selected]="session.topic() == topic.topic"
              (click)="topicSelected( topic.topic )">
-          {{topic.topic.topicName}}
-          <span class="bi-list-ul problem-browser-icon"
-                (click)="showProblemBrowserDialog(topic.topic);$event.stopPropagation()"></span>
+          <div class="topic-header">
+            {{topic.topic.topicName}}
+            <span class="bi-list-ul problem-browser-icon"
+                  (click)="showProblemBrowserDialog(topic.topic);$event.stopPropagation()"></span>
+          </div>
 
           <div class="date-bar">
             <div class="start-date">{{ topic.assignment.startDate | date}}</div>
             <div class="end-date">{{ topic.assignment.endDate | date}}</div>
           </div>
+
+          <burn-chart [topicId]="topic.topic.id"></burn-chart>
         </div>
       }
 

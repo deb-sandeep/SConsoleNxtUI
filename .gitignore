@@ -40,3 +40,5 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/.playwright-mcp/console-2026-07-06T18-08-29-524Z.log
+/.playwright-mcp/page-2026-07-06T18-08-29-687Z.yml

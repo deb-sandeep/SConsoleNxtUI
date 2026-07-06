@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 import { Session } from "../entities/session";
 import { Pause } from "../entities/pause";
 import { ProblemAttempt } from "../entities/problem-attempt";
-import { NewProblemAttemptResponse } from "./server-response.type";
+import { BurnChartVO, NewProblemAttemptResponse } from "./server-response.type";
 
 @Injectable()
 export class SessionNetworkService extends RemoteService {
@@ -46,6 +46,11 @@ export class SessionNetworkService extends RemoteService {
   getActiveProblemsForTopic( topicId:number ) : Promise<TopicProblemSO[]> {
     const url:string = `${environment.apiRoot}/Topic/${topicId}/ActiveProblems` ;
     return this.getPromise<TopicProblemSO[]>( url ) ;
+  }
+
+  getBurnChart( topicId:number ) : Promise<BurnChartVO> {
+    const url:string = `${environment.apiRoot}/Topic/${topicId}/burnChart` ;
+    return this.getPromise<BurnChartVO>( url ) ;
   }
 
   startSession( session: Session ) {
