@@ -50,3 +50,10 @@
     color: red;
     font-weight: bold;
 }
+
+.burn-stress-zone {
+    font-family: "Courier", Courier, monospace;
+    font-size: 12px;
+    margin-left: 5px;
+    font-weight: bold;
+}

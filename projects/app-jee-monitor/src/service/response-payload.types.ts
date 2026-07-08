@@ -89,6 +89,9 @@ export type DashboardState = {
       requiredBurnRate: number,
       numProblemsSolvedToday: number,
       numPigeons: number,
+      burnStressScore: number,
+      burnStressZone: string,
+      burnStressZoneColor: string,
     }[]
   }[]
 }

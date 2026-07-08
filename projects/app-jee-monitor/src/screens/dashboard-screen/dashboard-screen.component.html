@@ -25,6 +25,9 @@
             <span class="active-pigeons" *ngIf="topicState.numPigeons>0">
               (<span class="bi-twitter"></span> <span class="num-pigeons"> {{topicState.numPigeons}}</span>)
             </span>
+            <span class="burn-stress-zone" [style.color]="topicState.burnStressZoneColor">
+              [{{topicState.burnStressZone}}]
+            </span>
           </div>
           <burn-bar [currentBurnRate]="topicState.currentBurnRate"
                     [requiredBurnRate]="topicState.requiredBurnRate"
