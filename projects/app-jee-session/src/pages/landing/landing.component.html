@@ -39,7 +39,9 @@
             <div class="end-date">{{ topic.assignment.endDate | date}}</div>
           </div>
 
-          <burn-chart [topicId]="topic.topic.id"></burn-chart>
+          @if( burnChartData( topic.topic.id )(); as bc ) {
+            <burn-chart [data]="bc"></burn-chart>
+          }
         </div>
       }
 

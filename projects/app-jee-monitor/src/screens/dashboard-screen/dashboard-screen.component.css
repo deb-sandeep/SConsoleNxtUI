@@ -19,6 +19,7 @@
     border-left: 2px solid #595858;
     margin: 5px 0 10px 10px;
     padding-left: 10px;
+    cursor: pointer;
 }
 
 .topic-name {

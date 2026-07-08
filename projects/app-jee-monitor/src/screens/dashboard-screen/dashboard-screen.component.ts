@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { StateService } from "../../service/state.service";
 import { UIHelperService } from "../../service/ui-helper.service";
 import { BurnBarComponent } from "./widgets/burn-bar/burn-bar.component";
@@ -10,7 +11,8 @@ import { NgIf } from "@angular/common";
   imports: [
     BurnBarComponent,
     DurationPipe,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   templateUrl: './dashboard-screen.component.html',
   styleUrl: './dashboard-screen.component.css'

@@ -1,0 +1,68 @@
+:host {
+  display: block;
+  padding: 10px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #a0a0a0;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.loading {
+  text-align: center;
+  color: #a0a0a0;
+  margin-top: 30px;
+}
+
+.topic-header {
+  margin-bottom: 10px;
+}
+
+.syllabus-name {
+  font-size: 13px;
+  color: #a0a0a0;
+}
+
+.topic-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.burn-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 5px;
+  font-family: "Courier", Courier, monospace;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #a0a0a0;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.widget-section {
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-size: 13px;
+  color: #a0a0a0;
+  margin-bottom: 5px;
+}
+
+.burn-chart-section {
+  height: 260px;
+}
+
+.l30-chart-section {
+  height: 140px;
+}

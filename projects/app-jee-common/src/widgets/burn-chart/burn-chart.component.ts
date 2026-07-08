@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, input, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import {
   Chart,
   ChartConfiguration,
@@ -10,8 +10,7 @@ import {
 } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import 'chartjs-adapter-dayjs-4';
-import { SessionNetworkService } from "../../../../service/session-network.service";
-import { BurnChartVO, BurnPointVO } from "../../../../service/server-response.type";
+import { BurnChartVO, BurnPointVO } from "../../util/burn-chart-types";
 
 Chart.register( LineController, LineElement, PointElement, LinearScale, TimeScale, annotationPlugin ) ;
 
@@ -69,8 +68,6 @@ function lerpRgb( from: number[], to: number[], t: number ): string {
   return `rgb(${ r }, ${ g }, ${ b })` ;
 }
 
-// Brightened relative to BurnHealthZoneBar.cursorColor() in the desktop app
-// (#00bf00/#808080/#bf0000) for better visibility in the compact dashboard tile.
 const ZONE_BAR_GREEN = [ 0x00, 0xff, 0x00 ] ;
 const ZONE_BAR_GRAY  = [ 0xa0, 0xa0, 0xa0 ] ;
 const ZONE_BAR_RED   = [ 0xff, 0x00, 0x00 ] ;
@@ -81,11 +78,9 @@ const ZONE_BAR_RED   = [ 0xff, 0x00, 0x00 ] ;
   templateUrl: './burn-chart.component.html',
   styleUrl: './burn-chart.component.css'
 })
-export class BurnChartComponent implements OnInit, AfterViewInit, OnDestroy {
+export class BurnChartComponent implements AfterViewInit, OnDestroy {
 
-  private networkSvc = inject( SessionNetworkService ) ;
-
-  topicId = input.required<number>() ;
+  data = input.required<BurnChartVO>() ;
 
   @ViewChild( 'chartCanvas' ) chartCanvasRef!: ElementRef<HTMLCanvasElement> ;
   @ViewChild( 'zoneBarCanvas' ) zoneBarCanvasRef!: ElementRef<HTMLCanvasElement> ;
@@ -93,17 +88,14 @@ export class BurnChartComponent implements OnInit, AfterViewInit, OnDestroy {
   scoreLabelText: string = '' ;
   scoreLabelStyle: Record<string, string> = {} ;
 
-  private dataPromise!: Promise<BurnChartVO> ;
-  private chartData: BurnChartVO | null = null ;
   private chart: Chart<'line', { x: string, y: number }[]> | null = null ;
 
-  ngOnInit() {
-    this.dataPromise = this.networkSvc.getBurnChart( this.topicId() ) ;
-  }
-
-  async ngAfterViewInit() {
-    this.chartData = await this.dataPromise ;
-    this.render() ;
+  ngAfterViewInit() {
+    // Deferred to a macrotask (rather than rendering synchronously here) —
+    // mutating scoreLabelText/scoreLabelStyle within ngAfterViewInit itself
+    // would trigger NG0100, since Angular's dev-mode re-check pass runs
+    // immediately afterwards, still within the same tick.
+    setTimeout( () => this.render() ) ;
   }
 
   ngOnDestroy() {
@@ -119,8 +111,7 @@ export class BurnChartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private render() {
-    if( !this.chartData ) return ;
-    const data = this.chartData ;
+    const data = this.data() ;
     const plan = data.plan ;
 
     const annotations: Record<string, unknown> = {
@@ -207,26 +198,25 @@ export class BurnChartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private positionScoreLabel() {
-    if( !this.chart || !this.chartData ) return ;
+    if( !this.chart ) return ;
     const xScale = this.chart.scales[ 'x' ] ;
     const yScale = this.chart.scales[ 'y' ] ;
     if( !xScale || !yScale ) return ;
 
-    const plan = this.chartData.plan ;
+    const plan = this.data().plan ;
     const xPx = xScale.getPixelForValue( new Date( plan.exerciseEndDate ).getTime() ) ;
     const yPx = yScale.getPixelForValue( plan.numTotalProblems ) ;
     const canvasWidth = this.chartCanvasRef.nativeElement.clientWidth ;
 
-    this.scoreLabelText = this.chartData.status.scoreLabel ;
+    this.scoreLabelText = this.data().status.scoreLabel ;
     this.scoreLabelStyle = {
       right: `${ Math.max( 0, canvasWidth - xPx ) }px`,
       top: `${ Math.max( 0, yPx ) }px`,
-      color: scoreColor( this.chartData.status.burnStressScore ),
+      color: scoreColor( this.data().status.burnStressScore ),
     } ;
   }
 
   private renderZoneBar() {
-    if( !this.chartData ) return ;
     const canvas = this.zoneBarCanvasRef.nativeElement ;
     canvas.width = canvas.clientWidth ;
     canvas.height = canvas.clientHeight ;
@@ -238,7 +228,7 @@ export class BurnChartComponent implements OnInit, AfterViewInit, OnDestroy {
     const height = canvas.height ;
     ctx.clearRect( 0, 0, width, height ) ;
 
-    const score = this.chartData.status.burnStressScore ;
+    const score = this.data().status.burnStressScore ;
     const zoneIdx = zoneIndexFor( score ) ;
     const zoneLow = ZONE_BOUNDS[ zoneIdx ] ;
     const zoneHigh = ZONE_BOUNDS[ zoneIdx + 1 ] ;

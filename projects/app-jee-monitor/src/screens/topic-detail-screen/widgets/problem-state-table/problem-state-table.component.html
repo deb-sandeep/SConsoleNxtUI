@@ -1,0 +1,39 @@
+<div class="problem-state-columns">
+  <table class="problem-state-table">
+    <thead>
+      <tr>
+        <th class="row-label">State</th>
+        <th>All</th>
+        <th>Today</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for( row of leftColumn(); track row.label ) {
+        <tr>
+          <td class="row-label" [class]="row.colorClass">{{row.label}}</td>
+          <td [class]="row.colorClass">{{row.all}}</td>
+          <td [class]="row.colorClass">{{row.today}}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <table class="problem-state-table">
+    <thead>
+      <tr>
+        <th class="row-label">State</th>
+        <th>All</th>
+        <th>Today</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for( row of rightColumn(); track row.label ) {
+        <tr>
+          <td class="row-label" [class]="row.colorClass">{{row.label}}</td>
+          <td [class]="row.colorClass">{{row.all}}</td>
+          <td [class]="row.colorClass">{{row.today}}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

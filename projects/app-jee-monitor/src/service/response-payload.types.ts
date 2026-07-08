@@ -1,3 +1,6 @@
+import { ProblemStateBreakdown } from "@jee-common/util/burn-chart-types" ;
+export type { BurnPointVO, DayCountPointVO, BurnChartTopicVO, BurnChartPlanVO, BurnChartStatusVO, ProblemStateBreakdown, BurnChartVO } from "@jee-common/util/burn-chart-types" ;
+
 export type SessionEvent = {
   eventType: string,
   time: Date,
@@ -84,6 +87,7 @@ export type DashboardState = {
     syllabusName: string,
     duration: number,
     topicStates: {
+      topicId: number,
       topicName: string,
       currentBurnRate: number,
       requiredBurnRate: number,
@@ -96,3 +100,19 @@ export type DashboardState = {
   }[]
 }
 
+// Live, frequently-refreshed subset pushed over the app-monitor websocket whenever
+// ActiveTopicStatistics.refreshState() runs for this topic. Mirrors the Java
+// TopicDetailState payload (endpoints/websockets/monitor/payload/TopicDetailState.java).
+export type TopicDetailState = {
+  topicId: number,
+  numProblemsLeft: number,
+  currentBurnRate: number,
+  requiredBurnRate: number,
+  numOvershootDays: number,
+  burnStressScore: number,
+  burnStressZone: string,
+  burnStressZoneColor: string,
+  numProblemsSolvedToday: number,
+  allTimeProblemState: ProblemStateBreakdown,
+  todayProblemState: ProblemStateBreakdown,
+}

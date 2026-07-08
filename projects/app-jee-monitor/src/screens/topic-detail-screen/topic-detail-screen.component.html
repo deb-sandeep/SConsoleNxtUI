@@ -1,0 +1,58 @@
+<a routerLink="/dashboard" class="back-link">&lsaquo; Dashboard</a>
+
+@if( burnChart(); as chart ) {
+  <div class="topic-header">
+    <div class="syllabus-name" [style.color]="uiSvc.getSyllabusColor( chart.topic.syllabusName )">{{chart.topic.syllabusName}}</div>
+    <div class="topic-name" [style.color]="uiSvc.getSyllabusColor( chart.topic.syllabusName )">{{chart.topic.topicName}}</div>
+  </div>
+
+  <div class="burn-stats">
+    <div class="stat">
+      <div class="stat-label">Solved / Total</div>
+      <div class="stat-value">{{numProblemsCompleted()}} / {{numTotalProblems()}}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Remaining</div>
+      <div class="stat-value">{{numProblemsLeft()}}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Burn (cur/req/orig)</div>
+      <div class="stat-value">
+        <span [style.color]="currentBurnColor()">{{currentBurnRate()}}</span> /
+        <span [style.color]="requiredBurnColor()">{{requiredBurnRate()}}</span> /
+        {{originalBurnRate()}}
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Solved today</div>
+      <div class="stat-value" [style.color]="solvedTodayColor()">{{numProblemsSolvedToday()}}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Overshoot</div>
+      <div class="stat-value" [style.color]="overshootColor()">{{numOvershootDays()}}d</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Zone</div>
+      <div class="stat-value" [style.color]="burnStressZoneColor()">{{burnStressZone()}}</div>
+    </div>
+  </div>
+
+  <div class="widget-section">
+    <div class="section-title">Problem states</div>
+    <problem-state-table [allTime]="allTimeProblemState()" [today]="todayProblemState()"></problem-state-table>
+  </div>
+
+  <div class="widget-section burn-chart-section">
+    <burn-chart [data]="chart"></burn-chart>
+  </div>
+
+  <div class="widget-section">
+    <div class="section-title">Last 30 days</div>
+    <div class="l30-chart-section">
+      <l30-burn-chart [points]="chart.l30Burn"></l30-burn-chart>
+    </div>
+  </div>
+}
+@else {
+  <div class="loading">Loading&hellip;</div>
+}

@@ -1,0 +1,41 @@
+.problem-state-columns {
+  display: flex;
+  gap: 10px;
+}
+
+.problem-state-table {
+  flex: 1 1 0;
+  width: 50%;
+  border-collapse: collapse;
+  font-family: "Courier", Courier, monospace;
+  font-size: 13px;
+  text-align: right;
+}
+
+.problem-state-table th,
+.problem-state-table td {
+  padding: 3px 4px;
+}
+
+.problem-state-table th {
+  color: #a0a0a0;
+  font-weight: normal;
+  border-bottom: 1px solid #595858;
+}
+
+.row-label {
+  text-align: left;
+  color: #cccccc;
+}
+
+.correct {
+  color: #00cc44;
+}
+
+.wrong {
+  color: #cc3333;
+}
+
+.pigeon {
+  color: #cc9900;
+}

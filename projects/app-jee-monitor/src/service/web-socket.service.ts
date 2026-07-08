@@ -12,7 +12,8 @@ import {
   ProblemAttemptStart,
   SessionEnd,
   SessionEvent, SessionExtended,
-  SessionStart
+  SessionStart,
+  TopicDetailState
 } from "./response-payload.types";
 
 export type AppMonitorResponse = {
@@ -68,7 +69,19 @@ export class WebSocketService extends RxStomp implements OnDestroy {
         const state = res.payload as DashboardState ;
         this.stateSvc.updateDashboardState( state ) ;
         break ;
+
+      case "TOPIC_DETAIL_STATE":
+        const detail = res.payload as TopicDetailState ;
+        this.stateSvc.updateTopicDetailState( detail ) ;
+        break ;
     }
+  }
+
+  requestTopicDetails( topicId: number ) {
+    super.publish( {
+      destination: '/app-monitor/topicDetails',
+      body: String( topicId ),
+    } ) ;
   }
 
   private processSessionEvent( evt: SessionEvent ) {

@@ -16,7 +16,7 @@
       </span>
 
       @for( topicState of sylState.topicStates; track topicState.topicName ) {
-        <div class="topic-state">
+        <div class="topic-state" [routerLink]="['/topic-detail', topicState.topicId]">
           <div class="topic-name">
             {{topicState.topicName}}
             <span class="burn-ratio">

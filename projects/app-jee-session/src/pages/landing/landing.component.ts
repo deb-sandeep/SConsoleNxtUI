@@ -1,10 +1,12 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
 import { SessionStateService } from "../../service/session-state.service";
+import { SessionNetworkService } from "../../service/session-network.service";
 import { DatePipe, NgIf, NgOptimizedImage, NgStyle } from "@angular/common";
 import { SessionTypeSO, SyllabusSO, TopicSO } from "@jee-common/util/master-data-types";
+import { BurnChartVO } from "@jee-common/util/burn-chart-types";
 import { Router } from "@angular/router";
 import { ProblemBrowserComponent } from "./widgets/problem-browser/problem-browser.component";
-import { BurnChartComponent } from "./widgets/burn-chart/burn-chart.component";
+import { BurnChartComponent } from "@jee-common/widgets/burn-chart/burn-chart.component";
 
 @Component({
   selector: 'landing',
@@ -22,12 +24,15 @@ import { BurnChartComponent } from "./widgets/burn-chart/burn-chart.component";
 export class LandingComponent {
 
   stateSvc:SessionStateService = inject( SessionStateService ) ;
+  networkSvc: SessionNetworkService = inject( SessionNetworkService ) ;
   router: Router = inject( Router ) ;
 
   @ViewChild( ProblemBrowserComponent ) problemBrowserComponent: ProblemBrowserComponent ;
 
   showProblemBrowserFlag: boolean = false ;
   selectedTopic: TopicSO ;
+
+  private burnChartSignals = new Map<number, WritableSignal<BurnChartVO | null>>() ;
 
   constructor() {
     this.stateSvc.loadMasterData().then() ;
@@ -94,6 +99,18 @@ export class LandingComponent {
 
   private getCSSHeight( numDivisions:number ) {
     return `calc( (100dvh - var(--tile-padding)*${numDivisions+1} ) / ${numDivisions})` ;
+  }
+
+  // Memoized per-topic burn chart fetch — each active topic tile calls this once;
+  // repeated calls (every change-detection cycle) return the same signal instance.
+  burnChartData( topicId: number ): Signal<BurnChartVO | null> {
+    let sig = this.burnChartSignals.get( topicId ) ;
+    if( !sig ) {
+      sig = signal<BurnChartVO | null>( null ) ;
+      this.burnChartSignals.set( topicId, sig ) ;
+      this.networkSvc.getBurnChart( topicId ).then( vo => sig!.set( vo ) ) ;
+    }
+    return sig ;
   }
 
   showProblemBrowserDialog( topic:TopicSO ) {

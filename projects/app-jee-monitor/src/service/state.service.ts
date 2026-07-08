@@ -7,7 +7,8 @@ import {
   ProblemAttemptEnd,
   ProblemAttemptStart,
   SessionEnd, SessionExtended,
-  SessionStart
+  SessionStart,
+  TopicDetailState
 } from "./response-payload.types";
 import {
   Pause,
@@ -20,6 +21,11 @@ export class StateService {
 
   sessions: Session[] = [] ;
   dashboardState = signal<DashboardState|null>( null ) ;
+  topicDetailState = signal<TopicDetailState|null>( null ) ;
+
+  // Set by TopicDetailScreen while it's mounted, so that TOPIC_DETAIL_STATE pushes for
+  // OTHER topics (broadcast whenever any topic's stats refresh) are ignored.
+  private activeTopicDetailId: number | null = null ;
 
   private currentSession: Session | null = null ;
   private currentProblemAttempt: ProblemAttempt | null = null ;
@@ -140,5 +146,16 @@ export class StateService {
 
   updateDashboardState( dashboardState: DashboardState ) {
     this.dashboardState.set( dashboardState) ;
+  }
+
+  updateTopicDetailState( detail: TopicDetailState ) {
+    if( detail.topicId === this.activeTopicDetailId ) {
+      this.topicDetailState.set( detail ) ;
+    }
+  }
+
+  setActiveTopicDetailId( topicId: number | null ) {
+    this.activeTopicDetailId = topicId ;
+    this.topicDetailState.set( null ) ;
   }
 }
