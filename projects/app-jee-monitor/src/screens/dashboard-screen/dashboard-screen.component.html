@@ -1,13 +1,14 @@
 @if( stateSvc.dashboardState() != null ) {
   @for( sylState of stateSvc.dashboardState()!.syllabusStates; track sylState.syllabusName ) {
+    @if( uiSvc.syllabusMap[sylState.syllabusName]; as syllabus ) {
     <div class="syllabus-state"
-         [style.border-left-color]="uiSvc.getSyllabusColor( sylState.syllabusName )">
+         [style.border-left-color]="syllabus.color">
       <img class="icon"
-           [src]="'img/' + uiSvc.getSyllabusImgName( sylState.syllabusName )"
+           [src]="'img/' + syllabus.iconName"
            [style.filter]="uiSvc.getSyllabusCSSImgFilter( sylState.syllabusName )" alt="Syllabus Image"/>
 
       <span class="syllabus-name"
-            [style.color]="uiSvc.getSyllabusColor( sylState.syllabusName )">
+            [style.color]="syllabus.color">
         {{sylState.syllabusName}}
       </span>
 
@@ -35,6 +36,7 @@
         </div>
       }
     </div>
+    }
   }
 
   <div class="total-duration">
