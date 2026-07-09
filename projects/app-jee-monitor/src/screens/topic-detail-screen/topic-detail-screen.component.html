@@ -9,9 +9,12 @@
   <div class="burn-stats">
     <div class="stat">
       <div class="stat-label">Solved / Total</div>
-      <div class="stat-value">{{numProblemsCompleted()}} / {{numTotalProblems()}}</div>
+      <div class="stat-value">
+        <span class="stat-clickable" (click)="navigateToProblems('solved')">{{numProblemsCompleted()}}</span> /
+        <span class="stat-clickable" (click)="navigateToProblems('total')">{{numTotalProblems()}}</span>
+      </div>
     </div>
-    <div class="stat">
+    <div class="stat stat-clickable" (click)="navigateToProblems('remaining')">
       <div class="stat-label">Remaining</div>
       <div class="stat-value">{{numProblemsLeft()}}</div>
     </div>
@@ -23,7 +26,7 @@
         {{originalBurnRate()}}
       </div>
     </div>
-    <div class="stat">
+    <div class="stat stat-clickable" (click)="navigateToProblems('solvedToday')">
       <div class="stat-label">Solved today</div>
       <div class="stat-value" [style.color]="solvedTodayColor()">{{numProblemsSolvedToday()}}</div>
     </div>
@@ -39,7 +42,8 @@
 
   <div class="widget-section">
     <div class="section-title">Problem states</div>
-    <problem-state-table [allTime]="allTimeProblemState()" [today]="todayProblemState()"></problem-state-table>
+    <problem-state-table [allTime]="allTimeProblemState()" [today]="todayProblemState()"
+                          (rowClicked)="navigateToProblems($event)"></problem-state-table>
   </div>
 
   <div class="widget-section burn-chart-section">

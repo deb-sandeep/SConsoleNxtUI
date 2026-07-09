@@ -1,0 +1,66 @@
+<a [routerLink]="['/topic-detail', topicId]" class="back-link">&lsaquo; Topic Detail</a>
+
+<div class="problem-browser-header">
+  <div class="topic-name">{{topicName()}}</div>
+  <span class="num-problems">[{{numProblems}}]</span>
+</div>
+
+<div class="filter-bar">
+  <select class="filter-select"
+          (change)="onFilterChange( $any($event.target).value )">
+    @for( opt of filterOptions; track opt.key ) {
+      <option [value]="opt.key" [selected]="opt.key === filter()">{{opt.label}}</option>
+    }
+  </select>
+</div>
+
+@if( loaded() ) {
+  <div class="problem-list">
+    @for( book of books; track book.bookId ) {
+      @for( chapter of book.chapters; track chapter.chapterNum ) {
+        <div class="book-chapter" (click)="chapter.toggleExpansion()">
+          <div class="tweakie">
+            <span class="tweakie-icon"
+                  [class]="chapter.expanded ? 'bi-chevron-contract' : 'bi-chevron-expand'"
+                  [style.color]="chapter.expanded ? 'brown' : 'green'"></span>
+          </div>
+          <div class="book-name"><span class="bi-book"></span>&nbsp;&nbsp;{{book.bookShortName}}</div>
+          <div class="chapter-name">
+            {{chapter.displayName()}}
+            <span class="num-problems">[{{chapter.numProblems}}]</span>
+          </div>
+        </div>
+
+        @if( chapter.expanded ) {
+          @for( exercise of chapter.exercises; track exercise.exerciseNum ) {
+            <div class="exercise" (click)="exercise.expanded = !exercise.expanded">
+              <div class="tweakie">
+                <span class="tweakie-icon"
+                      [class]="exercise.expanded ? 'bi-chevron-contract' : 'bi-chevron-expand'"
+                      [style.color]="exercise.expanded ? 'brown' : 'green'"></span>
+              </div>
+              <span class="bi-folder2-open"></span>&nbsp;&nbsp;{{exercise.displayName()}}
+              <span class="num-problems">[{{exercise.numProblems}}]</span>
+            </div>
+
+            @if( exercise.expanded ) {
+              @for( problem of exercise.problems; track problem.problemId ) {
+                <div class="problem">
+                  <span [class]="SConsoleUtil.getProblemIcon( problem.so.problemState )"></span>&nbsp;&nbsp;
+                  {{problem.displayName()}}
+                </div>
+              }
+            }
+          }
+        }
+      }
+    }
+
+    @if( books.length === 0 ) {
+      <div class="empty-state">No problems match this filter.</div>
+    }
+  </div>
+}
+@else {
+  <div class="loading">Loading&hellip;</div>
+}

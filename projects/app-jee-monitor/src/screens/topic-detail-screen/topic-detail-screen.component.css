@@ -49,6 +49,11 @@
   font-weight: bold;
 }
 
+.stat-clickable {
+  cursor: pointer;
+  text-decoration: underline dotted;
+}
+
 .widget-section {
   margin-bottom: 10px;
 }

@@ -17,6 +17,10 @@
   padding: 3px 4px;
 }
 
+.problem-state-table tbody tr {
+  cursor: pointer;
+}
+
 .problem-state-table th {
   color: #a0a0a0;
   font-weight: normal;

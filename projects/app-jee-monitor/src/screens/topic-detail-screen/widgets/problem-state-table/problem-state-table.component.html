@@ -9,7 +9,7 @@
     </thead>
     <tbody>
       @for( row of leftColumn(); track row.label ) {
-        <tr>
+        <tr (click)="rowClicked.emit( row.filterKey )">
           <td class="row-label" [class]="row.colorClass">{{row.label}}</td>
           <td [class]="row.colorClass">{{row.all}}</td>
           <td [class]="row.colorClass">{{row.today}}</td>
@@ -28,7 +28,7 @@
     </thead>
     <tbody>
       @for( row of rightColumn(); track row.label ) {
-        <tr>
+        <tr (click)="rowClicked.emit( row.filterKey )">
           <td class="row-label" [class]="row.colorClass">{{row.label}}</td>
           <td [class]="row.colorClass">{{row.all}}</td>
           <td [class]="row.colorClass">{{row.today}}</td>

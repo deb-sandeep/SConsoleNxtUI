@@ -1,0 +1,105 @@
+:host {
+  display: block;
+  padding: 10px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #a0a0a0;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.loading {
+  text-align: center;
+  color: #a0a0a0;
+  margin-top: 30px;
+}
+
+.problem-browser-header {
+  margin-bottom: 10px;
+}
+
+.topic-name {
+  font-size: 20px;
+  display: inline-block;
+}
+
+.num-problems {
+  font-size: 15px;
+  font-family: monospace;
+  color: #a0a0a0;
+  margin-left: 6px;
+}
+
+.filter-bar {
+  margin-bottom: 12px;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 6px;
+  background-color: #404040;
+  color: #dddddd;
+  border: 1px #676666 solid;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.empty-state {
+  text-align: center;
+  color: #a0a0a0;
+  margin-top: 30px;
+}
+
+.book-chapter {
+  position: relative;
+  background-color: #656565;
+  margin: 7px 0;
+  text-align: left;
+  padding: 8px 5px 8px 10px;
+  border-radius: 10px;
+}
+
+.book-name {
+  color: #9dcafa;
+  font-size: 13px;
+}
+
+.chapter-name {
+  color: #97fa97;
+  font-size: 16px;
+}
+
+.exercise {
+  position: relative;
+  background-color: #474747;
+  margin: 7px 0 7px 15px;
+  text-align: left;
+  padding: 8px 5px 8px 10px;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #cc9774;
+}
+
+.problem {
+  position: relative;
+  background-color: #222222;
+  margin: 7px 0 7px 30px;
+  color: #cccccc;
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px #292929 solid;
+}
+
+.tweakie {
+  float: right;
+  font-size: 18px;
+}
+
+.tweakie-icon {
+  font-weight: bold;
+}

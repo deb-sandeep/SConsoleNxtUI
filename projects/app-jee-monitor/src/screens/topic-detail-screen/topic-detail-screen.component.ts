@@ -1,5 +1,5 @@
 import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { RestApiService } from "../../service/rest-api.service";
 import { StateService } from "../../service/state.service";
@@ -26,6 +26,7 @@ export class TopicDetailScreenComponent implements OnInit, OnDestroy {
   private restApiSvc = inject( RestApiService ) ;
   private wsSvc = inject( WebSocketService ) ;
   private activeRoute = inject( ActivatedRoute ) ;
+  private router = inject( Router ) ;
 
   stateSvc: StateService = inject( StateService ) ;
   uiSvc: UIHelperService = inject( UIHelperService ) ;
@@ -65,6 +66,10 @@ export class TopicDetailScreenComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.stateSvc.setActiveTopicDetailId( null ) ;
+  }
+
+  navigateToProblems( filter: string ) {
+    this.router.navigate( ['/topic-detail', this.topicId, 'problems'], { queryParams: { filter } } ) ;
   }
 }
 
