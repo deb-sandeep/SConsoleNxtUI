@@ -300,7 +300,7 @@ export class ProblemHistoryComponent {
       else if( this.visibilityChoice === "pigeon" ) {
         visible = ( p.problemState === "Pigeon" ||
                     p.problemState === "Pigeon Explained" ||
-                    p.problemState === "Pigeon SOlved" ) ;
+                    p.problemState === "Pigeon Solved" ) ;
       }
       else if( this.visibilityChoice === "purge" ) {
         visible = p.problemState === "Purge" ;

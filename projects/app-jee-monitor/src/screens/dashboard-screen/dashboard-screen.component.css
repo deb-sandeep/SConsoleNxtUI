@@ -1,3 +1,9 @@
+.loading {
+    text-align: center;
+    color: #a0a0a0;
+    margin-top: 30px;
+}
+
 .syllabus-state {
     border-left: 4px solid;
     border-bottom: 1px dashed #616161;

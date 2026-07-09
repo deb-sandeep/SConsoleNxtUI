@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 
 import { Router } from "@angular/router";
 import {
@@ -31,8 +31,12 @@ export class UIHelperService {
 
   private imgFilters:Record<string, string> = {} ;
 
+  ready = signal( false ) ;
+
   constructor() {
-    this.init().then( () => {}) ;
+    this.init()
+        .then( () => this.ready.set( true ) )
+        .catch( err => console.error( 'UIHelperService master data load failed', err ) ) ;
   }
 
   private async init() {

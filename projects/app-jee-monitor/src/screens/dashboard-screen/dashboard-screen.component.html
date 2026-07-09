@@ -1,4 +1,4 @@
-@if( stateSvc.dashboardState() != null ) {
+@if( uiSvc.ready() && stateSvc.dashboardState() != null ) {
   @for( sylState of stateSvc.dashboardState()!.syllabusStates; track sylState.syllabusName ) {
     @if( uiSvc.syllabusMap[sylState.syllabusName]; as syllabus ) {
     <div class="syllabus-state"
@@ -42,4 +42,7 @@
   <div class="total-duration">
     {{stateSvc.dashboardState()!.totalDuration*1000 | duration}}
   </div>
+}
+@else {
+  <div class="loading">Loading&hellip;</div>
 }

@@ -1,6 +1,6 @@
 <a routerLink="/dashboard" class="back-link">&lsaquo; Dashboard</a>
 
-@if( burnChart(); as chart ) {
+@if( uiSvc.ready() && burnChart(); as chart ) {
   <div class="topic-header">
     <div class="syllabus-name" [style.color]="uiSvc.getSyllabusColor( chart.topic.syllabusName )">{{chart.topic.syllabusName}}</div>
     <div class="topic-name" [style.color]="uiSvc.getSyllabusColor( chart.topic.syllabusName )">{{chart.topic.topicName}}</div>

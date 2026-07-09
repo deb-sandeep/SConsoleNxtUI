@@ -1,3 +1,4 @@
+@if( uiSvc.ready() ) {
 @for ( session of stateSvc.sessions; track session.sessionId ) {
   <div class="session"
        [style.border-left-color]="uiSvc.getSyllabusColor( session.syllabusName )">
@@ -98,4 +99,8 @@
     }
 
   </div>
+}
+}
+@else {
+  <div class="loading">Loading&hellip;</div>
 }
