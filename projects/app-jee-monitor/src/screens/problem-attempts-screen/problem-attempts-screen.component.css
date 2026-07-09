@@ -1,0 +1,142 @@
+:host {
+  display: block;
+  padding: 10px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #a0a0a0;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.loading {
+  text-align: center;
+  color: #a0a0a0;
+  margin-top: 30px;
+}
+
+.problem-header {
+  margin-bottom: 10px;
+}
+
+.problem-key {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.problem-meta {
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+.button-bar {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.button-bar > button {
+  margin: 5px;
+}
+
+.attempt-list {
+  margin-bottom: 25px;
+}
+
+.attempt-row {
+  margin: 7px 0;
+  border-left: 5px solid #4c4c4c;
+  border-bottom: 1px solid #323232;
+  padding: 7px 0 7px 10px;
+}
+
+.attempt-header {
+  font-size: 14px;
+}
+
+.attempt-date {
+  color: #dddddd;
+}
+
+.attempt-duration {
+  color: #d5d576;
+}
+
+.delete-icon {
+  float: right;
+  color: #5e0202;
+  padding-right: 5px;
+}
+
+.attempt-details {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #a0a0a0;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.attempt-details > span {
+  margin-right: 12px;
+}
+
+.attempt-duration-red {
+  color: red;
+}
+
+.empty-state {
+  text-align: center;
+  color: #a0a0a0;
+  margin-top: 20px;
+}
+
+.icon {
+  color: #9dcafa;
+}
+
+.icon-green {
+  color: greenyellow;
+}
+
+.icon-red {
+  color: red;
+}
+
+.icon-orange {
+  color: orange;
+}
+
+.problem-rating {
+  margin: 0 auto 0 auto;
+  text-align: center;
+  height: 40px;
+  width: 100%;
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+.problem-rating i {
+  padding-right: 0.1rem;
+  color: #575757;
+}
+
+.problem-rating .filled {
+  color: #1e90ff;
+}
+
+.problem-rating .filled.easy {
+  color: #22bc7a;
+}
+
+.problem-rating .filled.moderate {
+  color: #ea932f;
+}
+
+.problem-rating .filled.hard {
+  color: #ea2020;
+}
+
+.btn {
+  padding: 1px 10px 1px 10px;
+  font-size: 15px;
+}

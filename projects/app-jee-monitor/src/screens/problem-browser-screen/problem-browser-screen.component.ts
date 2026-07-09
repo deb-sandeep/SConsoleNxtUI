@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from "@angular/router";
 import { TopicProblemSO } from "@jee-common/util/master-data-types";
 import { SConsoleUtil } from "@jee-common/util/common-util";
 import { ProblemApiService } from "@jee-common/services/problem-api.service";
+import { DurationPipe } from "lib-core";
 
 class Book {
   bookId: number;
@@ -116,6 +117,25 @@ class Problem {
   getBookId() { return this.so.bookId ; }
   getChapterNum() { return this.so.chapterNum ; }
   getExerciseNum() { return this.so.exerciseNum ; }
+
+  attemptsClass() {
+    if( this.so.numAttempts > 3 ) return 'stat-red' ;
+    if( this.so.numAttempts > 2 ) return 'stat-orange' ;
+    return '' ;
+  }
+
+  durationClass() {
+    const minutes = this.so.totalDuration / 60 ;
+    if( minutes > 15 ) return 'stat-red' ;
+    if( minutes > 10 ) return 'stat-orange' ;
+    return '' ;
+  }
+
+  difficultyIconClass() {
+    if( this.so.difficultyLevel < 4 ) return 'problem-difficulty-medium' ;
+    if( this.so.difficultyLevel < 8 ) return 'problem-difficulty-high' ;
+    return 'problem-difficulty-exceptional' ;
+  }
 }
 
 const SOLVED_STATES = new Set( [ 'Correct', 'Incorrect', 'Pigeon Explained', 'Pigeon Solved', 'Purge', 'Reassign' ] ) ;
@@ -160,10 +180,36 @@ export const FILTER_OPTIONS: { key: string, label: string }[] = [
   { key: 'reassign',    label: 'Reassign' },
 ] ;
 
+// Ranges mirror the attemptsClass()/durationClass() color thresholds on Problem, above.
+export const ATTEMPT_RANGE_OPTIONS: { key: string, label: string }[] = [
+  { key: 'attempts-3', label: '3+ attempts' },
+  { key: 'attempts-4', label: '4+ attempts' },
+] ;
+
+export const TIME_RANGE_OPTIONS: { key: string, label: string }[] = [
+  { key: 'time-10', label: '>10 min' },
+  { key: 'time-15', label: '>15 min' },
+] ;
+
+function matchesStatFilter( p: TopicProblemSO, selectedKeys: string[] ): boolean {
+  if( selectedKeys.length === 0 ) return true ;
+  const minutes = p.totalDuration / 60 ;
+  return selectedKeys.some( key => {
+    switch( key ) {
+      case 'attempts-3' : return p.numAttempts >= 3 ;
+      case 'attempts-4' : return p.numAttempts >= 4 ;
+      case 'time-10'    : return minutes > 10 ;
+      case 'time-15'    : return minutes > 15 ;
+      default          : return false ;
+    }
+  } ) ;
+}
+
 @Component({
   selector: 'app-problem-browser-screen',
   imports: [
     RouterLink,
+    DurationPipe,
   ],
   templateUrl: './problem-browser-screen.component.html',
   styleUrl: './problem-browser-screen.component.css'
@@ -172,6 +218,8 @@ export class ProblemBrowserScreenComponent implements OnInit {
 
   protected readonly SConsoleUtil = SConsoleUtil ;
   protected readonly filterOptions = FILTER_OPTIONS ;
+  protected readonly attemptRangeOptions = ATTEMPT_RANGE_OPTIONS ;
+  protected readonly timeRangeOptions = TIME_RANGE_OPTIONS ;
 
   private problemApiSvc = inject( ProblemApiService ) ;
   private activeRoute = inject( ActivatedRoute ) ;
@@ -183,6 +231,7 @@ export class ProblemBrowserScreenComponent implements OnInit {
   numProblems = 0 ;
   loaded = signal( false ) ;
   filter = signal( this.activeRoute.snapshot.queryParams[ 'filter' ] ?? 'total' ) ;
+  statFilter = signal<string[]>( [] ) ;
 
   private allProblems: TopicProblemSO[] = [] ;
 
@@ -200,8 +249,15 @@ export class ProblemBrowserScreenComponent implements OnInit {
     this.applyFilter() ;
   }
 
+  onStatFilterChange( selectEl: HTMLSelectElement ) {
+    this.statFilter.set( Array.from( selectEl.selectedOptions ).map( o => o.value ) ) ;
+    this.applyFilter() ;
+  }
+
   private applyFilter() {
-    const filtered = this.allProblems.filter( p => matchesFilter( p, this.filter() ) ) ;
+    const filtered = this.allProblems
+      .filter( p => matchesFilter( p, this.filter() ) )
+      .filter( p => matchesStatFilter( p, this.statFilter() ) ) ;
     this.categorizeProblems( filtered ) ;
   }
 

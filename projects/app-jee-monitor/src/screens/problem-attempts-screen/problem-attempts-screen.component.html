@@ -1,0 +1,54 @@
+<a [routerLink]="['/topic-detail', topicId, 'problems']"
+   [queryParams]="{ filter: returnFilter }"
+   class="back-link">&lsaquo; Problems</a>
+
+@if( loaded() && problem(); as p ) {
+  <div class="problem-header">
+    <div class="problem-key">{{p.problemKey.replaceAll('/', ' / ')}}</div>
+    <div class="problem-meta">{{p.bookShortName}} &middot; Ch {{p.chapterNum}}. {{p.chapterName}} &middot; {{p.exerciseName}}</div>
+  </div>
+
+  <div class="problem-rating">
+    <ngb-rating [rate]="p.difficultyLevel" [max]="10" (rateChange)="onRatingChange( $event )">
+      <ng-template let-fill="fill" let-index="index">
+        <i class="bi-star{{ fill === 100 ? '-fill' : '' }}"
+           [class.filled]="fill === 100"
+           [class.easy]="index < 3"
+           [class.moderate]="index >= 3 && index <= 6"
+           [class.hard]="index > 6">&nbsp;&nbsp;</i>
+      </ng-template>
+    </ngb-rating>
+  </div>
+
+  <div class="attempt-list">
+    @for( pa of problemAttempts(); track pa.id ) {
+      <div class="attempt-row">
+        <div class="attempt-header">
+          <span [ngClass]="SConsoleUtil.getProblemIcon( pa.prevState )"></span>&nbsp;&nbsp;{{pa.prevState}}
+          <span class="bi-arrow-right">&nbsp;&nbsp;</span>
+          <span [ngClass]="SConsoleUtil.getProblemIcon( pa.targetState )"></span>&nbsp;&nbsp;{{pa.targetState}}
+          <span class="bi-trash delete-icon" (click)="deleteProblemAttempt( pa )"></span>
+        </div>
+        <div class="attempt-details">
+          <span class="attempt-date">{{pa.startTime | date:'dd/MMM/yy'}}</span>
+          <span class="attempt-time">{{pa.startTime | date:'HH:mm'}} ▶︎ {{pa.endTime | date:'HH:mm'}}</span>
+          <span class="attempt-duration" [class.attempt-duration-red]="pa.effectiveDuration > 600">[{{pa.effectiveDuration*1000 | duration}}]</span>
+        </div>
+      </div>
+    }
+    @if( problemAttempts().length === 0 ) {
+      <div class="empty-state">No attempts recorded.</div>
+    }
+  </div>
+
+  <div class="button-bar">
+    @for( btn of stateButtons; track btn.targetState ) {
+      <button type="button" class="btn {{btn.btnClass}}" (click)="changeProblemState( btn.targetState )">
+        <span [class]="btn.icon">&nbsp;</span> {{btn.label}}
+      </button>
+    }
+  </div>
+}
+@else {
+  <div class="loading">Loading&hellip;</div>
+}

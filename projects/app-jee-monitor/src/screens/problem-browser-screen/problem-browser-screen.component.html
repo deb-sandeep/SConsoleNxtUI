@@ -12,6 +12,20 @@
       <option [value]="opt.key" [selected]="opt.key === filter()">{{opt.label}}</option>
     }
   </select>
+
+  <select class="filter-select stat-filter-select" multiple
+          (change)="onStatFilterChange( $any($event.target) )">
+    <optgroup label="Attempts">
+      @for( opt of attemptRangeOptions; track opt.key ) {
+        <option [value]="opt.key" [selected]="statFilter().includes( opt.key )">{{opt.label}}</option>
+      }
+    </optgroup>
+    <optgroup label="Time">
+      @for( opt of timeRangeOptions; track opt.key ) {
+        <option [value]="opt.key" [selected]="statFilter().includes( opt.key )">{{opt.label}}</option>
+      }
+    </optgroup>
+  </select>
 </div>
 
 @if( loaded() ) {
@@ -45,9 +59,18 @@
 
             @if( exercise.expanded ) {
               @for( problem of exercise.problems; track problem.problemId ) {
-                <div class="problem">
+                <div class="problem"
+                     [routerLink]="['/topic-detail', topicId, 'problems', problem.problemId, 'attempts']"
+                     [queryParams]="{ filter: filter() }">
                   <span [class]="SConsoleUtil.getProblemIcon( problem.so.problemState )"></span>&nbsp;&nbsp;
                   {{problem.displayName()}}
+                  <span class="problem-stats">
+                    @if( problem.so.difficultyLevel > 0 ) {
+                      <span class="bi-star-fill" [class]="problem.difficultyIconClass()"></span>
+                    }
+                    [<span [class]="problem.attemptsClass()">{{problem.so.numAttempts}}</span>]
+                    <span [class]="problem.durationClass()">{{problem.so.totalDuration*1000 | duration}}</span>
+                  </span>
                 </div>
               }
             }
