@@ -31,13 +31,18 @@ export class WebSocketService extends RxStomp implements OnDestroy {
     super();
     super.configure( {
       brokerURL: `${environment.wsRoot}/app-monitor-websocket`,
-      heartbeatIncoming: 0,
+      heartbeatIncoming: 10000,
       heartbeatOutgoing: 10000,
       reconnectDelay: 1000,
     } as RxStompConfig ) ;
     super.activate() ;
 
-    super.publish( { destination: '/app-monitor/todaySessionEvents' } ) ;
+    // Fires on initial connect AND every subsequent reconnect, so a fresh
+    // snapshot (and full state rebuild via DAY_SESSION_EVENTS) is requested
+    // after any connectivity gap, not just once at startup.
+    this.connected$.subscribe( () => {
+      super.publish( { destination: '/app-monitor/todaySessionEvents' } ) ;
+    } ) ;
 
     super.watch( '/topic/app-monitor-responses' )
          .subscribe( ( message:any ) => {
