@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { DatePipe, NgClass } from "@angular/common";
 import { NgbRating } from "@ng-bootstrap/ng-bootstrap";
@@ -15,13 +15,29 @@ type StateButton = {
 }
 
 const STATE_BUTTONS: StateButton[] = [
-  { targetState: 'Pigeon',    label: 'Pigeon',    icon: 'bi-twitter',            btnClass: 'btn-primary'   },
-  { targetState: 'Redo',      label: 'Redo',      icon: 'bi-arrow-clockwise',    btnClass: 'btn-warning'   },
-  { targetState: 'Correct',   label: 'Correct',   icon: 'bi-check-lg',           btnClass: 'btn-success'   },
-  { targetState: 'Incorrect', label: 'Incorrect', icon: 'bi-x-lg',               btnClass: 'btn-danger'    },
-  { targetState: 'Reassign',  label: 'Reassign',  icon: 'bi-signpost-split',     btnClass: 'btn-secondary' },
-  { targetState: 'Purge',     label: 'Purge',     icon: 'bi-box-arrow-up-right', btnClass: 'btn-danger'    },
+  { targetState: 'Pigeon Solved', label: 'Pigeon Solved', icon: 'bi-twitter',            btnClass: 'btn-success'   },
+  { targetState: 'Pigeon',        label: 'Pigeon',        icon: 'bi-twitter',            btnClass: 'btn-primary'   },
+  { targetState: 'Redo',          label: 'Redo',          icon: 'bi-arrow-clockwise',    btnClass: 'btn-warning'   },
+  { targetState: 'Correct',       label: 'Correct',       icon: 'bi-check-lg',           btnClass: 'btn-success'   },
+  { targetState: 'Incorrect',     label: 'Incorrect',     icon: 'bi-x-lg',               btnClass: 'btn-danger'    },
+  { targetState: 'Reassign',      label: 'Reassign',      icon: 'bi-signpost-split',     btnClass: 'btn-secondary' },
+  { targetState: 'Purge',         label: 'Purge',         icon: 'bi-box-arrow-up-right', btnClass: 'btn-danger'    },
 ] ;
+
+// Which action buttons are relevant for a given current problem state. States absent from
+// this map (unexpected/future states) fall back to showing every button.
+const STATE_BUTTON_RELEVANCY: Record<string, string[]> = {
+  'Pigeon':           [ 'Pigeon Solved', 'Correct', 'Redo', 'Reassign', 'Purge' ],
+  'Pigeon Solved':    [ 'Pigeon', 'Purge', 'Reassign' ],
+  'Pigeon Explained': [ 'Redo' ],
+  'Redo':             [ 'Pigeon', 'Correct', 'Reassign', 'Purge' ],
+  'Correct':          [ 'Pigeon', 'Redo', 'Incorrect', 'Reassign' ],
+  'Incorrect':        [ 'Pigeon', 'Redo', 'Correct', 'Reassign', 'Purge' ],
+  'Reassign':         [ 'Pigeon', 'Redo', 'Purge' ],
+  'Purge':            [ 'Pigeon', 'Redo', 'Reassign' ],
+  'Assigned':         [ 'Pigeon', 'Reassign', 'Purge' ],
+  'Later':            [ 'Pigeon', 'Redo', 'Correct', 'Reassign', 'Purge' ],
+} ;
 
 @Component({
   selector: 'app-problem-attempts-screen',
@@ -38,7 +54,6 @@ const STATE_BUTTONS: StateButton[] = [
 export class ProblemAttemptsScreenComponent implements OnInit {
 
   protected readonly SConsoleUtil = SConsoleUtil ;
-  protected readonly stateButtons = STATE_BUTTONS ;
 
   private problemApiSvc = inject( ProblemApiService ) ;
   private activeRoute = inject( ActivatedRoute ) ;
@@ -51,6 +66,12 @@ export class ProblemAttemptsScreenComponent implements OnInit {
   problem = signal<TopicProblemSO | null>( null ) ;
   problemAttempts = signal<ProblemAttemptSO[]>( [] ) ;
   loaded = signal( false ) ;
+
+  protected readonly visibleStateButtons = computed( () => {
+    const currentState = this.problem()?.problemState ;
+    const relevantStates = STATE_BUTTON_RELEVANCY[ currentState ?? '' ] ?? STATE_BUTTONS.map( b => b.targetState ) ;
+    return STATE_BUTTONS.filter( btn => relevantStates.includes( btn.targetState ) ) ;
+  } ) ;
 
   async ngOnInit() {
     this.problem.set( await this.problemApiSvc.getProblem( this.problemId ) ) ;

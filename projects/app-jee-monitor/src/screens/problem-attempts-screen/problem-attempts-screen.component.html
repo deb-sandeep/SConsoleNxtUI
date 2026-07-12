@@ -42,7 +42,7 @@
   </div>
 
   <div class="button-bar">
-    @for( btn of stateButtons; track btn.targetState ) {
+    @for( btn of visibleStateButtons(); track btn.targetState ) {
       <button type="button" class="btn {{btn.btnClass}}" (click)="changeProblemState( btn.targetState )">
         <span [class]="btn.icon">&nbsp;</span> {{btn.label}}
       </button>
