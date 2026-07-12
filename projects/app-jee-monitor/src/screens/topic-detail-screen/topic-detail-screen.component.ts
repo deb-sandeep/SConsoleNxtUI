@@ -69,7 +69,7 @@ export class TopicDetailScreenComponent implements OnInit, OnDestroy {
   }
 
   navigateToProblems( filter: string ) {
-    this.router.navigate( ['/topic-detail', this.topicId, 'problems'], { queryParams: { filter } } ) ;
+    this.router.navigate( ['/topic-detail', this.topicId, 'problems'], { queryParams: { filter, origin: 'topic-detail' } } ) ;
   }
 }
 

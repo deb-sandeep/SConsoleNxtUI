@@ -1,5 +1,5 @@
 <a [routerLink]="['/topic-detail', topicId, 'problems']"
-   [queryParams]="{ filter: returnFilter }"
+   [queryParams]="{ filter: returnFilter, origin: returnOrigin }"
    class="back-link">&lsaquo; Problems</a>
 
 @if( loaded() && problem(); as p ) {

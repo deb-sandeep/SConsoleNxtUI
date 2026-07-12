@@ -46,6 +46,7 @@ export class ProblemAttemptsScreenComponent implements OnInit {
   topicId: number = Number( this.activeRoute.snapshot.params[ 'topicId' ] ) ;
   problemId: number = Number( this.activeRoute.snapshot.params[ 'problemId' ] ) ;
   returnFilter: string = this.activeRoute.snapshot.queryParams[ 'filter' ] ?? 'total' ;
+  returnOrigin: string = this.activeRoute.snapshot.queryParams[ 'origin' ] ?? 'topic-detail' ;
 
   problem = signal<TopicProblemSO | null>( null ) ;
   problemAttempts = signal<ProblemAttemptSO[]>( [] ) ;

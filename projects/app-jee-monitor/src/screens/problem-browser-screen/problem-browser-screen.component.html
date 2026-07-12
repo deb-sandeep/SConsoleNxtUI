@@ -1,4 +1,4 @@
-<a [routerLink]="['/topic-detail', topicId]" class="back-link">&lsaquo; Topic Detail</a>
+<a [routerLink]="backLinkPath" class="back-link">&lsaquo; {{backLinkLabel}}</a>
 
 <div class="problem-browser-header">
   <div class="topic-name">{{topicName()}}</div>
@@ -61,7 +61,7 @@
               @for( problem of exercise.problems; track problem.problemId ) {
                 <div class="problem"
                      [routerLink]="['/topic-detail', topicId, 'problems', problem.problemId, 'attempts']"
-                     [queryParams]="{ filter: filter() }">
+                     [queryParams]="{ filter: filter(), origin: origin }">
                   <span [class]="SConsoleUtil.getProblemIcon( problem.so.problemState )"></span>&nbsp;&nbsp;
                   {{problem.displayName()}}
                   <span class="problem-stats">

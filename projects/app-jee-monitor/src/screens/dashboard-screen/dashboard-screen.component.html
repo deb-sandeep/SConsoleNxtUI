@@ -23,7 +23,7 @@
             <span class="burn-ratio">
               [{{topicState.numProblemsSolvedToday}}/{{topicState.requiredBurnRate}}]
             </span>
-            <span class="active-pigeons" *ngIf="topicState.numPigeons>0">
+            <span class="active-pigeons" *ngIf="topicState.numPigeons>0" (click)="onPigeonClick($event, topicState.topicId)">
               (<span class="bi-twitter"></span> <span class="num-pigeons"> {{topicState.numPigeons}}</span>)
             </span>
             <span class="burn-stress-zone" [style.color]="topicState.burnStressZoneColor">

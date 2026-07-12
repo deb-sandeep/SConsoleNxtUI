@@ -225,6 +225,9 @@ export class ProblemBrowserScreenComponent implements OnInit {
   private activeRoute = inject( ActivatedRoute ) ;
 
   topicId: number = Number( this.activeRoute.snapshot.params[ 'topicId' ] ) ;
+  origin: string = this.activeRoute.snapshot.queryParams[ 'origin' ] ?? 'topic-detail' ;
+  backLinkPath: (string|number)[] = this.origin === 'dashboard' ? ['/dashboard'] : ['/topic-detail', this.topicId] ;
+  backLinkLabel: string = this.origin === 'dashboard' ? 'Dashboard' : 'Topic Detail' ;
 
   topicName = signal( '' ) ;
   books: Book[] = [] ;

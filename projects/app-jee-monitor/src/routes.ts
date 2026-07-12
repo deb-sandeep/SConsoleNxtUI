@@ -9,7 +9,7 @@ import { ProblemApiService } from "@jee-common/services/problem-api.service";
 export const pageRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'session-events',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {
