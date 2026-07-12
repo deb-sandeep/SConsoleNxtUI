@@ -137,6 +137,23 @@
   font-size: 18px;
 }
 
+.pigeon-solve-icon {
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  text-align: center;
+  color: cyan;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.pigeon-solve-icon:hover {
+  color: #a0ffff;
+}
+
 .tweakie-icon {
   font-weight: bold;
 }

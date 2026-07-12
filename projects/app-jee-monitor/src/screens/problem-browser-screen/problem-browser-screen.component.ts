@@ -257,6 +257,13 @@ export class ProblemBrowserScreenComponent implements OnInit {
     this.applyFilter() ;
   }
 
+  async markPigeonSolved( problem: Problem, event: Event ) {
+    event.stopPropagation() ;
+    event.preventDefault() ;
+    await this.problemApiSvc.changeProblemState( [ problem.problemId ], this.topicId, 'Pigeon Solved' ) ;
+    problem.so.problemState = 'Pigeon Solved' ;
+  }
+
   private applyFilter() {
     const filtered = this.allProblems
       .filter( p => matchesFilter( p, this.filter() ) )

@@ -62,6 +62,11 @@
                 <div class="problem"
                      [routerLink]="['/topic-detail', topicId, 'problems', problem.problemId, 'attempts']"
                      [queryParams]="{ filter: filter(), origin: origin }">
+                  @if( problem.so.problemState === 'Pigeon' ) {
+                    <span class="bi-twitter pigeon-solve-icon"
+                          title="Mark Pigeon Solved"
+                          (click)="markPigeonSolved( problem, $event )"></span>
+                  }
                   <span [class]="SConsoleUtil.getProblemIcon( problem.so.problemState )"></span>&nbsp;&nbsp;
                   {{problem.displayName()}}
                   <span class="problem-stats">
