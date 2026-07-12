@@ -12,6 +12,24 @@ body {
     right: 0;
 }
 
+#connection-status .bi-stop-circle {
+    display: inline-block;
+    transition: color 0.15s ease-out;
+}
+
+#connection-status .bi-stop-circle.ws-pulse {
+    animation: ws-flicker 0.4s ease-in-out;
+}
+
+@keyframes ws-flicker {
+    0%   { opacity: 1; }
+    20%  { opacity: 0.2; }
+    40%  { opacity: 1; }
+    60%  { opacity: 0.3; }
+    80%  { opacity: 1; }
+    100% { opacity: 1; }
+}
+
 #page-content {
     position: fixed;
     top: 0;

@@ -23,7 +23,8 @@ import { UIHelperService } from "./service/ui-helper.service";
   template: `
         <div id="connection-status">
           <span class="bi-stop-circle"
-                [style.color]="networkSvc.connected()?'green':'red'"></span>
+                [class.ws-pulse]="networkSvc.activity()"
+                [style.color]="networkSvc.activity() ? 'cyan' : (networkSvc.connected()?'green':'red')"></span>
         </div>
         <div id="page-content">
           <router-outlet></router-outlet>

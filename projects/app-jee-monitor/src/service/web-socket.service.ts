@@ -1,4 +1,4 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy, signal, WritableSignal } from '@angular/core';
 import { RxStomp, RxStompConfig } from "@stomp/rx-stomp";
 import { NgZone } from "@angular/core";
 
@@ -26,6 +26,11 @@ export class WebSocketService extends RxStomp implements OnDestroy {
 
   stateSvc: StateService = inject( StateService ) ;
 
+  // Flips true on every websocket send/receive, then auto-resets, so the
+  // connection-status icon can flicker to show live channel activity.
+  activity: WritableSignal<boolean> = signal( false ) ;
+  private activityResetTimer: ReturnType<typeof setTimeout> | undefined ;
+
   constructor( private ngZone: NgZone ) {
     console.log( 'Creating webSocket service...' );
     super();
@@ -41,6 +46,7 @@ export class WebSocketService extends RxStomp implements OnDestroy {
     // snapshot (and full state rebuild via DAY_SESSION_EVENTS) is requested
     // after any connectivity gap, not just once at startup.
     this.connected$.subscribe( () => {
+      this.pulseActivity() ;
       super.publish( { destination: '/app-monitor/todaySessionEvents' } ) ;
     } ) ;
 
@@ -48,9 +54,21 @@ export class WebSocketService extends RxStomp implements OnDestroy {
          .subscribe( ( message:any ) => {
            let res = JSON.parse( message.body ) as AppMonitorResponse ;
            this.ngZone.run( () => {
+             this.pulseActivity() ;
              this.processMonitorResponse( res ) ;
            })
          }) ;
+  }
+
+  // connected$ emissions and outgoing publish() calls can originate outside
+  // the Angular zone, so pulseActivity always re-enters the zone itself
+  // rather than relying on callers to do so.
+  private pulseActivity() {
+    this.ngZone.run( () => {
+      this.activity.set( true ) ;
+      clearTimeout( this.activityResetTimer ) ;
+      this.activityResetTimer = setTimeout( () => this.activity.set( false ), 400 ) ;
+    } ) ;
   }
 
   private processMonitorResponse( res: AppMonitorResponse ) {
@@ -83,6 +101,7 @@ export class WebSocketService extends RxStomp implements OnDestroy {
   }
 
   requestTopicDetails( topicId: number ) {
+    this.pulseActivity() ;
     super.publish( {
       destination: '/app-monitor/topicDetails',
       body: String( topicId ),
