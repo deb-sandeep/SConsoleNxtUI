@@ -9,12 +9,20 @@
       <session-timer></session-timer>
     </div>
     <div class="action-btn-panel">
-      <!-- Pigeon selection button -->
-      <action-btn *ngIf="session.hasProblems()"
-                  (click)="showProblemPicker=true"
+      <!-- Active problem selection button -->
+      <action-btn *ngIf="session.hasActiveProblems()"
+                  (click)="session.selectActiveProblems(); showProblemPicker=true"
                   [bgColor]="'#002200'"
                   [color]="'#858585'">
         <span class="bi-list-ul" style="font-size:45px;"></span>
+      </action-btn>
+      <div style="width: 20px;display: inline-block"></div>
+      <!-- Pigeon selection button -->
+      <action-btn *ngIf="session.hasPigeons()"
+                  (click)="session.selectPigeonProblems(); showProblemPicker=true"
+                  [bgColor]="'#002200'"
+                  [color]="'#858585'">
+        <span class="bi-twitter" style="font-size:45px;"></span>
       </action-btn>
       <div style="width: 50px;display: inline-block"></div>
       <!-- Exit session button -->

@@ -39,6 +39,8 @@ export class Session extends PausableTimedEntity {
   syllabus = signal<SyllabusSO|null>(null);
   topic = signal<TopicSO|null>(null) ;
   problems: TopicProblemSO[] = [] ;
+  pigeonProblems: TopicProblemSO[] = [] ;
+  activeProblems: TopicProblemSO[] = [] ;
 
   sessionId:number = -1 ; // <=0 => session not started
 
@@ -90,8 +92,12 @@ export class Session extends PausableTimedEntity {
     return this.currentProblemAttempt != null ;
   }
 
-  public hasProblems() {
-    return this.problems.length > 0 ;
+  public hasPigeons() {
+    return this.pigeonProblems.length > 0 ;
+  }
+
+  public hasActiveProblems() {
+    return this.activeProblems.length > 0 ;
   }
 
   public isActive() {
@@ -127,12 +133,19 @@ export class Session extends PausableTimedEntity {
     this.topic.set( t ) ;
   }
 
-  public async fetchPigeons() {
-    this.problems = await this.networkSvc.getPigeonsForSession( this ) ;
+  public async fetchProblems() {
+    [ this.pigeonProblems, this.activeProblems ] = await Promise.all( [
+      this.networkSvc.getPigeonsForSession( this ),
+      this.networkSvc.getActiveProblemsForSession( this ),
+    ] ) ;
   }
 
-  public async fetchActiveProblems() {
-    this.problems = await this.networkSvc.getActiveProblemsForSession( this ) ;
+  public selectPigeonProblems() {
+    this.problems = this.pigeonProblems ;
+  }
+
+  public selectActiveProblems() {
+    this.problems = this.activeProblems ;
   }
 
   // ------------- Timer callback -------------------------------------------------
@@ -262,11 +275,13 @@ export class Session extends PausableTimedEntity {
       value.problemId === this.currentProblemAttempt!.problem.problemId ) ;
     let nextProblemIndex = index + 1 ;
 
-    if( this.sessionType!.sessionType === "Coaching" && targetState === 'Redo' ) {
+    const workingPigeons = this.problems === this.pigeonProblems ;
+
+    if( workingPigeons && targetState === 'Redo' ) {
       this.problems.splice( index, 1 ) ;
       nextProblemIndex = index ;
     }
-    else if( this.sessionType!.sessionType === "Coaching" && targetState === 'Pigeon' ) {
+    else if( workingPigeons && targetState === 'Pigeon' ) {
       // Don't do anything. Let the problem be there in this context
     }
     else if ( !['Later','Redo'].includes( targetState ) ) {

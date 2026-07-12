@@ -38,7 +38,7 @@ export class CoachingSessionComponent {
     else {
       this.session = this.stateSvc.session ;
       this.session.start()
-          .then( () => this.session.fetchPigeons() ) ;
+          .then( () => this.session.fetchProblems() ) ;
     }
   }
 

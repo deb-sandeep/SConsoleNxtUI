@@ -40,8 +40,11 @@ export class ExerciseSessionComponent {
       this.session = this.stateSvc.session ;
       this.session.start()
           .then( () => {
-            this.session.fetchActiveProblems()
-                .then( () => this.showProblemPicker = true ) ;
+            this.session.fetchProblems()
+                .then( () => {
+                  this.session.selectActiveProblems() ;
+                  this.showProblemPicker = true ;
+                } ) ;
           } ) ;
     }
   }
