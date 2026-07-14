@@ -4,7 +4,7 @@ import { WelcomeScreenComponent } from "./pages/02-welcome-screen/welcome-screen
 import { InstructionScreenComponent } from "./pages/03-instruction-screen/instruction-screen.component";
 import { ExamScreenComponent } from "./pages/04-exam-screen/exam-screen.component";
 import { SubmitScreenComponent } from "./pages/05-submit-screen/submit-screen.component";
-import { ResultScreenComponent } from "./pages/07-result-screen/result-screen.component";
+import { ResultScreenComponent } from "./pages/06-result-screen/result-screen.component";
 
 export const jeeMainRoutes: Routes = [
     {
