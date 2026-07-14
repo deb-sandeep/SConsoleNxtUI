@@ -1,0 +1,168 @@
+<div id="exam-screen-root">
+
+  <!-- future component: page-header (banner) -->
+  <header id="exam-header">
+    <img ngSrc="img/jee-adv-banner.png" alt="JEE Advanced 2026" width="1024" height="50"
+         id="exam-header-banner-img"/>
+  </header>
+
+  <!-- future component: exam-toolbar -->
+  <div id="exam-toolbar">
+    <div id="exam-toolbar-title">JEE Advanced 2026 Paper 1</div>
+    <div id="exam-toolbar-actions">
+      <button type="button" class="toolbar-action-btn" id="instructions-btn">
+        <span class="toolbar-action-icon toolbar-action-icon-info">i</span>
+        Instructions
+      </button>
+      <button type="button" class="toolbar-action-btn" id="question-paper-btn">
+        <span class="toolbar-action-icon toolbar-action-icon-doc">&#8801;</span>
+        Question Paper
+      </button>
+    </div>
+  </div>
+
+  <div id="exam-body-layout">
+
+    <div id="exam-main-column">
+
+      <!-- future component: paper-breadcrumb-bar -->
+      <div id="paper-breadcrumb-bar">
+        <button type="button" class="nav-arrow-btn" id="paper-prev-btn">&#10094;</button>
+        <div id="paper-breadcrumb-pill">
+          <span id="paper-breadcrumb-label">JEE Advanced 2026 Pa...</span>
+          <span class="info-icon">i</span>
+        </div>
+        <button type="button" class="nav-arrow-btn" id="paper-next-btn">&#10095;</button>
+      </div>
+
+      <!-- future component: section-header -->
+      <div id="section-header">
+
+        <div id="section-header-timer-row">
+          <span id="section-header-label">Sections</span>
+          <span id="exam-timer-display">Time Left : 179:14</span>
+        </div>
+
+        <div id="section-tabs-bar">
+          <button type="button" class="nav-arrow-btn" id="section-tabs-prev-btn">&#10094;</button>
+          <div id="section-tabs-list">
+            <button type="button" class="section-tab section-tab-active">
+              Math Sec 1
+              <span class="info-icon">i</span>
+            </button>
+            <button type="button" class="section-tab">
+              Math Sec 2
+              <span class="info-icon info-icon-outline">i</span>
+            </button>
+          </div>
+          <button type="button" class="nav-arrow-btn" id="section-tabs-next-btn">&#10095;</button>
+        </div>
+
+      </div>
+
+      <!-- future component: question-display -->
+      <div id="question-display">
+
+        <div id="question-meta-bar">
+          <span id="question-type-label">Question Type: MCQ</span>
+          <span id="question-marks-info">
+            Marks for correct answer: 3 <span class="marks-divider">|</span>
+            Negative Marks: <span class="negative-marks-value">1.0</span>
+          </span>
+        </div>
+
+        <div id="question-language-bar">
+          <label id="question-language-label">View in :</label>
+          <select id="question-language-select">
+            <option>English</option>
+            <option>Hindi</option>
+          </select>
+        </div>
+
+        <div id="question-display-area">
+          <!-- question content will be rendered here -->
+        </div>
+
+        <button type="button" id="question-palette-collapse-toggle">&#10095;</button>
+
+      </div>
+
+      <!-- future component: question-action-panel -->
+      <div id="question-action-panel">
+        <div id="question-action-panel-left">
+          <button type="button" class="action-btn action-btn-outline" id="mark-review-btn">
+            Mark for Review &amp; Next
+          </button>
+          <button type="button" class="action-btn action-btn-outline" id="clear-response-btn">
+            Clear Response
+          </button>
+        </div>
+        <div id="question-action-panel-right">
+          <button type="button" class="action-btn action-btn-solid" id="save-next-btn">
+            Save &amp; Next
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="exam-sidebar-column">
+
+      <!-- future component: candidate-info-panel -->
+      <div id="candidate-info-panel">
+        <img ngSrc="img/photograph_sm.jpg" alt="Candidate photograph" width="60" height="75"
+             id="candidate-photo"/>
+        <div id="candidate-name">John Smith</div>
+      </div>
+
+      <!-- future component: question-status-legend -->
+      <div id="question-status-legend">
+        <div class="legend-row">
+          <div class="legend-item">
+            <span class="test-ques-stats q-answered legend-badge">0</span>
+            <span class="legend-text">Answered</span>
+          </div>
+          <div class="legend-item">
+            <span class="test-ques-stats q-not-answered legend-badge">1</span>
+            <span class="legend-text">Not Answered</span>
+          </div>
+        </div>
+        <div class="legend-row">
+          <div class="legend-item">
+            <span class="test-ques-stats q-not-visited legend-badge">3</span>
+            <span class="legend-text">Not Visited</span>
+          </div>
+          <div class="legend-item">
+            <span class="test-ques-stats q-marked-for-review legend-badge">0</span>
+            <span class="legend-text">Marked for Review</span>
+          </div>
+        </div>
+        <div class="legend-row">
+          <div class="legend-item legend-item-wide">
+            <span class="test-ques-stats q-ans-marked-for-review legend-badge">0</span>
+            <span class="legend-text">Answered &amp; Marked for Review (will also be evaluated)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- future component: question-palette -->
+      <div id="question-palette">
+        <div id="question-palette-section-header">Math Sec 1</div>
+        <div id="question-palette-body">
+          <div id="question-palette-choose-label">Choose a Question</div>
+          <div id="question-palette-grid">
+            <!-- question number badges will be rendered here -->
+          </div>
+        </div>
+
+        <!-- future component: submit-panel -->
+        <div id="submit-panel">
+          <button type="button" id="submit-btn" disabled>Submit</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
