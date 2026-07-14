@@ -58,7 +58,8 @@ export class MainLoginComponent {
     }
     else {
       console.log( "Credentials authenticated" ) ;
-      this.router.navigate( [ '../welcome-screen' ], { relativeTo: this.route } ).then();
+      const nextRoute = this.route.snapshot.data[ 'nextRouteAfterLogin' ] ?? 'welcome-screen' ;
+      this.router.navigate( [ '../' + nextRoute ], { relativeTo: this.route } ).then();
     }
   }
 }

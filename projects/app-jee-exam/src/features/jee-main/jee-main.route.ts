@@ -16,6 +16,7 @@ export const jeeMainRoutes: Routes = [
         path: 'login-dialog',
         title: 'Login',
         component: MainLoginComponent,
+        data: { nextRouteAfterLogin: 'welcome-screen' },
     },
     {
         path: 'welcome-screen',

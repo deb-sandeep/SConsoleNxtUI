@@ -36,4 +36,9 @@ export class ExamListingComponent {
     protected startExam( exam: ExamSO ) {
         this.router.navigateByUrl( `/jee-main/${exam.id}` ).then() ;
     }
+
+    // Temporary static entry point into the jee-advanced UI mockup, not wired to real exam data yet.
+    protected goToJeeAdvancedMockup() {
+        this.router.navigateByUrl( '/jee-advanced/1' ).then() ;
+    }
 }
