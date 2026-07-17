@@ -1,0 +1,56 @@
+* {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1a1a1a;
+  color: #f4d35e;
+  padding: 8px 16px;
+  font-size: 15px;
+}
+
+#exam-toolbar-actions {
+  display: flex;
+  gap: 20px;
+}
+
+.toolbar-action-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toolbar-action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.toolbar-action-icon-info {
+  background: #3f7fd1;
+  color: #ffffff;
+}
+
+.toolbar-action-icon-doc {
+  background: #4caf50;
+  color: #ffffff;
+  font-style: normal;
+}

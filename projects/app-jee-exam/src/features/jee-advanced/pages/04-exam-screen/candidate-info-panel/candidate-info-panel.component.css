@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: #ffffff;
+}
+
+#candidate-photo {
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+#candidate-name {
+  font-weight: 700;
+  font-size: 15px;
+}

@@ -1,0 +1,44 @@
+* {
+  box-sizing: border-box;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #ffffff;
+  padding: 4px 16px 16px;
+}
+
+.legend-row {
+  display: flex;
+  gap: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.legend-item-wide {
+  flex: 1 1 100%;
+}
+
+.legend-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.legend-text {
+  font-size: 12px;
+  line-height: 1.3;
+}

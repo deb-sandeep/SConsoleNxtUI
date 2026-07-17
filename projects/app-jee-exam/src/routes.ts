@@ -6,6 +6,7 @@ import { jeeMainRoutes } from "./features/jee-main/jee-main.route";
 import { JeeMainService } from "./features/jee-main/jee-main.service";
 import { JeeAdvancedComponent } from "./features/jee-advanced/jee-advanced.component";
 import { jeeAdvancedRoutes } from "./features/jee-advanced/jee-advanced.route";
+import { JeeAdvancedService } from "./features/jee-advanced/jee-advanced.service";
 import { EventLogService } from "@jee-common/services/event-log.service";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { JeeBaseService } from "@jee-common/services/jee-base.service";
@@ -34,5 +35,6 @@ export const featureRoutes: Routes = [
         title: 'JEE Advanced',
         component: JeeAdvancedComponent,
         children: jeeAdvancedRoutes,
+        providers: [ExamApiService, JeeBaseService, JeeAdvancedService, EventLogService ]
     },
 ] ;
