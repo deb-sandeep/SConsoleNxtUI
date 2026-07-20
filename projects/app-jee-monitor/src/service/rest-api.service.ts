@@ -25,4 +25,9 @@ export class RestApiService extends RemoteService {
     const url:string = `${environment.apiRoot}/Topic/${topicId}/burnChart` ;
     return this.getPromise<BurnChartVO>( url ) ;
   }
+
+  toggleBurnMetOverride( topicId: number ) : Promise<void> {
+    const url:string = `${environment.apiRoot}/Topic/${topicId}/ToggleBurnMetOverride` ;
+    return this.postPromise<void>( url ) ;
+  }
 }

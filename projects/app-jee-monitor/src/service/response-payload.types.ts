@@ -96,6 +96,7 @@ export type DashboardState = {
       burnStressScore: number,
       burnStressZone: string,
       burnStressZoneColor: string,
+      burnMetOverride: boolean,
     }[]
   }[]
 }
@@ -113,6 +114,7 @@ export type TopicDetailState = {
   burnStressZone: string,
   burnStressZoneColor: string,
   numProblemsSolvedToday: number,
+  burnMetOverride: boolean,
   allTimeProblemState: ProblemStateBreakdown,
   todayProblemState: ProblemStateBreakdown,
 }

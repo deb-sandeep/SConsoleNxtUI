@@ -18,6 +18,7 @@ export class BurnBarComponent implements OnInit, OnChanges {
   currentBurnRate = input.required<number>() ;
   requiredBurnRate = input.required<number>() ;
   numProblemsSolvedToday = input.required<number>() ;
+  burnMetOverride = input<boolean>( false ) ;
 
   cells: Cell[] = [] ;
 
@@ -35,6 +36,7 @@ export class BurnBarComponent implements OnInit, OnChanges {
       this.numProblemsSolvedToday() ) + 2 ;
 
     this.cells = [] ;
+    const override = this.burnMetOverride() ;
 
     for( let i = 0; i < numCells; i++) {
       const cell = new Cell() ;
@@ -50,8 +52,12 @@ export class BurnBarComponent implements OnInit, OnChanges {
           cell.classes.push( "over-burn" ) ;
         }
       }
-      else if( i < this.requiredBurnRate() ) {
+      else if( i < this.requiredBurnRate() && !override ) {
         cell.classes.push( "unburnt" ) ;
+      }
+
+      if( override ) {
+        cell.classes.push( "override-marker" ) ;
       }
 
       if( i == this.currentBurnRate()-1 ) {

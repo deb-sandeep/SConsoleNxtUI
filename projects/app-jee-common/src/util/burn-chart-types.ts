@@ -67,6 +67,7 @@ export type BurnChartVO = {
   burnStressZoneColor: string,
   numPigeonedProblems: number,
   numProblemsSolvedToday: number,
+  burnMetOverride: boolean,
   allTimeProblemState: ProblemStateBreakdown,
   todayProblemState: ProblemStateBreakdown,
   l30Burn: DayCountPointVO[],

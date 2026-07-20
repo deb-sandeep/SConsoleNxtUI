@@ -44,6 +44,15 @@ export class TopicDetailScreenComponent implements OnInit, OnDestroy {
   burnStressZoneColor = computed( () => this.stateSvc.topicDetailState()?.burnStressZoneColor ?? this.burnChart()?.burnStressZoneColor ?? '#ffffff' ) ;
   numProblemsSolvedToday = computed( () => this.stateSvc.topicDetailState()?.numProblemsSolvedToday ?? this.burnChart()?.numProblemsSolvedToday ?? 0 ) ;
 
+  // A locally-initiated toggle isn't reflected by a live websocket push (the
+  // backend only pushes TopicDetailState on ATS_REFRESHED, and toggling the
+  // override doesn't publish that), so it's applied optimistically here and
+  // takes precedence over both the live and initial-snapshot values until
+  // this screen is next reloaded.
+  private burnMetOverridePending = signal<boolean | null>( null ) ;
+  burnMetOverride = computed( () =>
+    this.burnMetOverridePending() ?? this.stateSvc.topicDetailState()?.burnMetOverride ?? this.burnChart()?.burnMetOverride ?? false ) ;
+
   numTotalProblems     = computed( () => this.burnChart()?.plan.numTotalProblems ?? 0 ) ;
   numProblemsCompleted = computed( () => this.numTotalProblems() - this.numProblemsLeft() ) ;
   originalBurnRate     = computed( () => this.burnChart()?.plan.originalBurnRate ?? 0 ) ;
@@ -70,6 +79,18 @@ export class TopicDetailScreenComponent implements OnInit, OnDestroy {
 
   navigateToProblems( filter: string ) {
     this.router.navigate( ['/topic-detail', this.topicId, 'problems'], { queryParams: { filter, origin: 'topic-detail' } } ) ;
+  }
+
+  async toggleBurnMetOverride() {
+    const newValue = !this.burnMetOverride() ;
+    this.burnMetOverridePending.set( newValue ) ;
+    try {
+      await this.restApiSvc.toggleBurnMetOverride( this.topicId ) ;
+    }
+    catch( err ) {
+      console.error( 'Failed to toggle burn met override for topic', this.topicId, err ) ;
+      this.burnMetOverridePending.set( !newValue ) ;
+    }
   }
 }
 

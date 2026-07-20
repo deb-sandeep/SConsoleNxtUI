@@ -71,3 +71,13 @@
 .l30-chart-section {
   height: 140px;
 }
+
+.burn-override-section {
+  display: flex;
+  align-items: center;
+}
+
+.burn-override-section .form-check-label {
+  font-size: 13px;
+  color: #a0a0a0;
+}

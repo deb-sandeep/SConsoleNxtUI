@@ -56,6 +56,15 @@
       <l30-burn-chart [points]="chart.l30Burn"></l30-burn-chart>
     </div>
   </div>
+
+  <div class="widget-section burn-override-section">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="burnOverrideSwitch"
+             [checked]="burnMetOverride()"
+             (change)="toggleBurnMetOverride()">
+      <label class="form-check-label" for="burnOverrideSwitch">Burn met override</label>
+    </div>
+  </div>
 }
 @else {
   <div class="loading">Loading&hellip;</div>
