@@ -15,19 +15,22 @@ import { BurnChartVO, BurnPointVO } from "../../util/burn-chart-types";
 Chart.register( LineController, LineElement, PointElement, LinearScale, TimeScale, annotationPlugin ) ;
 
 // Mirrors ActiveTopicStatistics.ZONE_BOUNDS / zoneIndexFor in the desktop app.
-const ZONE_BOUNDS = [ -1.0, -0.40, -0.30, -0.20, 0.00, 0.20, 0.38, 0.66, 0.84, 0.96, 1.0 ] ;
+const ZONE_BOUNDS = [ -1.00, -0.85, -0.70, -0.55, -0.40, -0.30, -0.20, 0.00, 0.20, 0.38, 0.66, 0.84, 0.96, 1.0 ] ;
 
 function zoneIndexFor( score: number ): number {
-  if( score < -0.40 ) return 0 ;
-  if( score < -0.30 ) return 1 ;
-  if( score < -0.20 ) return 2 ;
-  if( score <=  0.00 ) return 3 ;
-  if( score <  0.20 ) return 4 ;
-  if( score <  0.38 ) return 5 ;
-  if( score <  0.66 ) return 6 ;
-  if( score <  0.84 ) return 7 ;
-  if( score <  0.96 ) return 8 ;
-  return 9 ;
+  if( score < -0.85 ) return 0 ;
+  if( score < -0.70 ) return 1 ;
+  if( score < -0.55 ) return 2 ;
+  if( score < -0.40 ) return 3 ;
+  if( score < -0.30 ) return 4 ;
+  if( score < -0.20 ) return 5 ;
+  if( score <=  0.00 ) return 6 ;
+  if( score <  0.20 ) return 7 ;
+  if( score <  0.38 ) return 8 ;
+  if( score <  0.66 ) return 9 ;
+  if( score <  0.84 ) return 10 ;
+  if( score <  0.96 ) return 11 ;
+  return 12 ;
 }
 
 // h, s, v in [0,1] — standard HSB/HSV to RGB conversion. CSS hsl() is NOT
