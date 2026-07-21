@@ -27,7 +27,7 @@
       <sca-answer-zone [question]="question"
                        (answerEntered)="answerEntered( $event )"/>
     }
-    @else if ( problemType === "NVT" ) {
+    @else if ( problemType === "NVT" || problemType === "IVT" ) {
       <nvt-answer-zone [question]="question"
                        (answerEntered)="answerEntered( $event )"/>
     }

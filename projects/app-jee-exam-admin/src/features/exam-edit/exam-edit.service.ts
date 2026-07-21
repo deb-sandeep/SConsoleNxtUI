@@ -70,7 +70,10 @@ export class ExamEditService extends RemoteService {
       this.selTopicQuestions = {} ;
     }
     else {
-      const url:string = `${environment.apiRoot}/Master/Question/AvailableQuestions?topicId=${topic.id}&problemTypes=${this.problemTypes}` ;
+      const url:string = `${environment.apiRoot}/Master/Question/AvailableQuestions?` +
+                         `topicId=${topic.id}` +
+                         `&problemTypes=${this.problemTypes}` +
+                         `&examId=${this.examCfg!.id}` ;
       await this.getPromise<{
         topicId:number,
         questions:Record<string, QuestionSO[]>
