@@ -17,6 +17,7 @@
       <th class="qtype-col">CMT</th>
       <th class="qtype-col">ART</th>
       <th class="qtype-col">NVT</th>
+      <th class="qtype-col">IVT</th>
       <td class="qtype-col">Total ({{numQuestions}})</td>
     </tr>
     </thead>
@@ -102,6 +103,16 @@
                     <status-chart [maxValue]="maxQuestionInCell"
                                   [statusData]="topicStat.questionTypeStats['NVT']"
                                   (click)="openQuestionBrowser( topicStat.topicId, 'NVT' )">
+                    </status-chart>
+                  }
+                </div>
+              </td>
+              <td class="status-chart-cell">
+                <div class="status-chart-container">
+                  @if(topicStat.questionTypeStats['IVT']) {
+                    <status-chart [maxValue]="maxQuestionInCell"
+                                  [statusData]="topicStat.questionTypeStats['IVT']"
+                                  (click)="openQuestionBrowser( topicStat.topicId, 'IVT' )">
                     </status-chart>
                   }
                 </div>

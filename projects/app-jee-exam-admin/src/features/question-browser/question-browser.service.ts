@@ -8,7 +8,7 @@ import { QuestionSearchResSO } from "./question-browser.type";
 export class QuestionBrowserService extends RemoteService {
 
   static readonly QUESTION_TYPES: string[] = [
-    "SCA", "MCA", "LCT", "MMT", "CMT", "ART", "NVT"
+    "SCA", "MCA", "LCT", "MMT", "CMT", "ART", "NVT", "IVT"
   ] ;
 
   static readonly DEFAULT_SORT = [ "serverSyncTime:desc", "problemType:asc" ] ;
