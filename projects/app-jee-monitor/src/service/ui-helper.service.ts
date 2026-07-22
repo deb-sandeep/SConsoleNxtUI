@@ -1,19 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
 
-import { Router } from "@angular/router";
-import {
-  PauseEnd,
-  PauseStart,
-  ProblemAttemptEnd,
-  ProblemAttemptStart,
-  SessionEnd,
-  SessionStart
-} from "./response-payload.types";
-import {
-  Pause,
-  ProblemAttempt,
-  Session
-} from "../screens/session-events-screen/session-event.entities";
 import { SessionTypeSO, SyllabusSO } from "@jee-common/util/master-data-types";
 import { RestApiService } from "./rest-api.service";
 import { LocalStorageService } from "lib-core";
@@ -30,6 +16,14 @@ export class UIHelperService {
   sessionTypeMap: Record<string, SessionTypeSO> = {} ;
 
   private imgFilters:Record<string, string> = {} ;
+
+  // /Session/Types only returns non-automated session types (e.g. it
+  // excludes 'Exam'), since that endpoint also backs the manual session-type
+  // picker in app-jee-session. Automated session types still show up here via
+  // websocket events, so sessionTypeMap can legitimately be missing an entry
+  // for them - fall back rather than crash the screen.
+  private readonly DEFAULT_SESSION_TYPE_ICON = 'session-type-exam.png' ;
+  private readonly DEFAULT_SESSION_TYPE_COLOR = '#9b00ff' ;
 
   ready = signal( false ) ;
 
@@ -66,7 +60,7 @@ export class UIHelperService {
   }
 
   getSessionTypeImgName( type: string ) {
-    return this.sessionTypeMap[ type ].iconName ;
+    return this.sessionTypeMap[ type ]?.iconName ?? this.DEFAULT_SESSION_TYPE_ICON ;
   }
 
   getSyllabusImgName( syllabusName: string ) {
@@ -74,7 +68,7 @@ export class UIHelperService {
   }
 
   getSessionTypeCSSImgFilter( sessionType: string ) {
-    return this.getCSSImageFilter( this.sessionTypeMap[sessionType].color );
+    return this.getCSSImageFilter( this.sessionTypeMap[sessionType]?.color ?? this.DEFAULT_SESSION_TYPE_COLOR );
   }
 
   getSyllabusCSSImgFilter( sessionType: string ) {
