@@ -23,7 +23,6 @@ a {
 }
 
 .navbar {
-  min-height: 78px;
   margin: 0;
   background: transparent;
   border: 0;
@@ -54,7 +53,6 @@ a {
 }
 
 .navbar-header {
-  min-height: 78px;
   display: flex;
   align-items: center;
 }
@@ -129,7 +127,7 @@ section {
 }
 
 .panel-body {
-  padding: 22px 24px;
+  padding: 10px 24px;
 }
 
 .text-center {
@@ -148,7 +146,7 @@ h4 {
 }
 
 .instructions-title {
-  margin: 0 0 18px;
+  margin: 0 0 10px;
   font-size: 20px;
   font-weight: 700;
   text-align: center;

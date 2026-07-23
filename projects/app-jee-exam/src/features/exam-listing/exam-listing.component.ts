@@ -34,11 +34,13 @@ export class ExamListingComponent {
     }
 
     protected startExam( exam: ExamSO ) {
-        this.router.navigateByUrl( `/jee-main/${exam.id}` ).then() ;
+        const route = exam.type === 'ADV' ? 'jee-advanced' : 'jee-main' ;
+        this.router.navigateByUrl( `/${route}/${exam.id}` ).then() ;
     }
 
-    // Temporary static entry point into the jee-advanced UI mockup, not wired to real exam data yet.
+    // Direct entry point into JEE Advanced, independent of exam-listing's own (unmocked) getListOfExams()
+    // call. examId is ignored by MockExamApiService.getExamDetails() anyway, but matches the fixture's id.
     protected goToJeeAdvancedMockup() {
-        this.router.navigateByUrl( '/jee-advanced/1' ).then() ;
+        this.router.navigateByUrl( '/jee-advanced/16' ).then() ;
     }
 }
