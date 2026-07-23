@@ -4,13 +4,29 @@
 
 :host {
   display: block;
-  background: #f0f0f0;
+  background: #f9f9f9;
   border-bottom: 1px solid #d6d6d6;
   padding: 4px 0;
 }
 
-#exam-header-banner-img {
+#exam-header-banner-lhs {
   display: block;
+  margin-left: 0px;
+  float: left;
   height: 46px;
   width: auto;
+}
+
+#exam-header-banner-rhs {
+  display: block;
+  margin-right: 20px;
+  float: right;
+  height: 46px;
+  width: auto;
+}
+
+:host::after {
+  content: "";
+  display: table;
+  clear: both;
 }

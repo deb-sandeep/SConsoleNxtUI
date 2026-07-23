@@ -38,9 +38,10 @@ export class ExamListingComponent {
         this.router.navigateByUrl( `/${route}/${exam.id}` ).then() ;
     }
 
-    // Direct entry point into JEE Advanced, independent of exam-listing's own (unmocked) getListOfExams()
-    // call. examId is ignored by MockExamApiService.getExamDetails() anyway, but matches the fixture's id.
+    // DEV SHORTCUT (see jee-advanced/DEV_SHORTCUTS.md) - jumps straight to exam-screen, bypassing
+    // login-dialog and instruction-screen, for rapid UI iteration. examId is ignored by
+    // MockExamApiService.getExamDetails() anyway, but matches the fixture's id.
     protected goToJeeAdvancedMockup() {
-        this.router.navigateByUrl( '/jee-advanced/16' ).then() ;
+        this.router.navigateByUrl( '/jee-advanced/16n' ).then() ;
     }
 }
