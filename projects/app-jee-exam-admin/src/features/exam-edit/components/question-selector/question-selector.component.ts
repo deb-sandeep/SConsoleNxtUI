@@ -140,4 +140,13 @@ export class QuestionSelectorComponent {
     }
     return false;
   }
+
+  protected getTopicNameForSelectedQuestion( q: QuestionSO ) {
+    var topicName = q.topicName ;
+    if( topicName.includes( '-' ) ) {
+      topicName = topicName.substring( topicName.indexOf( '-' ) + 1 ) ;
+      topicName = topicName.trim() ;
+    }
+    return topicName ;
+  }
 }

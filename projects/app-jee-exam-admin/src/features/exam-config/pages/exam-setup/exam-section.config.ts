@@ -1,5 +1,5 @@
 export interface ExamSectionTemplate {
-    problemType: ( 'SCA' | 'MCA' | 'LCT' | 'NVT' | 'MMT' | 'CMT' | 'ART' ) ;
+    problemType: ( 'SCA' | 'MCA' | 'LCT' | 'NVT' | 'IVT' | 'MMT' | 'CMT' | 'ART' ) ;
     defaultSelection: boolean;
     title: string;
     correctMarks: number;
@@ -99,6 +99,23 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
           'Enter the correct numerical value.',
           'No options are provided.',
           'Answer must match exactly as per required precision.'
+        ]
+    },
+    {
+        problemType : 'IVT',
+        defaultSelection : true,
+        title : 'Integer Value Type',
+        correctMarks : 3,
+        correctMarksEditable : true,
+        wrongPenalty : 0,
+        wrongPenaltyEditable : true,
+        numQuestions : 6,
+        allQuestionsCompulsory : true,
+        numCompulsoryQuestions : 6,
+        instructions : [
+          'Enter the correct numerical value.',
+          'No options are provided.',
+          'Answer must match exactly.'
         ]
     },
     {

@@ -62,7 +62,7 @@
             {{ q.question.questionId!.replace('://', ' - ') }}
           </span>
           <span class="topic-name">
-            [{{ q.question.topicName}}]
+            [{{ getTopicNameForSelectedQuestion( q.question ) }}]
           </span>
         </div>
       }
