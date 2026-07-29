@@ -1,0 +1,30 @@
+:root {
+  --exam-primary-blue: #4a7ebb;
+}
+
+.btn-bg-primary {
+  background: var(--exam-primary-blue);
+  color: #ffffff;
+}
+
+.nav-arrow-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #bdc6cf;
+  font-size: 17px;
+  padding: 1px;
+}
+
+.info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background: #5bb1fa;
+  color: #ffffff;
+  font-size: 22px;
+  -webkit-text-stroke: 0.7px #ffffff;
+}

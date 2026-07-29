@@ -1,3 +1,5 @@
+@import "../common.css";
+
 * {
   box-sizing: border-box;
 }
@@ -16,15 +18,8 @@ button {
   padding: 8px 5px;
 }
 
-.nav-arrow-btn {
-  background: transparent;
-  border: none;
-  color: #bdc6cf;
-  font-size: 17px;
-  padding: 1px;
-}
-
 #paper-breadcrumb-pill {
+  position: relative;
   background: #247eb3;
   color: #ffffff;
   display: inline-flex;
@@ -36,19 +31,17 @@ button {
   border-radius: 3px;
 }
 
-#paper-next-btn {
-  margin-left: auto;
+#paper-breadcrumb-pill::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #247eb3;
 }
 
-.info-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #5bb1fa;
-  color: #ffffff;
-  font-size: 22px;
-  -webkit-text-stroke: 0.7px #ffffff;
+#paper-next-btn {
+  margin-left: auto;
 }

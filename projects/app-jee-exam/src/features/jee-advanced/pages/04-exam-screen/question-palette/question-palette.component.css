@@ -1,3 +1,5 @@
+@import "../common.css";
+
 :host {
   flex: 1;
   display: flex;
@@ -5,7 +7,7 @@
 }
 
 #question-palette-section-header {
-  background: #4a7ebb;
+  background: var(--exam-primary-blue);
   color: #ffffff;
   font-weight: 700;
   padding: 10px 16px;

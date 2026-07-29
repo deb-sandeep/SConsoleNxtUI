@@ -1,3 +1,5 @@
+@import "../common.css";
+
 * {
   box-sizing: border-box;
 }
@@ -17,16 +19,20 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px 6px;
+  padding: 2px 16px 6px;
+  border-bottom: 1px solid #d6d6d6;
 }
 
 #section-header-label {
-  color: #444444;
+  font-weight: 500;
+  font-size: 14px;
+  color: #555555;
 }
 
 #exam-timer-display {
-  font-weight: 700;
-  font-size: 15px;
+  font-weight: 500;
+  font-size: 17px;
+  color: #555555;
 }
 
 #section-tabs-bar {
@@ -41,14 +47,6 @@ button {
   gap: 6px;
 }
 
-.nav-arrow-btn {
-  background: transparent;
-  border: none;
-  color: #999999;
-  font-size: 13px;
-  padding: 4px;
-}
-
 .section-tab {
   display: inline-flex;
   align-items: center;
@@ -57,32 +55,18 @@ button {
   font-size: 14px;
   font-weight: 600;
   background: #ffffff;
-  color: #4a7ebb;
-  border: 1px solid #4a7ebb;
+  color: var(--exam-primary-blue);
+  border: 1px solid var(--exam-primary-blue);
 }
 
 .section-tab-active {
-  background: #4a7ebb;
+  background: var(--exam-primary-blue);
   color: #ffffff;
-  border-color: #4a7ebb;
-}
-
-.info-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #ffffff;
-  color: #4a7ebb;
-  font-size: 11px;
-  font-style: italic;
-  font-weight: 700;
+  border-color: var(--exam-primary-blue);
 }
 
 .info-icon-outline {
   background: #ffffff;
-  color: #4a7ebb;
-  border: 1px solid #4a7ebb;
+  color: var(--exam-primary-blue);
+  border: 1px solid var(--exam-primary-blue);
 }
