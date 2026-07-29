@@ -1,0 +1,144 @@
+.icon-lg,
+.icon-sm {
+  background: url("../../../../public/img/questions-sprite.png") no-repeat;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: normal;
+  text-align: center;
+}
+
+.icon-lg {
+  color: #ffffff;
+  font-size: 17px;
+  width: 50px;
+  height: 43px;
+  line-height: 42px;
+}
+
+.icon-sm {
+  color: #262626;
+  font-size: 13px;
+  line-height: 15px;
+}
+
+/* --- large (palette) size: ported from .question_area span.* --- */
+.icon-lg.answered {
+  background-position: -4px -5px;
+}
+
+.icon-lg.not-answered {
+  background-position: -57px -6px;
+  width: 49px;
+}
+
+.icon-lg.not-visited {
+  background-position: -157px -4px;
+  color: #474747;
+}
+
+.icon-lg.visited {
+  background-position: -208px -4px;
+}
+
+.icon-lg.review {
+  background-position: -108px -1px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.icon-lg.review-answered {
+  background-position: -66px -178px;
+  width: 49px;
+  height: 53px;
+  line-height: 51px;
+}
+
+.icon-lg.review-marked {
+  background-position: -203px -49px;
+  width: 53px;
+  height: 53px;
+  line-height: 50px;
+}
+
+.icon-lg.answered:hover {
+  background-position: -4px -126px;
+}
+
+.icon-lg.not-answered:hover {
+  background-position: -57px -127px;
+}
+
+.icon-lg.review:hover {
+  background-position: -108px -122px;
+}
+
+.icon-lg.visited:hover {
+  background-position: -208px -124px;
+}
+
+.icon-lg.review-marked:hover {
+  background-position: -5px -178px;
+}
+
+/* --- small (legend/instructional) size: ported from .diff_type_notation_area_inner span.* --- */
+.icon-sm.answered {
+  background-position: -7px -55px;
+  width: 29px;
+  height: 26px;
+  line-height: 20px;
+  color: #ffffff;
+  padding-top: 3px;
+}
+
+.icon-sm.not-answered {
+  background-position: -42px -56px;
+  width: 29px;
+  height: 26px;
+  line-height: 22px;
+  color: #ffffff;
+}
+
+.icon-sm.not-visited {
+  background-position: -107px -56px;
+  width: 29px;
+  height: 26px;
+  line-height: 21px;
+  color: #000000;
+  padding-top: 2px;
+}
+
+.icon-sm.visited {
+  background-position: -138px -56px;
+  width: 29px;
+  height: 26px;
+  line-height: 21px;
+  color: #ffffff;
+  padding-top: 2px;
+}
+
+.icon-sm.review {
+  background-position: -75px -54px;
+  width: 28px;
+  height: 28px;
+  line-height: 18px;
+  color: #ffffff;
+  padding-top: 5px;
+}
+
+.icon-sm.review-answered {
+  background-position: -9px -87px;
+  width: 28px;
+  height: 29px;
+  line-height: 15px;
+  color: #ffffff;
+  padding-top: 5px;
+}
+
+.icon-sm.review-marked {
+  background-position: -172px -55px;
+  width: 30px;
+  height: 28px;
+  line-height: 15px;
+  color: #ffffff;
+  padding-top: 5px;
+}

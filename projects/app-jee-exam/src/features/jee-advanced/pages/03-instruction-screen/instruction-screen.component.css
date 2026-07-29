@@ -1,3 +1,5 @@
+@import "../icons.css";
+
 :host {
   display: block;
   font-family: Arial, Helvetica, sans-serif;
@@ -203,23 +205,6 @@ h4 {
   padding: 6px 10px;
   font-weight: 700;
   font-size: 13px;
-}
-
-/* The QuizIcons are natively 30x30 (square), but the shared global .test-ques /
-   .test-ques-stats classes (assets/styles.css) size their box from padding and
-   text content rather than a fixed square, so background-size:100% 100% stretches
-   the icon non-uniformly. Force a square box here so the icons render undistorted. */
-.palette-legend-table .test-ques-stats,
-.palette-preview-stats .test-ques-stats,
-.palette-preview-grid .test-ques {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
 }
 
 .palette-preview-choose-label {
