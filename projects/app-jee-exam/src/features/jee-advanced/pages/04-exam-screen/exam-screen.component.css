@@ -35,7 +35,8 @@ button {
 }
 
 #exam-sidebar-column {
-  width: 270px;
+  /*width: 270px;*/
+  width: 500px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;

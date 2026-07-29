@@ -4,10 +4,11 @@
 </div>
 
 <div id="section-tabs-bar">
-  <button type="button" class="nav-arrow-btn" id="section-tabs-prev-btn">
+  <button type="button" class="nav-arrow-btn" id="section-tabs-prev-btn"
+          (click)="scrollTabs( -1 )">
     <span class="bi-caret-left-fill"></span>
   </button>
-  <div id="section-tabs-list">
+  <div id="section-tabs-list" #tabsList>
     @for( section of examSvc.sections; track section.sectionName ) {
       <button type="button" class="section-tab">
         {{section.sectionName}}
@@ -15,7 +16,8 @@
       </button>
     }
   </div>
-  <button type="button" class="nav-arrow-btn" id="section-tabs-next-btn">
+  <button type="button" class="nav-arrow-btn" id="section-tabs-next-btn"
+          (click)="scrollTabs( 1 )">
     <span class="bi-caret-right-fill"></span>
   </button>
 </div>

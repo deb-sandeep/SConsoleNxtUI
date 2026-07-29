@@ -44,7 +44,16 @@ button {
 
 #section-tabs-list {
   display: flex;
+  flex: 1 1 0;
+  min-width: 0;
   gap: 6px;
+  overflow-x: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge/IE */
+}
+
+#section-tabs-list::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Chromium Edge */
 }
 
 #section-tabs-next-btn {
@@ -61,6 +70,7 @@ button {
   background: #ffffff;
   color: var(--exam-primary-blue);
   border: 1px solid #c3c3c1;
+  flex-shrink: 0;
 }
 
 .section-tab-active {
