@@ -16,6 +16,11 @@
   padding: 1px;
 }
 
+.nav-arrow-btn:disabled {
+  color: #e7eaed;
+  cursor: default;
+}
+
 .info-icon {
   display: inline-flex;
   align-items: center;
