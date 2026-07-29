@@ -4,19 +4,20 @@ button {
 }
 
 :host {
-  display: block;
+  display: flex;
+  justify-content: center;
   background: #dce9f5;
   padding: 12px 16px;
 }
 
 #submit-btn {
-  width: 100%;
-  padding: 10px 16px;
-  font-size: 14px;
+  padding: 10px 20px;
+  font-size: 15px;
   font-weight: 600;
   background: #8fb3d9;
   color: #ffffff;
   border: none;
+  border-radius: 2px;
 }
 
 #submit-btn:disabled {
