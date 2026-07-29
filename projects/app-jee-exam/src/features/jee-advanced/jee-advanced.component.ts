@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from "@angular/router";
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { ModalWaitComponent } from "lib-core";
+import { JeeAdvancedService } from "./jee-advanced.service";
 
 @Component({
   selector: 'jee-advanced',
@@ -13,4 +14,17 @@ import { ModalWaitComponent } from "lib-core";
   `
 })
 export class JeeAdvancedComponent {
+
+  private examSvc = inject( JeeAdvancedService ) ;
+
+  constructor( private route: ActivatedRoute ) {}
+
+  ngOnInit() {
+    this.route.paramMap.subscribe( pm => {
+      const examId = Number( pm.get( 'examId' ) ) ;
+      if( !isNaN( examId ) ){
+        this.examSvc.loadExamConfig( examId ).then() ;
+      }
+    })
+  }
 }

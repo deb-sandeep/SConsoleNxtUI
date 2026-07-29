@@ -42,6 +42,6 @@ export class ExamListingComponent {
     // login-dialog and instruction-screen, for rapid UI iteration. examId is ignored by
     // MockExamApiService.getExamDetails() anyway, but matches the fixture's id.
     protected goToJeeAdvancedMockup() {
-        this.router.navigateByUrl( '/jee-advanced/16n' ).then() ;
+        this.router.navigateByUrl( '/jee-advanced/16/exam-screen' ).then() ;
     }
 }
