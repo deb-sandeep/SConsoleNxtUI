@@ -19,13 +19,22 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
-  font-size: 13px;
+  padding: 5px 16px;
+  font-size: 15px;
+}
+
+#question-marks-info {
+  font-size: 14px;
+}
+
+.positive-marks-value {
+  color: #228615;
+  font-weight: 400;
 }
 
 .negative-marks-value {
   color: #c0392b;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .marks-divider {
@@ -33,7 +42,7 @@ button {
 }
 
 #question-language-bar {
-  background: #5b84b1;
+  background: #4f86c6;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -47,6 +56,7 @@ button {
   padding: 3px 8px;
   border: none;
   font-size: 13px;
+  color: black;
 }
 
 #question-display-area {
