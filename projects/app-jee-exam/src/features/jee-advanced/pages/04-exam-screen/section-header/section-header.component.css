@@ -19,7 +19,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2px 16px 6px;
+  padding: 1px 16px 6px;
   border-bottom: 1px solid #d6d6d6;
 }
 
@@ -39,7 +39,7 @@ button {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 0 16px 10px;
+  padding: 4px 5px 4px 5px ;
 }
 
 #section-tabs-list {
@@ -47,22 +47,25 @@ button {
   gap: 6px;
 }
 
+#section-tabs-next-btn {
+  margin-left: auto;
+}
+
 .section-tab {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
+  padding: 5px 8px;
   font-size: 14px;
   font-weight: 600;
   background: #ffffff;
   color: var(--exam-primary-blue);
-  border: 1px solid var(--exam-primary-blue);
+  border: 1px solid #c3c3c1;
 }
 
 .section-tab-active {
   background: var(--exam-primary-blue);
   color: #ffffff;
-  border-color: var(--exam-primary-blue);
 }
 
 .info-icon-outline {
