@@ -1,3 +1,5 @@
+@import "../common.css";
+
 * {
   box-sizing: border-box;
 }
@@ -34,25 +36,9 @@ button {
   gap: 6px;
 }
 
-.toolbar-action-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  font-size: 11px;
-  font-style: italic;
-  font-weight: 700;
-}
-
-.toolbar-action-icon-info {
-  background: #3f7fd1;
-  color: #ffffff;
-}
-
 .toolbar-action-icon-doc {
   background: #4caf50;
   color: #ffffff;
   font-style: normal;
+  font-size: 13px;
 }
