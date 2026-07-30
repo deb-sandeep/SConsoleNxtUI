@@ -12,16 +12,54 @@
       <span class="negative-marks-value">{{ Math.abs( sectionConfig.wrongPenalty ) }}</span>
     </span>
   </div>
+
+  <div id="question-language-bar">
+    <label id="question-language-label">View in :</label>
+    <select id="question-language-select" disabled>
+      <option>English</option>
+      <option>Hindi</option>
+    </select>
+  </div>
+
+  <div #questionDisplayContainer
+       id="question-display-area"
+       class="question-display-container">
+
+    <div class="question-header">
+      <div class="question-no-label">
+        Question No. {{ question.index }}
+      </div>
+      <div class="scroll-icon"
+           (click)="scrollDown()">
+        <img ngSrc="img/QuizIcons/down.png" alt="Down" height="30" width="30">
+      </div>
+    </div>
+
+    <div class="question-statement">
+      @let images = question.questionConfig.question.questionImages ;
+      @for( img of images; track img.fileName ) {
+        <img class="img-fluid question-img"
+             [src]="getImgURL(question.questionConfig.question, img)"
+             [width]="850"
+             [alt]="img.fileName"/>
+      }
+    </div>
+
+    @let problemType = question.questionConfig.question.problemType ;
+    @if( problemType === "SCA" ) {
+      <sca-answer-zone [question]="question"
+                       (answerEntered)="answerEntered( $event )"/>
+    }
+    @else if ( problemType === "NVT" || problemType === "IVT" ) {
+      <nvt-answer-zone [question]="question"
+                       (answerEntered)="answerEntered( $event )"/>
+    }
+
+    <div class="question-footer">
+      <div class="scroll-icon"
+           (click)="scrollUp()">
+        <img ngSrc="img/QuizIcons/up.png" alt="Up" height="30" width="30">
+      </div>
+    </div>
+  </div>
 }
-
-<div id="question-language-bar">
-  <label id="question-language-label">View in :</label>
-  <select id="question-language-select" disabled>
-    <option>English</option>
-    <option>Hindi</option>
-  </select>
-</div>
-
-<div id="question-display-area">
-  <!-- question content will be rendered here -->
-</div>
