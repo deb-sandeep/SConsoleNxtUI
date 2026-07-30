@@ -46,12 +46,6 @@ export class JeeAdvancedService extends JeeBaseService {
         }
       }
     }
-
-    // Activate the first question so the initial state matches what a
-    // section-tab click produces (NOT_VISITED -> NOT_ANSWERED) and
-    // activeSection gets derived. When createExamAttempt() is wired in,
-    // its own activateQuestion( questions[0] ) will simply early-return.
-    this.activateQuestion( this.questions[0] ) ;
   }
 
   // activeSection is not set here directly - activateQuestion() derives
