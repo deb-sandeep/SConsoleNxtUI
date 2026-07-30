@@ -38,6 +38,7 @@ export class JeeMainService extends JeeBaseService {
         }
 
         this.questions.push( examQuestion ) ;
+        currentSection.questions.push( examQuestion ) ;
         lastQuestion = examQuestion ;
 
         // Track the first question of the section to enable jumps

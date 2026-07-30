@@ -13,7 +13,9 @@
     @for( section of examSvc.sections; track section.sectionName ) {
       <button type="button" class="section-tab">
         {{section.sectionName}}
-        <span class="info-icon bi-info"></span>
+        <span class="info-icon bi-info"
+              (mouseenter)="snapshotPopup.show( $event, section )"
+              (mouseleave)="snapshotPopup.hide()"></span>
       </button>
     }
   </div>
@@ -23,3 +25,4 @@
     <span class="bi-caret-right-fill"></span>
   </button>
 </div>
+<section-snapshot-info #snapshotPopup></section-snapshot-info>

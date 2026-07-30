@@ -3,9 +3,20 @@ import { ExamQuestionSO, ExamQuestionSubmitStatus } from "@jee-common/util/exam-
 export class ExamSection {
 
     public firstQuestion: ExamQuestion ;
+    public questions: ExamQuestion[] = [] ;
 
     constructor( public sectionName: string,
                  public subjectName: string ) {}
+
+    getNumQuestions( state: ExamQuestionSubmitStatus ): number {
+        let numQuestions = 0 ;
+        for( let question of this.questions ) {
+            if( question.state === state ) {
+                numQuestions++ ;
+            }
+        }
+        return numQuestions ;
+    }
 }
 
 export class ExamQuestion {

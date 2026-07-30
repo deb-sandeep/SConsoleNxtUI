@@ -24,7 +24,6 @@ export class JeeAdvancedService extends JeeBaseService {
         section.syllabusName ) ;
 
       this.sections.push( examSection ) ;
-      console.log( examSection.sectionName ) ;
 
       // Wrap the questions into an object instance (they are types)
       // as of now and thread them into a double-linked list.
@@ -38,6 +37,7 @@ export class JeeAdvancedService extends JeeBaseService {
         }
 
         this.questions.push( examQuestion ) ;
+        examSection.questions.push( examQuestion ) ;
         lastQuestion = examQuestion ;
 
         // Track the first question of the section to enable jumps

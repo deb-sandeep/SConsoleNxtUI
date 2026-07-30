@@ -1,0 +1,11 @@
+@if( visible ) {
+  <div class="snapshot-popup" [ngStyle]="popupStyle">
+    <div class="snapshot-title">{{title}}</div>
+    @for( row of rows; track row.state ) {
+      <div class="legend-item">
+        <span class="icon-sm {{row.cssClass}} legend-badge">{{getCount( row.state )}}</span>
+        <span class="legend-text">{{row.label}}</span>
+      </div>
+    }
+  </div>
+}

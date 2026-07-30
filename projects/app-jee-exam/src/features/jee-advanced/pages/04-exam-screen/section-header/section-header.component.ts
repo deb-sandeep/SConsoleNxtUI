@@ -3,10 +3,11 @@ import { JeeAdvancedService } from "../../../jee-advanced.service";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { EventLogService } from "@jee-common/services/event-log.service";
 import { ExamSection } from "../../../../../common/so-wrappers";
+import { SectionSnapshotInfoComponent } from "../section-snapshot-info/section-snapshot-info.component";
 
 @Component({
   selector: 'section-header',
-  imports: [],
+  imports: [ SectionSnapshotInfoComponent ],
   templateUrl: './section-header.component.html',
   styleUrl: './section-header.component.css'
 })
