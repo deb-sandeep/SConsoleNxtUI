@@ -19,7 +19,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1px 16px 1px;
+  padding: 1px 10px 1px;
   border-bottom: 1px solid #d6d6d6;
 }
 
@@ -31,8 +31,15 @@ button {
 
 #exam-timer-display {
   font-weight: 500;
-  font-size: 17px;
+  font-size: 16px;
   color: #555555;
+}
+
+#exam-timer-value {
+  display: inline-block;
+  width: 5ch;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 #section-tabs-bar {
