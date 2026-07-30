@@ -11,7 +11,22 @@ import { EventLogService } from "@jee-common/services/event-log.service";
 })
 export class QuestionDisplayComponent {
 
+  protected readonly Math = Math ;
+
   examSvc = inject( JeeAdvancedService ) ;
   apiSvc = inject( ExamApiService ) ;
   eventLogSvc = inject( EventLogService ) ;
+
+  protected getQuestionTypeLabel( problemType: string ): string {
+    switch( problemType ) {
+      case "SCA": return "MCQ" ;
+      case "MCA": return "MSQ" ;
+      case "NVT": return "NVT" ;
+      case "IVT": return "NVT" ;
+      case "MMT": return "MM" ;
+      case "CMT": return "MM" ;
+      case "ART": return "MCQ" ;
+    }
+    return problemType ;
+  }
 }

@@ -1,11 +1,18 @@
-<div id="question-meta-bar">
-  <span id="question-type-label">Question Type: MCQ</span>
-  <span id="question-marks-info">
-    Marks for correct answer: <span class="positive-marks-value">3</span>
-    <span class="marks-divider">|</span>
-    Negative Marks: <span class="negative-marks-value">1.0</span>
-  </span>
-</div>
+@if( examSvc.activeQuestion ) {
+  @let question = examSvc.activeQuestion ;
+  @let sectionConfig = examSvc.getSectionConfig( question ) ;
+
+  <div id="question-meta-bar">
+    <span id="question-type-label">Question Type: {{ getQuestionTypeLabel( question.questionConfig.question.problemType ) }}</span>
+    <span id="question-marks-info">
+      Marks for correct answer:
+      <span class="positive-marks-value">{{ sectionConfig.correctMarks }}</span>
+      <span class="marks-divider">|</span>
+      Negative Marks:
+      <span class="negative-marks-value">{{ Math.abs( sectionConfig.wrongPenalty ) }}</span>
+    </span>
+  </div>
+}
 
 <div id="question-language-bar">
   <label id="question-language-label">View in :</label>

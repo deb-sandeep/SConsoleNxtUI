@@ -2,6 +2,7 @@ import {
   ExamAttemptSO,
   ExamQuestionAttemptSO,
   ExamQuestionSubmitStatus,
+  ExamSectionSO,
   ExamSO,
   LapName,
   WrongAnswerRootCause
@@ -78,6 +79,16 @@ export class JeeBaseService {
     this.activeSection =
         this.sections.find( s => s.questions.includes( examQuestion ) ) ?? null ;
     this.eventLogService.logQuestionActivation( this.activeQuestion ) ;
+  }
+
+  // ExamSection (the flattened wrapper in sections/activeSection) can span
+  // multiple raw ExamSectionSO entries with different marking schemes (JEE Main
+  // clubs SCA+NVT per subject), so correctMarks/wrongPenalty/problemType must be
+  // looked up per-question from examConfig.sections, not off activeSection.
+  public getSectionConfig( examQuestion: ExamQuestion ): ExamSectionSO {
+    return this.examConfig.sections.find(
+      section => section.id === examQuestion.questionConfig.sectionId
+    )! ;
   }
 
   public getNumQuestions( state: ExamQuestionSubmitStatus ) {
