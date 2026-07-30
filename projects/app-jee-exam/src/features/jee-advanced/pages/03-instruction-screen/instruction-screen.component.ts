@@ -25,9 +25,9 @@ export class InstructionScreenComponent {
   protected bannerImage: string = getJeeAdvancedBannerImage() ;
 
   protected proceed() {
-    // TODO: once JeeAdvancedService exists, mirror jee-main's flow of calling
-    // examSvc.createExamAttempt() before navigating, so an attempt/timer is started.
-    this.router.navigate( [ '../exam-screen' ], { relativeTo: this.route } ).then();
+    this.examSvc.createExamAttempt().then( () => {
+      this.router.navigate( [ '../exam-screen' ], { relativeTo: this.route } ).then() ;
+    }) ;
   }
 
   getDuration() {

@@ -24,6 +24,15 @@ export class SectionHeaderComponent {
     this.examSvc.activateSection( section ) ;
   }
 
+  // NTA shows the remaining time as total minutes, not HH:MM:SS
+  // (e.g. a 3 hour paper starts at 180:00).
+  protected getRemainingTime(): string {
+    const timeLeft = Math.max( 0, this.examSvc.timeLeftInSeconds() ) ;
+    const minutes = Math.floor( timeLeft / 60 ) ;
+    const seconds = timeLeft % 60 ;
+    return `${ minutes }:${ seconds.toString().padStart( 2, '0' ) }` ;
+  }
+
   protected scrollTabs( direction: number ) {
     const el = this.tabsList?.nativeElement ;
     if( el ) {
