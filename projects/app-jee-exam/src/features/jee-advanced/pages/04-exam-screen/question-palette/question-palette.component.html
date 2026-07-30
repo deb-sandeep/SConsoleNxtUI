@@ -1,8 +1,11 @@
-<div id="question-palette-section-header">Math Sec 1</div>
+<div id="question-palette-section-header">{{examSvc.activeSection?.sectionName}}</div>
 <div id="question-palette-body">
   <div id="question-palette-choose-label">Choose a Question</div>
   <div id="question-palette-grid">
-    <!-- question number badges will be rendered here -->
+    @for( question of examSvc.activeSection?.questions; track question.index ) {
+      <span class="icon-lg {{getStatusClass( question )}}"
+            (click)="examSvc.activateQuestion( question )">{{$index + 1}}</span>
+    }
   </div>
 </div>
 

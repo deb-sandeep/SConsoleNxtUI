@@ -50,6 +50,12 @@ export class JeeBaseService {
   timeLeftInSeconds = signal<number>( 0 ) ;
 
   activeQuestion: ExamQuestion ;
+
+  // Derived from activeQuestion - activateQuestion() is the sole writer.
+  // Assigning it anywhere else risks breaking the invariant that
+  // activeSection always contains activeQuestion.
+  activeSection: ExamSection | null = null ;
+
   currentLap: LapName = "L1" ;
   examSubmitted = false ;
   eval: ExamAttemptSO | null = null ;
@@ -69,6 +75,8 @@ export class JeeBaseService {
     }
     this.activeQuestion = examQuestion ;
     this.activeQuestion.activate() ;
+    this.activeSection =
+        this.sections.find( s => s.questions.includes( examQuestion ) ) ?? null ;
     this.eventLogService.logQuestionActivation( this.activeQuestion ) ;
   }
 

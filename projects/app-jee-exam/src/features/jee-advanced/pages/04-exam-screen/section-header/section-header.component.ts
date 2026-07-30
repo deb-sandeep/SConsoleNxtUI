@@ -20,6 +20,10 @@ export class SectionHeaderComponent {
   @ViewChild( 'tabsList' )
   private tabsList?: ElementRef<HTMLDivElement> ;
 
+  protected selectSection( section: ExamSection ) {
+    this.examSvc.activateSection( section ) ;
+  }
+
   protected scrollTabs( direction: number ) {
     const el = this.tabsList?.nativeElement ;
     if( el ) {

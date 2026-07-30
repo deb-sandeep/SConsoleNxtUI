@@ -1,4 +1,5 @@
 @import "../common.css";
+@import "../../icons.css";
 
 :host {
   flex: 1;
@@ -27,7 +28,9 @@
 }
 
 #question-palette-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat( 4, 1fr );
+  justify-items: center;
+  align-items: center;
+  row-gap: 8px;
 }
