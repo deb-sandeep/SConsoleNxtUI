@@ -17,7 +17,8 @@ button {
 #exam-screen-root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   background: #ffffff;
 }
 
@@ -33,6 +34,14 @@ button {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 0;
+}
+
+#question-body-wrapper {
+  --action-panel-height: 55px;
+  flex: 1;
+  min-height: 0;
+  position: relative;
 }
 
 #exam-sidebar-column {

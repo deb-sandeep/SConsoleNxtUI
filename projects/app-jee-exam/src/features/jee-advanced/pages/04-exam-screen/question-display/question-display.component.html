@@ -27,7 +27,7 @@
 
     <div class="question-header">
       <div class="question-no-label">
-        Question No. {{ question.index }}
+        Question No. {{ getSectionQuestionNumber( question ) }}
       </div>
       <div class="scroll-icon"
            (click)="scrollDown()">

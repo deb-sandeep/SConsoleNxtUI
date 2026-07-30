@@ -8,10 +8,13 @@ button {
 }
 
 :host {
-  flex: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: var(--action-panel-height, 55px);
   display: flex;
   flex-direction: column;
-  min-height: 0;
 }
 
 #question-meta-bar {
@@ -97,5 +100,5 @@ button {
 .question-footer {
     width: 100%;
     padding-top: 2px;
-    border-top: 1px solid #808080;
+    border-bottom: 1px solid #dbdbdb;
 }

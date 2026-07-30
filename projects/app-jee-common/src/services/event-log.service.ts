@@ -35,7 +35,7 @@ export class EventLogService {
 
   examAttemptId: number ;
   eventSequence: number = 0 ;
-  startTime: Date ;
+  startTime: Date = new Date() ;
 
   private createEvent( eventName: ExamEventName, payload:any|null = null ) {
     let creationTime = new Date();

@@ -8,9 +8,15 @@ button {
 }
 
 :host {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--action-panel-height, 55px);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: #ffffff;
   border-top: 1px solid #d6d6d6;
   padding: 8px 16px;
 }

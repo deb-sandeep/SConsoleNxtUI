@@ -69,6 +69,10 @@ export class QuestionDisplayComponent {
     }
   }
 
+  protected getSectionQuestionNumber( question: ExamQuestion ): number {
+    return ( this.examSvc.activeSection?.questions.indexOf( question ) ?? -1 ) + 1 ;
+  }
+
   protected getQuestionTypeLabel( problemType: string ): string {
     switch( problemType ) {
       case "SCA": return "MCQ" ;

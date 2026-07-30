@@ -1,31 +1,23 @@
 <div id="exam-screen-root">
 
   <page-header></page-header>
-
   <exam-toolbar></exam-toolbar>
 
   <div id="exam-body-layout">
-
     <div id="exam-main-column">
-
       <paper-breadcrumb-bar></paper-breadcrumb-bar>
-
       <section-header></section-header>
 
-      <question-display></question-display>
-
-      <question-action-panel></question-action-panel>
-
+      <div id="question-body-wrapper">
+        <question-display></question-display>
+        <question-action-panel></question-action-panel>
+      </div>
     </div>
 
     <div id="exam-sidebar-column" [class.palette-collapsed]="paletteCollapsed">
-
       <candidate-info-panel></candidate-info-panel>
-
       <question-status-legend></question-status-legend>
-
       <question-palette></question-palette>
-
     </div>
 
     <button type="button" id="question-palette-collapse-toggle"
@@ -33,7 +25,6 @@
             (click)="togglePalette()">
       <span [class]="paletteCollapsed ? 'bi-chevron-left' : 'bi-chevron-right'"></span>
     </button>
-
   </div>
 
 </div>
