@@ -1,26 +1,36 @@
 <div class="legend-row">
   <div class="legend-item">
-    <span class="icon-sm answered legend-badge">0</span>
+    <span class="icon-sm answered legend-badge">
+      {{ examSvc.activeSection?.getNumQuestions('ANSWERED') ?? 0 }}
+    </span>
     <span class="legend-text">Answered</span>
   </div>
   <div class="legend-item">
-    <span class="icon-sm not-answered legend-badge">1</span>
+    <span class="icon-sm not-answered legend-badge">
+      {{ examSvc.activeSection?.getNumQuestions('NOT_ANSWERED') ?? 0 }}
+    </span>
     <span class="legend-text">Not Answered</span>
   </div>
 </div>
 <div class="legend-row">
   <div class="legend-item">
-    <span class="icon-sm not-visited legend-badge">3</span>
+    <span class="icon-sm not-visited legend-badge">
+      {{ examSvc.activeSection?.getNumQuestions('NOT_VISITED') ?? 0 }}
+    </span>
     <span class="legend-text">Not Visited</span>
   </div>
   <div class="legend-item">
-    <span class="icon-sm review legend-badge">0</span>
+    <span class="icon-sm review legend-badge">
+      {{ examSvc.activeSection?.getNumQuestions('MARKED_FOR_REVIEW') ?? 0 }}
+    </span>
     <span class="legend-text">Marked for Review</span>
   </div>
 </div>
 <div class="legend-row">
   <div class="legend-item legend-item-wide">
-    <span class="icon-sm review-answered legend-badge">0</span>
+    <span class="icon-sm review-answered legend-badge">
+      {{ examSvc.activeSection?.getNumQuestions('ANS_AND_MARKED_FOR_REVIEW') ?? 0 }}
+    </span>
     <span class="legend-text">Answered &amp; Marked for Review (will also be evaluated)</span>
   </div>
 </div>
