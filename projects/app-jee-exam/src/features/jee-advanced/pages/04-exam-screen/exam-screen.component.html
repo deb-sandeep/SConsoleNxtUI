@@ -18,7 +18,7 @@
 
     </div>
 
-    <div id="exam-sidebar-column">
+    <div id="exam-sidebar-column" [class.palette-collapsed]="paletteCollapsed">
 
       <candidate-info-panel></candidate-info-panel>
 
@@ -27,6 +27,12 @@
       <question-palette></question-palette>
 
     </div>
+
+    <button type="button" id="question-palette-collapse-toggle"
+            [class.collapsed]="paletteCollapsed"
+            (click)="togglePalette()">
+      <span [class]="paletteCollapsed ? 'bi-chevron-left' : 'bi-chevron-right'"></span>
+    </button>
 
   </div>
 

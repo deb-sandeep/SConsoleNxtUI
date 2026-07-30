@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PageHeaderComponent } from "./page-header/page-header.component";
 import { ExamToolbarComponent } from "./exam-toolbar/exam-toolbar.component";
 import { PaperBreadcrumbBarComponent } from "./paper-breadcrumb-bar/paper-breadcrumb-bar.component";
@@ -8,6 +8,7 @@ import { QuestionActionPanelComponent } from "./question-action-panel/question-a
 import { CandidateInfoPanelComponent } from "./candidate-info-panel/candidate-info-panel.component";
 import { QuestionStatusLegendComponent } from "./question-status-legend/question-status-legend.component";
 import { QuestionPaletteComponent } from "./question-palette/question-palette.component";
+import { EventLogService } from "@jee-common/services/event-log.service";
 
 @Component({
   selector: 'exam-screen',
@@ -26,4 +27,13 @@ import { QuestionPaletteComponent } from "./question-palette/question-palette.co
   styleUrl: './exam-screen.component.css'
 })
 export class ExamScreenComponent {
+
+  eventLogSvc = inject( EventLogService ) ;
+
+  paletteCollapsed = false ;
+
+  protected togglePalette() {
+    this.paletteCollapsed = !this.paletteCollapsed ;
+    this.eventLogSvc.logPaletteToggle( this.paletteCollapsed ) ;
+  }
 }
