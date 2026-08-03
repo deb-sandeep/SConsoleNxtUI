@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, DoCheck, ElementRef, ViewChild, inject } from '@angular/core';
 import { NgOptimizedImage } from "@angular/common";
 import { JeeAdvancedService } from "../../../jee-advanced.service";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
@@ -23,7 +23,7 @@ import { SectionInstructionsComponent } from "./section-instructions/section-ins
   templateUrl: './question-display.component.html',
   styleUrl: './question-display.component.css'
 })
-export class QuestionDisplayComponent {
+export class QuestionDisplayComponent implements DoCheck {
 
   @ViewChild('questionDisplayContainer')
   private questionDisplayContainer?: ElementRef<HTMLDivElement>;
@@ -33,6 +33,18 @@ export class QuestionDisplayComponent {
   examSvc = inject( JeeAdvancedService ) ;
   apiSvc = inject( ExamApiService ) ;
   eventLogSvc = inject( EventLogService ) ;
+
+  // activeQuestion is a plain service field, not an Input or a signal, so
+  // ngOnChanges/effect() can't observe it - track the last-seen question
+  // ourselves to detect activation and reset the scroll position.
+  private lastActiveQuestion?: ExamQuestion ;
+
+  ngDoCheck() {
+    if( this.examSvc.activeQuestion !== this.lastActiveQuestion ) {
+      this.lastActiveQuestion = this.examSvc.activeQuestion ;
+      this.questionDisplayContainer?.nativeElement.scrollTo( { top: 0 } ) ;
+    }
+  }
 
   getImgURL( question: QuestionSO, img:QuestionImageSO ) {
     return `${ environment.apiRoot }/question-img/${ question.sourceId }/${ img.fileName }` ;

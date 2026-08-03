@@ -7,6 +7,11 @@
   </button>
 </div>
 <div id="question-action-panel-right">
+  @if( examSvc.activeQuestion !== examSvc.activeSection?.firstQuestion ) {
+    <button type="button" class="action-btn action-btn-outline" id="previous-btn">
+      Previous
+    </button>
+  }
   <button type="button" class="action-btn action-btn-solid" id="save-next-btn">
     Save &amp; Next
   </button>

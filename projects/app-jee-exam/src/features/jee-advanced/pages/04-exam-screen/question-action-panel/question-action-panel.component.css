@@ -26,10 +26,21 @@ button {
   gap: 20px;
 }
 
+#question-action-panel-right {
+  display: flex;
+  gap: 20px;
+}
+
 .action-btn {
   padding: 7px 20px;
   font-size: 15px;
   font-weight: 500;
+}
+
+.action-btn:hover {
+  background: #247fb3;
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .action-btn-outline {
