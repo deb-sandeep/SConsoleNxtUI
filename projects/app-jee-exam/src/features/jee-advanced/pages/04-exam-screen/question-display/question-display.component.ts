@@ -8,13 +8,15 @@ import { environment } from "@env/environment";
 import { ExamQuestion } from "../../../../../common/so-wrappers";
 import { SCAAnswerZoneComponent } from "./sca-answer-zone/sca-answer-zone.component";
 import { NVTAnswerZoneComponent } from "./nvt-answer-zone/nvt-answer-zone.component";
+import { MCAAnswerZoneComponent } from "./mca-answer-zone/mca-answer-zone.component";
 
 @Component({
   selector: 'question-display',
   imports: [
     NgOptimizedImage,
     SCAAnswerZoneComponent,
-    NVTAnswerZoneComponent
+    NVTAnswerZoneComponent,
+    MCAAnswerZoneComponent
   ],
   templateUrl: './question-display.component.html',
   styleUrl: './question-display.component.css'

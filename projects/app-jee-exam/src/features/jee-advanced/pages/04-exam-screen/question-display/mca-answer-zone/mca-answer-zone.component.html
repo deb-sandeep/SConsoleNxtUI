@@ -1,0 +1,15 @@
+<div class="container mca-answer-choices">
+  <div class="row">
+    @for( choice of ansChoices; track $index ) {
+      <div class="col-3">
+        <input type="checkbox"
+               [id]="'mca-answer-' + question.index + '-' + choice"
+               [checked]="isSelected( choice )"
+               (change)="toggleChoice( choice )">
+        <label [for]="'mca-answer-' + question.index + '-' + choice">
+          &nbsp;{{ choice }})
+        </label>
+      </div>
+    }
+  </div>
+</div>

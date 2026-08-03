@@ -54,6 +54,10 @@
       <nvt-answer-zone [question]="question"
                        (answerEntered)="answerEntered( $event )"/>
     }
+    @else if ( problemType === "MCA" ) {
+      <mca-answer-zone [question]="question"
+                       (answerEntered)="answerEntered( $event )"/>
+    }
 
     <div class="question-footer">
       <div class="scroll-icon"
