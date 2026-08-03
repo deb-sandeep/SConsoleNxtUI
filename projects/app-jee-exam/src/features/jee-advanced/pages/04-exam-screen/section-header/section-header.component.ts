@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { JeeAdvancedService } from "../../../jee-advanced.service";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { EventLogService } from "@jee-common/services/event-log.service";
@@ -20,8 +20,33 @@ export class SectionHeaderComponent {
   @ViewChild( 'tabsList' )
   private tabsList?: ElementRef<HTMLDivElement> ;
 
+  @ViewChildren( 'tabBtn' )
+  private tabButtons?: QueryList<ElementRef<HTMLButtonElement>> ;
+
+  // activeSection is a plain mutable field on JeeBaseService, not a signal,
+  // so an effect() can't observe it - this compares against the last-seen
+  // value on every change-detection cycle instead, to catch section changes
+  // that happen as a side effect of question navigation (Save & Next, Mark
+  // for Review & Next, palette clicks), not just direct tab clicks here.
+  private lastActiveSection: ExamSection | null = null ;
+
   protected selectSection( section: ExamSection ) {
     this.examSvc.activateSection( section ) ;
+  }
+
+  ngDoCheck() {
+    const activeSection = this.examSvc.activeSection ;
+    if( activeSection !== this.lastActiveSection && this.tabButtons ) {
+      this.lastActiveSection = activeSection ;
+      this.scrollActiveTabIntoView( activeSection ) ;
+    }
+  }
+
+  private scrollActiveTabIntoView( activeSection: ExamSection | null ) {
+    if( activeSection == null ) { return ; }
+    const index = this.examSvc.sections.indexOf( activeSection ) ;
+    const button = this.tabButtons?.get( index )?.nativeElement ;
+    button?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }) ;
   }
 
   // NTA shows the remaining time as total minutes, not HH:MM:SS

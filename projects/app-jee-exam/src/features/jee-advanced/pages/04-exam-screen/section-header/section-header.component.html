@@ -13,7 +13,7 @@
   </button>
   <div id="section-tabs-list" #tabsList (scroll)="onTabsScroll()">
     @for( section of examSvc.sections; track section.sectionName ) {
-      <button type="button" class="section-tab"
+      <button type="button" class="section-tab" #tabBtn
               [class.section-tab-active]="section === examSvc.activeSection"
               (click)="selectSection( section )">
         {{section.sectionName}}
