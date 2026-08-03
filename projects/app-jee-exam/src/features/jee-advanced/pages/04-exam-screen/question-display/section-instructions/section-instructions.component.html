@@ -1,0 +1,30 @@
+@if( vm ) {
+  <div class="si-box">
+    <div class="si-header">{{ vm.header }}</div>
+    <ul class="si-bullets">
+      @for( bullet of vm.bulletHtmls; track $index ) {
+        <li [innerHTML]="bullet"></li>
+      }
+      <li>
+        <span [innerHTML]="vm.markingIntroHtml"></span>
+        <div class="si-marking-scheme">
+          @for( row of vm.rows; track $index ) {
+            <div class="si-row-label">{{ row.label }}</div>
+            <div class="si-row-marks">: {{ row.marks }}</div>
+            <div class="si-row-condition" [innerHTML]="row.conditionHtml"></div>
+          }
+        </div>
+      </li>
+      @if( vm.exampleLeadHtml ) {
+        <li>
+          <span [innerHTML]="vm.exampleLeadHtml"></span>
+          <div class="si-example-lines">
+            @for( line of vm.exampleLineHtmls; track $index ) {
+              <div [innerHTML]="line"></div>
+            }
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+}

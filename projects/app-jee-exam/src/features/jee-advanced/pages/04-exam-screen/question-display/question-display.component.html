@@ -35,6 +35,12 @@
       </div>
     </div>
 
+    <section-instructions #sectionInstructionsContainer
+                          id="section-instructions-area"
+                          class="section-instructions-container"
+                          [sectionConfig]="sectionConfig"
+                          [sections]="examSvc.examConfig.sections"/>
+
     <div class="question-statement">
       @let images = question.questionConfig.question.questionImages ;
       @for( img of images; track img.fileName ) {

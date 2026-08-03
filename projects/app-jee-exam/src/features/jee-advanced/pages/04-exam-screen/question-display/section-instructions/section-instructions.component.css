@@ -1,0 +1,50 @@
+:host {
+    display: block;
+}
+
+.si-box {
+    border: 1px solid #d8d8da;
+    background: #ffffff;
+    margin: 8px 2px 1px 2px;
+    padding: 8px 1px;
+    max-width: 680px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #000000;
+}
+
+.si-header {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.si-bullets {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.si-bullets li {
+    margin-bottom: 2px;
+}
+
+/* Three aligned columns: italic label | colon + marks | condition (wraps) */
+.si-marking-scheme {
+    display: grid;
+    grid-template-columns: max-content max-content 1fr;
+    column-gap: 8px;
+    row-gap: 1px;
+    margin: 2px 0 0 14px;
+}
+
+.si-row-label {
+    font-style: italic;
+}
+
+.si-row-marks {
+    white-space: nowrap;
+}
+
+.si-example-lines {
+    margin-left: 14px;
+}

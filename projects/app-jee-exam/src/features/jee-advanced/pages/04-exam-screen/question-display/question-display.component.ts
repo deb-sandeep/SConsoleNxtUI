@@ -9,6 +9,7 @@ import { ExamQuestion } from "../../../../../common/so-wrappers";
 import { SCAAnswerZoneComponent } from "./sca-answer-zone/sca-answer-zone.component";
 import { NVTAnswerZoneComponent } from "./nvt-answer-zone/nvt-answer-zone.component";
 import { MCAAnswerZoneComponent } from "./mca-answer-zone/mca-answer-zone.component";
+import { SectionInstructionsComponent } from "./section-instructions/section-instructions.component";
 
 @Component({
   selector: 'question-display',
@@ -16,7 +17,8 @@ import { MCAAnswerZoneComponent } from "./mca-answer-zone/mca-answer-zone.compon
     NgOptimizedImage,
     SCAAnswerZoneComponent,
     NVTAnswerZoneComponent,
-    MCAAnswerZoneComponent
+    MCAAnswerZoneComponent,
+    SectionInstructionsComponent
   ],
   templateUrl: './question-display.component.html',
   styleUrl: './question-display.component.css'
