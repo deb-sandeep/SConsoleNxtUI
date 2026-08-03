@@ -14,4 +14,47 @@ export class QuestionActionPanelComponent {
   examSvc = inject( JeeAdvancedService ) ;
   apiSvc = inject( ExamApiService ) ;
   eventLogSvc = inject( EventLogService ) ;
+
+  protected saveAndNext() {
+    const activeQ = this.examSvc.activeQuestion ;
+    const status = this.isAnswerStaged() ? "ANSWERED" : "NOT_ANSWERED" ;
+    activeQ.state = status ;
+    this.apiSvc.saveAnswerAction( activeQ, status, this.examSvc.currentLap ).then() ;
+    this.eventLogSvc.logAnswerAction( activeQ, "SAVE_&_NEXT" ) ;
+    this.activateNextQuestion() ;
+  }
+
+  protected markForReviewAndNext() {
+    const activeQ = this.examSvc.activeQuestion ;
+    const status = this.isAnswerStaged() ? "ANS_AND_MARKED_FOR_REVIEW" : "MARKED_FOR_REVIEW" ;
+    activeQ.state = status ;
+    this.apiSvc.saveAnswerAction( activeQ, status, this.examSvc.currentLap ).then() ;
+    this.eventLogSvc.logAnswerAction( activeQ, "MARK_REVIEW_&_NEXT" ) ;
+    this.activateNextQuestion() ;
+  }
+
+  protected clearResponse() {
+    const activeQ = this.examSvc.activeQuestion ;
+    activeQ.answer = null ;
+    activeQ.state = "NOT_ANSWERED" ;
+    this.apiSvc.saveAnswerAction( activeQ, "NOT_ANSWERED", this.examSvc.currentLap ).then() ;
+    this.eventLogSvc.logAnswerAction( activeQ, "CLEAR_RESPONSE" ) ;
+  }
+
+  protected previous() {
+    const prevQ = this.examSvc.activeQuestion.prevQuestion ;
+    if( prevQ != null ) {
+      this.examSvc.activateQuestion( prevQ ) ;
+    }
+  }
+
+  private isAnswerStaged(): boolean {
+    return this.examSvc.activeQuestion.answer != null ;
+  }
+
+  private activateNextQuestion() {
+    const activeQ = this.examSvc.activeQuestion ;
+    const nextQ = activeQ.nextQuestion ?? this.examSvc.questions[0] ;
+    this.examSvc.activateQuestion( nextQ ) ;
+  }
 }

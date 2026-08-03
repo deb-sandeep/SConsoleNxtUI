@@ -19,6 +19,8 @@ JEE Advanced runs a three-button model: `Save & Next`, `Clear Response`, `Mark f
 
 This divergence from JEE Main is confirmed and already reflected in the decision to build distinct button-bar components per exam format rather than a shared model.
 
+A fourth control, `Previous`, is present but is pure navigation: it does not alter `answerSubmitStatus`. See §2.4.
+
 ---
 
 ## 2. Per-button rules
@@ -61,6 +63,12 @@ This divergence from JEE Main is confirmed and already reflected in the decision
 - Both review-flagged transitions (`ANS_AND_MARKED_FOR_REVIEW → NOT_ANSWERED` and `MARKED_FOR_REVIEW → NOT_ANSWERED`) reset the entire submitted response, not just the answer payload: `Clear Response` is scoped to the whole response, clearing both the answer and the review flag in one action.
 - **Verification status: confirmed.**
 
+### 2.4 Previous
+
+- Visible for questions 2..n of each section; not shown on a section's first question.
+- Activates the previous question in section sequence.
+- Does not alter `answerSubmitStatus` for the current or previous question — pure navigation, no save, no clear, no state transition.
+
 ---
 
 ## 3. Consolidated transition table
@@ -78,4 +86,5 @@ This divergence from JEE Main is confirmed and already reflected in the decision
 | Clear Response | — | `ANS_AND_MARKED_FOR_REVIEW` | `NOT_ANSWERED` | Confirmed |
 | Clear Response | — | `MARKED_FOR_REVIEW` | `NOT_ANSWERED` | Confirmed |
 | Clear Response | — | `NOT_ANSWERED` | `NOT_ANSWERED` (no-op) | Reasoned, not observed |
+| Previous | — | any | no change (navigation only) | Confirmed |
 
