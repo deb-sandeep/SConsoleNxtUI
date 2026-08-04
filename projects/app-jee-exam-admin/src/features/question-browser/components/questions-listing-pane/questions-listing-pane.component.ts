@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild, effect } from '@angular/core';
 import { QuestionBrowserService } from "../../question-browser.service";
 import { QuestionDisplayComponent } from "../question-display/question-display.component";
 import { PagingControlComponent } from "../paging-control/paging-control.component";
@@ -15,4 +15,14 @@ import { PagingControlComponent } from "../paging-control/paging-control.compone
 export class QuestionsListingPaneComponent {
 
   qBrowserSvc : QuestionBrowserService = inject( QuestionBrowserService ) ;
+
+  @ViewChild( "questionsList" )
+  private questionsListEl : ElementRef<HTMLDivElement> ;
+
+  constructor() {
+    effect( () => {
+      this.qBrowserSvc.resultsPageLoaded() ;
+      this.questionsListEl?.nativeElement.scrollTo( { top: 0 } ) ;
+    } ) ;
+  }
 }

@@ -2,7 +2,13 @@
   @let q = question()! ;
   <div class="card border-default question-card">
     <div class="card-header">
-      <span class="topic-name">[{{q.topicName}}]</span>
+      <select class="form-select form-select-sm topic-select"
+              [ngModel]="q.topicId"
+              (change)="topicChanged($event)">
+        @for( topic of getTopicsForQuestion(); track topic.id ) {
+          <option [value]="topic.id">{{topic.topicName}}</option>
+        }
+      </select>
       <span class="question-id">{{q.questionId}}</span>
       <span class="problem-db-id">({{q.id}})</span>
       <span class="problem-type">{{q.problemType}}</span>

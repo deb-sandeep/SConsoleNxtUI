@@ -1,7 +1,7 @@
 <div id="questions-listing-pane">
   @let results = qBrowserSvc.searchResults() ;
   @if( results ) {
-    <div id="questions-list">
+    <div id="questions-list" #questionsList>
         @let questions = results.questions ;
         @for( question of questions; track question.id ) {
           <question-display [question]="question"></question-display>
