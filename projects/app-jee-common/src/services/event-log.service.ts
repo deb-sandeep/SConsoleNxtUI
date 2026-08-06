@@ -23,6 +23,7 @@ export class EventLogService {
     "SCROLL_QUESTION_UP":    "UI_INTERACTION",
     "PALETTE_COLLAPSED":     "UI_INTERACTION",
     "PALETTE_EXPANDED":      "UI_INTERACTION",
+    "SECTION_INFO_DISPLAYED":"UI_INTERACTION",
 
     "EXAM_START":            "START_STOP",
     "EXAM_SUBMIT":           "START_STOP",
@@ -123,6 +124,12 @@ export class EventLogService {
 
     this.apiSvc.logEvent( this.createEvent( eventId ) )
         .then() ;
+  }
+
+  logSectionInfoDisplayed( section: ExamSection | null ) {
+    this.apiSvc.logEvent( this.createEvent( "SECTION_INFO_DISPLAYED", {
+      sectionName : section ? section.sectionName : "ALL",
+    }) ).then() ;
   }
 
   logAnswerAction( question: ExamQuestion, eventId: ExamAnswerAction ) {

@@ -3,6 +3,7 @@ import { NgStyle } from "@angular/common";
 import { JeeAdvancedService } from "../../../jee-advanced.service";
 import { ExamSection } from "../../../../../common/so-wrappers";
 import { ExamQuestionSubmitStatus } from "@jee-common/util/exam-data-types";
+import { EventLogService } from "@jee-common/services/event-log.service";
 
 const POPUP_WIDTH = 300 ;
 
@@ -15,6 +16,7 @@ const POPUP_WIDTH = 300 ;
 export class SectionSnapshotInfoComponent {
 
   examSvc = inject( JeeAdvancedService ) ;
+  eventLogSvc = inject( EventLogService ) ;
 
   protected readonly rows: { state: ExamQuestionSubmitStatus, cssClass: string, label: string }[] = [
     { state: "ANSWERED",                  cssClass: "answered",        label: "Answered" },
@@ -32,6 +34,7 @@ export class SectionSnapshotInfoComponent {
   // all the sections.
   show( event: MouseEvent, section: ExamSection | null ) {
 
+    this.eventLogSvc.logSectionInfoDisplayed( section ) ;
     this.section = section ;
 
     const rect = ( event.currentTarget as HTMLElement ).getBoundingClientRect() ;

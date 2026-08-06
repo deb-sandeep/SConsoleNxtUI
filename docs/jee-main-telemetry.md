@@ -191,6 +191,20 @@ telemetry impact today, but worth knowing so they aren't mistaken for working em
 before `examSvc.activateSection(section)`, matching jee-main's `jumpToSection()` pattern. This closes
 the gap originally reported above (subject-tab clicks previously only produced `QUESTION_ACTIVATED`).
 
+### New, jee-advanced-only: `SECTION_INFO_DISPLAYED`
+
+jee-advanced has no jee-main equivalent of the info-icon hover popup (`section-snapshot-info`
+component), so this is a new event, not a parity fix. Both the section-tab "i" icon
+(`section-header.component.html:20-22`) and the paper-breadcrumb-bar "i" icon
+(`paper-breadcrumb-bar.component.html:6-8`) bind `(mouseenter)` to
+`snapshotPopup.show($event, section-or-null)` on the shared `SectionSnapshotInfoComponent`. Rather
+than duplicate a log call in both templates, `SECTION_INFO_DISPLAYED` is logged once, inside
+`SectionSnapshotInfoComponent.show()` (`section-snapshot-info.component.ts`) — the single choke
+point both hover triggers funnel through, the same pattern `JeeBaseService.activateQuestion()` uses
+for question navigation. Payload is `{ sectionName }`: the section's `sectionName` (as shown on the
+tab button) when hovering a section tab, or the literal string `"ALL"` when hovering the
+paper-breadcrumb-bar icon (`section` is `null` there, meaning a paper-level aggregate snapshot).
+
 ### jee-advanced summary
 
 | Event | jee-advanced status |
@@ -210,3 +224,4 @@ the gap originally reported above (subject-tab clicks previously only produced `
 | `SAVE_&_MARK_REVIEW` | By design — no dedicated UI action in jee-advanced |
 | `LAP_CHANGE` | Structurally present but currently only reachable via timer auto-submit (no "Start Next Lap" button) |
 | `EXAM_SUBMIT` | Structurally present but currently only reachable via timer auto-submit (Submit button is a disabled stub) |
+| `SECTION_INFO_DISPLAYED` | New, jee-advanced only — `section-snapshot-info.component.ts` `show()`, triggered from both the section-tab and paper-breadcrumb-bar "i" icons |

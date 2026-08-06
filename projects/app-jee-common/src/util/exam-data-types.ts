@@ -131,7 +131,8 @@ export type ExamUIInteraction =
     "SCROLL_QUESTION_DOWN" |
     "SCROLL_QUESTION_UP" |
     "PALETTE_COLLAPSED" |
-    "PALETTE_EXPANDED" ;
+    "PALETTE_EXPANDED" |
+    "SECTION_INFO_DISPLAYED" ;
 
 export type ExamSartStopEvent =
     "EXAM_START" |
