@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { JeeAdvancedService } from "../../../jee-advanced.service";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { EventLogService } from "@jee-common/services/event-log.service";
+import { examConfig } from "../../../../../exam-config.js";
 
 @Component({
   selector: 'question-action-panel',
@@ -14,6 +15,8 @@ export class QuestionActionPanelComponent {
   examSvc = inject( JeeAdvancedService ) ;
   apiSvc = inject( ExamApiService ) ;
   eventLogSvc = inject( EventLogService ) ;
+
+  protected readonly examConfig = examConfig;
 
   protected saveAndNext() {
     const activeQ = this.examSvc.activeQuestion ;

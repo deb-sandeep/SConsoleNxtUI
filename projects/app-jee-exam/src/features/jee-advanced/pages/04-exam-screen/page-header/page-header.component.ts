@@ -4,6 +4,7 @@ import { JeeAdvancedService } from "../../../jee-advanced.service";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { EventLogService } from "@jee-common/services/event-log.service";
 import { getJeeAdvancedBannerImages } from "../../../jee-advanced-banner.util";
+import { examConfig } from "../../../../../exam-config.js";
 
 @Component({
   selector: 'page-header',
@@ -21,4 +22,6 @@ export class PageHeaderComponent {
 
   protected bannerImageLhs: string = getJeeAdvancedBannerImages().lhs ;
   protected bannerImageRhs: string = getJeeAdvancedBannerImages().rhs ;
+
+  protected readonly examConfig = examConfig;
 }

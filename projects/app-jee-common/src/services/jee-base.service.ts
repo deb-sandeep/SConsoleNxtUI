@@ -36,6 +36,19 @@ export class JeeBaseService {
     "L3.2" : "q-not-answered",
   }
 
+  // Same palette as question-eval.component.ts's getSubmitLapBgColor() and
+  // time-sequence-renderer.ts's lapConfig.colors - one distinct color per lap,
+  // kept in sync with those so a given lap reads as the same color everywhere.
+  readonly LAP_COLORS: Record<LapName, string> = {
+    "L1"   : "rgb(207 207 207 / 0.5)",
+    "L2P"  : "rgb(100 180 255 / 0.32)",
+    "L2"   : "rgb(255 101 149 / 0.35)",
+    "AMR"  : "rgb(3 248 3 / 0.18)",
+    "L3P"  : "rgb(196 124 251 / 0.24)",
+    "L3.1" : "rgb(255 255 0 / 0.19)",
+    "L3.2" : "rgb(0 255 255 / 0.21)",
+  }
+
   protected apiSvc = inject( ExamApiService ) ;
   protected eventLogService = inject( EventLogService ) ;
   protected router = inject( Router );

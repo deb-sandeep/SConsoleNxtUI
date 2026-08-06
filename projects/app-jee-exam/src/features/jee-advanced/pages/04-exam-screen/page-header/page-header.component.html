@@ -1,4 +1,11 @@
 <img [ngSrc]="bannerImageLhs" alt="JEE Advanced" width="1140" height="168"
      id="exam-header-banner-lhs"/>
+
+@if( examConfig.lapAssist ) {
+  <div class="lap-badge">
+    <span [style.background]="examSvc.LAP_COLORS[examSvc.currentLap]">{{examSvc.currentLap}}</span>
+  </div>
+}
+
 <img [ngSrc]="bannerImageRhs" alt="JEE Advanced" width="945" height="168"
      id="exam-header-banner-rhs"/>

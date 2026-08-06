@@ -8,6 +8,15 @@
     Clear Response
   </button>
 </div>
+@if( examConfig.lapAssist ) {
+  <div id="question-action-panel-center">
+    <button type="button" id="lap-btn"
+            [disabled]="examSvc.getNextLapName() == null"
+            (click)="examSvc.saveLapSnapshot()">
+      Start Next Lap (<em>{{examSvc.getNextLapName()}}</em>)
+    </button>
+  </div>
+}
 <div id="question-action-panel-right">
   @if( examSvc.activeQuestion !== examSvc.activeSection?.firstQuestion ) {
     <button type="button" class="action-btn action-btn-outline" id="previous-btn"

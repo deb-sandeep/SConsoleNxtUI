@@ -4,6 +4,7 @@
 
 :host {
   display: block;
+  position: relative;
   background: #f9f9f9;
   border-bottom: 1px solid #d6d6d6;
   padding: 4px 0;
@@ -29,4 +30,24 @@
   content: "";
   display: table;
   clear: both;
+}
+
+.lap-badge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.lap-badge span {
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  line-height: 42px;
+  border-radius: 22px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #575757;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.15);
 }

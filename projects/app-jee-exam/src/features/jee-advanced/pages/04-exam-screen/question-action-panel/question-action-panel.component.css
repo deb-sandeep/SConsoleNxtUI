@@ -31,6 +31,30 @@ button {
   gap: 20px;
 }
 
+#question-action-panel-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#lap-btn {
+  padding: 7px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  background-color: #fde1b3;
+  color: #9e4f00;
+  border: 1px solid #ffad77;
+  border-radius: 10px;
+}
+
+#lap-btn:disabled {
+  cursor: not-allowed;
+  background-color: #f3d9ae;
+  color: #a98a5c;
+  border-color: #e9c894;
+}
+
 .action-btn {
   padding: 7px 20px;
   font-size: 15px;
