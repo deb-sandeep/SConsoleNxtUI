@@ -20,6 +20,7 @@ const LAP_ORDER: LapName[] = ['L1', 'L2P', 'L2', 'AMR', 'L3P', 'L3.1', 'L3.2'] ;
 })
 export class AttemptLapAnalysisComponent {
 
+  readonly MIN_LAP_DURATION = 5 ;
   readonly execScoreCells = Array.from( { length: 10 }, ( _, i ) => i ) ;
 
   apiSvc = inject( ExamApiService ) ;
@@ -44,7 +45,7 @@ export class AttemptLapAnalysisComponent {
     this.questionAttempt = attempt ;
     this.workingCopies = {} ;
     this.dirtyLaps.clear() ;
-    this.visibleLaps = LAP_ORDER.filter( lap => (attempt.lapDurations[ lap ] ?? 0) > 0 ) ;
+    this.visibleLaps = LAP_ORDER.filter( lap => (attempt.lapDurations[ lap ] ?? 0) > this.MIN_LAP_DURATION ) ;
     this.activeLap = this.visibleLaps[0] ?? null ;
     if( this.activeLap ) {
       this.ensureWorkingCopy( this.activeLap ) ;

@@ -5,7 +5,7 @@
            [style.background-color]="getEvaluationStatusBg()">
       <thead>
         @for( lapName of ["L1", "L2P", "L2", "AMR", "L3P", "L3.1", "L3.2"]; track $index ) {
-          @if( questionAttempt.lapDurations[lapName] ) {
+          @if( questionAttempt.lapDurations[lapName] > MIN_LAP_DURATION ) {
             <th>
               <span class="hdr">{{lapName}}</span>
               <span class="duration" [class.zero-duration]="questionAttempt.lapDurations[lapName] === 0">

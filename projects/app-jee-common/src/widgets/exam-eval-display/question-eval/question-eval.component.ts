@@ -10,6 +10,8 @@ import { FormsModule } from "@angular/forms";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { JeeBaseService } from "@jee-common/services/jee-base.service";
 
+export type AnswerTypeFilter = 'ALL' | 'INCORRECT' | 'UNANSWERED' | 'CORRECT' | 'PARTIAL' ;
+
 class ExamSection {
 
   sectionName: string ;
@@ -72,7 +74,7 @@ export class QuestionEvalComponent {
   selectedActivityLap: LapName | "ALL" = "ALL" ;
   selectedAnsSubmitLap: LapName | "ALL"  = "ALL" ;
   showOnlyMissedQuestions: boolean = false ;
-  showOnlyEmptyAnswers: boolean = false ;
+  answerTypeFilter: AnswerTypeFilter = 'ALL' ;
   showOnlyStarredQuestions: boolean = false ;
   showOnlyLepidusAttempts: boolean = false ;
 
@@ -204,8 +206,8 @@ export class QuestionEvalComponent {
     if( this.showOnlyMissedQuestions &&
         qAttempt.evaluationStatus === 'CORRECT' ) return false ;
 
-    if( this.showOnlyEmptyAnswers &&
-        qAttempt.evaluationStatus !== 'UNANSWERED' ) return false ;
+    if( this.answerTypeFilter !== 'ALL' &&
+        qAttempt.evaluationStatus !== this.answerTypeFilter ) return false ;
 
     if( this.showOnlyLepidusAttempts &&
         qAttempt.execScore >= 8 ) return false ;

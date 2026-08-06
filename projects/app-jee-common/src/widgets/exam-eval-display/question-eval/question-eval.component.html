@@ -9,10 +9,16 @@
         <span class="bi-star-fill"></span>
       </th>
       <th style="width:40px;"></th>
-      <th style="width:40px; text-align: center;"
-          [ngStyle]="showOnlyEmptyAnswers ? {'color':'red'} : {}"
-          (click)="showOnlyEmptyAnswers = !showOnlyEmptyAnswers">
-        A
+      <th id="toggleAnswerTypes"
+          style="width:40px; text-align: center;">
+        <select class="form-select form-select-sm lap-select"
+                [(ngModel)]="answerTypeFilter">
+          <option value="ALL">A</option>
+          <option value="INCORRECT">W</option>
+          <option value="UNANSWERED">U</option>
+          <option value="CORRECT">C</option>
+          <option value="PARTIAL">P</option>
+        </select>
       </th>
       <th style="width:40px; text-align: center;">
         <select class="form-select form-select-sm lap-select"
