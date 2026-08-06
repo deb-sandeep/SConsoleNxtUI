@@ -30,9 +30,11 @@ export class AttemptLapAnalysisComponent {
   questionAttempt: ExamQuestionAttemptSO | null = null ;
   visibleLaps: LapName[] = [] ;
   activeLap: LapName | null = null ;
-  workingCopies: Record<string, ExamQuestionAttemptLapAnalysisSO> = {} ;
 
-  dirtyLaps = new Set<string>() ;
+  failedLaps = new Set<LapName>() ;
+
+  private readonly NOTE_AUTOSAVE_DEBOUNCE_MS = 1000 ;
+  private pendingNoteSave: { lap: LapName, timer: ReturnType<typeof setTimeout> } | null = null ;
 
   ngOnInit() {
     this.apiSvc.getQAttemptLapAnalysisObservationList().then( result => {
@@ -40,41 +42,41 @@ export class AttemptLapAnalysisComponent {
     }) ;
   }
 
+  ngOnDestroy() {
+    this.flushPendingNoteSave() ;
+  }
+
   // Called by the parent (exam-eval-display) when the user selects a different question.
   setQuestionAttempt( attempt: ExamQuestionAttemptSO ) {
+    this.flushPendingNoteSave() ;
     this.questionAttempt = attempt ;
-    this.workingCopies = {} ;
-    this.dirtyLaps.clear() ;
+    this.failedLaps.clear() ;
     this.visibleLaps = LAP_ORDER.filter( lap => (attempt.lapDurations[ lap ] ?? 0) > this.MIN_LAP_DURATION ) ;
     this.activeLap = this.visibleLaps[0] ?? null ;
     if( this.activeLap ) {
-      this.ensureWorkingCopy( this.activeLap ) ;
+      this.ensureAnalysis( this.activeLap ) ;
     }
   }
 
-  // Lazily initialises the in-memory working copy for a lap on the first visit.
-  // Clones observations[] so edits don't mutate the original lapAnalysis from the server payload.
-  private ensureWorkingCopy( lap: LapName ) {
-    if( this.workingCopies[ lap ] ) return ;
-
-    const existing = this.questionAttempt!.lapAnalysis?.[ lap ] ;
-    this.workingCopies[ lap ] = existing
-      ? { ...existing, observations: [ ...existing.observations ] }
-      : { lapName: lap, score: 0, note: '', observations: [] } ;
+  // Lazily initialises a default analysis entry directly on the canonical lapAnalysis map.
+  private ensureAnalysis( lap: LapName ) {
+    const attempt = this.questionAttempt! ;
+    if( !attempt.lapAnalysis ) attempt.lapAnalysis = {} ;
+    if( !attempt.lapAnalysis[ lap ] ) {
+      attempt.lapAnalysis[ lap ] = { lapName: lap, score: 0, note: '', observations: [] } ;
+    }
   }
 
-  // Called when the user clicks a lap tab. Auto-saves the outgoing tab if dirty before switching.
+  // Called when the user clicks a lap tab. Flushes any pending debounced note-save before switching.
   protected switchTab( lap: LapName ) {
-    if( this.activeLap && this.dirtyLaps.has( this.activeLap ) ) {
-      this.saveLap( this.activeLap ) ;
-    }
-    this.ensureWorkingCopy( lap ) ;
+    this.flushPendingNoteSave() ;
+    this.ensureAnalysis( lap ) ;
     this.activeLap = lap ;
   }
 
-  // Convenience accessor used by the template to bind form controls to the active lap's working copy.
+  // Convenience accessor used by the template to bind form controls to the active lap's canonical analysis.
   protected get currentAnalysis(): ExamQuestionAttemptLapAnalysisSO | null {
-    return this.activeLap ? ( this.workingCopies[ this.activeLap ] ?? null ) : null ;
+    return this.activeLap ? ( this.questionAttempt?.lapAnalysis?.[ this.activeLap ] ?? null ) : null ;
   }
 
   // Derives the tags not yet selected for the active lap; drives the clickable pool (section F).
@@ -83,10 +85,32 @@ export class AttemptLapAnalysisComponent {
     return this.observationTagsMaster.filter( o => !selected.has( o ) ) ;
   }
 
-  // Marks the active lap dirty, turning its tab red and enabling the save icon.
-  // Called by every form control that mutates the working copy (rating, textarea, tag add/remove).
-  protected markDirty() {
-    if( this.activeLap ) this.dirtyLaps.add( this.activeLap ) ;
+  // Immediately saves the active lap. Used for discrete, deliberate edits (rating, tag add/remove).
+  protected saveActiveLapNow() {
+    if( this.activeLap ) this.saveLap( this.activeLap ) ;
+  }
+
+  // Debounces saving the active lap. Used for the free-text note, which fires on every keystroke.
+  protected scheduleNoteAutosave() {
+    if( !this.activeLap ) return ;
+    if( this.pendingNoteSave ) clearTimeout( this.pendingNoteSave.timer ) ;
+    const lap = this.activeLap ;
+    this.pendingNoteSave = {
+      lap,
+      timer: setTimeout( () => {
+        this.pendingNoteSave = null ;
+        this.saveLap( lap ) ;
+      }, this.NOTE_AUTOSAVE_DEBOUNCE_MS ),
+    } ;
+  }
+
+  // Immediately saves and clears any pending debounced note-save, e.g. before switching tabs/questions.
+  private flushPendingNoteSave() {
+    if( !this.pendingNoteSave ) return ;
+    clearTimeout( this.pendingNoteSave.timer ) ;
+    const lap = this.pendingNoteSave.lap ;
+    this.pendingNoteSave = null ;
+    this.saveLap( lap ) ;
   }
 
   // Called when the user clicks a tag in the available pool (F); moves it to the selected chips (E).
@@ -104,7 +128,7 @@ export class AttemptLapAnalysisComponent {
       this.currentAnalysis!.score = 2 ;
     }
 
-    this.markDirty() ;
+    this.saveActiveLapNow() ;
 
     if( obs === 'PERFECT_EXECUTION' ) {
       const indexOfActiveLap = this.visibleLaps.indexOf( this.activeLap! ) ;
@@ -112,12 +136,9 @@ export class AttemptLapAnalysisComponent {
       const nextLap = this.visibleLaps[ indexOfNextLap ] ;
 
       if( nextLap ) {
-        // switchTab auto-saves the dirty current lap before switching
         this.switchTab( nextLap ) ;
       }
-      else {
-        this.saveLap( this.activeLap! ) ;
-      }
+      // else: saveActiveLapNow() above already saved this lap.
     }
   }
 
@@ -125,35 +146,38 @@ export class AttemptLapAnalysisComponent {
   protected removeObservation( obs: string ) {
     if( !this.currentAnalysis ) return ;
     this.currentAnalysis.observations = this.currentAnalysis.observations.filter( o => o !== obs ) ;
-    this.markDirty() ;
+    this.saveActiveLapNow() ;
   }
 
-  // Drives the red tab colour and the save icon visibility in the tab label.
-  protected isTabDirty( lap: LapName ) {
-    return this.dirtyLaps.has( lap ) ;
+  // Drives the failed-save indicator in the tab label.
+  protected isLapSaveFailed( lap: LapName ) {
+    return this.failedLaps.has( lap ) ;
+  }
+
+  // Retries a failed autosave for a specific lap.
+  protected retryFailedSave( lap: LapName, event: MouseEvent ) {
+    event.stopPropagation() ;
+    this.saveLap( lap ) ;
   }
 
   // Accepts an explicit lap rather than defaulting to activeLap so it can be called for auto-save on tab switch.
   // Captures questionAttempt before the async call so a mid-flight question change doesn't corrupt state.
   protected saveLap( lap: LapName ) {
-    const analysis = this.workingCopies[ lap ] ;
+    const analysis = this.questionAttempt?.lapAnalysis?.[ lap ] ;
     const attempt  = this.questionAttempt ;
     if( !analysis || !attempt ) return ;
 
     this.apiSvc.saveQAttemptLapAnalysis( attempt.id, analysis )
       .then( r => {
-        attempt.execScore          = r.attemptScore ;
-        attempt.lapAnalysis[ lap ] = { ...analysis } ;  // keep lapAnalysis in sync for re-selection without re-fetch
-        this.dirtyLaps.delete( lap ) ;
+        attempt.execScore = r.attemptScore ;
+        this.failedLaps.delete( lap ) ;
       })
       .catch( () => {
-        alert( `Failed to save lap ${lap}. Please try again.` ) ;
+        this.failedLaps.add( lap ) ;
       }) ;
   }
 
   getLapScore( lap: LapName ): number | null {
-    const wc = this.workingCopies[ lap ] ;
-    if( wc ) return wc.score > 0 ? wc.score : null ;
     const saved = this.questionAttempt?.lapAnalysis?.[ lap ] ;
     return saved && saved.score > 0 ? saved.score : null ;
   }

@@ -34,7 +34,7 @@
       @for( lap of visibleLaps ; track lap ) {
         <div class="lap-tab"
              [class.active]="lap === activeLap"
-             [class.dirty]="isTabDirty( lap )"
+             [class.save-error]="isLapSaveFailed( lap )"
              (click)="switchTab( lap )">
           {{ lap }}
 
@@ -46,9 +46,10 @@
                   [class.score-high]="lapScore > 7"></span>
           }
 
-          <span class="bi-save2"
-                *ngIf="isTabDirty( lap )"
-                (click)="saveLap( lap ); $event.stopPropagation()"></span>
+          <span class="bi-exclamation-triangle-fill save-error-icon"
+                *ngIf="isLapSaveFailed( lap )"
+                title="Save failed — click to retry"
+                (click)="retryFailedSave( lap, $event )"></span>
         </div>
       }
     </div>
@@ -59,7 +60,7 @@
 
         <!-- C: Lap score (star rating) -->
         <div class="lap-score-row">
-          <ngb-rating [(rate)]="currentAnalysis.score" [max]="10" (rateChange)="markDirty()">
+          <ngb-rating [(rate)]="currentAnalysis.score" [max]="10" (rateChange)="saveActiveLapNow()">
             <ng-template let-fill="fill" let-index="index">
               <i class="bi-star{{ fill === 100 ? '-fill' : '' }}"
                  [class.filled]="fill === 100"
@@ -94,7 +95,7 @@
         <!-- D: Observation note -->
         <textarea class="obs-note"
                   [(ngModel)]="currentAnalysis.note"
-                  (ngModelChange)="markDirty()"
+                  (ngModelChange)="scheduleNoteAutosave()"
                   placeholder="Written observation notes...">
         </textarea>
 
