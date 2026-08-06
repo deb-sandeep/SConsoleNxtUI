@@ -31,6 +31,7 @@ export class SectionHeaderComponent {
   private lastActiveSection: ExamSection | null = null ;
 
   protected selectSection( section: ExamSection ) {
+    this.eventLogSvc.logJumpSection( section ) ;
     this.examSvc.activateSection( section ) ;
   }
 

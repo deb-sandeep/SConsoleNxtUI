@@ -145,12 +145,6 @@ apps. The component-level (non-shared) call sites are not at parity, though:
 
 ### Confirmed gaps (jee-main logs it, jee-advanced doesn't)
 
-- **`GOTO_SECTION_START` missing.** jee-advanced's `section-header.component.ts:18` injects
-  `EventLogService` — same as jee-main's — but never calls any of its methods. `selectSection()`
-  (line 33) goes straight to `examSvc.activateSection(section)` → `activateQuestion()`, which only
-  yields `QUESTION_ACTIVATED`. jee-main's equivalent explicitly calls `logJumpSection()` first. This
-  is the clearest regression: same component name, same injected service, missing the one line
-  that logs the event.
 - **`GOTO_PREV_QUESTION` missing.** jee-advanced's "previous question" action lives in
   `question-action-panel.component.ts:44-49` (`previous()`), which calls
   `examSvc.activateQuestion(prevQ)` directly with no `logJumpPreviousQuestion()` call — even though
@@ -191,13 +185,19 @@ Six jee-advanced components inject `EventLogService` (and `ExamApiService`) but 
 `submit-panel.component.ts`. Likely copy-paste scaffolding ahead of features not yet built — no
 telemetry impact today, but worth knowing so they aren't mistaken for working emit points.
 
+### Fixed: `GOTO_SECTION_START`
+
+`section-header.component.ts`'s `selectSection(section)` now calls `eventLogSvc.logJumpSection(section)`
+before `examSvc.activateSection(section)`, matching jee-main's `jumpToSection()` pattern. This closes
+the gap originally reported above (subject-tab clicks previously only produced `QUESTION_ACTIVATED`).
+
 ### jee-advanced summary
 
 | Event | jee-advanced status |
 |---|---|
 | `EXAM_START` | OK — shared `JeeBaseService` path |
 | `QUESTION_ACTIVATED` | OK — shared `JeeBaseService` path |
-| `GOTO_SECTION_START` | **Gap** — `EventLogService` injected but unused in `section-header.component.ts` |
+| `GOTO_SECTION_START` | Fixed — `selectSection()` now calls `logJumpSection()` in `section-header.component.ts` |
 | `GOTO_PREV_QUESTION` | **Gap** — `previous()` skips the log call |
 | `GOTO_NEXT_QUESTION` | **Unreachable** — no free "next" action exists in the current UI |
 | `GOTO_PALETTE_QUESTION` | Dead in both apps (see coverage-gap section above) |
