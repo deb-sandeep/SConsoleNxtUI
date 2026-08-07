@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { MainLoginComponent } from "../jee-main/pages/01-main-login/main-login.component";
 import { InstructionScreenComponent } from "./pages/03-instruction-screen/instruction-screen.component";
 import { ExamScreenComponent } from "./pages/04-exam-screen/exam-screen.component";
+import { ResultScreenComponent } from "./pages/05-result-screen/result-screen.component";
 
 export const jeeAdvancedRoutes: Routes = [
     {
@@ -24,5 +25,10 @@ export const jeeAdvancedRoutes: Routes = [
         path: 'exam-screen',
         title: 'JEE Advanced',
         component: ExamScreenComponent,
+    },
+    {
+        path: 'result-screen',
+        title: 'Exam Results',
+        component: ResultScreenComponent,
     },
 ] ;

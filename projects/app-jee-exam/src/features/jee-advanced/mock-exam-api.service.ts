@@ -2,16 +2,24 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { APIResponse } from "lib-core";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
-import { CreateExamAttemptResponse, ExamEvent, ExamQuestionSubmitStatus, ExamSO, LapName } from "@jee-common/util/exam-data-types";
+import {
+  CreateExamAttemptResponse, ExamAttemptSO, ExamEvent,
+  ExamQuestionSubmitStatus, ExamSO, LapName
+} from "@jee-common/util/exam-data-types";
 import { ExamQuestion } from "../../common/so-wrappers";
 
 @Injectable()
 export class MockExamApiService extends ExamApiService {
 
+  // Cached so submitExamAttempt()/fetchExamAttempt() can synthesize an
+  // ExamAttemptSO shaped after the same exam the candidate actually took.
+  private mockExam: ExamSO | null = null ;
+
   override async getExamDetails( examId: number ) {
     console.log( '[MockExamApiService] Master/Exam/', { examId } ) ;
     const envelope = await firstValueFrom( this.http.get<APIResponse>( 'mock-data/jee-advanced-exam-config.json' ) ) ;
-    return envelope.data as ExamSO ;
+    this.mockExam = envelope.data as ExamSO ;
+    return this.mockExam ;
   }
 
   override async createExamAttempt( exam: ExamSO ) {
@@ -94,5 +102,30 @@ export class MockExamApiService extends ExamApiService {
   override async getQAttemptLapAnalysisObservationList() {
     console.log( '[MockExamApiService] Master/Exam/QAttemptLapAnalysisObservations' ) ;
     return [] ;
+  }
+
+  override async submitExamAttempt( examAttemptId: number ) {
+    console.log( '[MockExamApiService] Exam/Submit', { examAttemptId } ) ;
+    return this.loadMockExamAttempt( examAttemptId ) ;
+  }
+
+  override async fetchExamAttempt( examAttemptId: number ) {
+    console.log( '[MockExamApiService] Exam/Attempt/', { examAttemptId } ) ;
+    return this.loadMockExamAttempt( examAttemptId ) ;
+  }
+
+  // A captured, realistic ExamAttemptSO (25 correct / 7 incorrect / 4 unanswered
+  // across the same 36 questions as jee-advanced-exam-config.json, with a full
+  // events timeline) - generated to match this mock exam so the result screen's
+  // section/question/time-sequence panels render real-looking data instead of
+  // an all-zero stub. See mock-data/jee-advanced-eval.json.
+  private async loadMockExamAttempt( examAttemptId: number ): Promise<ExamAttemptSO> {
+    const envelope = await firstValueFrom( this.http.get<APIResponse>( 'mock-data/jee-advanced-eval.json' ) ) ;
+    const eval_ = envelope.data as ExamAttemptSO ;
+    eval_.id = examAttemptId ;
+    for( const sectionAttempt of eval_.sectionAttempts ) {
+      sectionAttempt.examAttemptId = examAttemptId ;
+    }
+    return eval_ ;
   }
 }

@@ -7,6 +7,8 @@ export class JeeAdvancedService extends JeeBaseService {
 
   async loadExamConfig( examId: number ) {
 
+    this.resetAttemptState() ;
+
     this.examConfig = await this.apiSvc.getExamDetails( examId ) ;
     this.timeLeftInSeconds.set( this.examConfig.duration ) ;
 

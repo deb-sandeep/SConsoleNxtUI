@@ -1,0 +1,2827 @@
+{
+  "data": {
+    "id": 101,
+    "exam": {
+      "id": 16,
+      "state": "PUBLISHED",
+      "type": "ADV",
+      "note": "Test Advanced Paper 1",
+      "numPhyQuestions": 18,
+      "numChemQuestions": 18,
+      "numMathQuestions": 0,
+      "totalMarks": 126,
+      "duration": 3600,
+      "creationTime": "2026-07-23T12:11:32.000+00:00",
+      "sections": [],
+      "topics": {}
+    },
+    "attemptDate": "2026-07-23T06:00:00.000Z",
+    "score": 79,
+    "loss": 8,
+    "avoidableLoss": 0,
+    "avoidableLossPct": 0,
+    "unavoidableLossPct": 0,
+    "status": "COMPLETED",
+    "sectionAttempts": [
+      {
+        "id": 101,
+        "examSection": {
+          "id": 73,
+          "examId": 16,
+          "examSequence": 1,
+          "syllabusName": "IIT Physics",
+          "problemType": "SCA",
+          "title": "Single Correct Answer",
+          "correctMarks": 3,
+          "wrongPenalty": -1,
+          "numQuestions": 6,
+          "numCompulsoryQuestions": 6,
+          "instructions": [
+            "Each question has only one correct option.",
+            "Full marks for correct answer.",
+            "Negative marks for incorrect answer."
+          ],
+          "questions": []
+        },
+        "examAttemptId": 101,
+        "score": 11,
+        "loss": 1,
+        "avoidableLoss": 0,
+        "avoidableLossPct": 0,
+        "unavoidableLossPct": 0,
+        "questionAttempts": [
+          {
+            "id": 1001,
+            "examQuestion": {
+              "id": 417,
+              "sequence": 1,
+              "questionId": 300,
+              "sectionId": 73,
+              "question": {
+                "id": 300,
+                "questionId": "AITS-14-M-CT4://P/SCA/20",
+                "syllabusName": "IIT Physics",
+                "topicName": "Units and Measurements",
+                "topicId": 102,
+                "sourceId": "AITS-14-M-CT4",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 20,
+                "answer": "A",
+                "serverSyncTime": "2026-01-16T11:17:28.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 7,
+                    "fileName": "P_SCA_20.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1838,
+                    "imgHeight": 227,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 101,
+            "timeSpent": 51,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "A",
+            "answerSubmitLap": "L1",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "L1": 51
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1002,
+            "examQuestion": {
+              "id": 418,
+              "sequence": 2,
+              "questionId": 202,
+              "sectionId": 73,
+              "question": {
+                "id": 202,
+                "questionId": "AITS-14-M-CT3://P/SCA/12",
+                "syllabusName": "IIT Physics",
+                "topicName": "EM Induction and AC",
+                "topicId": 118,
+                "sourceId": "AITS-14-M-CT3",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 12,
+                "answer": "D",
+                "serverSyncTime": "2026-01-16T11:16:15.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 4,
+                    "fileName": "P_SCA_12.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1865,
+                    "imgHeight": 465,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 101,
+            "timeSpent": 60,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "D",
+            "answerSubmitLap": "L1",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "L1": 60
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1003,
+            "examQuestion": {
+              "id": 419,
+              "sequence": 3,
+              "questionId": 488,
+              "sectionId": 73,
+              "question": {
+                "id": 488,
+                "questionId": "AITS-14-M-FT2://P/SCA/28",
+                "syllabusName": "IIT Physics",
+                "topicName": "Kinematics",
+                "topicId": 103,
+                "sourceId": "AITS-14-M-FT2",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 28,
+                "answer": "D",
+                "serverSyncTime": "2026-01-16T17:45:53.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 7,
+                    "fileName": "P_SCA_28.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1866,
+                    "imgHeight": 293,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 101,
+            "timeSpent": 69,
+            "evaluationStatus": "INCORRECT",
+            "answerProvided": "C",
+            "answerSubmitLap": "L1",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": -1,
+            "lapDurations": {
+              "L1": 69
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1004,
+            "examQuestion": {
+              "id": 420,
+              "sequence": 4,
+              "questionId": 206,
+              "sectionId": 73,
+              "question": {
+                "id": 206,
+                "questionId": "AITS-14-M-CT3://P/SCA/16",
+                "syllabusName": "IIT Physics",
+                "topicName": "EM Induction and AC",
+                "topicId": 118,
+                "sourceId": "AITS-14-M-CT3",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 16,
+                "answer": "A",
+                "serverSyncTime": "2026-01-16T11:16:16.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 5,
+                    "fileName": "P_SCA_16.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1865,
+                    "imgHeight": 310,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 101,
+            "timeSpent": 15,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "A",
+            "answerSubmitLap": "L1",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "L1": 15
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1005,
+            "examQuestion": {
+              "id": 421,
+              "sequence": 5,
+              "questionId": 11,
+              "sectionId": 73,
+              "question": {
+                "id": 11,
+                "questionId": "AITS-14-M-CT1://P/SCA/1",
+                "syllabusName": "IIT Physics",
+                "topicName": "Units and Measurements",
+                "topicId": 102,
+                "sourceId": "AITS-14-M-CT1",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 1,
+                "answer": "C",
+                "serverSyncTime": "2026-01-16T10:09:30.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 2,
+                    "fileName": "P_SCA_1.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1865,
+                    "imgHeight": 573,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 101,
+            "timeSpent": 24,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "C",
+            "answerSubmitLap": "L2P",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "L2P": 24
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1006,
+            "examQuestion": {
+              "id": 422,
+              "sequence": 6,
+              "questionId": 1757,
+              "sectionId": 73,
+              "question": {
+                "id": 1757,
+                "questionId": "RB-M-P-03://P/SCA/4",
+                "syllabusName": "IIT Physics",
+                "topicName": "Kinematics",
+                "topicId": 103,
+                "sourceId": "RB-M-P-03",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 4,
+                "answer": "2",
+                "serverSyncTime": "2026-04-07T13:39:54.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 7,
+                    "fileName": "P_SCA_4.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1913,
+                    "imgHeight": 205,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 101,
+            "timeSpent": 33,
+            "evaluationStatus": "UNANSWERED",
+            "answerProvided": null,
+            "answerSubmitLap": "L2P",
+            "answerSubmitStatus": "NOT_ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 0,
+            "lapDurations": {
+              "L2P": 33
+            },
+            "lapAnalysis": {}
+          }
+        ]
+      },
+      {
+        "id": 102,
+        "examSection": {
+          "id": 74,
+          "examId": 16,
+          "examSequence": 2,
+          "syllabusName": "IIT Physics",
+          "problemType": "MCA",
+          "title": "Multiple Correct Answer",
+          "correctMarks": 4,
+          "wrongPenalty": -2,
+          "numQuestions": 6,
+          "numCompulsoryQuestions": 6,
+          "instructions": [
+            "One or more options may be correct.",
+            "Partial marking may be awarded.",
+            "Negative marking may apply for incorrect selections."
+          ],
+          "questions": []
+        },
+        "examAttemptId": 101,
+        "score": 14,
+        "loss": 2,
+        "avoidableLoss": 0,
+        "avoidableLossPct": 0,
+        "unavoidableLossPct": 0,
+        "questionAttempts": [
+          {
+            "id": 1007,
+            "examQuestion": {
+              "id": 423,
+              "sequence": 7,
+              "questionId": 5502,
+              "sectionId": 74,
+              "question": {
+                "id": 5502,
+                "questionId": "AITS-13-A-FT1P2://P/MCA/9",
+                "syllabusName": "IIT Physics",
+                "topicName": "EM Induction and AC",
+                "topicId": 118,
+                "sourceId": "AITS-13-A-FT1P2",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 9,
+                "answer": "A,B,C",
+                "serverSyncTime": "2026-06-02T15:36:03.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 4,
+                    "fileName": "P_MCA_9.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1868,
+                    "imgHeight": 498,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 102,
+            "timeSpent": 42,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "A,B,C",
+            "answerSubmitLap": "L2P",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L2P": 42
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1008,
+            "examQuestion": {
+              "id": 424,
+              "sequence": 8,
+              "questionId": 5499,
+              "sectionId": 74,
+              "question": {
+                "id": 5499,
+                "questionId": "AITS-13-A-FT1P2://P/MCA/6",
+                "syllabusName": "IIT Physics",
+                "topicName": "Thermodynamics",
+                "topicId": 113,
+                "sourceId": "AITS-13-A-FT1P2",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 6,
+                "answer": "A,B,C,D",
+                "serverSyncTime": "2026-06-02T15:35:58.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 3,
+                    "fileName": "P_MCA_6.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1868,
+                    "imgHeight": 326,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 102,
+            "timeSpent": 51,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "A,B,C,D",
+            "answerSubmitLap": "L2P",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L2P": 51
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1009,
+            "examQuestion": {
+              "id": 425,
+              "sequence": 9,
+              "questionId": 5501,
+              "sectionId": 74,
+              "question": {
+                "id": 5501,
+                "questionId": "AITS-13-A-FT1P2://P/MCA/8",
+                "syllabusName": "IIT Physics",
+                "topicName": "Laws of Motion",
+                "topicId": 104,
+                "sourceId": "AITS-13-A-FT1P2",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 8,
+                "answer": "A,C",
+                "serverSyncTime": "2026-06-02T15:36:01.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 3,
+                    "fileName": "P_MCA_8.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1868,
+                    "imgHeight": 761,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 102,
+            "timeSpent": 60,
+            "evaluationStatus": "INCORRECT",
+            "answerProvided": "B,C",
+            "answerSubmitLap": "L2P",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": -2,
+            "lapDurations": {
+              "L2P": 60
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1010,
+            "examQuestion": {
+              "id": 426,
+              "sequence": 10,
+              "questionId": 4442,
+              "sectionId": 74,
+              "question": {
+                "id": 4442,
+                "questionId": "RB-PM-P-09://P/MCA/40",
+                "syllabusName": "IIT Physics",
+                "topicName": "Oscillations and Waves",
+                "topicId": 109,
+                "sourceId": "RB-PM-P-09",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 40,
+                "answer": "1,3",
+                "serverSyncTime": "2026-05-02T09:22:14.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 45,
+                    "fileName": "P_MCA_40.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1867,
+                    "imgHeight": 409,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 102,
+            "timeSpent": 69,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "1,3",
+            "answerSubmitLap": "L2",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L2": 69
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1011,
+            "examQuestion": {
+              "id": 427,
+              "sequence": 11,
+              "questionId": 4529,
+              "sectionId": 74,
+              "question": {
+                "id": 4529,
+                "questionId": "RB-PM-P-06://P/MCA/6",
+                "syllabusName": "IIT Physics",
+                "topicName": "Rotational Motion",
+                "topicId": 106,
+                "sourceId": "RB-PM-P-06",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 6,
+                "answer": "1,3",
+                "serverSyncTime": "2026-05-02T09:27:08.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 23,
+                    "fileName": "P_MCA_6.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1870,
+                    "imgHeight": 778,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 102,
+            "timeSpent": 15,
+            "evaluationStatus": "UNANSWERED",
+            "answerProvided": null,
+            "answerSubmitLap": "L2",
+            "answerSubmitStatus": "NOT_ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 0,
+            "lapDurations": {
+              "L2": 15
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1012,
+            "examQuestion": {
+              "id": 428,
+              "sequence": 12,
+              "questionId": 5500,
+              "sectionId": 74,
+              "question": {
+                "id": 5500,
+                "questionId": "AITS-13-A-FT1P2://P/MCA/7",
+                "syllabusName": "IIT Physics",
+                "topicName": "Kinematics",
+                "topicId": 103,
+                "sourceId": "AITS-13-A-FT1P2",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 7,
+                "answer": "B,C",
+                "serverSyncTime": "2026-06-02T15:35:59.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 3,
+                    "fileName": "P_MCA_7.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1868,
+                    "imgHeight": 298,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 102,
+            "timeSpent": 24,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "B,C",
+            "answerSubmitLap": "L2",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L2": 24
+            },
+            "lapAnalysis": {}
+          }
+        ]
+      },
+      {
+        "id": 103,
+        "examSection": {
+          "id": 75,
+          "examId": 16,
+          "examSequence": 3,
+          "syllabusName": "IIT Physics",
+          "problemType": "NVT",
+          "title": "Numerical Value Type",
+          "correctMarks": 4,
+          "wrongPenalty": 0,
+          "numQuestions": 3,
+          "numCompulsoryQuestions": 3,
+          "instructions": [
+            "Enter the correct numerical value.",
+            "No options are provided.",
+            "Answer must match exactly as per required precision."
+          ],
+          "questions": []
+        },
+        "examAttemptId": 101,
+        "score": 8,
+        "loss": 0,
+        "avoidableLoss": 0,
+        "avoidableLossPct": 0,
+        "unavoidableLossPct": 0,
+        "questionAttempts": [
+          {
+            "id": 1013,
+            "examQuestion": {
+              "id": 429,
+              "sequence": 13,
+              "questionId": 2340,
+              "sectionId": 75,
+              "question": {
+                "id": 2340,
+                "questionId": "RB-M-P-06://P/NVT/37",
+                "syllabusName": "IIT Physics",
+                "topicName": "Laws of Motion",
+                "topicId": 104,
+                "sourceId": "RB-M-P-06",
+                "problemType": "NVT",
+                "lctSequence": -1,
+                "questionNumber": 37,
+                "answer": "32.20",
+                "serverSyncTime": "2026-04-15T10:20:58.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 25,
+                    "fileName": "P_NVT_37.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1873,
+                    "imgHeight": 678,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 103,
+            "timeSpent": 33,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "32.20",
+            "answerSubmitLap": "L2",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L2": 33
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1014,
+            "examQuestion": {
+              "id": 430,
+              "sequence": 14,
+              "questionId": 3788,
+              "sectionId": 75,
+              "question": {
+                "id": 3788,
+                "questionId": "RB-M-P-02://P/NVT/25",
+                "syllabusName": "IIT Physics",
+                "topicName": "Units and Measurements",
+                "topicId": 102,
+                "sourceId": "RB-M-P-02",
+                "problemType": "NVT",
+                "lctSequence": -1,
+                "questionNumber": 25,
+                "answer": "51.24",
+                "serverSyncTime": "2026-04-29T13:07:31.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 6,
+                    "fileName": "P_NVT_25.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1887,
+                    "imgHeight": 199,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 103,
+            "timeSpent": 42,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "51.24",
+            "answerSubmitLap": "L2",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L2": 42
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1015,
+            "examQuestion": {
+              "id": 431,
+              "sequence": 15,
+              "questionId": 3786,
+              "sectionId": 75,
+              "question": {
+                "id": 3786,
+                "questionId": "RB-M-P-02://P/NVT/23",
+                "syllabusName": "IIT Physics",
+                "topicName": "Units and Measurements",
+                "topicId": 102,
+                "sourceId": "RB-M-P-02",
+                "problemType": "NVT",
+                "lctSequence": -1,
+                "questionNumber": 23,
+                "answer": "1.33",
+                "serverSyncTime": "2026-04-29T13:07:30.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 6,
+                    "fileName": "P_NVT_23.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1887,
+                    "imgHeight": 321,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 103,
+            "timeSpent": 51,
+            "evaluationStatus": "INCORRECT",
+            "answerProvided": "2.53",
+            "answerSubmitLap": "AMR",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 0,
+            "lapDurations": {
+              "AMR": 51
+            },
+            "lapAnalysis": {}
+          }
+        ]
+      },
+      {
+        "id": 104,
+        "examSection": {
+          "id": 76,
+          "examId": 16,
+          "examSequence": 4,
+          "syllabusName": "IIT Physics",
+          "problemType": "IVT",
+          "title": "Integer Value Type",
+          "correctMarks": 3,
+          "wrongPenalty": 0,
+          "numQuestions": 3,
+          "numCompulsoryQuestions": 3,
+          "instructions": [
+            "Enter the correct numerical value.",
+            "No options are provided.",
+            "Answer must match exactly."
+          ],
+          "questions": []
+        },
+        "examAttemptId": 101,
+        "score": 9,
+        "loss": 0,
+        "avoidableLoss": 0,
+        "avoidableLossPct": 0,
+        "unavoidableLossPct": 0,
+        "questionAttempts": [
+          {
+            "id": 1016,
+            "examQuestion": {
+              "id": 432,
+              "sequence": 16,
+              "questionId": 3811,
+              "sectionId": 76,
+              "question": {
+                "id": 3811,
+                "questionId": "RB-M-P-01://P/NVT/21",
+                "syllabusName": "IIT Physics",
+                "topicName": "Units and Measurements",
+                "topicId": 102,
+                "sourceId": "RB-M-P-01",
+                "problemType": "IVT",
+                "lctSequence": -1,
+                "questionNumber": 21,
+                "answer": "3",
+                "serverSyncTime": "2026-04-29T13:09:06.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 3,
+                    "fileName": "P_NVT_21.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1873,
+                    "imgHeight": 205,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 104,
+            "timeSpent": 60,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "3",
+            "answerSubmitLap": "AMR",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "AMR": 60
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1017,
+            "examQuestion": {
+              "id": 433,
+              "sequence": 17,
+              "questionId": 3787,
+              "sectionId": 76,
+              "question": {
+                "id": 3787,
+                "questionId": "RB-M-P-02://P/NVT/24",
+                "syllabusName": "IIT Physics",
+                "topicName": "Units and Measurements",
+                "topicId": 102,
+                "sourceId": "RB-M-P-02",
+                "problemType": "IVT",
+                "lctSequence": -1,
+                "questionNumber": 24,
+                "answer": "1",
+                "serverSyncTime": "2026-04-29T13:07:30.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 6,
+                    "fileName": "P_NVT_24.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1887,
+                    "imgHeight": 163,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 104,
+            "timeSpent": 69,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "1",
+            "answerSubmitLap": "AMR",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "AMR": 69
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1018,
+            "examQuestion": {
+              "id": 434,
+              "sequence": 18,
+              "questionId": 1802,
+              "sectionId": 76,
+              "question": {
+                "id": 1802,
+                "questionId": "RB-M-P-04://P/NVT/16",
+                "syllabusName": "IIT Physics",
+                "topicName": "Kinematics",
+                "topicId": 103,
+                "sourceId": "RB-M-P-04",
+                "problemType": "IVT",
+                "lctSequence": -1,
+                "questionNumber": 16,
+                "answer": "10",
+                "serverSyncTime": "2026-04-07T13:40:48.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 12,
+                    "fileName": "P_NVT_16.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1906,
+                    "imgHeight": 168,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 104,
+            "timeSpent": 15,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "10",
+            "answerSubmitLap": "AMR",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "AMR": 15
+            },
+            "lapAnalysis": {}
+          }
+        ]
+      },
+      {
+        "id": 105,
+        "examSection": {
+          "id": 77,
+          "examId": 16,
+          "examSequence": 5,
+          "syllabusName": "IIT Chemistry",
+          "problemType": "SCA",
+          "title": "Single Correct Answer",
+          "correctMarks": 3,
+          "wrongPenalty": -1,
+          "numQuestions": 6,
+          "numCompulsoryQuestions": 6,
+          "instructions": [
+            "Each question has only one correct option.",
+            "Full marks for correct answer.",
+            "Negative marks for incorrect answer."
+          ],
+          "questions": []
+        },
+        "examAttemptId": 101,
+        "score": 11,
+        "loss": 1,
+        "avoidableLoss": 0,
+        "avoidableLossPct": 0,
+        "unavoidableLossPct": 0,
+        "questionAttempts": [
+          {
+            "id": 1019,
+            "examQuestion": {
+              "id": 435,
+              "sequence": 19,
+              "questionId": 41,
+              "sectionId": 77,
+              "question": {
+                "id": 41,
+                "questionId": "AITS-14-M-CT1://C/SCA/1",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Basic Concepts",
+                "topicId": 126,
+                "sourceId": "AITS-14-M-CT1",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 1,
+                "answer": "D",
+                "serverSyncTime": "2026-01-16T10:11:23.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 10,
+                    "fileName": "C_SCA_1.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1865,
+                    "imgHeight": 231,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 105,
+            "timeSpent": 24,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "D",
+            "answerSubmitLap": "AMR",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "AMR": 24
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1020,
+            "examQuestion": {
+              "id": 436,
+              "sequence": 20,
+              "questionId": 143,
+              "sectionId": 77,
+              "question": {
+                "id": 143,
+                "questionId": "AITS-14-M-CT2://C/SCA/13",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Basic Concepts",
+                "topicId": 126,
+                "sourceId": "AITS-14-M-CT2",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 13,
+                "answer": "D",
+                "serverSyncTime": "2026-01-16T11:12:32.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 12,
+                    "fileName": "C_SCA_13.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1865,
+                    "imgHeight": 292,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 105,
+            "timeSpent": 33,
+            "evaluationStatus": "INCORRECT",
+            "answerProvided": "C",
+            "answerSubmitLap": "L3P",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": -1,
+            "lapDurations": {
+              "L3P": 33
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1021,
+            "examQuestion": {
+              "id": 437,
+              "sequence": 21,
+              "questionId": 501,
+              "sectionId": 77,
+              "question": {
+                "id": 501,
+                "questionId": "AITS-14-M-FT2://C/SCA/11",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Basic Concepts",
+                "topicId": 126,
+                "sourceId": "AITS-14-M-FT2",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 11,
+                "answer": "D",
+                "serverSyncTime": "2026-01-16T17:45:57.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 10,
+                    "fileName": "C_SCA_11.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1866,
+                    "imgHeight": 163,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 105,
+            "timeSpent": 42,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "D",
+            "answerSubmitLap": "L3P",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "L3P": 42
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1022,
+            "examQuestion": {
+              "id": 438,
+              "sequence": 22,
+              "questionId": 2549,
+              "sectionId": 77,
+              "question": {
+                "id": 2549,
+                "questionId": "AITS-15-M-FT2://C/SCA/26",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Surface Chemistry",
+                "topicId": 129,
+                "sourceId": "AITS-15-M-FT2",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 26,
+                "answer": "D",
+                "serverSyncTime": "2026-04-16T05:21:29.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 15,
+                    "fileName": "C_SCA_26.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1865,
+                    "imgHeight": 264,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 105,
+            "timeSpent": 51,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "D",
+            "answerSubmitLap": "L3P",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "L3P": 51
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1023,
+            "examQuestion": {
+              "id": 439,
+              "sequence": 23,
+              "questionId": 3457,
+              "sectionId": 77,
+              "question": {
+                "id": 3457,
+                "questionId": "AITS-15-M-PT4://C/SCA/24",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Surface Chemistry",
+                "topicId": 129,
+                "sourceId": "AITS-15-M-PT4",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 24,
+                "answer": "D",
+                "serverSyncTime": "2026-04-25T05:12:28.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 12,
+                    "fileName": "C_SCA_24.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1865,
+                    "imgHeight": 296,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 105,
+            "timeSpent": 60,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "D",
+            "answerSubmitLap": "L3P",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "L3P": 60
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1024,
+            "examQuestion": {
+              "id": 440,
+              "sequence": 24,
+              "questionId": 2731,
+              "sectionId": 77,
+              "question": {
+                "id": 2731,
+                "questionId": "AITS-15-M-FT5://C/SCA/28",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Polymers",
+                "topicId": 154,
+                "sourceId": "AITS-15-M-FT5",
+                "problemType": "SCA",
+                "lctSequence": -1,
+                "questionNumber": 28,
+                "answer": "C",
+                "serverSyncTime": "2026-04-17T11:39:47.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 16,
+                    "fileName": "C_SCA_28.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1865,
+                    "imgHeight": 321,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 105,
+            "timeSpent": 69,
+            "evaluationStatus": "UNANSWERED",
+            "answerProvided": null,
+            "answerSubmitLap": "L3P",
+            "answerSubmitStatus": "NOT_ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 0,
+            "lapDurations": {
+              "L3P": 69
+            },
+            "lapAnalysis": {}
+          }
+        ]
+      },
+      {
+        "id": 106,
+        "examSection": {
+          "id": 78,
+          "examId": 16,
+          "examSequence": 6,
+          "syllabusName": "IIT Chemistry",
+          "problemType": "MCA",
+          "title": "Multiple Correct Answer",
+          "correctMarks": 4,
+          "wrongPenalty": -2,
+          "numQuestions": 6,
+          "numCompulsoryQuestions": 6,
+          "instructions": [
+            "One or more options may be correct.",
+            "Partial marking may be awarded.",
+            "Negative marking may apply for incorrect selections."
+          ],
+          "questions": []
+        },
+        "examAttemptId": 101,
+        "score": 12,
+        "loss": 4,
+        "avoidableLoss": 0,
+        "avoidableLossPct": 0,
+        "unavoidableLossPct": 0,
+        "questionAttempts": [
+          {
+            "id": 1025,
+            "examQuestion": {
+              "id": 441,
+              "sequence": 25,
+              "questionId": 2257,
+              "sectionId": 78,
+              "question": {
+                "id": 2257,
+                "questionId": "RB-PM-C-13://C/MCA/10",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Bonding And Molecular Structure",
+                "topicId": 131,
+                "sourceId": "RB-PM-C-13",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 10,
+                "answer": "1,4",
+                "serverSyncTime": "2026-04-15T09:14:50.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 39,
+                    "fileName": "C_MCA_10.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1806,
+                    "imgHeight": 187,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 106,
+            "timeSpent": 15,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "1,4",
+            "answerSubmitLap": "L3.1",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L3.1": 15
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1026,
+            "examQuestion": {
+              "id": 442,
+              "sequence": 26,
+              "questionId": 5513,
+              "sectionId": 78,
+              "question": {
+                "id": 5513,
+                "questionId": "AITS-13-A-FT1P2://C/MCA/9",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Solutions",
+                "topicId": 133,
+                "sourceId": "AITS-13-A-FT1P2",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 9,
+                "answer": "B,C",
+                "serverSyncTime": "2026-06-02T15:36:22.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 8,
+                    "fileName": "C_MCA_9.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1868,
+                    "imgHeight": 169,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 106,
+            "timeSpent": 24,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "B,C",
+            "answerSubmitLap": "L3.1",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L3.1": 24
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1027,
+            "examQuestion": {
+              "id": 443,
+              "sequence": 27,
+              "questionId": 2303,
+              "sectionId": 78,
+              "question": {
+                "id": 2303,
+                "questionId": "RB-PM-C-10://C/MCA/3",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Equilibrium",
+                "topicId": 134,
+                "sourceId": "RB-PM-C-10",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 3,
+                "answer": "1,3",
+                "serverSyncTime": "2026-04-15T09:38:45.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 29,
+                    "fileName": "C_MCA_3.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1887,
+                    "imgHeight": 199,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 106,
+            "timeSpent": 33,
+            "evaluationStatus": "INCORRECT",
+            "answerProvided": "C,D",
+            "answerSubmitLap": "L3.1",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": -2,
+            "lapDurations": {
+              "L3.1": 33
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1028,
+            "examQuestion": {
+              "id": 444,
+              "sequence": 28,
+              "questionId": 5509,
+              "sectionId": 78,
+              "question": {
+                "id": 5509,
+                "questionId": "AITS-13-A-FT1P2://C/MCA/5",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Equilibrium",
+                "topicId": 134,
+                "sourceId": "AITS-13-A-FT1P2",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 5,
+                "answer": "A,C",
+                "serverSyncTime": "2026-06-02T15:36:16.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 8,
+                    "fileName": "C_MCA_5.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1868,
+                    "imgHeight": 340,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 106,
+            "timeSpent": 42,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "A,C",
+            "answerSubmitLap": "L3.1",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L3.1": 42
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1029,
+            "examQuestion": {
+              "id": 445,
+              "sequence": 29,
+              "questionId": 5512,
+              "sectionId": 78,
+              "question": {
+                "id": 5512,
+                "questionId": "AITS-13-A-FT1P2://C/MCA/8",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Chemical Kinetics",
+                "topicId": 136,
+                "sourceId": "AITS-13-A-FT1P2",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 8,
+                "answer": "A,B,D",
+                "serverSyncTime": "2026-06-02T15:36:20.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 8,
+                    "fileName": "C_MCA_8.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1868,
+                    "imgHeight": 371,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 106,
+            "timeSpent": 51,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "A,B,D",
+            "answerSubmitLap": "L3.1",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L3.1": 51
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1030,
+            "examQuestion": {
+              "id": 446,
+              "sequence": 30,
+              "questionId": 5511,
+              "sectionId": 78,
+              "question": {
+                "id": 5511,
+                "questionId": "AITS-13-A-FT1P2://C/MCA/7",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Polymers",
+                "topicId": 154,
+                "sourceId": "AITS-13-A-FT1P2",
+                "problemType": "MCA",
+                "lctSequence": -1,
+                "questionNumber": 7,
+                "answer": "A,B,D",
+                "serverSyncTime": "2026-06-02T15:36:19.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 8,
+                    "fileName": "C_MCA_7.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1868,
+                    "imgHeight": 524,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 106,
+            "timeSpent": 60,
+            "evaluationStatus": "INCORRECT",
+            "answerProvided": "A,D",
+            "answerSubmitLap": "L3.2",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": -2,
+            "lapDurations": {
+              "L3.2": 60
+            },
+            "lapAnalysis": {}
+          }
+        ]
+      },
+      {
+        "id": 107,
+        "examSection": {
+          "id": 79,
+          "examId": 16,
+          "examSequence": 7,
+          "syllabusName": "IIT Chemistry",
+          "problemType": "NVT",
+          "title": "Numerical Value Type",
+          "correctMarks": 4,
+          "wrongPenalty": 0,
+          "numQuestions": 3,
+          "numCompulsoryQuestions": 3,
+          "instructions": [
+            "Enter the correct numerical value.",
+            "No options are provided.",
+            "Answer must match exactly as per required precision."
+          ],
+          "questions": []
+        },
+        "examAttemptId": 101,
+        "score": 8,
+        "loss": 0,
+        "avoidableLoss": 0,
+        "avoidableLossPct": 0,
+        "unavoidableLossPct": 0,
+        "questionAttempts": [
+          {
+            "id": 1031,
+            "examQuestion": {
+              "id": 447,
+              "sequence": 31,
+              "questionId": 1404,
+              "sectionId": 79,
+              "question": {
+                "id": 1404,
+                "questionId": "RB-M-C-01://C/NVT/40",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Basic Concepts",
+                "topicId": 126,
+                "sourceId": "RB-M-C-01",
+                "problemType": "NVT",
+                "lctSequence": -1,
+                "questionNumber": 40,
+                "answer": "8.0",
+                "serverSyncTime": "2026-04-03T13:36:14.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 3,
+                    "fileName": "C_NVT_40.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1915,
+                    "imgHeight": 113,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 107,
+            "timeSpent": 69,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "8.0",
+            "answerSubmitLap": "L3.2",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L3.2": 69
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1032,
+            "examQuestion": {
+              "id": 448,
+              "sequence": 32,
+              "questionId": 3614,
+              "sectionId": 79,
+              "question": {
+                "id": 3614,
+                "questionId": "MN-C-02://C/AVA/03/L4/NVT/7",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "States of Matter - Gases and Liquids",
+                "topicId": 127,
+                "sourceId": "MN-C-02",
+                "problemType": "NVT",
+                "lctSequence": -1,
+                "questionNumber": 7,
+                "answer": "9.0",
+                "serverSyncTime": "2026-04-26T05:29:09.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 1,
+                    "fileName": "C_AVA_03_L4_NVT_7.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 800,
+                    "imgHeight": 320,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 107,
+            "timeSpent": 15,
+            "evaluationStatus": "UNANSWERED",
+            "answerProvided": null,
+            "answerSubmitLap": "L3.2",
+            "answerSubmitStatus": "NOT_ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 0,
+            "lapDurations": {
+              "L3.2": 15
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1033,
+            "examQuestion": {
+              "id": 449,
+              "sequence": 33,
+              "questionId": 1405,
+              "sectionId": 79,
+              "question": {
+                "id": 1405,
+                "questionId": "RB-M-C-01://C/NVT/41",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Basic Concepts",
+                "topicId": 126,
+                "sourceId": "RB-M-C-01",
+                "problemType": "NVT",
+                "lctSequence": -1,
+                "questionNumber": 41,
+                "answer": "2.7",
+                "serverSyncTime": "2026-04-03T13:36:14.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 3,
+                    "fileName": "C_NVT_41.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1915,
+                    "imgHeight": 109,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 107,
+            "timeSpent": 24,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "2.7",
+            "answerSubmitLap": "L3.2",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 4,
+            "lapDurations": {
+              "L3.2": 24
+            },
+            "lapAnalysis": {}
+          }
+        ]
+      },
+      {
+        "id": 108,
+        "examSection": {
+          "id": 80,
+          "examId": 16,
+          "examSequence": 8,
+          "syllabusName": "IIT Chemistry",
+          "problemType": "IVT",
+          "title": "Integer Value Type",
+          "correctMarks": 3,
+          "wrongPenalty": 0,
+          "numQuestions": 3,
+          "numCompulsoryQuestions": 3,
+          "instructions": [
+            "Enter the correct numerical value.",
+            "No options are provided.",
+            "Answer must match exactly."
+          ],
+          "questions": []
+        },
+        "examAttemptId": 101,
+        "score": 6,
+        "loss": 0,
+        "avoidableLoss": 0,
+        "avoidableLossPct": 0,
+        "unavoidableLossPct": 0,
+        "questionAttempts": [
+          {
+            "id": 1034,
+            "examQuestion": {
+              "id": 450,
+              "sequence": 34,
+              "questionId": 1400,
+              "sectionId": 80,
+              "question": {
+                "id": 1400,
+                "questionId": "RB-M-C-01://C/NVT/36",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Basic Concepts",
+                "topicId": 126,
+                "sourceId": "RB-M-C-01",
+                "problemType": "IVT",
+                "lctSequence": -1,
+                "questionNumber": 36,
+                "answer": "47",
+                "serverSyncTime": "2026-04-03T13:36:12.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 3,
+                    "fileName": "C_NVT_36.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1915,
+                    "imgHeight": 144,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 108,
+            "timeSpent": 33,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "47",
+            "answerSubmitLap": "L3.2",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "L3.2": 33
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1035,
+            "examQuestion": {
+              "id": 451,
+              "sequence": 35,
+              "questionId": 1401,
+              "sectionId": 80,
+              "question": {
+                "id": 1401,
+                "questionId": "RB-M-C-01://C/NVT/37",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Basic Concepts",
+                "topicId": 126,
+                "sourceId": "RB-M-C-01",
+                "problemType": "IVT",
+                "lctSequence": -1,
+                "questionNumber": 37,
+                "answer": "17",
+                "serverSyncTime": "2026-04-03T13:36:13.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 3,
+                    "fileName": "C_NVT_37.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1915,
+                    "imgHeight": 115,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 108,
+            "timeSpent": 42,
+            "evaluationStatus": "CORRECT",
+            "answerProvided": "17",
+            "answerSubmitLap": "L3.2",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 3,
+            "lapDurations": {
+              "L3.2": 42
+            },
+            "lapAnalysis": {}
+          },
+          {
+            "id": 1036,
+            "examQuestion": {
+              "id": 452,
+              "sequence": 36,
+              "questionId": 1403,
+              "sectionId": 80,
+              "question": {
+                "id": 1403,
+                "questionId": "RB-M-C-01://C/NVT/39",
+                "syllabusName": "IIT Chemistry",
+                "topicName": "Basic Concepts",
+                "topicId": 126,
+                "sourceId": "RB-M-C-01",
+                "problemType": "IVT",
+                "lctSequence": -1,
+                "questionNumber": 39,
+                "answer": "2",
+                "serverSyncTime": "2026-04-03T13:36:13.000+00:00",
+                "questionImages": [
+                  {
+                    "sequence": 0,
+                    "pageNumber": 3,
+                    "fileName": "C_NVT_39.png",
+                    "lctCtxImage": false,
+                    "partNumber": -1,
+                    "imgWidth": 1915,
+                    "imgHeight": 105,
+                    "imgData": null
+                  }
+                ],
+                "rating": 0
+              }
+            },
+            "examSectionAttemptId": 108,
+            "timeSpent": 51,
+            "evaluationStatus": "INCORRECT",
+            "answerProvided": "5",
+            "answerSubmitLap": "L3.2",
+            "answerSubmitStatus": "ANSWERED",
+            "score": 0,
+            "loss": 0,
+            "avoidableLoss": 0,
+            "rootCause": null,
+            "execScore": 0,
+            "lapDurations": {
+              "L3.2": 51
+            },
+            "lapAnalysis": {}
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "id": 901,
+        "examAttemptId": 101,
+        "sequence": 1,
+        "eventType": "START_STOP",
+        "eventName": "EXAM_START",
+        "payload": "{}",
+        "creationTime": "2026-07-23T06:00:00.000Z",
+        "timeMarker": 0
+      },
+      {
+        "id": 902,
+        "examAttemptId": 101,
+        "sequence": 2,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":300,\"questionNo\":1,\"examQuestionId\":417}",
+        "creationTime": "2026-07-23T06:00:03.000Z",
+        "timeMarker": 3000
+      },
+      {
+        "id": 903,
+        "examAttemptId": 101,
+        "sequence": 3,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"A\",\"questionNo\":1}",
+        "creationTime": "2026-07-23T06:00:54.000Z",
+        "timeMarker": 54000
+      },
+      {
+        "id": 904,
+        "examAttemptId": 101,
+        "sequence": 4,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":202,\"questionNo\":2,\"examQuestionId\":418}",
+        "creationTime": "2026-07-23T06:00:54.000Z",
+        "timeMarker": 54000
+      },
+      {
+        "id": 905,
+        "examAttemptId": 101,
+        "sequence": 5,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"D\",\"questionNo\":2}",
+        "creationTime": "2026-07-23T06:01:54.000Z",
+        "timeMarker": 114000
+      },
+      {
+        "id": 906,
+        "examAttemptId": 101,
+        "sequence": 6,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":488,\"questionNo\":3,\"examQuestionId\":419}",
+        "creationTime": "2026-07-23T06:01:54.000Z",
+        "timeMarker": 114000
+      },
+      {
+        "id": 907,
+        "examAttemptId": 101,
+        "sequence": 7,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"C\",\"questionNo\":3}",
+        "creationTime": "2026-07-23T06:03:03.000Z",
+        "timeMarker": 183000
+      },
+      {
+        "id": 908,
+        "examAttemptId": 101,
+        "sequence": 8,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":206,\"questionNo\":4,\"examQuestionId\":420}",
+        "creationTime": "2026-07-23T06:03:03.000Z",
+        "timeMarker": 183000
+      },
+      {
+        "id": 909,
+        "examAttemptId": 101,
+        "sequence": 9,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_MARK_REVIEW",
+        "payload": "{\"answer\":\"A\",\"questionNo\":4}",
+        "creationTime": "2026-07-23T06:03:18.000Z",
+        "timeMarker": 198000
+      },
+      {
+        "id": 910,
+        "examAttemptId": 101,
+        "sequence": 10,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":11,\"questionNo\":5,\"examQuestionId\":421}",
+        "creationTime": "2026-07-23T06:03:18.000Z",
+        "timeMarker": 198000
+      },
+      {
+        "id": 911,
+        "examAttemptId": 101,
+        "sequence": 11,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"C\",\"questionNo\":5}",
+        "creationTime": "2026-07-23T06:03:42.000Z",
+        "timeMarker": 222000
+      },
+      {
+        "id": 912,
+        "examAttemptId": 101,
+        "sequence": 12,
+        "eventType": "LAP",
+        "eventName": "LAP_CHANGE",
+        "payload": "{\"nextLap\":\"L2P\",\"currentLap\":\"L1\"}",
+        "creationTime": "2026-07-23T06:03:42.000Z",
+        "timeMarker": 222000
+      },
+      {
+        "id": 913,
+        "examAttemptId": 101,
+        "sequence": 13,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":1757,\"questionNo\":6,\"examQuestionId\":422}",
+        "creationTime": "2026-07-23T06:03:42.000Z",
+        "timeMarker": 222000
+      },
+      {
+        "id": 914,
+        "examAttemptId": 101,
+        "sequence": 14,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":5502,\"questionNo\":7,\"examQuestionId\":423}",
+        "creationTime": "2026-07-23T06:04:15.000Z",
+        "timeMarker": 255000
+      },
+      {
+        "id": 915,
+        "examAttemptId": 101,
+        "sequence": 15,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"A,B,C\",\"questionNo\":7}",
+        "creationTime": "2026-07-23T06:04:57.000Z",
+        "timeMarker": 297000
+      },
+      {
+        "id": 916,
+        "examAttemptId": 101,
+        "sequence": 16,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":5499,\"questionNo\":8,\"examQuestionId\":424}",
+        "creationTime": "2026-07-23T06:04:57.000Z",
+        "timeMarker": 297000
+      },
+      {
+        "id": 917,
+        "examAttemptId": 101,
+        "sequence": 17,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_MARK_REVIEW",
+        "payload": "{\"answer\":\"A,B,C,D\",\"questionNo\":8}",
+        "creationTime": "2026-07-23T06:05:48.000Z",
+        "timeMarker": 348000
+      },
+      {
+        "id": 918,
+        "examAttemptId": 101,
+        "sequence": 18,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":5501,\"questionNo\":9,\"examQuestionId\":425}",
+        "creationTime": "2026-07-23T06:05:48.000Z",
+        "timeMarker": 348000
+      },
+      {
+        "id": 919,
+        "examAttemptId": 101,
+        "sequence": 19,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"B,C\",\"questionNo\":9}",
+        "creationTime": "2026-07-23T06:06:48.000Z",
+        "timeMarker": 408000
+      },
+      {
+        "id": 920,
+        "examAttemptId": 101,
+        "sequence": 20,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":4442,\"questionNo\":10,\"examQuestionId\":426}",
+        "creationTime": "2026-07-23T06:06:48.000Z",
+        "timeMarker": 408000
+      },
+      {
+        "id": 921,
+        "examAttemptId": 101,
+        "sequence": 21,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"1,3\",\"questionNo\":10}",
+        "creationTime": "2026-07-23T06:07:57.000Z",
+        "timeMarker": 477000
+      },
+      {
+        "id": 922,
+        "examAttemptId": 101,
+        "sequence": 22,
+        "eventType": "LAP",
+        "eventName": "LAP_CHANGE",
+        "payload": "{\"nextLap\":\"L2\",\"currentLap\":\"L2P\"}",
+        "creationTime": "2026-07-23T06:07:57.000Z",
+        "timeMarker": 477000
+      },
+      {
+        "id": 923,
+        "examAttemptId": 101,
+        "sequence": 23,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":4529,\"questionNo\":11,\"examQuestionId\":427}",
+        "creationTime": "2026-07-23T06:07:57.000Z",
+        "timeMarker": 477000
+      },
+      {
+        "id": 924,
+        "examAttemptId": 101,
+        "sequence": 24,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":5500,\"questionNo\":12,\"examQuestionId\":428}",
+        "creationTime": "2026-07-23T06:08:12.000Z",
+        "timeMarker": 492000
+      },
+      {
+        "id": 925,
+        "examAttemptId": 101,
+        "sequence": 25,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_MARK_REVIEW",
+        "payload": "{\"answer\":\"B,C\",\"questionNo\":12}",
+        "creationTime": "2026-07-23T06:08:36.000Z",
+        "timeMarker": 516000
+      },
+      {
+        "id": 926,
+        "examAttemptId": 101,
+        "sequence": 26,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":2340,\"questionNo\":13,\"examQuestionId\":429}",
+        "creationTime": "2026-07-23T06:08:36.000Z",
+        "timeMarker": 516000
+      },
+      {
+        "id": 927,
+        "examAttemptId": 101,
+        "sequence": 27,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"32.20\",\"questionNo\":13}",
+        "creationTime": "2026-07-23T06:09:09.000Z",
+        "timeMarker": 549000
+      },
+      {
+        "id": 928,
+        "examAttemptId": 101,
+        "sequence": 28,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":3788,\"questionNo\":14,\"examQuestionId\":430}",
+        "creationTime": "2026-07-23T06:09:09.000Z",
+        "timeMarker": 549000
+      },
+      {
+        "id": 929,
+        "examAttemptId": 101,
+        "sequence": 29,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"51.24\",\"questionNo\":14}",
+        "creationTime": "2026-07-23T06:09:51.000Z",
+        "timeMarker": 591000
+      },
+      {
+        "id": 930,
+        "examAttemptId": 101,
+        "sequence": 30,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":3786,\"questionNo\":15,\"examQuestionId\":431}",
+        "creationTime": "2026-07-23T06:09:51.000Z",
+        "timeMarker": 591000
+      },
+      {
+        "id": 931,
+        "examAttemptId": 101,
+        "sequence": 31,
+        "eventType": "ANS_ACTION",
+        "eventName": "MARK_REVIEW_&_NEXT",
+        "payload": "{\"answer\":\"2.53\",\"questionNo\":15}",
+        "creationTime": "2026-07-23T06:10:42.000Z",
+        "timeMarker": 642000
+      },
+      {
+        "id": 932,
+        "examAttemptId": 101,
+        "sequence": 32,
+        "eventType": "LAP",
+        "eventName": "LAP_CHANGE",
+        "payload": "{\"nextLap\":\"AMR\",\"currentLap\":\"L2\"}",
+        "creationTime": "2026-07-23T06:10:42.000Z",
+        "timeMarker": 642000
+      },
+      {
+        "id": 933,
+        "examAttemptId": 101,
+        "sequence": 33,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":3811,\"questionNo\":16,\"examQuestionId\":432}",
+        "creationTime": "2026-07-23T06:10:42.000Z",
+        "timeMarker": 642000
+      },
+      {
+        "id": 934,
+        "examAttemptId": 101,
+        "sequence": 34,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_MARK_REVIEW",
+        "payload": "{\"answer\":\"3\",\"questionNo\":16}",
+        "creationTime": "2026-07-23T06:11:42.000Z",
+        "timeMarker": 702000
+      },
+      {
+        "id": 935,
+        "examAttemptId": 101,
+        "sequence": 35,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":3787,\"questionNo\":17,\"examQuestionId\":433}",
+        "creationTime": "2026-07-23T06:11:42.000Z",
+        "timeMarker": 702000
+      },
+      {
+        "id": 936,
+        "examAttemptId": 101,
+        "sequence": 36,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"1\",\"questionNo\":17}",
+        "creationTime": "2026-07-23T06:12:51.000Z",
+        "timeMarker": 771000
+      },
+      {
+        "id": 937,
+        "examAttemptId": 101,
+        "sequence": 37,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":1802,\"questionNo\":18,\"examQuestionId\":434}",
+        "creationTime": "2026-07-23T06:12:51.000Z",
+        "timeMarker": 771000
+      },
+      {
+        "id": 938,
+        "examAttemptId": 101,
+        "sequence": 38,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"10\",\"questionNo\":18}",
+        "creationTime": "2026-07-23T06:13:06.000Z",
+        "timeMarker": 786000
+      },
+      {
+        "id": 939,
+        "examAttemptId": 101,
+        "sequence": 39,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":41,\"questionNo\":19,\"examQuestionId\":435}",
+        "creationTime": "2026-07-23T06:13:06.000Z",
+        "timeMarker": 786000
+      },
+      {
+        "id": 940,
+        "examAttemptId": 101,
+        "sequence": 40,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"D\",\"questionNo\":19}",
+        "creationTime": "2026-07-23T06:13:30.000Z",
+        "timeMarker": 810000
+      },
+      {
+        "id": 941,
+        "examAttemptId": 101,
+        "sequence": 41,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":143,\"questionNo\":20,\"examQuestionId\":436}",
+        "creationTime": "2026-07-23T06:13:30.000Z",
+        "timeMarker": 810000
+      },
+      {
+        "id": 942,
+        "examAttemptId": 101,
+        "sequence": 42,
+        "eventType": "ANS_ACTION",
+        "eventName": "MARK_REVIEW_&_NEXT",
+        "payload": "{\"answer\":\"C\",\"questionNo\":20}",
+        "creationTime": "2026-07-23T06:14:03.000Z",
+        "timeMarker": 843000
+      },
+      {
+        "id": 943,
+        "examAttemptId": 101,
+        "sequence": 43,
+        "eventType": "LAP",
+        "eventName": "LAP_CHANGE",
+        "payload": "{\"nextLap\":\"L3P\",\"currentLap\":\"AMR\"}",
+        "creationTime": "2026-07-23T06:14:03.000Z",
+        "timeMarker": 843000
+      },
+      {
+        "id": 944,
+        "examAttemptId": 101,
+        "sequence": 44,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":501,\"questionNo\":21,\"examQuestionId\":437}",
+        "creationTime": "2026-07-23T06:14:03.000Z",
+        "timeMarker": 843000
+      },
+      {
+        "id": 945,
+        "examAttemptId": 101,
+        "sequence": 45,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"D\",\"questionNo\":21}",
+        "creationTime": "2026-07-23T06:14:45.000Z",
+        "timeMarker": 885000
+      },
+      {
+        "id": 946,
+        "examAttemptId": 101,
+        "sequence": 46,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":2549,\"questionNo\":22,\"examQuestionId\":438}",
+        "creationTime": "2026-07-23T06:14:45.000Z",
+        "timeMarker": 885000
+      },
+      {
+        "id": 947,
+        "examAttemptId": 101,
+        "sequence": 47,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"D\",\"questionNo\":22}",
+        "creationTime": "2026-07-23T06:15:36.000Z",
+        "timeMarker": 936000
+      },
+      {
+        "id": 948,
+        "examAttemptId": 101,
+        "sequence": 48,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":3457,\"questionNo\":23,\"examQuestionId\":439}",
+        "creationTime": "2026-07-23T06:15:36.000Z",
+        "timeMarker": 936000
+      },
+      {
+        "id": 949,
+        "examAttemptId": 101,
+        "sequence": 49,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"D\",\"questionNo\":23}",
+        "creationTime": "2026-07-23T06:16:36.000Z",
+        "timeMarker": 996000
+      },
+      {
+        "id": 950,
+        "examAttemptId": 101,
+        "sequence": 50,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":2731,\"questionNo\":24,\"examQuestionId\":440}",
+        "creationTime": "2026-07-23T06:16:36.000Z",
+        "timeMarker": 996000
+      },
+      {
+        "id": 951,
+        "examAttemptId": 101,
+        "sequence": 51,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":2257,\"questionNo\":25,\"examQuestionId\":441}",
+        "creationTime": "2026-07-23T06:17:45.000Z",
+        "timeMarker": 1065000
+      },
+      {
+        "id": 952,
+        "examAttemptId": 101,
+        "sequence": 52,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"1,4\",\"questionNo\":25}",
+        "creationTime": "2026-07-23T06:18:00.000Z",
+        "timeMarker": 1080000
+      },
+      {
+        "id": 953,
+        "examAttemptId": 101,
+        "sequence": 53,
+        "eventType": "LAP",
+        "eventName": "LAP_CHANGE",
+        "payload": "{\"nextLap\":\"L3.1\",\"currentLap\":\"L3P\"}",
+        "creationTime": "2026-07-23T06:18:00.000Z",
+        "timeMarker": 1080000
+      },
+      {
+        "id": 954,
+        "examAttemptId": 101,
+        "sequence": 54,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":5513,\"questionNo\":26,\"examQuestionId\":442}",
+        "creationTime": "2026-07-23T06:18:00.000Z",
+        "timeMarker": 1080000
+      },
+      {
+        "id": 955,
+        "examAttemptId": 101,
+        "sequence": 55,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"B,C\",\"questionNo\":26}",
+        "creationTime": "2026-07-23T06:18:24.000Z",
+        "timeMarker": 1104000
+      },
+      {
+        "id": 956,
+        "examAttemptId": 101,
+        "sequence": 56,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":2303,\"questionNo\":27,\"examQuestionId\":443}",
+        "creationTime": "2026-07-23T06:18:24.000Z",
+        "timeMarker": 1104000
+      },
+      {
+        "id": 957,
+        "examAttemptId": 101,
+        "sequence": 57,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"C,D\",\"questionNo\":27}",
+        "creationTime": "2026-07-23T06:18:57.000Z",
+        "timeMarker": 1137000
+      },
+      {
+        "id": 958,
+        "examAttemptId": 101,
+        "sequence": 58,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":5509,\"questionNo\":28,\"examQuestionId\":444}",
+        "creationTime": "2026-07-23T06:18:57.000Z",
+        "timeMarker": 1137000
+      },
+      {
+        "id": 959,
+        "examAttemptId": 101,
+        "sequence": 59,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_MARK_REVIEW",
+        "payload": "{\"answer\":\"A,C\",\"questionNo\":28}",
+        "creationTime": "2026-07-23T06:19:39.000Z",
+        "timeMarker": 1179000
+      },
+      {
+        "id": 960,
+        "examAttemptId": 101,
+        "sequence": 60,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":5512,\"questionNo\":29,\"examQuestionId\":445}",
+        "creationTime": "2026-07-23T06:19:39.000Z",
+        "timeMarker": 1179000
+      },
+      {
+        "id": 961,
+        "examAttemptId": 101,
+        "sequence": 61,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"A,B,D\",\"questionNo\":29}",
+        "creationTime": "2026-07-23T06:20:30.000Z",
+        "timeMarker": 1230000
+      },
+      {
+        "id": 962,
+        "examAttemptId": 101,
+        "sequence": 62,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":5511,\"questionNo\":30,\"examQuestionId\":446}",
+        "creationTime": "2026-07-23T06:20:30.000Z",
+        "timeMarker": 1230000
+      },
+      {
+        "id": 963,
+        "examAttemptId": 101,
+        "sequence": 63,
+        "eventType": "ANS_ACTION",
+        "eventName": "MARK_REVIEW_&_NEXT",
+        "payload": "{\"answer\":\"A,D\",\"questionNo\":30}",
+        "creationTime": "2026-07-23T06:21:30.000Z",
+        "timeMarker": 1290000
+      },
+      {
+        "id": 964,
+        "examAttemptId": 101,
+        "sequence": 64,
+        "eventType": "LAP",
+        "eventName": "LAP_CHANGE",
+        "payload": "{\"nextLap\":\"L3.2\",\"currentLap\":\"L3.1\"}",
+        "creationTime": "2026-07-23T06:21:30.000Z",
+        "timeMarker": 1290000
+      },
+      {
+        "id": 965,
+        "examAttemptId": 101,
+        "sequence": 65,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":1404,\"questionNo\":31,\"examQuestionId\":447}",
+        "creationTime": "2026-07-23T06:21:30.000Z",
+        "timeMarker": 1290000
+      },
+      {
+        "id": 966,
+        "examAttemptId": 101,
+        "sequence": 66,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"8.0\",\"questionNo\":31}",
+        "creationTime": "2026-07-23T06:22:39.000Z",
+        "timeMarker": 1359000
+      },
+      {
+        "id": 967,
+        "examAttemptId": 101,
+        "sequence": 67,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":3614,\"questionNo\":32,\"examQuestionId\":448}",
+        "creationTime": "2026-07-23T06:22:39.000Z",
+        "timeMarker": 1359000
+      },
+      {
+        "id": 968,
+        "examAttemptId": 101,
+        "sequence": 68,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":1405,\"questionNo\":33,\"examQuestionId\":449}",
+        "creationTime": "2026-07-23T06:22:54.000Z",
+        "timeMarker": 1374000
+      },
+      {
+        "id": 969,
+        "examAttemptId": 101,
+        "sequence": 69,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"2.7\",\"questionNo\":33}",
+        "creationTime": "2026-07-23T06:23:18.000Z",
+        "timeMarker": 1398000
+      },
+      {
+        "id": 970,
+        "examAttemptId": 101,
+        "sequence": 70,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":1400,\"questionNo\":34,\"examQuestionId\":450}",
+        "creationTime": "2026-07-23T06:23:18.000Z",
+        "timeMarker": 1398000
+      },
+      {
+        "id": 971,
+        "examAttemptId": 101,
+        "sequence": 71,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"47\",\"questionNo\":34}",
+        "creationTime": "2026-07-23T06:23:51.000Z",
+        "timeMarker": 1431000
+      },
+      {
+        "id": 972,
+        "examAttemptId": 101,
+        "sequence": 72,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":1401,\"questionNo\":35,\"examQuestionId\":451}",
+        "creationTime": "2026-07-23T06:23:51.000Z",
+        "timeMarker": 1431000
+      },
+      {
+        "id": 973,
+        "examAttemptId": 101,
+        "sequence": 73,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"17\",\"questionNo\":35}",
+        "creationTime": "2026-07-23T06:24:33.000Z",
+        "timeMarker": 1473000
+      },
+      {
+        "id": 974,
+        "examAttemptId": 101,
+        "sequence": 74,
+        "eventType": "Q_ACTIVATION",
+        "eventName": "QUESTION_ACTIVATED",
+        "payload": "{\"questionId\":1403,\"questionNo\":36,\"examQuestionId\":452}",
+        "creationTime": "2026-07-23T06:24:33.000Z",
+        "timeMarker": 1473000
+      },
+      {
+        "id": 975,
+        "examAttemptId": 101,
+        "sequence": 75,
+        "eventType": "ANS_ACTION",
+        "eventName": "SAVE_&_NEXT",
+        "payload": "{\"answer\":\"5\",\"questionNo\":36}",
+        "creationTime": "2026-07-23T06:25:24.000Z",
+        "timeMarker": 1524000
+      },
+      {
+        "id": 976,
+        "examAttemptId": 101,
+        "sequence": 76,
+        "eventType": "START_STOP",
+        "eventName": "EXAM_SUBMIT",
+        "payload": "{}",
+        "creationTime": "2026-07-23T06:25:24.000Z",
+        "timeMarker": 1524000
+      }
+    ]
+  },
+  "executionResult": {
+    "status": "OK",
+    "message": "Processing success",
+    "exceptionTrace": ""
+  }
+}

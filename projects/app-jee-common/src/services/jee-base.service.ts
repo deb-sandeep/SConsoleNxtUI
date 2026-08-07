@@ -78,6 +78,16 @@ export class JeeBaseService {
     this.rootCauses = await this.apiSvc.getRootCauses();
   }
 
+  protected resetAttemptState() {
+    this.sections = [] ;
+    this.questions = [] ;
+    this.activeSection = null ;
+    this.currentLap = "L1" ;
+    this.examSubmitted = false ;
+    this.eval = null ;
+    this.examAttemptId = 0 ;
+  }
+
   public activateQuestion( examQuestion: ExamQuestion ) {
     if( this.activeQuestion == examQuestion ) {
       return ;
@@ -210,7 +220,8 @@ export class JeeBaseService {
     this.apiSvc.endExamSession() ;
 
     this.eval = res ;
-    await this.router.navigate( [ '/jee-main', this.examConfig.id, 'result-screen' ] ) ;
+    const basePath = this.examConfig.type === 'ADV' ? '/jee-advanced' : '/jee-main' ;
+    await this.router.navigate( [ basePath, this.examConfig.id, 'result-screen' ] ) ;
   }
 
   public overrideScore( examEval: ExamAttemptSO,
