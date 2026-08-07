@@ -35,6 +35,7 @@
         <div class="lap-tab"
              [class.active]="lap === activeLap"
              [class.save-error]="isLapSaveFailed( lap )"
+             [class.dirty]="isLapDirty( lap )"
              (click)="switchTab( lap )">
           {{ lap }}
 

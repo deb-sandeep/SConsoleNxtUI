@@ -136,7 +136,7 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
         ]
     },
     {
-        problemType : 'CMT',
+        problemType : 'LCT',
         defaultSelection : false,
         title : 'Comprehension Based',
         correctMarks : 3,

@@ -32,6 +32,7 @@ export class AttemptLapAnalysisComponent {
   activeLap: LapName | null = null ;
 
   failedLaps = new Set<LapName>() ;
+  dirtyLaps = new Set<LapName>() ;
 
   private readonly NOTE_AUTOSAVE_DEBOUNCE_MS = 1000 ;
   private pendingNoteSave: { lap: LapName, timer: ReturnType<typeof setTimeout> } | null = null ;
@@ -51,6 +52,7 @@ export class AttemptLapAnalysisComponent {
     this.flushPendingNoteSave() ;
     this.questionAttempt = attempt ;
     this.failedLaps.clear() ;
+    this.dirtyLaps.clear() ;
     this.visibleLaps = LAP_ORDER.filter( lap => (attempt.lapDurations[ lap ] ?? 0) > this.MIN_LAP_DURATION ) ;
     this.activeLap = this.visibleLaps[0] ?? null ;
     if( this.activeLap ) {
@@ -87,12 +89,15 @@ export class AttemptLapAnalysisComponent {
 
   // Immediately saves the active lap. Used for discrete, deliberate edits (rating, tag add/remove).
   protected saveActiveLapNow() {
-    if( this.activeLap ) this.saveLap( this.activeLap ) ;
+    if( !this.activeLap ) return ;
+    this.dirtyLaps.add( this.activeLap ) ;
+    this.saveLap( this.activeLap ) ;
   }
 
   // Debounces saving the active lap. Used for the free-text note, which fires on every keystroke.
   protected scheduleNoteAutosave() {
     if( !this.activeLap ) return ;
+    this.dirtyLaps.add( this.activeLap ) ;
     if( this.pendingNoteSave ) clearTimeout( this.pendingNoteSave.timer ) ;
     const lap = this.activeLap ;
     this.pendingNoteSave = {
@@ -154,6 +159,11 @@ export class AttemptLapAnalysisComponent {
     return this.failedLaps.has( lap ) ;
   }
 
+  // Drives the unsaved-edits indicator (tab top border) in the tab label.
+  protected isLapDirty( lap: LapName ) {
+    return this.dirtyLaps.has( lap ) ;
+  }
+
   // Retries a failed autosave for a specific lap.
   protected retryFailedSave( lap: LapName, event: MouseEvent ) {
     event.stopPropagation() ;
@@ -171,6 +181,7 @@ export class AttemptLapAnalysisComponent {
       .then( r => {
         attempt.execScore = r.attemptScore ;
         this.failedLaps.delete( lap ) ;
+        this.dirtyLaps.delete( lap ) ;
       })
       .catch( () => {
         this.failedLaps.add( lap ) ;

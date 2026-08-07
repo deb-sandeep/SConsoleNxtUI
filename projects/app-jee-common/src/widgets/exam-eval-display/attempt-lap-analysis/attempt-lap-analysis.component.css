@@ -49,6 +49,10 @@
     background-color: #ffcccc;
 }
 
+.lap-tab.dirty:not(.save-error) {
+    border-top-color: #e05252;
+}
+
 /* Tab body */
 .tab-body {
     border: 1px solid #dcdcdc;
