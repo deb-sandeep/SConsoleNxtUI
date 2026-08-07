@@ -52,7 +52,7 @@
     </div>
 
     @let problemType = question.questionConfig.question.problemType ;
-    @if( problemType === "SCA" ) {
+    @if( problemType === "SCA" || problemType === "ART" || problemType === "LCT" ) {
       <sca-answer-zone [question]="question"
                        (answerEntered)="answerEntered( $event )"/>
     }
