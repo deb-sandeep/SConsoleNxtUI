@@ -1,14 +1,17 @@
 import { Component, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
 import { DatePipe } from "@angular/common";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { ExamSO } from "@jee-common/util/exam-data-types";
 import { Router } from "@angular/router";
+import { examConfig } from "../../exam-config.js";
 
 
 @Component({
   selector: 'question-repo',
     imports: [
+        CommonModule,
         FormsModule,
         DatePipe,
     ],
@@ -44,4 +47,6 @@ export class ExamListingComponent {
     protected goToJeeAdvancedMockup() {
         this.router.navigateByUrl( '/jee-advanced/16' ).then() ;
     }
+
+    protected readonly examConfig = examConfig;
 }

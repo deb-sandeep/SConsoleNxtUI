@@ -1,5 +1,5 @@
 export const examConfig = {
     devMode: false,
-    mockApi: true,
+    mockApi: false,
     lapAssist: true,
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { afterNextRender, Component, ElementRef, HostListener, inject, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { JeeAdvancedService } from "../../../jee-advanced.service";
 import { ExamApiService } from "@jee-common/services/exam-api.service";
 import { EventLogService } from "@jee-common/services/event-log.service";
@@ -29,6 +29,16 @@ export class SectionHeaderComponent {
   // that happen as a side effect of question navigation (Save & Next, Mark
   // for Review & Next, palette clicks), not just direct tab clicks here.
   private lastActiveSection: ExamSection | null = null ;
+
+  constructor() {
+    // afterNextRender's (default) callback still runs synchronously within the
+    // same application tick, before Angular's dev-mode checkNoChanges
+    // verification pass - so writing canScrollRight/canScrollLeft there still
+    // races checkNoChanges and throws NG0100. Deferring via setTimeout pushes
+    // the write to a macrotask that runs strictly after the tick (and its
+    // checkNoChanges pass) has completed.
+    afterNextRender( () => setTimeout( () => this.updateScrollButtons() ) ) ;
+  }
 
   protected selectSection( section: ExamSection ) {
     this.eventLogSvc.logJumpSection( section ) ;
@@ -66,21 +76,21 @@ export class SectionHeaderComponent {
     }
   }
 
-  protected get canScrollLeft(): boolean {
+  protected canScrollLeft = false ;
+  protected canScrollRight = false ;
+
+  private updateScrollButtons() {
     const el = this.tabsList?.nativeElement ;
-    return !!el && el.scrollLeft > 0 ;
+    this.canScrollLeft = !!el && el.scrollLeft > 0 ;
+    this.canScrollRight = !!el && el.scrollLeft + el.clientWidth < el.scrollWidth - 1 ;
   }
 
-  protected get canScrollRight(): boolean {
-    const el = this.tabsList?.nativeElement ;
-    return !!el && el.scrollLeft + el.clientWidth < el.scrollWidth - 1 ;
+  protected onTabsScroll() {
+    this.updateScrollButtons() ;
   }
-
-  // Empty handlers: their only purpose is to run change detection (native scroll/resize
-  // events aren't otherwise tied to a zone task), so canScrollLeft/canScrollRight above
-  // get re-evaluated and the nav buttons' disabled state stays in sync.
-  protected onTabsScroll() {}
 
   @HostListener( 'window:resize' )
-  protected onWindowResize() {}
+  protected onWindowResize() {
+    this.updateScrollButtons() ;
+  }
 }

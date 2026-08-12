@@ -136,24 +136,6 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
         ]
     },
     {
-        problemType : 'CMT',
-        defaultSelection : false,
-        title : 'Column Matching Type',
-        correctMarks : 8,
-        correctMarksEditable : true,
-        wrongPenalty : 0,
-        wrongPenaltyEditable : true,
-        numQuestions : 0,
-        allQuestionsCompulsory : true,
-        numCompulsoryQuestions : 0,
-        instructions : [
-            'Match each item in Column I to exactly one item in Column II.',
-            'A one-to-one correspondence is expected; no item is used more than once.',
-            'Full marks are awarded only when all correct matches are marked.',
-            'No partial marking is given for a partially correct match.'
-        ]
-    },
-    {
         problemType : 'LCT',
         defaultSelection : false,
         title : 'Comprehension Based',
@@ -169,26 +151,44 @@ export const advancedSectionTemplates : ExamSectionTemplate[] = [
           'Each question is evaluated independently.'
         ]
     },
-    {
-        problemType : 'ART',
-        defaultSelection : false,
-        title : 'Assertion–Reasoning Type',
-        correctMarks : 3,
-        correctMarksEditable : true,
-        wrongPenalty : -1,
-        wrongPenaltyEditable : true,
-        numQuestions : 0,
-        allQuestionsCompulsory : true,
-        numCompulsoryQuestions : 0,
-        instructions : [
-            'Each question has two statements: Assertion (A) and Reason (R).',
-            'Choose the correct option:',
-            '(1) A is true, R is true, and R is the correct explanation of A.',
-            '(2) A is true, R is true, but R is NOT the correct explanation of A.',
-            '(3) A is true, but R is false.',
-            '(4) A is false, but R is true.'
-        ]
-    }
+    // {
+    //     problemType : 'ART',
+    //     defaultSelection : false,
+    //     title : 'Assertion–Reasoning Type',
+    //     correctMarks : 3,
+    //     correctMarksEditable : true,
+    //     wrongPenalty : -1,
+    //     wrongPenaltyEditable : true,
+    //     numQuestions : 0,
+    //     allQuestionsCompulsory : true,
+    //     numCompulsoryQuestions : 0,
+    //     instructions : [
+    //         'Each question has two statements: Assertion (A) and Reason (R).',
+    //         'Choose the correct option:',
+    //         '(1) A is true, R is true, and R is the correct explanation of A.',
+    //         '(2) A is true, R is true, but R is NOT the correct explanation of A.',
+    //         '(3) A is true, but R is false.',
+    //         '(4) A is false, but R is true.'
+    //     ]
+    // },
+    // {
+    //     problemType : 'CMT',
+    //     defaultSelection : false,
+    //     title : 'Column Matching Type',
+    //     correctMarks : 8,
+    //     correctMarksEditable : true,
+    //     wrongPenalty : 0,
+    //     wrongPenaltyEditable : true,
+    //     numQuestions : 0,
+    //     allQuestionsCompulsory : true,
+    //     numCompulsoryQuestions : 0,
+    //     instructions : [
+    //         'Match each item in Column I to exactly one item in Column II.',
+    //         'A one-to-one correspondence is expected; no item is used more than once.',
+    //         'Full marks are awarded only when all correct matches are marked.',
+    //         'No partial marking is given for a partially correct match.'
+    //     ]
+    // },
 ] ;
 
 export const DEFAULT_SECONDS_PER_QUESTION: Record<string, any> = {
@@ -196,28 +196,24 @@ export const DEFAULT_SECONDS_PER_QUESTION: Record<string, any> = {
         SCA: 120, // 2.0 min
         MCA: 210, // 3.5 min
         NVT: 180, // 3.0 min
+        IVT: 225, // 3.75 min
         LCT: 165, // 2.75 min
         MMT: 240, // 4.0 min
-        CMT: 210, // 3.5 min
-        ART: 240, // 4.0 min (reading + solving)
     },
     'IIT Chemistry': {
         SCA:  98, // 1.5 min
         MCA: 180, // 3.0 min
         NVT: 150, // 2.5 min
+        IVT: 195, // 3.25 min
         LCT: 135, // 2.25 min
         MMT: 210, // 3.5 min
-        CMT: 180, // 3.0 min
-        ART: 210, // 3.5 min
     },
     'IIT Maths': {
-        SCA: 180, // 3.5 min
+        SCA: 180, // 3.0 min
         MCA: 270, // 4.5 min
         NVT: 240, // 4.0 min
+        IVT: 285, // 4.75 min
         LCT: 225, // 3.75 min
         MMT: 300, // 5.0 min
-        CMT: 270, // 4.5 min
-        ART: 300, // 5.0 min
     },
 };
-

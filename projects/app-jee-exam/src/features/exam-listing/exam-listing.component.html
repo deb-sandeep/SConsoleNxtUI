@@ -42,7 +42,7 @@
           </table>
         </div>
       </div>
-      <div class="card-footer">
+      <div *ngIf="examConfig.mockApi" class="card-footer">
         <button type="button" class="btn btn-sm btn-outline-secondary"
                 (click)="goToJeeAdvancedMockup()">
           Go to JEE Advanced exam-screen (dev shortcut)
