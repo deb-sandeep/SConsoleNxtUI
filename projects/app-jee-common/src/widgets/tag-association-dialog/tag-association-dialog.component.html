@@ -1,6 +1,7 @@
 <modal-dialog [show]="show()" [title]="dialogTitle()" [width]="760" [height]="660"
               (hide)="close()" (confirm)="close()">
 
+  @if( show() ) {
   <div class="kicker-row">
     <span class="kicker">{{ isSingleMode() ? 'Edit tags' : 'Tag multiple items' }}</span>
     @if( !isSingleMode() ) {
@@ -63,5 +64,6 @@
        : 'Tags are applied immediately to every selected item — there is no separate save step.' }}
   </div>
 
+  }
   <span confirm-btn-text>Done</span>
 </modal-dialog>

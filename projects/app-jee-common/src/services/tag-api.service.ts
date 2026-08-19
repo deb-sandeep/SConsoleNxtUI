@@ -22,7 +22,7 @@ export class TagApiService extends RemoteService {
 
   public getTagsForTopic( topicId:number ):Promise<TagSO[]> {
     const url:string = `${environment.apiRoot}/Master/Tag/Topic/${topicId}` ;
-    return this.getPromise( url, true ) ;
+    return this.getPromise( url, false ) ;
   }
 
   // No modalWait — called on every debounced keystroke, a spinner would be jarring.
@@ -33,35 +33,35 @@ export class TagApiService extends RemoteService {
 
   public getRecentTags():Promise<TagSO[]> {
     const url:string = `${environment.apiRoot}/Master/Tag/Recent` ;
-    return this.getPromise( url, true ) ;
+    return this.getPromise( url, false ) ;
   }
 
   public getMostUsedTags():Promise<TagSO[]> {
     const url:string = `${environment.apiRoot}/Master/Tag/MostUsed` ;
-    return this.getPromise( url, true ) ;
+    return this.getPromise( url, false ) ;
   }
 
   public renameTag( tagId:number, newTagText:string ):Promise<TagSO> {
     const url:string = `${environment.apiRoot}/Master/Tag/${tagId}/Rename` ;
-    return this.postPromise( url, { newTagText }, true ) ;
+    return this.postPromise( url, { newTagText }, false ) ;
   }
 
   public deleteTag( tagId:number ):Promise<string> {
     const url:string = `${environment.apiRoot}/Master/Tag/${tagId}` ;
-    return this.deletePromise( url, true ) ;
+    return this.deletePromise( url, false ) ;
   }
 
   // Not called by tag-association-dialog (no "move tag to a different topic"
   // affordance in it) — kept for API completeness since this is a shared service.
   public changeTagTopic( tagId:number, newTopicId:number ):Promise<string> {
     const url:string = `${environment.apiRoot}/Master/Tag/${tagId}/Topic/${newTopicId}` ;
-    return this.postPromise( url, {}, true ) ;
+    return this.postPromise( url, {}, false ) ;
   }
 
   // Not called by tag-association-dialog (merge UI is out of scope) — kept
   // for API completeness since this is a shared service.
   public mergeTags( sourceTagId:number, targetTagId:number ):Promise<string> {
     const url:string = `${environment.apiRoot}/Master/Tag/${sourceTagId}/MergeInto/${targetTagId}` ;
-    return this.postPromise( url, {}, true ) ;
+    return this.postPromise( url, {}, false ) ;
   }
 }
