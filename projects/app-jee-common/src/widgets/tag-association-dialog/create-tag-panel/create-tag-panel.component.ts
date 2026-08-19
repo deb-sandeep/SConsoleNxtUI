@@ -23,16 +23,19 @@ export class CreateTagPanelComponent implements OnInit {
    * this panel doesn't let the user edit it.
    */
   query = input.required<string>() ;
+
   /**
    * Flattened `{id, label}` topic list to pick a home topic from — see
    * `flattenedTopics()` on the host.
    */
   topics = input<TopicOption[]>( [] ) ;
+
   /**
    * Topic id to pre-select when the panel first opens (typically the topic
    * of the item being tagged), if present in {@link topics}.
    */
   defaultTopicId = input<number | undefined>() ;
+
   /**
    * Error text to show at the bottom of the panel (duplicate-tag warning or
    * a create-API failure), or null when there's nothing to show.
@@ -44,13 +47,16 @@ export class CreateTagPanelComponent implements OnInit {
    * current target(s)".
    */
   createAndAttach = output<{ tagText:string, topicId:number }>() ;
+
   /** Emitted when the user confirms "create this tag but don't attach it yet". */
   createOnly = output<{ tagText:string, topicId:number }>() ;
+
   /**
    * Emitted when the user backs out of the panel (Escape, or a cancel
    * action in the template) without creating anything.
    */
   cancel = output<void>() ;
+
   /**
    * Emitted when the user dismisses {@link errorMessage} via its own "x"
    * button. `errorMessage` is host-owned, so this panel can't clear it
@@ -65,6 +71,7 @@ export class CreateTagPanelComponent implements OnInit {
    * starts a fresh filter.
    */
   topicPickerQuery = "" ;
+
   /**
    * The topic id that will actually be sent on create — kept separate from
    * {@link topicPickerQuery} (which is just the picker's free-text filter)

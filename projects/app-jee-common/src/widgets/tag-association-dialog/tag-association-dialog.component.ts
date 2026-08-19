@@ -10,6 +10,14 @@ import { CreateTagPanelComponent, TopicOption } from "./create-tag-panel/create-
 import { QuickAccessTabsComponent } from "./quick-access-tabs/quick-access-tabs.component";
 import { BrowseByTopicComponent } from "./browse-by-topic/browse-by-topic.component";
 
+/**
+ * Subject names excluded from the create-panel's topic picker (via
+ * {@link TagAssociationDialogComponent.flattenedTopics}) — "Exam" and
+ * "Reasoning" aren't meaningful homes for a concept tag, mirroring the
+ * same exclusion `browse-by-topic` applies to its own subject tabs.
+ */
+const EXCLUDED_SUBJECTS = [ 'Exam', 'Reasoning' ] ;
+
 @Component({
   selector: 'tag-association-dialog',
   imports: [
@@ -225,14 +233,18 @@ export class TagAssociationDialogComponent implements OnChanges {
    * Flattens {@link syllabus}'s subject → topic tree into a single list of
    * `{id, label}` options (label prefixed with the subject name, e.g.
    * "Physics — Kinematics"), for the create-panel's topic picker, which has
-   * no notion of subjects and just needs one flat searchable list.
+   * no notion of subjects and just needs one flat searchable list. Subjects
+   * in {@link EXCLUDED_SUBJECTS} ("Exam", "Reasoning") are left out — they
+   * aren't meaningful homes for a concept tag.
    */
   flattenedTopics():TopicOption[] {
-    return this.syllabus.flatMap( s =>
-      s.topics.map( t => (
-        { id: t.id, label: `${s.subjectName} — ${t.topicName}` }
-      ) )
-    ) ;
+    return this.syllabus
+      .filter( s => !EXCLUDED_SUBJECTS.includes( s.subjectName ) )
+      .flatMap( s =>
+        s.topics.map( t => (
+          { id: t.id, label: `${s.subjectName} — ${t.topicName}` }
+        ) )
+      ) ;
   }
 
   /**
