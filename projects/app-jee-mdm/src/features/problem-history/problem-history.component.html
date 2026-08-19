@@ -151,7 +151,8 @@
 
     <attempt-history #attemptHistory
                      [problem]="selectedProblem"
-                     (attemptHistoryModified)="refreshSelectedProblem()"></attempt-history>
+                     (attemptHistoryModified)="refreshSelectedProblem()"
+                     (tagsChanged)="onTagsChanged()"></attempt-history>
 
     @if( selectedProblem != null ) {
       <div class="button-bar">

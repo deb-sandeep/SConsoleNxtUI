@@ -169,6 +169,7 @@ export class ProblemHistoryComponent {
 
   onTagsChanged() {
     this.refreshProblemTagCounts().then() ;
+    this.attemptHistory.refreshProblemTags() ;
   }
 
   private computeDisplayProblems() {

@@ -1,5 +1,13 @@
 @if( problem() != null ) {
 
+  @if( problemTags.value()?.length ) {
+    <div class="problem-tags-row">
+      @for( tag of problemTags.value(); track tag.id ) {
+        <closeable-badge [text]="tag.tagText" (close)="removeTag(tag)"></closeable-badge>
+      }
+    </div>
+  }
+
   <table class="table table-sm problem-attempt-table">
     <thead>
     <tr>

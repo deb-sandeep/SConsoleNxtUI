@@ -4,6 +4,17 @@
     --right-panel-width: 53% ;
 }
 
+:host ::ng-deep .closeable-badge {
+    padding: 4px 10px !important;
+    background-color: #686868 !important;
+    color: #dcdcdc !important;
+}
+
+:host ::ng-deep .close-btn {
+    padding: 3px 2px 2px 7px !important;
+    margin-left: 5px !important;
+}
+
 /* ----------------------------------------------------------------------------- */
 /*                         Topic Selection Panel                                 */
 /* ----------------------------------------------------------------------------- */
