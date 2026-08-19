@@ -1,0 +1,158 @@
+.browse-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.browse-label {
+    font-size: 12px;
+    color: #6b6b6b;
+}
+
+.subject-tabs {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.subject-tab {
+    flex: 1;
+    text-align: center;
+    padding: 4px 0;
+    cursor: pointer;
+    font-size: 12px;
+    background: #f5f5f5;
+}
+
+.subject-tab input[type="radio"] {
+    display: none;
+}
+
+.subject-tab.active {
+    background: #0b5ed7;
+    color: #fff;
+}
+
+.topic-tag-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    border: 1px solid #ddd;
+    height: 240px;
+}
+
+.topic-pane {
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.topic-filter-input {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+.topic-list {
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+.topic-row {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 5px 10px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    background: transparent;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.topic-row.active {
+    background-color: #0b5ed7;
+    color: #fff;
+}
+
+.no-topics, .no-tags {
+    padding: 8px 10px;
+    font-size: 12px;
+    color: #777;
+}
+
+.tag-pane {
+    padding: 8px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 6px;
+    overflow-y: auto;
+}
+
+.tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    background-color: #eee;
+    border-radius: 999px;
+    padding: 2px 4px 2px 10px;
+    font-size: 12px;
+}
+
+.tag-pill-label {
+    border: none;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+}
+
+.assoc-count {
+    font-size: 9px;
+    opacity: 0.65;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 1px 5px;
+    border-radius: 999px;
+}
+
+.icon-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 2px;
+    display: inline-flex;
+    font-size: 11px;
+    color: inherit;
+    border-radius: 999px;
+}
+
+.icon-btn:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+.tag-pill.editing {
+    padding: 3px 4px;
+}
+
+.edit-input {
+    width: 120px;
+    font-size: 12px;
+    padding: 2px 5px;
+}
+
+.edit-error {
+    width: 100%;
+    font-size: 11px;
+    color: #a30000;
+    background-color: #ffe9e9;
+    padding: 4px 8px;
+    border-radius: 4px;
+}

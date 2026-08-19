@@ -53,7 +53,7 @@
       </div>
       <div class="selected-problems-action-bar">
         <span style="color:blue" class="problem-action bi-twitter"
-            (click)="changeProblemStateForSelectedProblems( 'Pigeon' )"></span>
+              (click)="changeProblemStateForSelectedProblems( 'Pigeon' )"></span>
         <span style="color:#734d00" class="problem-action bi-arrow-clockwise"
               (click)="changeProblemStateForSelectedProblems( 'Redo' )"></span>
         <span style="color:green" class="problem-action bi-check-lg"
@@ -74,8 +74,9 @@
       <thead>
         <tr>
           <th style="width: 250px;"></th>
-          <th style="width: 40px;"></th>
-          <th style="width: 40px;"></th>
+          <th style="width: 20px;"></th>
+          <th style="width: 20px;"></th>
+          <th style="width: 30px;"></th>
           <th style="width: 150px;"></th>
           <th style="width: 100px;"></th>
           <!--<th></th>-->
@@ -98,7 +99,7 @@
 
             @if( !bookChapter.collapsed ) {
               <tr class="exercise-name">
-                <td colspan="6"
+                <td colspan="7"
                     (click)="exercise.collapsed=!exercise.collapsed">
                     <span class="bi-chevron-expand" *ngIf="exercise.collapsed">&nbsp;</span>
                     <span class="bi-chevron-contract" *ngIf="!exercise.collapsed">&nbsp;</span>
@@ -120,6 +121,10 @@
                           {{p.problemKey.replaceAll( '/', ' / ')}}
                         </span>
                     </td>
+                    <td class="tag-icon-cell"
+                        (click)="$event.stopPropagation(); openTagDialog(p)">
+                      <span [ngClass]="getTagIconForProblem(p)"></span>
+                    </td>
                     <td><span [ngClass]="getDifficultyLevelIcon(p)"></span></td>
                     <td class="num-attempts">{{p.numAttempts}}</td>
                     <td><span [ngClass]="SConsoleUtil.getProblemIcon(p.problemState)">&nbsp;</span> {{p.problemState}}</td>
@@ -127,23 +132,6 @@
                       <span *ngIf="p.totalDuration > 900" class="bi-hourglass-bottom hourglass"></span>
                       {{p.totalDuration*1000 | duration}}
                     </td>
-
-                    <!--
-                    <td class="problem-action-bar">
-                      <span style="color:blue"    class="problem-action bi-twitter"
-                              (click)="changeProblemState( p, 'Pigeon' )"></span>
-                      <span style="color:#734d00" class="problem-action bi-arrow-clockwise"
-                            (click)="changeProblemState( p, 'Redo' )"></span>
-                      <span style="color:green"   class="problem-action bi-check-lg"
-                            (click)="changeProblemState( p, 'Correct' )"></span>
-                      <span style="color:red"     class="problem-action bi-x-lg"
-                            (click)="changeProblemState( p, 'Incorrect' )"></span>
-                      <span style="color:black"   class="problem-action bi-signpost-split"
-                            (click)="changeProblemState( p, 'Reassign' )"></span>
-                      <span style="color:red"     class="problem-action bi-box-arrow-up-right"
-                            (click)="changeProblemState( p, 'Purge' )"></span>
-                    </td>
-                    -->
                   </tr>
                 }
               }
@@ -190,4 +178,12 @@
     }
 
   </div>
+
+  <tag-association-dialog
+    [show]="tagDialogShow"
+    [targets]="tagDialogTargets"
+    [defaultTopicId]="tagDialogTopicId"
+    (closed)="closeTagDialog()"
+    (tagsChanged)="onTagsChanged()">
+  </tag-association-dialog>
 </div>

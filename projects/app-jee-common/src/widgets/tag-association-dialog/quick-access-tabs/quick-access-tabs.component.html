@@ -1,0 +1,15 @@
+<div class="quick-tabs">
+  <div class="tab-strip">
+    <button type="button" class="tab-btn" [class.active]="activeTab === 'recent'"
+            (click)="selectTab('recent')">Recently used</button>
+    <button type="button" class="tab-btn" [class.active]="activeTab === 'frequent'"
+            (click)="selectTab('frequent')">Frequently used</button>
+  </div>
+  <div class="pill-list">
+    @for( tag of visibleTags(); track tag.id ) {
+      <button type="button" class="pill" (click)="tagSelected.emit(tag)">{{ tag.tagText }}</button>
+    } @empty {
+      <div class="empty-text">Nothing here yet.</div>
+    }
+  </div>
+</div>

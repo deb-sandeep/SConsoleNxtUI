@@ -7,6 +7,9 @@ import { NgClass, NgIf } from "@angular/common";
 import { AttemptHistoryComponent } from "@jee-common/widgets/attempt-history/attempt-history.component";
 import { ProblemApiService } from "@jee-common/services/problem-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
+import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
+import { TagAssociationTarget } from "@jee-common/util/tag-data-types";
+import { TagAssociationDialogComponent } from "@jee-common/widgets/tag-association-dialog/tag-association-dialog.component";
 import { Syllabus } from "./entities/syllabus";
 import AlertService = Alert.AlertService;
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
@@ -75,7 +78,8 @@ class BookChapter {
     DurationPipe,
     NgIf,
     AttemptHistoryComponent,
-    NgbTooltipModule
+    NgbTooltipModule,
+    TagAssociationDialogComponent
   ],
   templateUrl: './problem-history.component.html',
   styleUrl: './problem-history.component.css'
@@ -84,6 +88,7 @@ export class ProblemHistoryComponent {
 
   private titleSvc: PageTitleService = inject( PageTitleService ) ;
   private alertSvc:AlertService = inject( AlertService ) ;
+  private tagAssociationApiSvc: TagAssociationApiService = inject( TagAssociationApiService ) ;
 
   protected readonly Object = Object;
   protected readonly SConsoleUtil = SConsoleUtil;
@@ -99,11 +104,16 @@ export class ProblemHistoryComponent {
   selectedSyllabusName = 'IIT Maths' ;
   selectedTopicId = 91 ;
   allProblems: TopicProblemSO[] = [] ;
+  problemTagCounts: Record<number, number> | null = null ;
 
   filteredProblems: Record<string, BookChapter> = {}
   selectedProblem: TopicProblemSO | null = null ;
   showOnlyStarred = false ;
   visibilityChoice = "all" ;
+
+  tagDialogShow = false ;
+  tagDialogTargets: TagAssociationTarget[] = [] ;
+  tagDialogTopicId: number | undefined = undefined ;
 
   constructor() {
     this.titleSvc.setTitle( "Explore problem history" ) ;
@@ -129,8 +139,36 @@ export class ProblemHistoryComponent {
 
   async topicSelected() {
     this.selectedProblem = null ;
+    this.problemTagCounts = null ;
+
     this.allProblems = await this.probApiSvc.getProblems( this.selectedTopicId ) ;
     this.computeDisplayProblems() ;
+    await this.refreshProblemTagCounts() ;
+  }
+
+  private async refreshProblemTagCounts() {
+    this.problemTagCounts = await this.tagAssociationApiSvc.getTagCounts(
+      'PROBLEM',
+      this.allProblems.map( p => p.problemId )
+    ) ;
+  }
+
+  openTagDialog( p: TopicProblemSO ) {
+    this.tagDialogTargets = [ {
+      itemType: 'PROBLEM',
+      itemId: p.problemId,
+      displayLabel: p.problemKey.replaceAll( '/', ' / ' ),
+    } ] ;
+    this.tagDialogTopicId = p.topicId ;
+    this.tagDialogShow = true ;
+  }
+
+  closeTagDialog() {
+    this.tagDialogShow = false ;
+  }
+
+  onTagsChanged() {
+    this.refreshProblemTagCounts().then() ;
   }
 
   private computeDisplayProblems() {
@@ -319,5 +357,20 @@ export class ProblemHistoryComponent {
       }
     }
     return visible ;
+  }
+
+  public getNumTagsForProblem( p: TopicProblemSO ) {
+    return this.problemTagCounts ? this.problemTagCounts[ p.problemId ] : 0 ;
+  }
+
+  public getTagIconForProblem( p: TopicProblemSO ) {
+    const numTags = this.getNumTagsForProblem( p ) ;
+    if( numTags == 0 ) {
+      return "bi-tag" ;
+    }
+    else if( numTags == 1 ) {
+      return "bi-tag-fill" ;
+    }
+    return "bi-tags-fill" ;
   }
 }

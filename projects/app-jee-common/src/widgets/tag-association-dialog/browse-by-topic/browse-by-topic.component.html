@@ -1,0 +1,74 @@
+<div class="browse-panel">
+  <div class="browse-label">Browse by topic</div>
+
+  <div class="subject-tabs">
+    @for( s of visibleSyllabus(); track s.subjectName ) {
+      <label class="subject-tab"
+             [class.active]="s.subjectName === activeSubject"
+             (click)="selectSubject(s.subjectName)">
+        <input type="radio" name="tag-subject-tab" [checked]="s.subjectName === activeSubject" readonly />
+        {{ s.subjectName }}
+      </label>
+    }
+  </div>
+
+  <div class="topic-tag-grid">
+    <div class="topic-pane">
+      <input type="text" class="topic-filter-input"
+             [ngModel]="topicFilterQuery"
+             (ngModelChange)="topicFilterQuery = $event"
+             placeholder="Filter topics…" autocomplete="off" />
+      <div class="topic-list">
+        @for( t of filteredTopics(); track t.id ) {
+          <button type="button" class="topic-row" [class.active]="t.id === selectedTopicId"
+                  (click)="selectTopic(t.id)">
+            {{ t.topicName }}
+          </button>
+        } @empty {
+          <div class="no-topics">No topics match.</div>
+        }
+      </div>
+    </div>
+
+    <div class="tag-pane">
+      @for( tag of visibleTopicTags(); track tag.id ) {
+        @if( editingTagId === tag.id ) {
+          <span class="tag-pill editing">
+            <input type="text" class="edit-input"
+                   [ngModel]="editingText" (ngModelChange)="editingText = $event"
+                   (keydown.enter)="confirmEdit()" (keydown.escape)="cancelEdit()" />
+            <button type="button" class="icon-btn" aria-label="Save" (click)="confirmEdit()">
+              <span class="bi-check-lg"></span>
+            </button>
+            <button type="button" class="icon-btn" aria-label="Cancel" (click)="cancelEdit()">
+              <span class="bi-x-lg"></span>
+            </button>
+          </span>
+        }
+        @else {
+          <span class="tag-pill">
+            <button type="button" class="tag-pill-label" (click)="attach(tag)">
+              {{ tag.tagText }}
+              <span class="assoc-count">{{ tag.associationCount }}</span>
+            </button>
+            <button type="button" class="icon-btn" aria-label="Rename tag" (click)="startEdit(tag)">
+              <span class="bi-pencil"></span>
+            </button>
+            <button type="button" class="icon-btn" aria-label="Delete tag" (click)="requestDelete(tag)">
+              <span class="bi-x-lg"></span>
+            </button>
+          </span>
+        }
+      } @empty {
+        <div class="no-tags">All tags in this topic are already applied.</div>
+      }
+      @if( editError; as err ) {
+        <div class="edit-error">{{ err }}</div>
+      }
+    </div>
+  </div>
+</div>
+
+<delete-tag-confirm-dialog [show]="tagPendingDelete !== null" [tag]="tagPendingDelete"
+                            (confirmed)="confirmDelete()" (cancelled)="cancelDelete()">
+</delete-tag-confirm-dialog>

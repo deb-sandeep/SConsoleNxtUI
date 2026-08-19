@@ -16,6 +16,7 @@ import { SolvePigeonsComponent } from "./features/solve-pigeons/solve-pigeons.co
 import { ProblemHistoryComponent } from "./features/problem-history/problem-history.component";
 import { ProblemApiService } from "@jee-common/services/problem-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
+import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
 
 export const featureRoutes: Routes = [
     {
@@ -53,6 +54,6 @@ export const featureRoutes: Routes = [
         path: 'problem-history',
         title: 'Problem History',
         component: ProblemHistoryComponent,
-        providers: [AlertService, ProblemApiService, SyllabusApiService]
+        providers: [AlertService, ProblemApiService, SyllabusApiService, TagAssociationApiService]
     },
 ] ;

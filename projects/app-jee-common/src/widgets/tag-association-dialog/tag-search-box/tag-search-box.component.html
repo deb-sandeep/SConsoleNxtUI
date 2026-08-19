@@ -1,0 +1,32 @@
+<div class="search-box">
+  <input type="text"
+         class="search-input"
+         [ngModel]="query"
+         (ngModelChange)="onQueryChange($event)"
+         (keydown.arrowdown)="$event.preventDefault(); onArrowDown()"
+         (keydown.arrowup)="$event.preventDefault(); onArrowUp()"
+         (keydown.enter)="onEnter($any($event))"
+         (keydown.escape)="onEscape()"
+         [placeholder]="placeholder()"
+         autocomplete="off" />
+
+  @if( query.trim().length > 0 ) {
+    <div class="suggestions-dropdown">
+      @for( tag of results; track tag.id; let i = $index ) {
+        <button type="button" class="suggestion-row" [class.highlighted]="i === highlightedIndex"
+                (click)="selectSuggestion(tag)">
+          {{ tag.tagText }}
+        </button>
+      }
+      @if( results.length === 0 && !showCreateRow() ) {
+        <div class="no-results">No matching tags.</div>
+      }
+      @if( showCreateRow() ) {
+        <button type="button" class="create-row"
+                (click)="createRequested.emit({query, forced:false})">
+          Create "{{ query }}"
+        </button>
+      }
+    </div>
+  }
+</div>

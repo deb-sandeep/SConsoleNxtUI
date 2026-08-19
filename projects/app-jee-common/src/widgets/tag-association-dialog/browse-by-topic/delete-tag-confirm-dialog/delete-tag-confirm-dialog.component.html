@@ -1,0 +1,11 @@
+<modal-dialog [show]="show()" title="Delete this tag?" [width]="420" [height]="260"
+              (hide)="cancelled.emit()" (confirm)="confirmed.emit()">
+  @if( tag(); as t ) {
+    <p class="confirm-text">
+      Deleting <strong>"{{ t.tagText }}"</strong> removes it from
+      {{ t.associationCount }} item{{ t.associationCount === 1 ? '' : 's' }} it's tagged on.
+      This can't be undone — use Merge instead if you want to keep the associations.
+    </p>
+  }
+  <span confirm-btn-text>Delete tag</span>
+</modal-dialog>

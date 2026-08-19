@@ -1,0 +1,35 @@
+<div class="create-tag-panel" (keydown.escape)="onEscape()">
+  <div class="create-tag-heading">
+    Create "<strong>{{ query() }}</strong>" — choose its home topic
+  </div>
+
+  <input type="text" class="topic-picker-input"
+         [ngModel]="topicPickerQuery"
+         (ngModelChange)="onTopicPickerQueryChange($event)"
+         (focus)="onTopicPickerFocus()"
+         placeholder="Search topics…"
+         autocomplete="off" />
+
+  <div class="topic-options">
+    @for( t of filteredTopics(); track t.id ) {
+      <button type="button" class="topic-option" [class.selected]="t.id === selectedTopicId"
+              (click)="selectTopic(t)">
+        {{ t.label }}
+      </button>
+    } @empty {
+      <div class="no-topics">No matching topics.</div>
+    }
+  </div>
+
+  @if( errorMessage(); as err ) {
+    <div class="create-error">{{ err }}</div>
+  }
+
+  <div class="create-tag-actions">
+    <button type="button" class="btn btn-info btn-sm" [disabled]="selectedTopicId == null"
+            (click)="confirmCreateAndAttach()">Create &amp; attach</button>
+    <button type="button" class="btn btn-secondary btn-sm" [disabled]="selectedTopicId == null"
+            (click)="confirmCreateOnly()">Create</button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="cancel.emit()">Cancel</button>
+  </div>
+</div>

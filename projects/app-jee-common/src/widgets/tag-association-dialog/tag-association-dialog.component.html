@@ -1,0 +1,67 @@
+<modal-dialog [show]="show()" [title]="dialogTitle()" [width]="760" [height]="660"
+              (hide)="close()" (confirm)="close()">
+
+  <div class="kicker-row">
+    <span class="kicker">{{ isSingleMode() ? 'Edit tags' : 'Tag multiple items' }}</span>
+    @if( !isSingleMode() ) {
+      <span class="subtitle">{{ problemCount() }} problems · {{ questionCount() }} questions</span>
+    }
+  </div>
+
+  <div class="chips-row">
+    @for( tag of attachedTags; track tag.id ) {
+      <closeable-badge [text]="tag.tagText" (close)="detachTag(tag)"></closeable-badge>
+    } @empty {
+      <span class="empty-text">
+        {{ isSingleMode() ? 'No tags yet.' : 'No tags applied yet — pick one below.' }}
+      </span>
+    }
+  </div>
+  @if( lastAttachWarning; as w ) {
+    <div class="inline-warning">{{ w }}</div>
+  }
+
+  <div class="search-area">
+    <tag-search-box
+      [excludeTagIds]="attachedTagIds()"
+      [placeholder]="isSingleMode() ? 'Search or create a tag…' : 'Search or create a tag to apply to all selected…'"
+      (tagSelected)="attachTag($event)"
+      (createRequested)="onCreateRequested($event)"
+      (escapePressed)="onSearchEscape()">
+    </tag-search-box>
+
+    @if( createPanelOpen ) {
+      <div class="create-panel-anchor">
+        <create-tag-panel
+          [query]="createPanelQuery"
+          [topics]="flattenedTopics()"
+          [defaultTopicId]="defaultTopicId()"
+          [errorMessage]="createError"
+          (createAndAttach)="onCreateAndAttach($event)"
+          (createOnly)="onCreateOnly($event)"
+          (cancel)="onCreateCancel()">
+        </create-tag-panel>
+      </div>
+    }
+  </div>
+
+  <div class="dialog-content" [class.dimmed]="createPanelOpen">
+    <quick-access-tabs
+      [recentTags]="recentTags" [mostUsedTags]="mostUsedTags" [excludeTagIds]="attachedTagIds()"
+      (tagSelected)="attachTag($event)">
+    </quick-access-tabs>
+
+    <browse-by-topic
+      [syllabus]="syllabus" [excludeTagIds]="attachedTagIds()" [defaultTopicId]="defaultTopicId()"
+      (tagSelected)="attachTag($event)">
+    </browse-by-topic>
+  </div>
+
+  <div class="footer-note">
+    {{ isSingleMode()
+       ? 'Changes to tags are saved immediately.'
+       : 'Tags are applied immediately to every selected item — there is no separate save step.' }}
+  </div>
+
+  <span confirm-btn-text>Done</span>
+</modal-dialog>

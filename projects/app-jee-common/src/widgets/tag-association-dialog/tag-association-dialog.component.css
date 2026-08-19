@@ -1,0 +1,110 @@
+/*
+ * ModalDialogComponent (lib-core) hard-codes a dark theme with no CSS-variable
+ * or input hook to override from outside — --dlg-bg-color is declared directly
+ * on .modal-backdrop (a nearer ancestor always wins over one set higher up),
+ * and .dialog-title/.dismiss-btn have no var() indirection at all. This dialog
+ * needs a light theme, so we reach into the nested <modal-dialog>'s internals
+ * via ::ng-deep, scoped to this component's own subtree only (:host ::ng-deep
+ * only matches real DOM descendants of this host, so it does not leak to any
+ * other consumer of ModalDialogComponent elsewhere in the app). !important is
+ * needed because the compiled specificity of this override and the library's
+ * own scoped rule are comparable, so cascade order alone isn't reliable.
+ * The backdrop's dark page-dimming scrim is left as-is — a dark scrim behind
+ * a light dialog is the standard, expected pattern.
+ */
+:host ::ng-deep .dialog-container {
+    background-color: #ffffff !important;
+}
+
+:host ::ng-deep .dialog-header {
+    border-bottom-color: #e2e2e2 !important;
+}
+
+:host ::ng-deep .dialog-title {
+    color: #0b5ed7 !important;
+}
+
+:host ::ng-deep .dismiss-btn {
+    color: #444 !important;
+    background-color: #eee !important;
+}
+
+:host ::ng-deep .dismiss-btn:hover {
+    background-color: #ddd !important;
+}
+
+:host ::ng-deep .dialog-footer {
+    border-top-color: #e2e2e2 !important;
+}
+
+.kicker-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.kicker {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b6b6b;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #6b6b6b;
+}
+
+.chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-height: 24px;
+    margin-bottom: 4px;
+}
+
+.empty-text {
+    font-size: 12px;
+    color: #888;
+}
+
+.inline-warning {
+    font-size: 12px;
+    color: #a35a00;
+    background-color: #fff3da;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+
+.search-area {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.create-panel-anchor {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 4px);
+    z-index: 30;
+}
+
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: opacity 0.1s ease-out;
+}
+
+.dialog-content.dimmed {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.footer-note {
+    font-size: 11px;
+    color: #888;
+    margin-top: 12px;
+}

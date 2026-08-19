@@ -1,0 +1,54 @@
+.quick-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tab-strip {
+    display: flex;
+    gap: 16px;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.tab-btn {
+    border: none;
+    background: transparent;
+    font: inherit;
+    font-size: 13px;
+    padding: 0 0 8px;
+    cursor: pointer;
+    color: #555;
+    border-bottom: 2px solid transparent;
+}
+
+.tab-btn.active {
+    color: #0b5ed7;
+    border-bottom-color: #0b5ed7;
+    font-weight: 600;
+}
+
+.pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 30px;
+}
+
+.pill {
+    border: 1px solid #0b5ed7;
+    background: transparent;
+    color: #0b5ed7;
+    border-radius: 999px;
+    padding: 3px 12px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.pill:hover {
+    background-color: #eaf2ff;
+}
+
+.empty-text {
+    font-size: 12px;
+    color: #888;
+}

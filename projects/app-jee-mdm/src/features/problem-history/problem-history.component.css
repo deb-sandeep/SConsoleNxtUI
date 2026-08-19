@@ -173,6 +173,10 @@
     background-color: #e6f9ff;
 }
 
+.tag-icon-cell {
+    cursor: pointer;
+}
+
 .num-attempts {
     padding-right: 20px;
     font-family: monospace;
