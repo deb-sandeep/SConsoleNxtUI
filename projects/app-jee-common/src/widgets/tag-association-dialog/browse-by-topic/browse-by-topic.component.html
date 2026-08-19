@@ -63,7 +63,12 @@
         <div class="no-tags">All tags in this topic are already applied.</div>
       }
       @if( editError; as err ) {
-        <div class="edit-error">{{ err }}</div>
+        <div class="edit-error">
+          <span>{{ err }}</span>
+          <button type="button" class="dismiss-x-btn" aria-label="Dismiss" (click)="editError = null">
+            <span class="bi-x-lg"></span>
+          </button>
+        </div>
       }
     </div>
   </div>

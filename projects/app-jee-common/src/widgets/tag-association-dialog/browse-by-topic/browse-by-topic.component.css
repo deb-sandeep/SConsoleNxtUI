@@ -150,9 +150,29 @@
 
 .edit-error {
     width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
     font-size: 11px;
     color: #a30000;
     background-color: #ffe9e9;
     padding: 4px 8px;
     border-radius: 4px;
+}
+
+.dismiss-x-btn {
+    flex: none;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0 2px;
+    font-size: 10px;
+    line-height: 1;
+    color: inherit;
+    opacity: 0.7;
+}
+
+.dismiss-x-btn:hover {
+    opacity: 1;
 }

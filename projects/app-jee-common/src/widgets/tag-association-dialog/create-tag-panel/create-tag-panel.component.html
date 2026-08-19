@@ -22,7 +22,12 @@
   </div>
 
   @if( errorMessage(); as err ) {
-    <div class="create-error">{{ err }}</div>
+    <div class="create-error">
+      <span>{{ err }}</span>
+      <button type="button" class="dismiss-x-btn" aria-label="Dismiss" (click)="errorDismissed.emit()">
+        <span class="bi-x-lg"></span>
+      </button>
+    </div>
   }
 
   <div class="create-tag-actions">

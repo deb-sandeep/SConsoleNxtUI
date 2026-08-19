@@ -328,6 +328,14 @@ export class TagAssociationDialogComponent implements OnChanges {
   }
 
   /**
+   * Invoked by the warning's own dismiss ("x") button — hides it without
+   * any other side effect.
+   */
+  dismissAttachWarning() {
+    this.lastAttachWarning = null ;
+  }
+
+  /**
    * Handles removing an attached tag — invoked from `(close)` on the
    * `closeable-badge` chip in the attached-tags row. Removes the tag from
    * every current target in parallel (via `Promise.all`; unlike

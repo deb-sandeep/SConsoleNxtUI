@@ -70,12 +70,32 @@
 }
 
 .inline-warning {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
     font-size: 12px;
     color: #a35a00;
     background-color: #fff3da;
     padding: 5px 8px;
     border-radius: 4px;
     margin-bottom: 6px;
+}
+
+.dismiss-x-btn {
+    flex: none;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0 2px;
+    font-size: 11px;
+    line-height: 1;
+    color: inherit;
+    opacity: 0.7;
+}
+
+.dismiss-x-btn:hover {
+    opacity: 1;
 }
 
 .search-area {

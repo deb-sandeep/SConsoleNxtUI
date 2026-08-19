@@ -51,6 +51,12 @@ export class CreateTagPanelComponent implements OnInit {
    * action in the template) without creating anything.
    */
   cancel = output<void>() ;
+  /**
+   * Emitted when the user dismisses {@link errorMessage} via its own "x"
+   * button. `errorMessage` is host-owned, so this panel can't clear it
+   * itself — the host is expected to null out whatever it passed in.
+   */
+  errorDismissed = output<void>() ;
 
   /**
    * Text currently typed into the topic-picker's own filter field; starts
