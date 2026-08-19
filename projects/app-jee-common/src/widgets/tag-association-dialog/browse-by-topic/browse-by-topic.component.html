@@ -37,10 +37,10 @@
             <input type="text" class="edit-input"
                    [ngModel]="editingText" (ngModelChange)="editingText = $event"
                    (keydown.enter)="confirmEdit()" (keydown.escape)="cancelEdit()" />
-            <button type="button" class="icon-btn" aria-label="Save" (click)="confirmEdit()">
+            <button type="button" class="icon-btn" (click)="confirmEdit()">
               <span class="bi-check-lg"></span>
             </button>
-            <button type="button" class="icon-btn" aria-label="Cancel" (click)="cancelEdit()">
+            <button type="button" class="icon-btn" (click)="cancelEdit()">
               <span class="bi-x-lg"></span>
             </button>
           </span>
@@ -51,10 +51,10 @@
               {{ tag.tagText }}
               <span class="assoc-count">{{ tag.associationCount }}</span>
             </button>
-            <button type="button" class="icon-btn" aria-label="Rename tag" (click)="startEdit(tag)">
+            <button type="button" class="icon-btn" (click)="startEdit(tag)">
               <span class="bi-pencil"></span>
             </button>
-            <button type="button" class="icon-btn" aria-label="Delete tag" (click)="requestDelete(tag)">
+            <button type="button" class="icon-btn" (click)="requestDelete(tag)">
               <span class="bi-x-lg"></span>
             </button>
           </span>
@@ -65,7 +65,7 @@
       @if( editError; as err ) {
         <div class="edit-error">
           <span>{{ err }}</span>
-          <button type="button" class="dismiss-x-btn" aria-label="Dismiss" (click)="editError = null">
+          <button type="button" class="dismiss-x-btn" (click)="editError = null">
             <span class="bi-x-lg"></span>
           </button>
         </div>

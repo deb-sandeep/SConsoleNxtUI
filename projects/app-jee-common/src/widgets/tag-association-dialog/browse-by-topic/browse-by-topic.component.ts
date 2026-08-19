@@ -46,11 +46,13 @@ export class BrowseByTopicComponent implements OnChanges {
    * {@link ALLOWED_SUBJECTS} via {@link visibleSyllabus} before use.
    */
   syllabus = input<SyllabusSO[]>( [] ) ;
+
   /**
    * Tag ids to hide from the tag-pill list — the tags already attached to
    * the current target(s).
    */
   excludeTagIds = input<Set<number>>( new Set() ) ;
+
   /**
    * Topic id to default the subject tab and topic selection to when this
    * component first initializes (typically the topic of the item being
@@ -62,20 +64,30 @@ export class BrowseByTopicComponent implements OnChanges {
   tagSelected = output<TagSO>() ;
 
   /**
+   * Emitted after a tag is deleted (via {@link deleteTag}) — the host uses
+   * this to refresh its "Recently used"/"Frequently used" quick-access
+   * lists, which could otherwise keep showing a now-deleted tag.
+   */
+  tagDeleted = output<void>() ;
+
+  /**
    * Which subject tab is active; null only before {@link ngOnChanges} has
    * run its one-time initialization for this dialog session.
    */
   activeSubject:string | null = null ;
+
   /**
    * Which topic row is selected within the active subject; null when the
    * active subject has no topics at all.
    */
   selectedTopicId:number | null = null ;
+
   /**
    * Free-text filter typed into the topic-list search field; reset to
    * empty whenever the subject tab changes.
    */
   topicFilterQuery = "" ;
+
   /**
    * The tag catalog for {@link selectedTopicId}, fetched fresh every time
    * the selected topic changes — see {@link selectTopic}.
@@ -87,11 +99,13 @@ export class BrowseByTopicComponent implements OnChanges {
    * pill is being renamed.
    */
   editingTagId:number | null = null ;
+
   /**
    * The in-progress edited text for {@link editingTagId}, bound to the
    * rename input.
    */
   editingText = "" ;
+
   /**
    * Error text shown under the tag-pill list if a rename fails (e.g.
    * server-side duplicate rejection); null when there's nothing to show.
@@ -158,7 +172,9 @@ export class BrowseByTopicComponent implements OnChanges {
    * subject is active yet.
    */
   subjectTopics():TopicSO[] {
-    return this.visibleSyllabus().find( s => s.subjectName === this.activeSubject )?.topics ?? [] ;
+    return this.visibleSyllabus()
+               .find( s =>
+                 s.subjectName === this.activeSubject )?.topics ?? [] ;
   }
 
   /**
@@ -282,11 +298,16 @@ export class BrowseByTopicComponent implements OnChanges {
   }
 
   /**
-   * Invoked by a pill's delete ("x") icon — opens the nested
-   * `delete-tag-confirm-dialog` for that tag rather than deleting
-   * immediately.
+   * Invoked by a pill's delete ("x") icon. A tag with zero associations has
+   * nothing at stake, so it's deleted immediately without the confirm
+   * dialog; otherwise opens `delete-tag-confirm-dialog` for that tag rather
+   * than deleting immediately.
    */
   requestDelete( tag:TagSO ) {
+    if( tag.associationCount === 0 ) {
+      this.deleteTag( tag ).then() ;
+      return ;
+    }
     this.tagPendingDelete = tag ;
   }
 
@@ -299,18 +320,27 @@ export class BrowseByTopicComponent implements OnChanges {
   }
 
   /**
-   * Invoked on `(confirmed)` from `delete-tag-confirm-dialog`. Deletes the
-   * pending tag (this deletes the tag record itself, and with it every
-   * association across every item it was ever attached to — not just this
-   * topic's list), closes the confirm dialog, and removes it from
-   * {@link topicTags} so the pill disappears immediately without needing a
-   * re-fetch.
+   * Invoked on `(confirmed)` from `delete-tag-confirm-dialog` — closes the
+   * confirm dialog and deletes the pending tag via {@link deleteTag}.
    */
   async confirmDelete() {
     const tag = this.tagPendingDelete ;
     if( !tag ) return ;
-    await this.tagApi.deleteTag( tag.id ) ;
     this.tagPendingDelete = null ;
+    await this.deleteTag( tag ) ;
+  }
+
+  /**
+   * Deletes the tag record itself (and with it every association across
+   * every item it was ever attached to — not just this topic's list), then
+   * removes it from {@link topicTags} so the pill disappears immediately
+   * without needing a re-fetch. Shared by the zero-association fast path in
+   * {@link requestDelete} and the confirmed path in {@link confirmDelete}.
+   * Emits {@link tagDeleted} so the host can refresh its quick-access lists.
+   */
+  private async deleteTag( tag:TagSO ) {
+    await this.tagApi.deleteTag( tag.id ) ;
     this.topicTags = this.topicTags.filter( t => t.id !== tag.id ) ;
+    this.tagDeleted.emit() ;
   }
 }

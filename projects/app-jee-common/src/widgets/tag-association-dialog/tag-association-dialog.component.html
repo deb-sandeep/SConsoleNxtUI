@@ -21,7 +21,7 @@
   @if( lastAttachWarning; as w ) {
     <div class="inline-warning">
       <span>{{ w }}</span>
-      <button type="button" class="dismiss-x-btn" aria-label="Dismiss" (click)="dismissAttachWarning()">
+      <button type="button" class="dismiss-x-btn" (click)="dismissAttachWarning()">
         <span class="bi-x-lg"></span>
       </button>
     </div>
@@ -60,7 +60,8 @@
 
     <browse-by-topic
       [syllabus]="syllabus" [excludeTagIds]="attachedTagIds()" [defaultTopicId]="defaultTopicId()"
-      (tagSelected)="attachTag($event)">
+      (tagSelected)="attachTag($event)"
+      (tagDeleted)="onTagDeleted()">
     </browse-by-topic>
   </div>
 

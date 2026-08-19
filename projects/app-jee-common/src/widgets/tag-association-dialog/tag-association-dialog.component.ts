@@ -338,6 +338,21 @@ export class TagAssociationDialogComponent implements OnChanges {
   }
 
   /**
+   * Invoked from `(tagDeleted)` on `browse-by-topic` after it deletes a tag.
+   * Re-fetches {@link recentTags}/{@link mostUsedTags} so `quick-access-tabs`
+   * stops showing a tag that no longer exists — those lists were only ever
+   * loaded once, in {@link onOpen}, so nothing else would refresh them.
+   */
+  async onTagDeleted() {
+    const [ recent, mostUsed ] = await Promise.all( [
+      this.tagApi.getRecentTags(),
+      this.tagApi.getMostUsedTags(),
+    ] ) ;
+    this.recentTags = recent ;
+    this.mostUsedTags = mostUsed ;
+  }
+
+  /**
    * Handles removing an attached tag — invoked from `(close)` on the
    * `closeable-badge` chip in the attached-tags row. Removes the tag from
    * every current target in parallel (via `Promise.all`; unlike
