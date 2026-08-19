@@ -37,6 +37,17 @@
     border-top-color: #e2e2e2 !important;
 }
 
+:host ::ng-deep .closeable-badge {
+    padding: 4px 10px !important;
+    background-color: #ffdab2 !important;
+    color: #752500 !important;
+}
+
+:host ::ng-deep .close-btn {
+    padding: 3px 2px 2px 7px !important;
+    margin-left: 5px !important;
+}
+
 .kicker-row {
     display: flex;
     align-items: baseline;
@@ -61,7 +72,7 @@
     flex-wrap: wrap;
     gap: 4px;
     min-height: 24px;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
 }
 
 .empty-text {
@@ -128,3 +139,4 @@
     color: #888;
     margin-top: 12px;
 }
+

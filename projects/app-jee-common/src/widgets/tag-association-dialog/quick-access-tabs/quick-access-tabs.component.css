@@ -31,15 +31,15 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    min-height: 30px;
+    min-height: 20px;
 }
 
 .pill {
     border: 1px solid #0b5ed7;
     background: transparent;
-    color: #0b5ed7;
-    border-radius: 999px;
-    padding: 3px 12px;
+    color: #0044a3;
+    border-radius: 10px;
+    padding: 1px 10px;
     font-size: 12px;
     cursor: pointer;
 }

@@ -1,18 +1,24 @@
-<modal-dialog [show]="show()" [title]="dialogTitle()" [width]="760" [height]="660"
-              (hide)="close()" (confirm)="close()">
+<modal-dialog [show]="show()"
+              [title]="dialogTitle()"
+              [width]="1000" [height]="650"
+              (hide)="close()"
+              (confirm)="close()">
 
   @if( show() ) {
   <div class="kicker-row">
     <span class="kicker">{{ isSingleMode() ? 'Edit tags' : 'Tag multiple items' }}</span>
     @if( !isSingleMode() ) {
-      <span class="subtitle">{{ problemCount() }} problems · {{ questionCount() }} questions</span>
+      <span class="subtitle">
+        {{ problemCount() }} problems · {{ questionCount() }} questions
+      </span>
     }
   </div>
 
   <div class="chips-row">
     @for( tag of attachedTags; track tag.id ) {
       <closeable-badge [text]="tag.tagText" (close)="detachTag(tag)"></closeable-badge>
-    } @empty {
+    }
+    @empty {
       <span class="empty-text">
         {{ isSingleMode() ? 'No tags yet.' : 'No tags applied yet — pick one below.' }}
       </span>
@@ -63,12 +69,6 @@
       (tagSelected)="attachTag($event)"
       (tagDeleted)="onTagDeleted()">
     </browse-by-topic>
-  </div>
-
-  <div class="footer-note">
-    {{ isSingleMode()
-       ? 'Changes to tags are saved immediately.'
-       : 'Tags are applied immediately to every selected item — there is no separate save step.' }}
   </div>
 
   }
