@@ -125,7 +125,8 @@
                     </td>
                     <td class="tag-icon-cell"
                         (click)="$event.stopPropagation(); openTagDialog(p)">
-                      <span [ngClass]="getTagIconForProblem(p)"></span>
+                      <span [ngClass]="getTagIconForProblem(p)"
+                            [style.color]="getTagIconColorForProblem(p)"></span>
                     </td>
                     <td><span [ngClass]="getDifficultyLevelIcon(p)"></span></td>
                     <td class="num-attempts">{{p.numAttempts}}</td>

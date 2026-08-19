@@ -387,4 +387,9 @@ export class ProblemHistoryComponent {
     }
     return "bi-tags-fill" ;
   }
+
+  public getTagIconColorForProblem( p: TopicProblemSO ) {
+    const numTags = this.getNumTagsForProblem( p ) ;
+    return numTags == 0 ? "grey" : "blue" ;
+  }
 }

@@ -52,10 +52,9 @@ export class TagSearchBoxComponent implements AfterViewInit {
 
   /**
    * Emitted when the user asks to create a new tag — via the "create" row,
-   * plain Enter with no exact match, or Shift+Enter to force-create even
-   * over an exact match (`forced: true`).
+   * or plain Enter with no exact match.
    */
-  createRequested = output<{ query:string, forced:boolean }>() ;
+  createRequested = output<string>() ;
 
   /**
    * Emitted when Escape is pressed, after this component has already
@@ -213,27 +212,19 @@ export class TagSearchBoxComponent implements AfterViewInit {
 
   /**
    * Invoked on `(keydown.enter)`. Always prevents the default (form submit)
-   * behaviour first. Shift+Enter is a "force create" shortcut — it always
-   * requests tag creation with `forced: true` regardless of whether a
-   * matching suggestion exists, letting a user deliberately create a
-   * near-duplicate if they really mean to. Plain Enter instead prefers an
-   * existing match: if there are suggestions, it picks the highlighted one
-   * (or the first one, if none is highlighted); only when there are no
-   * suggestions at all does it fall through to requesting creation
-   * (`forced: false`).
+   * behaviour first. Prefers an existing match: if there are suggestions,
+   * it picks the highlighted one (or the first one, if none is
+   * highlighted); only when there are no suggestions at all does it fall
+   * through to requesting creation of the typed text.
    */
   onEnter( event:KeyboardEvent ) {
     event.preventDefault() ;
-    if( event.shiftKey ) {
-      this.createRequested.emit( { query: this.query, forced: true } ) ;
-      return ;
-    }
     if( this.results.length > 0 ) {
       const idx = this.highlightedIndex >= 0 ? this.highlightedIndex : 0 ;
       this.selectSuggestion( this.results[idx] ) ;
     }
     else if( this.query.trim().length > 0 ) {
-      this.createRequested.emit( { query: this.query, forced: false } ) ;
+      this.createRequested.emit( this.query ) ;
     }
   }
 

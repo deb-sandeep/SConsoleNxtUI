@@ -147,15 +147,6 @@ export class TagAssociationDialogComponent implements OnChanges {
   createPanelQuery = "" ;
 
   /**
-   * Whether the current create-panel session should bypass the
-   * duplicate-tag guard — set from the `forced` flag on a `createRequested`
-   * event (Shift+Enter in `tag-search-box`), which means the user
-   * deliberately chose to create a near-duplicate. Read by
-   * {@link checkDuplicateBeforeCreate}.
-   */
-  createForced = false ;
-
-  /**
    * Error text shown inside the create panel (e.g. a duplicate-tag warning,
    * or a server error from `createTag`). Null when there's nothing to show.
    */
@@ -259,7 +250,6 @@ export class TagAssociationDialogComponent implements OnChanges {
   private async onOpen() {
     this.createPanelOpen = false ;
     this.createPanelQuery = "" ;
-    this.createForced = false ;
     this.createError = null ;
     this.lastAttachWarning = null ;
     this.attachedTags = [] ;
@@ -359,13 +349,11 @@ export class TagAssociationDialogComponent implements OnChanges {
   /**
    * Invoked from `(createRequested)` on `tag-search-box`, which fires when
    * the user asks to create a brand-new tag (no exact match found, Enter
-   * pressed; or Shift+Enter to force-create even when an exact match exists).
-   * Seeds the create panel with the query text that was in the search box
-   * and opens it.
+   * pressed). Seeds the create panel with the query text that was in the
+   * search box and opens it.
    */
-  onCreateRequested( req:{ query:string, forced:boolean } ) {
-    this.createPanelQuery = req.query ;
-    this.createForced = req.forced ;
+  onCreateRequested( query:string ) {
+    this.createPanelQuery = query ;
     this.createError = null ;
     this.createPanelOpen = true ;
   }
@@ -398,7 +386,6 @@ export class TagAssociationDialogComponent implements OnChanges {
    */
   onCreateCancel() {
     this.createPanelOpen = false ;
-    this.createForced = false ;
     this.createError = null ;
   }
 
@@ -416,12 +403,8 @@ export class TagAssociationDialogComponent implements OnChanges {
    * normalized form, so trivial differences (case, punctuation, whitespace)
    * still count as a duplicate. On a match, sets {@link createError} and
    * returns `true` so the caller aborts before ever calling `createTag()`.
-   *
-   * Skipped entirely when {@link createForced} is set — the user already
-   * chose, via Shift+Enter, to create the tag even over an exact match.
    */
   private async checkDuplicateBeforeCreate( tagText:string ):Promise<boolean> {
-    if( this.createForced ) return false ;
     const hits = await this.tagApi.searchTags( tagText ) ;
     const dupe = hits.find( t =>
       normalizeTagText( t.tagText ) === normalizeTagText( tagText )

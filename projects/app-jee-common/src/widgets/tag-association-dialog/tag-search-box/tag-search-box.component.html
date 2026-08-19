@@ -7,7 +7,6 @@
          (keydown.arrowdown)="$event.preventDefault(); onArrowDown()"
          (keydown.arrowup)="$event.preventDefault(); onArrowUp()"
          (keydown.enter)="onEnter($any($event))"
-         (keydown.shift.enter)="onEnter($any($event))"
          (keydown.escape)="onEscape()"
          [placeholder]="placeholder()"
          autocomplete="off" />
@@ -25,7 +24,7 @@
       }
       @if( showCreateRow() ) {
         <button type="button" class="create-row"
-                (click)="createRequested.emit({query, forced:false})">
+                (click)="createRequested.emit(query)">
           Create "{{ query }}"
         </button>
       }
