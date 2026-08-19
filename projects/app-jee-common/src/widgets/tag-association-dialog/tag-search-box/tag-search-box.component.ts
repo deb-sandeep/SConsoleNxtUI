@@ -59,11 +59,13 @@ export class TagSearchBoxComponent implements AfterViewInit {
 
   /**
    * Emitted when Escape is pressed, after this component has already
-   * cleared its own query/results — lets the host also close anything it
-   * opened in response to a create request (see `onSearchEscape` on the
-   * host).
+   * cleared its own query/results. Carries `wasEmpty` — whether the query
+   * was already empty *before* this Escape press — so the host can tell an
+   * "empty box, dismiss the whole dialog" Escape apart from a "had text,
+   * just clear it (and anything it opened, e.g. the create panel)" Escape.
+   * See `onSearchEscape` on the host.
    */
-  escapePressed = output<void>() ;
+  escapePressed = output<{ wasEmpty:boolean }>() ;
 
   /**
    * The raw text currently typed into the input; also what's echoed to
@@ -236,12 +238,15 @@ export class TagSearchBoxComponent implements AfterViewInit {
   }
 
   /**
-   * Invoked on `(keydown.escape)` — clears the box locally, then notifies
-   * the host in case it needs to react too (e.g. also closing the create
-   * panel).
+   * Invoked on `(keydown.escape)`. Captures whether the box was already
+   * empty before clearing it (the host uses this to decide whether to
+   * dismiss the whole dialog vs. just clear the box/create panel — see
+   * `onSearchEscape` on the host), clears the box locally, then notifies
+   * the host.
    */
   onEscape() {
+    const wasEmpty = this.query.trim().length === 0 ;
     this.clear() ;
-    this.escapePressed.emit() ;
+    this.escapePressed.emit( { wasEmpty } ) ;
   }
 }

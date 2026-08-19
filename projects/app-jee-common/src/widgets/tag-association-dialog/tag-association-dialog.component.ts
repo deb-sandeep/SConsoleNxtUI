@@ -364,12 +364,23 @@ export class TagAssociationDialogComponent implements OnChanges {
 
   /**
    * Invoked from `(escapePressed)` on `tag-search-box` when the user presses
-   * Escape in the search field. If the create panel happens to be open, this
-   * treats Escape as "cancel create" as well, so one Escape press backs out
-   * of the whole search-then-create flow rather than just clearing the
-   * search box while leaving the create panel stranded open.
+   * Escape in the search field. `tag-search-box` has already cleared its own
+   * text by this point; `wasEmpty` tells us whether that text was empty
+   * *before* this Escape press.
+   *
+   * If the box was already empty, there was nothing left for Escape to
+   * clear, so this Escape means "leave the dialog entirely" — same as
+   * Cancel/Done. Otherwise, the box just had its text cleared; if the
+   * create panel happens to be open, this also treats Escape as "cancel
+   * create", so one Escape press backs out of the whole search-then-create
+   * flow rather than just clearing the search box while leaving the create
+   * panel stranded open.
    */
-  onSearchEscape() {
+  onSearchEscape( req:{ wasEmpty:boolean } ) {
+    if( req.wasEmpty ) {
+      this.close() ;
+      return ;
+    }
     if( this.createPanelOpen ) this.onCreateCancel() ;
   }
 

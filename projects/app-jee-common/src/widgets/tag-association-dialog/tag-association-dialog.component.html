@@ -28,7 +28,7 @@
       [placeholder]="isSingleMode() ? 'Search or create a tag…' : 'Search or create a tag to apply to all selected…'"
       (tagSelected)="attachTag($event)"
       (createRequested)="onCreateRequested($event)"
-      (escapePressed)="onSearchEscape()">
+      (escapePressed)="onSearchEscape($event)">
     </tag-search-box>
 
     @if( createPanelOpen ) {
