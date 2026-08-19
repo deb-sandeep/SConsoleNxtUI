@@ -1,11 +1,14 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, ViewChild } from "@angular/core";
 import { AlertsDisplayComponent, PageTitleComponent, PageTitleService } from "lib-core";
 import { ProblemAttemptSO, SyllabusSO, TopicProblemSO } from "@jee-common/util/master-data-types";
 import { NgClass } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/util/common-util";
 import { ProblemApiService } from "@jee-common/services/problem-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
+import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
+import { TagAssociationTarget } from "@jee-common/util/tag-data-types";
 import { AttemptHistoryComponent } from "@jee-common/widgets/attempt-history/attempt-history.component";
+import { TagAssociationDialogComponent } from "@jee-common/widgets/tag-association-dialog/tag-association-dialog.component";
 
 class BookChapterProblems {
 
@@ -70,6 +73,7 @@ class SyllabusProblems {
     AlertsDisplayComponent,
     NgClass,
     AttemptHistoryComponent,
+    TagAssociationDialogComponent,
   ],
   templateUrl: './solve-pigeons.component.html',
   styleUrl: './solve-pigeons.component.css'
@@ -81,12 +85,21 @@ export class SolvePigeonsComponent {
   private titleSvc : PageTitleService = inject( PageTitleService ) ;
   private problemApiSvc : ProblemApiService = inject( ProblemApiService ) ;
   private syllabusApiSvc : SyllabusApiService = inject( SyllabusApiService ) ;
+  private tagAssociationApiSvc : TagAssociationApiService = inject( TagAssociationApiService ) ;
+
+  @ViewChild( AttemptHistoryComponent )
+  private attemptHistory : AttemptHistoryComponent ;
 
   private syllabusProblemsMap:Record<string, SyllabusProblems> = {} ;
 
   private allPigeons: TopicProblemSO[] = [] ;
   protected selectedPigeon:TopicProblemSO|null = null ;
   protected problemAttempts:ProblemAttemptSO[]|null = null ;
+  protected problemTagCounts: Record<number, number> | null = null ;
+
+  tagDialogShow = false ;
+  tagDialogTargets: TagAssociationTarget[] = [] ;
+  tagDialogTopicId: number | undefined = undefined ;
 
   constructor() {
     this.titleSvc.setTitle( "Solve Pigeons" ) ;
@@ -101,7 +114,15 @@ export class SolvePigeonsComponent {
             this.pigeonSelected( pigeons[0] ).then() ;
           }
         } )
-        .then( () => this.mapSyllabusSO() );
+        .then( () => this.mapSyllabusSO() )
+        .then( () => this.refreshProblemTagCounts() ) ;
+  }
+
+  private async refreshProblemTagCounts() {
+    this.problemTagCounts = await this.tagAssociationApiSvc.getTagCounts(
+      'PROBLEM',
+      this.allPigeons.map( p => p.problemId )
+    ) ;
   }
 
   private sortPigeons( pigeons: TopicProblemSO[] ) {
@@ -167,5 +188,43 @@ export class SolvePigeonsComponent {
 
   getAge( pigeon: TopicProblemSO ) {
     return Math.floor( ( new Date().getTime() - new Date( pigeon.lastAttemptTime ).getTime() ) / 86400000 ) ;
+  }
+
+  openTagDialog( pigeon: TopicProblemSO ) {
+    this.tagDialogTargets = [ {
+      itemType: 'PROBLEM',
+      itemId: pigeon.problemId,
+      displayLabel: pigeon.problemKey.replaceAll( '/', ' / ' ),
+    } ] ;
+    this.tagDialogTopicId = pigeon.topicId ;
+    this.tagDialogShow = true ;
+  }
+
+  closeTagDialog() {
+    this.tagDialogShow = false ;
+  }
+
+  onTagsChanged() {
+    this.refreshProblemTagCounts().then() ;
+    this.attemptHistory?.refreshProblemTags() ;
+  }
+
+  public getNumTagsForPigeon( pigeon: TopicProblemSO ) {
+    return this.problemTagCounts ? this.problemTagCounts[ pigeon.problemId ] : 0 ;
+  }
+
+  getTagIcon( pigeon: TopicProblemSO ) {
+    const numTags = this.getNumTagsForPigeon( pigeon ) ;
+    if( numTags == 0 ) {
+      return "bi-tag" ;
+    }
+    else if( numTags == 1 ) {
+      return "bi-tag-fill" ;
+    }
+    return "bi-tags-fill" ;
+  }
+
+  getTagIconColor( pigeon: TopicProblemSO ) {
+    return this.getNumTagsForPigeon( pigeon ) == 0 ? "grey" : "blue" ;
   }
 }

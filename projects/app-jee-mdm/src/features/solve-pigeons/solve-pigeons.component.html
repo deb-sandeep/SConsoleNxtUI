@@ -23,6 +23,9 @@
               {{pigeon.problemKey}}
               @let age = getAge( pigeon ) ;
               <span class="age" [ngClass]="{'red':age>0}">[{{age}}]</span>
+              <span class="tag-action" [ngClass]="getTagIcon(pigeon)"
+                    [style.color]="getTagIconColor(pigeon)"
+                    (click)="$event.stopPropagation(); openTagDialog(pigeon)"></span>
             </div>
           }
         }
@@ -63,4 +66,12 @@
 
     }
   </div>
+
+  <tag-association-dialog
+    [show]="tagDialogShow"
+    [targets]="tagDialogTargets"
+    [defaultTopicId]="tagDialogTopicId"
+    (closed)="closeTagDialog()"
+    (tagsChanged)="onTagsChanged()">
+  </tag-association-dialog>
 </div>

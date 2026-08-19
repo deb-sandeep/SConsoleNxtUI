@@ -48,7 +48,7 @@ export const featureRoutes: Routes = [
         path: 'solve-pigeons',
         title: 'Solve Pigeons',
         component: SolvePigeonsComponent,
-        providers: [AlertService, ProblemApiService, SyllabusApiService]
+        providers: [AlertService, ProblemApiService, SyllabusApiService, TagAssociationApiService]
     },
     {
         path: 'problem-history',

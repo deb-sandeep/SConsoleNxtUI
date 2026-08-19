@@ -106,6 +106,12 @@
     font-weight: bold;
 }
 
+.tag-action {
+    cursor: pointer;
+    float: right;
+    margin-right: 5px;
+}
+
 .button-bar {
     text-align: center;
     margin-top: 10px;
