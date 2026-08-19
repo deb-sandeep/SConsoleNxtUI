@@ -18,10 +18,11 @@
 
 :host ::ng-deep .dialog-header {
     border-bottom-color: #e2e2e2 !important;
+    background-color: #e1f0ff !important;
 }
 
 :host ::ng-deep .dialog-title {
-    color: #0b5ed7 !important;
+    color: #002359 !important;
 }
 
 :host ::ng-deep .dismiss-btn {
