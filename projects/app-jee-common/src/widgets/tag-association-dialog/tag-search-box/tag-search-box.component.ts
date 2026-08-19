@@ -106,6 +106,17 @@ export class TagSearchBoxComponent implements AfterViewInit {
    * focus automatically without the host needing to do anything.
    */
   ngAfterViewInit() {
+    this.focusInput() ;
+  }
+
+  /**
+   * Moves keyboard focus to the search input. Called by
+   * {@link ngAfterViewInit} on creation, and by the host after the
+   * create-tag-panel flow finishes (Create & attach / Create / Cancel), so
+   * focus returns here rather than being left stranded on a now-removed
+   * button.
+   */
+  focusInput() {
     this.searchInputRef.nativeElement.focus() ;
   }
 

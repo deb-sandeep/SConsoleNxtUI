@@ -1,4 +1,4 @@
-import { Component, inject, input, OnChanges, output, SimpleChanges } from '@angular/core';
+import { Component, inject, input, OnChanges, output, SimpleChanges, ViewChild } from '@angular/core';
 import { CloseableBadgeComponent, ModalDialogComponent } from "lib-core";
 import { TagApiService } from "@jee-common/services/tag-api.service";
 import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
@@ -79,6 +79,13 @@ export class TagAssociationDialogComponent implements OnChanges {
    * and the create-panel's topic picker.
    */
   private syllabusApi = inject( SyllabusApiService ) ;
+
+  /**
+   * Reference to the search box, used to clear its stale query text and
+   * return keyboard focus to it once the create-tag-panel flow finishes
+   * (Create & attach / Create / Cancel) — see {@link closeCreatePanel}.
+   */
+  @ViewChild( TagSearchBoxComponent ) searchBoxRef!:TagSearchBoxComponent ;
 
   /**
    * Host-controlled visibility flag. Flipping this true is what triggers
@@ -433,12 +440,27 @@ export class TagAssociationDialogComponent implements OnChanges {
   }
 
   /**
-   * Invoked from `(cancel)` on `create-tag-panel` — collapses the panel and
-   * clears any error it was showing.
+   * Invoked from `(cancel)` on `create-tag-panel` — closes the create flow
+   * via {@link closeCreatePanel}.
    */
   onCreateCancel() {
+    this.closeCreatePanel() ;
+  }
+
+  /**
+   * Collapses the create-tag panel, clears any error it was showing, and
+   * hands focus back to the search box — clearing its stale query text
+   * (from whatever triggered the create) and refocusing it, so the dialog
+   * is left ready for the next search rather than stranded on a now-gone
+   * button. Shared by all three ways the create flow can end: Create &
+   * attach ({@link onCreateAndAttach}), Create ({@link onCreateOnly}), and
+   * Cancel ({@link onCreateCancel}).
+   */
+  private closeCreatePanel() {
     this.createPanelOpen = false ;
     this.createError = null ;
+    this.searchBoxRef.clear() ;
+    this.searchBoxRef.focusInput() ;
   }
 
   /**
@@ -473,18 +495,18 @@ export class TagAssociationDialogComponent implements OnChanges {
   /**
    * Invoked from `(createAndAttach)` on `create-tag-panel` — the "create and
    * apply this tag" action. Runs the duplicate check first; if that passes,
-   * creates the tag under the chosen topic, closes the create panel, then
-   * immediately attaches the freshly-created tag via {@link attachTag} (so it
-   * goes through the same multi-target/partial-failure handling as any other
-   * tag pick). Any error from `createTag` itself (a real server failure, not
-   * a duplicate) is shown inline in the still-open create panel rather than
-   * silently closing it.
+   * creates the tag under the chosen topic, closes the create panel via
+   * {@link closeCreatePanel}, then immediately attaches the freshly-created
+   * tag via {@link attachTag} (so it goes through the same multi-target/
+   * partial-failure handling as any other tag pick). Any error from
+   * `createTag` itself (a real server failure, not a duplicate) is shown
+   * inline in the still-open create panel rather than silently closing it.
    */
   async onCreateAndAttach( req:{ tagText:string, topicId:number } ) {
     if( await this.checkDuplicateBeforeCreate( req.tagText ) ) return ;
     try {
       const tag = await this.tagApi.createTag( req.tagText, req.topicId ) ;
-      this.createPanelOpen = false ;
+      this.closeCreatePanel() ;
       await this.attachTag( tag ) ;
     }
     catch( err ) {
@@ -503,7 +525,7 @@ export class TagAssociationDialogComponent implements OnChanges {
     if( await this.checkDuplicateBeforeCreate( req.tagText ) ) return ;
     try {
       await this.tagApi.createTag( req.tagText, req.topicId ) ;
-      this.createPanelOpen = false ;
+      this.closeCreatePanel() ;
     }
     catch( err ) {
       this.createError = String( err ) ;
