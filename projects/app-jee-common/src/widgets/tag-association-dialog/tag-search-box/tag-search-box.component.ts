@@ -240,13 +240,17 @@ export class TagSearchBoxComponent implements AfterViewInit {
   }
 
   /**
-   * Invoked on `(keydown.escape)`. Captures whether the box was already
-   * empty before clearing it (the host uses this to decide whether to
-   * dismiss the whole dialog vs. just clear the box/create panel — see
-   * `onSearchEscape` on the host), clears the box locally, then notifies
-   * the host.
+   * Invoked on `(keydown.escape)`. Stops the event from bubbling further —
+   * the dialog host also listens for Escape (to close itself), and this
+   * box's own two-stage handling (clear-then-close, see `wasEmpty` below)
+   * would otherwise be redundantly followed by the host's own close. Captures
+   * whether the box was already empty before clearing it (the host uses this
+   * to decide whether to dismiss the whole dialog vs. just clear the
+   * box/create panel — see `onSearchEscape` on the host), clears the box
+   * locally, then notifies the host.
    */
-  onEscape() {
+  onEscape( event:KeyboardEvent ) {
+    event.stopPropagation() ;
     const wasEmpty = this.query.trim().length === 0 ;
     this.clear() ;
     this.escapePressed.emit( { wasEmpty } ) ;

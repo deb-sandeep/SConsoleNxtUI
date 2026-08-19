@@ -1,4 +1,4 @@
-import { Component, inject, input, OnChanges, output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, HostListener, inject, input, OnChanges, output, SimpleChanges, ViewChild } from '@angular/core';
 import { CloseableBadgeComponent, ModalDialogComponent } from "lib-core";
 import { TagApiService } from "@jee-common/services/tag-api.service";
 import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
@@ -88,6 +88,13 @@ export class TagAssociationDialogComponent implements OnChanges {
   @ViewChild( TagSearchBoxComponent ) searchBoxRef!:TagSearchBoxComponent ;
 
   /**
+   * Reference to `browse-by-topic`, used to refresh its currently-shown
+   * topic's tag pills (their association counts) after an attach/detach
+   * elsewhere in the dialog — see {@link attachTag}/{@link detachTag}.
+   */
+  @ViewChild( BrowseByTopicComponent ) browseByTopicRef!:BrowseByTopicComponent ;
+
+  /**
    * Host-controlled visibility flag. Flipping this true is what triggers
    * {@link onOpen} to (re)load the dialog's data.
    */
@@ -127,6 +134,17 @@ export class TagAssociationDialogComponent implements OnChanges {
    * in sync locally by {@link attachTag}/{@link detachTag}.
    */
   attachedTags:TagSO[] = [] ;
+
+  /**
+   * Bulk-mode counterpart to {@link attachedTags}: every tag that appears on
+   * *any* of the current targets, each entry's `associationCount` set to how
+   * many of the targets carry it (not a global count — see
+   * `TagAssociationApiService.getTagAssociationHistogram`). Always empty in
+   * single mode. Rebuilt from scratch by {@link onOpen} on every open, then
+   * by a full refetch (see {@link fetchBulkTagHistogram}) after every
+   * {@link attachTag}/{@link detachTag}.
+   */
+  tagHistogram:TagSO[] = [] ;
 
   /**
    * Full subject → topic tree, fetched fresh on every open. Feeds both
@@ -227,13 +245,27 @@ export class TagAssociationDialogComponent implements OnChanges {
   }
 
   /**
-   * The id set of currently-attached tags, derived from {@link attachedTags}.
-   * Passed down to `tag-search-box`, `quick-access-tabs` and `browse-by-topic`
-   * as their `excludeTagIds` input so a tag that's already applied doesn't
-   * also show up as a pickable suggestion/chip/pill.
+   * The id set of tags to hide from pickers, passed down to `tag-search-box`,
+   * `quick-access-tabs` and `browse-by-topic` as their `excludeTagIds` input
+   * so a tag that's already applied doesn't also show up as a pickable
+   * suggestion/chip/pill.
+   *
+   * In single mode, derived from {@link attachedTags} (every attached tag).
+   * In bulk mode, derived from {@link tagHistogram}, but only tags whose
+   * `associationCount` equals the target count — i.e. tags already on *all*
+   * selected items. A tag on only *some* of them stays pickable everywhere,
+   * since picking it again is exactly how the user completes it to full
+   * association (see {@link attachTag}).
    */
   attachedTagIds():Set<number> {
-    return new Set( this.attachedTags.map( t => t.id ) ) ;
+    if( this.isSingleMode() ) {
+      return new Set( this.attachedTags.map( t => t.id ) ) ;
+    }
+    return new Set(
+      this.tagHistogram
+          .filter( t => t.associationCount === this.targets().length )
+          .map( t => t.id )
+    ) ;
   }
 
   /**
@@ -261,10 +293,11 @@ export class TagAssociationDialogComponent implements OnChanges {
    * First clears all transient UI state left over from any previous session
    * (create panel, its query/error text, any attach warning, the attached-tag
    * list) so nothing from a prior open leaks into this one. Then fires all
-   * four data fetches — syllabus tree, recent tags, most-used tags, and (in
-   * single mode only) the target's currently-attached tags — concurrently via
-   * `Promise.all`, since none of them depend on each other, and assigns the
-   * results once every fetch has completed.
+   * four data fetches — syllabus tree, recent tags, most-used tags, and
+   * either the single target's currently-attached tags or (bulk mode) the
+   * whole selection's tag histogram — concurrently via `Promise.all`, since
+   * none of them depend on each other, and assigns the results once every
+   * fetch has completed.
    */
   private async onOpen() {
     this.createPanelOpen = false ;
@@ -272,22 +305,56 @@ export class TagAssociationDialogComponent implements OnChanges {
     this.createError = null ;
     this.lastAttachWarning = null ;
     this.attachedTags = [] ;
+    this.tagHistogram = [] ;
 
     const single = this.isSingleMode() ? this.targets()[0] : null ;
 
-    const [ syllabus, recent, mostUsed, attached ] = await Promise.all( [
+    const [ syllabus, recent, mostUsed, fourth ] = await Promise.all( [
       this.syllabusApi.getAllSyllabus(),
       this.tagApi.getRecentTags(),
       this.tagApi.getMostUsedTags(),
       single
         ? this.tagAssociationApi.getTagsForItem( single.itemType, single.itemId )
-        : Promise.resolve<TagSO[]>( [] ),
+        : this.fetchBulkTagHistogram(),
     ] ) ;
 
     this.syllabus = syllabus ;
     this.recentTags = recent ;
     this.mostUsedTags = mostUsed ;
-    this.attachedTags = attached ;
+    if( single ) this.attachedTags = fourth ;
+    else this.tagHistogram = fourth ;
+  }
+
+  /**
+   * Builds the bulk-mode tag histogram: calls
+   * `TagAssociationApiService.getTagAssociationHistogram` once per
+   * `itemType` group (see {@link targetsByItemType} — normally one call,
+   * two only for a mixed problem+question selection), then merges the
+   * per-group results by tag id, summing `associationCount` across groups
+   * (a tag can legitimately appear in both a problem group and a question
+   * group, since the tag catalog isn't itself type-scoped). Sorted by
+   * count descending, tagText ascending as a tiebreaker — matching the
+   * backend's own per-group ordering, which the merge step can otherwise
+   * disturb.
+   */
+  private async fetchBulkTagHistogram():Promise<TagSO[]> {
+    const groups = this.targetsByItemType() ;
+    const perGroupLists = await Promise.all(
+      groups.map( g => this.tagAssociationApi.getTagAssociationHistogram( g.itemType, g.itemIds ) )
+    ) ;
+
+    const merged = new Map<number, TagSO>() ;
+    for( const list of perGroupLists ) {
+      for( const tag of list ) {
+        const existing = merged.get( tag.id ) ;
+        if( existing ) existing.associationCount += tag.associationCount ;
+        else merged.set( tag.id, { ...tag } ) ;
+      }
+    }
+
+    return Array.from( merged.values() ).sort( ( a, b ) =>
+      b.associationCount - a.associationCount || a.tagText.localeCompare( b.tagText )
+    ) ;
   }
 
   /**
@@ -318,11 +385,16 @@ export class TagAssociationDialogComponent implements OnChanges {
    * within a batch are now handled silently by the backend (not rejected),
    * so any rejection here is a genuine failure. Uses `Promise.allSettled`
    * so one group's failure (e.g. a mixed-type selection) doesn't stop the
-   * other group from attaching. If every group failed, the tag is not added
-   * to {@link attachedTags} (the chip won't show as attached) and a failure
-   * message is set. If at least one group succeeded, the chip is shown,
-   * `tagsChanged` fires so the host can refresh any dependent UI, and a
-   * partial-failure warning is set only if some (but not all) groups failed.
+   * other group from attaching. If every group failed, no local state
+   * changes and a failure message is set. Otherwise, local state is updated
+   * — in single mode the chip is added to {@link attachedTags}; in bulk mode
+   * {@link tagHistogram} is refetched from scratch (the simplest correct way
+   * to reflect the new per-tag counts, including a tag that was only
+   * partially associated now becoming fully associated) — `tagsChanged`
+   * fires so the host can refresh any dependent UI, the usual housekeeping
+   * runs ({@link refreshQuickAccessLists} and `browse-by-topic`'s own topic
+   * tags via {@link browseByTopicRef}), and a partial-failure warning is set
+   * only if some (but not all) groups failed.
    */
   async attachTag( tag:TagSO ) {
     if( this.attachedTagIds().has( tag.id ) ) return ;
@@ -342,9 +414,12 @@ export class TagAssociationDialogComponent implements OnChanges {
       return ;
     }
 
-    this.attachedTags = [ ...this.attachedTags, tag ] ;
+    if( this.isSingleMode() ) this.attachedTags = [ ...this.attachedTags, tag ] ;
+    else this.tagHistogram = await this.fetchBulkTagHistogram() ;
+
     this.tagsChanged.emit() ;
     this.refreshQuickAccessLists().then() ;
+    this.browseByTopicRef.refreshTopicTags() ;
     this.lastAttachWarning = failures.length > 0
       ? `"${tag.tagText}" could not be applied to some of the selected items.`
       : null ;
@@ -376,23 +451,31 @@ export class TagAssociationDialogComponent implements OnChanges {
   }
 
   /**
-   * Invoked from `(tagDeleted)` on `browse-by-topic` after it deletes a tag.
-   * Delegates to {@link refreshQuickAccessLists} so `quick-access-tabs`
-   * stops showing a tag that no longer exists.
+   * Invoked from `(tagDeleted)` on `browse-by-topic` after it deletes a tag
+   * (the whole catalog record, not just one association). Refreshes
+   * {@link recentTags}/{@link mostUsedTags} so `quick-access-tabs` stops
+   * showing it, and — bulk mode only — refetches {@link tagHistogram} too,
+   * since the deleted tag could otherwise keep showing there as a dangling
+   * pill (clicking it to attach would fail, referencing a tag id that no
+   * longer exists).
    */
   async onTagDeleted() {
     await this.refreshQuickAccessLists() ;
+    if( !this.isSingleMode() ) this.tagHistogram = await this.fetchBulkTagHistogram() ;
   }
 
   /**
    * Handles removing an attached tag — invoked from `(close)` on the
-   * `closeable-badge` chip in the attached-tags row. Removes the tag from
-   * every current target in parallel (via `Promise.all`; unlike
-   * {@link attachTag} there's no "already associated"-style benign failure
-   * case to tolerate here — detach is idempotent-safe by construction, since
-   * every target passed in is one this tag is actually attached to), then
-   * drops it from the local {@link attachedTags} list and notifies the host
-   * via `tagsChanged`.
+   * `closeable-badge` chip in single mode, or a histogram pill's × in bulk
+   * mode. Removes the tag from every current target in parallel (via
+   * `Promise.all`; unlike {@link attachTag} there's no "already
+   * associated"-style benign failure to tolerate here — detach is
+   * idempotent-safe by construction, since removing a tag from an item that
+   * doesn't have it is a harmless no-op both server-side and here). Updates
+   * local state — in single mode, drops it from {@link attachedTags}; in
+   * bulk mode, refetches {@link tagHistogram} from scratch — notifies the
+   * host via `tagsChanged`, and runs the same housekeeping as
+   * {@link attachTag} (quick-access lists, `browse-by-topic`'s topic tags).
    */
   async detachTag( tag:TagSO ) {
     await Promise.all(
@@ -401,8 +484,13 @@ export class TagAssociationDialogComponent implements OnChanges {
             this.tagAssociationApi.removeTag( t.itemType, t.itemId, tag.id )
           )
     ) ;
-    this.attachedTags = this.attachedTags.filter( t => t.id !== tag.id ) ;
+
+    if( this.isSingleMode() ) this.attachedTags = this.attachedTags.filter( t => t.id !== tag.id ) ;
+    else this.tagHistogram = await this.fetchBulkTagHistogram() ;
+
     this.tagsChanged.emit() ;
+    this.refreshQuickAccessLists().then() ;
+    this.browseByTopicRef.refreshTopicTags() ;
   }
 
   /**
@@ -543,5 +631,31 @@ export class TagAssociationDialogComponent implements OnChanges {
    */
   close() {
     this.closed.emit() ;
+  }
+
+  /**
+   * Catch-all Escape handler, bound on `document` rather than this
+   * component's own host element. `keydown` only ever fires on whatever
+   * element currently has DOM focus, then bubbles *upward* from there — a
+   * host-element listener would only catch it while focus is still
+   * somewhere inside this dialog's own subtree. Clicking non-focusable
+   * content (plain text, the footer, whitespace) shifts focus to
+   * `document.body` — an *ancestor* of this host, not a descendant — so a
+   * keydown from there would never bubble down into a host-level listener.
+   * Listening on `document` instead catches Escape no matter what (if
+   * anything) currently has focus. `tag-search-box` and `create-tag-panel`
+   * (and the rename input in `browse-by-topic`) each have their own more
+   * specific Escape handling and call `event.stopPropagation()`, which still
+   * works here — a document listener fires during the bubble phase, so a
+   * stopped event never reaches it — so this fallback never double-fires for
+   * them; everywhere else in the dialog (quick-access-tabs, browse-by-topic's
+   * subject/topic list, the modal's own chrome, plain text/whitespace, etc.)
+   * has no Escape handling of its own, so this is what makes Escape close
+   * the dialog from anywhere. Guarded on `show()` since a document listener
+   * is live even while this dialog instance is closed.
+   */
+  @HostListener( 'document:keydown.escape' )
+  onHostEscape() {
+    if( this.show() ) this.close() ;
   }
 }

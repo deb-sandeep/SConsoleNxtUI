@@ -184,10 +184,13 @@ export class CreateTagPanelComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Invoked on `(keydown.escape)` anywhere in the panel — just forwards the
-   * cancel request to the host.
+   * Invoked on `(keydown.escape)` anywhere in the panel — stops the event
+   * from bubbling to the dialog host's own Escape-closes-the-dialog listener
+   * (an Escape here should only cancel the panel, not the whole dialog),
+   * then forwards the cancel request to the host.
    */
-  onEscape() {
+  onEscape( event:KeyboardEvent ) {
+    event.stopPropagation() ;
     this.cancel.emit() ;
   }
 }

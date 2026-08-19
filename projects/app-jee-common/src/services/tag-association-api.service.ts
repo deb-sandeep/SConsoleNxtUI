@@ -33,6 +33,15 @@ export class TagAssociationApiService extends RemoteService {
     return this.getPromise( url, true ) ;
   }
 
+  // Bulk endpoint — one entry per distinct tag found across itemIds, with
+  // `associationCount` set to how many of those ids carry that tag (not a
+  // global count, unlike the same field on TagApiService.getTagsForTopic).
+  // Used to build the bulk-mode tag histogram in tag-association-dialog.
+  public getTagAssociationHistogram( itemType:TaggableItemType, itemIds:number[] ):Promise<TagSO[]> {
+    const url:string = `${environment.apiRoot}/Master/TagAssociation/${itemType}/Histogram` ;
+    return this.postPromise( url, { itemIds }, false ) ;
+  }
+
   // Not called by tag-association-dialog — kept for API completeness since
   // this is a shared service.
   //

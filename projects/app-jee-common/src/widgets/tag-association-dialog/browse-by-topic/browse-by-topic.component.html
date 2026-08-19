@@ -36,7 +36,8 @@
           <span class="tag-pill editing">
             <input type="text" class="edit-input"
                    [ngModel]="editingText" (ngModelChange)="editingText = $event"
-                   (keydown.enter)="confirmEdit()" (keydown.escape)="cancelEdit()" />
+                   (keydown.enter)="confirmEdit()"
+                   (keydown.escape)="$event.stopPropagation(); cancelEdit()" />
             <button type="button" class="icon-btn" (click)="confirmEdit()">
               <span class="bi-check-lg"></span>
             </button>

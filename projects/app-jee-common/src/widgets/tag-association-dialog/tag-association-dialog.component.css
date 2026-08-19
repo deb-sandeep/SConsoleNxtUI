@@ -80,6 +80,60 @@
     color: #888;
 }
 
+/* Bulk-mode tag histogram pills — mirrors browse-by-topic's .tag-pill/.assoc-count/.icon-btn. */
+.histogram-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    background-color: #eee;
+    border-radius: 999px;
+    padding: 2px 4px 2px 10px;
+    font-size: 12px;
+}
+
+/* Fully associated with every selected item — same blue accent used for
+   "active/selected" state elsewhere in this widget (.subject-tab.active,
+   .topic-row.active), rather than introducing a new color to the palette. */
+.histogram-pill.full {
+    background-color: #0b5ed7;
+    color: #fff;
+}
+
+.histogram-pill-label {
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+}
+
+.histogram-count {
+    font-size: 9px;
+    opacity: 0.65;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 1px 5px;
+    border-radius: 999px;
+}
+
+.histogram-pill .icon-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 2px;
+    display: inline-flex;
+    font-size: 11px;
+    color: inherit;
+    border-radius: 999px;
+}
+
+.histogram-pill .icon-btn:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
 .inline-warning {
     display: flex;
     align-items: flex-start;

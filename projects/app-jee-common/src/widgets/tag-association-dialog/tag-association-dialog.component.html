@@ -15,13 +15,29 @@
   </div>
 
   <div class="chips-row">
-    @for( tag of attachedTags; track tag.id ) {
-      <closeable-badge [text]="tag.tagText" (close)="detachTag(tag)"></closeable-badge>
+    @if( isSingleMode() ) {
+      @for( tag of attachedTags; track tag.id ) {
+        <closeable-badge [text]="tag.tagText" (close)="detachTag(tag)"></closeable-badge>
+      }
+      @empty {
+        <span class="empty-text">No tags yet.</span>
+      }
     }
-    @empty {
-      <span class="empty-text">
-        {{ isSingleMode() ? 'No tags yet.' : 'No tags applied yet — pick one below.' }}
-      </span>
+    @else {
+      @for( tag of tagHistogram; track tag.id ) {
+        <span class="histogram-pill" [class.full]="tag.associationCount === targets().length">
+          <button type="button" class="histogram-pill-label" (click)="attachTag(tag)">
+            {{ tag.tagText }}
+            <span class="histogram-count">{{ tag.associationCount }}/{{ targets().length }}</span>
+          </button>
+          <button type="button" class="icon-btn" (click)="detachTag(tag)">
+            <span class="bi-x-lg"></span>
+          </button>
+        </span>
+      }
+      @empty {
+        <span class="empty-text">No tags applied yet — pick one below.</span>
+      }
     }
   </div>
   @if( lastAttachWarning; as w ) {

@@ -7,7 +7,7 @@
          (keydown.arrowdown)="$event.preventDefault(); onArrowDown()"
          (keydown.arrowup)="$event.preventDefault(); onArrowUp()"
          (keydown.enter)="onEnter($any($event))"
-         (keydown.escape)="onEscape()"
+         (keydown.escape)="onEscape($any($event))"
          [placeholder]="placeholder()"
          autocomplete="off" />
 

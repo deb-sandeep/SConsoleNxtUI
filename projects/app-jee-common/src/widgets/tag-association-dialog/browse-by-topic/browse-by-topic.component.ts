@@ -230,10 +230,32 @@ export class BrowseByTopicComponent implements OnChanges {
       return ;
     }
     this.selectedTopicId = topicId ;
-    this.tagApi.getTagsForTopic( topicId ).then( tags => this.topicTags = tags ) ;
+    this.fetchTopicTags( topicId ) ;
     // Deferred so the '.active' class has already been applied to the new
     // topic row by the time we query for it.
     setTimeout( () => this.scrollActiveTopicIntoView() ) ;
+  }
+
+  /**
+   * Fetches `topicId`'s tag catalog and assigns it into {@link topicTags},
+   * sorted ascending by creation date (oldest first) — the backend doesn't
+   * guarantee an order.
+   */
+  private fetchTopicTags( topicId:number ) {
+    this.tagApi.getTagsForTopic( topicId ).then( tags => {
+      this.topicTags = tags.sort( ( a, b ) => a.createdAt.localeCompare( b.createdAt ) ) ;
+    } ) ;
+  }
+
+  /**
+   * Public command, called by the host (`tag-association-dialog`) via
+   * `@ViewChild` after an attach/detach elsewhere in the dialog — an
+   * association count change on the currently-shown topic's tags wouldn't
+   * otherwise be reflected here until the user switched topics and back.
+   * No-ops if no topic is currently selected.
+   */
+  refreshTopicTags() {
+    if( this.selectedTopicId != null ) this.fetchTopicTags( this.selectedTopicId ) ;
   }
 
   /**

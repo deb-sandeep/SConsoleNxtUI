@@ -1,4 +1,4 @@
-<div class="create-tag-panel" (keydown.escape)="onEscape()">
+<div class="create-tag-panel" (keydown.escape)="onEscape($any($event))">
   <div class="create-tag-heading">
     Create "<strong>{{ query() }}</strong>" — choose its home topic
   </div>
