@@ -101,8 +101,8 @@ export class ProblemHistoryComponent {
 
   syllabusMap:Record<string, Syllabus> = {} ;
 
-  selectedSyllabusName = 'IIT Maths' ;
-  selectedTopicId = 91 ;
+  selectedSyllabusName = 'IIT Physics' ;
+  selectedTopicId = 109 ;
   allProblems: TopicProblemSO[] = [] ;
   problemTagCounts: Record<number, number> | null = null ;
 
@@ -267,6 +267,20 @@ export class ProblemHistoryComponent {
     this.selectedProblem!.problemState = topicProblem.problemState ;
     this.selectedProblem!.numAttempts = topicProblem.numAttempts ;
     this.selectedProblem!.totalDuration = topicProblem.totalDuration ;
+  }
+
+  openTagDialogForSelectedProblems() {
+
+    let selectedProblems = this.getSelectedProblems() ;
+    if( selectedProblems.length > 0 ) {
+      this.tagDialogTargets = selectedProblems.map( p => ( {
+        itemType: 'PROBLEM',
+        itemId: p.problemId,
+        displayLabel: p.problemKey.replaceAll( '/', ' / ' ),
+      } ) ) ;
+      this.tagDialogTopicId = this.selectedTopicId ;
+      this.tagDialogShow = true ;
+    }
   }
 
   async changeProblemStateForSelectedProblems( targetState:string ) {

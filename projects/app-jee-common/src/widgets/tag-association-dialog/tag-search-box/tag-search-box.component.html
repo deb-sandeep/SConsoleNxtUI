@@ -1,11 +1,13 @@
 <div class="search-box">
   <input type="text"
          class="search-input"
+         #searchInputEl
          [ngModel]="query"
          (ngModelChange)="onQueryChange($event)"
          (keydown.arrowdown)="$event.preventDefault(); onArrowDown()"
          (keydown.arrowup)="$event.preventDefault(); onArrowUp()"
          (keydown.enter)="onEnter($any($event))"
+         (keydown.shift.enter)="onEnter($any($event))"
          (keydown.escape)="onEscape()"
          [placeholder]="placeholder()"
          autocomplete="off" />

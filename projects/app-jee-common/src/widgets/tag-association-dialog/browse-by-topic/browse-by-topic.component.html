@@ -18,7 +18,7 @@
              [ngModel]="topicFilterQuery"
              (ngModelChange)="topicFilterQuery = $event"
              placeholder="Filter topics…" autocomplete="off" />
-      <div class="topic-list">
+      <div class="topic-list" #topicListEl>
         @for( t of filteredTopics(); track t.id ) {
           <button type="button" class="topic-row" [class.active]="t.id === selectedTopicId"
                   (click)="selectTopic(t.id)">

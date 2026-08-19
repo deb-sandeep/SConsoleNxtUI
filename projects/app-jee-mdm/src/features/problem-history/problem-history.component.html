@@ -52,6 +52,8 @@
         </div>
       </div>
       <div class="selected-problems-action-bar">
+        <span style="color:orangered" class="problem-action bi-tags"
+              (click)="openTagDialogForSelectedProblems()"></span>
         <span style="color:blue" class="problem-action bi-twitter"
               (click)="changeProblemStateForSelectedProblems( 'Pigeon' )"></span>
         <span style="color:#734d00" class="problem-action bi-arrow-clockwise"
