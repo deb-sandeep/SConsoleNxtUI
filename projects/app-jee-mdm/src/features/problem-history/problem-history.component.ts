@@ -283,6 +283,22 @@ export class ProblemHistoryComponent {
     }
   }
 
+  public async clearTagsForSelectedProblems() {
+    let selectedProblems = this.getSelectedProblems() ;
+    if( selectedProblems.length > 0 ) {
+      let confirmed = window.confirm(
+        `Remove all tags from ${selectedProblems.length} selected problem(s)?`
+      ) ;
+      if( !confirmed ) return ;
+
+      await this.tagAssociationApiSvc.removeAllTags(
+        'PROBLEM',
+        selectedProblems.map( p => p.problemId )
+      ) ;
+      await this.refreshProblemTagCounts() ;
+    }
+  }
+
   async changeProblemStateForSelectedProblems( targetState:string ) {
 
     let problemIds:number[] = [] ;

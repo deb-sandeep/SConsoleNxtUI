@@ -4,7 +4,7 @@ import { TagApiService } from "@jee-common/services/tag-api.service";
 import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { SyllabusSO } from "@jee-common/util/master-data-types";
-import { normalizeTagText, TagAssociationTarget, TagSO } from "@jee-common/util/tag-data-types";
+import { normalizeTagText, TaggableItemType, TagAssociationTarget, TagSO } from "@jee-common/util/tag-data-types";
 import { TagSearchBoxComponent } from "./tag-search-box/tag-search-box.component";
 import { CreateTagPanelComponent, TopicOption } from "./create-tag-panel/create-tag-panel.component";
 import { QuickAccessTabsComponent } from "./quick-access-tabs/quick-access-tabs.component";
@@ -284,48 +284,62 @@ export class TagAssociationDialogComponent implements OnChanges {
   }
 
   /**
+   * Groups {@link targets} by `itemType` into `{itemType, itemIds}` batches
+   * — the bulk `addTag` endpoint takes one `itemType` and one `tagId` per
+   * call, so a mixed problem+question selection still needs one call per
+   * type, just not one call per item.
+   */
+  private targetsByItemType():{ itemType:TaggableItemType, itemIds:number[] }[] {
+    const idsByType = new Map<TaggableItemType, number[]>() ;
+    for( const t of this.targets() ) {
+      const ids = idsByType.get( t.itemType ) ?? [] ;
+      ids.push( t.itemId ) ;
+      idsByType.set( t.itemType, ids ) ;
+    }
+    return Array.from( idsByType, ( [ itemType, itemIds ] ) => ( { itemType, itemIds } ) ) ;
+  }
+
+  /**
    * Handles a tag pick — invoked from `(tagSelected)` on `tag-search-box`,
    * `quick-access-tabs` and `browse-by-topic` alike, whichever component the
    * user picked the tag from. Also invoked internally by {@link onCreateAndAttach}
    * right after a brand-new tag is created.
    *
-   * Applies the tag to every current target in parallel via `Promise.allSettled`
-   * (not `Promise.all`) because in bulk mode some targets may already have
-   * this tag attached — the backend rejects that as a functional error
-   * ("already associated"), which we treat as a benign no-op rather than a
-   * real failure. Only failures whose message does NOT contain "already
-   * associated" count as `realFailures`. If every single target failed for a
-   * real reason, the tag is not added to {@link attachedTags} (the chip won't
-   * show as attached) and a failure message is set. If at least one target
-   * succeeded, the chip is shown, `tagsChanged` fires so the host can refresh
-   * any dependent UI, and a partial-failure warning is set only if some (but
-   * not all) targets failed.
+   * Applies the tag to every current target via one bulk `addTag` call per
+   * `itemType` group (see {@link targetsByItemType}) — normally just one
+   * call, two only for a mixed problem+question bulk selection. Duplicates
+   * within a batch are now handled silently by the backend (not rejected),
+   * so any rejection here is a genuine failure. Uses `Promise.allSettled`
+   * so one group's failure (e.g. a mixed-type selection) doesn't stop the
+   * other group from attaching. If every group failed, the tag is not added
+   * to {@link attachedTags} (the chip won't show as attached) and a failure
+   * message is set. If at least one group succeeded, the chip is shown,
+   * `tagsChanged` fires so the host can refresh any dependent UI, and a
+   * partial-failure warning is set only if some (but not all) groups failed.
    */
   async attachTag( tag:TagSO ) {
     if( this.attachedTagIds().has( tag.id ) ) return ;
 
+    const groups = this.targetsByItemType() ;
     const results = await Promise.allSettled(
-      this.targets().map( t =>
-        this.tagAssociationApi.addTag( t.itemType, t.itemId, tag.id )
-      )
+      groups.map( g => this.tagAssociationApi.addTag( g.itemType, g.itemIds, tag.id ) )
     ) ;
 
-    const realFailures =
-      results.filter( ( r ):r is PromiseRejectedResult =>
-        r.status === 'rejected' &&
-        !String( r.reason ).includes( 'already associated' )
-      ) ;
+    const failures = results.filter(
+      ( r ):r is PromiseRejectedResult => r.status === 'rejected'
+    ) ;
 
-    if( realFailures.length === results.length ) {
-      // Every item failed for a real reason — don't show the chip as attached.
-      this.lastAttachWarning = `Failed to attach "${tag.tagText}": ${realFailures[0].reason}` ;
+    if( failures.length === results.length ) {
+      // Every group failed — don't show the chip as attached.
+      this.lastAttachWarning = `Failed to attach "${tag.tagText}": ${failures[0].reason}` ;
       return ;
     }
 
     this.attachedTags = [ ...this.attachedTags, tag ] ;
     this.tagsChanged.emit() ;
-    this.lastAttachWarning = realFailures.length > 0
-      ? `"${tag.tagText}" could not be applied to ${realFailures.length} of ${results.length} item(s).`
+    this.refreshQuickAccessLists().then() ;
+    this.lastAttachWarning = failures.length > 0
+      ? `"${tag.tagText}" could not be applied to some of the selected items.`
       : null ;
   }
 
@@ -338,18 +352,29 @@ export class TagAssociationDialogComponent implements OnChanges {
   }
 
   /**
-   * Invoked from `(tagDeleted)` on `browse-by-topic` after it deletes a tag.
    * Re-fetches {@link recentTags}/{@link mostUsedTags} so `quick-access-tabs`
-   * stops showing a tag that no longer exists — those lists were only ever
-   * loaded once, in {@link onOpen}, so nothing else would refresh them.
+   * reflects the tag's new usage/association-count immediately. Those lists
+   * are otherwise only ever loaded once, in {@link onOpen}, so nothing else
+   * would refresh them mid-session. Called after a successful attach (see
+   * {@link attachTag}) — a fresh attach can change both which tag was most
+   * recently used and its association count — and from {@link onTagDeleted}.
    */
-  async onTagDeleted() {
+  private async refreshQuickAccessLists() {
     const [ recent, mostUsed ] = await Promise.all( [
       this.tagApi.getRecentTags(),
       this.tagApi.getMostUsedTags(),
     ] ) ;
     this.recentTags = recent ;
     this.mostUsedTags = mostUsed ;
+  }
+
+  /**
+   * Invoked from `(tagDeleted)` on `browse-by-topic` after it deletes a tag.
+   * Delegates to {@link refreshQuickAccessLists} so `quick-access-tabs`
+   * stops showing a tag that no longer exists.
+   */
+  async onTagDeleted() {
+    await this.refreshQuickAccessLists() ;
   }
 
   /**

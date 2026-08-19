@@ -10,12 +10,17 @@ export class TagAssociationApiService extends RemoteService {
     super();
   }
 
-  // No modalWait — called per-item in a possibly-multi-item fan-out; a
-  // spinner flickering per call would be jarring, and the caller drives its
-  // own busy state around the whole batch if needed.
-  public addTag( itemType:TaggableItemType, itemId:number, tagId:number ):Promise<string> {
-    const url:string = `${environment.apiRoot}/Master/TagAssociation/${itemType}/${itemId}/${tagId}` ;
-    return this.postPromise( url, {}, false ) ;
+  // No modalWait — one call already covers the whole batch, but the caller
+  // may still fire one of these per itemType group in a mixed-type
+  // selection, and a spinner flickering per group would be jarring.
+  //
+  // Bulk endpoint — attaches tagId to every id in itemIds in one call.
+  // Duplicates (an id that already has this tag) are silently skipped
+  // server-side rather than rejected, so there is no "already associated"
+  // failure to handle here — a rejection now always means a real failure.
+  public addTag( itemType:TaggableItemType, itemIds:number[], tagId:number ):Promise<string> {
+    const url:string = `${environment.apiRoot}/Master/TagAssociation/${itemType}/${tagId}` ;
+    return this.postPromise( url, { itemIds }, false ) ;
   }
 
   public removeTag( itemType:TaggableItemType, itemId:number, tagId:number ):Promise<string> {
@@ -30,9 +35,11 @@ export class TagAssociationApiService extends RemoteService {
 
   // Not called by tag-association-dialog — kept for API completeness since
   // this is a shared service.
-  public removeAllTags( itemType:TaggableItemType, itemId:number ):Promise<string> {
-    const url:string = `${environment.apiRoot}/Master/TagAssociation/${itemType}/${itemId}` ;
-    return this.deletePromise( url, true ) ;
+  //
+  // Bulk endpoint — removes every tag from every id in itemIds in one call.
+  public removeAllTags( itemType:TaggableItemType, itemIds:number[] ):Promise<string> {
+    const url:string = `${environment.apiRoot}/Master/TagAssociation/${itemType}` ;
+    return this.deletePromise( url, true, { itemIds } ) ;
   }
 
   // Not called by tag-association-dialog, which does incremental attach/detach

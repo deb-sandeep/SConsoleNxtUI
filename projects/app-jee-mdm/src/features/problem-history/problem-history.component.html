@@ -52,7 +52,9 @@
         </div>
       </div>
       <div class="selected-problems-action-bar">
-        <span style="color:orangered" class="problem-action bi-tags"
+        <span style="color:red" class="problem-action bi-bookmark-x"
+              (click)="clearTagsForSelectedProblems()"></span>
+        <span style="color:darkgreen" class="problem-action bi-tags"
               (click)="openTagDialogForSelectedProblems()"></span>
         <span style="color:blue" class="problem-action bi-twitter"
               (click)="changeProblemStateForSelectedProblems( 'Pigeon' )"></span>

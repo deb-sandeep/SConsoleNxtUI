@@ -15,8 +15,9 @@ export class RemoteService {
     return this.createRequestPromise<T>( () => this.http.post<APIResponse>( url, body ), modalWait ) ;
   }
 
-  protected deletePromise<T>( url:string, modalWait:boolean = false ) : Promise<T> {
-    return this.createRequestPromise<T>( () => this.http.delete<APIResponse>( url ), modalWait ) ;
+  protected deletePromise<T>( url:string, modalWait:boolean = false, body?:any ) : Promise<T> {
+    const options = body !== undefined ? { body } : {} ;
+    return this.createRequestPromise<T>( () => this.http.delete<APIResponse>( url, options ), modalWait ) ;
   }
 
   protected getPromise<T>( url:string, modalWait:boolean = false ) : Promise<T> {
