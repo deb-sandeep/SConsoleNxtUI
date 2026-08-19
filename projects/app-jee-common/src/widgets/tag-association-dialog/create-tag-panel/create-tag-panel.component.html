@@ -4,6 +4,7 @@
   </div>
 
   <input type="text" class="topic-picker-input"
+         tabindex="4"
          [ngModel]="topicPickerQuery"
          (ngModelChange)="onTopicPickerQueryChange($event)"
          (focus)="onTopicPickerFocus()"
@@ -24,17 +25,23 @@
   @if( errorMessage(); as err ) {
     <div class="create-error">
       <span>{{ err }}</span>
-      <button type="button" class="dismiss-x-btn" aria-label="Dismiss" (click)="errorDismissed.emit()">
+      <button type="button"
+              class="dismiss-x-btn"
+              (click)="errorDismissed.emit()">
         <span class="bi-x-lg"></span>
       </button>
     </div>
   }
 
   <div class="create-tag-actions">
-    <button type="button" class="btn btn-info btn-sm" [disabled]="selectedTopicId == null"
+    <button type="button" class="btn btn-info btn-sm" tabindex="1"
+            #createAndAttachBtn
+            [disabled]="selectedTopicId == null"
             (click)="confirmCreateAndAttach()">Create &amp; attach</button>
-    <button type="button" class="btn btn-secondary btn-sm" [disabled]="selectedTopicId == null"
+    <button type="button" class="btn btn-secondary btn-sm" tabindex="2"
+            [disabled]="selectedTopicId == null"
             (click)="confirmCreateOnly()">Create</button>
-    <button type="button" class="btn btn-secondary btn-sm" (click)="cancel.emit()">Cancel</button>
+    <button type="button" class="btn btn-secondary btn-sm" tabindex="3"
+            (click)="cancel.emit()">Cancel</button>
   </div>
 </div>

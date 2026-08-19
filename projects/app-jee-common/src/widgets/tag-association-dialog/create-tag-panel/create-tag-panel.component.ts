@@ -1,4 +1,4 @@
-import { Component, input, OnInit, output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, input, OnInit, output, ViewChild } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 
 export type TopicOption = { id:number, label:string } ;
@@ -16,7 +16,13 @@ export type TopicOption = { id:number, label:string } ;
  * only"). Purely a form — it never calls the tag API itself; every action
  * is emitted for the host ({@link TagAssociationDialogComponent}) to execute.
  */
-export class CreateTagPanelComponent implements OnInit {
+export class CreateTagPanelComponent implements OnInit, AfterViewInit {
+
+  /**
+   * Reference to the "Create & attach" button, used by
+   * {@link ngAfterViewInit} to autofocus it as soon as the panel opens.
+   */
+  @ViewChild( 'createAndAttachBtn' ) createAndAttachBtnRef!:ElementRef<HTMLButtonElement> ;
 
   /**
    * The tag text to create, carried over verbatim from the search box —
@@ -100,6 +106,17 @@ export class CreateTagPanelComponent implements OnInit {
       this.selectedTopicId = current.id ;
       this.topicPickerQuery = current.label ;
     }
+  }
+
+  /**
+   * Angular lifecycle callback — invoked once, right after this component's
+   * view (and thus {@link createAndAttachBtnRef}) has been created, which by
+   * this point always runs after {@link ngOnInit} has already picked a
+   * default topic (so the button is enabled and focusable). Autofocuses the
+   * "Create & attach" button so it's the default action when the panel opens.
+   */
+  ngAfterViewInit() {
+    this.createAndAttachBtnRef.nativeElement.focus() ;
   }
 
   /**
