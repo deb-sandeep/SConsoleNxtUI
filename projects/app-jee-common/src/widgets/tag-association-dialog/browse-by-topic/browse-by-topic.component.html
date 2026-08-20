@@ -52,12 +52,14 @@
               {{ tag.tagText }}
               <span class="assoc-count">{{ tag.associationCount }}</span>
             </button>
-            <button type="button" class="icon-btn" (click)="startEdit(tag)">
-              <span class="bi-pencil"></span>
-            </button>
-            <button type="button" class="icon-btn" (click)="requestDelete(tag)">
-              <span class="bi-x-lg"></span>
-            </button>
+            @if( allowCatalogEdits() ) {
+              <button type="button" class="icon-btn" (click)="startEdit(tag)">
+                <span class="bi-pencil"></span>
+              </button>
+              <button type="button" class="icon-btn" (click)="requestDelete(tag)">
+                <span class="bi-x-lg"></span>
+              </button>
+            }
           </span>
         }
       } @empty {

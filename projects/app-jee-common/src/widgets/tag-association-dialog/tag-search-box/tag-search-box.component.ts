@@ -45,6 +45,14 @@ export class TagSearchBoxComponent implements AfterViewInit {
   placeholder = input( 'Search or create a tag…' ) ;
 
   /**
+   * Whether the "create new tag" row may be shown at all — see
+   * {@link showCreateRow}. Defaults to true (existing behaviour); hosts that
+   * only want existing-tag search (e.g. a search/query context, where a
+   * freshly created tag can't match anything) pass `false`.
+   */
+  allowCreate = input( true ) ;
+
+  /**
    * Emitted when the user picks an existing tag, either by click or via
    * Enter/highlighted-row selection.
    */
@@ -173,10 +181,11 @@ export class TagSearchBoxComponent implements AfterViewInit {
 
   /**
    * Whether to render the "create new tag" row below the suggestions —
-   * shown whenever there's a non-empty query with no exact existing match.
+   * shown whenever there's a non-empty query with no exact existing match,
+   * and the host allows creation at all (see {@link allowCreate}).
    */
   showCreateRow():boolean {
-    return this.query.trim().length > 0 && !this.hasExactMatch() ;
+    return this.allowCreate() && this.query.trim().length > 0 && !this.hasExactMatch() ;
   }
 
   /**
@@ -225,8 +234,9 @@ export class TagSearchBoxComponent implements AfterViewInit {
    * Invoked on `(keydown.enter)`. Always prevents the default (form submit)
    * behaviour first. Prefers an existing match: if there are suggestions,
    * it picks the highlighted one (or the first one, if none is
-   * highlighted); only when there are no suggestions at all does it fall
-   * through to requesting creation of the typed text.
+   * highlighted); only when there are no suggestions at all, and
+   * {@link allowCreate} permits it, does it fall through to requesting
+   * creation of the typed text.
    */
   onEnter( event:KeyboardEvent ) {
     event.preventDefault() ;
@@ -234,7 +244,7 @@ export class TagSearchBoxComponent implements AfterViewInit {
       const idx = this.highlightedIndex >= 0 ? this.highlightedIndex : 0 ;
       this.selectSuggestion( this.results[idx] ) ;
     }
-    else if( this.query.trim().length > 0 ) {
+    else if( this.allowCreate() && this.query.trim().length > 0 ) {
       this.createRequested.emit( this.query ) ;
     }
   }

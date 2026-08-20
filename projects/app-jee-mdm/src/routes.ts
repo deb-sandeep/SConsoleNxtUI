@@ -14,9 +14,13 @@ import { ManageTracksComponent } from "./features/manage-tracks/manage-tracks.co
 import { ManageTracksService } from "./features/manage-tracks/manage-tracks.service";
 import { SolvePigeonsComponent } from "./features/solve-pigeons/solve-pigeons.component";
 import { ProblemHistoryComponent } from "./features/problem-history/problem-history.component";
+import { TagBrowserComponent } from "./features/tag-browser/tag-browser.component";
+import { TagBrowserService } from "./features/tag-browser/tag-browser.service";
 import { ProblemApiService } from "@jee-common/services/problem-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
+import { TagApiService } from "@jee-common/services/tag-api.service";
 import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
+import { TagQueryApiService } from "@jee-common/services/tag-query-api.service";
 
 export const featureRoutes: Routes = [
     {
@@ -55,5 +59,14 @@ export const featureRoutes: Routes = [
         title: 'Problem History',
         component: ProblemHistoryComponent,
         providers: [AlertService, ProblemApiService, SyllabusApiService, TagAssociationApiService]
+    },
+    {
+        path: 'tag-browser',
+        title: 'Tag Browser',
+        component: TagBrowserComponent,
+        providers: [
+            AlertService, TagBrowserService, TagQueryApiService,
+            SyllabusApiService, TagApiService, TagAssociationApiService,
+        ]
     },
 ] ;

@@ -1,0 +1,77 @@
+.tag-picker-panel {
+  position: absolute;
+  left: var(--tb-panel-width, 340px);
+  top: 0;
+  bottom: 0;
+  width: min(800px, calc(100vw - var(--tb-panel-width, 340px)));
+  z-index: 200;
+  background: #fff;
+  border-right: 2px solid #1f1f1f;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+.tpp-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border-bottom: 2px solid #1f1f1f;
+  flex-wrap: wrap;
+}
+
+.tpp-btn {
+  border: 1px solid #9a9a9a;
+  background: none;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.tpp-btn-primary {
+  border: none;
+  background: #1f1f1f;
+  color: #fff;
+  padding: 4px 12px;
+  font-weight: 700;
+}
+
+.tpp-title {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.tpp-body {
+  padding: 14px 16px;
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tpp-staged-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tpp-chip {
+  border: 1px solid #6b5fc7;
+  background: #ece9f7;
+  border-radius: 14px;
+  padding: 3px 8px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tpp-chip-x {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #4a3b96;
+  font-weight: 700;
+}

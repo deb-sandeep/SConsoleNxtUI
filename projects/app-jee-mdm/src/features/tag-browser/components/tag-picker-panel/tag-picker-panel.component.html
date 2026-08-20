@@ -1,0 +1,40 @@
+@if( svc.pickerGroupId !== null ) {
+  <div class="tag-picker-panel">
+    <div class="tpp-header">
+      <button type="button" class="tpp-btn" (click)="svc.closeTagPicker()">Cancel</button>
+      <button type="button" class="tpp-btn tpp-btn-primary" (click)="svc.commitTagPicker()">
+        Done ({{ svc.stagedTags.length }})
+      </button>
+      <span class="tpp-title">New condition — Tags</span>
+    </div>
+
+    <div class="tpp-body">
+      @if( svc.stagedTags.length ) {
+        <div class="tpp-staged-chips">
+          @for( t of svc.stagedTags; track t.id ) {
+            <span class="tpp-chip">
+              {{ t.tagText }}
+              <button type="button" class="tpp-chip-x" (click)="svc.toggleStagedTag(t)">&times;</button>
+            </span>
+          }
+        </div>
+      }
+
+      <tag-search-box [excludeTagIds]="svc.stagedTagIds()" [allowCreate]="false"
+                      placeholder="Search for a tag…"
+                      (tagSelected)="svc.toggleStagedTag($event)"
+                      (escapePressed)="svc.closeTagPicker()">
+      </tag-search-box>
+
+      <quick-access-tabs [recentTags]="svc.recentTags" [mostUsedTags]="svc.mostUsedTags"
+                          [excludeTagIds]="svc.stagedTagIds()"
+                          (tagSelected)="svc.toggleStagedTag($event)">
+      </quick-access-tabs>
+
+      <browse-by-topic [syllabus]="svc.syllabus" [excludeTagIds]="svc.stagedTagIds()"
+                        [allowCatalogEdits]="false"
+                        (tagSelected)="svc.toggleStagedTag($event)">
+      </browse-by-topic>
+    </div>
+  </div>
+}

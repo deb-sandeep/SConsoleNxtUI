@@ -1,0 +1,37 @@
+:host {
+  --tb-panel-width: 340px;
+  display: block;
+}
+
+/* position:absolute doubles as this row's own containing block for
+   query-builder-panel/tag-picker-panel's position:absolute (see their own
+   .css) — they anchor to this row, not the page. */
+.tb-body {
+  position: absolute;
+  top: var(--page-title-height);
+  left: 0;
+  right: 0;
+  height: calc(100dvh - var(--page-header-height) - var(--page-title-height));
+  display: flex;
+  overflow: hidden;
+}
+
+.tb-results-pane {
+  flex: 1 1 55%;
+  overflow-y: auto;
+  padding: 10px;
+  background: #dcdcdc;
+}
+
+.tb-detail-pane {
+  flex: 1 1 45%;
+  overflow-y: auto;
+  padding: 20px 10px;
+  background: #dcdcdc;
+  border-left: 1px solid #b5b5b5;
+}
+
+.tb-no-selection {
+  color: #737373;
+  padding: 20px;
+}

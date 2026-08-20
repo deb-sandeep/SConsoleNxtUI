@@ -1,0 +1,138 @@
+:host {
+  display: block;
+}
+
+.tq-condition {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #c7c7c7;
+  padding: 6px 10px;
+  font-size: 13px;
+  background: #fff;
+  margin-bottom: 6px;
+}
+
+.tq-not-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #a8322a;
+  border: 1px solid #d98b83;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.tq-condition-label {
+  flex: 1;
+}
+
+.tq-icon-btn {
+  border: none;
+  background: none;
+  color: #737373;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 2px;
+}
+
+.tq-remove-btn {
+  color: #a8322a;
+  font-weight: 700;
+}
+
+.tq-group {
+  border-left: 2px solid #c7c7c7;
+  padding-left: 12px;
+  margin-left: 2px;
+  margin-bottom: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background: #ece9f7;
+}
+
+.tq-group-invalid {
+  border-left-color: #a8322a;
+  background: #fbe8e6;
+}
+
+.tq-group-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.tq-op-badge {
+  border: 1px solid #8f7fd6;
+  background: #ddd6f5;
+  color: #4a3b96;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.tq-invalid-icon {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #a8322a;
+  color: #a8322a;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.tq-collapse-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #737373;
+}
+
+.tq-collapsed-count {
+  font-size: 10.5px;
+  color: #737373;
+  border: 1px solid #b5b5b5;
+  border-radius: 10px;
+  padding: 0 6px;
+}
+
+.tq-group-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.tq-link-btn {
+  border: none;
+  background: none;
+  color: #a8322a;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.tq-invalid-msg {
+  font-size: 10.5px;
+  color: #a8322a;
+  padding-bottom: 6px;
+}
+
+.tq-group-buttons {
+  display: flex;
+  gap: 6px;
+  padding: 0 0 8px;
+}
+
+.tq-add-btn {
+  border: 1px dashed #9a9a9a;
+  background: none;
+  padding: 3px 8px;
+  font-size: 11px;
+  color: #5a5a5a;
+  cursor: pointer;
+}

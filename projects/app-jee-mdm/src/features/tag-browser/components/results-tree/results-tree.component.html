@@ -1,0 +1,88 @@
+@if( !svc.hasSearched() ) {
+  <div class="rt-empty">Build a query in the panel and hit "Apply query" to see matching problems and questions.</div>
+}
+
+@if( svc.hasSearched() && Object.keys( svc.resultsTree() ).length === 0 ) {
+  <div class="rt-empty">No problems or questions match this query.</div>
+}
+
+@for( syllabusName of Object.keys( svc.resultsTree() ); track syllabusName ) {
+  @let syllabus = svc.resultsTree()[ syllabusName ] ;
+
+  <div class="rt-syllabus-head" (click)="syllabus.collapsed = !syllabus.collapsed">
+    <span [ngClass]="syllabus.collapsed ? 'bi-chevron-right' : 'bi-chevron-down'"></span>
+    {{ syllabusName }}
+  </div>
+
+  @if( !syllabus.collapsed ) {
+    @for( topicId of Object.keys( syllabus.topics ); track topicId ) {
+      @let topic = syllabus.topics[ +topicId ] ;
+
+      <div class="rt-topic-head" (click)="topic.collapsed = !topic.collapsed">
+        <span [ngClass]="topic.collapsed ? 'bi-chevron-right' : 'bi-chevron-down'"></span>
+        {{ topic.topicName }}
+      </div>
+
+      @if( !topic.collapsed ) {
+
+        @if( Object.keys( topic.bookChapters ).length > 0 ) {
+          <div class="rt-group-label">Problems</div>
+          @for( bookChapterName of Object.keys( topic.bookChapters ); track bookChapterName ) {
+            @let bookChapter = topic.bookChapters[ bookChapterName ] ;
+
+            <div class="rt-book-chapter-head" (click)="bookChapter.collapsed = !bookChapter.collapsed">
+              <span [ngClass]="bookChapter.collapsed ? 'bi-chevron-right' : 'bi-chevron-down'"></span>
+              {{ bookChapterName }}
+            </div>
+
+            @if( !bookChapter.collapsed ) {
+              @for( exerciseName of Object.keys( bookChapter.exerciseGroups ); track exerciseName ) {
+                @let exercise = bookChapter.exerciseGroups[ exerciseName ] ;
+
+                <div class="rt-exercise-head" (click)="exercise.collapsed = !exercise.collapsed">
+                  <span [ngClass]="exercise.collapsed ? 'bi-chevron-right' : 'bi-chevron-down'"></span>
+                  {{ exerciseName }}
+                </div>
+
+                @if( !exercise.collapsed ) {
+                  <table class="table table-sm rt-problem-table">
+                    <tbody>
+                      @for( p of exercise.problems; track p.problemId ) {
+                        <tr class="rt-problem-row" [class.rt-row-selected]="isSelectedProblem(p)"
+                            (click)="svc.selectProblem(p)">
+                          <td class="rt-problem-key">{{ p.problemKey.replaceAll( '/', ' / ' ) }}</td>
+                          <td><span [ngClass]="difficultyIcon(p.difficultyLevel)"></span></td>
+                          <td><span [ngClass]="SConsoleUtil.getProblemIcon(p.problemState)"></span> {{ p.problemState }}</td>
+                          <td class="rt-num-attempts">{{ p.numAttempts }}</td>
+                          <td class="rt-duration">{{ p.totalDuration * 1000 | duration }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                }
+              }
+            }
+          }
+        }
+
+        @if( topic.questions.length > 0 ) {
+          <div class="rt-group-label">Questions</div>
+          <table class="table table-sm rt-problem-table">
+            <tbody>
+              @for( q of topic.questions; track q.id ) {
+                <tr class="rt-problem-row" [class.rt-row-selected]="isSelectedQuestion(q)"
+                    (click)="svc.selectQuestion(q)">
+                  <td class="rt-problem-key">{{ q.questionId }}</td>
+                  <td>{{ q.problemType }}</td>
+                  <td>#{{ q.questionNumber }}</td>
+                  <td><span [ngClass]="difficultyIcon(q.rating)"></span></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+@if( !svc.panelOpen ) {
+  <button type="button" class="qbp-open-tab" (click)="svc.openPanel()">QUERY BUILDER ▸</button>
+}
+
+@if( svc.panelOpen ) {
+  <div class="qbp-panel">
+    <div class="qbp-header">
+      <span class="qbp-title">QUERY BUILDER</span>
+      <span class="qbp-validity" [class.qbp-valid]="svc.isTreeValid()" [class.qbp-invalid]="!svc.isTreeValid()">
+        {{ svc.isTreeValid() ? '✓ Valid' : '! Invalid' }}
+      </span>
+      <button type="button" class="qbp-hide-btn" (click)="svc.closePanel()">◂ hide</button>
+    </div>
+
+    <div class="qbp-body">
+      <div class="qbp-section-label">Tags</div>
+      <tag-query-tree-node [node]="svc.tagQuery"></tag-query-tree-node>
+
+      <tag-browser-filters></tag-browser-filters>
+    </div>
+
+    <div class="qbp-footer">
+      <button type="button" class="qbp-apply-btn" [disabled]="!svc.isTreeValid()" (click)="svc.applyQuery()">
+        Apply query
+      </button>
+    </div>
+  </div>
+}
+
+<tag-picker-panel></tag-picker-panel>

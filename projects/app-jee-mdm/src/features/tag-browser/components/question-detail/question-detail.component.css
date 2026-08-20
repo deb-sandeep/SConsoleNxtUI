@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.qd-tags-row {
+  margin-bottom: 10px;
+}
+
+.qd-question-id {
+  font-weight: 700;
+}
+
+.qd-problem-db-id {
+  color: #737373;
+  margin-left: 6px;
+}
+
+.qd-problem-type {
+  float: right;
+  font-weight: 700;
+}
+
+.qd-question-img {
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.qd-answer {
+  font-weight: 700;
+}

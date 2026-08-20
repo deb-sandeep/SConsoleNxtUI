@@ -1,0 +1,27 @@
+@if( question() ) {
+  @let q = question()! ;
+
+  @if( questionTags.value()?.length ) {
+    <div class="qd-tags-row">
+      @for( tag of questionTags.value(); track tag.id ) {
+        <closeable-badge [text]="tag.tagText" (close)="removeTag(tag)"></closeable-badge>
+      }
+    </div>
+  }
+
+  <div class="card border-default qd-card">
+    <div class="card-header">
+      <span class="qd-question-id">{{ q.questionId }}</span>
+      <span class="qd-problem-db-id">({{ q.id }})</span>
+      <span class="qd-problem-type">{{ q.problemType }}</span>
+    </div>
+    <div class="card-body">
+      @for( img of q.questionImages; track img.fileName ) {
+        <img class="img-fluid qd-question-img" [src]="getImgURL(img)" [width]="750" [alt]="img.fileName" />
+      }
+    </div>
+    <div class="card-footer">
+      Answer : <span class="qd-answer">{{ q.answer }}</span>
+    </div>
+  </div>
+}

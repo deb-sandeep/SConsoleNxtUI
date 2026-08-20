@@ -1,0 +1,48 @@
+@if( node().type === 'condition' ) {
+  <div class="tq-condition">
+    @if( asCondition().negate ) {
+      <span class="tq-not-badge">NOT</span>
+    }
+    <span class="tq-condition-label">Tag = {{ svc.getTagName( asCondition().tagId ) }}</span>
+    <button type="button" class="tq-icon-btn" title="Toggle NOT"
+            (click)="svc.toggleNegate( node().id )">&not;</button>
+    <button type="button" class="tq-icon-btn tq-remove-btn" title="Remove"
+            (click)="svc.removeNode( node().id )">&times;</button>
+  </div>
+}
+@else {
+  <div class="tq-group" [class.tq-group-invalid]="isInvalidGroup()">
+    <div class="tq-group-head">
+      <button type="button" class="tq-op-badge" (click)="svc.cycleOp( node().id )">{{ opLabel() }} &#9662;</button>
+      @if( isInvalidGroup() ) {
+        <span class="tq-invalid-icon" title="Needs at least 1 condition">!</span>
+      }
+      <button type="button" class="tq-collapse-btn" (click)="svc.toggleCollapse( node().id )">
+        {{ asGroup().collapsed ? '▸' : '▾' }}
+      </button>
+      @if( asGroup().collapsed ) {
+        <span class="tq-collapsed-count">{{ asGroup().children.length }}</span>
+      }
+      <span class="tq-group-actions">
+        @if( node().id !== 'root' ) {
+          <button type="button" class="tq-link-btn" (click)="svc.dissolveGroup( node().id )">dissolve group</button>
+          <button type="button" class="tq-link-btn tq-remove-btn" (click)="svc.removeNode( node().id )">&times;</button>
+        }
+      </span>
+    </div>
+
+    @if( isInvalidGroup() ) {
+      <div class="tq-invalid-msg">needs at least 1 condition in this group</div>
+    }
+
+    @if( !asGroup().collapsed ) {
+      <div class="tq-group-buttons">
+        <button type="button" class="tq-add-btn" (click)="svc.openTagPicker( node().id )">+ tag</button>
+        <button type="button" class="tq-add-btn" (click)="svc.addGroup( node().id )">+ group</button>
+      </div>
+      @for( child of asGroup().children; track child.id ) {
+        <tag-query-tree-node [node]="child"></tag-query-tree-node>
+      }
+    }
+  </div>
+}

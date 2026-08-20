@@ -1,0 +1,86 @@
+<div class="tbf-divider">AND (optional filters)</div>
+
+<div class="tbf-toggle" (click)="svc.toggleFiltersSection()">
+  <span>{{ svc.filtersSectionOpen ? '▾' : '▸' }}</span> Filters (optional)
+</div>
+
+@if( svc.filtersSectionOpen ) {
+  <div class="tbf-accordion">
+
+    <div class="tbf-block">
+      <div class="tbf-block-head" [class.tbf-set]="svc.filters.syllabusNames.length > 0">Syllabus</div>
+      <div class="tbf-block-body tbf-wrap">
+        @for( s of svc.syllabus; track s.syllabusName ) {
+          <label class="tbf-check">
+            <input type="checkbox" [checked]="svc.filters.syllabusNames.includes(s.syllabusName)"
+                   (change)="svc.toggleSyllabus(s.syllabusName)">
+            {{ s.syllabusName }}
+          </label>
+        }
+      </div>
+    </div>
+
+    <div class="tbf-block">
+      <div class="tbf-block-head" [class.tbf-set]="svc.filters.topicIds.length > 0">Topic</div>
+      <div class="tbf-block-body tbf-wrap">
+        @for( topicId of svc.filters.topicIds; track topicId ) {
+          <span class="tbf-chip">
+            {{ topicName(topicId) }}
+            <button type="button" (click)="svc.toggleTopic(topicId)">&times;</button>
+          </span>
+        }
+        <button type="button" class="tbf-add-btn" (click)="toggleTopicPicker()">Browse topics ▸</button>
+      </div>
+      @if( showTopicPicker ) {
+        <div class="tbf-topic-picker">
+          @for( s of svc.syllabus; track s.syllabusName ) {
+            <div class="tbf-topic-syllabus-name">{{ s.syllabusName }}</div>
+            @for( t of s.topics; track t.id ) {
+              <label class="tbf-check tbf-topic-row">
+                <input type="checkbox" [checked]="svc.filters.topicIds.includes(t.id)"
+                       (change)="svc.toggleTopic(t.id)">
+                {{ t.topicName }}
+              </label>
+            }
+          }
+        </div>
+      }
+    </div>
+
+    <div class="tbf-block">
+      <div class="tbf-block-head" [class.tbf-set]="svc.filters.difficultyMin > 0">Difficulty</div>
+      <div class="tbf-block-body">
+        @for( level of difficultyLevels; track level ) {
+          <span class="tbf-star" (click)="svc.setDifficultyMin(level)">{{ starIcon(level) }}</span>
+        }
+        <button type="button" class="tbf-any-btn" [class.tbf-any-active]="svc.filters.difficultyMin === 0"
+                (click)="svc.setDifficultyMin(0)">Any</button>
+      </div>
+    </div>
+
+    <div class="tbf-block">
+      <div class="tbf-block-head" [class.tbf-set]="isTimeSpentActive()">Time spent (problems only)</div>
+      <div class="tbf-block-body tbf-time-body">
+        <div class="tbf-time-label">
+          Between <b>{{ svc.filters.timeSpentMin }} min</b> and <b>{{ svc.filters.timeSpentMax }} min</b>
+        </div>
+        <div class="tbf-range-wrap">
+          <input type="range" min="0" max="30" [value]="svc.filters.timeSpentMin" (input)="onTimeSpentMinInput($event)">
+          <input type="range" min="0" max="30" [value]="svc.filters.timeSpentMax" (input)="onTimeSpentMaxInput($event)">
+        </div>
+        <div class="tbf-range-scale"><span>0</span><span>30</span></div>
+      </div>
+    </div>
+
+    <div class="tbf-block">
+      <div class="tbf-block-head" [class.tbf-set]="svc.filters.attempts !== 'any'">Attempts (problems only)</div>
+      <div class="tbf-block-body">
+        @for( opt of attemptsOptions; track opt ) {
+          <button type="button" class="tbf-opt-btn" [class.tbf-opt-active]="svc.filters.attempts === opt"
+                  (click)="svc.setAttempts(opt)">{{ opt === 'any' ? 'Any' : opt }}</button>
+        }
+      </div>
+    </div>
+
+  </div>
+}

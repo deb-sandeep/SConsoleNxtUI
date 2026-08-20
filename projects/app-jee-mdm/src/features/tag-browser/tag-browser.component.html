@@ -1,0 +1,22 @@
+<page-title></page-title>
+<alerts-display></alerts-display>
+
+<div class="tb-body">
+  <div class="tb-results-pane">
+    <results-tree></results-tree>
+  </div>
+  <div class="tb-detail-pane">
+    @if( svc.selectedItem; as sel ) {
+      @if( sel.itemType === 'PROBLEM' ) {
+        <problem-detail [problem]="sel.item"></problem-detail>
+      }
+      @if( sel.itemType === 'QUESTION' ) {
+        <question-detail [question]="sel.item"></question-detail>
+      }
+    } @else {
+      <div class="tb-no-selection">Select a problem or question to see its detail.</div>
+    }
+  </div>
+
+  <query-builder-panel></query-builder-panel>
+</div>

@@ -60,6 +60,14 @@ export class BrowseByTopicComponent implements OnChanges {
    */
   defaultTopicId = input<number | undefined>() ;
 
+  /**
+   * Whether the rename (pencil) and delete (×) icons on each tag pill are
+   * shown at all. Defaults to true (existing behaviour); hosts using this
+   * purely as a picker (e.g. a search/query context, where mutating the tag
+   * catalog mid-search is out of place) pass `false`.
+   */
+  allowCatalogEdits = input( true ) ;
+
   /** Emitted when the user clicks a tag pill to apply it. */
   tagSelected = output<TagSO>() ;
 
