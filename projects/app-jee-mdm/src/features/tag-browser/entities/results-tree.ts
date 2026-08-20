@@ -12,7 +12,12 @@ import { TagQuerySearchRes } from "@jee-common/util/tag-query-types";
 export class ExerciseResults {
 
   problems:TopicProblemSO[] = [] ;
-  collapsed = true ;
+  // Starts expanded, unlike problem-history's own Exercise class (which
+  // defaults collapsed — that page is scoped to one topic at a time, so
+  // collapsing keeps a long problem list manageable). A tag-query result
+  // set is already narrowed by the query itself, so showing everything
+  // expanded by default reads better here.
+  collapsed = false ;
 
   constructor( public exerciseName:string ) {}
 
@@ -92,10 +97,10 @@ export function buildResultsTree( res:TagQuerySearchRes | null ):Record<string, 
     return s ;
   } ;
 
-  res.problems.items.forEach( p =>
+  res.problems.forEach( p =>
     getSyllabus( p.syllabusName ).getOrCreateTopic( p.topicId, p.topicName ).addProblem( p )
   ) ;
-  res.questions.items.forEach( q =>
+  res.questions.forEach( q =>
     getSyllabus( q.syllabusName ).getOrCreateTopic( q.topicId, q.topicName ).addQuestion( q )
   ) ;
 

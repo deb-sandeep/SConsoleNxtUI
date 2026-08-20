@@ -62,6 +62,14 @@
   border: 1px solid #a8322a;
 }
 
+.qbp-saved-btn {
+  border: 1px solid #9a9a9a;
+  background: none;
+  padding: 2px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
 .qbp-hide-btn {
   margin-left: auto;
   border: 1px solid #9a9a9a;
@@ -69,6 +77,127 @@
   padding: 2px 8px;
   font-size: 11px;
   cursor: pointer;
+}
+
+.qbp-saved-menu {
+  border-bottom: 2px solid #1f1f1f;
+  padding: 10px 16px;
+  background: #f6f4ec;
+}
+
+.qbp-saved-actions {
+  margin-bottom: 8px;
+}
+
+.qbp-saved-save-btn {
+  width: 100%;
+  border: 1px dashed #9a9a9a;
+  background: none;
+  padding: 2px 8px;
+  font-size: 11px;
+  color: #5a5a5a;
+  cursor: pointer;
+}
+
+.qbp-saved-save-btn:disabled {
+  color: #b5b5b5;
+  cursor: not-allowed;
+}
+
+.qbp-loaded-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.qbp-loaded-actions .qbp-saved-save-btn {
+  width: auto;
+  flex: 1;
+}
+
+.qbp-save-form {
+  display: flex;
+  gap: 6px;
+}
+
+.qbp-save-form input {
+  flex: 1;
+  border: 1px solid #1f1f1f;
+  padding: 5px 8px;
+  font-size: 12px;
+  min-width: 0;
+}
+
+.qbp-save-form-btn {
+  flex: none;
+  border: 1px solid #9a9a9a;
+  background: none;
+  padding: 5px 10px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.qbp-save-form-btn-primary {
+  border: none;
+  background: #6b5fc7;
+  color: #fff;
+  font-weight: 700;
+}
+
+.qbp-save-form-btn-primary:disabled {
+  background: #d5d5d5;
+  color: #8a8a8a;
+  cursor: not-allowed;
+}
+
+.qbp-saved-list {
+  max-height: 200px;
+  overflow: auto;
+  border-top: 1px solid #d5d5d5;
+  padding-top: 6px;
+}
+
+.qbp-saved-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+
+.qbp-saved-name {
+  flex: 1;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 3px 4px;
+  font-size: 12px;
+  color: #1f1f1f;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qbp-saved-name:hover {
+  text-decoration: underline;
+}
+
+.qbp-saved-delete {
+  flex: none;
+  border: none;
+  background: none;
+  color: #9a9a9a;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.qbp-saved-delete:hover {
+  color: #a8322a;
+}
+
+.qbp-saved-empty {
+  font-size: 11px;
+  color: #9a9a9a;
+  padding: 4px 0;
 }
 
 .qbp-body {
@@ -86,13 +215,51 @@
   margin-bottom: 8px;
 }
 
+.qbp-loaded-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1f1f1f;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #d5d5d5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qbp-loaded-dirty {
+  color: #a8322a;
+  font-weight: 700;
+}
+
+.qbp-loaded-name-dirty {
+  cursor: pointer;
+}
+
+.qbp-loaded-name-dirty:hover {
+  text-decoration: underline;
+}
+
 .qbp-footer {
+  display: flex;
+  gap: 8px;
   padding: 12px 16px;
   border-top: 2px solid #1f1f1f;
 }
 
+.qbp-clear-btn {
+  flex: none;
+  background: none;
+  color: #1f1f1f;
+  border: 1px solid #9a9a9a;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .qbp-apply-btn {
-  width: 100%;
+  flex: 1;
   background: #6b5fc7;
   color: #fff;
   border: none;

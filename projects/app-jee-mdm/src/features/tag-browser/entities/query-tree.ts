@@ -1,4 +1,6 @@
-import { TagQueryConditionNode, TagQueryGroupNode, TagQueryNode } from "@jee-common/util/tag-query-types";
+import {
+  TagQueryConditionNode, TagQueryGroupNode, TagQueryNode, TagQueryNodeWire
+} from "@jee-common/util/tag-query-types";
 
 // Local mirror of the id shape used everywhere else in this feature — plain
 // random strings, only ever compared for equality, never parsed.
@@ -100,4 +102,21 @@ export function validateTree( node:TagQueryNode ):boolean {
   if( node.type !== 'group' ) return true ;
   if( node.children.length < 1 ) return false ;
   return node.children.every( validateTree ) ;
+}
+
+// Inverse of TagQueryApiService's stripCollapsed() — a saved query comes
+// back from the server in wire form (no 'collapsed'); this adds it back
+// (always expanded) so the tree can be assigned straight into the editable
+// UI tree.
+export function hydrateTree( node:TagQueryNodeWire ):TagQueryNode {
+  if( node.type === 'condition' ) return node ;
+  return { ...node, collapsed:false, children: node.children.map( hydrateTree ) } ;
+}
+
+// Collects every leaf condition's tagId in the tree — used to figure out
+// which tags need their names resolved (via TagApiService.getTag) after
+// loading a saved query, since the tree only carries tagIds.
+export function collectTagIds( node:TagQueryNode, into:Set<number> ) {
+  if( node.type === 'condition' ) { into.add( node.tagId ) ; return ; }
+  node.children.forEach( c => collectTagIds( c, into ) ) ;
 }

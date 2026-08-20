@@ -2,22 +2,22 @@ import { computed, inject, Injectable, signal } from "@angular/core";
 import { RemoteService } from "lib-core";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { TagApiService } from "@jee-common/services/tag-api.service";
-import { TagQueryApiService } from "@jee-common/services/tag-query-api.service";
+import { stripCollapsed, TagQueryApiService } from "@jee-common/services/tag-query-api.service";
 import { SyllabusSO, TopicProblemSO, TopicSO } from "@jee-common/util/master-data-types";
 import { QuestionSO } from "@jee-common/util/exam-data-types";
 import { TagSO } from "@jee-common/util/tag-data-types";
-import { TagBrowserFilters, TagQueryConditionNode, TagQueryGroupNode, TagQuerySearchRes } from "@jee-common/util/tag-query-types";
 import {
-  addChild, createDefaultTagQuery, cycleOp as cycleOpNode, dissolveGroup, findNode,
-  newConditionNode, newGroupNode, removeNode, updateNode, validateTree
+  SavedTagQueryVO, TagBrowserFilters, TagQueryConditionNode, TagQueryGroupNode, TagQuerySearchRes
+} from "@jee-common/util/tag-query-types";
+import {
+  addChild, collectTagIds, createDefaultTagQuery, cycleOp as cycleOpNode, dissolveGroup, findNode,
+  hydrateTree, newConditionNode, newGroupNode, removeNode, updateNode, validateTree
 } from "./entities/query-tree";
 import { buildResultsTree } from "./entities/results-tree";
 
 export type SelectedResultItem =
   | { itemType:'PROBLEM', item:TopicProblemSO }
   | { itemType:'QUESTION', item:QuestionSO } ;
-
-const DEFAULT_PAGE_SIZE = 100 ;
 
 // "Exam"/"Reasoning" aren't meaningful search facets here (mirrors the same
 // exclusion tag-association-dialog.component.ts applies via its own
@@ -76,8 +76,23 @@ export class TagBrowserService extends RemoteService {
   // Every TagSO ever picked in this session, keyed by id — the tree only
   // stores tagId per condition node (see TagQueryConditionNode), so the tree
   // UI reads tag names back out of this cache rather than re-fetching. See
-  // toggleStagedTag(), the only place tags enter it.
+  // toggleStagedTag(), the only place tags enter it (besides
+  // loadSavedQuery()'s own hydration step below).
   private tagCache = new Map<number, TagSO>() ;
+
+  // Saved-queries dropdown (query-builder-panel's header "Saved" button).
+  savedQueries:SavedTagQueryVO[] = [] ;
+  showSavedQueriesMenu = false ;
+  saveQueryFormOpen = false ;
+  saveQueryName = "" ;
+  savedQueryPendingDelete:SavedTagQueryVO | null = null ;
+
+  // Set once a saved query is loaded (or freshly saved) — displayed above
+  // the tag tree, with a dirty ("*") marker whenever tagQuery/filters have
+  // since diverged from loadedQuerySnapshot. Cleared by resetQuery() or by
+  // deleting the currently-loaded query out from under itself.
+  loadedSavedQuery:SavedTagQueryVO | null = null ;
+  private loadedQuerySnapshot:{ tagQuery:TagQueryGroupNode, filters:TagBrowserFilters } | null = null ;
 
   constructor() {
     super() ;
@@ -315,13 +330,137 @@ export class TagBrowserService extends RemoteService {
 
   async applyQuery() {
     if( !this.isTreeValid() ) return ;
-    const res = await this.tagQueryApi.search(
-      this.tagQuery, this.filters, 0, 0, DEFAULT_PAGE_SIZE
-    ) ;
+    const res = await this.tagQueryApi.search( this.tagQuery, this.filters ) ;
     this.searchResults.set( res ) ;
     this.hasSearched.set( true ) ;
     this.selectedItem = null ;
     this.panelOpen = false ;
+  }
+
+  // Resets the tag tree and filters back to their starting state — same
+  // shape the panel opens with on first load (root group empty, Syllabus
+  // "all checked", everything else at its inactive default). Doesn't touch
+  // the currently-displayed search results; that's a separate action from
+  // clearing the query being built.
+  resetQuery() {
+    this.tagQuery = createDefaultTagQuery() ;
+    this.filters = { ...defaultFilters(), syllabusNames: this.visibleSyllabus().map( s => s.syllabusName ) } ;
+    this.closeTagPicker() ;
+    this.closeTopicPicker() ;
+    this.loadedSavedQuery = null ;
+    this.loadedQuerySnapshot = null ;
+  }
+
+  // True once tagQuery/filters have diverged from the snapshot taken when
+  // loadedSavedQuery was loaded/saved. Compares the wire form of the tree
+  // (stripCollapsed) since expand/collapse is UI-only and shouldn't count
+  // as a real edit.
+  isLoadedQueryDirty():boolean {
+    if( !this.loadedQuerySnapshot ) return false ;
+    const treeChanged = JSON.stringify( stripCollapsed( this.tagQuery ) )
+      !== JSON.stringify( stripCollapsed( this.loadedQuerySnapshot.tagQuery ) ) ;
+    const filtersChanged = JSON.stringify( this.filters ) !== JSON.stringify( this.loadedQuerySnapshot.filters ) ;
+    return treeChanged || filtersChanged ;
+  }
+
+  // ---- saved queries ---------------------------------------------------
+
+  toggleSavedQueriesMenu() {
+    this.showSavedQueriesMenu = !this.showSavedQueriesMenu ;
+    if( this.showSavedQueriesMenu ) this.refreshSavedQueries().then() ;
+    else this.cancelSaveQueryForm() ;
+  }
+
+  private async refreshSavedQueries() {
+    this.savedQueries = await this.tagQueryApi.getSavedQueries() ;
+  }
+
+  // Opens the name-input form for confirmSaveQuery() — used for both the
+  // very first save and "Save As…". Pre-fills the current loaded query's
+  // name (if any) as a starting point for a rename/copy, matching common
+  // "Save As" UX elsewhere.
+  openSaveQueryForm() {
+    this.saveQueryFormOpen = true ;
+    this.saveQueryName = this.loadedSavedQuery?.name ?? "" ;
+  }
+
+  cancelSaveQueryForm() {
+    this.saveQueryFormOpen = false ;
+    this.saveQueryName = "" ;
+  }
+
+  // Always creates a new saved-query row — used both for the first-ever
+  // save (no query loaded yet) and for "Save As…" (a query is loaded, but
+  // the user wants a new named copy rather than overwriting it). Either
+  // way, the newly created row becomes the loaded query going forward.
+  async confirmSaveQuery() {
+    if( !this.isTreeValid() || !this.saveQueryName.trim() ) return ;
+    const created = await this.tagQueryApi.saveQuery( this.saveQueryName.trim(), this.tagQuery, this.filters ) ;
+    this.loadedSavedQuery = created ;
+    this.loadedQuerySnapshot = { tagQuery: this.tagQuery, filters: this.filters } ;
+    this.cancelSaveQueryForm() ;
+    await this.refreshSavedQueries() ;
+  }
+
+  // "Save" on an already-loaded query — overwrites it in place. SaveQuery
+  // upserts by name server-side (same name -> same id, row updated), so
+  // re-saving under loadedSavedQuery's existing name is itself the update;
+  // no separate delete-old step is needed (a prior version of this method
+  // did create-then-delete-old, which — since the id comes back unchanged —
+  // deleted the row it had just updated).
+  async updateLoadedQuery() {
+    if( !this.loadedSavedQuery || !this.isTreeValid() ) return ;
+    const updated = await this.tagQueryApi.saveQuery( this.loadedSavedQuery.name, this.tagQuery, this.filters ) ;
+    this.loadedSavedQuery = updated ;
+    this.loadedQuerySnapshot = { tagQuery: this.tagQuery, filters: this.filters } ;
+    await this.refreshSavedQueries() ;
+  }
+
+  // Loads a saved query's tree+filters into the builder and immediately
+  // runs the search — same end state as manually rebuilding the query and
+  // clicking Apply. The tree comes back in wire form (no 'collapsed',
+  // no tag names) — hydrateTree() restores the UI shape, and
+  // hydrateTagNames() resolves every tagId not already in tagCache before
+  // the tree is assigned, so tag-query-tree-node never renders a `#42`
+  // fallback for a freshly-loaded query.
+  async loadSavedQuery( sq:SavedTagQueryVO ) {
+    const req = await this.tagQueryApi.getSavedQuery( sq.id ) ;
+    const tree = hydrateTree( req.tagQuery ) as TagQueryGroupNode ;
+    await this.hydrateTagNames( tree ) ;
+    this.tagQuery = tree ;
+    this.filters = req.filters ;
+    this.loadedSavedQuery = sq ;
+    this.loadedQuerySnapshot = { tagQuery: tree, filters: req.filters } ;
+    this.showSavedQueriesMenu = false ;
+    await this.applyQuery() ;
+  }
+
+  private async hydrateTagNames( tree:TagQueryGroupNode ) {
+    const ids = new Set<number>() ;
+    collectTagIds( tree, ids ) ;
+    const missing = Array.from( ids ).filter( id => !this.tagCache.has( id ) ) ;
+    const tags = await Promise.all( missing.map( id => this.tagApi.getTag( id ).catch( () => null ) ) ) ;
+    tags.forEach( t => { if( t ) this.tagCache.set( t.id, t ) ; } ) ;
+  }
+
+  requestDeleteSavedQuery( sq:SavedTagQueryVO ) {
+    this.savedQueryPendingDelete = sq ;
+  }
+
+  cancelDeleteSavedQuery() {
+    this.savedQueryPendingDelete = null ;
+  }
+
+  async confirmDeleteSavedQuery() {
+    const sq = this.savedQueryPendingDelete ;
+    if( !sq ) return ;
+    this.savedQueryPendingDelete = null ;
+    await this.tagQueryApi.deleteSavedQuery( sq.id ) ;
+    if( this.loadedSavedQuery?.id === sq.id ) {
+      this.loadedSavedQuery = null ;
+      this.loadedQuerySnapshot = null ;
+    }
+    await this.refreshSavedQueries() ;
   }
 
   selectProblem( p:TopicProblemSO ) {

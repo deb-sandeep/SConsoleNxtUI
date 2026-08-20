@@ -59,21 +59,28 @@ export type TagBrowserFilters = {
 export type TagQuerySearchReq = {
   tagQuery: TagQueryGroupNodeWire,   // root MUST be a group with >=1 child
   filters: TagBrowserFilters,
-  problemsPage: number,
-  questionsPage: number,
-  pageSize: number,
 }
 
-export type PagedBlock<T> = {
-  totalResults: number,
-  totalPages: number,
-  pageNumber: number,
-  pageSize: number,
-  resultsInPage: number,
-  items: T[],
-}
-
+// No paging — the whole matching set comes back in one shot. Results render
+// as a Syllabus > Topic > (...) tree (see entities/results-tree.ts), and
+// paging would split a topic's items across pages arbitrarily, breaking
+// that grouping. Tag-scoped searches are assumed to stay small enough for
+// this to be practical; revisit if that stops holding.
 export type TagQuerySearchRes = {
-  problems: PagedBlock<TopicProblemSO>,
-  questions: PagedBlock<QuestionSO>,
+  problems: TopicProblemSO[],
+  questions: QuestionSO[],
+}
+
+// A saved query is the entire TagQuerySearchReq (tree + filters), stored
+// server-side as opaque JSON — recalling it reproduces the exact search
+// that was saved. No update/versioning endpoint exists; saving always
+// creates a new row.
+export type SavedTagQueryVO = {
+  id: number,
+  name: string,
+}
+
+export type SaveQueryReq = {
+  name: string,
+  query: TagQuerySearchReq,
 }

@@ -1,0 +1,9 @@
+<modal-dialog [show]="show()" title="Delete this saved query?" [width]="420" [height]="220"
+              (hide)="cancelled.emit()" (confirm)="confirmed.emit()">
+  @if( query(); as q ) {
+    <p class="confirm-text">
+      Deleting <strong>"{{ q.name }}"</strong> can't be undone.
+    </p>
+  }
+  <span confirm-btn-text>Delete query</span>
+</modal-dialog>

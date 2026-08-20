@@ -8,8 +8,10 @@
 
 @for( syllabusName of Object.keys( svc.resultsTree() ); track syllabusName ) {
   @let syllabus = svc.resultsTree()[ syllabusName ] ;
+  @let colors = headerColors( syllabusName ) ;
 
-  <div class="rt-syllabus-head" (click)="syllabus.collapsed = !syllabus.collapsed">
+  <div class="rt-syllabus-head" (click)="syllabus.collapsed = !syllabus.collapsed"
+       [style.background]="colors.syllabusBg" [style.color]="colors.syllabusFg">
     <span [ngClass]="syllabus.collapsed ? 'bi-chevron-right' : 'bi-chevron-down'"></span>
     {{ syllabusName }}
   </div>
@@ -18,7 +20,8 @@
     @for( topicId of Object.keys( syllabus.topics ); track topicId ) {
       @let topic = syllabus.topics[ +topicId ] ;
 
-      <div class="rt-topic-head" (click)="topic.collapsed = !topic.collapsed">
+      <div class="rt-topic-head" (click)="topic.collapsed = !topic.collapsed"
+           [style.background]="colors.topicBg" [style.color]="colors.topicFg">
         <span [ngClass]="topic.collapsed ? 'bi-chevron-right' : 'bi-chevron-down'"></span>
         {{ topic.topicName }}
       </div>
@@ -51,6 +54,10 @@
                         <tr class="rt-problem-row" [class.rt-row-selected]="isSelectedProblem(p)"
                             (click)="svc.selectProblem(p)">
                           <td class="rt-problem-key">{{ p.problemKey.replaceAll( '/', ' / ' ) }}</td>
+                          <td class="rt-tag-icon-cell" (click)="$event.stopPropagation(); openTagDialogForProblem(p)">
+                            <span [ngClass]="tagIconClass(problemTagCounts, p.problemId)"
+                                  [style.color]="tagIconColor(problemTagCounts, p.problemId)"></span>
+                          </td>
                           <td><span [ngClass]="difficultyIcon(p.difficultyLevel)"></span></td>
                           <td><span [ngClass]="SConsoleUtil.getProblemIcon(p.problemState)"></span> {{ p.problemState }}</td>
                           <td class="rt-num-attempts">{{ p.numAttempts }}</td>
@@ -73,6 +80,10 @@
                 <tr class="rt-problem-row" [class.rt-row-selected]="isSelectedQuestion(q)"
                     (click)="svc.selectQuestion(q)">
                   <td class="rt-problem-key">{{ q.questionId }}</td>
+                  <td class="rt-tag-icon-cell" (click)="$event.stopPropagation(); openTagDialogForQuestion(q)">
+                    <span [ngClass]="tagIconClass(questionTagCounts, q.id)"
+                          [style.color]="tagIconColor(questionTagCounts, q.id)"></span>
+                  </td>
                   <td>{{ q.problemType }}</td>
                   <td>#{{ q.questionNumber }}</td>
                   <td><span [ngClass]="difficultyIcon(q.rating)"></span></td>
@@ -86,3 +97,11 @@
     }
   }
 }
+
+<tag-association-dialog
+  [show]="tagDialogShow"
+  [targets]="tagDialogTargets"
+  [defaultTopicId]="tagDialogTopicId"
+  (closed)="closeTagDialog()"
+  (tagsChanged)="onTagsChanged()">
+</tag-association-dialog>

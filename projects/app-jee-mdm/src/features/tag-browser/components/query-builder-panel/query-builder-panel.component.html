@@ -9,10 +9,65 @@
       <span class="qbp-validity" [class.qbp-valid]="svc.isTreeValid()" [class.qbp-invalid]="!svc.isTreeValid()">
         {{ svc.isTreeValid() ? '✓ Valid' : '! Invalid' }}
       </span>
+      <button type="button" class="qbp-saved-btn" (click)="svc.toggleSavedQueriesMenu()">
+        <span class="bi-bookmark"></span> Saved
+      </button>
       <button type="button" class="qbp-hide-btn" (click)="svc.closePanel()">◂ hide</button>
     </div>
 
+    @if( svc.showSavedQueriesMenu ) {
+      <div class="qbp-saved-menu">
+        <div class="qbp-saved-actions">
+          @if( !svc.saveQueryFormOpen ) {
+            @if( svc.loadedSavedQuery; as loaded ) {
+              <div class="qbp-loaded-actions">
+                <button type="button" class="qbp-saved-save-btn"
+                        [disabled]="!svc.isTreeValid() || !svc.isLoadedQueryDirty()"
+                        (click)="svc.updateLoadedQuery()">Save "{{ loaded.name }}"</button>
+                <button type="button" class="qbp-saved-save-btn" [disabled]="!svc.isTreeValid()"
+                        (click)="svc.openSaveQueryForm()">Save As…</button>
+              </div>
+            } @else {
+              <button type="button" class="qbp-saved-save-btn" [disabled]="!svc.isTreeValid()"
+                      (click)="svc.openSaveQueryForm()">+ Save current query</button>
+            }
+          } @else {
+            <div class="qbp-save-form">
+              <input type="text" placeholder="Query name…" [(ngModel)]="svc.saveQueryName"
+                     (keydown.enter)="svc.confirmSaveQuery()" (keydown.escape)="svc.cancelSaveQueryForm()">
+              <button type="button" class="qbp-save-form-btn qbp-save-form-btn-primary"
+                      [disabled]="!svc.saveQueryName.trim()" (click)="svc.confirmSaveQuery()">Save</button>
+              <button type="button" class="qbp-save-form-btn" (click)="svc.cancelSaveQueryForm()">Cancel</button>
+            </div>
+          }
+        </div>
+
+        <div class="qbp-saved-list">
+          @for( sq of svc.savedQueries; track sq.id ) {
+            <div class="qbp-saved-row">
+              <button type="button" class="qbp-saved-name" (click)="svc.loadSavedQuery(sq)">{{ sq.name }}</button>
+              <button type="button" class="qbp-saved-delete bi-trash" title="Delete"
+                      (click)="svc.requestDeleteSavedQuery(sq)"></button>
+            </div>
+          } @empty {
+            <div class="qbp-saved-empty">No saved queries yet.</div>
+          }
+        </div>
+      </div>
+    }
+
     <div class="qbp-body">
+      @if( svc.loadedSavedQuery; as loaded ) {
+        <div class="qbp-loaded-name" [class.qbp-loaded-name-dirty]="svc.isLoadedQueryDirty()"
+             [title]="svc.isLoadedQueryDirty() ? 'Click to save changes to \'' + loaded.name + '\'' : ''"
+             (click)="svc.isLoadedQueryDirty() && svc.updateLoadedQuery()">
+          {{ loaded.name }}
+          @if( svc.isLoadedQueryDirty() ) {
+            <span class="qbp-loaded-dirty">*</span>
+          }
+        </div>
+      }
+
       <div class="qbp-section-label">Tags</div>
       <tag-query-tree-node [node]="svc.tagQuery"></tag-query-tree-node>
 
@@ -20,6 +75,9 @@
     </div>
 
     <div class="qbp-footer">
+      <button type="button" class="qbp-clear-btn" (click)="svc.resetQuery()">
+        Clear query
+      </button>
       <button type="button" class="qbp-apply-btn" [disabled]="!svc.isTreeValid()" (click)="svc.applyQuery()">
         Apply query
       </button>
@@ -29,3 +87,10 @@
 
 <tag-picker-panel></tag-picker-panel>
 <topic-picker-panel></topic-picker-panel>
+
+<delete-saved-query-confirm-dialog
+  [show]="svc.savedQueryPendingDelete !== null"
+  [query]="svc.savedQueryPendingDelete"
+  (confirmed)="svc.confirmDeleteSavedQuery()"
+  (cancelled)="svc.cancelDeleteSavedQuery()">
+</delete-saved-query-confirm-dialog>
