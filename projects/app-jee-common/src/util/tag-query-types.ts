@@ -53,7 +53,7 @@ export type TagBrowserFilters = {
   // has no meaningful time-spent/attempts value to filter on.
   timeSpentMin: number,     // minutes, 0-30; 0 and timeSpentMax===30 together = no constraint
   timeSpentMax: number,     // minutes, 0-30
-  attempts: 'any' | '1' | '2+',
+  attempts: 'any' | '1' | '2+' | '3+' | '4+' | '5+',
 }
 
 export type TagQuerySearchReq = {

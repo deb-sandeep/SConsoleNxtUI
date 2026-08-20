@@ -3,7 +3,7 @@ import { RemoteService } from "lib-core";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { TagApiService } from "@jee-common/services/tag-api.service";
 import { TagQueryApiService } from "@jee-common/services/tag-query-api.service";
-import { SyllabusSO, TopicProblemSO } from "@jee-common/util/master-data-types";
+import { SyllabusSO, TopicProblemSO, TopicSO } from "@jee-common/util/master-data-types";
 import { QuestionSO } from "@jee-common/util/exam-data-types";
 import { TagSO } from "@jee-common/util/tag-data-types";
 import { TagBrowserFilters, TagQueryConditionNode, TagQueryGroupNode, TagQuerySearchRes } from "@jee-common/util/tag-query-types";
@@ -18,6 +18,13 @@ export type SelectedResultItem =
   | { itemType:'QUESTION', item:QuestionSO } ;
 
 const DEFAULT_PAGE_SIZE = 100 ;
+
+// "Exam"/"Reasoning" aren't meaningful search facets here (mirrors the same
+// exclusion tag-association-dialog.component.ts applies via its own
+// EXCLUDED_SUBJECTS, and browse-by-topic.component.ts's inverse
+// ALLOWED_SUBJECTS) — neither the Syllabus filter, its default-checked set,
+// nor the Topic picker should offer them.
+const EXCLUDED_SUBJECTS = [ 'Exam', 'Reasoning' ] ;
 
 function defaultFilters():TagBrowserFilters {
   return {
@@ -58,6 +65,14 @@ export class TagBrowserService extends RemoteService {
   pickerGroupId:string | null = null ;
   stagedTags:TagSO[] = [] ;
 
+  // Whether the "Browse topics" telescoping sub-panel is open, and its
+  // staged (not-yet-committed) selection — same staged-then-commit-on-Done
+  // shape as the tag picker's pickerGroupId/stagedTags. Seeded from
+  // filters.topicIds by openTopicPicker(), only written back by
+  // commitTopicPicker() ("Done"); closeTopicPicker() ("Cancel") discards it.
+  showTopicPicker = false ;
+  stagedTopicIds:number[] = [] ;
+
   // Every TagSO ever picked in this session, keyed by id — the tree only
   // stores tagId per condition node (see TagQueryConditionNode), so the tree
   // UI reads tag names back out of this cache rather than re-fetching. See
@@ -74,7 +89,26 @@ export class TagBrowserService extends RemoteService {
       this.syllabus = syllabus ;
       this.recentTags = recent ;
       this.mostUsedTags = mostUsed ;
+      // Default the Syllabus filter to "all checked" once the real list is
+      // in — can't do this synchronously in defaultFilters() since the
+      // syllabus list itself is fetched async.
+      this.filters = { ...this.filters, syllabusNames: this.visibleSyllabus().map( s => s.syllabusName ) } ;
     } ) ;
+  }
+
+  visibleSyllabus():SyllabusSO[] {
+    return this.syllabus.filter( s => !EXCLUDED_SUBJECTS.includes( s.subjectName ) ) ;
+  }
+
+  // The syllabuses browsable in the topic picker — narrowed to whatever is
+  // checked in the Syllabus filter, since that's the set Topic is
+  // meaningfully refining. Falls back to every visible syllabus when none
+  // are checked (matches filters.syllabusNames' own "[] = no constraint"
+  // convention — see tag-query-types.ts).
+  topicPickerSyllabus():SyllabusSO[] {
+    const visible = this.visibleSyllabus() ;
+    if( this.filters.syllabusNames.length === 0 ) return visible ;
+    return visible.filter( s => this.filters.syllabusNames.includes( s.syllabusName ) ) ;
   }
 
   // ---- tree editing ----------------------------------------------------
@@ -199,11 +233,57 @@ export class TagBrowserService extends RemoteService {
       : [ ...this.filters.syllabusNames, name ] } ;
   }
 
+  // Removes a single already-committed topic chip — used outside the
+  // picker (the Topic block's own chip row), so it applies immediately,
+  // unlike the picker's own staged selection below.
   toggleTopic( topicId:number ) {
     const has = this.filters.topicIds.includes( topicId ) ;
     this.filters = { ...this.filters, topicIds: has
       ? this.filters.topicIds.filter( id => id !== topicId )
       : [ ...this.filters.topicIds, topicId ] } ;
+  }
+
+  clearAllTopics() {
+    this.filters = { ...this.filters, topicIds: [] } ;
+  }
+
+  // Topic-picker-panel staging: unlike toggleTopic() above, nothing here
+  // touches filters.topicIds until commitTopicPicker() runs (on "Done") —
+  // "Cancel"/dismissing the panel discards stagedTopicIds instead. Mirrors
+  // the tag-picker-panel's stagedTags flow.
+  openTopicPicker() {
+    this.stagedTopicIds = [ ...this.filters.topicIds ] ;
+    this.showTopicPicker = true ;
+  }
+
+  closeTopicPicker() {
+    this.showTopicPicker = false ;
+    this.stagedTopicIds = [] ;
+  }
+
+  commitTopicPicker() {
+    this.filters = { ...this.filters, topicIds: this.stagedTopicIds } ;
+    this.closeTopicPicker() ;
+  }
+
+  toggleStagedTopic( topicId:number ) {
+    const has = this.stagedTopicIds.includes( topicId ) ;
+    this.stagedTopicIds = has
+      ? this.stagedTopicIds.filter( id => id !== topicId )
+      : [ ...this.stagedTopicIds, topicId ] ;
+  }
+
+  // Backs the topic-picker-panel's per-syllabus-column select-all/deselect-all
+  // icon buttons — operates on the staged set, same as toggleStagedTopic.
+  selectAllTopics( topics:TopicSO[] ) {
+    const ids = new Set( this.stagedTopicIds ) ;
+    topics.forEach( t => ids.add( t.id ) ) ;
+    this.stagedTopicIds = Array.from( ids ) ;
+  }
+
+  deselectAllTopics( topics:TopicSO[] ) {
+    const idsToRemove = new Set( topics.map( t => t.id ) ) ;
+    this.stagedTopicIds = this.stagedTopicIds.filter( id => !idsToRemove.has( id ) ) ;
   }
 
   setDifficultyMin( level:number ) {
@@ -218,6 +298,10 @@ export class TagBrowserService extends RemoteService {
   setTimeSpentMax( minutes:number ) {
     const v = Math.max( minutes, this.filters.timeSpentMin ) ;
     this.filters = { ...this.filters, timeSpentMax: v } ;
+  }
+
+  resetTimeSpent() {
+    this.filters = { ...this.filters, timeSpentMin:0, timeSpentMax:30 } ;
   }
 
   setAttempts( value:TagBrowserFilters['attempts'] ) {

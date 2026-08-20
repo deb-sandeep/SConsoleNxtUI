@@ -1,0 +1,34 @@
+@if( svc.showTopicPicker ) {
+  <div class="topic-picker-panel">
+    <div class="tpp2-header">
+      <button type="button" class="tpp2-btn" (click)="svc.closeTopicPicker()">Cancel</button>
+      <button type="button" class="tpp2-btn tpp2-btn-primary" (click)="svc.commitTopicPicker()">
+        Done ({{ svc.stagedTopicIds.length }})
+      </button>
+      <span class="tpp2-title">Topic filter</span>
+    </div>
+
+    <div class="tpp2-body">
+      @for( s of svc.topicPickerSyllabus(); track s.syllabusName ) {
+        <div class="tpp2-column">
+          <div class="tpp2-column-head">
+            <span class="tpp2-column-title">{{ syllabusDisplayName(s.syllabusName) }}</span>
+            <span class="tpp2-column-actions">
+              <button type="button" class="tpp2-icon-btn bi-check2-all" title="Select all"
+                      (click)="svc.selectAllTopics(s.topics)"></button>
+              <button type="button" class="tpp2-icon-btn bi-x-square" title="Deselect all"
+                      (click)="svc.deselectAllTopics(s.topics)"></button>
+            </span>
+          </div>
+          @for( t of s.topics; track t.id ) {
+            <label class="tpp2-check">
+              <input type="checkbox" [checked]="svc.stagedTopicIds.includes(t.id)"
+                     (change)="svc.toggleStagedTopic(t.id)">
+              {{ t.topicName }}
+            </label>
+          }
+        </div>
+      }
+    </div>
+  </div>
+}

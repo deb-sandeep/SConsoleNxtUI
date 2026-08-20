@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { TopicSO } from "@jee-common/util/master-data-types";
 import { TagBrowserService } from "../../tag-browser.service";
+import { syllabusDisplayName } from "../../entities/syllabus-display-name";
 
 // Optional, non-tag filters ANDed with the tag-query tree: Syllabus, Topic,
 // Difficulty, Time spent, Attempts. Status isn't included — TopicProblemSO
@@ -17,17 +18,37 @@ import { TagBrowserService } from "../../tag-browser.service";
 export class TagBrowserFiltersComponent {
 
   protected svc = inject( TagBrowserService ) ;
+  protected readonly syllabusDisplayName = syllabusDisplayName ;
 
-  protected showTopicPicker = false ;
   protected readonly difficultyLevels = Array.from( { length: 10 }, ( _, i ) => i + 1 ) ;
-  protected readonly attemptsOptions = [ 'any', '1', '2+' ] as const ;
+  protected readonly attemptsOptions = [ 'any', '1', '2+', '3+', '4+', '5+' ] as const ;
 
-  toggleTopicPicker() {
-    this.showTopicPicker = !this.showTopicPicker ;
+  // Each block's body (Syllabus/Topic/Difficulty/Time spent/Attempts) can be
+  // collapsed independently by clicking its own header — all start expanded.
+  private collapsedBlocks = new Set<string>() ;
+
+  isBlockCollapsed( key:string ):boolean {
+    return this.collapsedBlocks.has( key ) ;
+  }
+
+  toggleBlock( key:string ) {
+    if( this.collapsedBlocks.has( key ) ) this.collapsedBlocks.delete( key ) ;
+    else this.collapsedBlocks.add( key ) ;
+  }
+
+  // The Syllabus filter defaults to every syllabus checked (see
+  // TagBrowserService's post-fetch default), which is functionally "no
+  // constraint" — same as every other filter's resting state — so it should
+  // NOT read as "active" until the user has actually narrowed it down by
+  // unchecking at least one. Unlike the other blocks, "> 0 selected" alone
+  // isn't the right active-check here.
+  isSyllabusFilterActive():boolean {
+    const selected = this.svc.filters.syllabusNames.length ;
+    return selected > 0 && selected < this.svc.visibleSyllabus().length ;
   }
 
   allTopics():TopicSO[] {
-    return this.svc.syllabus.flatMap( s => s.topics ) ;
+    return this.svc.visibleSyllabus().flatMap( s => s.topics ) ;
   }
 
   topicName( topicId:number ):string {
