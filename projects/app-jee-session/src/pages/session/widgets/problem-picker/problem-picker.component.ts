@@ -2,10 +2,13 @@ import { Component, inject, output } from '@angular/core';
 import { SessionStateService } from "../../../../service/session-state.service";
 import { Session } from "../../../../entities/session";
 import { TopicProblemSO } from "@jee-common/util/master-data-types";
-import { NgClass } from "@angular/common";
+import { NgClass, NgIf } from "@angular/common";
 import { SConsoleUtil } from "@jee-common/util/common-util";
 import { LocalStorageService } from "lib-core";
 import { StorageKey } from "@jee-common/util/storage-keys";
+import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
+import { TagSO } from "@jee-common/util/tag-data-types";
+import { TagFilterDialogComponent } from "../tag-filter-dialog/tag-filter-dialog.component";
 
 class Book {
   bookId: number;
@@ -147,7 +150,9 @@ class LastExercisePointer {
 @Component({
   selector: 'problem-picker',
   imports: [
-    NgClass
+    NgClass,
+    NgIf,
+    TagFilterDialogComponent,
   ],
   templateUrl: './problem-picker.component.html',
   styleUrl: './problem-picker.component.css'
@@ -158,11 +163,16 @@ export class ProblemPickerComponent {
 
   private stateSvc = inject( SessionStateService ) ;
   private localDb = inject( LocalStorageService ) ;
-  private session: Session ;
+  private tagAssociationApi = inject( TagAssociationApiService ) ;
+  session: Session ;
 
   private readonly lastExercisePointer: LastExercisePointer ;
 
   books: Book[] = [];
+
+  showTagFilter = false ;
+  availableTags: TagSO[] = [] ;
+  problemTagsMap: Record<number, TagSO[]> = {} ;
 
   hide = output<void>() ;
   selection = output<TopicProblemSO>() ;
@@ -171,8 +181,47 @@ export class ProblemPickerComponent {
 
     this.session = this.stateSvc.session ;
     this.lastExercisePointer = this.getLastExercisePointer() ;
+    this.rebuildProblemTree() ;
+    this.refreshTagData() ;
+  }
+
+  private rebuildProblemTree() {
+    this.books = [] ;
     this.categorizeProblems() ;
     this.setExpandedStates() ;
+  }
+
+  // Fetches tags for the current problem set eagerly (rather than only on
+  // Filter click) so availableTags is known upfront - the Filter button is
+  // hidden unless it's non-empty. Re-run after every filter apply/reset
+  // since the problem set (and therefore the tags on offer) changes.
+  private async refreshTagData() {
+    const problemIds = this.session.problems.map( p => p.problemId ) ;
+    this.problemTagsMap = await this.tagAssociationApi.getTagsForItems( 'PROBLEM', problemIds ) ;
+
+    const tagMap: Record<number, TagSO> = {} ;
+    Object.values( this.problemTagsMap ).forEach( tags => {
+      tags.forEach( tag => { tagMap[ tag.id ] = tag ; } ) ;
+    } ) ;
+    this.availableTags = Object.values( tagMap ) ;
+  }
+
+  openTagFilter() {
+    this.showTagFilter = true ;
+  }
+
+  applyTagFilter( selectedTags: TagSO[] ) {
+    const selectedTagIds = new Set( selectedTags.map( t => t.id ) ) ;
+    this.session.applyProblemTagFilter( selectedTagIds, this.problemTagsMap ) ;
+    this.rebuildProblemTree() ;
+    this.showTagFilter = false ;
+    this.refreshTagData() ;
+  }
+
+  resetFilter() {
+    this.session.resetProblemFilter() ;
+    this.rebuildProblemTree() ;
+    this.refreshTagData() ;
   }
 
   private categorizeProblems() {

@@ -43,8 +43,32 @@
       }
     </div>
     <div id="btn-panel">
-      <button type="button" class="btn btn-lg btn-secondary"
-              (click)="hide.emit()">Cancel</button>
+      <button type="button"
+              class="btn btn-lg btn-secondary"
+              *ngIf="availableTags.length > 0"
+              (click)="openTagFilter()">
+        Filter
+      </button>
+
+      <button type="button"
+              class="btn btn-lg btn-secondary"
+              *ngIf="session.isFilterActive()"
+              (click)="resetFilter()">
+        Reset
+      </button>
+
+      <button type="button"
+              class="btn btn-lg btn-secondary"
+              (click)="hide.emit()">
+        Cancel
+      </button>
     </div>
   </div>
 </div>
+
+<tag-filter-dialog *ngIf="showTagFilter"
+                    [tags]="availableTags"
+                    [problemTagsMap]="problemTagsMap"
+                    (hide)="showTagFilter=false"
+                    (applyFilter)="applyTagFilter($event)">
+</tag-filter-dialog>

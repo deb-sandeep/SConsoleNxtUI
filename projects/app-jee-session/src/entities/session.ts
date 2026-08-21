@@ -4,6 +4,7 @@ import {
   TopicProblemSO,
   TopicSO
 } from "@jee-common/util/master-data-types";
+import { TagSO } from "@jee-common/util/tag-data-types";
 import { inject, signal } from "@angular/core";
 import { SessionNetworkService } from "../service/session-network.service";
 import { LocalStorageService } from "lib-core";
@@ -41,6 +42,13 @@ export class Session extends PausableTimedEntity {
   problems: TopicProblemSO[] = [] ;
   pigeonProblems: TopicProblemSO[] = [] ;
   activeProblems: TopicProblemSO[] = [] ;
+
+  // The derived array `problems` points to while a tag filter is active.
+  filteredProblems: TopicProblemSO[] | null = null ;
+  // True origin (activeProblems or pigeonProblems) that `problems` aliased
+  // before any filter was applied - captured once, on the first filter
+  // apply, so a later reset always restores the whole remaining source.
+  private filterSourceProblems: TopicProblemSO[] | null = null ;
 
   sessionId:number = -1 ; // <=0 => session not started
 
@@ -141,11 +149,59 @@ export class Session extends PausableTimedEntity {
   }
 
   public selectPigeonProblems() {
-    this.problems = this.pigeonProblems ;
+    if( this.filterSourceProblems === this.pigeonProblems && this.filteredProblems !== null ) {
+      this.problems = this.filteredProblems ;
+    }
+    else {
+      this.problems = this.pigeonProblems ;
+      this.filterSourceProblems = null ;
+      this.filteredProblems = null ;
+    }
   }
 
   public selectActiveProblems() {
-    this.problems = this.activeProblems ;
+    if( this.filterSourceProblems === this.activeProblems && this.filteredProblems !== null ) {
+      this.problems = this.filteredProblems ;
+    }
+    else {
+      this.problems = this.activeProblems ;
+      this.filterSourceProblems = null ;
+      this.filteredProblems = null ;
+    }
+  }
+
+  public isFilterActive() {
+    return this.filterSourceProblems !== null ;
+  }
+
+  // Narrows `problems` (the currently displayed set) down to problems
+  // carrying at least one of selectedTagIds. Re-applying narrows further
+  // (compounds), since it always filters the current `problems`, not the
+  // original source.
+  public applyProblemTagFilter( selectedTagIds: Set<number>,
+                                tagsByProblemId: Record<number, TagSO[]> ) {
+
+    if( this.filterSourceProblems === null ) {
+      this.filterSourceProblems = this.problems ;
+    }
+
+    const filtered = this.problems.filter( p => {
+      const tags = tagsByProblemId[ p.problemId ] ?? [] ;
+      return tags.some( t => selectedTagIds.has( t.id ) ) ;
+    } ) ;
+
+    this.filteredProblems = filtered ;
+    this.problems = filtered ;
+  }
+
+  // Drops every filter applied so far, restoring the completion-adjusted
+  // source array (activeProblems or pigeonProblems).
+  public resetProblemFilter() {
+    if( this.filterSourceProblems !== null ) {
+      this.problems = this.filterSourceProblems ;
+    }
+    this.filterSourceProblems = null ;
+    this.filteredProblems = null ;
   }
 
   // ------------- Timer callback -------------------------------------------------
@@ -271,21 +327,25 @@ export class Session extends PausableTimedEntity {
 
     this.updateContinuationTime() ;
 
-    let index = this.problems.findIndex( value =>
-      value.problemId === this.currentProblemAttempt!.problem.problemId ) ;
+    const problemId = this.currentProblemAttempt!.problem.problemId ;
+    let index = this.problems.findIndex( value => value.problemId === problemId ) ;
     let nextProblemIndex = index + 1 ;
 
-    const workingPigeons = this.problems === this.pigeonProblems ;
+    // filterSourceProblems, when set, is the true origin array - use that
+    // (rather than `problems`, which may currently be a filtered derivative)
+    // to decide whether we're working the pigeon list.
+    const workingSource = this.filterSourceProblems ?? this.problems ;
+    const workingPigeons = workingSource === this.pigeonProblems ;
 
     if( workingPigeons && targetState === 'Redo' ) {
-      this.problems.splice( index, 1 ) ;
+      this.removeProblemFromWorkingSets( problemId ) ;
       nextProblemIndex = index ;
     }
     else if( workingPigeons && targetState === 'Pigeon' ) {
       // Don't do anything. Let the problem be there in this context
     }
     else if ( !['Later','Redo'].includes( targetState ) ) {
-      this.problems.splice( index, 1 ) ;
+      this.removeProblemFromWorkingSets( problemId ) ;
       nextProblemIndex = index ;
     }
     else {
@@ -298,6 +358,24 @@ export class Session extends PausableTimedEntity {
       return this.problems[ nextProblemIndex ] ;
     }
     return ;
+  }
+
+  // Removes problemId from `problems` (the currently displayed set) and,
+  // if a tag filter is active, also from filterSourceProblems - the true
+  // origin array - so a later reset never resurrects a completed problem.
+  private removeProblemFromWorkingSets( problemId: number ) {
+
+    const idx = this.problems.findIndex( p => p.problemId === problemId ) ;
+    if( idx !== -1 ) {
+      this.problems.splice( idx, 1 ) ;
+    }
+
+    if( this.filterSourceProblems !== null ) {
+      const srcIdx = this.filterSourceProblems.findIndex( p => p.problemId === problemId ) ;
+      if( srcIdx !== -1 ) {
+        this.filterSourceProblems.splice( srcIdx, 1 ) ;
+      }
+    }
   }
 
   private updateContinuationTime( updateServer:boolean = true ) {

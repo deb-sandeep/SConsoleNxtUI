@@ -33,6 +33,14 @@ export class TagAssociationApiService extends RemoteService {
     return this.getPromise( url, false ) ;
   }
 
+  // Batch version of getTagsForItem — every requested id is present in the
+  // result (empty array if untagged). Used by problem-picker's tag filter to
+  // fetch tags for a whole problem set in one call.
+  public getTagsForItems( itemType:TaggableItemType, itemIds:number[] ):Promise<Record<number, TagSO[]>> {
+    const url:string = `${environment.apiRoot}/Master/TagAssociation/${itemType}/Tags` ;
+    return this.postPromise( url, { itemIds }, false ) ;
+  }
+
   // Bulk endpoint — one entry per distinct tag found across itemIds, with
   // `associationCount` set to how many of those ids carry that tag (not a
   // global count, unlike the same field on TagApiService.getTagsForTopic).

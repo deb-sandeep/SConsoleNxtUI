@@ -1,0 +1,37 @@
+<div id="tag-filter-screen">
+  <div id="tag-filter-ui">
+    <div id="tag-filter-title">
+      Filter by Tags
+      @if( tags().length > 0 ) {
+        <span id="match-count">[{{matchingProblemCount()}}/{{totalProblemCount()}}]</span>
+      }
+    </div>
+
+    <div id="tag-list">
+      @if( tags().length === 0 ) {
+        <div class="no-tags-msg">No tags available for current problem set.</div>
+      }
+      @else {
+        @for( tag of tags(); track tag.id ) {
+          <div class="tag-row" [ngClass]="{ selected: selected[tag.id] }"
+               (click)="toggleTag( tag.id )">
+            <span class="bi-tag"></span>&nbsp;&nbsp;{{tag.tagText}}
+            @if( selected[tag.id] ) {
+              <span class="tweakie">
+                <span class="tweakie-icon bi-check-lg icon-green"></span>
+              </span>
+            }
+          </div>
+        }
+      }
+    </div>
+
+    <div id="btn-panel">
+      <button type="button" class="btn btn-lg btn-secondary"
+              (click)="hide.emit()">Cancel</button>
+      <button type="button" class="btn btn-lg btn-secondary"
+              [disabled]="!anyTagSelected()"
+              (click)="confirmClicked()">Apply</button>
+    </div>
+  </div>
+</div>

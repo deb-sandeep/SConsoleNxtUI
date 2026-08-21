@@ -42,8 +42,10 @@ export class ExerciseSessionComponent {
           .then( () => {
             this.session.fetchProblems()
                 .then( () => {
-                  this.session.selectActiveProblems() ;
-                  this.showProblemPicker = true ;
+                  if( this.session.hasActiveProblems() || this.session.hasPigeons() ) {
+                    this.session.selectActiveProblems() ;
+                    this.showProblemPicker = true ;
+                  }
                 } ) ;
           } ) ;
     }

@@ -12,6 +12,7 @@ import AlertService = Alert.AlertService;
 import { SessionNetworkService } from "./service/session-network.service";
 import { SessionStateService } from "./service/session-state.service";
 import { TimerService } from "./service/timer.service";
+import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
 
 @Component( {
   selector: 'app-root',
@@ -44,6 +45,7 @@ bootstrapApplication( AppComponent, {
     AlertService,
     SessionNetworkService,
     SessionStateService,
-    TimerService
+    TimerService,
+    TagAssociationApiService
   ]
 }).catch((err) => console.error(err)) ;
