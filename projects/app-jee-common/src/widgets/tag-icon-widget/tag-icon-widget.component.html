@@ -1,0 +1,26 @@
+<span class="tiw-icon"
+      [ngbTooltip]="tooltipTpl"
+      triggers="manual"
+      #tt="ngbTooltip"
+      (mouseenter)="onMouseEnter(tt)"
+      (mouseleave)="onMouseLeave(tt)"
+      (click)="iconClicked.emit()">
+  <span [ngClass]="iconClass()"
+        [style.color]="iconColor()"></span>
+</span>
+
+<ng-template #tooltipTpl>
+  @if( loadingTags() ) {
+    <span class="tiw-tooltip-status">Loading…</span>
+  }
+  @else if( hoveredTags().length === 0 ) {
+    <span class="tiw-tooltip-status">No tags</span>
+  }
+  @else {
+    <div class="tiw-tooltip-chips">
+      @for( t of hoveredTags(); track t.id ) {
+        <span class="tiw-chip">{{ t.tagText }}</span>
+      }
+    </div>
+  }
+</ng-template>

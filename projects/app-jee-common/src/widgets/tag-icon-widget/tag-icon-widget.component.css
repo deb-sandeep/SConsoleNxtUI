@@ -1,0 +1,27 @@
+.tiw-icon {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.tiw-tooltip-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 220px;
+}
+
+.tiw-chip {
+  display: inline-block;
+  background-color: #d3e0fd;
+  color: #0736c0;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.tiw-tooltip-status {
+  font-size: 11px;
+  color: #eee;
+}

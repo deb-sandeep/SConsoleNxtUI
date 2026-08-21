@@ -30,7 +30,7 @@ export class TagAssociationApiService extends RemoteService {
 
   public getTagsForItem( itemType:TaggableItemType, itemId:number ):Promise<TagSO[]> {
     const url:string = `${environment.apiRoot}/Master/TagAssociation/${itemType}/${itemId}` ;
-    return this.getPromise( url, true ) ;
+    return this.getPromise( url, false ) ;
   }
 
   // Bulk endpoint — one entry per distinct tag found across itemIds, with
@@ -48,14 +48,14 @@ export class TagAssociationApiService extends RemoteService {
   // Bulk endpoint — removes every tag from every id in itemIds in one call.
   public removeAllTags( itemType:TaggableItemType, itemIds:number[] ):Promise<string> {
     const url:string = `${environment.apiRoot}/Master/TagAssociation/${itemType}` ;
-    return this.deletePromise( url, true, { itemIds } ) ;
+    return this.deletePromise( url, false, { itemIds } ) ;
   }
 
   // Not called by tag-association-dialog, which does incremental attach/detach
   // rather than a batch reconcile — kept for API completeness.
   public setTags( itemType:TaggableItemType, itemId:number, tagIds:number[] ):Promise<TagSO[]> {
     const url:string = `${environment.apiRoot}/Master/TagAssociation/${itemType}/${itemId}/Set` ;
-    return this.postPromise( url, { tagIds }, true ) ;
+    return this.postPromise( url, { tagIds }, false ) ;
   }
 
   // Intended for a future host-list "N tags" badge, not this widget — kept
@@ -69,6 +69,6 @@ export class TagAssociationApiService extends RemoteService {
   // kept for API completeness.
   public getItemsForTag( tagId:number ):Promise<TagAssociationRes> {
     const url:string = `${environment.apiRoot}/Master/TagAssociation/ForTag/${tagId}` ;
-    return this.getPromise( url, true ) ;
+    return this.getPromise( url, false ) ;
   }
 }

@@ -11,3 +11,12 @@
 .accordion-button:not(.collapsed) {
     background-color: lightgrey;
 }
+
+/* ngbTooltip renders its bubble as a dynamically-inserted sibling, outside
+   any component's view — so it can only be re-themed here, globally, not
+   from a component's own (encapsulated) stylesheet. Bootstrap 5.3 drives
+   both the bubble and its arrow off these two variables. */
+.tooltip {
+    --bs-tooltip-bg: #575757;
+    --bs-tooltip-color: #fff;
+}

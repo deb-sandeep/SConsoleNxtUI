@@ -7,6 +7,7 @@ import { SConsoleUtil } from "@jee-common/util/common-util";
 import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
 import { TaggableItemType, TagAssociationTarget } from "@jee-common/util/tag-data-types";
 import { TagAssociationDialogComponent } from "@jee-common/widgets/tag-association-dialog/tag-association-dialog.component";
+import { TagIconWidgetComponent } from "@jee-common/widgets/tag-icon-widget/tag-icon-widget.component";
 import { TagQuerySearchRes } from "@jee-common/util/tag-query-types";
 import { TagBrowserService } from "../../tag-browser.service";
 import { syllabusHeaderColors } from "../../entities/syllabus-header-colors";
@@ -20,7 +21,7 @@ import { syllabusHeaderColors } from "../../entities/syllabus-header-colors";
 // wiring, generalized to cover both Problems and Questions.
 @Component({
   selector: 'results-tree',
-  imports: [ NgClass, DurationPipe, TagAssociationDialogComponent ],
+  imports: [ NgClass, DurationPipe, TagAssociationDialogComponent, TagIconWidgetComponent ],
   templateUrl: './results-tree.component.html',
   styleUrl: './results-tree.component.css'
 })
@@ -66,22 +67,10 @@ export class ResultsTreeComponent {
     return hex ? syllabusHeaderColors( hex ) : { syllabusBg:'#606060', syllabusFg:'#fff', topicBg:'#8f8f8f', topicFg:'#fff' } ;
   }
 
-  // ---- tag column — mirrors problem-history's
-  // getNumTagsForProblem/getTagIconForProblem/getTagIconColorForProblem,
-  // generalized to a plain counts-record + id so it works for both
-  // Problems and Questions.
-
-  tagIconClass( counts:Record<number, number> | null, id:number ):string {
-    const n = counts ? ( counts[ id ] ?? 0 ) : 0 ;
-    if( n === 0 ) return 'bi-tag' ;
-    if( n === 1 ) return 'bi-tag-fill' ;
-    return 'bi-tags-fill' ;
-  }
-
-  tagIconColor( counts:Record<number, number> | null, id:number ):string {
-    const n = counts ? ( counts[ id ] ?? 0 ) : 0 ;
-    return n === 0 ? 'grey' : 'blue' ;
-  }
+  // ---- tag column — icon rendering + hover-tooltip live in
+  // tag-icon-widget (shared with problem-history); this service still owns
+  // the batched counts fetch and the single dialog instance for the whole
+  // row list.
 
   openTagDialogForProblem( p:TopicProblemSO ) {
     this.openTagDialog( 'PROBLEM', p.problemId, p.problemKey.replaceAll( '/', ' / ' ), p.topicId ) ;

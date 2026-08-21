@@ -10,6 +10,7 @@ import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
 import { TagAssociationTarget } from "@jee-common/util/tag-data-types";
 import { TagAssociationDialogComponent } from "@jee-common/widgets/tag-association-dialog/tag-association-dialog.component";
+import { TagIconWidgetComponent } from "@jee-common/widgets/tag-icon-widget/tag-icon-widget.component";
 import { Syllabus } from "./entities/syllabus";
 import AlertService = Alert.AlertService;
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
@@ -79,7 +80,8 @@ class BookChapter {
     NgIf,
     AttemptHistoryComponent,
     NgbTooltipModule,
-    TagAssociationDialogComponent
+    TagAssociationDialogComponent,
+    TagIconWidgetComponent,
   ],
   templateUrl: './problem-history.component.html',
   styleUrl: './problem-history.component.css'
@@ -390,23 +392,4 @@ export class ProblemHistoryComponent {
     return visible ;
   }
 
-  public getNumTagsForProblem( p: TopicProblemSO ) {
-    return this.problemTagCounts ? this.problemTagCounts[ p.problemId ] : 0 ;
-  }
-
-  public getTagIconForProblem( p: TopicProblemSO ) {
-    const numTags = this.getNumTagsForProblem( p ) ;
-    if( numTags == 0 ) {
-      return "bi-tag" ;
-    }
-    else if( numTags == 1 ) {
-      return "bi-tag-fill" ;
-    }
-    return "bi-tags-fill" ;
-  }
-
-  public getTagIconColorForProblem( p: TopicProblemSO ) {
-    const numTags = this.getNumTagsForProblem( p ) ;
-    return numTags == 0 ? "grey" : "blue" ;
-  }
 }

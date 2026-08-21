@@ -11,27 +11,40 @@
       </div>
 
       @for( topicProblems of syllabusProblems.getTopicProblems(); track topicProblems.topicName ) {
-        <div class="topic-name">{{topicProblems.topicName}}</div>
+        <div class="topic-name">
+          {{topicProblems.topicName}}
+        </div>
 
         @for( bcProblems of topicProblems.getBookChapterProblems(); track bcProblems.bookChapterName ) {
-          <div class="bc-name" [innerHTML]="bcProblems.bookChapterName"></div>
+          <div class="bc-name"
+               [innerHTML]="bcProblems.bookChapterName">
+          </div>
 
           @for( pigeon of bcProblems.pigeons; track pigeon.problemId ) {
-            <div class="pigeon" (click)="pigeonSelected(pigeon)"
+            <div class="pigeon"
+                 (click)="pigeonSelected(pigeon)"
                  [class.pigeon-selected]="selectedPigeon == pigeon">
               <span [ngClass]="SConsoleUtil.getProblemIcon( pigeon.problemState )">&nbsp;</span>
               {{pigeon.problemKey}}
+
               @let age = getAge( pigeon ) ;
-              <span class="age" [ngClass]="{'red':age>0}">[{{age}}]</span>
-              <span class="tag-action" [ngClass]="getTagIcon(pigeon)"
-                    [style.color]="getTagIconColor(pigeon)"
-                    (click)="$event.stopPropagation(); openTagDialog(pigeon)"></span>
+              <span class="age"
+                    [ngClass]="{'red':age>0}">[{{age}}]</span>
+
+              <tag-icon-widget class="tag-action"
+                               itemType="PROBLEM"
+                               [itemId]="pigeon.problemId"
+                               [tagCount]="getNumTagsForPigeon(pigeon)"
+                               (iconClicked)="openTagDialog(pigeon)"
+                               (click)="$event.stopPropagation()">
+              </tag-icon-widget>
             </div>
           }
         }
       }
     }
   </div>
+
   <div class="pigeon-details">
     @if( selectedPigeon != null ) {
 
@@ -46,19 +59,23 @@
       <attempt-history [problem]="selectedPigeon"></attempt-history>
 
       <div class="button-bar">
-        <button type="button" class="btn btn-success"
+        <button type="button"
+                class="btn btn-success"
                 (click)="changePigeonState( 'Pigeon Solved' )">
           <span class="bi-twitter" style="color:lightgreen;">&nbsp;</span> Pigeon Solved
         </button>
-        <button type="button" class="btn btn-warning"
+        <button type="button"
+                class="btn btn-warning"
                 (click)="changePigeonState( 'Redo' )">
           <span class="bi-arrow-clockwise">&nbsp;</span> Redo
         </button>
-        <button type="button" class="btn btn-secondary"
+        <button type="button"
+                class="btn btn-secondary"
                 (click)="changePigeonState( 'Reassign' )">
           <span class="bi-signpost-split">&nbsp;</span> Reassign
         </button>
-        <button type="button" class="btn btn-danger"
+        <button type="button"
+                class="btn btn-danger"
                 (click)="changePigeonState( 'Purge' )">
           <span class="bi-box-arrow-up-right" style="color:white;">&nbsp;</span> Purge
         </button>

@@ -9,6 +9,7 @@ import { TagAssociationApiService } from "@jee-common/services/tag-association-a
 import { TagAssociationTarget } from "@jee-common/util/tag-data-types";
 import { AttemptHistoryComponent } from "@jee-common/widgets/attempt-history/attempt-history.component";
 import { TagAssociationDialogComponent } from "@jee-common/widgets/tag-association-dialog/tag-association-dialog.component";
+import { TagIconWidgetComponent } from "@jee-common/widgets/tag-icon-widget/tag-icon-widget.component";
 
 class BookChapterProblems {
 
@@ -74,6 +75,7 @@ class SyllabusProblems {
     NgClass,
     AttemptHistoryComponent,
     TagAssociationDialogComponent,
+    TagIconWidgetComponent,
   ],
   templateUrl: './solve-pigeons.component.html',
   styleUrl: './solve-pigeons.component.css'
@@ -211,20 +213,5 @@ export class SolvePigeonsComponent {
 
   public getNumTagsForPigeon( pigeon: TopicProblemSO ) {
     return this.problemTagCounts ? this.problemTagCounts[ pigeon.problemId ] : 0 ;
-  }
-
-  getTagIcon( pigeon: TopicProblemSO ) {
-    const numTags = this.getNumTagsForPigeon( pigeon ) ;
-    if( numTags == 0 ) {
-      return "bi-tag" ;
-    }
-    else if( numTags == 1 ) {
-      return "bi-tag-fill" ;
-    }
-    return "bi-tags-fill" ;
-  }
-
-  getTagIconColor( pigeon: TopicProblemSO ) {
-    return this.getNumTagsForPigeon( pigeon ) == 0 ? "grey" : "blue" ;
   }
 }
