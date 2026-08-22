@@ -14,6 +14,8 @@
       @else {
         @for( tag of tags(); track tag.id ) {
           <div class="tag-row" [ngClass]="{ selected: selected[tag.id] }"
+               [style.background-color]="selected[tag.id] ? null : tag.color"
+               [style.color]="selected[tag.id] ? null : getContrastingTextColor( tag.color )"
                (click)="toggleTag( tag.id )">
             <span class="bi-tag"></span>&nbsp;&nbsp;{{tag.tagText}}
             @if( selected[tag.id] ) {

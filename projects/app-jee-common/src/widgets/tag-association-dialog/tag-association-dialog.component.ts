@@ -1,5 +1,5 @@
 import { Component, HostListener, inject, input, OnChanges, output, SimpleChanges, ViewChild } from '@angular/core';
-import { CloseableBadgeComponent, ModalDialogComponent } from "lib-core";
+import { CloseableBadgeComponent, getContrastingTextColor, ModalDialogComponent } from "lib-core";
 import { TagApiService } from "@jee-common/services/tag-api.service";
 import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
@@ -61,6 +61,9 @@ const EXCLUDED_SUBJECTS = [ 'Exam', 'Reasoning' ] ;
  * open, instead of leaking over from the previous time the dialog was used.
  */
 export class TagAssociationDialogComponent implements OnChanges {
+
+  /** Exposed for the template — picks legible text color for a tag.color background. */
+  protected readonly getContrastingTextColor = getContrastingTextColor ;
 
   /**
    * Fetches/creates/renames/deletes `Tag` records (the tag itself, not its

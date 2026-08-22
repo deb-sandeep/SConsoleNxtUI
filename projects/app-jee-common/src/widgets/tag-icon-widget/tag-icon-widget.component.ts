@@ -1,6 +1,7 @@
 import { Component, inject, input, output, signal } from '@angular/core';
 import { NgClass } from "@angular/common";
 import { NgbTooltip, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
+import { getContrastingTextColor } from "lib-core";
 import { TagAssociationApiService } from "../../services/tag-association-api.service";
 import { TaggableItemType, TagSO } from "../../util/tag-data-types";
 
@@ -23,6 +24,9 @@ import { TaggableItemType, TagSO } from "../../util/tag-data-types";
   styleUrl: './tag-icon-widget.component.css',
 })
 export class TagIconWidgetComponent {
+
+  /** Exposed for the template — picks legible text color for a tag.color background. */
+  protected readonly getContrastingTextColor = getContrastingTextColor ;
 
   private tagAssociationApi = inject( TagAssociationApiService ) ;
 

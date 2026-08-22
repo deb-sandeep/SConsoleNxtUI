@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { getContrastingTextColor } from '../../util/color-util' ;
 
 @Component( {
   selector: 'closeable-badge',
   imports: [],
   template: `
-    <div class="closeable-badge">
+    <div class="closeable-badge"
+         [style.background-color]="color ?? null"
+         [style.color]="textColor">
       {{ text }}
       <button type="button" class="btn-close btn-close close-btn"
               (click)="closeBtnClicked()"></button>
@@ -33,9 +36,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class CloseableBadgeComponent {
 
   @Input( "text" ) text:string = '' ;
+  @Input( "color" ) color?:string ;
 
   @Output( "close" )
   closeEventEmitter:EventEmitter<any> = new EventEmitter<void>() ;
+
+  get textColor():string | null {
+    return this.color ? getContrastingTextColor( this.color ) : null ;
+  }
 
   closeBtnClicked() {
     this.closeEventEmitter.emit() ;

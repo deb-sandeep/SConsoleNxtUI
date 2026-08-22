@@ -1,5 +1,6 @@
 import { Component, ElementRef, inject, input, OnChanges, output, ViewChild } from '@angular/core';
 import { FormsModule } from "@angular/forms";
+import { getContrastingTextColor } from "lib-core";
 import { SyllabusSO, TopicSO } from "@jee-common/util/master-data-types";
 import { TagApiService } from "@jee-common/services/tag-api.service";
 import { TagSO } from "@jee-common/util/tag-data-types";
@@ -28,6 +29,9 @@ const ALLOWED_SUBJECTS = [ 'Physics', 'Chemistry', 'Maths' ] ;
  * this dialog session's associations.
  */
 export class BrowseByTopicComponent implements OnChanges {
+
+  /** Exposed for the template — picks legible text color for a tag.color background. */
+  protected readonly getContrastingTextColor = getContrastingTextColor ;
 
   /**
    * Used for fetching a topic's tag list, and for the rename/delete

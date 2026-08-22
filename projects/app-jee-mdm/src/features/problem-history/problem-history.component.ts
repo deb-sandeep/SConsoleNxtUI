@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
-import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe, Alert, CloseableBadgeComponent, LocalStorageService } from "lib-core";
+import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe, Alert, CloseableBadgeComponent, getContrastingTextColor, LocalStorageService } from "lib-core";
 import { FormsModule } from "@angular/forms";
 import { TopicProblemSO } from "@jee-common/util/master-data-types";
 import { SConsoleUtil } from "@jee-common/util/common-util";
@@ -89,6 +89,9 @@ class BookChapter {
   styleUrl: './problem-history.component.css'
 })
 export class ProblemHistoryComponent implements OnDestroy {
+
+  /** Exposed for the template — picks legible text color for a tag.color background. */
+  protected readonly getContrastingTextColor = getContrastingTextColor ;
 
   private static readonly TAG_SCROLL_EDGE_PX = 24 ;
   private static readonly TAG_SCROLL_STEP_PX = 8 ;

@@ -4,7 +4,7 @@
   @if( questionTags.value()?.length ) {
     <div class="qd-tags-row">
       @for( tag of questionTags.value(); track tag.id ) {
-        <closeable-badge [text]="tag.tagText" (close)="removeTag(tag)"></closeable-badge>
+        <closeable-badge [text]="tag.tagText" [color]="tag.color" (close)="removeTag(tag)"></closeable-badge>
       }
     </div>
   }

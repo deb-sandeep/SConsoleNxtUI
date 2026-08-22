@@ -84,6 +84,8 @@
         <span class="tag-filter-chip"
               [class.matched]="isTagFilterHighlighted( tag )"
               [class.selected]="selectedTagFilterIds.has( tag.id )"
+              [style.background-color]="selectedTagFilterIds.has( tag.id ) ? null : tag.color"
+              [style.color]="selectedTagFilterIds.has( tag.id ) ? null : getContrastingTextColor( tag.color )"
               (click)="toggleTagFilter( tag )">
           {{tag.tagText}}
         </span>
@@ -179,7 +181,7 @@
                            (mousemove)="onTagWrapMouseMove($event)"
                            (mouseleave)="stopTagWrapAutoScroll()">
                         @for( tag of problemTagsMap?.[p.problemId]; track tag.id ) {
-                          <closeable-badge [text]="tag.tagText" (close)="removeTag(p, tag)"></closeable-badge>
+                          <closeable-badge [text]="tag.tagText" [color]="tag.color" (close)="removeTag(p, tag)"></closeable-badge>
                         }
                         <span class="bi-plus-circle tag-add-icon" (click)="openQuickTagPicker( p, $event )"></span>
                       </div>
@@ -248,6 +250,8 @@
       @for( tag of topicTags; track tag.id ) {
         <span class="tag-filter-chip"
               [class.selected]="isProblemTagged( quickTagPickerProblem, tag )"
+              [style.background-color]="isProblemTagged( quickTagPickerProblem, tag ) ? null : tag.color"
+              [style.color]="isProblemTagged( quickTagPickerProblem, tag ) ? null : getContrastingTextColor( tag.color )"
               (click)="toggleProblemTag( quickTagPickerProblem, tag )">
           {{tag.tagText}}
         </span>

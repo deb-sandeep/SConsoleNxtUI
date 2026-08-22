@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { NgClass } from "@angular/common";
+import { getContrastingTextColor } from "lib-core";
 import { TagSO } from "@jee-common/util/tag-data-types";
 
 @Component({
@@ -11,6 +12,9 @@ import { TagSO } from "@jee-common/util/tag-data-types";
   styleUrl: './tag-filter-dialog.component.css',
 })
 export class TagFilterDialogComponent {
+
+  /** Exposed for the template — picks legible text color for a tag.color background. */
+  protected readonly getContrastingTextColor = getContrastingTextColor ;
 
   tags = input.required<TagSO[]>() ;
   // Tags per problem id, for the same problem set `tags` was drawn from -

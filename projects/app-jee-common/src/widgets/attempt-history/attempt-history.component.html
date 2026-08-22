@@ -3,7 +3,7 @@
   @if( problemTags.value()?.length ) {
     <div class="problem-tags-row">
       @for( tag of problemTags.value(); track tag.id ) {
-        <closeable-badge [text]="tag.tagText" (close)="removeTag(tag)"></closeable-badge>
+        <closeable-badge [text]="tag.tagText" [color]="tag.color" (close)="removeTag(tag)"></closeable-badge>
       }
     </div>
   }

@@ -19,7 +19,9 @@
   @else {
     <div class="tiw-tooltip-chips">
       @for( t of hoveredTags(); track t.id ) {
-        <span class="tiw-chip">{{ t.tagText }}</span>
+        <span class="tiw-chip"
+              [style.background-color]="t.color"
+              [style.color]="getContrastingTextColor( t.color )">{{ t.tagText }}</span>
       }
     </div>
   }

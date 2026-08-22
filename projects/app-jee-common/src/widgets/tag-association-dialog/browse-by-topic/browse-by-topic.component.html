@@ -50,7 +50,9 @@
           </span>
         }
         @else {
-          <span class="tag-pill" [class.attached]="isAttached(tag)">
+          <span class="tag-pill" [class.attached]="isAttached(tag)"
+                [style.background-color]="isAttached(tag) ? null : tag.color"
+                [style.color]="isAttached(tag) ? null : getContrastingTextColor( tag.color )">
             <button type="button" class="tag-pill-label"
                     [disabled]="isAttached(tag)"
                     (click)="attach(tag)">

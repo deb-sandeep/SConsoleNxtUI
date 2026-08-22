@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { getContrastingTextColor } from "lib-core";
 import { TagSearchBoxComponent } from "@jee-common/widgets/tag-association-dialog/tag-search-box/tag-search-box.component";
 import { QuickAccessTabsComponent } from "@jee-common/widgets/tag-association-dialog/quick-access-tabs/quick-access-tabs.component";
 import { BrowseByTopicComponent } from "@jee-common/widgets/tag-association-dialog/browse-by-topic/browse-by-topic.component";
@@ -21,4 +22,5 @@ import { TagBrowserService } from "../../tag-browser.service";
 })
 export class TagPickerPanelComponent {
   protected svc = inject( TagBrowserService ) ;
+  protected readonly getContrastingTextColor = getContrastingTextColor ;
 }

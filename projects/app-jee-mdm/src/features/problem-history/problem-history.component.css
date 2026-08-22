@@ -7,9 +7,7 @@
 
 :host ::ng-deep .closeable-badge {
     padding: 0 5px !important;
-    background-color: #ffffff !important;
     border: 1px lightgrey solid;
-    color: #0049ff !important;
     font-size: 11px !important;
     white-space: nowrap ;
 }
@@ -121,8 +119,7 @@
 }
 
 .tag-filter-chip.matched {
-    color: #0049ff;
-    border-color: #0049ff;
+    box-shadow: 0 0 0 1px #0049ff inset;
 }
 
 .tag-filter-chip.selected {

@@ -1,4 +1,5 @@
 import { Component, input, output } from '@angular/core';
+import { getContrastingTextColor } from "lib-core";
 import { TagSO } from "@jee-common/util/tag-data-types";
 
 @Component({
@@ -14,6 +15,9 @@ import { TagSO } from "@jee-common/util/tag-data-types";
  * which tab is active and filters out already-attached tags.
  */
 export class QuickAccessTabsComponent {
+
+  /** Exposed for the template — picks legible text color for a tag.color background. */
+  protected readonly getContrastingTextColor = getContrastingTextColor ;
 
   /**
    * The 10 most recently created/used tags, server-ranked — shown under

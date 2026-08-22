@@ -11,6 +11,8 @@
   <div class="pill-list">
     @for( tag of visibleTags(); track tag.id ) {
       <button type="button" class="pill"
+              [style.background-color]="tag.color"
+              [style.color]="getContrastingTextColor( tag.color )"
               (click)="tagSelected.emit(tag)">
         {{ tag.tagText }}
       </button>

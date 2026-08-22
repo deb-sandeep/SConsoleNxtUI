@@ -12,7 +12,9 @@
       @if( svc.stagedTags.length ) {
         <div class="tpp-staged-chips">
           @for( t of svc.stagedTags; track t.id ) {
-            <span class="tpp-chip">
+            <span class="tpp-chip"
+                  [style.background-color]="t.color"
+                  [style.color]="getContrastingTextColor( t.color )">
               {{ t.tagText }}
               <button type="button" class="tpp-chip-x" (click)="svc.toggleStagedTag(t)">&times;</button>
             </span>

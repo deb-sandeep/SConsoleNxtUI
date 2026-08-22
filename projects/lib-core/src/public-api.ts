@@ -26,3 +26,6 @@ export * from './pipes/duration.pipe'
 // Types
 export * from './types/api-response' ;
 
+// Utils
+export * from './util/color-util' ;
+

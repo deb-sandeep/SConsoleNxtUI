@@ -19,7 +19,7 @@
   <div class="chips-row">
     @if( isSingleMode() ) {
       @for( tag of attachedTags; track tag.id ) {
-        <closeable-badge [text]="tag.tagText" (close)="detachTag(tag)"></closeable-badge>
+        <closeable-badge [text]="tag.tagText" [color]="tag.color" (close)="detachTag(tag)"></closeable-badge>
       }
       @empty {
         <span class="empty-text">No tags yet.</span>
@@ -27,7 +27,10 @@
     }
     @else {
       @for( tag of tagHistogram; track tag.id ) {
-        <span class="histogram-pill" [class.full]="tag.associationCount === targets().length">
+        @let isFull = tag.associationCount === targets().length ;
+        <span class="histogram-pill" [class.full]="isFull"
+              [style.background-color]="isFull ? null : tag.color"
+              [style.color]="isFull ? null : getContrastingTextColor( tag.color )">
           <button type="button" class="histogram-pill-label" (click)="attachTag(tag)">
             {{ tag.tagText }}
             <span class="histogram-count">{{ tag.associationCount }}/{{ targets().length }}</span>

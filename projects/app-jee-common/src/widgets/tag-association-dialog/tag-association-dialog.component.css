@@ -46,8 +46,6 @@
 
 :host ::ng-deep .closeable-badge {
     padding: 4px 10px !important;
-    background-color: #ffdab2 !important;
-    color: #752500 !important;
 }
 
 :host ::ng-deep .close-btn {
