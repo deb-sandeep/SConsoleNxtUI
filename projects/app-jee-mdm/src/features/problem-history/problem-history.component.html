@@ -159,7 +159,9 @@
 
                     <td class="tag-names-cell"
                         (click)="$event.stopPropagation()">
-                      <div class="tag-names-wrap">
+                      <div class="tag-names-wrap"
+                           (mousemove)="onTagWrapMouseMove($event)"
+                           (mouseleave)="stopTagWrapAutoScroll()">
                         @for( tag of problemTagsMap?.[p.problemId]; track tag.id ) {
                           <closeable-badge [text]="tag.tagText" (close)="removeTag(p, tag)"></closeable-badge>
                         }

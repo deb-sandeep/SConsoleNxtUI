@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe, Alert, CloseableBadgeComponent, LocalStorageService } from "lib-core";
 import { FormsModule } from "@angular/forms";
 import { TopicProblemSO } from "@jee-common/util/master-data-types";
@@ -88,7 +88,12 @@ class BookChapter {
   templateUrl: './problem-history.component.html',
   styleUrl: './problem-history.component.css'
 })
-export class ProblemHistoryComponent {
+export class ProblemHistoryComponent implements OnDestroy {
+
+  private static readonly TAG_SCROLL_EDGE_PX = 24 ;
+  private static readonly TAG_SCROLL_STEP_PX = 8 ;
+
+  private tagWrapScrollTimer: ReturnType<typeof setInterval> | null = null ;
 
   private titleSvc: PageTitleService = inject( PageTitleService ) ;
   private alertSvc:AlertService = inject( AlertService ) ;
@@ -132,6 +137,34 @@ export class ProblemHistoryComponent {
 
     this.fetchSyllabusAndTopics()
         .then( () => this.topicSelected() ) ;
+  }
+
+  ngOnDestroy() {
+    this.stopTagWrapAutoScroll() ;
+  }
+
+  onTagWrapMouseMove( event: MouseEvent ) {
+    let el = event.currentTarget as HTMLElement ;
+    let rect = el.getBoundingClientRect() ;
+    let x = event.clientX - rect.left ;
+
+    let dir = 0 ;
+    if( x < ProblemHistoryComponent.TAG_SCROLL_EDGE_PX ) dir = -1 ;
+    else if( x > rect.width - ProblemHistoryComponent.TAG_SCROLL_EDGE_PX ) dir = 1 ;
+
+    this.stopTagWrapAutoScroll() ;
+    if( dir !== 0 ) {
+      this.tagWrapScrollTimer = setInterval( () => {
+        el.scrollLeft += dir * ProblemHistoryComponent.TAG_SCROLL_STEP_PX ;
+      }, 75 ) ;
+    }
+  }
+
+  stopTagWrapAutoScroll() {
+    if( this.tagWrapScrollTimer ) {
+      clearInterval( this.tagWrapScrollTimer ) ;
+      this.tagWrapScrollTimer = null ;
+    }
   }
 
   private async fetchSyllabusAndTopics() {

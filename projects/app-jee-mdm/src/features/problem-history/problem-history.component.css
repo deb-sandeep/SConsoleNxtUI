@@ -10,6 +10,7 @@
     border: 1px lightgrey solid;
     color: #0049ff !important;
     font-size: 11px !important;
+    white-space: nowrap ;
 }
 
 :host ::ng-deep .close-btn {
@@ -201,9 +202,25 @@
     cursor: pointer;
 }
 
+.tag-names-cell {
+    max-width: 300px;
+}
+
 .tag-names-wrap {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.tag-names-wrap::-webkit-scrollbar {
+    display: none;
+}
+
+.tag-names-wrap closeable-badge {
+    flex-shrink: 0;
 }
 
 .num-attempts {
