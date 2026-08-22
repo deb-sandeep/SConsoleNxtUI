@@ -52,10 +52,16 @@ export class CreateTagPanelComponent implements OnInit, AfterViewInit {
    * Emitted when the user confirms "create and attach this tag to the
    * current target(s)".
    */
-  createAndAttach = output<{ tagText:string, topicId:number }>() ;
+  createAndAttach = output<{ tagText:string, topicId:number, color:string }>() ;
 
   /** Emitted when the user confirms "create this tag but don't attach it yet". */
-  createOnly = output<{ tagText:string, topicId:number }>() ;
+  createOnly = output<{ tagText:string, topicId:number, color:string }>() ;
+
+  /**
+   * The color to create the tag with, bound to the panel's swatch picker.
+   * Starts black — a new tag has no existing color to inherit.
+   */
+  selectedColor = '#000000' ;
 
   /**
    * Emitted when the user backs out of the panel (Escape, or a cancel
@@ -171,7 +177,7 @@ export class CreateTagPanelComponent implements OnInit, AfterViewInit {
    */
   confirmCreateAndAttach() {
     if( this.selectedTopicId == null ) return ;
-    this.createAndAttach.emit( { tagText: this.query(), topicId: this.selectedTopicId } ) ;
+    this.createAndAttach.emit( { tagText: this.query(), topicId: this.selectedTopicId, color: this.selectedColor } ) ;
   }
 
   /**
@@ -180,7 +186,7 @@ export class CreateTagPanelComponent implements OnInit, AfterViewInit {
    */
   confirmCreateOnly() {
     if( this.selectedTopicId == null ) return ;
-    this.createOnly.emit( { tagText: this.query(), topicId: this.selectedTopicId } ) ;
+    this.createOnly.emit( { tagText: this.query(), topicId: this.selectedTopicId, color: this.selectedColor } ) ;
   }
 
   /**

@@ -31,10 +31,13 @@
     </div>
 
     <div class="tag-pane">
-      @for( tag of visibleTopicTags(); track tag.id ) {
+      @for( tag of topicTags; track tag.id ) {
         @if( editingTagId === tag.id ) {
           <span class="tag-pill editing">
-            <input type="text" class="edit-input"
+            <input type="color" class="color-swatch-input"
+                   [ngModel]="editingTagColor"
+                   (ngModelChange)="editingTagColor = $event" />
+            <input type="text" class="edit-input" #editInputEl
                    [ngModel]="editingText" (ngModelChange)="editingText = $event"
                    (keydown.enter)="confirmEdit()"
                    (keydown.escape)="$event.stopPropagation(); cancelEdit()" />
@@ -47,8 +50,10 @@
           </span>
         }
         @else {
-          <span class="tag-pill">
-            <button type="button" class="tag-pill-label" (click)="attach(tag)">
+          <span class="tag-pill" [class.attached]="isAttached(tag)">
+            <button type="button" class="tag-pill-label"
+                    [disabled]="isAttached(tag)"
+                    (click)="attach(tag)">
               {{ tag.tagText }}
               <span class="assoc-count">{{ tag.associationCount }}</span>
             </button>
@@ -63,7 +68,7 @@
           </span>
         }
       } @empty {
-        <div class="no-tags">All tags in this topic are already applied.</div>
+        <div class="no-tags">No tags in this topic yet.</div>
       }
       @if( editError; as err ) {
         <div class="edit-error">
@@ -77,6 +82,9 @@
   </div>
 </div>
 
-<delete-tag-confirm-dialog [show]="tagPendingDelete !== null" [tag]="tagPendingDelete"
-                            (confirmed)="confirmDelete()" (cancelled)="cancelDelete()">
+<delete-tag-confirm-dialog
+    [show]="tagPendingDelete !== null"
+    [tag]="tagPendingDelete"
+    (confirmed)="confirmDelete()"
+    (cancelled)="cancelDelete()">
 </delete-tag-confirm-dialog>

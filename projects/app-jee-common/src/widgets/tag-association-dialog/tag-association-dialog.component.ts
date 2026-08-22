@@ -451,17 +451,48 @@ export class TagAssociationDialogComponent implements OnChanges {
   }
 
   /**
+   * Re-fetches whichever of {@link attachedTags}/{@link tagHistogram} is
+   * live for the current mode, so a tag catalog mutation elsewhere in the
+   * dialog (rename, delete) that touches an already-attached tag is
+   * reflected in the chip row / histogram pills instead of leaving them
+   * showing stale text/color, or — for a delete — a dangling entry that
+   * references a tag id which no longer exists. Shared by
+   * {@link onTagDeleted} and {@link onTagEdited}.
+   */
+  private async refreshAttachedTagsView() {
+    if( this.isSingleMode() ) {
+      const single = this.targets()[0] ;
+      this.attachedTags = await this.tagAssociationApi.getTagsForItem( single.itemType, single.itemId ) ;
+    }
+    else {
+      this.tagHistogram = await this.fetchBulkTagHistogram() ;
+    }
+  }
+
+  /**
    * Invoked from `(tagDeleted)` on `browse-by-topic` after it deletes a tag
    * (the whole catalog record, not just one association). Refreshes
    * {@link recentTags}/{@link mostUsedTags} so `quick-access-tabs` stops
-   * showing it, and — bulk mode only — refetches {@link tagHistogram} too,
-   * since the deleted tag could otherwise keep showing there as a dangling
-   * pill (clicking it to attach would fail, referencing a tag id that no
-   * longer exists).
+   * showing it, and {@link attachedTags}/{@link tagHistogram} via
+   * {@link refreshAttachedTagsView} — now reachable in single mode too,
+   * since `browse-by-topic` no longer hides already-attached tags, so their
+   * delete icon is clickable.
    */
   async onTagDeleted() {
     await this.refreshQuickAccessLists() ;
-    if( !this.isSingleMode() ) this.tagHistogram = await this.fetchBulkTagHistogram() ;
+    await this.refreshAttachedTagsView() ;
+  }
+
+  /**
+   * Invoked from `(tagEdited)` on `browse-by-topic` after it renames a tag
+   * (text and/or color). Same refresh as {@link onTagDeleted} — a renamed
+   * tag that's currently attached would otherwise keep showing its old
+   * text/color in the chip row / histogram pills until the dialog was
+   * reopened.
+   */
+  async onTagEdited() {
+    await this.refreshQuickAccessLists() ;
+    await this.refreshAttachedTagsView() ;
   }
 
   /**
@@ -590,10 +621,10 @@ export class TagAssociationDialogComponent implements OnChanges {
    * `createTag` itself (a real server failure, not a duplicate) is shown
    * inline in the still-open create panel rather than silently closing it.
    */
-  async onCreateAndAttach( req:{ tagText:string, topicId:number } ) {
+  async onCreateAndAttach( req:{ tagText:string, topicId:number, color:string } ) {
     if( await this.checkDuplicateBeforeCreate( req.tagText ) ) return ;
     try {
-      const tag = await this.tagApi.createTag( req.tagText, req.topicId, '#000000' ) ;
+      const tag = await this.tagApi.createTag( req.tagText, req.topicId, req.color ) ;
       this.closeCreatePanel() ;
       await this.attachTag( tag ) ;
     }
@@ -609,10 +640,10 @@ export class TagAssociationDialogComponent implements OnChanges {
    * and error-handling as {@link onCreateAndAttach}, but deliberately skips
    * the attach step.
    */
-  async onCreateOnly( req:{ tagText:string, topicId:number } ) {
+  async onCreateOnly( req:{ tagText:string, topicId:number, color:string } ) {
     if( await this.checkDuplicateBeforeCreate( req.tagText ) ) return ;
     try {
-      await this.tagApi.createTag( req.tagText, req.topicId, '#000000' ) ;
+      await this.tagApi.createTag( req.tagText, req.topicId, req.color ) ;
       this.closeCreatePanel() ;
     }
     catch( err ) {

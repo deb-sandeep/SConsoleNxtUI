@@ -34,6 +34,8 @@
   }
 
   <div class="create-tag-actions">
+    <input type="color" class="color-swatch-input"
+           [ngModel]="selectedColor" (ngModelChange)="selectedColor = $event" />
     <button type="button" class="btn btn-info btn-sm" tabindex="1"
             #createAndAttachBtn
             [disabled]="selectedTopicId == null"

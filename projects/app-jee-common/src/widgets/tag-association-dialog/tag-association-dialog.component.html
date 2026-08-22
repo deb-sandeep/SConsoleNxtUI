@@ -85,7 +85,8 @@
     <browse-by-topic
       [syllabus]="syllabus" [excludeTagIds]="attachedTagIds()" [defaultTopicId]="defaultTopicId()"
       (tagSelected)="attachTag($event)"
-      (tagDeleted)="onTagDeleted()">
+      (tagDeleted)="onTagDeleted()"
+      (tagEdited)="onTagEdited()">
     </browse-by-topic>
   </div>
 

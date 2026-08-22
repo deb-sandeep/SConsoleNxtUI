@@ -115,6 +115,19 @@
     padding: 0;
 }
 
+.tag-pill-label:disabled {
+    cursor: default;
+    color: #2b2b2b;
+}
+
+/* Already attached to the current target(s) — same blue accent used for
+   "fully associated" elsewhere in this widget (tag-association-dialog's
+   .histogram-pill.full), rather than hiding the pill outright, so its
+   rename/delete icons stay reachable. */
+.tag-pill.attached {
+    background-color: #d1d1d1;
+}
+
 .assoc-count {
     font-size: 9px;
     opacity: 0.65;
@@ -145,7 +158,16 @@
 .edit-input {
     width: 120px;
     font-size: 12px;
-    padding: 2px 5px;
+    padding: 0 5px;
+}
+
+.color-swatch-input {
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .edit-error {

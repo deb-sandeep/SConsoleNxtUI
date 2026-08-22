@@ -42,6 +42,18 @@ export class BrowseByTopicComponent implements OnChanges {
   @ViewChild( 'topicListEl' ) topicListRef!:ElementRef<HTMLElement> ;
 
   /**
+   * Reference to the rename text input, which only exists in the DOM while
+   * a pill is being edited (`@if( editingTagId === tag.id )`). Declared as a
+   * setter rather than a plain field so it fires the moment that input is
+   * created — i.e. right when {@link startEdit} flips a pill into edit mode
+   * — and focuses it immediately, without needing a `setTimeout`/microtask
+   * to wait out the view-update cycle.
+   */
+  @ViewChild( 'editInputEl' ) set editInputEl( el:ElementRef<HTMLInputElement> | undefined ) {
+    el?.nativeElement.focus() ;
+  }
+
+  /**
    * Full subject → topic tree from the host; filtered down to
    * {@link ALLOWED_SUBJECTS} via {@link visibleSyllabus} before use.
    */
@@ -79,6 +91,14 @@ export class BrowseByTopicComponent implements OnChanges {
   tagDeleted = output<void>() ;
 
   /**
+   * Emitted after a tag is renamed (via {@link confirmEdit}) — the host uses
+   * this to refresh its "Recently used"/"Frequently used" quick-access lists
+   * and its own attached-tags view, either of which could otherwise keep
+   * showing the tag's old text/color until the dialog is reopened.
+   */
+  tagEdited = output<void>() ;
+
+  /**
    * Which subject tab is active; null only before {@link ngOnChanges} has
    * run its one-time initialization for this dialog session.
    */
@@ -113,6 +133,14 @@ export class BrowseByTopicComponent implements OnChanges {
    * rename input.
    */
   editingText = "" ;
+
+  /**
+   * The in-progress edited color for {@link editingTagId}, bound to the
+   * rename row's swatch picker. Seeded from the tag's actual current color
+   * in {@link startEdit} so an untouched rename preserves it instead of
+   * resetting it.
+   */
+  editingTagColor = "" ;
 
   /**
    * Error text shown under the tag-pill list if a rename fails (e.g.
@@ -197,11 +225,15 @@ export class BrowseByTopicComponent implements OnChanges {
   }
 
   /**
-   * {@link topicTags} with already-attached tags filtered out via
-   * {@link excludeTagIds}.
+   * Whether `tag` is already attached to the current target(s) — used by the
+   * template to disable a pill's click-to-attach behavior and give it a
+   * distinguishing background, rather than hiding it outright. Tags stay
+   * visible (unlike the old {@link excludeTagIds}-filtered list) so their
+   * rename/delete icons remain reachable — otherwise there would be no way
+   * to edit a tag once it's attached to the item being tagged.
    */
-  visibleTopicTags():TagSO[] {
-    return this.topicTags.filter( t => !this.excludeTagIds().has( t.id ) ) ;
+  isAttached( tag:TagSO ):boolean {
+    return this.excludeTagIds().has( tag.id ) ;
   }
 
   /**
@@ -293,6 +325,7 @@ export class BrowseByTopicComponent implements OnChanges {
   startEdit( tag:TagSO ) {
     this.editingTagId = tag.id ;
     this.editingText = tag.tagText ;
+    this.editingTagColor = tag.color ;
     this.editError = null ;
   }
 
@@ -303,6 +336,7 @@ export class BrowseByTopicComponent implements OnChanges {
   cancelEdit() {
     this.editingTagId = null ;
     this.editingText = "" ;
+    this.editingTagColor = "" ;
   }
 
   /**
@@ -317,10 +351,12 @@ export class BrowseByTopicComponent implements OnChanges {
     const text = this.editingText.trim() ;
     if( text.length === 0 || this.editingTagId == null ) return ;
     const tagId = this.editingTagId ;
+    const color = this.editingTagColor ;
     try {
-      await this.tagApi.renameTag( tagId, text, '#000000' ) ;
-      this.topicTags = this.topicTags.map( t => t.id === tagId ? { ...t, tagText: text } : t ) ;
+      await this.tagApi.renameTag( tagId, text, color ) ;
+      this.topicTags = this.topicTags.map( t => t.id === tagId ? { ...t, tagText: text, color } : t ) ;
       this.cancelEdit() ;
+      this.tagEdited.emit() ;
     }
     catch( err ) {
       this.editError = String( err ) ;
