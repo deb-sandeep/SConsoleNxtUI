@@ -58,7 +58,7 @@ export const featureRoutes: Routes = [
         path: 'problem-history',
         title: 'Problem History',
         component: ProblemHistoryComponent,
-        providers: [AlertService, ProblemApiService, SyllabusApiService, TagAssociationApiService]
+        providers: [AlertService, ProblemApiService, SyllabusApiService, TagApiService, TagAssociationApiService]
     },
     {
         path: 'tag-browser',

@@ -7,6 +7,7 @@ import { NgClass, NgIf } from "@angular/common";
 import { AttemptHistoryComponent } from "@jee-common/widgets/attempt-history/attempt-history.component";
 import { ProblemApiService } from "@jee-common/services/problem-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
+import { TagApiService } from "@jee-common/services/tag-api.service";
 import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
 import { TagAssociationTarget, TagSO } from "@jee-common/util/tag-data-types";
 import { TagAssociationDialogComponent } from "@jee-common/widgets/tag-association-dialog/tag-association-dialog.component";
@@ -35,7 +36,7 @@ class Exercise {
 class BookChapter {
 
   exerciseProblems: Record<string, Exercise> = {} ;
-  collapsed = false;
+  collapsed = false ;
 
   constructor( public bookChapterName: string ) {}
 
@@ -97,6 +98,7 @@ export class ProblemHistoryComponent implements OnDestroy {
 
   private titleSvc: PageTitleService = inject( PageTitleService ) ;
   private alertSvc:AlertService = inject( AlertService ) ;
+  private tagApiSvc: TagApiService = inject( TagApiService ) ;
   private tagAssociationApiSvc: TagAssociationApiService = inject( TagAssociationApiService ) ;
   private lsSvc: LocalStorageService = inject( LocalStorageService ) ;
 
@@ -115,15 +117,19 @@ export class ProblemHistoryComponent implements OnDestroy {
   selectedTopicId = 109 ;
   allProblems: TopicProblemSO[] = [] ;
   problemTagsMap: Record<number, TagSO[]> | null = null ;
+  topicTags: TagSO[] = [] ;
+  selectedTagFilterIds: Set<number> = new Set() ;
 
   filteredProblems: Record<string, BookChapter> = {}
   selectedProblem: TopicProblemSO | null = null ;
   showOnlyStarred = false ;
-  visibilityChoice = "all" ;
+  visibilityChoice = "incomplete" ;
 
   tagDialogShow = false ;
   tagDialogTargets: TagAssociationTarget[] = [] ;
   tagDialogTopicId: number | undefined = undefined ;
+
+  tagFilterShow = true ;
 
   constructor() {
     this.titleSvc.setTitle( "Explore problem history" ) ;
@@ -186,6 +192,7 @@ export class ProblemHistoryComponent implements OnDestroy {
   async topicSelected() {
     this.selectedProblem = null ;
     this.problemTagsMap = null ;
+    this.selectedTagFilterIds = new Set() ;
 
     this.lsSvc.setItem( StorageKey.LAST_PROBLEM_HISTORY_TOPIC, JSON.stringify( {
       syllabusName: this.selectedSyllabusName,
@@ -194,7 +201,7 @@ export class ProblemHistoryComponent implements OnDestroy {
 
     this.allProblems = await this.probApiSvc.getProblems( this.selectedTopicId ) ;
     this.computeDisplayProblems() ;
-    await this.refreshProblemTags() ;
+    await Promise.all( [ this.refreshProblemTags(), this.refreshTopicTags() ] ) ;
   }
 
   private async refreshProblemTags() {
@@ -202,6 +209,11 @@ export class ProblemHistoryComponent implements OnDestroy {
       'PROBLEM',
       this.allProblems.map( p => p.problemId )
     ) ;
+  }
+
+  private async refreshTopicTags() {
+    this.topicTags = ( await this.tagApiSvc.getTagsForTopic( this.selectedTopicId ) )
+        .sort( ( a, b ) => a.tagText.localeCompare( b.tagText ) ) ;
   }
 
   openTagDialog( p: TopicProblemSO ) {
@@ -220,6 +232,7 @@ export class ProblemHistoryComponent implements OnDestroy {
 
   onTagsChanged() {
     this.refreshProblemTags().then() ;
+    this.refreshTopicTags().then() ;
     this.attemptHistory.refreshProblemTags() ;
   }
 
@@ -394,6 +407,28 @@ export class ProblemHistoryComponent implements OnDestroy {
   }
 
   public isProblemRowVisible( p:TopicProblemSO ) {
+    return this.isBaseVisible( p ) && this.matchesTagFilter( p ) ;
+  }
+
+  private matchesTagFilter( p:TopicProblemSO ) {
+    if( this.selectedTagFilterIds.size === 0 ) return true ;
+    let tags = this.problemTagsMap?.[ p.problemId ] ;
+    return !!tags && tags.some( t => this.selectedTagFilterIds.has( t.id ) ) ;
+  }
+
+  isTagFilterHighlighted( tag:TagSO ) {
+    return this.allProblems.some( p =>
+      this.isBaseVisible( p ) &&
+      this.problemTagsMap?.[ p.problemId ]?.some( t => t.id === tag.id )
+    ) ;
+  }
+
+  toggleTagFilter( tag:TagSO ) {
+    if( this.selectedTagFilterIds.has( tag.id ) ) this.selectedTagFilterIds.delete( tag.id ) ;
+    else this.selectedTagFilterIds.add( tag.id ) ;
+  }
+
+  private isBaseVisible( p:TopicProblemSO ) {
     let visible = true ;
     if( this.visibilityChoice != "all" ) {
       if( this.visibilityChoice === "completed" ) {
@@ -456,4 +491,7 @@ export class ProblemHistoryComponent implements OnDestroy {
     return text ;
   }
 
+  toggleTagFilterSelector() {
+    this.tagFilterShow = !this.tagFilterShow ;
+  }
 }

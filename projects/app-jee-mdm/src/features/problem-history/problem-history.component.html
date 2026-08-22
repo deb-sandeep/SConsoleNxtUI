@@ -1,6 +1,6 @@
 <page-title></page-title>
 <alerts-display></alerts-display>
-<div class="page-content">
+<div class="page-content" [class.tag-filter-open]="tagFilterShow">
 
   <div class="topic-selection-panel">
 
@@ -54,6 +54,8 @@
         </div>
       </div>
       <div class="selected-problems-action-bar">
+        <span style="color:black" class="problem-action bi-filter-circle"
+              (click)="toggleTagFilterSelector()"></span>
         <span style="color:red" class="problem-action bi-bookmark-x"
               (click)="clearTagsForSelectedProblems()"></span>
         <span style="color:darkgreen" class="problem-action bi-tags"
@@ -72,7 +74,19 @@
               (click)="changeProblemStateForSelectedProblems( 'Purge' )"></span>
       </div>
     </div>
+  </div>
 
+  <div class="tag-filter-panel" *ngIf="tagFilterShow">
+    <div class="tag-filter-container">
+      @for( tag of topicTags; track tag.id ) {
+        <span class="tag-filter-chip"
+              [class.matched]="isTagFilterHighlighted( tag )"
+              [class.selected]="selectedTagFilterIds.has( tag.id )"
+              (click)="toggleTagFilter( tag )">
+          {{tag.tagText}}
+        </span>
+      }
+    </div>
   </div>
 
   <div class="problem-list-container">

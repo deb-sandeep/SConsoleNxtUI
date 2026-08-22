@@ -1,5 +1,6 @@
 .page-content {
     --selection-panel-height: 77px ;
+    --tag-filter-panel-height: 75px ;
     --left-panel-width: 50% ;
     --right-panel-width: 50% ;
 }
@@ -91,6 +92,45 @@
     display: inline-block;
 }
 
+.tag-filter-panel {
+    position: absolute ;
+    top: calc( var(--page-title-height) + var(--selection-panel-height) ) ;
+    left: 0 ;
+    width: var( --left-panel-width ) ;
+    height: var( --tag-filter-panel-height ) ;
+    overflow-y: auto;
+    background-color: #cfcfcf;
+}
+
+.tag-filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 5px 10px;
+}
+
+.tag-filter-chip {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    border: 1px lightgrey solid;
+    background-color: #ffffff;
+    color: #b0b0b0;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.tag-filter-chip.matched {
+    color: #0049ff;
+    border-color: #0049ff;
+}
+
+.tag-filter-chip.selected {
+    background-color: #0049ff;
+    border-color: #0049ff;
+    color: #ffffff;
+}
+
 /* ----------------------------------------------------------------------------- */
 /*                         Problem List Container                                */
 /* ----------------------------------------------------------------------------- */
@@ -105,6 +145,11 @@
     overflow-y: scroll;
     padding: 0 10px 5px 5px;
     background-color: #dcdcdc;
+}
+
+.page-content.tag-filter-open .problem-list-container {
+    top: calc( var(--page-title-height) + var(--selection-panel-height) + var(--tag-filter-panel-height) ) ;
+    height: calc( 100dvh - var(--page-header-height) - var(--page-title-height) - var(--selection-panel-height) - var(--tag-filter-panel-height) ) ;
 }
 
 .problem-list-container thead th {
