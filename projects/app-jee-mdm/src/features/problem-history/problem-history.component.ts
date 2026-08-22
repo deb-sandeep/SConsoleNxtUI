@@ -396,6 +396,10 @@ export class ProblemHistoryComponent implements OnDestroy {
     }
   }
 
+  deselectAllProblems() {
+    this.getSelectedProblems().forEach( p => p.selected = false ) ;
+  }
+
   private getSelectedProblems():TopicProblemSO[] {
     let selectedProblems: TopicProblemSO[] = [];
     this.allProblems.forEach( problem => {
