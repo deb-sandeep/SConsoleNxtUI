@@ -593,7 +593,7 @@ export class TagAssociationDialogComponent implements OnChanges {
   async onCreateAndAttach( req:{ tagText:string, topicId:number } ) {
     if( await this.checkDuplicateBeforeCreate( req.tagText ) ) return ;
     try {
-      const tag = await this.tagApi.createTag( req.tagText, req.topicId ) ;
+      const tag = await this.tagApi.createTag( req.tagText, req.topicId, '#000000' ) ;
       this.closeCreatePanel() ;
       await this.attachTag( tag ) ;
     }
@@ -612,7 +612,7 @@ export class TagAssociationDialogComponent implements OnChanges {
   async onCreateOnly( req:{ tagText:string, topicId:number } ) {
     if( await this.checkDuplicateBeforeCreate( req.tagText ) ) return ;
     try {
-      await this.tagApi.createTag( req.tagText, req.topicId ) ;
+      await this.tagApi.createTag( req.tagText, req.topicId, '#000000' ) ;
       this.closeCreatePanel() ;
     }
     catch( err ) {

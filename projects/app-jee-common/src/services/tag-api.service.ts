@@ -10,9 +10,9 @@ export class TagApiService extends RemoteService {
     super();
   }
 
-  public createTag( tagText:string, topicId:number ):Promise<TagSO> {
+  public createTag( tagText:string, topicId:number, color:string ):Promise<TagSO> {
     const url:string = `${environment.apiRoot}/Master/Tag` ;
-    return this.postPromise( url, { tagText, topicId }, true ) ;
+    return this.postPromise( url, { tagText, topicId, color }, true ) ;
   }
 
   public getTag( tagId:number ):Promise<TagSO> {
@@ -41,9 +41,9 @@ export class TagApiService extends RemoteService {
     return this.getPromise( url, false ) ;
   }
 
-  public renameTag( tagId:number, newTagText:string ):Promise<TagSO> {
+  public renameTag( tagId:number, newTagText:string, color:string ):Promise<TagSO> {
     const url:string = `${environment.apiRoot}/Master/Tag/${tagId}/Rename` ;
-    return this.postPromise( url, { newTagText }, false ) ;
+    return this.postPromise( url, { newTagText, color }, false ) ;
   }
 
   public deleteTag( tagId:number ):Promise<string> {

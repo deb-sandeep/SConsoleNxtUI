@@ -4,6 +4,7 @@ export type TagSO = {
   id: number,
   tagText: string,
   normalizedTagText: string,
+  color: string,
   topicId: number,
   topicName: string,
   createdAt: string,

@@ -318,7 +318,7 @@ export class BrowseByTopicComponent implements OnChanges {
     if( text.length === 0 || this.editingTagId == null ) return ;
     const tagId = this.editingTagId ;
     try {
-      await this.tagApi.renameTag( tagId, text ) ;
+      await this.tagApi.renameTag( tagId, text, '#000000' ) ;
       this.topicTags = this.topicTags.map( t => t.id === tagId ? { ...t, tagText: text } : t ) ;
       this.cancelEdit() ;
     }
