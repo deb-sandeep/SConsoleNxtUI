@@ -24,15 +24,32 @@
     <tbody>
       @for( pa of problemAttempts.value(); track pa.id ) {
         <tr>
-          <td class="mono-font">{{pa.startTime | date:'dd/MMM/yy'}}</td>
-          <td class="mono-font">{{pa.startTime | date:'HH:mm'}}</td>
-          <td class="mono-font">{{pa.endTime | date:'HH:mm'}}</td>
-          <td class="mono-font">{{pa.effectiveDuration*1000 | duration}}</td>
-          <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.prevState)">&nbsp;</span> {{pa.prevState}}</td>
-          <td><span class="bi-arrow-right"></span></td>
-          <td><span [ngClass]="SConsoleUtil.getProblemIcon(pa.targetState)">&nbsp;</span> {{pa.targetState}}</td>
+          <td class="mono-font">
+            {{pa.startTime | date:'dd/MMM/yy'}}
+          </td>
+          <td class="mono-font">
+            {{pa.startTime | date:'HH:mm'}}
+          </td>
+          <td class="mono-font">
+            {{pa.endTime | date:'HH:mm'}}
+          </td>
+          <td class="mono-font">
+            {{pa.effectiveDuration*1000 | duration}}
+          </td>
           <td>
-            <span style="color:red;" class="bi-trash" (click)="deleteProblemAttempt( pa )"></span>
+            <span [ngClass]="SConsoleUtil.getProblemIcon(pa.prevState)">&nbsp;</span>
+            {{getProblemStateDisplayText( pa.prevState )}}
+          </td>
+          <td>
+            <span class="bi-arrow-right"></span>
+          </td>
+          <td>
+            <span [ngClass]="SConsoleUtil.getProblemIcon(pa.targetState)">&nbsp;</span>
+            {{getProblemStateDisplayText( pa.targetState )}}
+          </td>
+          <td>
+            <span style="color:red;" class="bi-trash"
+                  (click)="deleteProblemAttempt( pa )"></span>
           </td>
         </tr>
       }

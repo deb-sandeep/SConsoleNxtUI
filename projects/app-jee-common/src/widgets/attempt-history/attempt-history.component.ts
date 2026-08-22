@@ -110,4 +110,14 @@ export class AttemptHistoryComponent {
     this.problemTags.reload() ;
     this.tagsChanged.emit() ;
   }
+
+  getProblemStateDisplayText( text: string ) {
+    if( text == 'Pigeon Explained' ) {
+      return "P Explained" ;
+    }
+    else if( text == "Pigeon Solved" ) {
+      return "P Solved" ;
+    }
+    return text ;
+  }
 }
