@@ -33,11 +33,11 @@
         <span class="bi-chevron-contract problem-action" (click)="collapseAll()"></span>
         <div class="form-check form-switch star-select">
           <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault"
-                 [(ngModel)]="showOnlyStarred">
+                 [(ngModel)]="showOnlyStarred" (ngModelChange)="enforceSelectionVisibility()">
           <label class="form-check-label bi-star-fill" for="switchCheckDefault"></label>
         </div>
         <div class="visibility-choice">
-          <select class="form-select-sm" [(ngModel)]="visibilityChoice">
+          <select class="form-select-sm" [(ngModel)]="visibilityChoice" (ngModelChange)="enforceSelectionVisibility()">
             <option value="all">All</option>
             <option value="completed">Completed</option>
             <option value="incomplete">Incomplete</option>
@@ -55,6 +55,8 @@
         </div>
       </div>
       <div class="selected-problems-action-bar">
+        <span style="color:black" class="problem-action bi-check-square"
+              (click)="selectAllVisibleProblems()"></span>
         <span style="color:black" class="problem-action bi-x-square"
               (click)="deselectAllProblems()"></span>
         <span style="color:black" class="problem-action bi-filter-circle"

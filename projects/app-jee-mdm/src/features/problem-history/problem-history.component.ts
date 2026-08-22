@@ -438,6 +438,12 @@ export class ProblemHistoryComponent implements OnDestroy {
     this.getSelectedProblems().forEach( p => p.selected = false ) ;
   }
 
+  selectAllVisibleProblems() {
+    this.allProblems.forEach( p => {
+      if( this.isProblemRowVisible( p ) ) p.selected = true ;
+    } ) ;
+  }
+
   private getSelectedProblems():TopicProblemSO[] {
     let selectedProblems: TopicProblemSO[] = [];
     this.allProblems.forEach( problem => {
@@ -468,6 +474,13 @@ export class ProblemHistoryComponent implements OnDestroy {
   toggleTagFilter( tag:TagSO ) {
     if( this.selectedTagFilterIds.has( tag.id ) ) this.selectedTagFilterIds.delete( tag.id ) ;
     else this.selectedTagFilterIds.add( tag.id ) ;
+    this.enforceSelectionVisibility() ;
+  }
+
+  enforceSelectionVisibility() {
+    this.allProblems.forEach( p => {
+      if( !this.isProblemRowVisible( p ) ) p.selected = false ;
+    } ) ;
   }
 
   private isBaseVisible( p:TopicProblemSO ) {
