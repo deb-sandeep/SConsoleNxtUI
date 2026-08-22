@@ -241,6 +241,34 @@ export class ProblemHistoryComponent implements OnDestroy {
     this.onTagsChanged() ;
   }
 
+  quickTagPickerProblem: TopicProblemSO | null = null ;
+  quickTagPickerPos = { top: 0, left: 0 } ;
+
+  openQuickTagPicker( p: TopicProblemSO, event: MouseEvent ) {
+    event.stopPropagation() ;
+    let rect = ( event.currentTarget as HTMLElement ).getBoundingClientRect() ;
+    this.quickTagPickerPos = { top: rect.bottom, left: rect.left } ;
+    this.quickTagPickerProblem = p ;
+  }
+
+  closeQuickTagPicker() {
+    this.quickTagPickerProblem = null ;
+  }
+
+  isProblemTagged( p: TopicProblemSO, tag: TagSO ) {
+    return !!this.problemTagsMap?.[ p.problemId ]?.some( t => t.id === tag.id ) ;
+  }
+
+  async toggleProblemTag( p: TopicProblemSO, tag: TagSO ) {
+    if( this.isProblemTagged( p, tag ) ) {
+      await this.tagAssociationApiSvc.removeTag( 'PROBLEM', p.problemId, tag.id ) ;
+    }
+    else {
+      await this.tagAssociationApiSvc.addTag( 'PROBLEM', [ p.problemId ], tag.id ) ;
+    }
+    this.onTagsChanged() ;
+  }
+
   private computeDisplayProblems() {
 
     this.filteredProblems = {} ;

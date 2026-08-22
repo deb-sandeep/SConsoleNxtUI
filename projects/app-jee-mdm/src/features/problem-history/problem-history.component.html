@@ -181,6 +181,7 @@
                         @for( tag of problemTagsMap?.[p.problemId]; track tag.id ) {
                           <closeable-badge [text]="tag.tagText" (close)="removeTag(p, tag)"></closeable-badge>
                         }
+                        <span class="bi-plus-circle tag-add-icon" (click)="openQuickTagPicker( p, $event )"></span>
                       </div>
                     </td>
                   </tr>
@@ -238,4 +239,19 @@
     (closed)="closeTagDialog()"
     (tagsChanged)="onTagsChanged()">
   </tag-association-dialog>
+
+  @if( quickTagPickerProblem ) {
+    <div class="quick-tag-picker-backdrop" (click)="closeQuickTagPicker()"></div>
+    <div class="quick-tag-picker"
+         [style.top.px]="quickTagPickerPos.top"
+         [style.left.px]="quickTagPickerPos.left">
+      @for( tag of topicTags; track tag.id ) {
+        <span class="tag-filter-chip"
+              [class.selected]="isProblemTagged( quickTagPickerProblem, tag )"
+              (click)="toggleProblemTag( quickTagPickerProblem, tag )">
+          {{tag.tagText}}
+        </span>
+      }
+    </div>
+  }
 </div>
