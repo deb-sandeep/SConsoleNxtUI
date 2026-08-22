@@ -7,7 +7,6 @@ import { NgClass, NgIf } from "@angular/common";
 import { AttemptHistoryComponent } from "@jee-common/widgets/attempt-history/attempt-history.component";
 import { ProblemApiService } from "@jee-common/services/problem-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
-import { TagApiService } from "@jee-common/services/tag-api.service";
 import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
 import { TagAssociationTarget, TagSO } from "@jee-common/util/tag-data-types";
 import { TagAssociationDialogComponent } from "@jee-common/widgets/tag-association-dialog/tag-association-dialog.component";
@@ -98,7 +97,6 @@ export class ProblemHistoryComponent implements OnDestroy {
 
   private titleSvc: PageTitleService = inject( PageTitleService ) ;
   private alertSvc:AlertService = inject( AlertService ) ;
-  private tagApiSvc: TagApiService = inject( TagApiService ) ;
   private tagAssociationApiSvc: TagAssociationApiService = inject( TagAssociationApiService ) ;
   private lsSvc: LocalStorageService = inject( LocalStorageService ) ;
 
@@ -201,7 +199,8 @@ export class ProblemHistoryComponent implements OnDestroy {
 
     this.allProblems = await this.probApiSvc.getProblems( this.selectedTopicId ) ;
     this.computeDisplayProblems() ;
-    await Promise.all( [ this.refreshProblemTags(), this.refreshTopicTags() ] ) ;
+    await this.refreshProblemTags() ;
+    this.refreshTopicTags() ;
   }
 
   private async refreshProblemTags() {
@@ -211,8 +210,17 @@ export class ProblemHistoryComponent implements OnDestroy {
     ) ;
   }
 
-  private async refreshTopicTags() {
-    this.topicTags = ( await this.tagApiSvc.getTagsForTopic( this.selectedTopicId ) )
+  // A problem can carry tags created under a different topic (attached via
+  // the general tag-association-dialog), so the tag filter / quick-add list
+  // is derived from the tags actually attached to this problem set, not
+  // from TagApiService.getTagsForTopic — otherwise cross-topic tags a
+  // problem already has would be invisible in both.
+  private refreshTopicTags() {
+    let tagsById = new Map<number, TagSO>() ;
+    Object.values( this.problemTagsMap ?? {} ).forEach( tags => {
+      tags.forEach( tag => tagsById.set( tag.id, tag ) ) ;
+    } ) ;
+    this.topicTags = Array.from( tagsById.values() )
         .sort( ( a, b ) => a.tagText.localeCompare( b.tagText ) ) ;
   }
 
@@ -231,8 +239,7 @@ export class ProblemHistoryComponent implements OnDestroy {
   }
 
   onTagsChanged() {
-    this.refreshProblemTags().then() ;
-    this.refreshTopicTags().then() ;
+    this.refreshProblemTags().then( () => this.refreshTopicTags() ) ;
     this.attemptHistory.refreshProblemTags() ;
   }
 
