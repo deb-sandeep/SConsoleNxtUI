@@ -17,6 +17,7 @@ export class ModalDialogComponent {
   width = input( 500 ) ; // In pixels
   height = input( 500 ) ; // In pixels
   show = input.required<boolean>() ;
+  hideFooter = input( false ) ;
   messages = model<string[]>([]) ;
 
   hide = output<boolean>() ;

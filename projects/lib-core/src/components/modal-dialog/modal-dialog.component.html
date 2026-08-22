@@ -3,6 +3,7 @@
   <div class="dialog-container"
        [style]="getDialogContainerStyle()">
     <div class="dialog-header">
+      <span class="header-actions"><ng-content select="[header-actions]"></ng-content></span>
       <div class="dialog-title">{{title()}}</div>
       <button type="button" class="btn btn-sm dismiss-btn"
               (click)="hide.emit(true)">
@@ -12,7 +13,7 @@
     <div class="dialog-body">
       <ng-content></ng-content>
     </div>
-    <div class="dialog-footer">
+    <div class="dialog-footer" *ngIf="!hideFooter()">
       <button type="button" class="btn btn-secondary"
               (click)="hide.emit( true )">
         Cancel

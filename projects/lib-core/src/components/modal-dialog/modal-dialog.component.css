@@ -28,6 +28,11 @@
     display: inline-block;
 }
 
+.header-actions {
+    display: inline-block;
+    padding: 5px 0 5px 10px;
+}
+
 .dismiss-btn {
     float: right;
     display: inline-block;

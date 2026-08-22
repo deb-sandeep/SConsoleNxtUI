@@ -1,8 +1,10 @@
 <modal-dialog [show]="show()"
               [title]="dialogTitle()"
               [width]="1000" [height]="650"
-              (hide)="close()"
-              (confirm)="close()">
+              [hideFooter]="true"
+              (hide)="close()">
+
+  <button header-actions type="button" class="btn btn-info done-btn" (click)="close()">Done</button>
 
   @if( show() ) {
   <div class="kicker-row">
@@ -88,5 +90,4 @@
   </div>
 
   }
-  <span confirm-btn-text>Done</span>
 </modal-dialog>
