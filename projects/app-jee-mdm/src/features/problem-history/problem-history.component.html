@@ -50,6 +50,8 @@
             <option value="redo">Redo</option>
           </select>
         </div>
+        <div class="tag-choice">
+        </div>
       </div>
       <div class="selected-problems-action-bar">
         <span style="color:red" class="problem-action bi-bookmark-x"
@@ -77,20 +79,20 @@
     <table class="table table-sm">
       <thead>
         <tr>
-          <th style="width: 250px;"></th>
-          <th style="width: 20px;"></th>
-          <th style="width: 20px;"></th>
-          <th style="width: 30px;"></th>
-          <th style="width: 150px;"></th>
-          <th style="width: 100px;"></th>
-          <!--<th></th>-->
+          <th style="min-width: 150px;"></th>
+          <th style="max-width: 20px;"></th>
+          <th style="max-width: 25px;"></th>
+          <th style="max-width: 80px;"></th>
+          <th style="max-width: 80px;"></th>
+          <th style="max-width: 15px;"></th>
+          <th style="min-width: 300px;"></th>
         </tr>
       </thead>
       <tbody>
         @for( chapterName of Object.keys( filteredProblems ); track $index ) {
           @let bookChapter = filteredProblems[ chapterName ] ;
           <tr class="book-chapter-name">
-            <td colspan="6"
+            <td colspan="7"
                 (click)="bookChapter.collapsed=!bookChapter.collapsed">
                 <span class="bi-chevron-expand" *ngIf="bookChapter.collapsed">&nbsp;</span>
                 <span class="bi-chevron-contract" *ngIf="!bookChapter.collapsed">&nbsp;</span>
@@ -117,6 +119,7 @@
                       *ngIf="isProblemRowVisible( p )"
                       [ngClass]="getProblemRowClass( p )"
                       (click)="problemSelected( p )">
+
                     <td class="problem-name">
                       <div class="selection-checkbox">
                         <input type="checkbox" [(ngModel)]="p.selected"/>
@@ -125,20 +128,42 @@
                           {{p.problemKey.replaceAll( '/', ' / ')}}
                         </span>
                     </td>
+
+                    <td>
+                      <span [ngClass]="getDifficultyLevelIcon(p)"></span>
+                    </td>
+
+                    <td class="num-attempts">
+                      {{p.numAttempts}}
+                    </td>
+
+                    <td>
+                      <span [ngClass]="SConsoleUtil.getProblemIcon(p.problemState)">&nbsp; </span>
+                      {{getProblemStateDisplayText( p.problemState )}}
+                    </td>
+
+                    <td class="duration">
+                      <span *ngIf="p.totalDuration > 900"
+                            class="bi-hourglass-bottom hourglass"></span>
+                      {{p.totalDuration*1000 | duration}}
+                    </td>
+
                     <td class="tag-icon-cell"
                         (click)="$event.stopPropagation()">
                       <tag-icon-widget itemType="PROBLEM"
                                        [itemId]="p.problemId"
-                                       [tagCount]="problemTagCounts?.[p.problemId] ?? 0"
+                                       [tagCount]="problemTagsMap?.[p.problemId]?.length ?? 0"
                                        (iconClicked)="openTagDialog(p)">
                       </tag-icon-widget>
                     </td>
-                    <td><span [ngClass]="getDifficultyLevelIcon(p)"></span></td>
-                    <td class="num-attempts">{{p.numAttempts}}</td>
-                    <td><span [ngClass]="SConsoleUtil.getProblemIcon(p.problemState)">&nbsp;</span> {{p.problemState}}</td>
-                    <td class="duration">
-                      <span *ngIf="p.totalDuration > 900" class="bi-hourglass-bottom hourglass"></span>
-                      {{p.totalDuration*1000 | duration}}
+
+                    <td class="tag-names-cell"
+                        (click)="$event.stopPropagation()">
+                      <div class="tag-names-wrap">
+                        @for( tag of problemTagsMap?.[p.problemId]; track tag.id ) {
+                          <closeable-badge [text]="tag.tagText" (close)="removeTag(p, tag)"></closeable-badge>
+                        }
+                      </div>
                     </td>
                   </tr>
                 }

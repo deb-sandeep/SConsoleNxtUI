@@ -1,18 +1,20 @@
 .page-content {
     --selection-panel-height: 77px ;
-    --left-panel-width: 47% ;
-    --right-panel-width: 53% ;
+    --left-panel-width: 50% ;
+    --right-panel-width: 50% ;
 }
 
 :host ::ng-deep .closeable-badge {
-    padding: 4px 10px !important;
-    background-color: #686868 !important;
-    color: #dcdcdc !important;
+    padding: 0 5px !important;
+    background-color: #ffffff !important;
+    border: 1px lightgrey solid;
+    color: #0049ff !important;
+    font-size: 11px !important;
 }
 
 :host ::ng-deep .close-btn {
-    padding: 3px 2px 2px 7px !important;
-    margin-left: 5px !important;
+    padding: 0 0 0 5px !important;
+    margin-left: 0 !important;
 }
 
 /* ----------------------------------------------------------------------------- */
@@ -36,6 +38,8 @@
     background-color: #737373;
     border: none;
     color: white;
+    font-size: 14px;
+    padding: 5px 20px 5px 10px;
 }
 
 .action-bar {
@@ -72,10 +76,18 @@
     display: inline-block;
 }
 
+.visibility-choice select {
+    font-size: 13px;
+}
+
 .form-select-sm {
     height: 25px;
     padding-left: 2px;
     font-size: 12px;
+}
+
+.tag-choice {
+    display: inline-block;
 }
 
 /* ----------------------------------------------------------------------------- */
@@ -103,14 +115,14 @@
     background-color: #606060;
     color: yellow ;
     font-weight: bold ;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     border-radius: 10px;
 }
 
 .exercise-name td {
     font-size: 15px ;
-    padding: 7px 0 7px 20px ;
+    padding: 3px 0 3px 20px ;
     font-weight: bold;
     background-color: #8f8f8f;
     color: white;
@@ -120,6 +132,7 @@
 .problem-row td {
     padding: 5px 2px 5px 2px ;
     background-color: transparent;
+    font-size: 13px;
 }
 
 .selection-checkbox {
@@ -188,6 +201,11 @@
     cursor: pointer;
 }
 
+.tag-names-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .num-attempts {
     padding-right: 20px;
     font-family: monospace;
@@ -196,7 +214,7 @@
 .duration {
     font-family: monospace;
     text-align: right;
-    font-size: 12px;
+    font-size: 11px;
     padding-right: 5px !important;
 }
 

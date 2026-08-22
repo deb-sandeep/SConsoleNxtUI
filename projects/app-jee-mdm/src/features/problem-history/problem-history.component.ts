@@ -1,5 +1,5 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe, Alert } from "lib-core";
+import { AlertsDisplayComponent, PageTitleComponent, PageTitleService, DurationPipe, Alert, CloseableBadgeComponent, LocalStorageService } from "lib-core";
 import { FormsModule } from "@angular/forms";
 import { TopicProblemSO } from "@jee-common/util/master-data-types";
 import { SConsoleUtil } from "@jee-common/util/common-util";
@@ -8,9 +8,10 @@ import { AttemptHistoryComponent } from "@jee-common/widgets/attempt-history/att
 import { ProblemApiService } from "@jee-common/services/problem-api.service";
 import { SyllabusApiService } from "@jee-common/services/syllabus-api.service";
 import { TagAssociationApiService } from "@jee-common/services/tag-association-api.service";
-import { TagAssociationTarget } from "@jee-common/util/tag-data-types";
+import { TagAssociationTarget, TagSO } from "@jee-common/util/tag-data-types";
 import { TagAssociationDialogComponent } from "@jee-common/widgets/tag-association-dialog/tag-association-dialog.component";
 import { TagIconWidgetComponent } from "@jee-common/widgets/tag-icon-widget/tag-icon-widget.component";
+import { StorageKey } from "@jee-common/util/storage-keys";
 import { Syllabus } from "./entities/syllabus";
 import AlertService = Alert.AlertService;
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
@@ -82,6 +83,7 @@ class BookChapter {
     NgbTooltipModule,
     TagAssociationDialogComponent,
     TagIconWidgetComponent,
+    CloseableBadgeComponent,
   ],
   templateUrl: './problem-history.component.html',
   styleUrl: './problem-history.component.css'
@@ -91,6 +93,7 @@ export class ProblemHistoryComponent {
   private titleSvc: PageTitleService = inject( PageTitleService ) ;
   private alertSvc:AlertService = inject( AlertService ) ;
   private tagAssociationApiSvc: TagAssociationApiService = inject( TagAssociationApiService ) ;
+  private lsSvc: LocalStorageService = inject( LocalStorageService ) ;
 
   protected readonly Object = Object;
   protected readonly SConsoleUtil = SConsoleUtil;
@@ -106,7 +109,7 @@ export class ProblemHistoryComponent {
   selectedSyllabusName = 'IIT Physics' ;
   selectedTopicId = 109 ;
   allProblems: TopicProblemSO[] = [] ;
-  problemTagCounts: Record<number, number> | null = null ;
+  problemTagsMap: Record<number, TagSO[]> | null = null ;
 
   filteredProblems: Record<string, BookChapter> = {}
   selectedProblem: TopicProblemSO | null = null ;
@@ -119,6 +122,14 @@ export class ProblemHistoryComponent {
 
   constructor() {
     this.titleSvc.setTitle( "Explore problem history" ) ;
+
+    let lastTopicRaw = this.lsSvc.getItem( StorageKey.LAST_PROBLEM_HISTORY_TOPIC ) ;
+    if( lastTopicRaw != null ) {
+      let lastTopic = JSON.parse( lastTopicRaw ) as { syllabusName: string, topicId: number } ;
+      this.selectedSyllabusName = lastTopic.syllabusName ;
+      this.selectedTopicId = lastTopic.topicId ;
+    }
+
     this.fetchSyllabusAndTopics()
         .then( () => this.topicSelected() ) ;
   }
@@ -141,15 +152,20 @@ export class ProblemHistoryComponent {
 
   async topicSelected() {
     this.selectedProblem = null ;
-    this.problemTagCounts = null ;
+    this.problemTagsMap = null ;
+
+    this.lsSvc.setItem( StorageKey.LAST_PROBLEM_HISTORY_TOPIC, JSON.stringify( {
+      syllabusName: this.selectedSyllabusName,
+      topicId: this.selectedTopicId,
+    } ) ) ;
 
     this.allProblems = await this.probApiSvc.getProblems( this.selectedTopicId ) ;
     this.computeDisplayProblems() ;
-    await this.refreshProblemTagCounts() ;
+    await this.refreshProblemTags() ;
   }
 
-  private async refreshProblemTagCounts() {
-    this.problemTagCounts = await this.tagAssociationApiSvc.getTagCounts(
+  private async refreshProblemTags() {
+    this.problemTagsMap = await this.tagAssociationApiSvc.getTagsForItems(
       'PROBLEM',
       this.allProblems.map( p => p.problemId )
     ) ;
@@ -170,8 +186,13 @@ export class ProblemHistoryComponent {
   }
 
   onTagsChanged() {
-    this.refreshProblemTagCounts().then() ;
+    this.refreshProblemTags().then() ;
     this.attemptHistory.refreshProblemTags() ;
+  }
+
+  async removeTag( problem: TopicProblemSO, tag: TagSO ) {
+    await this.tagAssociationApiSvc.removeTag( 'PROBLEM', problem.problemId, tag.id ) ;
+    this.onTagsChanged() ;
   }
 
   private computeDisplayProblems() {
@@ -298,7 +319,7 @@ export class ProblemHistoryComponent {
         'PROBLEM',
         selectedProblems.map( p => p.problemId )
       ) ;
-      await this.refreshProblemTagCounts() ;
+      await this.refreshProblemTags() ;
     }
   }
 
@@ -390,6 +411,16 @@ export class ProblemHistoryComponent {
       }
     }
     return visible ;
+  }
+
+  getProblemStateDisplayText( text: string ) {
+    if( text == 'Pigeon Explained' ) {
+      return "P Explained" ;
+    }
+    else if( text == "Pigeon Solved" ) {
+      return "P Solved" ;
+    }
+    return text ;
   }
 
 }

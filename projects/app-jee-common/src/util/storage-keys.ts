@@ -20,4 +20,8 @@ export class StorageKey {
   // Stores Record<string, number[]> -> subjectName to selected topic ids,
   // used by the exam-setup wizard to pre-select the last chosen topics.
   static readonly LAST_SELECTED_EXAM_TOPICS = "lastSelectedExamTopics" ;
+
+  // Stores { syllabusName: string, topicId: number } -> last syllabus/topic
+  // viewed on the problem-history page.
+  static readonly LAST_PROBLEM_HISTORY_TOPIC = "lastProblemHistoryTopic" ;
 }
